@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Dimension].[Customer]
 (
-	[CustomerID]        INT             IDENTITY (1, 1)     NOT NULL, 
+	[CustomerKey]       INT             IDENTITY (1, 1)     NOT NULL, 
     [Customer]          NVARCHAR(50)                        NULL, 
     [ContactName]       NVARCHAR(50)                        NULL, 
     [ContactTitle]      NVARCHAR(50)                        NULL,
@@ -9,5 +9,12 @@
     [Phone]             NVARCHAR(20)                        NULL, 
     [Fax]               NVARCHAR(20)                        NULL,
 
-    CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerID] ASC )
-)
+    CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC )
+);
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Customer] ON [Dimension].[Customer] ( [Customer] ASC );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country] ON [Dimension].[Customer] ( [Country] ASC );
+GO

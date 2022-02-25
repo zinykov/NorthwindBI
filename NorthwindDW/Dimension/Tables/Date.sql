@@ -3,8 +3,8 @@
 */
 CREATE TABLE [Dimension].[Date]
 (
-	[DateID]            INT             NOT NULL, -- YYYYMMDD
-    [AlterDateID]       DATE            NOT NULL, 
+	[DateKey]           INT             NOT NULL, -- YYYYMMDD
+    [AlterDateKey]      DATE            NOT NULL, 
     [Year]              DATE            NOT NULL, -- End/Start Of Year date
     [YearQuarter]       NVARCHAR(10)    NOT NULL, -- QQ-YYYY
     [YearQuarterDate]   DATE            NOT NULL, --End/Start of Quarter date
@@ -13,5 +13,18 @@ CREATE TABLE [Dimension].[Date]
     [Month]             DATE            NOT NULL, -- 1900, Month, 1
     [DayOfWeek]         DATE            NOT NULL, --1990, 1, Day
 
-    CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateID] ASC )
-)
+    CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
+);
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [AlterDateKey] ASC );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [Month] ASC );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterDate] ASC, [YearQuarter] ASC );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] ( [YearMonth] );
+GO
