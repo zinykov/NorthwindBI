@@ -16,5 +16,5 @@ GO
 CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Customer] ON [Dimension].[Customer] ( [Customer] ASC );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country] ON [Dimension].[Customer] ( [Country] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country_City] ON [Dimension].[Customer] ( [Country] ASC, [City] ASC );
 GO

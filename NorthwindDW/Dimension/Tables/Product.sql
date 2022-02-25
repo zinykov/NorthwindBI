@@ -8,5 +8,5 @@
 );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Product] ON [Dimension].[Product] ( [Product] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Category_Product] ON [Dimension].[Product] ( [Category] ASC, [Product] ASC );
 GO

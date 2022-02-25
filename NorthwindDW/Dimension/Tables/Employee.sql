@@ -19,3 +19,6 @@ GO
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_FirstName] ON [Dimension].[Employee] ( [FirstName] ASC )
     INCLUDE ( [LastName] );
 GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Country_City] ON [Dimension].[Employee] ( [Country] ASC, [City] ASC );
+GO
