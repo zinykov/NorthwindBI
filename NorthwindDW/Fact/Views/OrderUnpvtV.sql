@@ -41,23 +41,3 @@
 				) AS UNPVT
 );
 GO
-
-CREATE UNIQUE CLUSTERED INDEX [UCIX_Fact_Order_Unpvt] ON [Fact].[OrderUnpvtV] ( [OrderKey] ASC, [DateType] ASC, [DateKey] ASC )
-	ON [PRIMARY];
-GO
-
-CREATE NONCLUSTERED INDEX [IX_Fact_Order_Unpvt_Date_Key] ON [Fact].[OrderUnpvtV] ( [DateKey] ASC )
-	ON [PRIMARY];
-GO
-
-CREATE NONCLUSTERED INDEX [IX_Fact_Order_Unpvt_Product_Key] ON [Fact].[OrderUnpvtV] ( [ProductKey] ASC )
-	ON [PRIMARY];
-GO
-
-CREATE NONCLUSTERED INDEX [IX_Fact_Order_Unpvt_Customer_Key] ON [Fact].[OrderUnpvtV] ( [CustomerKey] ASC )
-	ON [PRIMARY];
-GO
-
-CREATE NONCLUSTERED INDEX [IX_Fact_Order_Unpvt_Employee_Key] ON [Fact].[OrderUnpvtV] ( [EmployeeKey] ASC )
-	ON [PRIMARY];
-GO

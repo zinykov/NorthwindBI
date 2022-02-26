@@ -2,11 +2,11 @@
 	SELECT		  D.[Year]
 				, D.[Quarter]
 				, D.[Month]
-				, [UnitPrice]					=	SUM ( O.[UnitPrice] )
-				, [Quantity]					=	SUM ( O.[Quantity] )
-				, [Discount]					=	SUM ( O.[Discount] )
-				, [SalesAmount]					=	SUM ( O.[SalesAmount] )
-				, [SalesAmountWithDiscount]		=	SUM ( O.[SalesAmountWithDiscount] )
+				, [UnitPrice]					=	SUM ( ISNULL ( O.[UnitPrice], 0 ) )
+				, [Quantity]					=	SUM ( ISNULL ( O.[Quantity], 0 ) )
+				, [Discount]					=	SUM ( ISNULL ( O.[Discount], 0 ) )
+				, [SalesAmount]					=	SUM ( ISNULL ( O.[SalesAmount], 0 ) )
+				, [SalesAmountWithDiscount]		=	SUM ( ISNULL ( O.[SalesAmountWithDiscount], 0 ) )
 				, [COUNT_BIG]					=	COUNT_BIG ( * )
 	
 	FROM		[Fact].[Order] AS O

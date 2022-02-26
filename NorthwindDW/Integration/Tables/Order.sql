@@ -13,7 +13,7 @@
     [SalesAmount]                   MONEY           NULL,
     [SalesAmountWithDiscount]       MONEY           NULL,
 
-    CONSTRAINT [PK_Integration_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC ) ON [PS_Order_Date_Data] ( [OrderDateKey] ),
+    CONSTRAINT [PK_Integration_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC ) ON [PS_Order_Date_Index] ( [OrderDateKey] ),
     
     CONSTRAINT [FK_Integration_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
     CONSTRAINT [FK_Integration_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
