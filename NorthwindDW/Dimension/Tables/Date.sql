@@ -14,17 +14,22 @@ CREATE TABLE [Dimension].[Date]
     [DayOfWeek]         DATE            NOT NULL, --1990, 1, Day
 
     CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
-);
+)
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [AlterDateKey] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [AlterDateKey] ASC )
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [Month] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [Month] ASC )
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterDate] ASC, [YearQuarter] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterDate] ASC, [YearQuarter] ASC )
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] ( [YearMonth] );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] ( [YearMonth] )
+    ON [PRIMARY];
 GO

@@ -9,16 +9,20 @@
     [Country]         NVARCHAR(15)                      NULL,
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC )
-);
+)
+    ON [PRIMARY];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_LastName] ON [Dimension].[Employee] ( [LastName] ASC )
-    INCLUDE ( [FirstName] );
+    INCLUDE ( [FirstName] )
+    ON [PRIMARY];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_FirstName] ON [Dimension].[Employee] ( [FirstName] ASC )
-    INCLUDE ( [LastName] );
+    INCLUDE ( [LastName] )
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Country_City] ON [Dimension].[Employee] ( [Country] ASC, [City] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Country_City] ON [Dimension].[Employee] ( [Country] ASC, [City] ASC )
+    ON [PRIMARY];
 GO

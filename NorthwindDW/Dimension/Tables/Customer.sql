@@ -10,11 +10,14 @@
     [Fax]               NVARCHAR(20)                        NULL,
 
     CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC )
-);
+)
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Customer] ON [Dimension].[Customer] ( [Customer] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Customer] ON [Dimension].[Customer] ( [Customer] ASC )
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country_City] ON [Dimension].[Customer] ( [Country] ASC, [City] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country_City] ON [Dimension].[Customer] ( [Country] ASC, [City] ASC )
+    ON [PRIMARY];
 GO

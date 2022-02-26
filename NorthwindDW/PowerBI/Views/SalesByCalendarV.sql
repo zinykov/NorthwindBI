@@ -18,5 +18,6 @@
 	);
 GO
 
-CREATE UNIQUE CLUSTERED INDEX [UCIX_PowerBI_By_Calender] ON [PowerBI].[SalesByCalendarV] ( [Year], [Quarter], [Month] );
+CREATE UNIQUE CLUSTERED INDEX [UCIX_PowerBI_By_Calender] ON [PowerBI].[SalesByCalendarV] ( [Year] DESC, [Quarter] DESC, [Month] DESC )
+    ON [PRIMARY];
 GO

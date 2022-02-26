@@ -5,8 +5,10 @@
     [Category]          NVARCHAR(50)                        NULL,
 
     CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC )
-);
+)
+    ON [PRIMARY];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Category_Product] ON [Dimension].[Product] ( [Category] ASC, [Product] ASC );
+CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Category_Product] ON [Dimension].[Product] ( [Category] ASC, [Product] ASC )
+    ON [PRIMARY];
 GO
