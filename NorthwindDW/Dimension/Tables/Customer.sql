@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [Dimension].[Customer]
 (
 	[CustomerKey]       INT             IDENTITY (1, 1)     NOT NULL, 
+    [CustomerAlterKey]  INT                                 NOT NULL, 
     [Customer]          NVARCHAR(50)                        NULL, 
     [ContactName]       NVARCHAR(50)                        NULL, 
     [ContactTitle]      NVARCHAR(50)                        NULL,
@@ -11,6 +12,10 @@
 
     CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC )
 )
+    ON [PRIMARY];
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Alter_Key] ON [Dimension].[Customer] ( [CustomerAlterKey] ASC )
     ON [PRIMARY];
 GO
 
