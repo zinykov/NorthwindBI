@@ -7,8 +7,8 @@
     [ContactTitle]      NVARCHAR(50)                        NULL,
     [Country]           NVARCHAR(25)                        NULL,
     [City]              NVARCHAR(25)                        NULL,
-    [Phone]             NVARCHAR(20)                        NULL, 
-    [Fax]               NVARCHAR(20)                        NULL,
+    [Phone]             NVARCHAR(30)                        NULL, 
+    [Fax]               NVARCHAR(30)                        NULL,
 
     CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC )
 )
