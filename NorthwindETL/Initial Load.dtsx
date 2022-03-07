@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{A93EF6D9-FF41-417A-9E0C-9C9082CED70A}">
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{142DA416-C88E-4EC1-9783-58D1313589AB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -35,17 +35,34 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Контейнер последовательности"
+      DTS:refId="Package\Load Date Dimension"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:DTSID="{DE81E025-8017-420D-98F5-74EC4EB53B20}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Date Dimension"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Load Date Dimention.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Dimensions"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
       DTS:DTSID="{C462AEEC-01AE-4B0F-A944-5E7F6267F554}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Контейнер последовательности">
+      DTS:ObjectName="Load Dimensions">
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Контейнер последовательности\Load Customers"
+          DTS:refId="Package\Load Dimensions\Load Customers"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Задача потока данных"
           DTS:DTSID="{3322EFDE-FE24-4AFA-B7D5-A2BC9839AAF5}"
@@ -59,7 +76,7 @@
               version="1">
               <components>
                 <component
-                  refId="Package\Контейнер последовательности\Load Customers\DestinationDB"
+                  refId="Package\Load Dimensions\Load Customers\DestinationDB"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   description="Назначение &quot;OLE DB&quot;"
@@ -116,7 +133,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Customers\DestinationDB.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -124,112 +141,112 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
                           cachedDataType="wstr"
                           cachedLength="40"
                           cachedName="Customer"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
                           cachedDataType="wstr"
                           cachedLength="30"
                           cachedName="ContactName"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
                           cachedDataType="wstr"
                           cachedLength="30"
                           cachedName="ContactTitle"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="City"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="Country"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
                           cachedDataType="wstr"
                           cachedLength="24"
                           cachedName="Phone"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
                           cachedDataType="wstr"
                           cachedLength="24"
                           cachedName="Fax"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
                           cachedDataType="wstr"
                           cachedLength="5"
                           cachedName="CustomerAlterKey"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
                           dataType="i4"
                           name="CustomerKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
                           dataType="wstr"
                           length="5"
                           name="CustomerAlterKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
                           dataType="wstr"
                           length="50"
                           name="Customer" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
                           dataType="wstr"
                           length="50"
                           name="ContactName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
                           dataType="wstr"
                           length="50"
                           name="ContactTitle" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
                           dataType="wstr"
                           length="25"
                           name="Country" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
                           dataType="wstr"
                           length="25"
                           name="City" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
                           dataType="wstr"
                           length="30"
                           name="Phone" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
                           dataType="wstr"
                           length="30"
                           name="Fax" />
@@ -238,22 +255,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Customers\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -262,7 +279,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Контейнер последовательности\Load Customers\SourceDB"
+                  refId="Package\Load Dimensions\Load Customers\SourceDB"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   description="Источник &quot;OLE DB&quot;"
@@ -311,7 +328,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Customers\SourceDB.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Customers\SourceDB.Connections[OleDbConnection]"
                       connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
                       connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -319,197 +336,197 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
                       name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
                           length="5"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
                           name="CustomerAlterKey"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
                           length="40"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
                           name="Customer"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
                           name="ContactName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
                           name="ContactTitle"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
                           name="City"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
                           name="Country"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
                           length="24"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
                           name="Phone"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
                           length="24"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
                           name="Fax"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
                           dataType="wstr"
                           length="5"
                           name="CustomerID" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
                           dataType="wstr"
                           length="40"
                           name="CompanyName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
                           dataType="wstr"
                           length="30"
                           name="ContactName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
                           dataType="wstr"
                           length="30"
                           name="ContactTitle" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
                           dataType="wstr"
                           length="15"
                           name="City" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
                           dataType="wstr"
                           length="15"
                           name="Country" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
                           dataType="wstr"
                           length="24"
                           name="Phone" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
                           dataType="wstr"
                           length="24"
                           name="Fax" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           dataType="wstr"
                           length="5"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           name="CustomerID" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
                           dataType="wstr"
                           length="40"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
                           name="CompanyName" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
                           dataType="wstr"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
                           name="ContactName" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
                           dataType="wstr"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
                           name="ContactTitle" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
                           dataType="wstr"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
                           name="City" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
                           dataType="wstr"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
                           name="Country" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
                           dataType="wstr"
                           length="24"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
                           name="Phone" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
                           dataType="wstr"
                           length="24"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
                           name="Fax" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -520,16 +537,16 @@
               </components>
               <paths>
                 <path
-                  refId="Package\Контейнер последовательности\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\Контейнер последовательности\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load Dimensions\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Load Dimensions\Load Customers\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
                   name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\Контейнер последовательности\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  startId="Package\Load Dimensions\Load Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Контейнер последовательности\Load Employees"
+          DTS:refId="Package\Load Dimensions\Load Employees"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Задача потока данных"
           DTS:DTSID="{E98BDEB8-0EC1-499E-B84D-B902D015521E}"
@@ -543,7 +560,7 @@
               version="1">
               <components>
                 <component
-                  refId="Package\Контейнер последовательности\Load Employees\DestinationDB"
+                  refId="Package\Load Dimensions\Load Employees\DestinationDB"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   description="Назначение &quot;OLE DB&quot;"
@@ -600,7 +617,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Employees\DestinationDB.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -608,98 +625,98 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
                           cachedDataType="i4"
                           cachedName="EmployeeAlterKey"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LastName]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LastName]"
                           cachedDataType="wstr"
                           cachedLength="20"
                           cachedName="LastName"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[FirstName]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[FirstName]"
                           cachedDataType="wstr"
                           cachedLength="10"
                           cachedName="FirstName"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Title]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Title]"
                           cachedDataType="wstr"
                           cachedLength="30"
                           cachedName="Title"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
                           cachedDataType="wstr"
                           cachedLength="25"
                           cachedName="TitleOfCourtesy"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="City"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="Country"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
                           dataType="i4"
                           name="EmployeeKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
                           dataType="i4"
                           name="EmployeeAlterKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
                           dataType="wstr"
                           length="20"
                           name="LastName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
                           dataType="wstr"
                           length="10"
                           name="FirstName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
                           dataType="wstr"
                           length="30"
                           name="Title" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
                           dataType="wstr"
                           length="25"
                           name="TitleOfCourtesy" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
                           dataType="wstr"
                           length="15"
                           name="City" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
                           dataType="wstr"
                           length="15"
                           name="Country" />
@@ -708,22 +725,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Employees\DestinationDB.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -732,7 +749,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Контейнер последовательности\Load Employees\SourceDB"
+                  refId="Package\Load Dimensions\Load Employees\SourceDB"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   description="Источник &quot;OLE DB&quot;"
@@ -781,7 +798,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Employees\SourceDB.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Employees\SourceDB.Connections[OleDbConnection]"
                       connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
                       connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -789,173 +806,173 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
                       name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
                           name="EmployeeAlterKey"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
                           length="20"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
                           name="LastName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
                           length="10"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
                           name="FirstName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
                           name="Title"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
                           length="25"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
                           name="TitleOfCourtesy"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
                           name="City"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
                           name="Country"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
                           dataType="i4"
                           name="EmployeeID" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
                           dataType="wstr"
                           length="20"
                           name="LastName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
                           dataType="wstr"
                           length="10"
                           name="FirstName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
                           dataType="wstr"
                           length="30"
                           name="Title" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
                           dataType="wstr"
                           length="25"
                           name="TitleOfCourtesy" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
                           dataType="wstr"
                           length="15"
                           name="City" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
                           dataType="wstr"
                           length="15"
                           name="Country" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           name="EmployeeID" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
                           dataType="wstr"
                           length="20"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
                           name="LastName" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
                           dataType="wstr"
                           length="10"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
                           name="FirstName" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
                           dataType="wstr"
                           length="30"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
                           name="Title" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
                           dataType="wstr"
                           length="25"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
                           name="TitleOfCourtesy" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
                           dataType="wstr"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
                           name="City" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
                           dataType="wstr"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
                           name="Country" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -966,16 +983,16 @@
               </components>
               <paths>
                 <path
-                  refId="Package\Контейнер последовательности\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\Контейнер последовательности\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load Dimensions\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Load Dimensions\Load Employees\DestinationDB.Inputs[Вход назначения &quot;OLE DB&quot;]"
                   name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\Контейнер последовательности\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  startId="Package\Load Dimensions\Load Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Контейнер последовательности\Load Products"
+          DTS:refId="Package\Load Dimensions\Load Products"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Задача потока данных"
           DTS:DTSID="{09542ACC-4ED8-40A3-95F8-18C147377F63}"
@@ -989,7 +1006,7 @@
               version="1">
               <components>
                 <component
-                  refId="Package\Контейнер последовательности\Load Products\SourceDB - Product"
+                  refId="Package\Load Dimensions\Load Products\SourceDB - Product"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   description="Источник &quot;OLE DB&quot;"
@@ -1038,7 +1055,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Products\SourceDB - Product.Connections[OleDbConnection]"
                       connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
                       connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1046,122 +1063,122 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;]"
                       name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
                           name="ProductID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
                           length="40"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
                           name="ProductName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
                           name="SupplierID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
                           name="CategoryID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           dataType="cy"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           name="UnitPrice"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
                           dataType="i4"
                           name="ProductID" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
                           dataType="wstr"
                           length="40"
                           name="ProductName" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
                           dataType="i4"
                           name="SupplierID" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
                           dataType="i4"
                           name="CategoryID" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
                           dataType="cy"
                           name="UnitPrice" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
                           name="ProductID" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
                           dataType="wstr"
                           length="40"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
                           name="ProductName" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
                           name="SupplierID" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
                           name="CategoryID" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           dataType="cy"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           name="UnitPrice" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1170,7 +1187,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;"
+                  refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   description="Назначение &quot;OLE DB&quot;"
@@ -1227,7 +1244,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1235,50 +1252,50 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductID]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductID]"
                           cachedDataType="i4"
                           cachedName="ProductID"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductName]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductName]"
                           cachedDataType="wstr"
                           cachedLength="40"
                           cachedName="ProductName"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]" />
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CategoryName]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CategoryName]"
                           cachedDataType="wstr"
                           cachedLength="15"
                           cachedName="CategoryName"
-                          externalMetadataColumnId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
-                          lineageId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]" />
+                          externalMetadataColumnId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
+                          lineageId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
                           dataType="i4"
                           name="ProductKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
                           dataType="i4"
                           name="ProductAlterKey" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
                           dataType="wstr"
                           length="50"
                           name="Product" />
                         <externalMetadataColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
                           dataType="wstr"
                           length="50"
                           name="Category" />
@@ -1287,22 +1304,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1311,7 +1328,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос"
+                  refId="Package\Load Dimensions\Load Products\Уточняющий запрос"
                   componentClassID="Microsoft.Lookup"
                   contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
                   description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
@@ -1367,7 +1384,7 @@ where [refTable].[CategoryID] = ?</property>
                       containsID="true"
                       dataType="System.String"
                       description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
-                      name="ParameterMap">#{Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника "OLE DB"].Columns[CategoryID]};</property>
+                      name="ParameterMap">#{Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника "OLE DB"].Columns[CategoryID]};</property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1379,7 +1396,7 @@ where [refTable].[CategoryID] = ?</property>
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Connections[OleDbConnection]"
+                      refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Connections[OleDbConnection]"
                       connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
                       connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
                       description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
@@ -1387,14 +1404,14 @@ where [refTable].[CategoryID] = ?</property>
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Ввод преобразования &quot;Уточняющий запрос&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryID]"
+                          refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryID]"
                           cachedDataType="i4"
                           cachedName="CategoryID"
-                          lineageId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]">
+                          lineageId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1412,19 +1429,19 @@ where [refTable].[CategoryID] = ?</property>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                       errorOrTruncationOperation="Уточняющий запрос"
                       errorRowDisposition="FailComponent"
                       exclusionGroup="1"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]"
+                          refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Копировать столбец"
                           length="15"
-                          lineageId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]"
+                          lineageId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryName]"
                           name="CategoryName"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1438,30 +1455,30 @@ where [refTable].[CategoryID] = ?</property>
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Выход несовпадающих строк уточняющего запроса]"
                       description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                       exclusionGroup="1"
                       name="Выход несовпадающих строк уточняющего запроса"
-                      synchronousInputId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1472,16 +1489,129 @@ where [refTable].[CategoryID] = ?</property>
               </components>
               <paths>
                 <path
-                  refId="Package\Контейнер последовательности\Load Products.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-                  endId="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load Dimensions\Load Products.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                  endId="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;.Inputs[Вход назначения &quot;OLE DB&quot;]"
                   name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                  startId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                  startId="Package\Load Dimensions\Load Products\Уточняющий запрос.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                 <path
-                  refId="Package\Контейнер последовательности\Load Products.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\Контейнер последовательности\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  refId="Package\Load Dimensions\Load Products.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Load Dimensions\Load Products\Уточняющий запрос.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\Контейнер последовательности\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  startId="Package\Load Dimensions\Load Products\SourceDB - Product.Outputs[Выход источника &quot;OLE DB&quot;]" />
               </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Facts"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{D7EDF6D1-002B-4257-922F-F613F00D5C3C}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Facts">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load Facts\Load Orders"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{4B14B051-2EE6-4B91-BEDA-4250ED535841}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Orders"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="Источник &quot;OLE DB&quot;"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Connections[OleDbConnection]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <externalMetadataColumns
+                        isUsed="True" />
+                    </output>
+                    <output
+                      refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -1492,11 +1622,27 @@ where [refTable].[CategoryID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение]"
       DTS:CreationName=""
-      DTS:DTSID="{DA2F0E79-6545-4A83-9C29-5B4504D618EF}"
+      DTS:DTSID="{D0EC93F8-DA57-4040-94AD-38E80EF2E10A}"
       DTS:From="Package\Delete Rows"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
-      DTS:To="Package\Контейнер последовательности" />
+      DTS:To="Package\Load Date Dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4BD1289C-B0EE-453A-BA2E-94CCEFE32D23}"
+      DTS:From="Package\Load Date Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\Load Dimensions" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{89BD8D10-C5F4-4892-B59A-F5CCB382804C}"
+      DTS:From="Package\Load Dimensions"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 2"
+      DTS:To="Package\Load Facts" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -1509,56 +1655,103 @@ where [refTable].[CategoryID] = ?</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="136.8,41.6"
+          Size="137,42"
           Id="Package\Delete Rows"
-          TopLeft="288.28571759438,11.4117646415341" />
+          TopLeft="269.28571759438,14.4117646415341" />
         <NodeLayout
-          Size="153.6,41.6"
-          Id="Package\Контейнер последовательности\Load Customers"
+          Size="154,42"
+          Id="Package\Load Dimensions\Load Customers"
           TopLeft="18.5142910908681,12.7058828677274" />
         <NodeLayout
-          Size="154.4,41.6"
-          Id="Package\Контейнер последовательности\Load Employees"
+          Size="154,42"
+          Id="Package\Load Dimensions\Load Employees"
           TopLeft="202.000004257475,15.5529432570646" />
         <NodeLayout
-          Size="144.8,41.6"
-          Id="Package\Контейнер последовательности\Load Products"
-          TopLeft="404.142864842804,18.6117668293752" />
+          Size="145,42"
+          Id="Package\Load Dimensions\Load Products"
+          TopLeft="392.142864842804,15.6117668293752" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="650.4,84"
-          Size="650.4,127.2"
-          Id="Package\Контейнер последовательности"
-          TopLeft="47.8571436721451,89.4705894900854" />
+          PanelSize="565,81"
+          Size="565,124"
+          Id="Package\Load Dimensions"
+          TopLeft="62.8571436721451,152.470589490085" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Load Date Dimension"
+          TopLeft="253,83" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="356.68571759438,53.0117646415341">
+          TopLeft="340.14285879719,56.4117646415341">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="16.3714260777651,36.4588248485513"
+              EndConnector="0,26.5882353584659"
               Start="0,0"
-              End="16.3714260777651,28.9588248485513">
+              End="0,19.0882353584659">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14.2294124242757" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.2294124242757"
-                    Point2="0,18.2294124242757"
-                    Point3="4,18.2294124242757" />
+                    End="0,19.0882353584659" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="343.928571836073,125">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.4705894900854"
+              Start="0,0"
+              End="0,19.9705894900854">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="12.3714260777651,18.2294124242757" />
-                  <mssgle:CubicBezierSegment
-                    Point1="12.3714260777651,18.2294124242757"
-                    Point2="16.3714260777651,18.2294124242757"
-                    Point3="16.3714260777651,22.2294124242757" />
+                    End="0,19.9705894900854" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Load Facts\Load Orders"
+          TopLeft="204,16" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="561,75"
+          Size="561,118"
+          Id="Package\Load Facts"
+          TopLeft="66,352" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="345.928571836073,276.470589490085">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75.5294105099146"
+              Start="0,0"
+              End="0,68.0294105099146">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="16.3714260777651,28.9588248485513" />
+                    End="0,68.0294105099146" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1571,20 +1764,20 @@ where [refTable].[CategoryID] = ?</property>
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Контейнер последовательности\Load Customers">
+    design-time-name="Package\Load Dimensions\Load Customers">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="124,41.6"
-          Id="Package\Контейнер последовательности\Load Customers\SourceDB"
-          TopLeft="116.428573411338,67.2941185908334" />
-        <NodeLayout
-          Size="144.8,41.6"
-          Id="Package\Контейнер последовательности\Load Customers\DestinationDB"
+          Size="145,42"
+          Id="Package\Load Dimensions\Load Customers\DestinationDB"
           TopLeft="94.2857158913905,172.823531835549" />
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Load Dimensions\Load Customers\SourceDB"
+          TopLeft="116.428573411338,67.2941185908334" />
         <EdgeLayout
-          Id="Package\Контейнер последовательности\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+          Id="Package\Load Dimensions\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="178.428573411338,108.894118590833">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1621,7 +1814,7 @@ where [refTable].[CategoryID] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Customers\SourceDB">
+    design-time-name="Package\Load Dimensions\Load Customers\DestinationDB">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1634,7 +1827,7 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Customers\DestinationDB">
+    design-time-name="Package\Load Dimensions\Load Customers\SourceDB">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1647,20 +1840,20 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Контейнер последовательности\Load Employees">
+    design-time-name="Package\Load Dimensions\Load Employees">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="124,41.6"
-          Id="Package\Контейнер последовательности\Load Employees\SourceDB"
+          Size="124,42"
+          Id="Package\Load Dimensions\Load Employees\SourceDB"
           TopLeft="129,55" />
         <NodeLayout
-          Size="144.8,41.6"
-          Id="Package\Контейнер последовательности\Load Employees\DestinationDB"
+          Size="145,42"
+          Id="Package\Load Dimensions\Load Employees\DestinationDB"
           TopLeft="141,162" />
         <EdgeLayout
-          Id="Package\Контейнер последовательности\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+          Id="Package\Load Dimensions\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="191,96.6">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1697,7 +1890,7 @@ where [refTable].[CategoryID] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Employees\SourceDB">
+    design-time-name="Package\Load Dimensions\Load Employees\DestinationDB">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1710,7 +1903,7 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Employees\DestinationDB">
+    design-time-name="Package\Load Dimensions\Load Employees\SourceDB">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1723,24 +1916,24 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Контейнер последовательности\Load Products">
+    design-time-name="Package\Load Dimensions\Load Products">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="184,41.6"
-          Id="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;"
+          Size="184,42"
+          Id="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;"
           TopLeft="73.2,192.247619047619" />
         <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\Контейнер последовательности\Load Products\SourceDB - Product"
+          Size="170,42"
+          Id="Package\Load Dimensions\Load Products\SourceDB - Product"
           TopLeft="90.4285714285714,22.7142857142857" />
         <NodeLayout
-          Size="177.6,41.6"
-          Id="Package\Контейнер последовательности\Load Products\Уточняющий запрос"
+          Size="178,42"
+          Id="Package\Load Dimensions\Load Products\Уточняющий запрос"
           TopLeft="82.8,108.4" />
         <EdgeLayout
-          Id="Package\Контейнер последовательности\Load Products.Paths[Выход источника &quot;OLE DB&quot;]"
+          Id="Package\Load Dimensions\Load Products.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="173.614285714286,64.3142857142857">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1762,7 +1955,7 @@ where [refTable].[CategoryID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Контейнер последовательности\Load Products.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          Id="Package\Load Dimensions\Load Products.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
           TopLeft="168.4,150">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1789,7 +1982,7 @@ where [refTable].[CategoryID] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Products\Назначение &quot;OLE DB&quot;">
+    design-time-name="Package\Load Dimensions\Load Products\Назначение &quot;OLE DB&quot;">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1802,7 +1995,7 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Products\SourceDB - Product">
+    design-time-name="Package\Load Dimensions\Load Products\SourceDB - Product">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1815,12 +2008,12 @@ where [refTable].[CategoryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Контейнер последовательности\Load Products\Уточняющий запрос">
+    design-time-name="Package\Load Dimensions\Load Products\Уточняющий запрос">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1830,12 +2023,24 @@ where [refTable].[CategoryID] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Facts\Load Orders">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load Facts\Load Orders\Источник &quot;OLE DB&quot;"
+          TopLeft="156,48" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
