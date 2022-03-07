@@ -11,7 +11,9 @@
     [Quantity]                      INT             NULL,
     [Discount]                      MONEY           NULL,
     [SalesAmount]                   MONEY           NULL,
-    [SalesAmountWithDiscount]       MONEY           NULL
+    [SalesAmountWithDiscount]       MONEY           NULL,
+
+    CONSTRAINT [PK_Fack_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC ) ON [PS_Order_Date_Index] ( [OrderDateKey] )
 );
 GO
 
