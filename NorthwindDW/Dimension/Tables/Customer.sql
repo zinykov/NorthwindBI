@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Dimension].[Customer]
 (
 	[CustomerKey]       INT             IDENTITY (1, 1)     NOT NULL, 
-    [CustomerAlterKey]  INT                                 NOT NULL, 
+    [CustomerAlterKey]  NVARCHAR(5)                         NOT NULL, 
     [Customer]          NVARCHAR(50)                        NULL, 
     [ContactName]       NVARCHAR(50)                        NULL, 
     [ContactTitle]      NVARCHAR(50)                        NULL,
