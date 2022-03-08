@@ -1,0 +1,1898 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/8/2022 7:54:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SWIFT3"
+  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:DTSID="{740E4C65-F9F5-4439-B366-89A57F441C93}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Load Employees"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{1FA59A4D-02DF-4B1A-83A3-234D74F4FB4B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Employees"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{882269e9-6443-4795-97d4-19478c12fad2}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Employees"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Employees\Landing source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+              description="Источник &quot;OLE DB&quot;"
+              name="Landing source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Landing].[Employees]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXECUTE [Integration].[ExtractEmployeeFromLanding];</property>
+                <property
+                  dataType="System.String"
+                  description="Переменная, содержащая команду SQL для выполнения."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Сопоставления между параметрами в команде SQL и переменными."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Landing source.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      length="30"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      length="25"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      name="TitleOfCourtesy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      length="15"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      length="15"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      name="EmployeeAlterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      length="31"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      name="TitleOfCourtesy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      dataType="i4"
+                      name="EmployeeAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="31"
+                      name="Name" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  isErrorOut="true"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      name="EmployeeAlterKey" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
+                      dataType="wstr"
+                      length="31"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      name="TitleOfCourtesy" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
+              description="Объединяет строки из нескольких потоков данных без сортировки. Пример: добавление строк назад в поток данных после исправления ошибок. Если сортировка имеет значение, рекомендуется использовать преобразование &quot;Слияние&quot;."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Union All.Inputs[Union All Вход 1]"
+                  name="Union All Вход 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Title]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[TitleOfCourtesy]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Country]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[EmployeeAlterKey]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Union All Вход 1].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Name]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All]"
+                  hasSideEffects="true"
+                  name="Входные данные 1 Union All">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Title]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[TitleOfCourtesy]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Country]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[EmployeeAlterKey]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Name]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load Employees\Union All.Inputs[Входные данные 2 Union All]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Входные данные 2 Union All">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Union All.Outputs[Union All Выход 1]"
+                  name="Union All Выход 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[TitleOfCourtesy]"
+                      name="TitleOfCourtesy" />
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[City]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[EmployeeAlterKey]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[EmployeeAlterKey]"
+                      name="EmployeeAlterKey" />
+                    <outputColumn
+                      refId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Name]"
+                      dataType="wstr"
+                      length="31"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Name]"
+                      name="Name" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Вставить назначение"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+              description="Назначение &quot;OLE DB&quot;"
+              name="Вставить назначение"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Dimension].[Employee]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Вставить назначение.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  errorOrTruncationOperation="Вставить"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;OLE DB&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[EmployeeAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[TitleOfCourtesy]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      lineageId="Package\Load Employees\Union All.Outputs[Union All Выход 1].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[StartDate]"
+                      cachedDataType="dbDate"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
+                      lineageId="Package\Load Employees\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
+                      dataType="i4"
+                      name="EmployeeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      dataType="i4"
+                      name="EmployeeAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="35"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      name="TitleOfCourtesy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
+                      dataType="dbDate"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EndDate]"
+                      dataType="dbDate"
+                      name="EndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Current]"
+                      dataType="bool"
+                      name="Current" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Вставить назначение.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                  synchronousInputId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Вставить назначение.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Вставить назначение.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Вставить назначение.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Вставить назначение.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Команда OLE DB"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
+              description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
+              name="Команда OLE DB"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [Dimension].[Employee] SET [EndDate] = ? WHERE [EmployeeAlterKey] = ? AND [EndDate] IS NULL</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Команда OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB]"
+                  errorOrTruncationOperation="Выполнение команды"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход команды OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[EndDate]"
+                      cachedDataType="dbDate"
+                      cachedName="EndDate"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Load Employees\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      dataType="dbDate"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      dataType="i4"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB.Outputs[Выход команды OLE DB]"
+                  exclusionGroup="1"
+                  name="Выход команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Команда OLE DB 1"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
+              description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
+              name="Команда OLE DB 1"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [Dimension].[Employee] SET [City] = ?,[Country] = ?,[Name] = ?,[Title] = ?,[TitleOfCourtesy] = ?,[Current] = '0' WHERE [EmployeeAlterKey] = ? AND [Current] = '1'</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Команда OLE DB 1.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB]"
+                  errorOrTruncationOperation="Выполнение команды"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход команды OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="15"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="15"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="35"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      dataType="wstr"
+                      length="30"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      dataType="wstr"
+                      length="25"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      dataType="i4"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB 1.Outputs[Выход команды OLE DB]"
+                  exclusionGroup="1"
+                  name="Выход команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Команда OLE DB 2"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
+              description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
+              name="Команда OLE DB 2"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [Dimension].[Employee] SET [Name] = ?,[TitleOfCourtesy] = ? WHERE [EmployeeAlterKey] = ? AND [EndDate] IS NULL</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Команда OLE DB 2.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB]"
+                  errorOrTruncationOperation="Выполнение команды"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход команды OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      externalMetadataColumnId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="35"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      dataType="wstr"
+                      length="25"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB 2.Outputs[Выход команды OLE DB]"
+                  exclusionGroup="1"
+                  name="Выход команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок команды OLE DB"
+                  synchronousInputId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Медленно изменяющееся измерение"
+              componentClassID="Microsoft.SCD"
+              contactInfo="Медленно изменяющееся измерение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;3"
+              description="Обновляет размеры хранилища данных служб SQL Server Analysis Services. Обновляет существующие записи измерений и добавляет новые записи измерений. Пример: обновление таблицы DimProduct в базе данных OLAP AdventureWorksDW с помощью данных из таблицы &quot;Products&quot; в базе данных OLTP AdventureWorks."
+              name="Медленно изменяющееся измерение"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Задает инструкцию SELECT, которая используется для создания набора строк схемы."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT [City], [Country], [EmployeeAlterKey], [Name], [Title], [TitleOfCourtesy],[StartDate],[EndDate],[Current] FROM [Dimension].[Employee]</property>
+                <property
+                  dataType="System.String"
+                  description="Задает предложение WHERE в инструкции SELECT, которая выбирает текущую строку среди строк с одинаковыми бизнес-ключами."
+                  name="CurrentRowWhere">[StartDate] IS NOT NULL AND [EndDate] IS NULL</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, следует ли направлять обновления атрибутов с предысторией на вывод преобразования для обновлений изменяемых атрибутов."
+                  name="UpdateChangingAttributeHistory">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, завершается ли преобразование ошибкой, если столбцы с атрибутами неизменности содержат изменения."
+                  name="FailOnFixedAttributeChange">false</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя столбца для выводимого элемента."
+                  name="InferredMemberIndicator">Current</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, определяются ли обновления выводимых элементов."
+                  name="EnableInferredMember">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, завершается ли преобразование ошибкой в случае сбоя уточняющего запроса существующей записи."
+                  name="FailOnLookupFailure">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает, что все строки на входе являются новыми или преобразование определяет тип изменения."
+                  name="IncomingRowChangeType"
+                  typeConverter="IncomingRowChangeType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Connections[LookupConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Определяет соединение для использования при уточняющих запросах таблицы измерения"
+                  name="LookupConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
+                  name="Вход медленно изменяющегося измерения">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[City]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Country]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[EmployeeAlterKey]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Name]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Title]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      externalMetadataColumnId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[TitleOfCourtesy]"
+                      lineageId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">2</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[EmployeeAlterKey]"
+                      dataType="i4"
+                      name="EmployeeAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="35"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      name="TitleOfCourtesy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[StartDate]"
+                      dataType="dbDate"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[EndDate]"
+                      dataType="dbDate"
+                      name="EndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Current]"
+                      dataType="bool"
+                      name="Current" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Неизменившийся выход]"
+                  description="Неизменившиеся строки"
+                  exclusionGroup="1"
+                  name="Неизменившийся выход"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Новый выход]"
+                  description="Новые строки"
+                  exclusionGroup="1"
+                  name="Новый выход"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход атрибута неизменности]"
+                  description="Строки с изменениями с столбцах, помеченных FixedAttribute"
+                  exclusionGroup="1"
+                  name="Выход атрибута неизменности"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход обновлений изменяемых атрибутов]"
+                  description="Эти строки содержат новые данные для изменения столбцов ChangingAttribute (Тип 1)"
+                  exclusionGroup="1"
+                  name="Выход обновлений изменяемых атрибутов"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход вставок атрибутов с предысторией]"
+                  description="Изменения атрибута HistoricalAttribute (Тип 2) приводят к образованию этих новых строк"
+                  exclusionGroup="2"
+                  name="Выход вставок атрибутов с предысторией"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход обновлений выводимых элементов]"
+                  description="Данные для обновления незаполненной строки исходного измерения"
+                  exclusionGroup="1"
+                  name="Выход обновлений выводимых элементов"
+                  synchronousInputId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Производный столбец"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+              description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+              name="Производный столбец"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Производный столбец.Inputs[Вход производного столбца]"
+                  description="Ввод преобразования &quot;Производный столбец&quot;"
+                  name="Вход производного столбца">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Производный столбец.Outputs[Выход производного столбца]"
+                  description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  name="Выход производного столбца"
+                  synchronousInputId="Package\Load Employees\Производный столбец.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Вычисление"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Employees\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Выражение производного столбца"
+                          name="Expression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Понятное выражение производного столбца"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Производный столбец.Outputs[Вывод ошибок производного столбца]"
+                  description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок производного столбца"
+                  synchronousInputId="Package\Load Employees\Производный столбец.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Employees\Производный столбец 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+              description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+              name="Производный столбец 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Employees\Производный столбец 1.Inputs[Вход производного столбца]"
+                  description="Ввод преобразования &quot;Производный столбец&quot;"
+                  name="Вход производного столбца">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Employees\Производный столбец 1.Outputs[Выход производного столбца]"
+                  description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  name="Выход производного столбца"
+                  synchronousInputId="Package\Load Employees\Производный столбец 1.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Вычисление"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Employees\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Выражение производного столбца"
+                          name="Expression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Понятное выражение производного столбца"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Employees\Производный столбец 1.Outputs[Вывод ошибок производного столбца]"
+                  description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок производного столбца"
+                  synchronousInputId="Package\Load Employees\Производный столбец 1.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Employees\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Employees\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Employees.Paths[Union All Выход 1]"
+              endId="Package\Load Employees\Производный столбец 1.Inputs[Вход производного столбца]"
+              name="Union All Выход 1"
+              startId="Package\Load Employees\Union All.Outputs[Union All Выход 1]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход вставок атрибутов с предысторией]"
+              endId="Package\Load Employees\Производный столбец.Inputs[Вход производного столбца]"
+              name="Выход вставок атрибутов с предысторией"
+              startId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход вставок атрибутов с предысторией]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+              endId="Package\Load Employees\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
+              name="Выход источника &quot;OLE DB&quot;"
+              startId="Package\Load Employees\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход команды OLE DB]"
+              endId="Package\Load Employees\Union All.Inputs[Входные данные 1 Union All]"
+              name="Выход команды OLE DB"
+              startId="Package\Load Employees\Команда OLE DB.Outputs[Выход команды OLE DB]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход обновлений выводимых элементов]"
+              endId="Package\Load Employees\Команда OLE DB 1.Inputs[Вход команды OLE DB]"
+              name="Выход обновлений выводимых элементов"
+              startId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход обновлений выводимых элементов]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход обновлений изменяемых атрибутов]"
+              endId="Package\Load Employees\Команда OLE DB 2.Inputs[Вход команды OLE DB]"
+              name="Выход обновлений изменяемых атрибутов"
+              startId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Выход обновлений изменяемых атрибутов]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход производного столбца]"
+              endId="Package\Load Employees\Команда OLE DB.Inputs[Вход команды OLE DB]"
+              name="Выход производного столбца"
+              startId="Package\Load Employees\Производный столбец.Outputs[Выход производного столбца]" />
+            <path
+              refId="Package\Load Employees.Paths[Выход производного столбца1]"
+              endId="Package\Load Employees\Вставить назначение.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="Выход производного столбца"
+              startId="Package\Load Employees\Производный столбец 1.Outputs[Выход производного столбца]" />
+            <path
+              refId="Package\Load Employees.Paths[Новый выход]"
+              endId="Package\Load Employees\Union All.Inputs[Union All Вход 1]"
+              name="Новый выход"
+              startId="Package\Load Employees\Медленно изменяющееся измерение.Outputs[Новый выход]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Load Employees"
+          TopLeft="60,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Employees">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Load Employees\Производный столбец 1"
+          TopLeft="156,515.5" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\Load Employees\Медленно изменяющееся измерение"
+          TopLeft="124,107.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load Employees\Команда OLE DB 2"
+          TopLeft="546,209.5" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Load Employees\Команда OLE DB"
+          TopLeft="33.5,311.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load Employees\Команда OLE DB 1"
+          TopLeft="316,209.5" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Load Employees\Производный столбец"
+          TopLeft="5.5,209.5" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Load Employees\Landing source"
+          TopLeft="179.5,5.5" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load Employees\Union All"
+          TopLeft="194,413.5" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Load Employees\Вставить назначение"
+          TopLeft="163,617.5" />
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Новый выход]"
+          TopLeft="229.2,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44.1333333333333,264"
+              Start="0,0"
+              End="44.1333333333333,256.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,138.36910380356" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,138.36910380356"
+                    Point2="0,142.36910380356"
+                    Point3="4,142.36910380356" />
+                  <mssgle:LineSegment
+                    End="40.1333333333333,142.36910380356" />
+                  <mssgle:CubicBezierSegment
+                    Point1="40.1333333333333,142.36910380356"
+                    Point2="44.1333333333333,142.36910380356"
+                    Point3="44.1333333333333,146.36910380356" />
+                  <mssgle:LineSegment
+                    End="44.1333333333333,256.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-9.06557942708334,147.36910380356,62.2644921875,11.296875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход производного столбца1]"
+          TopLeft="254.5,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход производного столбца]"
+          TopLeft="99.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,60"
+              Start="0,0"
+              End="14,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="10,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,30"
+                    Point2="14,30"
+                    Point3="14,34" />
+                  <mssgle:LineSegment
+                    End="14,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход обновлений изменяемых атрибутов]"
+          TopLeft="330.4,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="300.1,60"
+              Start="0,0"
+              End="300.1,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.6985413290113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.6985413290113"
+                    Point2="0,17.6985413290113"
+                    Point3="4,17.6985413290113" />
+                  <mssgle:LineSegment
+                    End="296.1,17.6985413290113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="296.1,17.6985413290113"
+                    Point2="300.1,17.6985413290113"
+                    Point3="300.1,21.6985413290113" />
+                  <mssgle:LineSegment
+                    End="300.1,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="51.41794921875,22.6985413290113,197.2641015625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход обновлений выводимых элементов]"
+          TopLeft="279.8,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="120.7,60"
+              Start="0,0"
+              End="120.7,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.7798048366568" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.7798048366568"
+                    Point2="0,26.7798048366568"
+                    Point3="4,26.7798048366568" />
+                  <mssgle:LineSegment
+                    End="116.7,26.7798048366568" />
+                  <mssgle:CubicBezierSegment
+                    Point1="116.7,26.7798048366568"
+                    Point2="120.7,26.7798048366568"
+                    Point3="120.7,30.7798048366568" />
+                  <mssgle:LineSegment
+                    End="120.7,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-36.91205078125,31.7798048366568,194.5241015625,11.296875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход команды OLE DB]"
+          TopLeft="113.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="122.166666666667,59.9999999999999"
+              Start="0,0"
+              End="122.166666666667,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="118.166666666667,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="118.166666666667,35.5301794453507"
+                    Point2="122.166666666667,35.5301794453507"
+                    Point3="122.166666666667,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="122.166666666667,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="254.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Выход вставок атрибутов с предысторией]"
+          TopLeft="178.6,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-79.1,60.0000000000001"
+              Start="0,0"
+              End="-79.1,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.6985413290114" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.6985413290114"
+                    Point2="0,17.6985413290114"
+                    Point3="-4,17.6985413290114" />
+                  <mssgle:LineSegment
+                    End="-75.1,17.6985413290114" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-75.1,17.6985413290114"
+                    Point2="-79.1,17.6985413290114"
+                    Point3="-79.1,21.6985413290114" />
+                  <mssgle:LineSegment
+                    End="-79.1,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-136.81169921875,22.6985413290114,194.5233984375,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Employees.Paths[Union All Выход 1]"
+          TopLeft="254.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

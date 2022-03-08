@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[DeleteRows] AS
+﻿CREATE PROCEDURE [Integration].[TrancateDWH] AS
 BEGIN	
 	DELETE FROM [Fact].[Order]
 	DELETE FROM [Dimension].[Customer]

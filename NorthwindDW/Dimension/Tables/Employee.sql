@@ -9,7 +9,7 @@
     [Country]               NVARCHAR(15)                      NULL,
     [StartDate]             DATE                              NULL,
     [EndDate]               DATE                              NULL,
-    [Current]               BIT                               NULL
+    [Current]               BIT                               NULL,
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC )
 )
@@ -17,6 +17,7 @@
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Alter_Key] ON [Dimension].[Employee] ( [EmployeeAlterKey] ASC )
+    INCLUDE ( [StartDate], [EndDate], [Current] )
     ON [PRIMARY];
 GO
 

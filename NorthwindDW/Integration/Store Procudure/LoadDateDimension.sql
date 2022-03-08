@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [Integration].[LoadDateDimension]
 	  @StartDate INT
 	, @EndDate INT
-WITH EXECUTE AS OWNER AS
+AS
 BEGIN
 	SET NOCOUNT ON;
     SET XACT_ABORT ON;
