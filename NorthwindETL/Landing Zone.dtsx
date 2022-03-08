@@ -1,0 +1,2916 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/8/2022 5:58:44 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SWIFT3"
+  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:DTSID="{3AC01E56-3EE9-42D9-B3E0-DD3E34E5E421}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Landing Zone"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{CBE04E65-2163-4727-B036-D131F68B2729}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Copy to Landing Zone"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{FF17D6A7-16CF-4DD1-A209-848A3DDFEEFA}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copy to Landing Zone">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Categories"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{250da855-1e6e-4247-8479-8e1e56deed43}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Categories"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Categories]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CategoryName]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="CategoryName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryName]"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Description]"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Description]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          name="CategoryName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Categories\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Categories]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Categories\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          name="CategoryID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryName]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryName]"
+                          name="CategoryName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Description]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Description]"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          name="CategoryName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryName]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryName]"
+                          name="CategoryName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Description]"
+                          dataType="nText"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Categories.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Categories\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Categories\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Customers"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{bc9458f7-256b-4b48-871c-1abd5cc453f2}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Customers"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Customers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="City"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactTitle" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          dataType="wstr"
+                          length="15"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          name="Fax" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Customers\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Customers]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Customers\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          length="5"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          length="40"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          name="CompanyName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          name="ContactName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          name="ContactTitle"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          length="24"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          name="Phone"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          length="24"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          name="Fax"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactTitle" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          dataType="wstr"
+                          length="15"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          name="Fax" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          name="ContactName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          name="ContactTitle" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          name="Fax" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Customers\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Customers\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Employees"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{0e62921e-da50-4d0a-b065-86e705ee4638}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Employees"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Employees]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="City"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          cachedDataType="i4"
+                          cachedName="EmployeeID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LastName]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="LastName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[FirstName]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="FirstName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Title]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="Title"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          cachedDataType="wstr"
+                          cachedLength="25"
+                          cachedName="TitleOfCourtesy"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                          dataType="wstr"
+                          length="15"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          dataType="wstr"
+                          length="20"
+                          name="LastName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          dataType="wstr"
+                          length="10"
+                          name="FirstName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          dataType="wstr"
+                          length="30"
+                          name="Title" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          dataType="wstr"
+                          length="25"
+                          name="TitleOfCourtesy" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Employees\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Employees]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Employees\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          length="20"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LastName]"
+                          name="LastName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          length="10"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          name="FirstName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                          name="Title"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          length="25"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          name="TitleOfCourtesy"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          dataType="wstr"
+                          length="15"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
+                          dataType="wstr"
+                          length="20"
+                          name="LastName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
+                          dataType="wstr"
+                          length="10"
+                          name="FirstName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                          dataType="wstr"
+                          length="30"
+                          name="Title" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                          dataType="wstr"
+                          length="25"
+                          name="TitleOfCourtesy" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LastName]"
+                          name="LastName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FirstName]"
+                          name="FirstName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                          name="Title" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          dataType="wstr"
+                          length="25"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                          name="TitleOfCourtesy" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Employees\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Employees\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Order Details"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{ca6c8b3c-3689-4c83-9450-938cf3c85524}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Order Details"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Order Details]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderID]"
+                          cachedDataType="i4"
+                          cachedName="OrderID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Quantity]"
+                          cachedDataType="i2"
+                          cachedName="Quantity"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Discount]"
+                          cachedDataType="r4"
+                          cachedName="Discount"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          dataType="i2"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          dataType="r4"
+                          name="Discount" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Order Details\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Order Details]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Order Details\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          name="Quantity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          name="Discount"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          dataType="i2"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          dataType="r4"
+                          name="Discount" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          dataType="i2"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          name="Quantity" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          dataType="r4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          name="Discount" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Order Details.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Order Details\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Order Details\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Orders"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{633ce4ab-3fe7-4a7c-b929-94ca87ff7b42}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Orders"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Orders]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderID]"
+                          cachedDataType="i4"
+                          cachedName="OrderID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          cachedDataType="i4"
+                          cachedName="EmployeeID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="OrderDate"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="RequiredDate"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ShippedDate"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShipCity]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipCity"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShipCity]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCity]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShipCountry]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="ShipCountry"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShipCountry]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCountry]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          name="OrderDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          name="RequiredDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          name="ShippedDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCity" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCountry" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Orders\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Orders]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Orders\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          length="5"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          name="OrderDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          name="RequiredDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          name="ShippedDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCity]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShipCity]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCity]"
+                          name="ShipCity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCountry]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShipCountry]"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShipCountry]"
+                          name="ShipCountry"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          name="OrderDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          name="RequiredDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          name="ShippedDate" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCity" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          name="ShipCountry" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          name="OrderDate" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          name="RequiredDate" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          name="ShippedDate" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShipCity]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShipCity]"
+                          name="ShipCity" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShipCountry]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShipCountry]"
+                          name="ShipCountry" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Orders.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Orders\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Orders\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Copy to Landing Zone\Products"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{1bec0d46-4895-4ea1-a46f-aea185a2ec82}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Products"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Copy to Landing Zone\Products\DestinationDB Landing"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="DestinationDB Landing"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Products]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DestinationDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="ProductName"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SupplierID]"
+                          cachedDataType="i4"
+                          cachedName="SupplierID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CategoryID]"
+                          cachedDataType="i4"
+                          cachedName="CategoryID"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]" />
+                        <inputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          cachedDataType="cy"
+                          cachedName="UnitPrice"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Copy to Landing Zone\Products\SourceDB"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="SourceDB"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Products]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Copy to Landing Zone\Products\SourceDB.Connections[OleDbConnection]"
+                      connectionManagerID="{B6F96118-B693-4C64-B05F-5AC53C44FB78}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[SourceDB_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          length="40"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          name="ProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          name="SupplierID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          name="CategoryID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
+                          dataType="i4"
+                          name="SupplierID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
+                          dataType="i4"
+                          name="CategoryID" />
+                        <externalMetadataColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SupplierID]"
+                          name="SupplierID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CategoryID]"
+                          name="CategoryID" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Copy to Landing Zone\Products.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy to Landing Zone\Products\DestinationDB Landing.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy to Landing Zone\Products\SourceDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Landing Zone"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{0B947C5F-E5CF-47F4-87F8-2360419D9123}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Landing Zone"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{A661CBBD-B19E-4F9C-875C-247B4DA14402}"
+      DTS:From="Package\Truncate Landing Zone"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\Copy to Landing Zone" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="129,42"
+          Id="Package\Copy to Landing Zone\Categories"
+          TopLeft="17,24" />
+        <NodeLayout
+          Size="129,42"
+          Id="Package\Copy to Landing Zone\Customers"
+          TopLeft="168,25" />
+        <NodeLayout
+          Size="129,42"
+          Id="Package\Copy to Landing Zone\Employees"
+          TopLeft="317,25" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Copy to Landing Zone\Order Details"
+          TopLeft="468,25" />
+        <NodeLayout
+          Size="111,42"
+          Id="Package\Copy to Landing Zone\Orders"
+          TopLeft="623,25" />
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Copy to Landing Zone\Products"
+          TopLeft="750,26" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="891,97"
+          Size="891,140"
+          Id="Package\Copy to Landing Zone"
+          TopLeft="61,137" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Truncate Landing Zone"
+          TopLeft="413,48" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="506.75,90">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Categories">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Categories\SourceDB"
+          TopLeft="84,26" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Categories\DestinationDB Landing"
+          TopLeft="57,106" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Categories.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Categories\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Categories\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Customers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Customers\DestinationDB Landing"
+          TopLeft="57,106" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Customers\SourceDB"
+          TopLeft="84,26" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Customers\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Customers\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Employees">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Employees\DestinationDB Landing"
+          TopLeft="57,106" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Employees\SourceDB"
+          TopLeft="84,26" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Employees.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Employees\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Employees\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Order Details">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Order Details\DestinationDB Landing"
+          TopLeft="57,106" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Order Details\SourceDB"
+          TopLeft="84,26" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Order Details.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Order Details\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Order Details\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Orders">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Orders\DestinationDB Landing"
+          TopLeft="57,106" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Orders\SourceDB"
+          TopLeft="84,26" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Orders.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Orders\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Orders\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Copy to Landing Zone\Products">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Copy to Landing Zone\Products\DestinationDB Landing"
+          TopLeft="57,106" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Copy to Landing Zone\Products\SourceDB"
+          TopLeft="84,26" />
+        <EdgeLayout
+          Id="Package\Copy to Landing Zone\Products.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.25,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Products\DestinationDB Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy to Landing Zone\Products\SourceDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
