@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Integration].[Order]
+﻿CREATE TABLE [Staging].[Order]
 (
 	[OrderKey]                      INT             NOT NULL,
     [ProductKey]                    INT             NOT NULL,
@@ -13,34 +13,37 @@
     [SalesAmount]                   MONEY           NULL,
     [SalesAmountWithDiscount]       MONEY           NULL,
 
-    CONSTRAINT [PK_Fack_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC ) ON [PS_Order_Date_Index] ( [OrderDateKey] )
+    CONSTRAINT [PK_Staging_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC )
+        ON [PS_Order_Date_Index] ( [OrderDateKey] )
 );
 GO
 
-CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Staging_Order] ON [Staging].[Order]
     ON [PS_Order_Date_Data] ( [OrderDateKey] );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Order_Date_Key] ON [Integration].[Order] ( [OrderDateKey] )
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Order_Date_Key] ON [Staging].[Order] ( [OrderDateKey] )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Required_Date_Key] ON [Integration].[Order] ( [RequiredDateKey] )
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Required_Date_Key] ON [Staging].[Order] ( [RequiredDateKey] )
+   WHERE [OrderDateKey] >= 19970101
+   ON [PS_Order_Date_Index] ( [OrderDateKey] );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Shipped_Date_Key] ON [Staging].[Order] ( [ShippedDateKey] )
+    WHERE [OrderDateKey] >= 19970101
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Shipped_Date_Key] ON [Integration].[Order] ( [ShippedDateKey] )
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Cusotmer_Key] ON [Staging].[Order] ( [CustomerKey] )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Cusotmer_Key] ON [Integration].[Order] ( [CustomerKey] )
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Employee_Key] ON [Staging].[Order] ( [EmployeeKey] )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Employee_Key] ON [Integration].[Order] ( [EmployeeKey] )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
-GO
-
-CREATE NONCLUSTERED INDEX [IX_Integration_Order_Product_Key] ON [Integration].[Order] ( [ProductKey] )
+CREATE NONCLUSTERED INDEX [IX_Staging_Order_Product_Key] ON [Staging].[Order] ( [ProductKey] )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO

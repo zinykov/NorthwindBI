@@ -13,7 +13,8 @@
     [SalesAmount]                   MONEY           NULL,
     [SalesAmountWithDiscount]       MONEY           NULL,
 
-    CONSTRAINT [PK_Fack_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC ) ON [PS_Order_Date_Index] ( [OrderDateKey] ),
+    CONSTRAINT [PK_Fack_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC )
+        ON [PS_Order_Date_Index] ( [OrderDateKey] ),
     
     CONSTRAINT [FK_Fact_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
     CONSTRAINT [FK_Fact_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
@@ -33,12 +34,12 @@ CREATE NONCLUSTERED INDEX [IX_Fact_Order_Order_Date_Key] ON [Fact].[Order] ( [Or
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Required_Date_Key] ON [Fact].[Order] ( [RequiredDateKey] )
-    WHERE [RequiredDateKey] >= 19970101
+    WHERE [OrderDateKey] >= 19970101
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Shipped_Date_Key] ON [Fact].[Order] ( [ShippedDateKey] )
-    WHERE [RequiredDateKey] >= 19970101
+    WHERE [OrderDateKey] >= 19970101
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
