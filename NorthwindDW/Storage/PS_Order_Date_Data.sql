@@ -1,3 +1,13 @@
 ﻿CREATE PARTITION SCHEME [PS_Order_Date_Data]
 	AS PARTITION [PF_Order_Date]
-	TO ( [PRIMARY], [PRIMARY], [PRIMARY] )
+	TO (
+		  [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+		, [PRIMARY]
+	)
+GO

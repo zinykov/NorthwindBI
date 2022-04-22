@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Data Profiling"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{EB8707CE-C890-44CB-952C-C2E47A211A56}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{440B4777-90A4-45B4-95BB-7A80F177E475}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -53,81 +53,369 @@
     <ProfileMode>Exact</ProfileMode>
     <Timeout>0</Timeout>
     <Requests>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Categories" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
       <ColumnStatisticsProfileRequest ID="StatisticsReq">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Orders" />
-        <Column IsWildCard="false" ColumnName="OrderDate" />
+        <Table Schema="dbo" Table="Categories" />
+        <Column IsWildCard="true" />
       </ColumnStatisticsProfileRequest>
       <ColumnLengthDistributionProfileRequest ID="LengthDistReq">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Products" />
-        <Column IsWildCard="false" ColumnName="ProductName" />
+        <Table Schema="dbo" Table="Categories" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
-      <ColumnLengthDistributionProfileRequest ID="LengthDistReq1">
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
         <Table Schema="dbo" Table="Categories" />
-        <Column IsWildCard="false" ColumnName="CategoryName" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Categories" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Categories" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Categories" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
+      <ColumnStatisticsProfileRequest ID="StatisticsReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <Column IsWildCard="true" />
+      </ColumnStatisticsProfileRequest>
+      <ColumnLengthDistributionProfileRequest ID="LengthDistReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq1">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Customers" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
+      <ColumnStatisticsProfileRequest ID="StatisticsReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <Column IsWildCard="true" />
+      </ColumnStatisticsProfileRequest>
       <ColumnLengthDistributionProfileRequest ID="LengthDistReq2">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="CompanyName" />
+        <Table Schema="dbo" Table="Employees" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq2">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Employees" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
+      <ColumnStatisticsProfileRequest ID="StatisticsReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <Column IsWildCard="true" />
+      </ColumnStatisticsProfileRequest>
       <ColumnLengthDistributionProfileRequest ID="LengthDistReq3">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="ContactName" />
+        <Table Schema="dbo" Table="Order Details" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq3">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Order Details" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
+      <ColumnStatisticsProfileRequest ID="StatisticsReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <Column IsWildCard="true" />
+      </ColumnStatisticsProfileRequest>
       <ColumnLengthDistributionProfileRequest ID="LengthDistReq4">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="ContactTitle" />
+        <Table Schema="dbo" Table="Orders" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq4">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Orders" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
+      <ColumnNullRatioProfileRequest ID="NullRatioReq5">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Products" />
+        <Column IsWildCard="true" />
+      </ColumnNullRatioProfileRequest>
+      <ColumnStatisticsProfileRequest ID="StatisticsReq5">
+        <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
+        <Table Schema="dbo" Table="Products" />
+        <Column IsWildCard="true" />
+      </ColumnStatisticsProfileRequest>
       <ColumnLengthDistributionProfileRequest ID="LengthDistReq5">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="City" />
+        <Table Schema="dbo" Table="Products" />
+        <Column IsWildCard="true" />
         <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
+        <IgnoreTrailingSpace>true</IgnoreTrailingSpace>
       </ColumnLengthDistributionProfileRequest>
-      <ColumnLengthDistributionProfileRequest ID="LengthDistReq6">
+      <ColumnValueDistributionProfileRequest ID="ValueDistReq5">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="Country" />
-        <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
-      </ColumnLengthDistributionProfileRequest>
-      <ColumnLengthDistributionProfileRequest ID="LengthDistReq7">
+        <Table Schema="dbo" Table="Products" />
+        <Column IsWildCard="true" />
+        <Option>FrequentValues</Option>
+        <FrequentValueThreshold>0.001</FrequentValueThreshold>
+      </ColumnValueDistributionProfileRequest>
+      <ColumnPatternProfileRequest ID="PatternReq5">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="Phone" />
-        <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
-      </ColumnLengthDistributionProfileRequest>
-      <ColumnLengthDistributionProfileRequest ID="LengthDistReq8">
+        <Table Schema="dbo" Table="Products" />
+        <Column IsWildCard="true" />
+        <MaxNumberOfPatterns>10</MaxNumberOfPatterns>
+        <PercentageDataCoverageDesired>95</PercentageDataCoverageDesired>
+        <CaseSensitive>false</CaseSensitive>
+        <Delimiters> \t\r\n</Delimiters>
+        <Symbols>,.;:-"'`~=&amp;/\\@!?()&lt;&gt;[]{}|#*^%</Symbols>
+        <TagTableName />
+      </ColumnPatternProfileRequest>
+      <CandidateKeyProfileRequest ID="KeyReq5">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="Fax" />
-        <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
-      </ColumnLengthDistributionProfileRequest>
-      <ColumnLengthDistributionProfileRequest ID="LengthDistReq9">
+        <Table Schema="dbo" Table="Products" />
+        <KeyColumns>
+          <Column IsWildCard="true" />
+        </KeyColumns>
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <KeyStrengthThreshold>0.95</KeyStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </CandidateKeyProfileRequest>
+      <FunctionalDependencyProfileRequest ID="FDReq5">
         <DataSourceID>{C3A11C25-879B-44C4-906F-6243E3DBBC7A}</DataSourceID>
-        <Table Schema="dbo" Table="Customers" />
-        <Column IsWildCard="false" ColumnName="CustomerID" />
-        <IgnoreLeadingSpace>false</IgnoreLeadingSpace>
-        <IgnoreTrailingSpace>false</IgnoreTrailingSpace>
-      </ColumnLengthDistributionProfileRequest>
+        <Table Schema="dbo" Table="Products" />
+        <DeterminantColumns>
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+          <Column IsWildCard="true" />
+        </DeterminantColumns>
+        <DependentColumn IsWildCard="true" />
+        <ThresholdSetting>Specified</ThresholdSetting>
+        <FDStrengthThreshold>0.95</FDStrengthThreshold>
+        <VerifyOutputInFastMode>false</VerifyOutputInFastMode>
+        <MaxNumberOfViolations>100</MaxNumberOfViolations>
+      </FunctionalDependencyProfileRequest>
     </Requests>
   </DataProfileInput>
   <DataProfileOutput>
@@ -151,7 +439,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="141.6,41.6"
+          Size="142,42"
           Id="Package\Data profiling"
           TopLeft="331,239" />
       </GraphLayout>
