@@ -9,5 +9,6 @@
     [Phone]             NVARCHAR(24)    NULL,
     [Fax]               NVARCHAR(24)    NULL
 )
-    ON [PRIMARY];
+    ON [PRIMARY]
+    WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

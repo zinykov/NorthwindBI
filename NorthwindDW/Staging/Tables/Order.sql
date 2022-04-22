@@ -30,27 +30,33 @@ CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Staging_Order] ON [Staging].[Order]
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Order_Date_Key] ON [Staging].[Order] ( [OrderDateKey] )
+    WITH ( DATA_COMPRESSION = ROW )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Required_Date_Key] ON [Staging].[Order] ( [RequiredDateKey] )
    WHERE [OrderDateKey] >= 19970101
+   WITH ( DATA_COMPRESSION = ROW )
    ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Shipped_Date_Key] ON [Staging].[Order] ( [ShippedDateKey] )
     WHERE [OrderDateKey] >= 19970101
+    WITH ( DATA_COMPRESSION = ROW )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Cusotmer_Key] ON [Staging].[Order] ( [CustomerKey] )
+    WITH ( DATA_COMPRESSION = ROW )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Employee_Key] ON [Staging].[Order] ( [EmployeeKey] )
+    WITH ( DATA_COMPRESSION = ROW )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Staging_Order_Product_Key] ON [Staging].[Order] ( [ProductKey] )
+    WITH ( DATA_COMPRESSION = ROW )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO

@@ -13,18 +13,22 @@
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC )
 )
-    ON [PRIMARY];
+    ON [PRIMARY]
+    WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Alter_Key] ON [Dimension].[Employee] ( [EmployeeAlterKey] ASC )
     INCLUDE ( [StartDate], [EndDate], [Current] )
+    WITH ( DATA_COMPRESSION = PAGE )
     ON [PRIMARY];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_LastName] ON [Dimension].[Employee] ( [Name] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
     ON [PRIMARY];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Country_City] ON [Dimension].[Employee] ( [Country] ASC, [City] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
     ON [PRIMARY];
 GO

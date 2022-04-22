@@ -8,5 +8,6 @@
     [City]              NVARCHAR(15)    NULL,
     [Country]           NVARCHAR(15)    NULL
 )
-    ON [PRIMARY];
+    ON [PRIMARY]
+    WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
