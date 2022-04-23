@@ -1,4 +1,7 @@
 ﻿SELECT		*
+FROM		[sys].[partitions]
+
+SELECT		*
 FROM		[sys].[partition_schemes]
 
 SELECT		*

@@ -1,18 +1,18 @@
-﻿SELECT		  [Shema]		=	S.[name]
-			, [Table]		=	T.[name]
-			, P.[partition_number]
-			, P.[rows]
+﻿--SELECT		  [Shema]		=	S.[name]
+--			, [Table]		=	T.[name]
+--			, P.[partition_number]
+--			, P.[rows]
 
-FROM		[sys].[tables] AS T
-INNER JOIN	[sys].[schemas] AS S ON S.[schema_id] = T.[schema_id]
-INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
+--FROM		[sys].[tables] AS T
+--INNER JOIN	[sys].[schemas] AS S ON S.[schema_id] = T.[schema_id]
+--INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
 
-WHERE		T.[name] = 'Order'
-			AND P.index_id = 1
+--WHERE		T.[name] = 'Order'
+--			AND P.index_id = 1
 
-ORDER BY	  S.[name] ASC
-			, T.[name] ASC
-			, P.[partition_number] ASC
+--ORDER BY	  S.[name] ASC
+--			, T.[name] ASC
+--			, P.[partition_number] ASC
 ---------------------------------------------------------------------------
 	--DECLARE @Partition_number int
 
@@ -29,10 +29,13 @@ SELECT		  [Shema]		=	S.[name]
 			, [Table]		=	T.[name]
 			, P.[partition_number]
 			, P.[rows]
+			--, RV.[value]
+			, P.[data_compression_desc]
 
 FROM		[sys].[tables] AS T
 INNER JOIN	[sys].[schemas] AS S ON S.[schema_id] = T.[schema_id]
 INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
+--INNER JOIN	[sys].[partition_range_values] AS RV ON S.[schema_id] = RV.[schema_id]
 
 WHERE		T.[name] = 'Order'
 			AND P.index_id = 1

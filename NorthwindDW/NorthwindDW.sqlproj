@@ -111,11 +111,12 @@
     <Build Include="Integration\Store Procudure\ExtractOrdersFromLanding.sql" />
     <Build Include="Integration\Store Procudure\IncrementalOrdersLoad.sql" />
     <Build Include="Storage\PS_Order_Date_Index.sql" />
-    <Build Include="Storage\Filegroups\FastFactData.sql" />
-    <Build Include="Storage\Filegroups\FastFactIndex.sql" />
-    <Build Include="Storage\Filegroups\ArchiveFact.sql" />
-    <Build Include="Storage\Filegroups\DimentionData.sql" />
-    <Build Include="Storage\Filegroups\DimentionIndex.sql" />
+    <Build Include="Storage\Filegroups\Fast_Fact_Data.sql" />
+    <Build Include="Storage\Filegroups\Fast_Fact_Index.sql" />
+    <Build Include="Storage\Filegroups\Archive_Fact.sql" />
+    <Build Include="Storage\Filegroups\Dimention_Data.sql" />
+    <Build Include="Storage\Filegroups\Dimention_Index.sql" />
+    <Build Include="Storage\Filegroups\Default_FG.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Script1.sql" />
@@ -127,6 +128,9 @@
   <Import Condition="'$(NetCoreBuild)' == 'true'" Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <PackageReference Condition="'$(NetCoreBuild)' == 'true'" Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

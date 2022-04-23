@@ -10,16 +10,16 @@
 
     CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC )
 )
-    ON [DimentionData]
+    ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Alter_Key] ON [Dimension].[Product] ( [ProductAlterKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [DimentionIndex];
+    ON [Dimention_Index];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Category_Product] ON [Dimension].[Product] ( [Category] ASC, [Product] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [DimentionIndex];
+    ON [Dimention_Index];
 GO

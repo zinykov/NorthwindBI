@@ -1,14 +1,14 @@
 ﻿CREATE PARTITION SCHEME [PS_Order_Date_Index]
 	AS PARTITION [PF_Order_Date]
 	TO (
-		  [ArchiveFact]		--0
-		, [ArchiveFact]		--1
-		, [ArchiveFact]		--2
-		, [FastFactIndex]	--3
-		, [FastFactIndex]	--4
-		, [FastFactIndex]	--5
-		, [FastFactIndex]	--6
-		, [FastFactIndex]	--7
-		, [FastFactIndex]	--8
+		  [Archive_Fact]		--0
+		, [Archive_Fact]		--1
+		, [Archive_Fact]		--2
+		, [Fast_Fact_Index]		--3
+		, [Fast_Fact_Index]		--4
+		, [Fast_Fact_Index]		--5
+		, [Fast_Fact_Index]		--6
+		, [Fast_Fact_Index]		--7
+		, [Fast_Fact_Index]		--8
 	)
 GO
