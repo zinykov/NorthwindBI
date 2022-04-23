@@ -15,26 +15,26 @@ CREATE TABLE [Dimension].[Date]
 
     CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
 )
-    ON [PRIMARY]
+    ON [DimentionData]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [AlterDateKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PRIMARY];
+    ON [DimentionIndex];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [Month] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PRIMARY];
+    ON [DimentionIndex];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterDate] ASC, [YearQuarter] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PRIMARY];
+    ON [DimentionIndex];
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] ( [YearMonth] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PRIMARY];
+    ON [DimentionIndex];
 GO

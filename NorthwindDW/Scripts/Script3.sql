@@ -11,11 +11,11 @@ ALTER PARTITION FUNCTION [PF_Order_Date] ()
 GO
 
 ALTER PARTITION SCHEME [PS_Order_Date_Data]  
-NEXT USED [PRIMARY];
+NEXT USED [FastFactData];
 GO
 
 ALTER PARTITION SCHEME [PS_Order_Date_Index]  
-NEXT USED [PRIMARY];
+NEXT USED [FastFactIndex];
 GO
 
 -- Execute code to fill staging fact tables

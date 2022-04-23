@@ -26,6 +26,9 @@
 GO
 
 CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Fact_Order] ON [Fact].[Order]
+    WITH (
+        DATA_COMPRESSION = COLUMNSTORE ON PARTITION ()
+    )
     ON [PS_Order_Date_Data] ( [OrderDateKey] );
 GO
 
