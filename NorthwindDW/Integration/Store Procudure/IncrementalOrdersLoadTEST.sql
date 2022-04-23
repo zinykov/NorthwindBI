@@ -1,4 +1,8 @@
-﻿	ALTER PARTITION SCHEME [PS_Order_Date_Data]  
+﻿CREATE PROCEDURE [Integration].[IncrementalOrdersLoadTEST]
+	@NewPartitionParameter AS INT
+AS
+BEGIN
+	ALTER PARTITION SCHEME [PS_Order_Date_Data]  
 		NEXT USED [Fast_Fact_Data]
 
 	ALTER PARTITION SCHEME [PS_Order_Date_Index]  
@@ -43,8 +47,9 @@
 	SET @Partition_number = (
 		SELECT		TOP (1) partition_number -1
 		FROM		sys.partitions
-		WHERE		object_id = OBJECT_ID ( CONCAT ( [$(DatabaseName)], N'.Staging.Order' ) )			
+		WHERE		object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Staging.Order' ) )			
 		ORDER BY	partition_number DESC
 	)
 
 	ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
+END

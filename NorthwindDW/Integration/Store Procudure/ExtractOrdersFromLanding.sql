@@ -21,5 +21,7 @@ BEGIN
 				AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 	INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 				AND O.[OrderDate] BETWEEN P.[StartDate] AND ISNULL ( P.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+
+	WHERE		O.[OrderDate] < DATEFROMPARTS ( 1998, 05, 01 )
 END;
 GO

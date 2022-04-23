@@ -19,7 +19,8 @@
 	--SET @Partition_number = (
 	--	SELECT		TOP (1) partition_number
 	--	FROM		sys.partitions
-	--	WHERE		object_id = OBJECT_ID ( N'Зинуков Денис Витальевич.Fact.Order' )
+	--	WHERE		object_id = OBJECT_ID ( CONCAT ( /*[$(DatabaseName)]*/N'Зинуков Денис Витальевич', N'.Fact.Order' ) )
+	--				AND [rows] > 0				
 	--	ORDER BY	partition_number DESC
 	--)
 
@@ -38,6 +39,7 @@ INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
 --INNER JOIN	[sys].[partition_range_values] AS RV ON S.[schema_id] = RV.[schema_id]
 
 WHERE		T.[name] = 'Order'
+			--AND S.[name] = 'Fact'
 			AND P.index_id = 1
 
 ORDER BY	  S.[name] ASC

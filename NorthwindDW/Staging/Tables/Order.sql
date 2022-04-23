@@ -26,6 +26,10 @@
 GO
 
 CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Staging_Order] ON [Staging].[Order]
+    WITH (
+          DATA_COMPRESSION = COLUMNSTORE ON PARTITIONS ( 3,4,5,6,7,8,9 )
+        , DATA_COMPRESSION = COLUMNSTORE_ARCHIVE ON PARTITIONS ( 1,2 )
+    )
     ON [PS_Order_Date_Data] ( [OrderDateKey] );
 GO
 

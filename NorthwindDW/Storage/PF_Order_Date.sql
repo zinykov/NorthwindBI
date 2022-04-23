@@ -1,5 +1,5 @@
 ﻿CREATE PARTITION FUNCTION [PF_Order_Date] ( INT )
-	AS RANGE LEFT
+	AS RANGE RIGHT
 	FOR VALUES ( 
 		  19960101 --1
 		, 19970101 --2
@@ -8,6 +8,5 @@
 		, 19980301 --5
 		, 19980401 --6
 		, 19980501 --7 
-		, 19980506 --8
 	);
 GO
