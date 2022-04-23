@@ -12,3 +12,6 @@
 ALTER DATABASE [$(DatabaseName)]
     MODIFY FILEGROUP [Default_FG] DEFAULT;
 GO
+
+GRANT SELECT ON SCHEMA::[PowerBI] TO [dwh_user];  
+GO 

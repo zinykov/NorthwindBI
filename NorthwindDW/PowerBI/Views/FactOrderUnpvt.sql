@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Fact].[OrderUnpvtV] WITH SCHEMABINDING AS (
+﻿CREATE VIEW [PowerBI].[FactOrderUnpvt] AS (
 	SELECT		  [OrderKey]
 				, [DateType]					=	CASE [DateType]
 														WHEN 'OrderDateKey'		THEN 'OrderDate'

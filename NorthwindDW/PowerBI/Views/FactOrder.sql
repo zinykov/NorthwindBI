@@ -1,0 +1,15 @@
+﻿CREATE VIEW [PowerBI].[FactOrder] AS
+	SELECT		  [OrderKey]
+				, [ProductKey]
+				, [CustomerKey]
+				, [EmployeeKey]
+				, [OrderDateKey]
+				, [RequiredDateKey]
+				, [ShippedDateKey]
+				, [UnitPrice]
+				, [Quantity]
+				, [Discount]
+				, [SalesAmount]
+				, [SalesAmountWithDiscount]
+	
+	FROM		[Fact].[Order]

@@ -1,0 +1,2 @@
+﻿CREATE ROLE [dwh_user]
+	AUTHORIZATION [dbo];
