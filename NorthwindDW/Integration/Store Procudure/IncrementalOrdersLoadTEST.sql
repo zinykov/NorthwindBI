@@ -19,15 +19,6 @@ BEGIN
 -- Объявление переменных
 		DECLARE		@Partition_number AS INT
 
--- Переменной @@NewPartitionParameter присваивается значение DateKey
--- Значение определяется как последняя дата, за которую есть заказы + 2 дня
-		SET			@NewPartitionParameter = (
-			SELECT		[DateKey]
-			FROM		[Fact].[Order] AS O
-			INNER JOIN	[Dimension].[Date] AS D ON D.[DateKey] = O.[OrderDateKey]
-			WHERE		D.[AlterDateKey] = DATEADD ( DAY, 2, MAX ( D.[AlterDateKey] ) )
-		)
-
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
 			SELECT		TOP (1) partition_number -1
