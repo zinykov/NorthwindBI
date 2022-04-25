@@ -1,47 +1,50 @@
-﻿--SELECT		  [Shema]		=	S.[name]
---			, [Table]		=	T.[name]
---			, P.[partition_number]
---			, P.[rows]
+﻿--TRUNCATE TABLE [Staging].[Order]
+--ALTER PARTITION FUNCTION [PF_Order_Date] ()
+--	MERGE RANGE ( 19980502 )
 
---FROM		[sys].[tables] AS T
---INNER JOIN	[sys].[schemas] AS S ON S.[schema_id] = T.[schema_id]
---INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
+--SELECT		TOP ( 20 ) *
 
---WHERE		T.[name] = 'Order'
---			AND P.index_id = 1
+--FROM		[Fact].[Order]
 
---ORDER BY	  S.[name] ASC
---			, T.[name] ASC
---			, P.[partition_number] ASC
----------------------------------------------------------------------------
-	--DECLARE @Partition_number int
+--ORDER BY	NEWID()
 
-	--SET @Partition_number = (
-	--	SELECT		TOP (1) partition_number
-	--	FROM		sys.partitions
-	--	WHERE		object_id = OBJECT_ID ( CONCAT ( /*[$(DatabaseName)]*/N'Зинуков Денис Витальевич', N'.Fact.Order' ) )
-	--				AND [rows] > 0				
-	--	ORDER BY	partition_number DESC
-	--)
+--ORDER BY	[OrderDateKey] DESC
 
-	--ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
----------------------------------------------------------------------------------------------
-SELECT		  [Shema]		=	S.[name]
-			, [Table]		=	T.[name]
-			, P.[partition_number]
-			, P.[rows]
-			--, RV.[value]
-			, P.[data_compression_desc]
+--DELETE FROM [Staging].[Order]
+--WHERE	[OrderDateKey] < 19980501
 
-FROM		[sys].[tables] AS T
-INNER JOIN	[sys].[schemas] AS S ON S.[schema_id] = T.[schema_id]
-INNER JOIN	[sys].[partitions] AS P ON T.[object_id] = P.[object_id]
---INNER JOIN	[sys].[partition_range_values] AS RV ON S.[schema_id] = RV.[schema_id]
+INSERT INTO [Staging].[Order] (
+	  [OrderKey]
+	, [ProductKey]
+	, [CustomerKey]
+	, [EmployeeKey]
+	, [OrderDateKey]
+	, [RequiredDateKey]
+	, [ShippedDateKey]
+	, [UnitPrice]
+	, [Quantity]
+	, [Discount]
+	, [SalesAmount]
+	, [SalesAmountWithDiscount]
+) VALUES
+	  (10952, 160, 183, 19, 19980316, 19980427, 19980324, 25, 16, 45658, 400, 399.95)
+	, (10406, 190, 183, 25, 19970107, 19970218, 19970113, 15, 5, 18994, 76, 75.9)
+	, (10312, 197, 268, 20, 19960923, 19961021, 19961003, 36.8, 24, 0, 883.2, 883.2)
+	, (10866, 184, 187, 23, 19980203, 19980303, 19980212, 25.89, 40, 1031963, 1035.6, 1035.35)
+	, (10888, 222, 212, 19, 19980316, 19980316, 19980223, 44693, 18, 0, 225, 225)
+	, (10977, 205, 206, 26, 19980326, 19980423, 19980410, 53, 40, 0, 530, 530)
+	, (10968, 218, 202, 19, 19980323, 19980420, 19980401, 33.25, 4, 0, 133, 133)
+	, (10278, 227, 187, 26, 19960812, 19960909, 19960816, 12, 25, 0, 300, 300)
+	, (10623, 175, 207, 26, 19970807, 19970904, 19970812, 10, 25, 1, 250, 249.9)
+	, (10339, 216, 233, 20, 19961028, 19961125, 19961104, 39.4, 28, 0, 1103.2, 1103.2)
+	, (10968, 178, 202, 19, 19980323, 19980420, 19980401, 44685, 20, 0, 135, 135)
+	, (10538, 224, 193, 27, 19970515, 19970612, 19970516, 15, 7, 0, 105, 105)
+	, (10774, 185, 206, 22, 19971211, 19971225, 19971212, 44693, 2, 3.125, 25, 24.75)
+	, (10306, 207, 251, 19, 19960916, 19961014, 19960923, 44618, 10, 0, 262, 262)
+	, (10714, 156, 253, 23, 19971022, 19971119, 19971027, 19, 30, 27485, 570, 569.75)
+	, (10637, 210, 244, 24, 19970819, 19970916, 19970826, 38, 60, 44805, 500, 2279.95)
+	, (11029, 210, 196, 22, 19980416, 19980514, 19980427, 38, 20, 0, 760, 760)
+	, (10296, 223, 228, 24, 19960903, 19961001, 19960911, 44801, 15, 0, 432, 45454)
+	, (10842, 165, 262, 19, 19980120, 19980217, 19980129, 21, 15, 0, 315, 315)
+	, (10799, 213, 221, 27, 19971226, 19980206, 19980105, 55, 25, 0, 1375, 1375)
 
-WHERE		T.[name] = 'Order'
-			--AND S.[name] = 'Fact'
-			AND P.index_id = 1
-
-ORDER BY	  S.[name] ASC
-			, T.[name] ASC
-			, P.[partition_number] ASC
