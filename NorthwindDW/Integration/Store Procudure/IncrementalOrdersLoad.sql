@@ -84,6 +84,7 @@ BEGIN
 		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
 
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
+--		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
 		IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
 		MERGE
 			INTO [Fact].[Order] AS TRG

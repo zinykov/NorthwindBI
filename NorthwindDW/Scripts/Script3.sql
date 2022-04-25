@@ -50,7 +50,6 @@ BEGIN
 		BEGIN
 			ALTER PARTITION FUNCTION [PF_Order_Date] ()
 				SPLIT RANGE ( @NewPartitionParameter )
-			PRINT ( @NewPartitionParameter )
 		END
 
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
@@ -77,7 +76,7 @@ BEGIN
 		INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 					AND O.[OrderDate] BETWEEN P.[StartDate] AND ISNULL ( P.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 
-		WHERE		YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ) = @NewPartitionParameter - 1
+		WHERE		YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ) < @NewPartitionParameter
 
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
