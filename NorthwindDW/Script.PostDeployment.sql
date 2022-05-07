@@ -14,4 +14,7 @@ ALTER DATABASE [$(DatabaseName)]
 GO
 
 GRANT SELECT ON SCHEMA::[PowerBI] TO [dwh_user];  
-GO 
+GO
+
+ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\UserBI];
+GO

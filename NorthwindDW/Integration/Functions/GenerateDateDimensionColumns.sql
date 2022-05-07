@@ -33,6 +33,6 @@ AS BEGIN
             , [Month]               =   SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 )
             , [MonthNumber]         =   @MonthNumber
             , [DayOfWeekNumber]     =   @WeekDayNumber
-            , [DayOfWeek]           =   FORMAT ( @Date, 'dd', 'ru-ru' )
+            , [DayOfWeek]           =   FORMAT ( @Date, 'ddd' )
 	RETURN
 END;
