@@ -1,17 +1,17 @@
-﻿/*
-    Source for Date dimension columns is https://www.daxpatterns.com/standard-time-related-calculations/
-*/
-CREATE TABLE [Dimension].[Date]
+﻿CREATE TABLE [Dimension].[Date]
 (
-	[DateKey]           INT             NOT NULL, -- YYYYMMDD
-    [AlterDateKey]      DATE            NOT NULL, 
-    [Year]              DATE            NOT NULL, -- End/Start Of Year date
-    [YearQuarter]       NVARCHAR(10)    NOT NULL, -- QQ-YYYY
-    [YearQuarterDate]   DATE            NOT NULL, --End/Start of Quarter date
-    [Quarter]           NVARCHAR(5)     NOT NULL, -- QQ
-    [YearMonth]         DATE            NOT NULL, -- End/Start of Month Date
-    [Month]             DATE            NOT NULL, -- 1900, Month, 1
-    [DayOfWeek]         DATE            NOT NULL, --1990, 1, Day
+	[DateKey]               INT             NOT NULL,
+    [AlterDateKey]          DATE            NOT NULL,
+    [Year]                  INT             NOT NULL,
+    [YearQuarterNumber]     INT             NOT NULL,
+    [YearQuarter]           NVARCHAR(10)    NOT NULL,
+    [Quarter]               NVARCHAR(5)     NOT NULL,
+    [YearMonth]             NVARCHAR(10)    NOT NULL,
+    [YearMonthNumber]       INT             NOT NULL,
+    [Month]                 NVARCHAR(10)    NOT NULL,
+    [MonthNumber]           INT             NOT NULL,
+    [DayOfWeekNumber]       TINYINT         NOT NULL,
+    [DayOfWeek]             NVARCHAR(5)     NOT NULL
 
     CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
 )
@@ -24,17 +24,22 @@ CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Dat
     ON [Dimention_Index];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [Month] ASC )
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy] ON [Dimension].[Date] ( [Year] ASC, [YearQuarterNumber] ASC, [YearQuarter] ASC, [YearMonthNumber] ASC, [YearMonth] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterDate] ASC, [YearQuarter] ASC )
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Standart_Hierarchy2] ON [Dimension].[Date] ( [Year] ASC, [Quarter] ASC, [MonthNumber] ASC, [Month] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] ( [YearMonth] )
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Quarter_of_Year] ON [Dimension].[Date] ( [YearQuarterNumber] ASC, [YearQuarter] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
+    ON [Dimention_Index];
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Month_of_Year] ON [Dimension].[Date] (  [YearMonthNumber] ASC, [YearMonth] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO
