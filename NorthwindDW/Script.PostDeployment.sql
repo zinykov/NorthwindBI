@@ -16,5 +16,8 @@ GO
 GRANT SELECT ON SCHEMA::[PowerBI] TO [dwh_user];  
 GO
 
+GRANT SELECT ON SCHEMA::[SSRS] TO [dwh_user];
+GO
+
 ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\UserBI];
 GO
