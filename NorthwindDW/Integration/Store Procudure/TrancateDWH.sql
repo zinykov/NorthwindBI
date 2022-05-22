@@ -5,5 +5,6 @@ BEGIN
 	DELETE FROM [Dimension].[Customer]
 	DELETE FROM [Dimension].[Employee]
 	DELETE FROM [Dimension].[Product]
+	DELETE FROM [Dimension].[Date]
 END;
 GO

@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractOrdersFromLanding] AS
 BEGIN
 	SELECT		  [OrderKey]					=	O.[OrderID]
-				, [ProductKey]
-				, [CustomerKey]
-				, [EmployeeKey]
-				, [OrderDateKey]				=	YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] )
-				, [RequiredDateKey]				=	YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] )
-				, [ShippedDateKey]				=	YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] )
+				, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
+				, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
+				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
+				, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 39991231 )
+				, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 39991231 )
+				, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 39991231 )
 				, [UnitPrice]
 				, [Quantity]
 				, [Discount]					=	[UnitPrice] * [Discount]
