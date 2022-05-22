@@ -33,7 +33,7 @@ BEGIN
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
-			SELECT		TOP (1) partition_number -1
+			SELECT		TOP (1) partition_number
 			FROM		sys.partitions
 			WHERE		object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Staging.Order' ) )			
 			ORDER BY	partition_number DESC
@@ -60,9 +60,9 @@ BEGIN
 					, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
 					, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
 					, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
-					, [OrderDateKey]				=	YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] )
-					, [RequiredDateKey]				=	YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] )
-					, [ShippedDateKey]				=	YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] )
+					, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 39991231 )
+					, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 39991231 )
+					, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 39991231 )
 					, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
 					, [Quantity]					=	ISNULL ( [Quantity], 0 )
 					, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )

@@ -21,7 +21,7 @@ BEGIN
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
-			SELECT		TOP (1) partition_number -1
+			SELECT		TOP (1) partition_number
 			FROM		sys.partitions
 			WHERE		object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Staging.Order' ) )			
 			ORDER BY	partition_number DESC
@@ -45,17 +45,17 @@ BEGIN
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
 		INSERT INTO [Staging].[Order]
 		SELECT		  [OrderKey]					=	O.[OrderID]
-					, [ProductKey]
-					, [CustomerKey]
-					, [EmployeeKey]
-					, [OrderDateKey]				=	YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] )
-					, [RequiredDateKey]				=	YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] )
-					, [ShippedDateKey]				=	YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] )
-					, [UnitPrice]
-					, [Quantity]
-					, [Discount]					=	[UnitPrice] * [Discount]
-					, [SalesAmount]					=	[UnitPrice] * [Quantity]
-					, [SalesAmountWithDiscount]		=	[UnitPrice] * [Quantity] - [Discount]
+					, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
+					, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
+					, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
+					, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 39991231 )
+					, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 39991231 )
+					, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 39991231 )
+					, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
+					, [Quantity]					=	ISNULL ( [Quantity], 0 )
+					, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
+					, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
+					, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * [Quantity] - [Discount], 0 )
 
 		FROM		[Landing].[Orders] AS O
 		INNER JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
