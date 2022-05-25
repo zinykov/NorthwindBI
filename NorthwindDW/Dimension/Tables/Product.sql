@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Dimension].[Product]
 (
-	[ProductKey]            INT             IDENTITY (1, 1)     NOT NULL ,
+	[ProductKey]            INT             CONSTRAINT [SQ_Product_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[ProductKey] )     NOT NULL ,
     [ProductAlterKey]       INT                                 NOT NULL ,
     [Product]               NVARCHAR(50)                        NULL, 
     [Category]              NVARCHAR(50)                        NULL,

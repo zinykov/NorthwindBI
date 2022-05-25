@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Dimension].[Customer]
 (
-	[CustomerKey]           INT             IDENTITY (1, 1)     NOT NULL, 
+	[CustomerKey]           INT             CONSTRAINT [SQ_Customer_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[CustomerKey] )     NOT NULL, 
     [CustomerAlterKey]      NVARCHAR(5)                         NOT NULL, 
     [Customer]              NVARCHAR(50)                        NULL, 
     [ContactName]           NVARCHAR(50)                        NULL, 

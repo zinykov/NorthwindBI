@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Dimension].[Employee]
 (
-    [EmployeeKey]           INT           IDENTITY (1, 1)     NOT NULL,
+    [EmployeeKey]           INT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[EmployeeKey] )     NOT NULL,
     [EmployeeAlterKey]      INT                               NOT NULL,
     [Name]                  NVARCHAR(35)                      NOT NULL,
     [Title]                 NVARCHAR(30)                      NULL,

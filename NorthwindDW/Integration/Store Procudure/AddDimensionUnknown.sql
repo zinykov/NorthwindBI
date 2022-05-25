@@ -1,7 +1,5 @@
 ﻿CREATE PROC [Integration].[AddDimensionUnknown] AS
 BEGIN
-    SET IDENTITY_INSERT [Dimension].[Customer] ON
-
     INSERT INTO [Dimension].[Customer] (
           [CustomerKey]
         , [CustomerAlterKey]
@@ -30,9 +28,7 @@ BEGIN
         , NULL
     )
 
-    SET IDENTITY_INSERT [Dimension].[Customer] OFF
-
-	INSERT [Dimension].[Date] (
+    INSERT [Dimension].[Date] (
 			  [DateKey]
 		    , [AlterDateKey]
 		    , [Year]
@@ -58,8 +54,6 @@ BEGIN
 				, [DayOfWeekNumber]
 				, [DayOfWeek]
 	FROM		[Integration].[GenerateDateDimensionColumns] ( DATEFROMPARTS ( 3999, 12, 31 ) )
-   
-    SET IDENTITY_INSERT [Dimension].[Employee] ON
 
     INSERT INTO [Dimension].[Employee] (
           [EmployeeKey]
@@ -84,9 +78,6 @@ BEGIN
         , NULL
         , NULL
     )
-    
-    SET IDENTITY_INSERT [Dimension].[Employee] OFF
-    SET IDENTITY_INSERT [Dimension].[Product] ON
 
     INSERT INTO [Dimension].[Product] (
           [ProductKey]
@@ -105,6 +96,4 @@ BEGIN
         , NULL
         , NULL
     )
-
-    SET IDENTITY_INSERT [Dimension].[Product] OFF
 END
