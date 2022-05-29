@@ -7,8 +7,11 @@
     [StartDate]             DATE                                NULL,
     [EndDate]               DATE                                NULL,
     [Current]               BIT                                 NULL,
+    [LineageKey]            INT             DEFAULT 1           NOT NULL,
 
-    CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC )
+    CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC ),
+
+    CONSTRAINT [FK_Dimension_Product_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
 )
     ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE );
