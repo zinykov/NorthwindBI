@@ -12,7 +12,7 @@
     [Discount]                      MONEY           NULL,
     [SalesAmount]                   MONEY           NULL,
     [SalesAmountWithDiscount]       MONEY           NULL,
-    [LineageKey]            INT             DEFAULT 1           NOT NULL,
+    [LineageKey]                    INT             NULL,
 
     CONSTRAINT [PK_Staging_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC )
         ON [PS_Order_Date_Index] ( [OrderDateKey] ),

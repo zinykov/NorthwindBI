@@ -5,7 +5,7 @@
 	  [TableName]					SYSNAME		NOT NULL,
 	  [DataLoadCompleted]			DATETIME2	NOT NULL,
 	  [WasSuccessful]				BIT			NOT NULL,
-	  [SourceSystemCutoffTime]		DATETIME2	NOT NULL,
+	  [CutoffTime]					DATETIME2	NOT NULL,
 	
 	CONSTRAINT [PK_Integration_Lineage] PRIMARY KEY CLUSTERED ( [LineageKey] ASC )
 )

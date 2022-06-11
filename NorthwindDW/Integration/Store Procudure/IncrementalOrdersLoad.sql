@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [Integration].[IncrementalOrdersLoad] AS
+﻿CREATE PROCEDURE [Integration].[IncrementalOrdersLoad]
+	  @CutoffTime AS DATE
+	, @LineageKey AS INT
+AS
 /*
 	Процедура производит добавочное обновления таблицы фактов Fact.Order
 
@@ -16,20 +19,25 @@
 */
 BEGIN
 -- Объявление переменных
-		DECLARE		@NewPartitionDate AS DATE
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
+		DECLARE		@MaxOrderDate AS DATE
 
--- Переменной @@NewPartitionParameter присваивается значение DateKey
--- Значение определяется как последняя дата, за которую есть заказы + 2 дня
-		SET @NewPartitionDate = (
-			SELECT		DATEADD ( DAY, 2, MAX ( D.[AlterDateKey] ) )
-			FROM		[Fact].[Order] AS O
-			INNER JOIN	[Dimension].[Date] AS D ON D.[DateKey] = O.[OrderDateKey]
-		)
+-- Переменной @MaxOrderDate присваивается значение последней даты заполненой в 
+		IF ( SELECT MAX ( OrderDateKey ) FROM [Fact].[Order] ) IS NOT NULL 
+			BEGIN 
+				SET @MaxOrderDate = (
+					SELECT	MAX ( D.[AlterDateKey] )
+					FROM	[Dimension].[Date] AS D INNER JOIN [Fact].[Order] AS O ON D.[DateKey] = O.[OrderDateKey]
+				)
+			END
+		ELSE
+			BEGIN
+				SET @MaxOrderDate = DATEFROMPARTS( 1996, 1, 1 )
+			END
 
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-		SET @NewPartitionParameter = YEAR ( @NewPartitionDate ) * 10000 + MONTH ( @NewPartitionDate ) * 100 + DAY ( @NewPartitionDate )
+		SET @NewPartitionParameter = YEAR ( @CutoffTime ) * 10000 + MONTH ( @CutoffTime ) * 100 + DAY ( @CutoffTime )
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
@@ -68,6 +76,7 @@ BEGIN
 					, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
 					, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
 					, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * [Quantity] - [Discount], 0 )
+					, [LineageKey]					=	@LineageKey
 
 		FROM		[Landing].[Orders] AS O
 		INNER JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
@@ -78,7 +87,7 @@ BEGIN
 		INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 					AND O.[OrderDate] BETWEEN P.[StartDate] AND ISNULL ( P.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 
-		WHERE		YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ) = @NewPartitionParameter - 1
+		WHERE		[OrderDate] BETWEEN @MaxOrderDate AND @CutoffTime
 
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number

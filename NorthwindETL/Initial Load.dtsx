@@ -7,12 +7,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{270ACC63-D7A7-49EF-AEA2-AE26FE4813F2}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LastModifiedProductVersion="16.0.521.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="44"
-  DTS:VersionGUID="{F451FCC1-4057-49C4-AD1B-4F729E4111C9}">
+  DTS:VersionBuild="45"
+  DTS:VersionGUID="{A8CC0A49-7E1D-43FE-A6D4-D94A008D1C02}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -123,560 +123,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Load Facts">
       <DTS:Variables />
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package\Load Facts\Load Orders"
-          DTS:CreationName="Microsoft.Pipeline"
-          DTS:Description="Задача потока данных"
-          DTS:DTSID="{4B14B051-2EE6-4B91-BEDA-4250ED535841}"
-          DTS:ExecutableType="Microsoft.Pipeline"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Load Orders"
-          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <pipeline
-              version="1">
-              <components>
-                <component
-                  refId="Package\Load Facts\Load Orders\Destination DWH"
-                  componentClassID="Microsoft.OLEDBDestination"
-                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-                  description="Назначение &quot;OLE DB&quot;"
-                  name="Destination DWH"
-                  usesDispositions="true"
-                  version="4">
-                  <properties>
-                    <property
-                      dataType="System.Int32"
-                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
-                      name="CommandTimeout">0</property>
-                    <property
-                      dataType="System.String"
-                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowset">[Fact].[Order]</property>
-                    <property
-                      dataType="System.String"
-                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowsetVariable"></property>
-                    <property
-                      dataType="System.String"
-                      description="Команда SQL для выполнения."
-                      name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                    <property
-                      dataType="System.Int32"
-                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
-                      name="DefaultCodePage">1251</property>
-                    <property
-                      dataType="System.Boolean"
-                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
-                      name="AlwaysUseDefaultCodePage">false</property>
-                    <property
-                      dataType="System.Int32"
-                      description="Указывает используемый режим доступа к базе данных."
-                      name="AccessMode"
-                      typeConverter="AccessMode">3</property>
-                    <property
-                      dataType="System.Boolean"
-                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
-                      name="FastLoadKeepIdentity">false</property>
-                    <property
-                      dataType="System.Boolean"
-                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
-                      name="FastLoadKeepNulls">false</property>
-                    <property
-                      dataType="System.String"
-                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
-                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                    <property
-                      dataType="System.Int32"
-                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
-                      name="FastLoadMaxInsertCommitSize">2147483647</property>
-                  </properties>
-                  <connections>
-                    <connection
-                      refId="Package\Load Facts\Load Orders\Destination DWH.Connections[OleDbConnection]"
-                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
-                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
-                      name="OleDbConnection" />
-                  </connections>
-                  <inputs>
-                    <input
-                      refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                      errorOrTruncationOperation="Вставить"
-                      errorRowDisposition="FailComponent"
-                      hasSideEffects="true"
-                      name="Вход назначения &quot;OLE DB&quot;">
-                      <inputColumns>
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderDateKey]"
-                          cachedDataType="i4"
-                          cachedName="OrderDateKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDateKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[RequiredDateKey]"
-                          cachedDataType="i4"
-                          cachedName="RequiredDateKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDateKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShippedDateKey]"
-                          cachedDataType="i4"
-                          cachedName="ShippedDateKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDateKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[UnitPrice]"
-                          cachedDataType="cy"
-                          cachedName="UnitPrice"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Quantity]"
-                          cachedDataType="i2"
-                          cachedName="Quantity"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Discount]"
-                          cachedDataType="r4"
-                          cachedName="Discount"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmount]"
-                          cachedDataType="cy"
-                          cachedName="SalesAmount"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmount]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
-                          cachedDataType="r4"
-                          cachedName="SalesAmountWithDiscount"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderKey]"
-                          cachedDataType="i4"
-                          cachedName="OrderKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductKey]"
-                          cachedDataType="i4"
-                          cachedName="ProductKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerKey]"
-                          cachedDataType="i4"
-                          cachedName="CustomerKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerKey]" />
-                        <inputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeKey]"
-                          cachedDataType="i4"
-                          cachedName="EmployeeKey"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeKey]" />
-                      </inputColumns>
-                      <externalMetadataColumns
-                        isUsed="True">
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
-                          dataType="i4"
-                          name="OrderKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                          dataType="i4"
-                          name="ProductKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                          dataType="i4"
-                          name="CustomerKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                          dataType="i4"
-                          name="EmployeeKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
-                          dataType="i4"
-                          name="OrderDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
-                          dataType="i4"
-                          name="RequiredDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
-                          dataType="i4"
-                          name="ShippedDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          dataType="cy"
-                          name="UnitPrice" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          dataType="i4"
-                          name="Quantity" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          dataType="cy"
-                          name="Discount" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
-                          dataType="cy"
-                          name="SalesAmount" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
-                          dataType="cy"
-                          name="SalesAmountWithDiscount" />
-                      </externalMetadataColumns>
-                    </input>
-                  </inputs>
-                  <outputs>
-                    <output
-                      refId="Package\Load Facts\Load Orders\Destination DWH.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
-                      exclusionGroup="1"
-                      isErrorOut="true"
-                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;]">
-                      <outputColumns>
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Destination DWH.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
-                          name="ErrorCode"
-                          specialFlags="1" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Destination DWH.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Destination DWH.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                          name="ErrorColumn"
-                          specialFlags="2" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-                <component
-                  refId="Package\Load Facts\Load Orders\Source Landing"
-                  componentClassID="Microsoft.OLEDBSource"
-                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
-                  description="Источник &quot;OLE DB&quot;"
-                  name="Source Landing"
-                  usesDispositions="true"
-                  version="7">
-                  <properties>
-                    <property
-                      dataType="System.Int32"
-                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
-                      name="CommandTimeout">0</property>
-                    <property
-                      dataType="System.String"
-                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowset"></property>
-                    <property
-                      dataType="System.String"
-                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowsetVariable"></property>
-                    <property
-                      dataType="System.String"
-                      description="Команда SQL для выполнения."
-                      name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXECUTE [Integration].[ExtractOrdersFromLanding];</property>
-                    <property
-                      dataType="System.String"
-                      description="Переменная, содержащая команду SQL для выполнения."
-                      name="SqlCommandVariable"></property>
-                    <property
-                      dataType="System.Int32"
-                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
-                      name="DefaultCodePage">1251</property>
-                    <property
-                      dataType="System.Boolean"
-                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
-                      name="AlwaysUseDefaultCodePage">false</property>
-                    <property
-                      dataType="System.Int32"
-                      description="Указывает используемый режим доступа к базе данных."
-                      name="AccessMode"
-                      typeConverter="AccessMode">2</property>
-                    <property
-                      dataType="System.String"
-                      description="Сопоставления между параметрами в команде SQL и переменными."
-                      name="ParameterMapping"></property>
-                  </properties>
-                  <connections>
-                    <connection
-                      refId="Package\Load Facts\Load Orders\Source Landing.Connections[OleDbConnection]"
-                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
-                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
-                      name="OleDbConnection" />
-                  </connections>
-                  <outputs>
-                    <output
-                      refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;]"
-                      name="Выход источника &quot;OLE DB&quot;">
-                      <outputColumns>
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDateKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDateKey]"
-                          name="OrderDateKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDateKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDateKey]"
-                          name="RequiredDateKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDateKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDateKey]"
-                          name="ShippedDateKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
-                          dataType="cy"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
-                          name="UnitPrice"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
-                          dataType="i2"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
-                          name="Quantity"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
-                          dataType="r4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
-                          name="Discount"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmount]"
-                          dataType="cy"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmount]"
-                          name="SalesAmount"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
-                          dataType="r4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
-                          name="SalesAmountWithDiscount"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderKey]"
-                          name="OrderKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductKey]"
-                          name="ProductKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerKey]"
-                          name="CustomerKey"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeKey]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeKey]"
-                          name="EmployeeKey"
-                          truncationRowDisposition="FailComponent" />
-                      </outputColumns>
-                      <externalMetadataColumns
-                        isUsed="True">
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
-                          dataType="i4"
-                          name="OrderDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
-                          dataType="i4"
-                          name="RequiredDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
-                          dataType="i4"
-                          name="ShippedDateKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          dataType="cy"
-                          name="UnitPrice" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          dataType="i2"
-                          name="Quantity" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          dataType="r4"
-                          name="Discount" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
-                          dataType="cy"
-                          name="SalesAmount" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
-                          dataType="r4"
-                          name="SalesAmountWithDiscount" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
-                          dataType="i4"
-                          name="OrderKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                          dataType="i4"
-                          name="ProductKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                          dataType="i4"
-                          name="CustomerKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                          dataType="i4"
-                          name="EmployeeKey" />
-                      </externalMetadataColumns>
-                    </output>
-                    <output
-                      refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
-                      isErrorOut="true"
-                      name="Вывод ошибок источника &quot;OLE DB&quot;">
-                      <outputColumns>
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderKey]"
-                          name="OrderKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductKey]"
-                          name="ProductKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerKey]"
-                          name="CustomerKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeKey]"
-                          name="EmployeeKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDateKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDateKey]"
-                          name="OrderDateKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDateKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDateKey]"
-                          name="RequiredDateKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDateKey]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDateKey]"
-                          name="ShippedDateKey" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
-                          dataType="cy"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
-                          name="UnitPrice" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
-                          dataType="i2"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
-                          name="Quantity" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
-                          dataType="r4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
-                          name="Discount" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SalesAmount]"
-                          dataType="cy"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SalesAmount]"
-                          name="SalesAmount" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
-                          dataType="r4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
-                          name="SalesAmountWithDiscount" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
-                          name="ErrorCode"
-                          specialFlags="1" />
-                        <outputColumn
-                          refId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                          dataType="i4"
-                          lineageId="Package\Load Facts\Load Orders\Source Landing.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                          name="ErrorColumn"
-                          specialFlags="2" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-              </components>
-              <paths>
-                <path
-                  refId="Package\Load Facts\Load Orders.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\Load Facts\Load Orders\Destination DWH.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                  name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\Load Facts\Load Orders\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;]" />
-              </paths>
-            </pipeline>
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
+      <DTS:Executables />
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Load Landing Zone"
@@ -781,17 +228,21 @@
       DTS:To="Package\Load Date Dimension" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="259,42"
+          Id="Package\Add unknown members to dimensions"
+          TopLeft="275,167" />
         <NodeLayout
           Size="179,42"
           Id="Package\Load Date Dimension"
@@ -815,10 +266,6 @@
           Size="572,162"
           Id="Package\Load Dimensions"
           TopLeft="116.857143672145,307.470589490085" />
-        <NodeLayout
-          Size="136,42"
-          Id="Package\Load Facts\Load Orders"
-          TopLeft="204,16" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
@@ -838,6 +285,28 @@
           Size="188,42"
           Id="Package\Truncate Landing Zone"
           TopLeft="311.857143672145,675" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="404.39285879719,126.411764641534">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.5882353584659"
+              Start="0,0"
+              End="0,33.0882353584659">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.0882353584659" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
           TopLeft="406.178571836073,279">
@@ -926,32 +395,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="259,42"
-          Id="Package\Add unknown members to dimensions"
-          TopLeft="275,167" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="404.39285879719,126.411764641534">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,40.5882353584659"
-              Start="0,0"
-              End="0,33.0882353584659">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,33.0882353584659" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 5]"
           TopLeft="407,209">
@@ -977,66 +420,5 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
-  <TaskHost
-    design-time-name="Package\Load Facts\Load Orders">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="159,42"
-          Id="Package\Load Facts\Load Orders\Destination DWH"
-          TopLeft="120,160" />
-        <NodeLayout
-          Size="151,42"
-          Id="Package\Load Facts\Load Orders\Source Landing"
-          TopLeft="126,42" />
-        <EdgeLayout
-          Id="Package\Load Facts\Load Orders.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="200.5,84">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,76"
-              Start="0,0"
-              End="0,68.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,68.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Facts\Load Orders\Destination DWH">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Facts\Load Orders\Source Landing">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

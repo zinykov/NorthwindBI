@@ -14,7 +14,7 @@ BEGIN
         , [TableName]
         , [DataLoadCompleted]
         , [WasSuccessful]
-        , [SourceSystemCutoffTime]
+        , [CutoffTime]
     )
     OUTPUT
         inserted.[LineageKey] as LineageKey

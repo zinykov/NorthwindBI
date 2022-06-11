@@ -10,7 +10,7 @@
     [StartDate]             DATE                              NULL,
     [EndDate]               DATE                              NULL,
     [Current]               BIT                               NULL,
-    [LineageKey]            INT             DEFAULT 1         NOT NULL,
+    [LineageKey]            INT                               NULL,
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC ),
 

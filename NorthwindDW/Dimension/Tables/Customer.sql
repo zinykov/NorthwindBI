@@ -12,7 +12,7 @@
     [StartDate]             DATE                                NULL,
     [EndDate]               DATE                                NULL,
     [Current]               BIT                                 NULL,
-    [LineageKey]            INT             DEFAULT 1           NOT NULL,
+    [LineageKey]            INT                                 NULL,
 
     CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC ),
 
