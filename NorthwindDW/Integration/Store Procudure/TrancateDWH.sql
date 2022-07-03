@@ -6,6 +6,7 @@ BEGIN
 	DELETE FROM [Dimension].[Employee]
 	DELETE FROM [Dimension].[Product]
 	DELETE FROM [Dimension].[Date]
+	DELETE FROM [Integration].[Lineage]
 
 	ALTER SEQUENCE [Sequences].[CustomerKey] RESTART WITH 1
 	ALTER SEQUENCE [Sequences].[EmployeeKey] RESTART WITH 1

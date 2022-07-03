@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [Integration].[IncrementalOrdersLoad]
-	  @CutoffTime AS DATE
+﻿CREATE PROCEDURE [Integration].[LoadOrders]
+	  @StartLoad AS DATE
+	, @EndLoad AS DATE
 	, @LineageKey AS INT
 AS
 /*
@@ -21,23 +22,9 @@ BEGIN
 -- Объявление переменных
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
-		DECLARE		@MaxOrderDate AS DATE
-
--- Переменной @MaxOrderDate присваивается значение последней даты заполненой в 
-		IF ( SELECT MAX ( OrderDateKey ) FROM [Fact].[Order] ) IS NOT NULL 
-			BEGIN 
-				SET @MaxOrderDate = (
-					SELECT	MAX ( D.[AlterDateKey] )
-					FROM	[Dimension].[Date] AS D INNER JOIN [Fact].[Order] AS O ON D.[DateKey] = O.[OrderDateKey]
-				)
-			END
-		ELSE
-			BEGIN
-				SET @MaxOrderDate = DATEFROMPARTS( 1996, 1, 1 )
-			END
 
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-		SET @NewPartitionParameter = YEAR ( @CutoffTime ) * 10000 + MONTH ( @CutoffTime ) * 100 + DAY ( @CutoffTime )
+		SET @NewPartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
@@ -87,7 +74,7 @@ BEGIN
 		INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 					AND O.[OrderDate] BETWEEN P.[StartDate] AND ISNULL ( P.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 
-		WHERE		[OrderDate] BETWEEN @MaxOrderDate AND @CutoffTime
+		WHERE		[OrderDate] BETWEEN @StartLoad AND @EndLoad
 
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number

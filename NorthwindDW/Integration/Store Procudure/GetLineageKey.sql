@@ -1,6 +1,6 @@
-﻿CREATE PROCEDURE Integration.GetLineageKey
-    @TableName      SYSNAME,
-    @NewCutoffTime  DATETIME2(7)
+﻿CREATE PROCEDURE [Integration].[GetLineageKey]
+    @TableName AS SYSNAME,
+    @CutoffTime AS DATETIME2(7)
     WITH EXECUTE AS OWNER
 AS
 BEGIN
@@ -24,6 +24,6 @@ BEGIN
             , @TableName
             , NULL
             , 0
-            , @NewCutoffTime
+            , @CutoffTime
         );
 END;

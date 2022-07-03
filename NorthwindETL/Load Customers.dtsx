@@ -11,12 +11,60 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{8CAEF870-CB65-4702-BE70-37C1AE6EC381}">
+  DTS:VersionBuild="62"
+  DTS:VersionGUID="{6CD95407-45BB-4356-89F7-F6BD743A6762}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CFA67F37-81C4-47A9-BC1E-833DB849B963}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="DATEADD( &quot;DAY&quot;, 1, @[System::StartTime] )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CDS">
+      <DTS:VariableValue
+        DTS:DataType="7">7/4/2022 8:05:42 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{40BDD04E-E2D8-4FF8-9052-3FD0294AB642}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get LineAgeKey"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{1EBE24FE-9484-4311-B35A-05ABC97A8442}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get LineAgeKey"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageKey]&#xA;      @TableName = 'Customer'&#xA;    , @CutoffTime = ?"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="LineageKey"
+            SQLTask:DtsVariableName="User::LineageKey" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Project::LoadEnd"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="7"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Load Customers"
       DTS:CreationName="Microsoft.Pipeline"
@@ -32,15 +80,15 @@
           version="1">
           <components>
             <component
-              refId="Package\Load Customers\Add Column EndDate"
+              refId="Package\Load Customers\Add LineageKey"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
               description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
-              name="Add Column EndDate"
+              name="Add LineageKey"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Customers\Add Column EndDate.Inputs[Вход производного столбца]"
+                  refId="Package\Load Customers\Add LineageKey.Inputs[Вход производного столбца]"
                   description="Ввод преобразования &quot;Производный столбец&quot;"
                   name="Вход производного столбца">
                   <externalMetadataColumns />
@@ -48,55 +96,292 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Add Column EndDate.Outputs[Выход производного столбца]"
+                  refId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца]"
                   description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
                   exclusionGroup="1"
                   name="Выход производного столбца"
-                  synchronousInputId="Package\Load Customers\Add Column EndDate.Inputs[Вход производного столбца]">
+                  synchronousInputId="Package\Load Customers\Add LineageKey.Inputs[Вход производного столбца]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Add Column EndDate.Outputs[Выход производного столбца].Columns[EndDate]"
-                      dataType="dbDate"
+                      refId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]"
+                      dataType="i4"
                       errorOrTruncationOperation="Вычисление"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Customers\Add Column EndDate.Outputs[Выход производного столбца].Columns[EndDate]"
-                      name="EndDate"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]"
+                      name="LineageKey"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Выражение производного столбца"
-                          name="Expression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                          name="Expression">@[User::LineageKey]</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Понятное выражение производного столбца"
                           expressionType="Notify"
-                          name="FriendlyExpression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                          name="FriendlyExpression">@[User::LineageKey]</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Customers\Add Column EndDate.Outputs[Вывод ошибок производного столбца]"
+                  refId="Package\Load Customers\Add LineageKey.Outputs[Вывод ошибок производного столбца]"
                   description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок производного столбца"
-                  synchronousInputId="Package\Load Customers\Add Column EndDate.Inputs[Вход производного столбца]">
+                  synchronousInputId="Package\Load Customers\Add LineageKey.Inputs[Вход производного столбца]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Add Column EndDate.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      refId="Package\Load Customers\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Add Column EndDate.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Customers\Add Column EndDate.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      refId="Package\Load Customers\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Add Column EndDate.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Customers\Insert Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+              description="Назначение &quot;OLE DB&quot;"
+              name="Insert Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Dimension].[Customer]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Customers\Insert Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  errorOrTruncationOperation="Вставить"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;OLE DB&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CustomerAlterKey"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[CustomerAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Customer"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Customer]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactName"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactName]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactTitle"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactTitle]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Phone"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Phone]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Fax"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Fax]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[StartDate]"
+                      cachedDataType="dbDate"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[LineageKey]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Current]"
+                      cachedDataType="i4"
+                      cachedName="Current"
+                      externalMetadataColumnId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Current]"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[Current]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
+                      dataType="i4"
+                      name="CustomerKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      dataType="wstr"
+                      length="50"
+                      name="Customer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactTitle" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="25"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="30"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      dataType="wstr"
+                      length="30"
+                      name="Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
+                      dataType="dbDate"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EndDate]"
+                      dataType="dbDate"
+                      name="EndDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Current]"
+                      dataType="bool"
+                      name="Current" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                      dataType="i4"
+                      name="LineageKey" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Customers\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                  synchronousInputId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customers\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Customers\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -361,19 +646,19 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Union All 1"
+              refId="Package\Load Customers\Union All"
               componentClassID="Microsoft.UnionAll"
               contactInfo="Union All;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
               description="Объединяет строки из нескольких потоков данных без сортировки. Пример: добавление строк назад в поток данных после исправления ошибок. Если сортировка имеет значение, рекомендуется использовать преобразование &quot;Слияние&quot;."
-              name="Union All 1"
+              name="Union All"
               version="1">
               <inputs>
                 <input
-                  refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1]"
+                  refId="Package\Load Customers\Union All.Inputs[Union All Вход 1]"
                   name="Union All Вход 1">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[City]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[City]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="City"
@@ -383,11 +668,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[City]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[City]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[Country]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[Country]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="Country"
@@ -397,11 +682,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Country]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Country]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
@@ -411,11 +696,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[CustomerAlterKey]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[CustomerAlterKey]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[Customer]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[Customer]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Customer"
@@ -425,11 +710,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Customer]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Customer]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[ContactName]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[ContactName]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactName"
@@ -439,11 +724,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactName]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactName]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[ContactTitle]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[ContactTitle]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactTitle"
@@ -453,11 +738,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactTitle]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactTitle]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[Phone]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[Phone]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Phone"
@@ -467,11 +752,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Phone]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Phone]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1].Columns[Fax]"
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[Fax]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Fax"
@@ -481,19 +766,32 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Fax]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Fax]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Customers\Union All.Inputs[Union All Вход 1].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[LineageKey]}</property>
                       </properties>
                     </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All]"
+                  refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All]"
                   hasSideEffects="true"
                   name="Входные данные 1 Union All">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[City]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[City]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="City"
@@ -503,11 +801,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[City]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[City]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[Country]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[Country]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="Country"
@@ -517,11 +815,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Country]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Country]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
@@ -531,11 +829,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[CustomerAlterKey]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[CustomerAlterKey]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[Customer]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[Customer]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Customer"
@@ -545,11 +843,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Customer]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Customer]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[ContactName]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[ContactName]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactName"
@@ -559,11 +857,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactName]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactName]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[ContactTitle]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[ContactTitle]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactTitle"
@@ -573,11 +871,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactTitle]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactTitle]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[Phone]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[Phone]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Phone"
@@ -587,11 +885,11 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Phone]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Phone]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All].Columns[Fax]"
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[Fax]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Fax"
@@ -601,14 +899,27 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="ID журнала преобразований выходного столбца"
-                          name="OutputColumnLineageID">#{Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Fax]}</property>
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Fax]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="ID журнала преобразований выходного столбца"
+                          name="OutputColumnLineageID">#{Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[LineageKey]}</property>
                       </properties>
                     </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\Load Customers\Union All 1.Inputs[Входные данные 2 Union All]"
+                  refId="Package\Load Customers\Union All.Inputs[Входные данные 2 Union All]"
                   dangling="true"
                   hasSideEffects="true"
                   name="Входные данные 2 Union All">
@@ -617,289 +928,73 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1]"
+                  refId="Package\Load Customers\Union All.Outputs[Union All Выход 1]"
                   name="Union All Выход 1">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[City]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[City]"
                       dataType="wstr"
                       length="15"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[City]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[City]"
                       name="City" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Country]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Country]"
                       dataType="wstr"
                       length="15"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Country]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Country]"
                       name="Country" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[CustomerAlterKey]"
                       dataType="wstr"
                       length="5"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[CustomerAlterKey]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[CustomerAlterKey]"
                       name="CustomerAlterKey" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Customer]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Customer]"
                       dataType="wstr"
                       length="40"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Customer]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Customer]"
                       name="Customer" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactName]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactName]"
                       dataType="wstr"
                       length="30"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactName]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactName]"
                       name="ContactName" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactTitle]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactTitle]"
                       dataType="wstr"
                       length="30"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactTitle]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[ContactTitle]"
                       name="ContactTitle" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Phone]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Phone]"
                       dataType="wstr"
                       length="24"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Phone]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Phone]"
                       name="Phone" />
                     <outputColumn
-                      refId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Fax]"
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Fax]"
                       dataType="wstr"
                       length="24"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Fax]"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[Fax]"
                       name="Fax" />
+                    <outputColumn
+                      refId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[LineageKey]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Union All.Outputs[Union All Выход 1].Columns[LineageKey]"
+                      name="LineageKey" />
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Вставить назначение 1"
-              componentClassID="Microsoft.OLEDBDestination"
-              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-              description="Назначение &quot;OLE DB&quot;"
-              name="Вставить назначение 1"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                  name="OpenRowset">[Dimension].[Customer]</property>
-                <property
-                  dataType="System.String"
-                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="Команда SQL для выполнения."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
-                  name="DefaultCodePage">1251</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает используемый режим доступа к базе данных."
-                  name="AccessMode"
-                  typeConverter="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
-                  name="FastLoadKeepIdentity">true</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load Customers\Вставить назначение 1.Connections[OleDbConnection]"
-                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
-                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                  errorOrTruncationOperation="Вставить"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="Вход назначения &quot;OLE DB&quot;">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
-                      cachedDataType="wstr"
-                      cachedLength="5"
-                      cachedName="CustomerAlterKey"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[CustomerAlterKey]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
-                      cachedDataType="wstr"
-                      cachedLength="40"
-                      cachedName="Customer"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Customer]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
-                      cachedDataType="wstr"
-                      cachedLength="30"
-                      cachedName="ContactName"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactName]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
-                      cachedDataType="wstr"
-                      cachedLength="30"
-                      cachedName="ContactTitle"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[ContactTitle]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
-                      cachedDataType="wstr"
-                      cachedLength="15"
-                      cachedName="Country"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Country]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
-                      cachedDataType="wstr"
-                      cachedLength="15"
-                      cachedName="City"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[City]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
-                      cachedDataType="wstr"
-                      cachedLength="24"
-                      cachedName="Phone"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Phone]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
-                      cachedDataType="wstr"
-                      cachedLength="24"
-                      cachedName="Fax"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      lineageId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1].Columns[Fax]" />
-                    <inputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[StartDate]"
-                      cachedDataType="dbDate"
-                      cachedName="StartDate"
-                      externalMetadataColumnId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
-                      lineageId="Package\Load Customers\Производный столбец 3.Outputs[Выход производного столбца].Columns[StartDate]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                      dataType="i4"
-                      name="CustomerKey" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      dataType="wstr"
-                      length="5"
-                      name="CustomerAlterKey" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      dataType="wstr"
-                      length="50"
-                      name="Customer" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      dataType="wstr"
-                      length="50"
-                      name="ContactName" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      dataType="wstr"
-                      length="50"
-                      name="ContactTitle" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      dataType="wstr"
-                      length="25"
-                      name="Country" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                      dataType="wstr"
-                      length="25"
-                      name="City" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      dataType="wstr"
-                      length="30"
-                      name="Phone" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      dataType="wstr"
-                      length="30"
-                      name="Fax" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[StartDate]"
-                      dataType="dbDate"
-                      name="StartDate" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EndDate]"
-                      dataType="dbDate"
-                      name="EndDate" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Current]"
-                      dataType="bool"
-                      name="Current" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Load Customers\Вставить назначение 1.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                  synchronousInputId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load Customers\Вставить назначение 1.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load Customers\Вставить назначение 1.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load Customers\Вставить назначение 1.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Load Customers\Команда OLE DB 3"
+              refId="Package\Load Customers\Команда OLE DB"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
               description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
-              name="Команда OLE DB 3"
+              name="Команда OLE DB"
               usesDispositions="true"
               version="2">
               <properties>
@@ -920,7 +1015,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Customers\Команда OLE DB 3.Connections[OleDbConnection]"
+                  refId="Package\Load Customers\Команда OLE DB.Connections[OleDbConnection]"
                   connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                   connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -928,30 +1023,30 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB]"
                   errorOrTruncationOperation="Выполнение команды"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="Вход команды OLE DB">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].Columns[EndDate]"
+                      refId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[EndDate]"
                       cachedDataType="dbDate"
                       cachedName="EndDate"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
-                      lineageId="Package\Load Customers\Add Column EndDate.Outputs[Выход производного столбца].Columns[EndDate]" />
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      lineageId="Package\Load Customers\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      refId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       dataType="dbDate"
                       name="Param_0">
                       <properties>
@@ -962,7 +1057,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      refId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       dataType="wstr"
                       length="5"
                       name="Param_1">
@@ -978,29 +1073,29 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 3.Outputs[Выход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB.Outputs[Выход команды OLE DB]"
                   exclusionGroup="1"
                   name="Выход команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 3.Outputs[Вывод ошибок команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      refId="Package\Load Customers\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 3.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      lineageId="Package\Load Customers\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 3.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      refId="Package\Load Customers\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 3.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      lineageId="Package\Load Customers\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1009,11 +1104,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Команда OLE DB 4"
+              refId="Package\Load Customers\Команда OLE DB 1"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
               description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
-              name="Команда OLE DB 4"
+              name="Команда OLE DB 1"
               usesDispositions="true"
               version="2">
               <properties>
@@ -1026,7 +1121,7 @@
                   description="Команда SQL для выполнения."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Customer] SET [City] = ?,[ContactName] = ?,[ContactTitle] = ?,[Country] = ?,[Customer] = ?,[Fax] = ?,[Phone] = ?,[Current] = '0' WHERE [CustomerAlterKey] = ? AND [Current] = '1'</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Customer] SET [City] = ?,[ContactName] = ?,[ContactTitle] = ?,[Country] = ?,[Customer] = ?,[Fax] = ?,[LineageKey] = ?,[Phone] = ?,[Current] = '0' WHERE [CustomerAlterKey] = ? AND [Current] = '1'</property>
                 <property
                   dataType="System.Int32"
                   description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1034,7 +1129,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Customers\Команда OLE DB 4.Connections[OleDbConnection]"
+                  refId="Package\Load Customers\Команда OLE DB 1.Connections[OleDbConnection]"
                   connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                   connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1042,73 +1137,79 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB]"
                   errorOrTruncationOperation="Выполнение команды"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="Вход команды OLE DB">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[City]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[City]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="City"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[ContactName]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[ContactName]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactName"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactTitle"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[Country]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Country]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="Country"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[Customer]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Customer]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Customer"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_7]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_8]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[Fax]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Fax]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Fax"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].Columns[Phone]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                    <inputColumn
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].Columns[Phone]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Phone"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_7]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       dataType="wstr"
                       length="25"
                       name="Param_0">
@@ -1120,7 +1221,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       dataType="wstr"
                       length="50"
                       name="Param_1">
@@ -1132,7 +1233,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
                       dataType="wstr"
                       length="50"
                       name="Param_2">
@@ -1144,7 +1245,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       dataType="wstr"
                       length="25"
                       name="Param_3">
@@ -1156,7 +1257,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
                       dataType="wstr"
                       length="50"
                       name="Param_4">
@@ -1168,7 +1269,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
                       dataType="wstr"
                       length="30"
                       name="Param_5">
@@ -1180,21 +1281,20 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
-                      dataType="wstr"
-                      length="30"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
+                      dataType="i4"
                       name="Param_6">
                       <properties>
                         <property
                           dataType="System.Int32"
                           description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
-                          name="DBParamInfoFlags">65</property>
+                          name="DBParamInfoFlags">81</property>
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB].ExternalColumns[Param_7]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_7]"
                       dataType="wstr"
-                      length="5"
+                      length="30"
                       name="Param_7">
                       <properties>
                         <property
@@ -1203,34 +1303,46 @@
                           name="DBParamInfoFlags">65</property>
                       </properties>
                     </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB].ExternalColumns[Param_8]"
+                      dataType="wstr"
+                      length="5"
+                      name="Param_8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 4.Outputs[Выход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 1.Outputs[Выход команды OLE DB]"
                   exclusionGroup="1"
                   name="Выход команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 4.Outputs[Вывод ошибок команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 4.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      lineageId="Package\Load Customers\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 4.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      refId="Package\Load Customers\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 4.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      lineageId="Package\Load Customers\Команда OLE DB 1.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1239,11 +1351,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Команда OLE DB 5"
+              refId="Package\Load Customers\Команда OLE DB 2"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
               description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
-              name="Команда OLE DB 5"
+              name="Команда OLE DB 2"
               usesDispositions="true"
               version="2">
               <properties>
@@ -1256,7 +1368,7 @@
                   description="Команда SQL для выполнения."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Customer] SET [ContactName] = ?,[ContactTitle] = ?,[Customer] = ?,[Fax] = ?,[Phone] = ? WHERE [CustomerAlterKey] = ? AND [EndDate] IS NULL</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Customer] SET [ContactName] = ?,[ContactTitle] = ?,[Customer] = ?,[Fax] = ?,[Phone] = ? WHERE [CustomerAlterKey] = ?</property>
                 <property
                   dataType="System.Int32"
                   description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1264,7 +1376,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Customers\Команда OLE DB 5.Connections[OleDbConnection]"
+                  refId="Package\Load Customers\Команда OLE DB 2.Connections[OleDbConnection]"
                   connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                   connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1272,59 +1384,59 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB]"
                   errorOrTruncationOperation="Выполнение команды"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="Вход команды OLE DB">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[ContactName]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[ContactName]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactName"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="ContactTitle"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[Customer]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[Customer]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Customer"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[Fax]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[Fax]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Fax"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].Columns[Phone]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].Columns[Phone]"
                       cachedDataType="wstr"
                       cachedLength="24"
                       cachedName="Phone"
-                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      externalMetadataColumnId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
                       lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       dataType="wstr"
                       length="50"
                       name="Param_0">
@@ -1336,7 +1448,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       dataType="wstr"
                       length="50"
                       name="Param_1">
@@ -1348,7 +1460,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
                       dataType="wstr"
                       length="50"
                       name="Param_2">
@@ -1360,7 +1472,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       dataType="wstr"
                       length="30"
                       name="Param_3">
@@ -1372,7 +1484,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
                       dataType="wstr"
                       length="30"
                       name="Param_4">
@@ -1384,7 +1496,7 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
                       dataType="wstr"
                       length="5"
                       name="Param_5">
@@ -1400,29 +1512,29 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 5.Outputs[Выход команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 2.Outputs[Выход команды OLE DB]"
                   exclusionGroup="1"
                   name="Выход команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Customers\Команда OLE DB 5.Outputs[Вывод ошибок команды OLE DB]"
+                  refId="Package\Load Customers\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок команды OLE DB"
-                  synchronousInputId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 5.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      lineageId="Package\Load Customers\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Customers\Команда OLE DB 5.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      refId="Package\Load Customers\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Команда OLE DB 5.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      lineageId="Package\Load Customers\Команда OLE DB 2.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1442,7 +1554,7 @@
                   dataType="System.String"
                   description="Задает инструкцию SELECT, которая используется для создания набора строк схемы."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [City], [ContactName], [ContactTitle], [Country], [Customer], [CustomerAlterKey], [Fax], [Phone],[StartDate],[EndDate],[Current] FROM [Dimension].[Customer]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [City], [ContactName], [ContactTitle], [Country], [Customer], [CustomerAlterKey], [Fax], [LineageKey], [Phone],[StartDate],[EndDate],[Current] FROM [Dimension].[Customer]</property>
                 <property
                   dataType="System.String"
                   description="Задает предложение WHERE в инструкции SELECT, которая выбирает текущую строку среди строк с одинаковыми бизнес-ключами."
@@ -1450,7 +1562,7 @@
                 <property
                   dataType="System.Boolean"
                   description="Указывает, следует ли направлять обновления атрибутов с предысторией на вывод преобразования для обновлений изменяемых атрибутов."
-                  name="UpdateChangingAttributeHistory">false</property>
+                  name="UpdateChangingAttributeHistory">true</property>
                 <property
                   dataType="System.Boolean"
                   description="Указывает, завершается ли преобразование ошибкой, если столбцы с атрибутами неизменности содержат изменения."
@@ -1589,6 +1701,19 @@
                       </properties>
                     </inputColumn>
                     <inputColumn
+                      refId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      externalMetadataColumnId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[LineageKey]"
+                      lineageId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          name="ColumnType"
+                          typeConverter="ColumnType">4</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
                       refId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Phone]"
                       cachedDataType="wstr"
                       cachedLength="24"
@@ -1640,6 +1765,10 @@
                       dataType="wstr"
                       length="30"
                       name="Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[LineageKey]"
+                      dataType="i4"
+                      name="LineageKey" />
                     <externalMetadataColumn
                       refId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Phone]"
                       dataType="wstr"
@@ -1712,15 +1841,15 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Производный столбец 3"
+              refId="Package\Load Customers\Производный столбец"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
               description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
-              name="Производный столбец 3"
+              name="Производный столбец"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Customers\Производный столбец 3.Inputs[Вход производного столбца]"
+                  refId="Package\Load Customers\Производный столбец.Inputs[Вход производного столбца]"
                   description="Ввод преобразования &quot;Производный столбец&quot;"
                   name="Вход производного столбца">
                   <externalMetadataColumns />
@@ -1728,18 +1857,92 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Customers\Производный столбец 3.Outputs[Выход производного столбца]"
+                  refId="Package\Load Customers\Производный столбец.Outputs[Выход производного столбца]"
                   description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
                   exclusionGroup="1"
                   name="Выход производного столбца"
-                  synchronousInputId="Package\Load Customers\Производный столбец 3.Inputs[Вход производного столбца]">
+                  synchronousInputId="Package\Load Customers\Производный столбец.Inputs[Вход производного столбца]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Производный столбец 3.Outputs[Выход производного столбца].Columns[StartDate]"
+                      refId="Package\Load Customers\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]"
+                      dataType="dbDate"
+                      description="EndDate"
+                      errorOrTruncationOperation="Вычисление"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Customers\Производный столбец.Outputs[Выход производного столбца].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Выражение производного столбца"
+                          name="Expression">(DT_DBDATE)(@[User::CDS])</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Понятное выражение производного столбца"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(@[User::CDS])</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Customers\Производный столбец.Outputs[Вывод ошибок производного столбца]"
+                  description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок производного столбца"
+                  synchronousInputId="Package\Load Customers\Производный столбец.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customers\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Customers\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Производный столбец.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Customers\Производный столбец 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+              description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+              name="Производный столбец 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Customers\Производный столбец 1.Inputs[Вход производного столбца]"
+                  description="Ввод преобразования &quot;Производный столбец&quot;"
+                  name="Вход производного столбца">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца]"
+                  description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                  exclusionGroup="1"
+                  name="Выход производного столбца"
+                  synchronousInputId="Package\Load Customers\Производный столбец 1.Inputs[Вход производного столбца]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]"
                       dataType="dbDate"
                       errorOrTruncationOperation="Вычисление"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Customers\Производный столбец 3.Outputs[Выход производного столбца].Columns[StartDate]"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[StartDate]"
                       name="StartDate"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -1747,36 +1950,58 @@
                           containsID="true"
                           dataType="System.String"
                           description="Выражение производного столбца"
-                          name="Expression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                          name="Expression">(DT_DBDATE)(@[User::CDS])</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Понятное выражение производного столбца"
                           expressionType="Notify"
-                          name="FriendlyExpression">(DT_DBDATE)(@[$Project::InitialDateForSCD])</property>
+                          name="FriendlyExpression">(DT_DBDATE)(@[User::CDS])</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[Current]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Вычисление"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца].Columns[Current]"
+                      name="Current"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Выражение производного столбца"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Понятное выражение производного столбца"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Customers\Производный столбец 3.Outputs[Вывод ошибок производного столбца]"
+                  refId="Package\Load Customers\Производный столбец 1.Outputs[Вывод ошибок производного столбца]"
                   description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок производного столбца"
-                  synchronousInputId="Package\Load Customers\Производный столбец 3.Inputs[Вход производного столбца]">
+                  synchronousInputId="Package\Load Customers\Производный столбец 1.Inputs[Вход производного столбца]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Customers\Производный столбец 3.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      refId="Package\Load Customers\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Производный столбец 3.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Customers\Производный столбец 3.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      refId="Package\Load Customers\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Customers\Производный столбец 3.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                      lineageId="Package\Load Customers\Производный столбец 1.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1788,54 +2013,100 @@
           <paths>
             <path
               refId="Package\Load Customers.Paths[Union All Выход 1]"
-              endId="Package\Load Customers\Производный столбец 3.Inputs[Вход производного столбца]"
+              endId="Package\Load Customers\Производный столбец 1.Inputs[Вход производного столбца]"
               name="Union All Выход 1"
-              startId="Package\Load Customers\Union All 1.Outputs[Union All Выход 1]" />
+              startId="Package\Load Customers\Union All.Outputs[Union All Выход 1]" />
             <path
               refId="Package\Load Customers.Paths[Выход вставок атрибутов с предысторией]"
-              endId="Package\Load Customers\Add Column EndDate.Inputs[Вход производного столбца]"
+              endId="Package\Load Customers\Производный столбец.Inputs[Вход производного столбца]"
               name="Выход вставок атрибутов с предысторией"
               startId="Package\Load Customers\Медленно изменяющееся измерение.Outputs[Выход вставок атрибутов с предысторией]" />
             <path
               refId="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
-              endId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
+              endId="Package\Load Customers\Add LineageKey.Inputs[Вход производного столбца]"
               name="Выход источника &quot;OLE DB&quot;"
               startId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
             <path
               refId="Package\Load Customers.Paths[Выход команды OLE DB]"
-              endId="Package\Load Customers\Union All 1.Inputs[Входные данные 1 Union All]"
+              endId="Package\Load Customers\Union All.Inputs[Входные данные 1 Union All]"
               name="Выход команды OLE DB"
-              startId="Package\Load Customers\Команда OLE DB 3.Outputs[Выход команды OLE DB]" />
+              startId="Package\Load Customers\Команда OLE DB.Outputs[Выход команды OLE DB]" />
             <path
               refId="Package\Load Customers.Paths[Выход обновлений выводимых элементов]"
-              endId="Package\Load Customers\Команда OLE DB 4.Inputs[Вход команды OLE DB]"
+              endId="Package\Load Customers\Команда OLE DB 1.Inputs[Вход команды OLE DB]"
               name="Выход обновлений выводимых элементов"
               startId="Package\Load Customers\Медленно изменяющееся измерение.Outputs[Выход обновлений выводимых элементов]" />
             <path
               refId="Package\Load Customers.Paths[Выход обновлений изменяемых атрибутов]"
-              endId="Package\Load Customers\Команда OLE DB 5.Inputs[Вход команды OLE DB]"
+              endId="Package\Load Customers\Команда OLE DB 2.Inputs[Вход команды OLE DB]"
               name="Выход обновлений изменяемых атрибутов"
               startId="Package\Load Customers\Медленно изменяющееся измерение.Outputs[Выход обновлений изменяемых атрибутов]" />
             <path
               refId="Package\Load Customers.Paths[Выход производного столбца]"
-              endId="Package\Load Customers\Команда OLE DB 3.Inputs[Вход команды OLE DB]"
+              endId="Package\Load Customers\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
               name="Выход производного столбца"
-              startId="Package\Load Customers\Add Column EndDate.Outputs[Выход производного столбца]" />
+              startId="Package\Load Customers\Add LineageKey.Outputs[Выход производного столбца]" />
             <path
               refId="Package\Load Customers.Paths[Выход производного столбца1]"
-              endId="Package\Load Customers\Вставить назначение 1.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              endId="Package\Load Customers\Команда OLE DB.Inputs[Вход команды OLE DB]"
               name="Выход производного столбца"
-              startId="Package\Load Customers\Производный столбец 3.Outputs[Выход производного столбца]" />
+              startId="Package\Load Customers\Производный столбец.Outputs[Выход производного столбца]" />
+            <path
+              refId="Package\Load Customers.Paths[Выход производного столбца2]"
+              endId="Package\Load Customers\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="Выход производного столбца"
+              startId="Package\Load Customers\Производный столбец 1.Outputs[Выход производного столбца]" />
             <path
               refId="Package\Load Customers.Paths[Новый выход]"
-              endId="Package\Load Customers\Union All 1.Inputs[Union All Вход 1]"
+              endId="Package\Load Customers\Union All.Inputs[Union All Вход 1]"
               name="Новый выход"
               startId="Package\Load Customers\Медленно изменяющееся измерение.Outputs[Новый выход]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set load compilation info"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{0E265BD7-BBDC-45E9-AB6D-E0E8B6BBA06E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set load compilation info"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="UPDATE [Integration].[Lineage]&#xA;SET&#x9;[WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::LineageKey"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3CB93599-F5D8-45D5-BD77-4340134B3A07}"
+      DTS:From="Package\Get LineAgeKey"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Customers" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{F691BC05-049D-4DC8-9064-581EECB26D63}"
+      DTS:From="Package\Load Customers"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Set load compilation info" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -1847,11 +2118,63 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Get LineAgeKey"
+          TopLeft="71,27" />
         <NodeLayout
           Size="154,42"
           Id="Package\Load Customers"
           TopLeft="68,119" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="146.25,69">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Set load compilation info"
+          TopLeft="41,192" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="141.75,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -1861,50 +2184,114 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="130,42"
-          Id="Package\Load Customers\Union All 1"
-          TopLeft="494,423.5" />
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Load Customers\Команда OLE DB 3"
-          TopLeft="328.5,321.5" />
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Load Customers\Команда OLE DB 4"
-          TopLeft="620.5,219.5" />
-        <NodeLayout
           Size="150,42"
           Id="Package\Load Customers\Landing source"
-          TopLeft="484,15.4999999999998" />
-        <NodeLayout
-          Size="192,42"
-          Id="Package\Load Customers\Вставить назначение 1"
-          TopLeft="463,627.5" />
+          TopLeft="179.5,5.5" />
         <NodeLayout
           Size="261,42"
           Id="Package\Load Customers\Медленно изменяющееся измерение"
-          TopLeft="428.5,117.5" />
+          TopLeft="124,209.5" />
         <NodeLayout
-          Size="179,42"
-          Id="Package\Load Customers\Add Column EndDate"
-          TopLeft="300.5,219.5" />
-        <NodeLayout
-          Size="197,42"
-          Id="Package\Load Customers\Производный столбец 3"
-          TopLeft="460.5,525.5" />
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Load Customers\Команда OLE DB 5"
-          TopLeft="850.5,219.5" />
+          Size="154,42"
+          Id="Package\Load Customers\Add LineageKey"
+          TopLeft="177.5,107.5" />
         <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход производного столбца]"
-          TopLeft="390,261.5">
+          Id="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="254.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="23,60"
+              EndConnector="0,60"
               Start="0,0"
-              End="23,52.5">
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход производного столбца]"
+          TopLeft="254.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Load Customers\Производный столбец"
+          TopLeft="5.5,311.5" />
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход вставок атрибутов с предысторией]"
+          TopLeft="178.6,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-79.1,60.0000000000001"
+              Start="0,0"
+              End="-79.1,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.6985413290114" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.6985413290114"
+                    Point2="0,17.6985413290114"
+                    Point3="-4,17.6985413290114" />
+                  <mssgle:LineSegment
+                    End="-75.1,17.6985413290114" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-75.1,17.6985413290114"
+                    Point2="-79.1,17.6985413290114"
+                    Point3="-79.1,21.6985413290114" />
+                  <mssgle:LineSegment
+                    End="-79.1,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-136.81169921875,22.6985413290114,194.5233984375,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Load Customers\Команда OLE DB"
+          TopLeft="33.5,413.5" />
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход производного столбца1]"
+          TopLeft="99.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,60"
+              Start="0,0"
+              End="14,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -1915,13 +2302,13 @@
                     Point2="0,30"
                     Point3="4,30" />
                   <mssgle:LineSegment
-                    End="19,30" />
+                    End="10,30" />
                   <mssgle:CubicBezierSegment
-                    Point1="19,30"
-                    Point2="23,30"
-                    Point3="23,34" />
+                    Point1="10,30"
+                    Point2="14,30"
+                    Point3="14,34" />
                   <mssgle:LineSegment
-                    End="23,52.5" />
+                    End="14,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1930,45 +2317,139 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load Customers\Union All"
+          TopLeft="194,515.5" />
         <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход обновлений изменяемых атрибутов]"
-          TopLeft="634.9,159.5">
+          Id="Package\Load Customers.Paths[Новый выход]"
+          TopLeft="229.2,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="300.1,60"
+              EndConnector="44.1333333333333,264"
               Start="0,0"
-              End="300.1,52.5">
+              End="44.1333333333333,256.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,13.6985413290113" />
+                    End="0,138.36910380356" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,13.6985413290113"
-                    Point2="0,17.6985413290113"
-                    Point3="4,17.6985413290113" />
+                    Point1="0,138.36910380356"
+                    Point2="0,142.36910380356"
+                    Point3="4,142.36910380356" />
                   <mssgle:LineSegment
-                    End="296.1,17.6985413290113" />
+                    End="40.1333333333333,142.36910380356" />
                   <mssgle:CubicBezierSegment
-                    Point1="296.1,17.6985413290113"
-                    Point2="300.1,17.6985413290113"
-                    Point3="300.1,21.6985413290113" />
+                    Point1="40.1333333333333,142.36910380356"
+                    Point2="44.1333333333333,142.36910380356"
+                    Point3="44.1333333333333,146.36910380356" />
                   <mssgle:LineSegment
-                    End="300.1,52.5" />
+                    End="44.1333333333333,256.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="51.41794921875,22.6985413290113,197.2641015625,12"
+              BoundingBox="-9.06557942708334,147.36910380356,62.2644921875,11.296875"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход команды OLE DB]"
+          TopLeft="113.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="122.166666666667,59.9999999999999"
+              Start="0,0"
+              End="122.166666666667,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="118.166666666667,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="118.166666666667,35.5301794453507"
+                    Point2="122.166666666667,35.5301794453507"
+                    Point3="122.166666666667,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="122.166666666667,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Load Customers\Производный столбец 1"
+          TopLeft="156,617.5" />
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Union All Выход 1]"
+          TopLeft="254.5,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Load Customers\Insert Destination"
+          TopLeft="173,719.5" />
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход производного столбца2]"
+          TopLeft="254.5,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load Customers\Команда OLE DB 1"
+          TopLeft="316,311.5" />
+        <EdgeLayout
           Id="Package\Load Customers.Paths[Выход обновлений выводимых элементов]"
-          TopLeft="584.3,159.5">
+          TopLeft="279.8,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2002,194 +2483,49 @@
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load Customers\Команда OLE DB 2"
+          TopLeft="546,311.5" />
         <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход команды OLE DB]"
-          TopLeft="413,363.5">
+          Id="Package\Load Customers.Paths[Выход обновлений изменяемых атрибутов]"
+          TopLeft="330.4,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="125.666666666667,59.9999999999999"
+              EndConnector="300.1,60"
               Start="0,0"
-              End="125.666666666667,52.4999999999999">
+              End="300.1,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5623100303951" />
+                    End="0,13.6985413290113" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.5623100303951"
-                    Point2="0,35.5623100303951"
-                    Point3="4,35.5623100303951" />
+                    Point1="0,13.6985413290113"
+                    Point2="0,17.6985413290113"
+                    Point3="4,17.6985413290113" />
                   <mssgle:LineSegment
-                    End="121.666666666667,35.5623100303951" />
+                    End="296.1,17.6985413290113" />
                   <mssgle:CubicBezierSegment
-                    Point1="121.666666666667,35.5623100303951"
-                    Point2="125.666666666667,35.5623100303951"
-                    Point3="125.666666666667,39.5623100303951" />
+                    Point1="296.1,17.6985413290113"
+                    Point2="300.1,17.6985413290113"
+                    Point3="300.1,21.6985413290113" />
                   <mssgle:LineSegment
-                    End="125.666666666667,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="559,57.4999999999998">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход вставок атрибутов с предысторией]"
-          TopLeft="483.1,159.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-93.1,60.0000000000001"
-              Start="0,0"
-              End="-93.1,52.5000000000001">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13.6985413290114" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13.6985413290114"
-                    Point2="0,17.6985413290114"
-                    Point3="-4,17.6985413290114" />
-                  <mssgle:LineSegment
-                    End="-89.1,17.6985413290114" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-89.1,17.6985413290114"
-                    Point2="-93.1,17.6985413290114"
-                    Point3="-93.1,21.6985413290114" />
-                  <mssgle:LineSegment
-                    End="-93.1,52.5000000000001" />
+                    End="300.1,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-143.81169921875,22.6985413290114,194.5233984375,12"
+              BoundingBox="51.41794921875,22.6985413290113,197.2641015625,12"
               RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Customers.Paths[Union All Выход 1]"
-          TopLeft="559,465.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Customers.Paths[Новый выход]"
-          TopLeft="533.7,159.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="45.6333333333333,264"
-              Start="0,0"
-              End="45.6333333333333,256.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,138.514565406174" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,138.514565406174"
-                    Point2="0,142.514565406174"
-                    Point3="4,142.514565406174" />
-                  <mssgle:LineSegment
-                    End="41.6333333333333,142.514565406174" />
-                  <mssgle:CubicBezierSegment
-                    Point1="41.6333333333333,142.514565406174"
-                    Point2="45.6333333333333,142.514565406174"
-                    Point3="45.6333333333333,146.514565406174" />
-                  <mssgle:LineSegment
-                    End="45.6333333333333,256.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8.31557942708334,147.514565406174,62.2644921875,11.296875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход производного столбца1]"
-          TopLeft="559,567.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Customers\Вставить назначение 1">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load Customers\Медленно изменяющееся измерение">
     <Properties>
@@ -2244,6 +2580,12 @@
       &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
     &lt;/InputColumnToDBColumn&gt;
     &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Add LineageKey.Выводы[Выход производного столбца].Столбцы[LineageKey]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;LineageKey&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;FixedAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
       &lt;IdentificationString&gt;Landing source.Выводы[Выход источника "OLE DB"].Столбцы[Phone]&lt;/IdentificationString&gt;
       &lt;ColumnName&gt;Phone&lt;/ColumnName&gt;
       &lt;KeyType&gt;None&lt;/KeyType&gt;
@@ -2251,16 +2593,16 @@
     &lt;/InputColumnToDBColumn&gt;
   &lt;/InputToColumnsCollection&gt;
   &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Производный столбец 2&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB 3&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Union All 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Производный столбец 3&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Вставить назначение 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB 4&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB 5&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Производный столбец&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Производный столбец 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB 2&lt;/anyType&gt;
   &lt;/GeneratedComponentsIdentificationStrings&gt;
   &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
   &lt;UseStartEndDate&gt;true&lt;/UseStartEndDate&gt;
   &lt;CurrentIndicatorColumn /&gt;
   &lt;InferredIndicatorColumn&gt;Current&lt;/InferredIndicatorColumn&gt;
@@ -2268,9 +2610,22 @@
   &lt;ValueExpired /&gt;
   &lt;StartDateColumn&gt;StartDate&lt;/StartDateColumn&gt;
   &lt;EndDateColumn&gt;EndDate&lt;/EndDateColumn&gt;
-  &lt;DateVariable&gt;$Project::DateForSCD&lt;/DateVariable&gt;
+  &lt;DateVariable&gt;User::CDS&lt;/DateVariable&gt;
   &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
 &lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Customers\Insert Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

@@ -21,3 +21,39 @@ GO
 
 ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\UserBI];
 GO
+
+INSERT INTO [Integration].[Lineage] (
+          [DataLoadStarted]
+        , [TableName]
+        , [DataLoadCompleted]
+        , [WasSuccessful]
+        , [CutoffTime]
+    )
+    VALUES (
+          DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , N'Customer'
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , 1
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+    )
+    , (
+          DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , N'Employee'
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , 1
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+    )
+    , (
+          DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , N'Product'
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , 1
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+    )
+    , (
+          DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , N'Order'
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+        , 1
+        , DATETIME2FROMPARTS ( 1996, 01, 01, 0, 0, 0, 0, 0 )
+    )
