@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="117"
-  DTS:VersionGUID="{17391982-0055-4F2F-98BC-84CB31B09157}">
+  DTS:VersionBuild="119"
+  DTS:VersionGUID="{4ADA7527-0F90-4537-A5DF-923AEC6494AD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -134,7 +134,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="IF EXISTS ( SELECT 1 FROM [Integration].[Lineage] WHERE [TableName] = 'Order' )&#xA;&#x9;SELECT StartLoadDate = MAX ( [CutoffTime] ) FROM [Integration].[Lineage] WHERE [TableName] = 'Order'&#xA;ELSE SELECT StartLoadDate = DATEFROMPARTS ( 1996, 1, 1 )"
+          SQLTask:SqlStatementSource="IF EXISTS ( SELECT 1 FROM [Integration].[Lineage] WHERE [TableName] = 'Order' AND [WasSuccessful] = 1 )&#xA;&#x9;SELECT StartLoadDate = MAX ( [CutoffTime] ) FROM [Integration].[Lineage] WHERE [TableName] = 'Order' AND [WasSuccessful] = 1&#xA;ELSE SELECT StartLoadDate = DATEFROMPARTS ( 1996, 1, 1 )"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="StartLoadDate"

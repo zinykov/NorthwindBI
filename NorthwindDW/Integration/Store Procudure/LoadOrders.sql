@@ -102,6 +102,7 @@ BEGIN
 					, TRG.[Discount]				=	SRC.[Discount]
 					, TRG.[SalesAmount]				=	SRC.[SalesAmount]
 					, TRG.[SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
+					, TRG.[LineageKey]				=	SRC.[LineageKey]
 			
 			WHEN NOT MATCHED THEN INSERT (
 					  [OrderKey]
@@ -116,6 +117,7 @@ BEGIN
 					, [Discount]
 					, [SalesAmount]
 					, [SalesAmountWithDiscount]
+					, [LineageKey]
 				) VALUES (
 					  SRC.[OrderKey]
 					, SRC.[ProductKey]
@@ -129,5 +131,6 @@ BEGIN
 					, SRC.[Discount]
 					, SRC.[SalesAmount]
 					, SRC.[SalesAmountWithDiscount]
+					, SRC.[LineageKey]
 				);
 END
