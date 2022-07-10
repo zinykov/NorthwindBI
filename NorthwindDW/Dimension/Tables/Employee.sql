@@ -7,10 +7,10 @@
     [TitleOfCourtesy]       NVARCHAR(25)                      NULL,
     [City]                  NVARCHAR(15)                      NULL,
     [Country]               NVARCHAR(15)                      NULL,
-    [StartDate]             DATE                              NULL,
-    [EndDate]               DATE                              NULL,
-    [Current]               BIT                               NULL,
-    [LineageKey]            INT                               NULL,
+    [StartDate]             DATETIME2                         NOT NULL,
+    [EndDate]               DATETIME2                         NULL,
+    [Current]               BIT                               NOT NULL,
+    [LineageKey]            INT                               NOT NULL,
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC ),
 

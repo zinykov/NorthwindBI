@@ -21,7 +21,7 @@ AS BEGIN
           -1
         , 'N/A'
         , 'N/A'
-        , NULL
+        , 'N/A'
         , NULL
         , NULL
         , NULL

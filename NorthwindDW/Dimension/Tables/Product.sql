@@ -1,13 +1,10 @@
 ﻿CREATE TABLE [Dimension].[Product]
 (
-	[ProductKey]            INT             CONSTRAINT [SQ_Product_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[ProductKey] )     NOT NULL ,
-    [ProductAlterKey]       INT                                 NOT NULL ,
-    [Product]               NVARCHAR(50)                        NULL, 
-    [Category]              NVARCHAR(50)                        NULL,
-    [StartDate]             DATE                                NULL,
-    [EndDate]               DATE                                NULL,
-    [Current]               BIT                                 NULL,
-    [LineageKey]            INT                                 NULL,
+	[ProductKey]            INT             CONSTRAINT [SQ_Product_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[ProductKey] )     NOT NULL,
+    [ProductAlterKey]       INT                                 NOT NULL,
+    [Product]               NVARCHAR(50)                        NOT NULL, 
+    [Category]              NVARCHAR(50)                        NOT NULL,
+    [LineageKey]            INT                                 NOT NULL,
 
     CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC ),
 

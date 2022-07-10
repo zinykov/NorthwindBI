@@ -1,5 +1,7 @@
 ﻿CREATE PROCEDURE [Integration].[TrancateDWH] AS
-BEGIN	
+BEGIN
+	SET NOCOUNT ON;
+
 	ALTER TABLE [Dimension].[Customer] DROP CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage];
 	ALTER TABLE [Dimension].[Employee] DROP CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage];
 	ALTER TABLE [Dimension].[Product] DROP CONSTRAINT [FK_Dimension_Product_Lineage_Key_Integration_Lineage];
@@ -48,5 +50,7 @@ BEGIN
 	ALTER SEQUENCE [Sequences].[EmployeeKey] RESTART WITH 1;
 	ALTER SEQUENCE [Sequences].[LineageKey] RESTART WITH 1;
 	ALTER SEQUENCE [Sequences].[ProductKey] RESTART WITH 1;
+
+	SET NOCOUNT OFF;
 END;
 GO

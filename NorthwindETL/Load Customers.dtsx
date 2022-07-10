@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="100"
-  DTS:VersionGUID="{2919C69F-D07E-4491-BF19-A114ECE35ED4}">
+  DTS:VersionBuild="103"
+  DTS:VersionGUID="{6A90FB28-828C-47E2-A4C7-6BAF397B787C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -224,7 +224,7 @@
           SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownCustomer] @StartDate = ?, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Project::StartDateforSCD"
+            SQLTask:DtsVariableName="$Project::Cutofftime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -257,7 +257,7 @@
             SQLTask:DtsVariableName="User::LineageKey" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Project::LoadEnd"
+            SQLTask:DtsVariableName="$Project::Cutofftime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -2475,31 +2475,31 @@ WHERE	[CustomerAlterKey] = ?</property>
         <NodeLayout
           Size="140,42"
           Id="Package\Load Customers\Lookup DWH"
-          TopLeft="605,258.5" />
+          TopLeft="533,258.5" />
         <NodeLayout
           Size="154,42"
           Id="Package\Load Customers\Add LineageKey"
-          TopLeft="598,156.5" />
+          TopLeft="526,156.5" />
         <NodeLayout
           Size="181,42"
           Id="Package\Load Customers\Insert new customers"
-          TopLeft="584.5,360.5" />
+          TopLeft="512.5,360.5" />
         <NodeLayout
           Size="150,42"
           Id="Package\Load Customers\Landing source"
-          TopLeft="600,54.5" />
+          TopLeft="528,54.5" />
         <NodeLayout
           Size="275,42"
           Id="Package\Load Customers\Update changing attributes and metadata"
-          TopLeft="25.5,462.5" />
+          TopLeft="217.5,462.5" />
         <NodeLayout
           Size="131,42"
           Id="Package\Load Customers\No Change"
-          TopLeft="361.5,462.5" />
+          TopLeft="25.5,462.5" />
         <NodeLayout
           Size="174,42"
           Id="Package\Load Customers\Insert updated rows"
-          TopLeft="76,564.5" />
+          TopLeft="268,564.5" />
         <NodeLayout
           Size="138,42"
           Id="Package\Load Customers\Update rows"
@@ -2507,10 +2507,10 @@ WHERE	[CustomerAlterKey] = ?</property>
         <NodeLayout
           Size="193,42"
           Id="Package\Load Customers\Find Historical attributes"
-          TopLeft="330.5,360.5" />
+          TopLeft="258.5,360.5" />
         <EdgeLayout
           Id="Package\Load Customers.Paths[Выход производного столбца]"
-          TopLeft="675,198.5">
+          TopLeft="603,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2532,7 +2532,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[Выход команды OLE DB]"
-          TopLeft="163,504.5">
+          TopLeft="355,504.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2554,7 +2554,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="675,96.5">
+          TopLeft="603,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2576,7 +2576,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[Update]"
-          TopLeft="653,300.5">
+          TopLeft="581,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2612,31 +2612,43 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[NoChange]"
-          TopLeft="427,402.5">
+          TopLeft="308.75,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-217.75,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="-217.75,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,16.5451448040886" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.5451448040886"
+                    Point2="0,20.5451448040886"
+                    Point3="-4,20.5451448040886" />
+                  <mssgle:LineSegment
+                    End="-213.75,20.5451448040886" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-213.75,20.5451448040886"
+                    Point2="-217.75,20.5451448040886"
+                    Point3="-217.75,24.5451448040886" />
+                  <mssgle:LineSegment
+                    End="-217.75,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-23.15634765625,20.41845703125,46.3126953125,11.6630859375"
+              BoundingBox="-132.03134765625,25.5451448040886,46.3126953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[New]"
-          TopLeft="697,300.5">
+          TopLeft="625,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2672,49 +2684,37 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[HistoricalAttributes]"
-          TopLeft="380.75,402.5">
+          TopLeft="355,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-217.75,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="-217.75,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.5451448040886" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.5451448040886"
-                    Point2="0,20.5451448040886"
-                    Point3="-4,20.5451448040886" />
-                  <mssgle:LineSegment
-                    End="-213.75,20.5451448040886" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-213.75,20.5451448040886"
-                    Point2="-217.75,20.5451448040886"
-                    Point3="-217.75,24.5451448040886" />
-                  <mssgle:LineSegment
-                    End="-217.75,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-150.937578125,25.5451448040886,84.12515625,9.7490234375"
+              BoundingBox="-42.062578125,21.37548828125,84.12515625,9.7490234375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Customers.Paths[ChangingAttributes]"
-          TopLeft="473.25,402.5">
+          TopLeft="401.25,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="148.75,60"
+              EndConnector="220.75,60"
               Start="0,0"
-              End="148.75,52.5">
+              End="220.75,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2725,20 +2725,20 @@ WHERE	[CustomerAlterKey] = ?</property>
                     Point2="0,20.5451448040886"
                     Point3="4,20.5451448040886" />
                   <mssgle:LineSegment
-                    End="144.75,20.5451448040886" />
+                    End="216.75,20.5451448040886" />
                   <mssgle:CubicBezierSegment
-                    Point1="144.75,20.5451448040886"
-                    Point2="148.75,20.5451448040886"
-                    Point3="148.75,24.5451448040886" />
+                    Point1="216.75,20.5451448040886"
+                    Point2="220.75,20.5451448040886"
+                    Point3="220.75,24.5451448040886" />
                   <mssgle:LineSegment
-                    End="148.75,52.5" />
+                    End="220.75,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="31.58490234375,25.5451448040886,85.5801953125,11.6630859375"
+              BoundingBox="67.58490234375,25.5451448040886,85.5801953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>

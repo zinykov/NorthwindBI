@@ -1,5 +1,7 @@
-﻿CREATE PROCEDURE [Integration].[AddUnknownEmployee] AS
-BEGIN
+﻿CREATE PROCEDURE [Integration].[AddUnknownEmployee]
+      @StartDate AS DATE
+    , @LineageKey AS INT
+AS BEGIN
     IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Employee] WHERE [EmployeeKey] = -1 )
     INSERT INTO [Dimension].[Employee] (
           [EmployeeKey]
@@ -12,6 +14,7 @@ BEGIN
         , [StartDate]
         , [EndDate]
         , [Current]
+        , [LineageKey]
     ) VALUES (
           -1
         , -1
@@ -20,8 +23,9 @@ BEGIN
         , NULL
         , NULL
         , NULL
-        , DATEFROMPARTS ( 1996, 01, 01 )
+        , @StartDate
         , NULL
-        , NULL
+        , 1
+        , @LineageKey
     )
 END
