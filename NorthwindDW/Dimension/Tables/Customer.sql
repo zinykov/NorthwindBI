@@ -9,8 +9,8 @@
     [City]                  NVARCHAR(25)                        NULL,
     [Phone]                 NVARCHAR(30)                        NULL, 
     [Fax]                   NVARCHAR(30)                        NULL,
-    [StartDate]             DATE                                NULL,
-    [EndDate]               DATE                                NULL,
+    [StartDate]             DATETIME2                           NULL,
+    [EndDate]               DATETIME2                           NULL,
     [Current]               BIT                                 NULL,
     [LineageKey]            INT                                 NULL,
 
