@@ -46,7 +46,6 @@ BEGIN
 		BEGIN
 			ALTER PARTITION FUNCTION [PF_Order_Date] ()
 				SPLIT RANGE ( @NewPartitionParameter )
-			PRINT ( @NewPartitionParameter )
 		END
 
 -- ШАГ 3. Загрузка данных в промежуточную таблицу

@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[AddUnknownDate] AS
 BEGIN
+	IF NOT EXISTS ( SELECT * FROM [Dimension].[Date] WHERE [DateKey] = 39991231 )
 	INSERT [Dimension].[Date] (
 			  [DateKey]
 		    , [AlterDateKey]

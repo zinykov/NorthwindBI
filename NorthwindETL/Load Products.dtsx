@@ -11,10 +11,95 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="122"
-  DTS:VersionGUID="{786561C8-DDDA-4C4E-A6B0-87DDFD34D94B}">
+  DTS:VersionBuild="127"
+  DTS:VersionGUID="{D9CE61F1-DCFF-48D3-B03C-62B9D1E313B0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{20B35BBB-432B-4568-ABCA-AD3C797E578D}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1049"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1251"
+          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\ProductNoChange.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ProductAlterKey"
+              DTS:DTSID="{51B8FF22-B7AA-40D2-8FD8-D6DCF888CCD6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="40"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Product"
+              DTS:DTSID="{99553E68-14E8-48CA-A443-FFCF88D48CE6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="15"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Category"
+              DTS:DTSID="{2B2099E3-23F4-430B-B690-FB9A1F453898}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LineageKey"
+              DTS:DTSID="{470A2395-8106-4679-A682-DF9D9FCDB26B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DWProduct"
+              DTS:DTSID="{FBE88179-AAA0-41FC-880A-08734FEA1C0C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DWCategory"
+              DTS:DTSID="{248ADA2B-EB80-4685-8B7A-321C4ED3BE50}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{85FF4076-ACE4-4868-8B4D-2D557E37B9FF}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -70,7 +155,7 @@
             SQLTask:DtsVariableName="User::LineageKey" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Project::Cutofftime"
+            SQLTask:DtsVariableName="$Package::CutoffTime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -165,11 +250,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Product\Insert Destination"
+              refId="Package\Load Product\Insert New Products"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
               description="Назначение &quot;OLE DB&quot;"
-              name="Insert Destination"
+              name="Insert New Products"
               usesDispositions="true"
               version="4">
               <properties>
@@ -222,7 +307,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Product\Insert Destination.Connections[OleDbConnection]"
+                  refId="Package\Load Product\Insert New Products.Connections[OleDbConnection]"
                   connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                   connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -230,61 +315,61 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;]"
                   errorOrTruncationOperation="Вставить"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="Вход назначения &quot;OLE DB&quot;">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey]"
                       cachedDataType="i4"
                       cachedName="ProductAlterKey"
-                      externalMetadataColumnId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
+                      externalMetadataColumnId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
                       lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductAlterKey]" />
                     <inputColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Product"
-                      externalMetadataColumnId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
+                      externalMetadataColumnId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
                       lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Product]" />
                     <inputColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="Category"
-                      externalMetadataColumnId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
+                      externalMetadataColumnId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
                       lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]" />
                     <inputColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
                       cachedDataType="i4"
                       cachedName="LineageKey"
-                      externalMetadataColumnId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                      externalMetadataColumnId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                       lineageId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
                       dataType="i4"
                       name="ProductKey" />
                     <externalMetadataColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey]"
                       dataType="i4"
                       name="ProductAlterKey" />
                     <externalMetadataColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product]"
                       dataType="wstr"
                       length="50"
                       name="Product" />
                     <externalMetadataColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
                       dataType="wstr"
                       length="50"
                       name="Category" />
                     <externalMetadataColumn
-                      refId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                      refId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                       dataType="i4"
                       name="LineageKey" />
                   </externalMetadataColumns>
@@ -292,22 +377,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Product\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load Product\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                  synchronousInputId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  synchronousInputId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Product\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      refId="Package\Load Product\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Product\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      lineageId="Package\Load Product\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Product\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      refId="Package\Load Product\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Product\Insert Destination.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      lineageId="Package\Load Product\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -464,11 +549,295 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Product\Команда OLE DB"
+              refId="Package\Load Product\Lookup DWH"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+              description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
+              name="Lookup DWH"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Product]</property>
+                <property
+                  dataType="System.String"
+                  description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Product]) [refTable]
+where [refTable].[ProductAlterKey] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает тип кэша таблицы уточняющих запросов."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProductKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductAlterKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Product" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Category" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                  name="ParameterMap">#{Package\Load Product\Landing source.Outputs[Выход источника "OLE DB"].Columns[ProductAlterKey]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Product\Lookup DWH.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[ProductAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductAlterKey"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductAlterKey]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                          name="JoinToReferenceColumn">ProductAlterKey</property>
+                        <property
+                          dataType="System.Null"
+                          description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                  errorOrTruncationOperation="Уточняющий запрос"
+                  exclusionGroup="1"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  synchronousInputId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWProduct]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Копировать столбец"
+                      length="50"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWProduct]"
+                      name="DWProduct"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                          name="CopyFromReferenceColumn">Product</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWCategory]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Копировать столбец"
+                      length="50"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWCategory]"
+                      name="DWCategory"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                          name="CopyFromReferenceColumn">Category</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Product\Lookup DWH.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                  description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                  exclusionGroup="1"
+                  name="Выход несовпадающих строк уточняющего запроса"
+                  synchronousInputId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Product\Lookup DWH.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                  synchronousInputId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Product\Lookup DWH.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Product\Lookup DWH.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Product\No Change"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Назначение &quot;Неструктурированный файл&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
+              description="Назначение &quot;Неструктурированный файл&quot;"
+              localeId="1049"
+              name="No Change"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, следует ли перезаписывать данные в целевой файл или добавлять их в его конец."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Задает текст, который записывается в целевой файл перед записью любых данных."
+                  expressionType="Notify"
+                  name="Header" />
+                <property
+                  dataType="System.Boolean"
+                  description="Если ограничитель текста включен, указывает, будут ли добавляться escape-символы для ограничителя в данных, записываемых в конечный файл."
+                  name="EscapeQualifier">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Product\No Change.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;Неструктурированный файл&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ProductAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductAlterKey"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ProductAlterKey]"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductAlterKey]" />
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Product]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Product"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Product]"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Product]" />
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Category]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Category"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Category]"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]" />
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[LineageKey]"
+                      lineageId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[DWProduct]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DWProduct"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[DWProduct]"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWProduct]" />
+                    <inputColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[DWCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DWCategory"
+                      externalMetadataColumnId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[DWCategory]"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWCategory]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ProductAlterKey]"
+                      dataType="i4"
+                      name="ProductAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Product]"
+                      dataType="wstr"
+                      length="40"
+                      name="Product" />
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Category]"
+                      dataType="wstr"
+                      length="15"
+                      name="Category" />
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[LineageKey]"
+                      dataType="i4"
+                      name="LineageKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[DWProduct]"
+                      dataType="wstr"
+                      length="50"
+                      name="DWProduct" />
+                    <externalMetadataColumn
+                      refId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[DWCategory]"
+                      dataType="wstr"
+                      length="50"
+                      name="DWCategory" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\Load Product\Update Products"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
               description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
-              name="Команда OLE DB"
+              name="Update Products"
               usesDispositions="true"
               version="2">
               <properties>
@@ -481,7 +850,7 @@
                   description="Команда SQL для выполнения."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Product] SET [Category] = ?,[LineageKey] = ?,[Product] = ? WHERE [ProductAlterKey] = ?</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [Dimension].[Product] SET [Product] = ?, [Category] = ?, [LineageKey] = ? WHERE [ProductAlterKey] = ?</property>
                 <property
                   dataType="System.Int32"
                   description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -489,7 +858,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Product\Команда OLE DB.Connections[OleDbConnection]"
+                  refId="Package\Load Product\Update Products.Connections[OleDbConnection]"
                   connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                   connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -497,43 +866,43 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB]"
+                  refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB]"
                   errorOrTruncationOperation="Выполнение команды"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="Вход команды OLE DB">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[Category]"
-                      cachedDataType="wstr"
-                      cachedLength="15"
-                      cachedName="Category"
-                      externalMetadataColumnId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
-                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]" />
-                    <inputColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[LineageKey]"
-                      cachedDataType="i4"
-                      cachedName="LineageKey"
-                      externalMetadataColumnId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
-                      lineageId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
-                    <inputColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[Product]"
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].Columns[Product]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Product"
-                      externalMetadataColumnId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      externalMetadataColumnId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Product]" />
                     <inputColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].Columns[ProductAlterKey]"
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].Columns[Category]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Category"
+                      externalMetadataColumnId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]" />
+                    <inputColumn
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].Columns[LineageKey]"
+                      cachedDataType="i4"
+                      cachedName="LineageKey"
+                      externalMetadataColumnId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      lineageId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                    <inputColumn
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].Columns[ProductAlterKey]"
                       cachedDataType="i4"
                       cachedName="ProductAlterKey"
-                      externalMetadataColumnId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      externalMetadataColumnId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductAlterKey]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
                       dataType="wstr"
                       length="50"
                       name="Param_0">
@@ -545,21 +914,10 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
-                      dataType="i4"
-                      name="Param_1">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
-                          name="DBParamInfoFlags">81</property>
-                      </properties>
-                    </externalMetadataColumn>
-                    <externalMetadataColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
                       dataType="wstr"
                       length="50"
-                      name="Param_2">
+                      name="Param_1">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -568,7 +926,18 @@
                       </properties>
                     </externalMetadataColumn>
                     <externalMetadataColumn
-                      refId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
                       dataType="i4"
                       name="Param_3">
                       <properties>
@@ -583,29 +952,29 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Product\Команда OLE DB.Outputs[Выход команды OLE DB]"
+                  refId="Package\Load Product\Update Products.Outputs[Выход команды OLE DB]"
                   exclusionGroup="1"
                   name="Выход команды OLE DB"
-                  synchronousInputId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Product\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB]"
+                  refId="Package\Load Product\Update Products.Outputs[Вывод ошибок команды OLE DB]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Вывод ошибок команды OLE DB"
-                  synchronousInputId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB]">
+                  synchronousInputId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Product\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      refId="Package\Load Product\Update Products.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Product\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
+                      lineageId="Package\Load Product\Update Products.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Product\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      refId="Package\Load Product\Update Products.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Product\Команда OLE DB.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
+                      lineageId="Package\Load Product\Update Products.Outputs[Вывод ошибок команды OLE DB].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -614,190 +983,109 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Product\Медленно изменяющееся измерение"
-              componentClassID="Microsoft.SCD"
-              contactInfo="Медленно изменяющееся измерение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;3"
-              description="Обновляет размеры хранилища данных служб SQL Server Analysis Services. Обновляет существующие записи измерений и добавляет новые записи измерений. Пример: обновление таблицы DimProduct в базе данных OLAP AdventureWorksDW с помощью данных из таблицы &quot;Products&quot; в базе данных OLTP AdventureWorks."
-              name="Медленно изменяющееся измерение"
-              version="3">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Задает инструкцию SELECT, которая используется для создания набора строк схемы."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT [Category], [LineageKey], [Product], [ProductAlterKey] FROM [Dimension].[Product]</property>
-                <property
-                  dataType="System.String"
-                  description="Задает предложение WHERE в инструкции SELECT, которая выбирает текущую строку среди строк с одинаковыми бизнес-ключами."
-                  name="CurrentRowWhere"></property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, следует ли направлять обновления атрибутов с предысторией на вывод преобразования для обновлений изменяемых атрибутов."
-                  name="UpdateChangingAttributeHistory">true</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, завершается ли преобразование ошибкой, если столбцы с атрибутами неизменности содержат изменения."
-                  name="FailOnFixedAttributeChange">false</property>
-                <property
-                  dataType="System.String"
-                  description="Указывает имя столбца для выводимого элемента."
-                  name="InferredMemberIndicator"></property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, определяются ли обновления выводимых элементов."
-                  name="EnableInferredMember">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Указывает, завершается ли преобразование ошибкой в случае сбоя уточняющего запроса существующей записи."
-                  name="FailOnLookupFailure">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает, что все строки на входе являются новыми или преобразование определяет тип изменения."
-                  name="IncomingRowChangeType"
-                  typeConverter="IncomingRowChangeType">1</property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
-                  name="DefaultCodePage">1251</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Connections[LookupConnection]"
-                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
-                  description="Определяет соединение для использования при уточняющих запросах таблицы измерения"
-                  name="LookupConnection" />
-              </connections>
+              refId="Package\Load Product\Условное разбиение"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Условное разбиение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+              description="Распределяет строки данных по разным выходам в зависимости от содержимого данных. Используйте условие (выражения SSIS), чтобы указать распределяемые строки. Пример: разделение записей, которые необходимо очистить, от подготовленных к загрузке или распределение только подмножества записей."
+              name="Условное разбиение"
+              usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
-                  name="Вход медленно изменяющегося измерения">
+                  refId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения]"
+                  description="Ввод преобразования &quot;Условное разбиение&quot;"
+                  name="Вход условного разбиения">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Category]"
-                      cachedDataType="wstr"
-                      cachedLength="15"
-                      cachedName="Category"
-                      externalMetadataColumnId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Category]"
-                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          name="ColumnType"
-                          typeConverter="ColumnType">2</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[LineageKey]"
-                      cachedDataType="i4"
-                      cachedName="LineageKey"
-                      externalMetadataColumnId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[LineageKey]"
-                      lineageId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          name="ColumnType"
-                          typeConverter="ColumnType">2</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[Product]"
+                      refId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения].Columns[Product]"
                       cachedDataType="wstr"
                       cachedLength="40"
                       cachedName="Product"
-                      externalMetadataColumnId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Product]"
-                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Product]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          name="ColumnType"
-                          typeConverter="ColumnType">2</property>
-                      </properties>
-                    </inputColumn>
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Product]" />
                     <inputColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].Columns[ProductAlterKey]"
-                      cachedDataType="i4"
-                      cachedName="ProductAlterKey"
-                      externalMetadataColumnId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[ProductAlterKey]"
-                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductAlterKey]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          name="ColumnType"
-                          typeConverter="ColumnType">1</property>
-                      </properties>
-                    </inputColumn>
+                      refId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения].Columns[Category]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Category"
+                      lineageId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category]" />
+                    <inputColumn
+                      refId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения].Columns[DWProduct]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DWProduct"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWProduct]" />
+                    <inputColumn
+                      refId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения].Columns[DWCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DWCategory"
+                      lineageId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DWCategory]" />
                   </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Category]"
-                      dataType="wstr"
-                      length="50"
-                      name="Category" />
-                    <externalMetadataColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[LineageKey]"
-                      dataType="i4"
-                      name="LineageKey" />
-                    <externalMetadataColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[Product]"
-                      dataType="wstr"
-                      length="50"
-                      name="Product" />
-                    <externalMetadataColumn
-                      refId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения].ExternalColumns[ProductAlterKey]"
-                      dataType="i4"
-                      name="ProductAlterKey" />
-                  </externalMetadataColumns>
+                  <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Неизменившийся выход]"
-                  description="Неизменившиеся строки"
+                  refId="Package\Load Product\Условное разбиение.Outputs[Changing attributes]"
+                  description="Вывод 1 преобразования &quot;Условное разбиение&quot;"
+                  errorOrTruncationOperation="Вычисление"
+                  errorRowDisposition="FailComponent"
                   exclusionGroup="1"
-                  name="Неизменившийся выход"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  name="Changing attributes"
+                  synchronousInputId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Указывает выражение. Версия этого выражения использует вместо имен столбцов идентификаторы журнала обращений и преобразований."
+                      name="Expression">[REPLACENULL](#{Package\Load Product\Landing source.Outputs[Выход источника "OLE DB"].Columns[Product]},"") + [REPLACENULL](#{Package\Load Product\Landing source.Outputs[Выход источника "OLE DB"].Columns[Category]},"") != [REPLACENULL](#{Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWProduct]},"") + [REPLACENULL](#{Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCategory]},"")</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает понятную версию выражения. Эта версия выражения использует имена столбцов."
+                      expressionType="Notify"
+                      name="FriendlyExpression">REPLACENULL(Product,"") + REPLACENULL(Category,"") != REPLACENULL(DWProduct,"") + REPLACENULL(DWCategory,"")</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает положение условия в списке условий, который вычисляется преобразованием. Вычисление производится в порядке от меньшего к большему значению."
+                      name="EvaluationOrder">0</property>
+                  </properties>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Новый выход]"
-                  description="Новые строки"
+                  refId="Package\Load Product\Условное разбиение.Outputs[NoChange]"
+                  description="Выход по умолчанию преобразования &quot;Условное разбиение&quot;"
                   exclusionGroup="1"
-                  name="Новый выход"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  name="NoChange"
+                  synchronousInputId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Выход атрибута неизменности]"
-                  description="Строки с изменениями с столбцах, помеченных FixedAttribute"
+                  refId="Package\Load Product\Условное разбиение.Outputs[Вывод ошибок условного разбиения]"
+                  description="Вывод ошибок преобразования &quot;Условное разбиение&quot;"
                   exclusionGroup="1"
-                  name="Выход атрибута неизменности"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Выход обновлений изменяемых атрибутов]"
-                  description="Эти строки содержат новые данные для изменения столбцов ChangingAttribute (Тип 1)"
-                  exclusionGroup="1"
-                  name="Выход обновлений изменяемых атрибутов"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Выход вставок атрибутов с предысторией]"
-                  description="Изменения атрибута HistoricalAttribute (Тип 2) приводят к образованию этих новых строк"
-                  exclusionGroup="2"
-                  name="Выход вставок атрибутов с предысторией"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Выход обновлений выводимых элементов]"
-                  description="Данные для обновления незаполненной строки исходного измерения"
-                  exclusionGroup="1"
-                  name="Выход обновлений выводимых элементов"
-                  synchronousInputId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]">
+                  isErrorOut="true"
+                  name="Вывод ошибок условного разбиения"
+                  synchronousInputId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Product\Условное разбиение.Outputs[Вывод ошибок условного разбиения].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Product\Условное разбиение.Outputs[Вывод ошибок условного разбиения].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Product\Условное разбиение.Outputs[Вывод ошибок условного разбиения].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Product\Условное разбиение.Outputs[Вывод ошибок условного разбиения].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -805,25 +1093,35 @@
           </components>
           <paths>
             <path
+              refId="Package\Load Product.Paths[Changing attributes]"
+              endId="Package\Load Product\Update Products.Inputs[Вход команды OLE DB]"
+              name="Changing attributes"
+              startId="Package\Load Product\Условное разбиение.Outputs[Changing attributes]" />
+            <path
+              refId="Package\Load Product.Paths[NoChange]"
+              endId="Package\Load Product\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
+              name="NoChange"
+              startId="Package\Load Product\Условное разбиение.Outputs[NoChange]" />
+            <path
+              refId="Package\Load Product.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+              endId="Package\Load Product\Условное разбиение.Inputs[Вход условного разбиения]"
+              name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+              startId="Package\Load Product\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+            <path
               refId="Package\Load Product.Paths[Выход источника &quot;OLE DB&quot;]"
               endId="Package\Load Product\Add LineageKey.Inputs[Вход производного столбца]"
               name="Выход источника &quot;OLE DB&quot;"
               startId="Package\Load Product\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
             <path
-              refId="Package\Load Product.Paths[Выход обновлений изменяемых атрибутов]"
-              endId="Package\Load Product\Команда OLE DB.Inputs[Вход команды OLE DB]"
-              name="Выход обновлений изменяемых атрибутов"
-              startId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Выход обновлений изменяемых атрибутов]" />
+              refId="Package\Load Product.Paths[Выход несовпадающих строк уточняющего запроса]"
+              endId="Package\Load Product\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="Выход несовпадающих строк уточняющего запроса"
+              startId="Package\Load Product\Lookup DWH.Outputs[Выход несовпадающих строк уточняющего запроса]" />
             <path
               refId="Package\Load Product.Paths[Выход производного столбца]"
-              endId="Package\Load Product\Медленно изменяющееся измерение.Inputs[Вход медленно изменяющегося измерения]"
+              endId="Package\Load Product\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
               name="Выход производного столбца"
               startId="Package\Load Product\Add LineageKey.Outputs[Выход производного столбца]" />
-            <path
-              refId="Package\Load Product.Paths[Новый выход]"
-              endId="Package\Load Product\Insert Destination.Inputs[Вход назначения &quot;OLE DB&quot;]"
-              name="Новый выход"
-              startId="Package\Load Product\Медленно изменяющееся измерение.Outputs[Новый выход]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -891,19 +1189,19 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="208,42"
+          Size="208,41.6"
           Id="Package\Add unknown product"
           TopLeft="5.50000000000001,156.5" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
           TopLeft="33,54.5" />
         <NodeLayout
-          Size="141,42"
+          Size="140.8,41.6"
           Id="Package\Load Product"
           TopLeft="39,258.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Set load compilation info"
           TopLeft="12,360.5" />
         <EdgeLayout
@@ -981,142 +1279,218 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="261,42"
-          Id="Package\Load Product\Медленно изменяющееся измерение"
-          TopLeft="178.5,209.5" />
-        <NodeLayout
-          Size="163,42"
-          Id="Package\Load Product\Insert Destination"
-          TopLeft="5.50000000000006,311.5" />
-        <NodeLayout
-          Size="160,42"
-          Id="Package\Load Product\Команда OLE DB"
-          TopLeft="229,311.5" />
-        <NodeLayout
-          Size="150,42"
+          Size="150.4,41.6"
           Id="Package\Load Product\Landing source"
-          TopLeft="234,5.5" />
+          TopLeft="291.3,54.3" />
         <NodeLayout
-          Size="154,42"
+          Size="174.4,41.6"
+          Id="Package\Load Product\Insert New Products"
+          TopLeft="42.3,359.1" />
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Load Product\Lookup DWH"
+          TopLeft="296.5,257.5" />
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\Load Product\Условное разбиение"
+          TopLeft="276.9,359.1" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Load Product\Update Products"
+          TopLeft="84.5000000000001,460.7" />
+        <NodeLayout
+          Size="130.4,41.6"
+          Id="Package\Load Product\No Change"
+          TopLeft="301.3,460.7" />
+        <NodeLayout
+          Size="153.6,41.6"
           Id="Package\Load Product\Add LineageKey"
-          TopLeft="232,107.5" />
-        <EdgeLayout
-          Id="Package\Load Product.Paths[Новый выход]"
-          TopLeft="266.833333333333,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-179.833333333333,60"
-              Start="0,0"
-              End="-179.833333333333,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.2193450114242" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.2193450114242"
-                    Point2="0,24.2193450114242"
-                    Point3="-4,24.2193450114242" />
-                  <mssgle:LineSegment
-                    End="-175.833333333333,24.2193450114242" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-175.833333333333,24.2193450114242"
-                    Point2="-179.833333333333,24.2193450114242"
-                    Point3="-179.833333333333,28.2193450114242" />
-                  <mssgle:LineSegment
-                    End="-179.833333333333,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-121.048912760416,29.2193450114242,62.2644921875,11.296875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="289.7,155.9" />
         <EdgeLayout
           Id="Package\Load Product.Paths[Выход производного столбца]"
-          TopLeft="309,149.5">
+          TopLeft="366.5,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Product.Paths[Выход обновлений изменяемых атрибутов]"
-          TopLeft="351.166666666667,251.5">
+          Id="Package\Load Product.Paths[Выход несовпадающих строк уточняющего запроса]"
+          TopLeft="344.5,299.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-42.1666666666667,60"
+              EndConnector="-215,59.9999999999999"
               Start="0,0"
-              End="-42.1666666666667,52.5">
+              End="-215,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.2193450114242" />
+                    End="0,20.4067796610169" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.2193450114242"
-                    Point2="0,24.2193450114242"
-                    Point3="-4,24.2193450114242" />
+                    Point1="0,20.4067796610169"
+                    Point2="0,24.4067796610169"
+                    Point3="-4,24.4067796610169" />
                   <mssgle:LineSegment
-                    End="-38.1666666666667,24.2193450114242" />
+                    End="-211,24.4067796610169" />
                   <mssgle:CubicBezierSegment
-                    Point1="-38.1666666666667,24.2193450114242"
-                    Point2="-42.1666666666667,24.2193450114242"
-                    Point3="-42.1666666666667,28.2193450114242" />
+                    Point1="-211,24.4067796610169"
+                    Point2="-215,24.4067796610169"
+                    Point3="-215,28.4067796610169" />
                   <mssgle:LineSegment
-                    End="-42.1666666666667,52.5" />
+                    End="-215,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-119.715384114583,29.2193450114242,197.2641015625,12"
+              BoundingBox="-227.098359375,29.4067796610169,239.19671875,11.2822265625"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Product.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="309,47.5">
+          TopLeft="366.5,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Product.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          TopLeft="388.5,299.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-21.9999999999999,59.9999999999999"
+              Start="0,0"
+              End="-21.9999999999999,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.4067796610169" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4067796610169"
+                    Point2="0,24.4067796610169"
+                    Point3="-4,24.4067796610169" />
+                  <mssgle:LineSegment
+                    End="-17.9999999999999,24.4067796610169" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-17.9999999999999,24.4067796610169"
+                    Point2="-21.9999999999999,24.4067796610169"
+                    Point3="-21.9999999999999,28.4067796610169" />
+                  <mssgle:LineSegment
+                    End="-21.9999999999999,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
+              BoundingBox="-145.68986328125,29.4067796610169,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Product.Paths[NoChange]"
+          TopLeft="395.033333333333,400.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-28.5333333333333,59.9999999999999"
+              Start="0,0"
+              End="-28.5333333333333,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3185840707964" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3185840707964"
+                    Point2="0,24.3185840707964"
+                    Point3="-4,24.3185840707964" />
+                  <mssgle:LineSegment
+                    End="-24.5333333333333,24.3185840707964" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-24.5333333333333,24.3185840707964"
+                    Point2="-28.5333333333333,24.3185840707964"
+                    Point3="-28.5333333333333,28.3185840707964" />
+                  <mssgle:LineSegment
+                    End="-28.5333333333333,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-37.4230143229167,29.3185840707964,46.3126953125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Product.Paths[Changing attributes]"
+          TopLeft="337.966666666667,400.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-175.466666666667,59.9999999999999"
+              Start="0,0"
+              End="-175.466666666667,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3185840707964" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3185840707964"
+                    Point2="0,24.3185840707964"
+                    Point3="-4,24.3185840707964" />
+                  <mssgle:LineSegment
+                    End="-171.466666666667,24.3185840707964" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-171.466666666667,24.3185840707964"
+                    Point2="-175.466666666667,24.3185840707964"
+                    Point3="-175.466666666667,28.3185840707964" />
+                  <mssgle:LineSegment
+                    End="-175.466666666667,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-131.713430989583,29.3185840707964,87.9601953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -1124,62 +1498,15 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Product\Медленно изменяющееся измерение">
+    design-time-name="Package\Load Product\Landing source">
     <Properties>
       <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionID&gt;{F8652FBF-5699-4149-A76B-CA0F98489C1E}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[Dimension].[Product]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Landing source.Выводы[Выход источника "OLE DB"].Столбцы[Category]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Category&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Add LineageKey.Выводы[Выход производного столбца].Столбцы[LineageKey]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;LineageKey&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Landing source.Выводы[Выход источника "OLE DB"].Столбцы[Product]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Product&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Landing source.Выводы[Выход источника "OLE DB"].Столбцы[ProductAlterKey]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;ProductAlterKey&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Команда OLE DB&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Product\Insert Destination">
+    design-time-name="Package\Load Product\Insert New Products">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1192,8 +1519,23 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Product\Landing source">
+    design-time-name="Package\Load Product\Lookup DWH">
     <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[Dimension].[Product]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>

@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="111"
-  DTS:VersionGUID="{A27A9E42-F80C-446E-9773-30322C3CFFD0}">
+  DTS:VersionBuild="113"
+  DTS:VersionGUID="{9EE2F7A9-F500-4CB2-94BD-6498A6EBC4AE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -159,6 +159,17 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{F4B79596-8E09-4B5B-ADDC-9C5C26BFA028}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -187,7 +198,7 @@
           SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownEmployee] @StartDate = ?, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Project::Cutofftime"
+            SQLTask:DtsVariableName="$Package::CutoffTime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -220,7 +231,7 @@
             SQLTask:DtsVariableName="User::LineageKey" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Project::Cutofftime"
+            SQLTask:DtsVariableName="$Package::CutoffTime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -2031,19 +2042,19 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="192,42"
+          Size="192,41.6"
           Id="Package\Add unknown employee"
           TopLeft="8.00000000000001,156.5" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
           TopLeft="26.5,54.5" />
         <NodeLayout
-          Size="155,42"
+          Size="155.2,41.6"
           Id="Package\Load employees"
           TopLeft="25.5,258.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Set load compilation info"
           TopLeft="5.50000000000003,360.5" />
         <EdgeLayout

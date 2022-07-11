@@ -11,10 +11,21 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="49"
-  DTS:VersionGUID="{DC863AEC-674D-4058-B2EF-DDF98D584195}">
+  DTS:VersionBuild="51"
+  DTS:VersionGUID="{279E2004-C11E-4B54-A002-FB6A4A9A4662}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{A85D576E-9F80-4E11-B595-71EC2881EEA5}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">4/30/1998</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
@@ -58,6 +69,10 @@
             <ExecutePackageTask>
               <UseProjectReference>True</UseProjectReference>
               <PackageName>Load Customers.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CuttoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -75,6 +90,10 @@
             <ExecutePackageTask>
               <UseProjectReference>True</UseProjectReference>
               <PackageName>Load Employees.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -92,6 +111,10 @@
             <ExecutePackageTask>
               <UseProjectReference>True</UseProjectReference>
               <PackageName>Load Products.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -128,6 +151,10 @@
         <ExecutePackageTask>
           <UseProjectReference>True</UseProjectReference>
           <PackageName>Load Orders.dtsx</PackageName>
+          <ParameterAssignment>
+            <ParameterName>CutoffTime</ParameterName>
+            <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+          </ParameterAssignment>
         </ExecutePackageTask>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -196,39 +223,65 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="179,42"
+          Size="179.2,41.6"
           Id="Package\Load Date Dimension"
           TopLeft="238,258.5" />
         <NodeLayout
-          Size="155,42"
+          Size="155.2,41.6"
           Id="Package\Load Dimensions\Load Customers"
           TopLeft="5.5,5.49999999999989" />
         <NodeLayout
-          Size="155,42"
+          Size="155.2,41.6"
           Id="Package\Load Dimensions\Load Employees"
           TopLeft="221.5,5.49999999999989" />
         <NodeLayout
-          Size="146,42"
+          Size="145.6,41.6"
           Id="Package\Load Dimensions\Load Products"
           TopLeft="437,5.49999999999989" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="588,102"
-          Size="588,145"
+          PanelSize="588,102.4"
+          Size="588,144.8"
           Id="Package\Load Dimensions"
           TopLeft="33.5000000000001,360.5" />
         <NodeLayout
-          Size="169,42"
+          Size="168.8,41.6"
           Id="Package\Load Landing Zone"
           TopLeft="243,54.5" />
         <NodeLayout
-          Size="148,42"
+          Size="136,41.6"
+          Id="Package\Load Orders"
+          TopLeft="259.5,565.5" />
+        <NodeLayout
+          Size="148,41.6"
           Id="Package\Truncate DWH"
           TopLeft="253.5,156.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="327.5,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="327.5,505.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -273,32 +326,6 @@
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
           TopLeft="327.5,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="136,42"
-          Id="Package\Load Orders"
-          TopLeft="259.5,565.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="327.5,505.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
