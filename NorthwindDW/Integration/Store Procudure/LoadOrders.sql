@@ -20,11 +20,14 @@ AS
 */
 BEGIN
 -- Объявление переменных
+		DECLARE		@NewPartitionParameterDate AS DATE
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
 
+-- Определение границы новой секции
+	SET @NewPartitionParameterDate = DATEADD ( DAY, 1, @EndLoad )
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-		SET @NewPartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
+		SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (

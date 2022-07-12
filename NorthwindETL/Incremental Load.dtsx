@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load"
   DTS:PackageType="5"
-  DTS:VersionBuild="52"
-  DTS:VersionGUID="{F7F5E2DC-BF84-4662-A83A-A2DD7E3CF2A7}">
+  DTS:VersionBuild="63"
+  DTS:VersionGUID="{3E9EB191-BECA-4DA3-A963-5DF065FA7B06}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -33,7 +33,7 @@
       DTS:CreationName="STOCK:FORLOOP"
       DTS:Description="Контейнер &quot;Цикл по элементам&quot;"
       DTS:DTSID="{91E94758-62F1-4035-9808-53C84263721F}"
-      DTS:EvalExpression="@var_CutoffTime &lt; (DT_DATE)&quot;1998-05-10&quot;"
+      DTS:EvalExpression="@var_CutoffTime &lt; (DT_DATE)&quot;1998-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
       DTS:InitExpression="@var_CutoffTime"
       DTS:LocaleID="-1"
@@ -171,6 +171,38 @@
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{7578f4ac-da3f-4902-9368-782714c836a1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Trancate staging"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{b241f256-f8d3-46ce-b147-3a6cf04ff5c9}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate landing and staging tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding];&#xA;EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -190,13 +222,29 @@
           DTS:ObjectName="Constraint 1"
           DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders" />
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Ограничение 1]"
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 2]"
           DTS:CreationName=""
-          DTS:DTSID="{a023d6a7-4934-4745-ba6b-61d73f4f64ac}"
+          DTS:DTSID="{7D06FBBA-C566-4431-A97C-D5CE487C23F7}"
           DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Ограничение 1"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{3290CBB6-06BF-4AE8-9B83-CA4425A14EE6}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
           DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{2CAD8A30-605A-481E-BF6B-6CEC2268921B}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
@@ -213,50 +261,58 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="179.2,41.6"
+          Size="179,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension"
-          TopLeft="209.9,107.1" />
+          TopLeft="210,107.5" />
         <NodeLayout
-          Size="155.2,41.6"
+          Size="155,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Customers"
           TopLeft="5.5,5.49999999999989" />
         <NodeLayout
-          Size="155.2,41.6"
+          Size="155,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Employees"
           TopLeft="221.5,5.49999999999989" />
         <NodeLayout
-          Size="145.6,41.6"
+          Size="146,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Products"
           TopLeft="437,5.49999999999989" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="588,102.4"
-          Size="588,144.8"
+          PanelSize="588,102"
+          Size="588,145"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions"
-          TopLeft="5.50000000000006,208.7" />
+          TopLeft="5.50000000000006,311.5" />
         <NodeLayout
-          Size="168.8,41.6"
+          Size="169,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Landing Zone"
-          TopLeft="215.1,5.49999999999995" />
+          TopLeft="215,5.5" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders"
-          TopLeft="231.5,413.5" />
+          TopLeft="231.5,516.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables"
+          TopLeft="176,618.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
+          TopLeft="220.5,209.5" />
         <EdgeLayout
           Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint]"
-          TopLeft="299.5,47.1">
+          TopLeft="299.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -267,18 +323,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 1]"
-          TopLeft="299.5,353.5">
+          TopLeft="299.5,456.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -288,8 +344,52 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="299.5,148.7">
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 2]"
+          TopLeft="299.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 3]"
+          TopLeft="299.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 4]"
+          TopLeft="299.75,558.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -312,8 +412,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="599.2,510.4"
-          Size="599.2,553.6"
+          PanelSize="599,716"
+          Size="599,759"
           Id="Package\Контейнер &quot;Цикл по элементам&quot;"
           TopLeft="26.4285718786473,138.411766647055" />
       </GraphLayout>

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[TrancateDWH] AS
+﻿CREATE PROCEDURE [Integration].[TruncateDWH] AS
 BEGIN
 	SET NOCOUNT ON;
 
