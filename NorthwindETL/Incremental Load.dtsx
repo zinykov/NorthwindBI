@@ -5,137 +5,314 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
   DTS:CreatorName="SWIFT3\zinyk"
-  DTS:DTSID="{6A85BAD2-D1CC-4AA1-B24D-AF57D8A7EB5E}"
+  DTS:DTSID="{BD379C6C-2E4A-4D53-A286-4A15504BF83D}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LastModifiedProductVersion="16.0.521.0"
   DTS:LocaleID="1049"
-  DTS:ObjectName="Incremental Load"
+  DTS:ObjectName="Incremental load"
   DTS:PackageType="5"
-  DTS:VersionBuild="55"
-  DTS:VersionGUID="{3173DAA0-D80C-41E6-93CD-E0B80B5E2472}">
+  DTS:VersionBuild="63"
+  DTS:VersionGUID="{3E9EB191-BECA-4DA3-A963-5DF065FA7B06}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{AFA3C31A-B577-412D-B806-DEC3ECF287F7}"
+      DTS:DTSID="{268A4D89-4F32-43A0-82A2-22B8CD9F9F00}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="LoadTest">
+      DTS:ObjectName="var_CutoffTime">
       <DTS:VariableValue
-        DTS:DataType="20">19980502</DTS:VariableValue>
+        DTS:DataType="7">5/1/1998</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Incremental load test"
-      DTS:AssignExpression="@LoadTest = @LoadTest +1"
+      DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;"
+      DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
       DTS:CreationName="STOCK:FORLOOP"
       DTS:Description="Контейнер &quot;Цикл по элементам&quot;"
-      DTS:DTSID="{626E73EE-53A6-4282-80A5-358A9AC3F1C8}"
-      DTS:EvalExpression="@LoadTest &lt;= 19980507"
+      DTS:DTSID="{91E94758-62F1-4035-9808-53C84263721F}"
+      DTS:EvalExpression="@var_CutoffTime &lt; (DT_DATE)&quot;1998-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
-      DTS:InitExpression="@LoadTest = @LoadTest"
+      DTS:InitExpression="@var_CutoffTime"
       DTS:LocaleID="-1"
       DTS:MaxConcurrent="1"
-      DTS:ObjectName="Incremental load test">
+      DTS:ObjectName="Контейнер &quot;Цикл по элементам&quot;">
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Incremental load test\Incremental Load Test SQL"
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{2add7353-01ef-4e37-8e32-47f94b87abd5}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Date Dimension"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Load Date Dimention.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:Description="Контейнер последовательности"
+          DTS:DTSID="{f04cb2d5-817f-4a6f-ad18-cb952199be2f}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Dimensions">
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Customers"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Задача &quot;Выполнение пакета&quot;"
+              DTS:DTSID="{d52e0615-be3b-4828-98f0-eef945095ad5}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load Customers"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>Load Customers.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>CuttoffTime</ParameterName>
+                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Employees"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Задача &quot;Выполнение пакета&quot;"
+              DTS:DTSID="{2ecf6e54-cff1-4a63-9ff8-ca05cdce1a71}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load Employees"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>Load Employees.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>CutoffTime</ParameterName>
+                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Products"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Задача &quot;Выполнение пакета&quot;"
+              DTS:DTSID="{22855c53-35f3-4685-81bd-f41fb34f03c5}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load Products"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>Load Products.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>CutoffTime</ParameterName>
+                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Landing Zone"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{ec76f135-0b9d-41a1-85b3-031d83aba546}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Landing Zone"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Landing Zone.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{819196a5-92cf-4f7a-abd9-9a3718cc5b3d}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Orders"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Load Orders.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{B1B4A499-35D3-4791-8A5C-F714E6606EC4}"
+          DTS:DTSID="{7578f4ac-da3f-4902-9368-782714c836a1}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Incremental Load Test SQL"
-          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ObjectName="Trancate staging"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
-              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[IncrementalOrdersLoadTEST]&#xA;&#x9;@NewPartitionParameter = @NewPartitionParameter" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="@NewPartitionParameter"
-                SQLTask:DtsVariableName="User::LoadTest"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="12"
-                SQLTask:ParameterSize="-1" />
-            </SQLTask:SqlTaskData>
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{b241f256-f8d3-46ce-b147-3a6cf04ff5c9}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate landing and staging tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding];&#xA;EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Landing Zone"
-      DTS:CreationName="Microsoft.ExecutePackageTask"
-      DTS:Description="Задача &quot;Выполнение пакета&quot;"
-      DTS:DTSID="{E7142CF2-06DB-4056-98C9-A6ED2F202DD9}"
-      DTS:ExecutableType="Microsoft.ExecutePackageTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Landing Zone"
-      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <ExecutePackageTask>
-          <UseProjectReference>True</UseProjectReference>
-          <PackageName>Landing Zone.dtsx</PackageName>
-        </ExecutePackageTask>
-      </DTS:ObjectData>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{c371370a-30f5-4329-8e7a-b9bc61299f11}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Landing Zone"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{260c9ddd-27b7-461f-bfc9-e5a05773896d}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{7D06FBBA-C566-4431-A97C-D5CE487C23F7}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{3290CBB6-06BF-4AE8-9B83-CA4425A14EE6}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{2CAD8A30-605A-481E-BF6B-6CEC2268921B}"
+          DTS:From="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
-  <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
-      DTS:CreationName=""
-      DTS:DTSID="{5DAAEAF1-3749-4535-B1F3-46F62921D29B}"
-      DTS:From="Package\Landing Zone"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение"
-      DTS:To="Package\Incremental load test" />
-  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="208,42"
-          Id="Package\Incremental load test\Incremental Load Test SQL"
-          TopLeft="49,23" />
+          Size="179,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Date Dimension"
+          TopLeft="210,107.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Customers"
+          TopLeft="5.5,5.49999999999989" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Employees"
+          TopLeft="221.5,5.49999999999989" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions\Load Products"
+          TopLeft="437,5.49999999999989" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="312,119"
-          Size="312,162"
-          Id="Package\Incremental load test"
-          TopLeft="249,140" />
+          PanelSize="588,102"
+          Size="588,145"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Dimensions"
+          TopLeft="5.50000000000006,311.5" />
         <NodeLayout
-          Size="222,42"
-          Id="Package\Landing Zone"
-          TopLeft="295,37" />
+          Size="169,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Landing Zone"
+          TopLeft="215,5.5" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Load Orders"
+          TopLeft="231.5,516.5" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Truncate landing and staging tables"
+          TopLeft="176,618.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;\Trancate staging"
+          TopLeft="220.5,209.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="405.5,79">
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint]"
+          TopLeft="299.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,61"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,53.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,53.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -144,6 +321,101 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 1]"
+          TopLeft="299.5,456.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 2]"
+          TopLeft="299.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 3]"
+          TopLeft="299.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;.PrecedenceConstraints[Constraint 4]"
+          TopLeft="299.75,558.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="599,716"
+          Size="599,759"
+          Id="Package\Контейнер &quot;Цикл по элементам&quot;"
+          TopLeft="26.4285718786473,138.411766647055" />
       </GraphLayout>
     </LayoutInfo>
   </Package>

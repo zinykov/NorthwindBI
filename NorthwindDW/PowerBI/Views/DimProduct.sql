@@ -3,8 +3,5 @@
 				, [ProductAlterKey]
 				, [Product]
 				, [Category]
-				, [StartDate]
-				, [EndDate]
-				, [Current]
 	
 	FROM		[Dimension].[Product];

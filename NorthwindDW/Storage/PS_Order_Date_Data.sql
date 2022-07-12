@@ -8,6 +8,5 @@
 		, [Fast_Fact_Data]		--5
 		, [Fast_Fact_Data]		--6
 		, [Fast_Fact_Data]		--7
-		, [Fast_Fact_Data]		--8
 	)
 GO

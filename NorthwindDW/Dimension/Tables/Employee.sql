@@ -1,17 +1,20 @@
 ﻿CREATE TABLE [Dimension].[Employee]
 (
-    [EmployeeKey]           INT           IDENTITY (1, 1)     NOT NULL,
+    [EmployeeKey]           INT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[EmployeeKey] )     NOT NULL,
     [EmployeeAlterKey]      INT                               NOT NULL,
     [Name]                  NVARCHAR(35)                      NOT NULL,
     [Title]                 NVARCHAR(30)                      NULL,
     [TitleOfCourtesy]       NVARCHAR(25)                      NULL,
     [City]                  NVARCHAR(15)                      NULL,
     [Country]               NVARCHAR(15)                      NULL,
-    [StartDate]             DATE                              NULL,
-    [EndDate]               DATE                              NULL,
-    [Current]               BIT                               NULL,
+    [StartDate]             DATETIME2                         NOT NULL,
+    [EndDate]               DATETIME2                         NULL,
+    [Current]               BIT                               NOT NULL,
+    [LineageKey]            INT                               NOT NULL,
     
-    CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC )
+    CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC ),
+
+    CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
 )
     ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE ) ;

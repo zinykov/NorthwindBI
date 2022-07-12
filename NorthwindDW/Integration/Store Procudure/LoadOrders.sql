@@ -1,4 +1,9 @@
-﻿/*
+﻿CREATE PROCEDURE [Integration].[LoadOrders]
+	  @StartLoad AS DATE
+	, @EndLoad AS DATE
+	, @LineageKey AS INT
+AS
+/*
 	Процедура производит добавочное обновления таблицы фактов Fact.Order
 
 	Переменные:
@@ -15,24 +20,18 @@
 */
 BEGIN
 -- Объявление переменных
-		DECLARE		@NewPartitionDate AS DATE
+		DECLARE		@NewPartitionParameterDate AS DATE
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
 
--- Переменной @@NewPartitionParameter присваивается значение DateKey
--- Значение определяется как последняя дата, за которую есть заказы + 2 дня
-		SET @NewPartitionDate = (
-			SELECT		DATEADD ( DAY, 2, MAX ( D.[AlterDateKey] ) )
-			FROM		[Fact].[Order] AS O
-			INNER JOIN	[Dimension].[Date] AS D ON D.[DateKey] = O.[OrderDateKey]
-		)
-
+-- Определение границы новой секции
+	SET @NewPartitionParameterDate = DATEADD ( DAY, 1, @EndLoad )
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-		SET @NewPartitionParameter = YEAR ( @NewPartitionDate ) * 10000 + MONTH ( @NewPartitionDate ) * 100 + DAY ( @NewPartitionDate )
+		SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = (
-			SELECT		TOP (1) partition_number -1
+			SELECT		TOP (1) partition_number
 			FROM		sys.partitions
 			WHERE		object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Staging.Order' ) )			
 			ORDER BY	partition_number DESC
@@ -58,30 +57,31 @@ BEGIN
 					, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
 					, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
 					, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
-					, [OrderDateKey]				=	YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] )
-					, [RequiredDateKey]				=	YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] )
-					, [ShippedDateKey]				=	YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] )
+					, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 39991231 )
+					, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 39991231 )
+					, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 39991231 )
 					, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
 					, [Quantity]					=	ISNULL ( [Quantity], 0 )
 					, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
 					, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
 					, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * [Quantity] - [Discount], 0 )
+					, [LineageKey]					=	@LineageKey
 
 		FROM		[Landing].[Orders] AS O
 		INNER JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
 		INNER JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-					AND O.[OrderDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+					AND C.[Current] = 1
 		INNER JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-					AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+					AND E.[Current] = 1
 		INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
-					AND O.[OrderDate] BETWEEN P.[StartDate] AND ISNULL ( P.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 
-		WHERE		YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ) < @NewPartitionParameter
+		WHERE		[OrderDate] BETWEEN @StartLoad AND @EndLoad
 
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
 
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
+--		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
 		IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
 		MERGE
 			INTO [Fact].[Order] AS TRG
@@ -104,6 +104,7 @@ BEGIN
 					, TRG.[Discount]				=	SRC.[Discount]
 					, TRG.[SalesAmount]				=	SRC.[SalesAmount]
 					, TRG.[SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
+					, TRG.[LineageKey]				=	SRC.[LineageKey]
 			
 			WHEN NOT MATCHED THEN INSERT (
 					  [OrderKey]
@@ -118,6 +119,7 @@ BEGIN
 					, [Discount]
 					, [SalesAmount]
 					, [SalesAmountWithDiscount]
+					, [LineageKey]
 				) VALUES (
 					  SRC.[OrderKey]
 					, SRC.[ProductKey]
@@ -131,5 +133,6 @@ BEGIN
 					, SRC.[Discount]
 					, SRC.[SalesAmount]
 					, SRC.[SalesAmountWithDiscount]
+					, SRC.[LineageKey]
 				);
 END
