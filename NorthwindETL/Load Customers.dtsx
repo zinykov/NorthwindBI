@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="106"
-  DTS:VersionGUID="{AAC46D4C-6B7B-4A79-9E4E-E6BE64AC4B77}">
+  DTS:VersionBuild="109"
+  DTS:VersionGUID="{AE531EDF-9AAF-476C-9A03-E8332CF37B9C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2381,6 +2381,51 @@ WHERE	[CustomerAlterKey] = ?</property>
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Load Customers" />
   </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{00E0F84F-6954-4CCD-82C6-40FD57DB5011}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{D4E0470C-4E86-4063-A672-497B596199B2}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error handling"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:DTSID="{446f62bc-546f-45ae-9de5-65a633be8c66}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error handling">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="MessageSource">(DT_WSTR, 20) @[System::ErrorCode] + " " +  @[System::ErrorDescription] + " " +  (DT_WSTR, 19)  @[System::EventHandlerStartTime]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="Subject">"Error on "+ @[System::PackageName]  + (DT_WSTR, 19) @[System::StartTime]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{10DE60B8-8A9A-4F5C-91FE-4C97EF2C7D03}"
+              SendMailTask:From="zinykov@hotmail.com"
+              SendMailTask:To="zinykov@hotmail.com"
+              SendMailTask:Subject="Error on Load Customers16.07.2022 16:00:17"
+              SendMailTask:MessageSource="0  16.07.2022 16:00:20" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -2813,5 +2858,17 @@ WHERE	[CustomerAlterKey] = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="146,42"
+          Id="Package.EventHandlers[OnError]\Error handling"
+          TopLeft="25,119" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
