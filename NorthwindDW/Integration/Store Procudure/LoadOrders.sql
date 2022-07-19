@@ -78,61 +78,64 @@ BEGIN
 		WHERE		[OrderDate] BETWEEN @StartLoad AND @EndLoad
 
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
-		ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
-
+		BEGIN TRANSACTION
+			ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
+		COMMIT
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
 --		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
-		IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
-		MERGE
-			INTO [Fact].[Order] AS TRG
-			USING [Staging].[Order] AS SRC
-			ON	(
-					TRG.[OrderKey]		=	SRC.[OrderKey]
-				AND TRG.[ProductKey]	=	SRC.[ProductKey]
-				AND TRG.[OrderDateKey]	=	SRC.[OrderDateKey]
-				)
-			WHEN MATCHED THEN UPDATE SET
-					  TRG.[OrderKey]				=	SRC.[OrderKey]
-					, TRG.[ProductKey]				=	SRC.[ProductKey]
-					, TRG.[CustomerKey]				=	SRC.[CustomerKey]
-					, TRG.[EmployeeKey]				=	SRC.[EmployeeKey]
-					, TRG.[OrderDateKey]			=	SRC.[OrderDateKey]
-					, TRG.[RequiredDateKey]			=	SRC.[RequiredDateKey]
-					, TRG.[ShippedDateKey]			=	SRC.[ShippedDateKey]
-					, TRG.[UnitPrice]				=	SRC.[UnitPrice]
-					, TRG.[Quantity]				=	SRC.[Quantity]
-					, TRG.[Discount]				=	SRC.[Discount]
-					, TRG.[SalesAmount]				=	SRC.[SalesAmount]
-					, TRG.[SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
-					, TRG.[LineageKey]				=	SRC.[LineageKey]
+		BEGIN TRANSACTION
+			IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
+			MERGE
+				INTO [Fact].[Order] AS TRG
+				USING [Staging].[Order] AS SRC
+				ON	(
+						TRG.[OrderKey]		=	SRC.[OrderKey]
+					AND TRG.[ProductKey]	=	SRC.[ProductKey]
+					AND TRG.[OrderDateKey]	=	SRC.[OrderDateKey]
+					)
+				WHEN MATCHED THEN UPDATE SET
+						  TRG.[OrderKey]				=	SRC.[OrderKey]
+						, TRG.[ProductKey]				=	SRC.[ProductKey]
+						, TRG.[CustomerKey]				=	SRC.[CustomerKey]
+						, TRG.[EmployeeKey]				=	SRC.[EmployeeKey]
+						, TRG.[OrderDateKey]			=	SRC.[OrderDateKey]
+						, TRG.[RequiredDateKey]			=	SRC.[RequiredDateKey]
+						, TRG.[ShippedDateKey]			=	SRC.[ShippedDateKey]
+						, TRG.[UnitPrice]				=	SRC.[UnitPrice]
+						, TRG.[Quantity]				=	SRC.[Quantity]
+						, TRG.[Discount]				=	SRC.[Discount]
+						, TRG.[SalesAmount]				=	SRC.[SalesAmount]
+						, TRG.[SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
+						, TRG.[LineageKey]				=	SRC.[LineageKey]
 			
-			WHEN NOT MATCHED THEN INSERT (
-					  [OrderKey]
-					, [ProductKey]
-					, [CustomerKey]
-					, [EmployeeKey]
-					, [OrderDateKey]
-					, [RequiredDateKey]
-					, [ShippedDateKey]
-					, [UnitPrice]
-					, [Quantity]
-					, [Discount]
-					, [SalesAmount]
-					, [SalesAmountWithDiscount]
-					, [LineageKey]
-				) VALUES (
-					  SRC.[OrderKey]
-					, SRC.[ProductKey]
-					, SRC.[CustomerKey]
-					, SRC.[EmployeeKey]
-					, SRC.[OrderDateKey]
-					, SRC.[RequiredDateKey]
-					, SRC.[ShippedDateKey]
-					, SRC.[UnitPrice]
-					, SRC.[Quantity]
-					, SRC.[Discount]
-					, SRC.[SalesAmount]
-					, SRC.[SalesAmountWithDiscount]
-					, SRC.[LineageKey]
-				);
+				WHEN NOT MATCHED THEN INSERT (
+						  [OrderKey]
+						, [ProductKey]
+						, [CustomerKey]
+						, [EmployeeKey]
+						, [OrderDateKey]
+						, [RequiredDateKey]
+						, [ShippedDateKey]
+						, [UnitPrice]
+						, [Quantity]
+						, [Discount]
+						, [SalesAmount]
+						, [SalesAmountWithDiscount]
+						, [LineageKey]
+					) VALUES (
+						  SRC.[OrderKey]
+						, SRC.[ProductKey]
+						, SRC.[CustomerKey]
+						, SRC.[EmployeeKey]
+						, SRC.[OrderDateKey]
+						, SRC.[RequiredDateKey]
+						, SRC.[ShippedDateKey]
+						, SRC.[UnitPrice]
+						, SRC.[Quantity]
+						, SRC.[Discount]
+						, SRC.[SalesAmount]
+						, SRC.[SalesAmountWithDiscount]
+						, SRC.[LineageKey]
+					);
+		COMMIT
 END
