@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Error notification"
   DTS:PackageType="5"
-  DTS:VersionBuild="5"
-  DTS:VersionGUID="{AB8D7E29-8F72-4BC0-A4C7-A4451CC6A65C}">
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{EFCE5A42-9D76-45F7-AAE3-A81C725E481A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:PackageParameters>
@@ -99,21 +99,25 @@
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Error notofocation"
+      DTS:refId="Package\Error notification"
       DTS:CreationName="Microsoft.SendMailTask"
       DTS:DTSID="{7b45c724-4594-49cc-ac17-ceeeaa21ac24}"
       DTS:ExecutableType="Microsoft.SendMailTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Error notofocation"
+      DTS:ObjectName="Error notification"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="MessageSource">"ErrorCode: " + @[$Package::ErrorCode] +"\r\nErrorDescription: "+ @[$Package::ErrorDescription]  +"\r\nPackageName: " + @[$Package::PackageName] +"\r\nSourceName: "+ @[$Package::SourceName] +"\r\nStartTime: " +  @[$Package::StartTime] + "\r\nLineageKey: " +  (DT_WSTR, 10) @[$Package::LineageKey] +"\r\nMachineName: " + @[$Package::MachineName] + "\r\nUserName: " + @[$Package::UserName]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="Subject">"ERROR #"+@[$Package::ErrorCode]+" on "+ @[$Package::PackageName]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <SendMailTask:SendMailTaskData
-          SendMailTask:SMTPServer="{10DE60B8-8A9A-4F5C-91FE-4C97EF2C7D03}"
+          SendMailTask:SMTPServer="{77DE4940-50E8-4317-9D64-F172750C438D}"
           SendMailTask:From="zinykov@hotmail.com"
           SendMailTask:To="zinykov@hotmail.com"
-          SendMailTask:Subject="Error on Error notification17.07.2022 11:57:58"
-          SendMailTask:MessageSource="0  17.07.2022 11:59:35" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          SendMailTask:Subject="ERROR # on"
+          SendMailTask:MessageSource="ErrorCode: &#xA;ErrorDescription: &#xA;PackageName: &#xA;SourceName: &#xA;StartTime: &#xA;LineageKey: 0&#xA;MachineName: &#xA;UserName: " xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -130,8 +134,8 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="145.6,41.6"
-          Id="Package\Error notofocation"
+          Size="146,42"
+          Id="Package\Error notification"
           TopLeft="60,60" />
       </GraphLayout>
     </LayoutInfo>
