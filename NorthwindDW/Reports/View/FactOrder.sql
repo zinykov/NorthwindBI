@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[FactOrder] AS
+﻿CREATE VIEW [Reports].[FactOrder] AS
 	SELECT		  [OrderKey]
 				, [ProductKey]
 				, [CustomerKey]

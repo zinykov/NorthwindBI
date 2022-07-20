@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[DimEmployee] AS
+﻿CREATE VIEW [Reports].[DimEmployee] AS
 	SELECT		  [EmployeeKey]
 				, [EmployeeAlterKey]
 				, [Name]

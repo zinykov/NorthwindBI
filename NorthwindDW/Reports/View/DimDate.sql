@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[DimDate] AS
+﻿CREATE VIEW [Reports].[DimDate] AS
 	SELECT		  [DateKey]
 				, [AlterDateKey]
 				, [Year]

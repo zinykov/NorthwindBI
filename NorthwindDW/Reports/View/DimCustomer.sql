@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[DimCustomer] AS
+﻿CREATE VIEW [Reports].[DimCustomer] AS
 	SELECT		  [CustomerKey]
 				, [CustomerAlterKey]
 				, [Customer]
