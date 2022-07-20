@@ -18,3 +18,6 @@ GO
 
 ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\UserBI];
 GO
+
+ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\RDLexec];
+GO
