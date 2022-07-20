@@ -11,20 +11,19 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Error notification"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{EFCE5A42-9D76-45F7-AAE3-A81C725E481A}">
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{F152D162-AD9D-4FC8-9CEB-FCF155972BAF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:PackageParameters>
     <DTS:PackageParameter
       DTS:CreationName=""
-      DTS:DataType="8"
+      DTS:DataType="3"
       DTS:DTSID="{EE14BE4B-AB96-4E9D-9A58-C854E080DF71}"
       DTS:ObjectName="ErrorCode">
       <DTS:Property
-        DTS:DataType="8"
-        DTS:Name="ParameterValue"
-        xml:space="preserve"></DTS:Property>
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">0</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -77,13 +76,12 @@
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
-      DTS:DataType="8"
+      DTS:DataType="7"
       DTS:DTSID="{4AEFD032-0E55-4A53-B918-CDDAE591B548}"
       DTS:ObjectName="StartTime">
       <DTS:Property
-        DTS:DataType="8"
-        DTS:Name="ParameterValue"
-        xml:space="preserve"></DTS:Property>
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -103,21 +101,30 @@
       DTS:CreationName="Microsoft.SendMailTask"
       DTS:DTSID="{7b45c724-4594-49cc-ac17-ceeeaa21ac24}"
       DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:FailPackageOnFailure="True"
       DTS:LocaleID="-1"
       DTS:ObjectName="Error notification"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
-        DTS:Name="MessageSource">"ErrorCode: " + @[$Package::ErrorCode] +"\r\nErrorDescription: "+ @[$Package::ErrorDescription]  +"\r\nPackageName: " + @[$Package::PackageName] +"\r\nSourceName: "+ @[$Package::SourceName] +"\r\nStartTime: " +  @[$Package::StartTime] + "\r\nLineageKey: " +  (DT_WSTR, 10) @[$Package::LineageKey] +"\r\nMachineName: " + @[$Package::MachineName] + "\r\nUserName: " + @[$Package::UserName]</DTS:PropertyExpression>
+        DTS:Name="MessageSource">"Error code: " + (DT_WSTR, 40) @[$Package::ErrorCode]
++ "\r\nError text: " + @[$Package::ErrorDescription]
++ "\r\nPackage: " + @[$Package::PackageName] 
++ "\r\nSource: " + @[$Package::SourceName]
++ "\r\nLineageKey: " + (DT_WSTR,10) @[$Package::LineageKey] 
++ "\r\nMachine: " + @[$Package::MachineName] 
++ "\r\nStartTime:" + (DT_WSTR, 50) @[$Package::StartTime]
++ "\r\nUser:" +  @[$Package::UserName]</DTS:PropertyExpression>
       <DTS:PropertyExpression
-        DTS:Name="Subject">"ERROR #"+@[$Package::ErrorCode]+" on "+ @[$Package::PackageName]</DTS:PropertyExpression>
+        DTS:Name="Subject">"ERROR in \"" +  @[$Package::PackageName] + "\""</DTS:PropertyExpression>
       <DTS:ObjectData>
         <SendMailTask:SendMailTaskData
           SendMailTask:SMTPServer="{77DE4940-50E8-4317-9D64-F172750C438D}"
           SendMailTask:From="zinykov@hotmail.com"
           SendMailTask:To="zinykov@hotmail.com"
-          SendMailTask:Subject="ERROR # on"
-          SendMailTask:MessageSource="ErrorCode: &#xA;ErrorDescription: &#xA;PackageName: &#xA;SourceName: &#xA;StartTime: &#xA;LineageKey: 0&#xA;MachineName: &#xA;UserName: " xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          SendMailTask:Subject="ERROR in &quot;&quot;"
+          SendMailTask:Priority="High"
+          SendMailTask:MessageSource="Error code: 0&#xA;Error text: &#xA;Package: &#xA;Source: &#xA;LineageKey: 0&#xA;Machine: &#xA;StartTime:0:00:00&#xA;User:" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -136,7 +143,7 @@
         <NodeLayout
           Size="146,42"
           Id="Package\Error notification"
-          TopLeft="60,60" />
+          TopLeft="79,62" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
