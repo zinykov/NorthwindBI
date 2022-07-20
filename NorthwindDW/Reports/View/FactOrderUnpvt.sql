@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[FactOrderUnpvt] AS (
+﻿CREATE VIEW [Reports].[FactOrderUnpvt] AS (
 	SELECT		  [OrderKey]
 				, [DateType]					=	CASE [DateType]
 														WHEN 'OrderDateKey'		THEN 'OrderDate'

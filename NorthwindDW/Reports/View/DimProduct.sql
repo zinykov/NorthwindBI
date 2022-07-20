@@ -1,4 +1,4 @@
-﻿CREATE VIEW [PowerBI].[DimProduct] AS
+﻿CREATE VIEW [Reports].[DimProduct] AS
 	SELECT		  [ProductKey]
 				, [ProductAlterKey]
 				, [Product]
