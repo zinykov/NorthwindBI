@@ -64,7 +64,7 @@ BEGIN
 					, [Quantity]					=	ISNULL ( [Quantity], 0 )
 					, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
 					, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
-					, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * [Quantity] - [Discount], 0 )
+					, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * ( [Quantity] - [Discount] ), 0 )
 					, [LineageKey]					=	@LineageKey
 
 		FROM		[Landing].[Orders] AS O
