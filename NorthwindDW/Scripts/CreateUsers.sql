@@ -1,5 +1,4 @@
-﻿IF EXISTS ( SELECT * FROM sys.databases WHERE [name] = N'NorthwindDW' )
-	USE [NorthwindDW]
+﻿USE [NorthwindDW]
 GO
 CREATE USER [SWIFT3\RDLexec] FOR LOGIN [SWIFT3\RDLexec]
 	WITH DEFAULT_SCHEMA=[Reports]
