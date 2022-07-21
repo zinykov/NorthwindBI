@@ -11,15 +11,18 @@ RETURNS @returntable TABLE
     [YearMonthNumber]       INT             NOT NULL,
     [Month]                 NVARCHAR(10)    NOT NULL,
     [MonthNumber]           INT             NOT NULL,
+    [DayOfMonth]            TINYINT         NOT NULL,
     [DayOfWeekNumber]       TINYINT         NOT NULL,
-    [DayOfWeek]             NVARCHAR(5)     NOT NULL
+    [DayOfWeek]             NVARCHAR(5)     NOT NULL,
+    [WeekNumber]            TINYINT         NOT NULL
 )
 AS BEGIN
     DECLARE @YearNumber SMALLINT            =   YEAR ( @Date )
-    DECLARE @QuarterNumber TINYINT          =   DATEPART ( qq, @Date )
+    DECLARE @QuarterNumber TINYINT          =   DATEPART ( QQ, @Date )
     DECLARE @MonthNumber TINYINT            =   MONTH ( @Date )
-    DECLARE @WeekDayNumber TINYINT          =   DATEPART ( dw , @Date ) - CASE WHEN @@DATEFIRST = 7 THEN 1 ELSE 0 END
-    DECLARE @DayNumber TINYINT              =   DATEPART ( dd, @Date )
+    DECLARE @WeekDayNumber TINYINT          =   DATEPART ( DW , @Date ) - CASE WHEN @@DATEFIRST = 7 THEN 1 ELSE 0 END
+    DECLARE @DayNumber TINYINT              =   DATEPART ( DD, @Date )
+    DECLARE @WeekNumber TINYINT             =   DATEPART ( WK, @Date )
 
 	INSERT @returntable
 	SELECT    [DateKey]             =   @YearNumber * 10000 + @MonthNumber * 100 + @DayNumber
@@ -32,7 +35,9 @@ AS BEGIN
             , [YearMonthNumber]     =   @YearNumber * 12 + @MonthNumber - 1
             , [Month]               =   SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 )
             , [MonthNumber]         =   @MonthNumber
+            , [DayOfMonth]          =   @DayNumber
             , [DayOfWeekNumber]     =   @WeekDayNumber
             , [DayOfWeek]           =   FORMAT ( @Date, 'ddd' )
+            , [WeekNumber]          =   @WeekNumber
 	RETURN
 END;

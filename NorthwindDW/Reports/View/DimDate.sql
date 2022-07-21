@@ -9,7 +9,9 @@
 				, [YearMonthNumber]
 				, [Month]
 				, [MonthNumber]
+				, [DayOfMonth]
 				, [DayOfWeekNumber]
 				, [DayOfWeek]
+				, [WeekNumber]
 	
 	FROM		[Dimension].[Date]

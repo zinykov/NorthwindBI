@@ -25,8 +25,10 @@ BEGIN
 						, [YearMonthNumber]
 						, [Month]
 						, [MonthNumber]
+						, [DayOfMonth]
 						, [DayOfWeekNumber]
 						, [DayOfWeek]
+						, [WeekNumber]
 					) SELECT	  [DateKey]
 								, [AlterDateKey]
 								, [Year]
@@ -37,8 +39,10 @@ BEGIN
 								, [YearMonthNumber]
 								, [Month]
 								, [MonthNumber]
+								, [DayOfMonth]
 								, [DayOfWeekNumber]
 								, [DayOfWeek]
+								, [WeekNumber]
 					  FROM		[Integration].[GenerateDateDimensionColumns] ( @DateCounter )
 				END
 				SET @DateCounter = DATEADD ( DAY, 1, @DateCounter )

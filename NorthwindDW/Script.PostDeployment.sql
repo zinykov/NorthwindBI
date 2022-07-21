@@ -16,6 +16,9 @@ GO
 GRANT SELECT ON SCHEMA::[Reports] TO [dwh_user];  
 GO
 
+GRANT EXECUTE ON SCHEMA::[Reports] TO [dwh_user];  
+GO
+
 ALTER ROLE [dwh_user] ADD MEMBER [SWIFT3\UserBI];
 GO
 

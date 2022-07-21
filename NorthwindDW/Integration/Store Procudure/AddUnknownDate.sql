@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[AddUnknownDate] AS
 BEGIN
-	IF NOT EXISTS ( SELECT * FROM [Dimension].[Date] WHERE [DateKey] = 39991231 )
+	IF NOT EXISTS ( SELECT * FROM [Dimension].[Date] WHERE [DateKey] = 19960101 )
 	INSERT [Dimension].[Date] (
 			  [DateKey]
 		    , [AlterDateKey]
@@ -12,8 +12,10 @@ BEGIN
 		    , [YearMonthNumber]
 		    , [Month]
 		    , [MonthNumber]
+			, [DayOfMonth]
 		    , [DayOfWeekNumber]
 		    , [DayOfWeek]
+			, [WeekNumber]
 	) SELECT	  [DateKey]
 				, [AlterDateKey]
 				, [Year]
@@ -24,7 +26,9 @@ BEGIN
 				, [YearMonthNumber]
 				, [Month]
 				, [MonthNumber]
+				, [DayOfMonth]
 				, [DayOfWeekNumber]
 				, [DayOfWeek]
-	FROM		[Integration].[GenerateDateDimensionColumns] ( DATEFROMPARTS ( 3999, 12, 31 ) )
+				, [WeekNumber]
+	FROM		[Integration].[GenerateDateDimensionColumns] ( DATEFROMPARTS ( 1996, 1, 1 ) )
 END
