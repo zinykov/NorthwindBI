@@ -10,8 +10,10 @@
     [YearMonthNumber]       INT             NOT NULL,
     [Month]                 NVARCHAR(10)    NOT NULL,
     [MonthNumber]           INT             NOT NULL,
+    [DayOfMonth]            TINYINT         NOT NULL,
     [DayOfWeekNumber]       TINYINT         NOT NULL,
-    [DayOfWeek]             NVARCHAR(5)     NOT NULL
+    [DayOfWeek]             NVARCHAR(5)     NOT NULL,
+    [WeekNumber]            TINYINT         NOT NULL
 
     CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
 )
