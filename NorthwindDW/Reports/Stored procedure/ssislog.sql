@@ -5,7 +5,6 @@ AS
 		DECLARE @starttime AS DATETIME = DATEADD ( DAY, -1 * @period, GETDATE () )
 
 		SELECT		  [event]
-					, [operator]
 					, [source]
 					, [executionid]
 					, [starttime]
@@ -16,4 +15,5 @@ AS
 		FROM		[dbo].[sysssislog]
 
 		WHERE		[starttime] >= @starttime
+					AND [event] <> N'DiagnosticEx'
 	END
