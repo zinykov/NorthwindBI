@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractEmployeeFromLanding] AS
 BEGIN
+	INSERT INTO	  [Staging].[Employee]
 	SELECT		  [EmployeeAlterKey]	=	E.[EmployeeID]
 				, [Name]				=	CONCAT ( E.[FirstName], ' ', E.[LastName] )
 				, [Title]				=	E.[Title]

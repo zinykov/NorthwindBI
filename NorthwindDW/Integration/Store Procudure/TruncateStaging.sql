@@ -11,6 +11,9 @@ BEGIN
 	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 	
 	TRUNCATE TABLE [Staging].[Order];
+	TRUNCATE TABLE [Staging].[Customer];
+	TRUNCATE TABLE [Staging].[Employee];
+	TRUNCATE TABLE [Staging].[Product];
 	
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] );
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] );

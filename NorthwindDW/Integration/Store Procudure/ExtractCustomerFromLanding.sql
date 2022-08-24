@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractCustomerFromLanding] AS
 BEGIN
+	INSERT INTO	  [Staging].[Customer]
 	SELECT		  [CustomerAlterKey]	=	C.[CustomerID]
 				, [Customer]			=	C.[CompanyName]
 				, [ContactName]			=	C.[ContactName]
