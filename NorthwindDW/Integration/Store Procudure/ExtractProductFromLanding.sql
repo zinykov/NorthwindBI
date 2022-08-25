@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractProductFromLanding] AS
 BEGIN
-	INSERT INTO	  [Staging].[Product]
 	SELECT		  [ProductAlterKey]		=	P.[ProductID]
 				, [Product]				=	P.[ProductName]
 				, [Category]			=	C.[CategoryName]

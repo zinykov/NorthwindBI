@@ -7,12 +7,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{33783632-9F32-490D-AF1D-10076E97F010}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.521.0"
+  DTS:LastModifiedProductVersion="16.0.694.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="123"
-  DTS:VersionGUID="{ABC518EA-B7C3-47BE-9508-4D8FAF1D0090}">
+  DTS:VersionBuild="128"
+  DTS:VersionGUID="{87F523E0-7BF0-4248-8EE8-E41AFBE4671A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -528,6 +528,945 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Cleansing"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{93824291-CF3A-4BA8-B061-106907879950}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleansing"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Cleansing\Destination Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+              description="Назначение &quot;OLE DB&quot;"
+              name="Destination Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Staging].[Customer]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleansing\Destination Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  errorOrTruncationOperation="Вставить"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;OLE DB&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CustomerAlterKey_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Customer_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactName_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactTitle_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Phone_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Output]" />
+                    <inputColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Fax_Output"
+                      externalMetadataColumnId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Output]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      dataType="wstr"
+                      length="50"
+                      name="Customer" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactTitle" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="25"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="30"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      dataType="wstr"
+                      length="30"
+                      name="Fax" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleansing\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                  synchronousInputId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleansing\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cleansing\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cleansing\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cleansing\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cleansing\DQS Cleansing"
+              componentClassID="Microsoft.ManagedComponentHost"
+              description="DQS Cleansing component"
+              name="DQS Cleansing"
+              usesDispositions="true">
+              <properties>
+                <property
+                  dataType="System.Int64"
+                  name="KnowledgebaseName"
+                  typeConverter="NOTBROWSABLE">1000002</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataCorrectionComponent</property>
+                <property
+                  dataType="System.String"
+                  name="PackageName">Load Customers</property>
+                <property
+                  dataType="System.String"
+                  name="TaskId">{93824291-CF3A-4BA8-B061-106907879950}</property>
+                <property
+                  dataType="System.Boolean"
+                  name="EncryptConnection">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="StandardizeOutput">true</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ConfidenceOutputColumnExists">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ReasonOutputColumnExists">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="AppendedDataOutputColumnExists">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleansing\DQS Cleansing.Connections[DQS]"
+                  connectionManagerID="{F4983D27-FFA5-491F-80AB-4B3D5A958C1B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DQS]"
+                  name="DQS" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="DQS Cleansing Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[CustomerAlterKey]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CustomerAlterKey"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">CustomerAlterKey</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1000</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[Customer]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Customer"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Customer</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1001</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[ContactName]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactName"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">ContactName</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1002</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[ContactTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="ContactTitle"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">ContactTitle</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1003</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Country</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1004</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">City</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1005</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[Phone]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Phone"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Phone</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1006</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[Fax]"
+                      cachedDataType="wstr"
+                      cachedLength="24"
+                      cachedName="Fax"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Fax</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1007</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Status]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output]"
+                  name="DQS Cleansing Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Source]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Source]"
+                      name="CustomerAlterKey_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Output]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Output]"
+                      name="CustomerAlterKey_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CustomerAlterKey_Status]"
+                      name="CustomerAlterKey_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Source]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Source]"
+                      name="Customer_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Output]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Output]"
+                      name="Customer_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Customer_Status]"
+                      name="Customer_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Source]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Source]"
+                      name="ContactName_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Output]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Output]"
+                      name="ContactName_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactName_Status]"
+                      name="ContactName_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Source]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Source]"
+                      name="ContactTitle_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Output]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Output]"
+                      name="ContactTitle_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[ContactTitle_Status]"
+                      name="ContactTitle_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Source]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Source]"
+                      name="Country_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Output]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Output]"
+                      name="Country_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Country_Status]"
+                      name="Country_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Source]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Source]"
+                      name="City_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Output]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Output]"
+                      name="City_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[City_Status]"
+                      name="City_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Source]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Source]"
+                      name="Phone_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Output]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Output]"
+                      name="Phone_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Phone_Status]"
+                      name="Phone_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Source]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Source]"
+                      name="Fax_Source" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Output]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Output]"
+                      name="Fax_Output" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Fax_Status]"
+                      name="Fax_Status" />
+                    <outputColumn
+                      refId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      name="Record Status" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cleansing\Landing source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+              description="Источник &quot;OLE DB&quot;"
+              name="Landing source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding]</property>
+                <property
+                  dataType="System.String"
+                  description="Переменная, содержащая команду SQL для выполнения."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Сопоставления между параметрами в команде SQL и переменными."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleansing\Landing source.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      length="5"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      name="CustomerAlterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      length="40"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                      name="Customer"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      length="30"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      name="ContactName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      length="30"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      name="ContactTitle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      length="15"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      length="15"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      length="24"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                      name="Phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      length="24"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                      name="Fax"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      dataType="wstr"
+                      length="40"
+                      name="Customer" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      dataType="wstr"
+                      length="30"
+                      name="ContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      dataType="wstr"
+                      length="30"
+                      name="ContactTitle" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="24"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      dataType="wstr"
+                      length="24"
+                      name="Fax" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  isErrorOut="true"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      name="CustomerAlterKey" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
+                      name="Customer" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      name="ContactName" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      name="ContactTitle" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                      name="Phone" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                      dataType="wstr"
+                      length="24"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                      name="Fax" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cleansing\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Cleansing.Paths[DQS Cleansing Output]"
+              endId="Package\Cleansing\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="DQS Cleansing Output"
+              startId="Package\Cleansing\DQS Cleansing.Outputs[DQS Cleansing Output]" />
+            <path
+              refId="Package\Cleansing.Paths[Выход источника &quot;OLE DB&quot;]"
+              endId="Package\Cleansing\DQS Cleansing.Inputs[DQS Cleansing Input]"
+              name="Выход источника &quot;OLE DB&quot;"
+              startId="Package\Cleansing\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
@@ -707,7 +1646,7 @@
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -727,7 +1666,7 @@
                       containsID="true"
                       dataType="System.String"
                       description="Указывает выражение. Версия этого выражения использует вместо имен столбцов идентификаторы журнала обращений и преобразований."
-                      name="Expression">![ISNULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[CustomerAlterKey]})</property>
+                      name="Expression">![ISNULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[CustomerAlterKey]})</property>
                     <property
                       containsID="true"
                       dataType="System.String"
@@ -795,45 +1734,45 @@
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[City]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="City"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[Country]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="Country"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\Find Historical attributes.Inputs[Вход условного разбиения].Columns[DWCustomer]"
                       cachedDataType="wstr"
@@ -895,7 +1834,7 @@
                       containsID="true"
                       dataType="System.String"
                       description="Указывает выражение. Версия этого выражения использует вместо имен столбцов идентификаторы журнала обращений и преобразований."
-                      name="Expression">[REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[City]},"") + [REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[Country]},"") != [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCity]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCountry]},"")</property>
+                      name="Expression">[REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[City]},"") + [REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[Country]},"") != [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCity]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCountry]},"")</property>
                     <property
                       containsID="true"
                       dataType="System.String"
@@ -923,7 +1862,7 @@
                       containsID="true"
                       dataType="System.String"
                       description="Указывает выражение. Версия этого выражения использует вместо имен столбцов идентификаторы журнала обращений и преобразований."
-                      name="Expression">[REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[Customer]},"") + [REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[ContactName]},"") + [REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[ContactTitle]},"") + [REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[Phone]},"") + [REPLACENULL](#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[Fax]},"") != [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCustomer]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWContactName]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWContactTitle]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWPhone]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWFax]},"")</property>
+                      name="Expression">[REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[Customer]},"") + [REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[ContactName]},"") + [REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[ContactTitle]},"") + [REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[Phone]},"") + [REPLACENULL](#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[Fax]},"") != [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWCustomer]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWContactName]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWContactTitle]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWPhone]},"") + [REPLACENULL](#{Package\Load Customers\Lookup DWH.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DWFax]},"")</property>
                     <property
                       containsID="true"
                       dataType="System.String"
@@ -1050,59 +1989,59 @@
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="City"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="Country"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -1289,59 +2228,59 @@
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="City"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="Country"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -1454,262 +2393,6 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Customers\Landing source"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
-              description="Источник &quot;OLE DB&quot;"
-              name="Landing source"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                  name="OpenRowset">[Landing].[Employees]</property>
-                <property
-                  dataType="System.String"
-                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="Команда SQL для выполнения."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding];</property>
-                <property
-                  dataType="System.String"
-                  description="Переменная, содержащая команду SQL для выполнения."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
-                  name="DefaultCodePage">1251</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Указывает используемый режим доступа к базе данных."
-                  name="AccessMode"
-                  typeConverter="AccessMode">2</property>
-                <property
-                  dataType="System.String"
-                  description="Сопоставления между параметрами в команде SQL и переменными."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Load Customers\Landing source.Connections[OleDbConnection]"
-                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
-                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
-                  name="Выход источника &quot;OLE DB&quot;">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
-                      length="15"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
-                      name="City"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      length="15"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
-                      name="Country"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      length="5"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
-                      name="CustomerAlterKey"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      length="40"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
-                      name="Customer"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      length="30"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
-                      name="ContactName"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      length="30"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
-                      name="ContactTitle"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      length="24"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
-                      name="Phone"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Преобразование"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      length="24"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
-                      name="Fax"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
-                      dataType="wstr"
-                      length="15"
-                      name="City" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
-                      dataType="wstr"
-                      length="15"
-                      name="Country" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
-                      dataType="wstr"
-                      length="5"
-                      name="CustomerAlterKey" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
-                      dataType="wstr"
-                      length="40"
-                      name="Customer" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
-                      dataType="wstr"
-                      length="30"
-                      name="ContactName" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
-                      dataType="wstr"
-                      length="30"
-                      name="ContactTitle" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
-                      dataType="wstr"
-                      length="24"
-                      name="Phone" />
-                    <externalMetadataColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
-                      dataType="wstr"
-                      length="24"
-                      name="Fax" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
-                  isErrorOut="true"
-                  name="Вывод ошибок источника &quot;OLE DB&quot;">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
-                      dataType="wstr"
-                      length="5"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
-                      name="CustomerAlterKey" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
-                      dataType="wstr"
-                      length="40"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
-                      name="Customer" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
-                      dataType="wstr"
-                      length="30"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
-                      name="ContactName" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
-                      dataType="wstr"
-                      length="30"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
-                      name="ContactTitle" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
-                      dataType="wstr"
-                      length="15"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
-                      name="City" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
-                      dataType="wstr"
-                      length="15"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
-                      name="Country" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
-                      dataType="wstr"
-                      length="24"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
-                      name="Phone" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
-                      dataType="wstr"
-                      length="24"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
-                      name="Fax" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
               refId="Package\Load Customers\Lookup DWH"
               componentClassID="Microsoft.Lookup"
               contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
@@ -1761,12 +2444,12 @@ where [refTable].[CustomerAlterKey] = ? and [refTable].[Current] = 1</property>
                 <property
                   dataType="System.String"
                   description="Указывает, следует ли ссылаться на метаданные в формате XML."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CustomerKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CustomerAlterKey" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactTitle" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Phone" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fax" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CustomerKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CustomerAlterKey" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactTitle" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Phone" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fax" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
                   description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
-                  name="ParameterMap">#{Package\Load Customers\Landing source.Outputs[Выход источника "OLE DB"].Columns[CustomerAlterKey]};</property>
+                  name="ParameterMap">#{Package\Load Customers\Staging source.Outputs[Выход источника "OLE DB"].Columns[CustomerAlterKey]};</property>
                 <property
                   dataType="System.Int32"
                   description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1794,7 +2477,7 @@ where [refTable].[CustomerAlterKey] = ? and [refTable].[Current] = 1</property>
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]">
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -1997,59 +2680,59 @@ where [refTable].[CustomerAlterKey] = ? and [refTable].[Current] = 1</property>
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[City]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="City"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[City]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Country]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="Country"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Country]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[CustomerAlterKey]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Customer]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ContactName]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ContactTitle]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Phone]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Fax]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -2166,59 +2849,59 @@ where [refTable].[CustomerAlterKey] = ? and [refTable].[Current] = 1</property>
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[City]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="City"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[City]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Country]"
                       cachedDataType="wstr"
-                      cachedLength="15"
+                      cachedLength="25"
                       cachedName="Country"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Country]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[CustomerAlterKey]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[CustomerAlterKey]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Customer]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ContactName]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ContactTitle]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Phone]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Fax]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -2381,6 +3064,262 @@ where [refTable].[CustomerAlterKey] = ? and [refTable].[Current] = 1</property>
               </inputs>
             </component>
             <component
+              refId="Package\Load Customers\Staging source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+              description="Источник &quot;OLE DB&quot;"
+              name="Staging source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Staging].[Customer]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding];</property>
+                <property
+                  dataType="System.String"
+                  description="Переменная, содержащая команду SQL для выполнения."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Сопоставления между параметрами в команде SQL и переменными."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Customers\Staging source.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      length="5"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      name="CustomerAlterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]"
+                      name="Customer"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      name="ContactName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      name="ContactTitle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      length="25"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      length="25"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      length="30"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                      name="Phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      length="30"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                      name="Fax"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Customer]"
+                      dataType="wstr"
+                      length="50"
+                      name="Customer" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                      dataType="wstr"
+                      length="50"
+                      name="ContactTitle" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="25"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="30"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                      dataType="wstr"
+                      length="30"
+                      name="Fax" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  isErrorOut="true"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]"
+                      name="CustomerAlterKey" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Customer]"
+                      name="Customer" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                      name="ContactName" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                      name="ContactTitle" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                      name="Phone" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                      name="Fax" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Customers\Staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Load Customers\Update changing attributes and metadata"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
@@ -2435,7 +3374,7 @@ WHERE	[Current] = 1 AND [CustomerAlterKey] = @CustomerAlterKey</property>
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -2445,38 +3384,38 @@ WHERE	[Current] = 1 AND [CustomerAlterKey] = @CustomerAlterKey</property>
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_5]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\Update changing attributes and metadata.Inputs[Вход команды OLE DB].Columns[StartDate]"
                       cachedDataType="date"
@@ -2661,38 +3600,38 @@ WHERE	[CustomerAlterKey] = ?</property>
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[Customer]"
                       cachedDataType="wstr"
-                      cachedLength="40"
+                      cachedLength="50"
                       cachedName="Customer"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_0]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Customer]" />
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[ContactName]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactName"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_1]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[ContactTitle]"
                       cachedDataType="wstr"
-                      cachedLength="30"
+                      cachedLength="50"
                       cachedName="ContactTitle"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_2]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[Phone]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Phone"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_3]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[Fax]"
                       cachedDataType="wstr"
-                      cachedLength="24"
+                      cachedLength="30"
                       cachedName="Fax"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_4]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
                     <inputColumn
                       refId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].Columns[LineageKey]"
                       cachedDataType="i4"
@@ -2705,7 +3644,7 @@ WHERE	[CustomerAlterKey] = ?</property>
                       cachedLength="5"
                       cachedName="CustomerAlterKey"
                       externalMetadataColumnId="Package\Load Customers\Update rows.Inputs[Вход команды OLE DB].ExternalColumns[Param_6]"
-                      lineageId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
+                      lineageId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerAlterKey]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2868,7 +3807,7 @@ WHERE	[CustomerAlterKey] = ?</property>
               refId="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
               endId="Package\Load Customers\Add LineageKey.Inputs[Вход производного столбца]"
               name="Выход источника &quot;OLE DB&quot;"
-              startId="Package\Load Customers\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              startId="Package\Load Customers\Staging source.Outputs[Выход источника &quot;OLE DB&quot;]" />
             <path
               refId="Package\Load Customers.Paths[Выход команды OLE DB]"
               endId="Package\Load Customers\Insert updated rows.Inputs[Вход назначения &quot;OLE DB&quot;]"
@@ -2934,6 +3873,14 @@ WHERE	[CustomerAlterKey] = ?</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Load Customers" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{2DDD38F0-905A-4397-9C71-DB6066B44621}"
+      DTS:From="Package\Cleansing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Get LineAgeKey" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -2946,26 +3893,26 @@ WHERE	[CustomerAlterKey] = ?</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="190,42"
           Id="Package\Add unknown customer"
-          TopLeft="8.00000000000001,156.5" />
+          TopLeft="8.00000000000003,258.5" />
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="26.5,54.5" />
+          TopLeft="26.5,156.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Load Customers"
-          TopLeft="25.5,258.5" />
+          TopLeft="25.5,360.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="5.50000000000003,360.5" />
+          TopLeft="5.50000000000004,462.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="103,96.5">
+          TopLeft="103,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2987,7 +3934,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="103,300.5">
+          TopLeft="103,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3009,7 +3956,33 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="103,198.5">
+          TopLeft="103,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Cleansing"
+          TopLeft="41,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="103,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3070,8 +4043,8 @@ WHERE	[CustomerAlterKey] = ?</property>
           Id="Package\Load Customers\No Change"
           TopLeft="25.5,564.5" />
         <NodeLayout
-          Size="150,42"
-          Id="Package\Load Customers\Landing source"
+          Size="149,42"
+          Id="Package\Load Customers\Staging source"
           TopLeft="486,54.5" />
         <NodeLayout
           Size="154,42"
@@ -3330,28 +4303,6 @@ WHERE	[CustomerAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="561,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Load Customers.Paths[Update]"
           TopLeft="333,402.5">
           <EdgeLayout.Curve>
@@ -3385,6 +4336,28 @@ WHERE	[CustomerAlterKey] = ?</property>
             <mssgm:EdgeLabel
               BoundingBox="-123.68986328125,29.406779661017,269.3797265625,12"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Customers.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="560.75,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3440,10 +4413,100 @@ WHERE	[CustomerAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Customers\Landing source">
+    design-time-name="Package\Load Customers\Staging source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Cleansing">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Cleansing\Landing source"
+          TopLeft="36.5,22.5" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Cleansing\DQS Cleansing"
+          TopLeft="37.5,124.5" />
+        <EdgeLayout
+          Id="Package\Cleansing.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="111.5,64.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Cleansing\Destination Staging"
+          TopLeft="23,239" />
+        <EdgeLayout
+          Id="Package\Cleansing.Paths[DQS Cleansing Output]"
+          TopLeft="110,166.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72.5"
+              Start="0,0"
+              End="0,65">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cleansing\Landing source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cleansing\Destination Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

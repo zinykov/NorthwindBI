@@ -9,13 +9,13 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{270ACC63-D7A7-49EF-AEA2-AE26FE4813F2}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.521.0"
+  DTS:LastModifiedProductVersion="16.0.694.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="76"
-  DTS:VersionGUID="{0CA3257E-A394-4C3B-944B-940DD94EAABE}">
+  DTS:VersionBuild="78"
+  DTS:VersionGUID="{6D7D5E8F-9CD8-45D9-9768-50C4D0AEE9B8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -351,14 +351,14 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Truncate DWH"
+      DTS:refId="Package\Truncate DWH and staging tables"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
       DTS:DTSID="{09e57b2b-d3ea-4c12-a952-7cae5b52f1a7}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:FailPackageOnFailure="True"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Truncate DWH"
+      DTS:ObjectName="Truncate DWH and staging tables"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
       DTS:ThreadHint="0">
       <DTS:Variables />
@@ -367,7 +367,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateDWH];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateStaging];&#xA;EXECUTE [Integration].[TruncateDWH];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -394,7 +394,7 @@
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
       DTS:DTSID="{61843580-3d1e-44d7-972b-cc53671d5685}"
-      DTS:From="Package\Truncate DWH"
+      DTS:From="Package\Truncate DWH and staging tables"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
       DTS:To="Package\Load Date Dimension" />
@@ -429,7 +429,7 @@
       DTS:From="Package\Load Landing Zone"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 3"
-      DTS:To="Package\Truncate DWH" />
+      DTS:To="Package\Truncate DWH and staging tables" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -519,7 +519,7 @@
         <NodeLayout
           Size="179,42"
           Id="Package\Load Date Dimension"
-          TopLeft="238,258.5" />
+          TopLeft="239,233.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Load Dimensions\Load Customers"
@@ -538,26 +538,26 @@
           PanelSize="588,102"
           Size="588,145"
           Id="Package\Load Dimensions"
-          TopLeft="33.5000000000001,360.5" />
+          TopLeft="34.5000000000001,335.5" />
         <NodeLayout
           Size="169,42"
           Id="Package\Load Landing Zone"
-          TopLeft="243,54.5" />
+          TopLeft="244,29.5" />
         <NodeLayout
           Size="136,42"
           Id="Package\Load Orders"
-          TopLeft="259.5,565.5" />
+          TopLeft="260.5,540.5" />
         <NodeLayout
-          Size="148,42"
-          Id="Package\Truncate DWH"
-          TopLeft="253.5,156.5" />
+          Size="237,42"
+          Id="Package\Truncate DWH and staging tables"
+          TopLeft="210,131.5" />
         <NodeLayout
           Size="248,42"
           Id="Package\Truncate landing and staging tables"
-          TopLeft="204,667.5" />
+          TopLeft="204.5,642.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="327.5,198.5">
+          TopLeft="328.5,173.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -579,7 +579,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="327.5,505.5">
+          TopLeft="328.5,480.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -601,7 +601,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="327.75,607.5">
+          TopLeft="328.5,582.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -623,7 +623,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="327.5,300.5">
+          TopLeft="328.5,275.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -645,7 +645,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="327.5,96.5">
+          TopLeft="328.5,71.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

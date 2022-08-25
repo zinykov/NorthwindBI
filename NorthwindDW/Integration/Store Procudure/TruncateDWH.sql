@@ -12,16 +12,8 @@ BEGIN
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Order_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 	
 	TRUNCATE TABLE [Fact].[Order];
-	TRUNCATE TABLE [Staging].[Order];
 	TRUNCATE TABLE [Dimension].[Customer];
 	TRUNCATE TABLE [Dimension].[Employee];
 	TRUNCATE TABLE [Dimension].[Product];
@@ -38,13 +30,6 @@ BEGIN
 	ALTER TABLE [Fact].[Order] ADD CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
 	ALTER TABLE [Fact].[Order] ADD CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
 	ALTER TABLE [Fact].[Order] ADD CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product] FOREIGN KEY ( [ProductKey] ) REFERENCES [Dimension].[Product] ( [ProductKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Order_Date_Key_Dimension_Date] FOREIGN KEY ( [OrderDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
-	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
 
 	ALTER SEQUENCE [Sequences].[CustomerKey] RESTART WITH 1;
 	ALTER SEQUENCE [Sequences].[EmployeeKey] RESTART WITH 1;
