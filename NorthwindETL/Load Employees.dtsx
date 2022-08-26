@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="131"
-  DTS:VersionGUID="{82E34541-E255-4115-AB18-CC55DAE22152}">
+  DTS:VersionBuild="138"
+  DTS:VersionGUID="{EA7083C2-DEB9-4598-B3B4-D97816CAEECF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -469,6 +469,775 @@
             SQLTask:DataType="3"
             SQLTask:ParameterSize="-1" />
         </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cleaning"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{42408778-777f-47bb-beb5-6d0838c0ee4b}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cleaning"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Cleaning\Destination Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+              description="Назначение &quot;OLE DB&quot;"
+              name="Destination Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[Staging].[Employee]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleaning\Destination Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  errorOrTruncationOperation="Вставить"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;OLE DB&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeAlterKey_Output]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Name_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Title_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TitleOfCourtesy_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[City_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Country_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Output]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      dataType="i4"
+                      name="EmployeeAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="35"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      name="TitleOfCourtesy" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleaning\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                  synchronousInputId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleaning\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cleaning\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Destination Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cleaning\DQS Cleaning"
+              componentClassID="Microsoft.ManagedComponentHost"
+              description="DQS Cleansing component"
+              name="DQS Cleaning"
+              usesDispositions="true">
+              <properties>
+                <property
+                  dataType="System.Int64"
+                  name="KnowledgebaseName"
+                  typeConverter="NOTBROWSABLE">1000009</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataCorrectionComponent</property>
+                <property
+                  dataType="System.String"
+                  name="PackageName">Load Employees</property>
+                <property
+                  dataType="System.String"
+                  name="TaskId">{42408778-777f-47bb-beb5-6d0838c0ee4b}</property>
+                <property
+                  dataType="System.Boolean"
+                  name="EncryptConnection">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="StandardizeOutput">true</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ConfidenceOutputColumnExists">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ReasonOutputColumnExists">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="AppendedDataOutputColumnExists">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleaning\DQS Cleaning.Connections[DQS]"
+                  connectionManagerID="{F4983D27-FFA5-491F-80AB-4B3D5A958C1B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DQS]"
+                  name="DQS" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="DQS Cleansing Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[EmployeeAlterKey]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeAlterKey"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">EmployeeAlterKey</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1000</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="31"
+                      cachedName="Name"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Name</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1001</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Title</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1002</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[TitleOfCourtesy]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="TitleOfCourtesy"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">TitleOfCourtesy</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1003</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="City"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">City</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1004</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Country</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1005</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputIsString">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Status]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output]"
+                  name="DQS Cleansing Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Source]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Source]"
+                      name="EmployeeAlterKey_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Output]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Output]"
+                      name="EmployeeAlterKey_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[EmployeeAlterKey_Status]"
+                      name="EmployeeAlterKey_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Source]"
+                      dataType="wstr"
+                      length="31"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Source]"
+                      name="Name_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Output]"
+                      dataType="wstr"
+                      length="31"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Output]"
+                      name="Name_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Name_Status]"
+                      name="Name_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Source]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Source]"
+                      name="Title_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Output]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Output]"
+                      name="Title_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Title_Status]"
+                      name="Title_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Source]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Source]"
+                      name="TitleOfCourtesy_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Output]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Output]"
+                      name="TitleOfCourtesy_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[TitleOfCourtesy_Status]"
+                      name="TitleOfCourtesy_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Source]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Source]"
+                      name="City_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Output]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Output]"
+                      name="City_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[City_Status]"
+                      name="City_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Source]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Source]"
+                      name="Country_Source" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Output]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Output]"
+                      name="Country_Output" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Country_Status]"
+                      name="Country_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      name="Record Status" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cleaning\Landing source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+              description="Источник &quot;OLE DB&quot;"
+              name="Landing source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractEmployeeFromLanding]</property>
+                <property
+                  dataType="System.String"
+                  description="Переменная, содержащая команду SQL для выполнения."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Сопоставления между параметрами в команде SQL и переменными."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleaning\Landing source.Connections[OleDbConnection]"
+                  connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      name="EmployeeAlterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      length="31"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      length="30"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      length="25"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      name="TitleOfCourtesy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      length="15"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      length="15"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeAlterKey]"
+                      dataType="i4"
+                      name="EmployeeAlterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="31"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      name="TitleOfCourtesy" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="15"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  isErrorOut="true"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeAlterKey]"
+                      name="EmployeeAlterKey" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
+                      dataType="wstr"
+                      length="31"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TitleOfCourtesy]"
+                      name="TitleOfCourtesy" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Cleaning.Paths[DQS Cleansing Output]"
+              endId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="DQS Cleansing Output"
+              startId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output]" />
+            <path
+              refId="Package\Cleaning.Paths[Выход источника &quot;OLE DB&quot;]"
+              endId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input]"
+              name="Выход источника &quot;OLE DB&quot;"
+              startId="Package\Cleaning\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+          </paths>
+        </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -2536,6 +3305,14 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Load employees" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{0825B5ED-5D4A-4F44-A808-0A9B049951B9}"
+      DTS:From="Package\Cleaning"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Get LineAgeKey" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -2548,26 +3325,26 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="192,42"
           Id="Package\Add unknown employee"
-          TopLeft="8.00000000000001,156.5" />
+          TopLeft="13,258.5" />
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="26.5,54.5" />
+          TopLeft="32.5,156.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Load employees"
-          TopLeft="25.5,258.5" />
+          TopLeft="31.5,360.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="5.50000000000003,360.5" />
+          TopLeft="11.5,462.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="103.5,96.5">
+          TopLeft="109,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2589,7 +3366,7 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="103,300.5">
+          TopLeft="109,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2611,7 +3388,33 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="103.5,198.5">
+          TopLeft="109,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="119,42"
+          Id="Package\Cleaning"
+          TopLeft="49.5,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="109,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3011,7 +3814,7 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3021,7 +3824,7 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3043,6 +3846,91 @@ WHERE	[EmployeeAlterKey] = @EmployeeAlterKey</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load employees\Insert current employees">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Cleaning">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Cleaning\Landing source"
+          TopLeft="64,54.5" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Cleaning\DQS Cleaning"
+          TopLeft="67.5,156.5" />
+        <EdgeLayout
+          Id="Package\Cleaning.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="139,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Cleaning\Destination Staging"
+          TopLeft="53.5,258.5" />
+        <EdgeLayout
+          Id="Package\Cleaning.Paths[DQS Cleansing Output]"
+          TopLeft="139,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cleaning\Landing source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cleaning\Destination Staging">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
