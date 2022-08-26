@@ -21,6 +21,7 @@ BEGIN
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage];
 	
 	TRUNCATE TABLE [Fact].[Order];
+	TRUNCATE TABLE [Staging].[Order];
 	TRUNCATE TABLE [Dimension].[Customer];
 	TRUNCATE TABLE [Dimension].[Employee];
 	TRUNCATE TABLE [Dimension].[Product];
