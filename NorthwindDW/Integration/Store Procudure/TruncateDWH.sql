@@ -2,6 +2,13 @@
 BEGIN
 	SET NOCOUNT ON;
 
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Order_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 	ALTER TABLE [Dimension].[Customer] DROP CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage];
 	ALTER TABLE [Dimension].[Employee] DROP CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage];
 	ALTER TABLE [Dimension].[Product] DROP CONSTRAINT [FK_Dimension_Product_Lineage_Key_Integration_Lineage];
@@ -12,13 +19,6 @@ BEGIN
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Order_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date];
-	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 	
 	TRUNCATE TABLE [Fact].[Order];
 	TRUNCATE TABLE [Staging].[Order];
@@ -26,6 +26,9 @@ BEGIN
 	TRUNCATE TABLE [Dimension].[Employee];
 	TRUNCATE TABLE [Dimension].[Product];
 	TRUNCATE TABLE [Dimension].[Date];
+	TRUNCATE TABLE [Staging].[Customer];
+	TRUNCATE TABLE [Staging].[Employee];
+	TRUNCATE TABLE [Staging].[Product];
 	TRUNCATE TABLE [Integration].[Lineage];
 
 	ALTER TABLE [Dimension].[Customer] ADD CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
