@@ -32,14 +32,10 @@ $package = $project.Packages[$PackageName]
 $environment = $folder.Environments[$EnvironmentName]
  
 # Get the environment reference
-<<<<<<< HEAD
 $environmentReference = $project.References.Item($EnvironmentName, $TargetFolderName)            
-=======
-$environmentReference = $project.References.Item($EnvironmentName, $ProjectName)            
->>>>>>> a579e08ca7b9d89bda01ac2ada422d5c2418e2ec
 $environmentReference.Refresh()
  
-Write-Host "Running " $PackageName " with environment..."
+Write-Host "Running " $PackageName " with environment " $EnvironmentName
  
 $result = $package.Execute("false", $environmentReference) #overloaded Execute
  
