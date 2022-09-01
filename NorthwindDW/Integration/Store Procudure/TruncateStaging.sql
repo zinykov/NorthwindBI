@@ -2,13 +2,13 @@
 BEGIN
 	SET NOCOUNT ON;
 
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Customer_Key_Dimension_Customer];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Employee_Key_Dimension_Employee];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Product_Key_Dimension_Product];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Order_Date_Key_Dimension_Date];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date];
-	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Order_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date];
+	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 
 	TRUNCATE TABLE [Staging].[Customer];
 	TRUNCATE TABLE [Staging].[Employee];
