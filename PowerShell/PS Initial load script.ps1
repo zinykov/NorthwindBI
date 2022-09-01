@@ -32,7 +32,7 @@ $package = $project.Packages[$PackageName]
 $environment = $folder.Environments[$EnvironmentName]
  
 # Get the environment reference
-$environmentReference = $project.References.Item($EnvironmentName, ".")            
+$environmentReference = $project.References.Item($EnvironmentName, $ProjectName)            
 $environmentReference.Refresh()
  
 Write-Host "Running " $PackageName " with environment..."
