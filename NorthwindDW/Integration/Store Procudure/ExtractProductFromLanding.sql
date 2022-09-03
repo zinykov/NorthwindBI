@@ -1,10 +1,9 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractProductFromLanding] AS
 BEGIN
-	SELECT		  [ProductAlterKey]		=	P.[ProductID]
-				, [Product]				=	P.[ProductName]
-				, [Category]			=	C.[CategoryName]
+	SELECT		  [ProductAlterKey]
+				, [Product]
+				, [Category]
 
-	FROM		[Landing].[Products] AS P
-	INNER JOIN	[Landing].[Categories] AS C ON C.[CategoryID] = P.[CategoryID]
+	FROM		[Landing].[ProductV]
 END;
 GO

@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Landing].[Customer] AS
+﻿CREATE VIEW [Landing].[CustomerV] AS
 	SELECT		  [CustomerAlterKey]	=	C.[CustomerID]
 				, [Customer]			=	C.[CompanyName]
 				, [ContactName]			=	C.[ContactName]
