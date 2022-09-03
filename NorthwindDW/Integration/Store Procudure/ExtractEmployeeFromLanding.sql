@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractEmployeeFromLanding] AS
 BEGIN
-	SELECT		  [EmployeeAlterKey]	=	E.[EmployeeID]
-				, [Name]				=	CONCAT ( E.[FirstName], ' ', E.[LastName] )
-				, [Title]				=	E.[Title]
-				, [TitleOfCourtesy]		=	E.[TitleOfCourtesy]
-				, [City]				=	E.[City]
-				, [Country]				=	E.[Country]
+	SELECT		  [EmployeeAlterKey]
+				, [Name]
+				, [Title]
+				, [TitleOfCourtesy]
+				, [City]
+				, [Country]
 
-	FROM		[Landing].[Employees] AS E
+	FROM		[Landing].[EmployeeV]
 END;
 GO

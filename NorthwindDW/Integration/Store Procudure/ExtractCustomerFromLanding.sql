@@ -1,14 +1,14 @@
 ﻿CREATE PROCEDURE [Integration].[ExtractCustomerFromLanding] AS
 BEGIN
-	SELECT		  C.[CustomerAlterKey]
-				, C.[Customer]
-				, C.[ContactName]
-				, C.[ContactTitle]
-				, C.[Country]
-				, C.[City]
-				, C.[Phone]
-				, C.[Fax]
+	SELECT		  [CustomerAlterKey]
+				, [Customer]
+				, [ContactName]
+				, [ContactTitle]
+				, [Country]
+				, [City]
+				, [Phone]
+				, [Fax]
 
-	FROM		[Landing].[Customer] AS C
+	FROM		[Landing].[CustomerV]
 END;
 GO
