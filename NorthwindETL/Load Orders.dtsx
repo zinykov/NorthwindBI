@@ -7,12 +7,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{6DCD01FC-0739-4C0A-8AB4-9F8F0C303BD1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.521.0"
+  DTS:LastModifiedProductVersion="16.0.694.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="131"
-  DTS:VersionGUID="{A0CD4FA4-E951-4F26-8A55-0563686E220F}">
+  DTS:VersionBuild="133"
+  DTS:VersionGUID="{01DBE0E8-24AF-4FA4-A375-64EA82454186}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -46,6 +46,16 @@
       <DTS:Property
         DTS:DataType="7"
         DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{68A5E29E-C825-4F11-ABCC-4F6A8D5AFD2C}"
+      DTS:ObjectName="ExecutionId">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -223,7 +233,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageKey]&#xA;      @TableName = 'Order'&#xA;    , @CutoffTime = ?"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageKey]&#xA;      @TableName = 'Order'&#xA;    , @CutoffTime = ?&#xA;    , @ExecutionId = ?"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="LineageKey"
@@ -234,6 +244,12 @@
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::ExecutionId"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="50" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -362,19 +378,19 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\Get LineAgeKey"
           TopLeft="39,54.5" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Load Orders"
           TopLeft="47.5,258.5" />
         <NodeLayout
-          Size="195.2,41.6"
+          Size="195,42"
           Id="Package\Set load compilation info"
           TopLeft="18,360.5" />
         <NodeLayout
-          Size="208,41.6"
+          Size="208,42"
           Id="Package\Set StartLoad Date"
           TopLeft="11.5,156.5" />
         <EdgeLayout
