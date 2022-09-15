@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[ErrorLog] AS
+﻿CREATE PROCEDURE [Reports].[ErrorLog] AS
 BEGIN
 	SELECT		  [LogKey]
 				, [ErrorCode]
