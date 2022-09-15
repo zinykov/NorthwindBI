@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [Reports].[CountRowsInDWH] AS
 BEGIN
-	SELECT		  S.[name]
-				, T.[name]
-				, I.[type_desc]
+	SELECT		  [Schema]		= S.[name]
+				, [Table]		= T.[name]
+				, [IndeType]	= I.[type_desc]
 				, P.[rows]
 	FROM		sys.tables AS T
 	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
