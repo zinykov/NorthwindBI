@@ -14,8 +14,8 @@
   DTS:ObjectName="Incremental load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="79"
-  DTS:VersionGUID="{4C488145-C315-4A42-8A4F-5225FDC27763}">
+  DTS:VersionBuild="84"
+  DTS:VersionGUID="{0FB0326D-971A-4BE0-B70C-FA9F4197B8BE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -40,24 +40,26 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
   </DTS:LogProviders>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{CEF557C8-0739-4244-BEA9-39F8A8EB13C8}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{455B7E7B-4494-483F-9856-CF98B005A49F}"
+      DTS:DTSID="{7BA0858A-EECB-4405-BB72-6BD3318F52ED}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
       DTS:ObjectName="LineageKey">
       <DTS:VariableValue
-        DTS:DataType="3">-1</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{268A4D89-4F32-43A0-82A2-22B8CD9F9F00}"
-      DTS:IncludeInDebugDump="6789"
-      DTS:Namespace="User"
-      DTS:ObjectName="var_CutoffTime">
-      <DTS:VariableValue
-        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
+        DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -201,31 +203,46 @@
   </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Incremental load immitation"
-      DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
-      DTS:CreationName="STOCK:FORLOOP"
-      DTS:Description="Incremental load immitation for Northwind DWH for 1998-05-01 to 1998-05-06  dates"
-      DTS:DTSID="{91E94758-62F1-4035-9808-53C84263721F}"
-      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
-      DTS:ExecutableType="STOCK:FORLOOP"
-      DTS:FailPackageOnFailure="True"
-      DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1998-05-01&quot;"
+      DTS:refId="Package\Load Date Dimension"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:DTSID="{c1b6aee7-aeac-498c-b35f-e55c7338ed74}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:FailParentOnFailure="True"
       DTS:LocaleID="-1"
-      DTS:MaxConcurrent="1"
-      DTS:ObjectName="Incremental load immitation">
+      DTS:ObjectName="Load Date Dimension"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Load Date Dimention.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Dimensions"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{8908df32-a9a3-4967-9bfc-22bf51062695}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:FailParentOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Dimensions">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Load Date Dimension"
+          DTS:refId="Package\Load Dimensions\Load Customers"
           DTS:CreationName="Microsoft.ExecutePackageTask"
           DTS:Description="Задача &quot;Выполнение пакета&quot;"
-          DTS:DTSID="{2add7353-01ef-4e37-8e32-47f94b87abd5}"
+          DTS:DTSID="{cbf849c8-d04d-4265-ad77-1a951ac98203}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
-          DTS:FailParentOnFailure="True"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Load Date Dimension"
+          DTS:ObjectName="Load Customers"
           DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
           <DTS:LoggingOptions
@@ -233,146 +250,10 @@
           <DTS:ObjectData>
             <ExecutePackageTask>
               <UseProjectReference>True</UseProjectReference>
-              <PackageName>Load Date Dimention.dtsx</PackageName>
-            </ExecutePackageTask>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Load Dimensions"
-          DTS:CreationName="STOCK:SEQUENCE"
-          DTS:Description="Контейнер последовательности"
-          DTS:DTSID="{f04cb2d5-817f-4a6f-ad18-cb952199be2f}"
-          DTS:ExecutableType="STOCK:SEQUENCE"
-          DTS:FailParentOnFailure="True"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Load Dimensions">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:Executables>
-            <DTS:Executable
-              DTS:refId="Package\Incremental load immitation\Load Dimensions\Load Customers"
-              DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:Description="Задача &quot;Выполнение пакета&quot;"
-              DTS:DTSID="{d52e0615-be3b-4828-98f0-eef945095ad5}"
-              DTS:ExecutableType="Microsoft.ExecutePackageTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Load Customers"
-              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:ObjectData>
-                <ExecutePackageTask>
-                  <UseProjectReference>True</UseProjectReference>
-                  <PackageName>Load Customers.dtsx</PackageName>
-                  <ParameterAssignment>
-                    <ParameterName>CuttoffTime</ParameterName>
-                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                  <ParameterAssignment>
-                    <ParameterName>ExecutionId</ParameterName>
-                    <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                </ExecutePackageTask>
-              </DTS:ObjectData>
-            </DTS:Executable>
-            <DTS:Executable
-              DTS:refId="Package\Incremental load immitation\Load Dimensions\Load Employees"
-              DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:Description="Задача &quot;Выполнение пакета&quot;"
-              DTS:DTSID="{2ecf6e54-cff1-4a63-9ff8-ca05cdce1a71}"
-              DTS:ExecutableType="Microsoft.ExecutePackageTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Load Employees"
-              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:ObjectData>
-                <ExecutePackageTask>
-                  <UseProjectReference>True</UseProjectReference>
-                  <PackageName>Load Employees.dtsx</PackageName>
-                  <ParameterAssignment>
-                    <ParameterName>CutoffTime</ParameterName>
-                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                  <ParameterAssignment>
-                    <ParameterName>ExecutionId</ParameterName>
-                    <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                </ExecutePackageTask>
-              </DTS:ObjectData>
-            </DTS:Executable>
-            <DTS:Executable
-              DTS:refId="Package\Incremental load immitation\Load Dimensions\Load Products"
-              DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:Description="Задача &quot;Выполнение пакета&quot;"
-              DTS:DTSID="{22855c53-35f3-4685-81bd-f41fb34f03c5}"
-              DTS:ExecutableType="Microsoft.ExecutePackageTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Load Products"
-              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:ObjectData>
-                <ExecutePackageTask>
-                  <UseProjectReference>True</UseProjectReference>
-                  <PackageName>Load Products.dtsx</PackageName>
-                  <ParameterAssignment>
-                    <ParameterName>CutoffTime</ParameterName>
-                    <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                  <ParameterAssignment>
-                    <ParameterName>ExecutionId</ParameterName>
-                    <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-                  </ParameterAssignment>
-                </ExecutePackageTask>
-              </DTS:ObjectData>
-            </DTS:Executable>
-          </DTS:Executables>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Load Landing Zone"
-          DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:Description="Задача &quot;Выполнение пакета&quot;"
-          DTS:DTSID="{ec76f135-0b9d-41a1-85b3-031d83aba546}"
-          DTS:ExecutableType="Microsoft.ExecutePackageTask"
-          DTS:FailParentOnFailure="True"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Load Landing Zone"
-          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <ExecutePackageTask>
-              <UseProjectReference>True</UseProjectReference>
-              <PackageName>Landing Zone.dtsx</PackageName>
-            </ExecutePackageTask>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Load Orders"
-          DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:Description="Задача &quot;Выполнение пакета&quot;"
-          DTS:DTSID="{819196a5-92cf-4f7a-abd9-9a3718cc5b3d}"
-          DTS:ExecutableType="Microsoft.ExecutePackageTask"
-          DTS:FailParentOnFailure="True"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Load Orders"
-          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <ExecutePackageTask>
-              <UseProjectReference>True</UseProjectReference>
-              <PackageName>Load Orders.dtsx</PackageName>
+              <PackageName>Load Customers.dtsx</PackageName>
               <ParameterAssignment>
-                <ParameterName>CutoffTime</ParameterName>
-                <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+                <ParameterName>CuttoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
               </ParameterAssignment>
               <ParameterAssignment>
                 <ParameterName>ExecutionId</ParameterName>
@@ -382,86 +263,188 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Trancate staging"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{7578f4ac-da3f-4902-9368-782714c836a1}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:refId="Package\Load Dimensions\Load Employees"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{05ece594-8e54-4258-a7b4-fbfe3fb974e5}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Trancate staging"
-          DTS:ThreadHint="0">
+          DTS:ObjectName="Load Employees"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Load Employees.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionId</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Truncate landing and staging tables"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{b241f256-f8d3-46ce-b147-3a6cf04ff5c9}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:refId="Package\Load Dimensions\Load Products"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{fd1da486-7338-4fa4-a876-351418762aeb}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Truncate landing and staging tables"
-          DTS:ThreadHint="0">
+          DTS:ObjectName="Load Products"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding];&#xA;EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Load Products.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionId</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
-      <DTS:PrecedenceConstraints>
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
-          DTS:CreationName=""
-          DTS:DTSID="{c371370a-30f5-4329-8e7a-b9bc61299f11}"
-          DTS:From="Package\Incremental load immitation\Load Landing Zone"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package\Incremental load immitation\Load Date Dimension" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{260c9ddd-27b7-461f-bfc9-e5a05773896d}"
-          DTS:From="Package\Incremental load immitation\Load Dimensions"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\Incremental load immitation\Load Orders" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 2]"
-          DTS:CreationName=""
-          DTS:DTSID="{7D06FBBA-C566-4431-A97C-D5CE487C23F7}"
-          DTS:From="Package\Incremental load immitation\Load Date Dimension"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
-          DTS:To="Package\Incremental load immitation\Trancate staging" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 3]"
-          DTS:CreationName=""
-          DTS:DTSID="{3290CBB6-06BF-4AE8-9B83-CA4425A14EE6}"
-          DTS:From="Package\Incremental load immitation\Trancate staging"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 3"
-          DTS:To="Package\Incremental load immitation\Load Dimensions" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 4]"
-          DTS:CreationName=""
-          DTS:DTSID="{2CAD8A30-605A-481E-BF6B-6CEC2268921B}"
-          DTS:From="Package\Incremental load immitation\Load Orders"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 4"
-          DTS:To="Package\Incremental load immitation\Truncate landing and staging tables" />
-      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Landing Zone"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:DTSID="{91c35630-2127-4d95-983e-caebec77a5d5}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:FailParentOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Landing Zone"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Landing Zone.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Orders"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:DTSID="{3bbeac17-bb84-43d5-916e-0ea1dd7983c5}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:FailParentOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Orders"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Load Orders.dtsx</PackageName>
+          <ParameterAssignment>
+            <ParameterName>CutoffTime</ParameterName>
+            <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+          </ParameterAssignment>
+          <ParameterAssignment>
+            <ParameterName>ExecutionId</ParameterName>
+            <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+          </ParameterAssignment>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Trancate staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{9b8f9574-9454-4562-bf32-574b8f934148}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Trancate staging"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate landing and staging tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{74f3fe75-b66e-4d8a-9413-0e6b28d2de1e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate landing and staging tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding];&#xA;EXECUTE [Integration].[TruncateStaging];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{F9F58251-EAFA-4A78-8982-F9F6453BD158}"
+      DTS:From="Package\Load Landing Zone"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Date Dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{864B52A5-59CB-4C12-8F10-261CACBDF3E3}"
+      DTS:From="Package\Load Date Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Trancate staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{D0FECBEA-4FA9-4418-9484-DEE96D548230}"
+      DTS:From="Package\Trancate staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Load Dimensions" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{C6AD057E-4EF5-4E7A-A7D6-F22F6C050BD8}"
+      DTS:From="Package\Load Dimensions"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Load Orders" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{79391547-8A7A-4842-B501-A07398ABD7EE}"
+      DTS:From="Package\Load Orders"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Truncate landing and staging tables" />
+  </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
       DTS:refId="Package.EventHandlers[OnError]"
@@ -548,47 +531,91 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="179,42"
-          Id="Package\Incremental load immitation\Load Date Dimension"
-          TopLeft="210,107.5" />
+          Size="179.2,41.6"
+          Id="Package\Load Date Dimension"
+          TopLeft="264.7,171.9" />
         <NodeLayout
-          Size="155,42"
-          Id="Package\Incremental load immitation\Load Dimensions\Load Customers"
-          TopLeft="5.5,5.49999999999989" />
+          Size="155.2,41.6"
+          Id="Package\Load Dimensions\Load Customers"
+          TopLeft="5.50000000000003,5.49999999999984" />
         <NodeLayout
-          Size="155,42"
-          Id="Package\Incremental load immitation\Load Dimensions\Load Employees"
-          TopLeft="221.5,5.49999999999989" />
+          Size="155.2,41.6"
+          Id="Package\Load Dimensions\Load Employees"
+          TopLeft="221.5,5.49999999999984" />
         <NodeLayout
-          Size="146,42"
-          Id="Package\Incremental load immitation\Load Dimensions\Load Products"
-          TopLeft="437,5.49999999999989" />
+          Size="145.6,41.6"
+          Id="Package\Load Dimensions\Load Products"
+          TopLeft="437.3,5.49999999999984" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="588,102"
-          Size="588,145"
-          Id="Package\Incremental load immitation\Load Dimensions"
-          TopLeft="5.50000000000006,311.5" />
+          PanelSize="588.8,102.4"
+          Size="588.8,145.6"
+          Id="Package\Load Dimensions"
+          TopLeft="59.9,375.1" />
         <NodeLayout
-          Size="169,42"
-          Id="Package\Incremental load immitation\Load Landing Zone"
-          TopLeft="215,5.5" />
+          Size="168,41.6"
+          Id="Package\Load Landing Zone"
+          TopLeft="270.3,70.3" />
         <NodeLayout
-          Size="136,42"
-          Id="Package\Incremental load immitation\Load Orders"
-          TopLeft="231.5,516.5" />
+          Size="136,41.6"
+          Id="Package\Load Orders"
+          TopLeft="286.3,580.7" />
         <NodeLayout
-          Size="158,42"
-          Id="Package\Incremental load immitation\Trancate staging"
-          TopLeft="220.5,209.5" />
+          Size="156.8,41.6"
+          Id="Package\Trancate staging"
+          TopLeft="275.9,273.5" />
         <NodeLayout
-          Size="248,42"
-          Id="Package\Incremental load immitation\Truncate landing and staging tables"
-          TopLeft="176,618.5" />
+          Size="247.2,41.6"
+          Id="Package\Truncate landing and staging tables"
+          TopLeft="230.7,682.3" />
         <EdgeLayout
-          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
-          TopLeft="299.5,47.5">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="354.3,111.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="354.3,213.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="354.3,315.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -609,19 +636,19 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 1]"
-          TopLeft="299.5,456.5">
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="354.3,520.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -631,8 +658,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 2]"
-          TopLeft="299.5,149.5">
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="354.3,622.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -652,57 +679,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 3]"
-          TopLeft="299.5,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 4]"
-          TopLeft="299.75,558.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="599,716"
-          Size="599,759"
-          Id="Package\Incremental load immitation"
-          TopLeft="26.4285718786473,138.411766647055" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -712,7 +688,7 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="157,42"
+          Size="156.8,41.6"
           Id="Package.EventHandlers[OnError]\Error notification"
           TopLeft="60,60" />
       </GraphLayout>

@@ -10,9 +10,7 @@
 	  [UserName]					NVARCHAR ( 128 )		NOT NULL,
 	  [LineageKey]					INT						NOT NULL,
 	
-	CONSTRAINT [PK_Integration_ErrorLog] PRIMARY KEY CLUSTERED ( [LogKey] ASC ),
-
-    CONSTRAINT [FK_Integration_ErrorLog_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+	CONSTRAINT [PK_Integration_ErrorLog] PRIMARY KEY CLUSTERED ( [LogKey] ASC )
 )
     ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE ) ;

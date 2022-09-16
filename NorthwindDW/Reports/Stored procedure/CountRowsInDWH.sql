@@ -2,8 +2,8 @@
 BEGIN
 	SELECT		  [Schema]		= S.[name]
 				, [Table]		= T.[name]
-				, [IndeType]	= I.[type_desc]
-				, P.[rows]
+				, [IndexType]	= I.[type_desc]
+				, [NumRows]		= P.[rows]
 	FROM		sys.tables AS T
 	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
 	LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
