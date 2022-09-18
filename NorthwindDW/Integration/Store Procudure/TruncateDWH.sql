@@ -19,7 +19,6 @@ BEGIN
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date];
 	ALTER TABLE [Fact].[Order] DROP CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage];
-	ALTER TABLE [Integration].[Errorlog] DROP CONSTRAINT [FK_Integration_ErrorLog_Lineage_Key_Integration_Lineage];
 	
 	TRUNCATE TABLE [Fact].[Order];
 	TRUNCATE TABLE [Staging].[Order];
@@ -52,7 +51,6 @@ BEGIN
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] );
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
-	ALTER TABLE [Integration].[Errorlog] ADD CONSTRAINT [FK_Integration_ErrorLog_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
 
 	ALTER SEQUENCE [Sequences].[CustomerKey] RESTART WITH 1;
 	ALTER SEQUENCE [Sequences].[EmployeeKey] RESTART WITH 1;

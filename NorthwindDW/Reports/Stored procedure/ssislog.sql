@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[ssislog]
+﻿CREATE PROCEDURE [Reports].[SSISlog]
 	@period AS INT = 1
 AS
 	BEGIN

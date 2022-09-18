@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [Integration].[GetLineageKey]
     @TableName AS SYSNAME,
-    @CutoffTime AS DATETIME2(7)
+    @CutoffTime AS DATETIME2(7),
+    @executionid AS NVARCHAR (50)
     WITH EXECUTE AS OWNER
 AS
 BEGIN
@@ -15,6 +16,7 @@ BEGIN
         , [DataLoadCompleted]
         , [WasSuccessful]
         , [CutoffTime]
+        , [ExecutionId]
     )
     OUTPUT
         inserted.[LineageKey] as LineageKey
@@ -25,5 +27,6 @@ BEGIN
             , NULL
             , 0
             , @CutoffTime
+            , @executionid
         );
 END;
