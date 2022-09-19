@@ -14,9 +14,6 @@ BEGIN
 	TRUNCATE TABLE [Staging].[Employee];
 	TRUNCATE TABLE [Staging].[Product];
 	TRUNCATE TABLE [Staging].[Order];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Customer];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Employee];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Product];
 
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] );
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] );
