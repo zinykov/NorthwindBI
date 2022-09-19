@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="148"
-  DTS:VersionGUID="{AFA0C440-E0D3-429F-9D99-169F35092227}">
+  DTS:VersionBuild="150"
+  DTS:VersionGUID="{B941B662-28D7-4D95-86BD-35A4ECABBAB1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -379,6 +379,283 @@
           version="1">
           <components>
             <component
+              refId="Package\Cleaning\Destination DQS Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+              description="Назначение &quot;OLE DB&quot;"
+              name="Destination DQS Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">[dbo].[Product]</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Cleaning\Destination DQS Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{6904C058-BEE4-4249-9768-273BC2D6430D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DQS_STAGING]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  errorOrTruncationOperation="Вставить"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Вход назначения &quot;OLE DB&quot;">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey_Source]"
+                      cachedDataType="i4"
+                      cachedName="ProductAlterKey_Source"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Source]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Source]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey_Output]"
+                      cachedDataType="i4"
+                      cachedName="ProductAlterKey_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Output]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey_Status]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ProductAlterKey_Status"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Status]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Status]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product_Source]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Product_Source"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Source]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Source]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="Product_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Output]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product_Status]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Product_Status"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Status]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Status]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category_Source]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Category_Source"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Source]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Source]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category_Output]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Category_Output"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Output]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Output]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category_Status]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Category_Status"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Status]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Status]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey_Reason]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ProductAlterKey_Reason"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Reason]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Reason]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductAlterKey_Confidence]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ProductAlterKey_Confidence"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Confidence]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Confidence]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product_Reason]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="Product_Reason"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Reason]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Reason]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Product_Confidence]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Product_Confidence"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Confidence]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Confidence]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category_Reason]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="Category_Reason"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Reason]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Reason]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category_Confidence]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Category_Confidence"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Confidence]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Confidence]" />
+                    <inputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Record Status]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Record Status"
+                      externalMetadataColumnId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Record_Status]"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Source]"
+                      dataType="i8"
+                      name="ProductAlterKey_Source" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Output]"
+                      dataType="i8"
+                      name="ProductAlterKey_Output" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Reason]"
+                      dataType="nText"
+                      name="ProductAlterKey_Reason" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Confidence]"
+                      dataType="nText"
+                      name="ProductAlterKey_Confidence" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductAlterKey_Status]"
+                      dataType="nText"
+                      name="ProductAlterKey_Status" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Source]"
+                      dataType="nText"
+                      name="Product_Source" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Output]"
+                      dataType="nText"
+                      name="Product_Output" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Reason]"
+                      dataType="nText"
+                      name="Product_Reason" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Confidence]"
+                      dataType="nText"
+                      name="Product_Confidence" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Product_Status]"
+                      dataType="nText"
+                      name="Product_Status" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Source]"
+                      dataType="nText"
+                      name="Category_Source" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Output]"
+                      dataType="nText"
+                      name="Category_Output" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Reason]"
+                      dataType="nText"
+                      name="Category_Reason" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Confidence]"
+                      dataType="nText"
+                      name="Category_Confidence" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category_Status]"
+                      dataType="nText"
+                      name="Category_Status" />
+                    <externalMetadataColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Record_Status]"
+                      dataType="nText"
+                      name="Record_Status" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleaning\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                  synchronousInputId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Cleaning\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Cleaning\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Cleaning\Destination Staging"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
@@ -543,13 +820,21 @@
                   name="StandardizeOutput">true</property>
                 <property
                   dataType="System.Boolean"
-                  name="ConfidenceOutputColumnExists">false</property>
+                  name="ConfidenceOutputColumnExists">true</property>
                 <property
                   dataType="System.Boolean"
-                  name="ReasonOutputColumnExists">false</property>
+                  name="ReasonOutputColumnExists">true</property>
                 <property
                   dataType="System.Boolean"
-                  name="AppendedDataOutputColumnExists">false</property>
+                  name="AppendedDataOutputColumnExists">true</property>
+                <property
+                  containsID="true"
+                  dataType="System.Int32"
+                  name="AppendedDataOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]}</property>
+                <property
+                  containsID="true"
+                  dataType="System.Int32"
+                  name="AppendedDataSchemaOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]}</property>
               </properties>
               <connections>
                 <connection
@@ -592,6 +877,14 @@
                           containsID="true"
                           dataType="System.Int32"
                           name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Status]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ConfidenceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Confidence]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ReasonOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Reason]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
@@ -622,6 +915,14 @@
                           containsID="true"
                           dataType="System.Int32"
                           name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Status]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ConfidenceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Confidence]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ReasonOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Reason]}</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
@@ -652,6 +953,14 @@
                           containsID="true"
                           dataType="System.Int32"
                           name="StatusOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Status]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ConfidenceOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Confidence]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ReasonOutputLineageId">#{Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Reason]}</property>
                       </properties>
                     </inputColumn>
                   </inputColumns>
@@ -680,6 +989,18 @@
                       lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Status]"
                       name="ProductAlterKey_Status" />
                     <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Confidence]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Confidence]"
+                      name="ProductAlterKey_Confidence" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Reason]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[ProductAlterKey_Reason]"
+                      name="ProductAlterKey_Reason" />
+                    <outputColumn
                       refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Source]"
                       dataType="wstr"
                       length="40"
@@ -697,6 +1018,18 @@
                       length="100"
                       lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Status]"
                       name="Product_Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Confidence]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Confidence]"
+                      name="Product_Confidence" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Reason]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Product_Reason]"
+                      name="Product_Reason" />
                     <outputColumn
                       refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Source]"
                       dataType="wstr"
@@ -716,12 +1049,74 @@
                       lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Status]"
                       name="Category_Status" />
                     <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Confidence]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Confidence]"
+                      name="Category_Confidence" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Reason]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Category_Reason]"
+                      name="Category_Reason" />
+                    <outputColumn
                       refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
                       dataType="wstr"
                       length="100"
                       lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
                       name="Record Status" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]"
+                      name="Appended Data" />
+                    <outputColumn
+                      refId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]"
+                      name="Appended Data Schema" />
                   </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Cleaning\Multi flow"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Многоадресная рассылка;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+              description="Распределяет все входные строки между всеми строками в одном или нескольких выходах. Пример: разбиение потока данных на ветви, чтобы создать копию данных, в которой некоторые значения перед передачей внешним партнерам будут скрыты."
+              name="Multi flow">
+              <inputs>
+                <input
+                  refId="Package\Cleaning\Multi flow.Inputs[Многоадресная рассылка Вход 1]"
+                  name="Многоадресная рассылка Вход 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Cleaning\Multi flow.Outputs[Многоадресная рассылка Выход 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Многоадресная рассылка Выход 1"
+                  synchronousInputId="Package\Cleaning\Multi flow.Inputs[Многоадресная рассылка Вход 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Cleaning\Multi flow.Outputs[Выход многоадресной рассылки 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Выход многоадресной рассылки 1"
+                  synchronousInputId="Package\Cleaning\Multi flow.Inputs[Многоадресная рассылка Вход 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Cleaning\Multi flow.Outputs[Выход многоадресной рассылки 2]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Выход многоадресной рассылки 2"
+                  synchronousInputId="Package\Cleaning\Multi flow.Inputs[Многоадресная рассылка Вход 1]">
                   <externalMetadataColumns />
                 </output>
               </outputs>
@@ -878,7 +1273,7 @@
           <paths>
             <path
               refId="Package\Cleaning.Paths[DQS Cleansing Output]"
-              endId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              endId="Package\Cleaning\Multi flow.Inputs[Многоадресная рассылка Вход 1]"
               name="DQS Cleansing Output"
               startId="Package\Cleaning\DQS Cleaning.Outputs[DQS Cleansing Output]" />
             <path
@@ -886,6 +1281,16 @@
               endId="Package\Cleaning\DQS Cleaning.Inputs[DQS Cleansing Input]"
               name="Выход источника &quot;OLE DB&quot;"
               startId="Package\Cleaning\Source Landing.Outputs[Выход источника &quot;OLE DB&quot;]" />
+            <path
+              refId="Package\Cleaning.Paths[Выход многоадресной рассылки 1]"
+              endId="Package\Cleaning\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="Выход многоадресной рассылки 1"
+              startId="Package\Cleaning\Multi flow.Outputs[Выход многоадресной рассылки 1]" />
+            <path
+              refId="Package\Cleaning.Paths[Многоадресная рассылка Выход 1]"
+              endId="Package\Cleaning\Destination Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+              name="Многоадресная рассылка Выход 1"
+              startId="Package\Cleaning\Multi flow.Outputs[Многоадресная рассылка Выход 1]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -2150,23 +2555,23 @@ where [refTable].[ProductAlterKey] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="183.2,41.6"
+          Size="183,42"
           Id="Package\Add unknown product"
           TopLeft="11.5,258.5" />
         <NodeLayout
-          Size="119.2,41.6"
+          Size="119,42"
           Id="Package\Cleaning"
           TopLeft="43.5,156.5" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\Get LineAgeKey"
           TopLeft="26.5,54.5" />
         <NodeLayout
-          Size="140.8,41.6"
+          Size="141,42"
           Id="Package\Load Product"
           TopLeft="32.5,360.5" />
         <NodeLayout
-          Size="195.2,41.6"
+          Size="195,42"
           Id="Package\Set load compilation info"
           TopLeft="5.50000000000004,462.5" />
         <EdgeLayout
@@ -2264,22 +2669,48 @@ where [refTable].[ProductAlterKey] = ?</property>
     design-time-name="Package\Cleaning">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="151,42"
           Id="Package\Cleaning\Source Landing"
-          TopLeft="49.5,54.5" />
-        <NodeLayout
-          Size="171,42"
-          Id="Package\Cleaning\Destination Staging"
-          TopLeft="39.5,258.5" />
+          TopLeft="293.5,54.5" />
         <NodeLayout
           Size="143,42"
           Id="Package\Cleaning\DQS Cleaning"
-          TopLeft="53.5,156.5" />
+          TopLeft="297.5,156.5" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Cleaning\Destination Staging"
+          TopLeft="39.5000000000001,360.5" />
         <EdgeLayout
           Id="Package\Cleaning.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="125,96.5">
+          TopLeft="369,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Cleaning\Multi flow"
+          TopLeft="307,258.5" />
+        <EdgeLayout
+          Id="Package\Cleaning.Paths[DQS Cleansing Output]"
+          TopLeft="369,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2300,19 +2731,69 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Cleaning.Paths[DQS Cleansing Output]"
-          TopLeft="125,198.5">
+          Id="Package\Cleaning.Paths[Многоадресная рассылка Выход 1]"
+          TopLeft="349.666666666667,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-224.666666666667,60"
               Start="0,0"
-              End="0,52.5">
+              End="-224.666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,20.4585987261147" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4585987261147"
+                    Point2="0,24.4585987261147"
+                    Point3="-4,24.4585987261147" />
+                  <mssgle:LineSegment
+                    End="-220.666666666667,24.4585987261147" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-220.666666666667,24.4585987261147"
+                    Point2="-224.666666666667,24.4585987261147"
+                    Point3="-224.666666666667,28.4585987261147" />
+                  <mssgle:LineSegment
+                    End="-224.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Cleaning\Destination DQS Staging"
+          TopLeft="271.5,360.5" />
+        <EdgeLayout
+          Id="Package\Cleaning.Paths[Выход многоадресной рассылки 1]"
+          TopLeft="388.333333333333,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-19.3333333333333,60"
+              Start="0,0"
+              End="-19.3333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.4585987261147" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4585987261147"
+                    Point2="0,24.4585987261147"
+                    Point3="-4,24.4585987261147" />
+                  <mssgle:LineSegment
+                    End="-15.3333333333333,24.4585987261147" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15.3333333333333,24.4585987261147"
+                    Point2="-19.3333333333333,24.4585987261147"
+                    Point3="-19.3333333333333,28.4585987261147" />
+                  <mssgle:LineSegment
+                    End="-19.3333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2695,6 +3176,19 @@ where [refTable].[ProductAlterKey] = ?</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Cleaning\Destination DQS Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
