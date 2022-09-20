@@ -32,9 +32,6 @@ BEGIN
 	TRUNCATE TABLE [Integration].[Lineage];
 	TRUNCATE TABLE [Integration].[ErrorLog];
 	TRUNCATE TABLE [dbo].[sysssislog];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Customer];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Employee];
-	TRUNCATE TABLE [DQS_STAGING_DATA].[dbo].[Product];
 
 	ALTER TABLE [Dimension].[Customer] ADD CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
 	ALTER TABLE [Dimension].[Employee] ADD CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
