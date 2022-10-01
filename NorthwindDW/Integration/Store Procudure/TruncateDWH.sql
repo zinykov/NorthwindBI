@@ -26,7 +26,6 @@ BEGIN
 	TRUNCATE TABLE [Dimension].[Employee];
 	TRUNCATE TABLE [Dimension].[Product];
 	TRUNCATE TABLE [Dimension].[Date];
-	TRUNCATE TABLE [Staging].[Customer];
 	TRUNCATE TABLE [Staging].[Employee];
 	TRUNCATE TABLE [Staging].[Product];
 	TRUNCATE TABLE [Integration].[Lineage];
