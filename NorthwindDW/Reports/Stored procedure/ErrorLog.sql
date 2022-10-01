@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [Reports].[ErrorLog] AS
-BEGIN
+﻿CREATE PROCEDURE [Reports].[ErrorLog]
+	WITH EXECUTE AS OWNER
+AS BEGIN
 	SELECT		  [LogKey]
 				, [ErrorCode]
 				, [ErrorDescription]

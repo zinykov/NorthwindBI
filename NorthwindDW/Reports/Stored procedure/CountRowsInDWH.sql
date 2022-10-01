@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [Reports].[CountRowsInDWH] AS
-BEGIN
+﻿CREATE PROCEDURE [Reports].[CountRowsInDWH]
+	WITH EXECUTE AS OWNER
+AS BEGIN
 	SELECT		  [Schema]		= S.[name]
 				, [Table]		= T.[name]
 				, [IndexType]	= I.[type_desc]
