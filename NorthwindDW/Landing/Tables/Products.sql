@@ -6,6 +6,6 @@
     [CategoryID]  INT           NULL,
     [UnitPrice]   MONEY         NULL
 )
-    ON [PRIMARY]
+    ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

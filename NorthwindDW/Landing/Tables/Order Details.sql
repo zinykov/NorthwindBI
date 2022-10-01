@@ -6,6 +6,6 @@
     [Quantity]          SMALLINT    NOT NULL,
     [Discount]          REAL        NOT NULL
 )
-    ON [PRIMARY]
+    ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
