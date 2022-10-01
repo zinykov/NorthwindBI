@@ -1,17 +1,22 @@
 ﻿CREATE PROCEDURE [Reports].[CountRowsInDWH]
 	WITH EXECUTE AS OWNER
 AS BEGIN
-	SELECT		  [Schema]		= S.[name]
-				, [Table]		= T.[name]
-				, [IndexType]	= I.[type_desc]
-				, [NumRows]		= P.[rows]
+	SELECT		  [Schema]			= S.[name]
+				, [Table]			= T.[name]
+				, [PartitionNumber]	= P.[partition_number]
+				, [IndexID]			= I.[index_id]
+				, [IndexType]		= I.[type_desc]
+				, [DataCompression]	= P.[data_compression_desc]
+				, [NumRows]			= P.[rows]
+	
 	FROM		sys.tables AS T
 	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
 	LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
-				AND P.[index_id] IN ( 1, 0 )
 	LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
 				AND P.[index_id] = I.[index_id]
+	
 	ORDER BY	  S.[schema_id]
 				, T.[name]
-				, P.[partition_id]
+				, P.[partition_number]
+				, I.[index_id]
 END
