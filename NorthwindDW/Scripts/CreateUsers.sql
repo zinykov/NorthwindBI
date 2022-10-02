@@ -1,5 +1,6 @@
 ﻿USE [NorthwindDW]
 GO
+
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = 'SWIFT3\RDLexec' )
 	BEGIN
 		CREATE USER [SWIFT3\RDLexec] FOR LOGIN [SWIFT3\RDLexec]
@@ -30,4 +31,20 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = 'SWIFT3\RDLexec' )
 GO
 
 ALTER ROLE [db_datareader] ADD MEMBER [SWIFT3\RDLexec]
+GO
+
+USE [MDS]
+GO
+
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = 'SWIFT3\VSTS_AgentService_G39071' )
+	BEGIN
+		CREATE USER [SWIFT3\VSTS_AgentService_G39071] FOR LOGIN [SWIFT3\VSTS_AgentService_G39071]
+			WITH DEFAULT_SCHEMA=[stg]
+	END
+GO
+
+GRANT SELECT ON SCHEMA::[stg] TO [SWIFT3\VSTS_AgentService_G39071]
+GO
+
+GRANT EXECUTE ON SCHEMA::[stg] TO [SWIFT3\VSTS_AgentService_G39071]
 GO
