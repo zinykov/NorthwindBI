@@ -14,9 +14,6 @@
     [SalesAmountWithDiscount]       MONEY           NULL,
     [LineageKey]                    INT             NULL,
 
-    CONSTRAINT [PK_Staging_Order] PRIMARY KEY NONCLUSTERED ( [OrderKey] ASC, [OrderDateKey] ASC, [ProductKey] ASC )
-        ON [PS_Order_Date_Index] ( [OrderDateKey] ),
-    
     CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
     CONSTRAINT [FK_Staging_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
     CONSTRAINT [FK_Staging_Order_Product_Key_Dimension_Product] FOREIGN KEY ( [ProductKey] ) REFERENCES [Dimension].[Product] ( [ProductKey] ),

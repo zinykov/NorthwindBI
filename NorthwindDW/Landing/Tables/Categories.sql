@@ -4,6 +4,6 @@
     [CategoryName]      NVARCHAR(15)    NOT NULL,
     [Description]       NTEXT           NULL
 )
-    ON [PRIMARY]
+    ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

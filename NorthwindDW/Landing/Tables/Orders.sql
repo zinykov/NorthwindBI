@@ -9,6 +9,6 @@
     [ShipCity]     NVARCHAR (15) NULL,
     [ShipCountry]  NVARCHAR (15) NULL
 )
-    ON [PRIMARY]
+    ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
