@@ -7,12 +7,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{C1C4F31D-0005-4665-8475-4140DF91275F}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.694.0"
+  DTS:LastModifiedProductVersion="16.0.845.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="86"
-  DTS:VersionGUID="{B356C08A-E2E3-472F-B3D7-B227F5EB170D}">
+  DTS:VersionBuild="89"
+  DTS:VersionGUID="{67083487-EE45-4470-9413-11A6ACD4B8A7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -237,7 +237,34 @@
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Landing Zone"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{c5ba15f9-bfaf-45a7-bf05-429249ab6209}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Landing Zone"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Landing Zone.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{4996739A-CBD6-4002-BEC2-387836D33FA8}"
+          DTS:From="Package\Incremental load immitation\Landing Zone"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Incremental load immitation\Incremental load" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:EventHandlers>
@@ -324,18 +351,44 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="157.6,41.6"
+          Size="158,42"
           Id="Package\Incremental load immitation\Incremental load"
-          TopLeft="5.5,5.49999999999995" />
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Incremental load immitation\Landing Zone"
+          TopLeft="13,5.5" />
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
+          TopLeft="84.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="168.8,102.4"
-          Size="168.8,145.6"
+          PanelSize="169,204"
+          Size="169,248"
           Id="Package\Incremental load immitation"
-          TopLeft="41.4285721340958,26.7647062577179" />
+          TopLeft="35.5,21.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>

@@ -26,11 +26,15 @@ BEGIN
 	TRUNCATE TABLE [Dimension].[Employee];
 	TRUNCATE TABLE [Dimension].[Product];
 	TRUNCATE TABLE [Dimension].[Date];
-	TRUNCATE TABLE [Staging].[Employee];
-	TRUNCATE TABLE [Staging].[Product];
 	TRUNCATE TABLE [Integration].[Lineage];
 	TRUNCATE TABLE [Integration].[ErrorLog];
 	TRUNCATE TABLE [dbo].[sysssislog];
+	TRUNCATE TABLE [Landing].[Categories];
+	TRUNCATE TABLE [Landing].[Customers];
+	TRUNCATE TABLE [Landing].[Employees];
+	TRUNCATE TABLE [Landing].[Order Details];
+	TRUNCATE TABLE [Landing].[Orders];
+	TRUNCATE TABLE [Landing].[Products];
 
 	ALTER TABLE [Dimension].[Customer] ADD CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );
 	ALTER TABLE [Dimension].[Employee] ADD CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] );

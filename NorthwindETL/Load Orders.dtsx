@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{6DCD01FC-0739-4C0A-8AB4-9F8F0C303BD1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.694.0"
+  DTS:LastModifiedProductVersion="16.0.845.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="134"
-  DTS:VersionGUID="{167926CA-5BC3-4BE2-A743-458A89491E18}">
+  DTS:VersionBuild="149"
+  DTS:VersionGUID="{74C74218-E180-42E6-8534-AFD1BE4B1454}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -256,41 +256,86 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Orders"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Задача &quot;Выполнение SQL&quot;"
-      DTS:DTSID="{044F74C6-3166-4A98-AC85-E6B13A922EBB}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:refId="Package\Load DWH"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{067D491F-A0C9-43D6-879F-263B2E1284F9}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Orders"
-      DTS:ThreadHint="0">
+      DTS:ObjectName="Load DWH">
       <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadOrders] @StartLoad = ?, @EndLoad = ?,@LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="User::StartLoad"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="7"
-            SQLTask:ParameterSize="-1" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="1"
-            SQLTask:DtsVariableName="$Package::CutoffTime"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="7"
-            SQLTask:ParameterSize="-1" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="2"
-            SQLTask:DtsVariableName="User::LineageKey"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="3"
-            SQLTask:ParameterSize="-1" />
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Load Orders"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{4b0c94b4-d836-441a-ac37-48b0b8d6357b}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Orders"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadOrders] @StartLoad = ?, @EndLoad = ?,@LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::StartLoad"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::LineageKey"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Set StartLoad Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{7641d1ae-4f95-4efb-acea-2868a74e2a9f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set StartLoad Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="IF EXISTS ( SELECT 1 FROM [Integration].[Lineage] WHERE [TableName] = N'Order' AND [WasSuccessful] = 1 )&#xA; SELECT StartLoadDate = MAX ( [CutoffTime] ) FROM [Integration].[Lineage] WHERE [TableName] = N'Order' AND [WasSuccessful] = 1&#xA;ELSE SELECT StartLoadDate = DATEFROMPARTS ( 1996, 1, 1 )"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="StartLoadDate"
+                SQLTask:DtsVariableName="User::StartLoad" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{75C6B885-9509-4315-9086-C8D4CB9EBBE9}"
+          DTS:From="Package\Load DWH\Set StartLoad Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load DWH\Load Orders" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Set load compilation info"
@@ -317,54 +362,23 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Set StartLoad Date"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Задача &quot;Выполнение SQL&quot;"
-      DTS:DTSID="{C21521DB-8507-4DBB-9A25-A79F845CF811}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Set StartLoad Date"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="IF EXISTS ( SELECT 1 FROM [Integration].[Lineage] WHERE [TableName] = 'Order' AND [WasSuccessful] = 1 )&#xA;&#x9;SELECT StartLoadDate = MAX ( [CutoffTime] ) FROM [Integration].[Lineage] WHERE [TableName] = 'Order' AND [WasSuccessful] = 1&#xA;ELSE SELECT StartLoadDate = DATEFROMPARTS ( 1996, 1, 1 )"
-          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ResultBinding
-            SQLTask:ResultName="StartLoadDate"
-            SQLTask:DtsVariableName="User::StartLoad" />
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{B2B76CFB-3D18-4812-9542-4A2302D62791}"
+      DTS:DTSID="{724DFA1C-C334-48F7-9ECD-06335F91105B}"
       DTS:From="Package\Get LineAgeKey"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Set StartLoad Date" />
+      DTS:To="Package\Load DWH" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{5DEF751B-9FEC-41BE-AB4D-DF0705433201}"
-      DTS:From="Package\Set StartLoad Date"
+      DTS:DTSID="{5B6F4758-3CC4-4C50-B934-3F21248656F6}"
+      DTS:From="Package\Load DWH"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Load Orders" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
-      DTS:CreationName=""
-      DTS:DTSID="{F9878B4B-3A13-44CE-A90C-35082CA8287D}"
-      DTS:From="Package\Load Orders"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 2"
       DTS:To="Package\Set load compilation info" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
@@ -380,24 +394,20 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="39,54.5" />
+          TopLeft="49.5,54.5" />
         <NodeLayout
-          Size="136,41.6"
-          Id="Package\Load Orders"
-          TopLeft="47.5,258.5" />
+          Size="136,42"
+          Id="Package\Load DWH\Load Orders"
+          TopLeft="21.5,107.5" />
         <NodeLayout
-          Size="195.2,41.6"
-          Id="Package\Set load compilation info"
-          TopLeft="18,360.5" />
-        <NodeLayout
-          Size="208,41.6"
-          Id="Package\Set StartLoad Date"
-          TopLeft="11.5,156.5" />
+          Size="168,42"
+          Id="Package\Load DWH\Set StartLoad Date"
+          TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="115.5,96.5">
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="89.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -417,9 +427,20 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="179,204"
+          Size="179,248"
+          Id="Package\Load DWH"
+          TopLeft="36.5,156.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Set load compilation info"
+          TopLeft="28.5,464.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="115.5,198.5">
+          TopLeft="126,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -440,8 +461,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="115.5,300.5">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="126,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

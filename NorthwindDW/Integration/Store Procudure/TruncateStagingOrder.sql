@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[TruncateStaging] AS
+﻿CREATE PROCEDURE [Integration].[TruncateStagingOrder] AS
 BEGIN
 	SET NOCOUNT ON;
 
@@ -10,8 +10,6 @@ BEGIN
 	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Shipped_Date_Key_Dimension_Date];
 	ALTER TABLE [Staging].[Order] DROP CONSTRAINT [FK_Staging_Order_Lineage_Key_Integration_Lineage];
 
-	TRUNCATE TABLE [Staging].[Employee];
-	TRUNCATE TABLE [Staging].[Product];
 	TRUNCATE TABLE [Staging].[Order];
 
 	ALTER TABLE [Staging].[Order] ADD CONSTRAINT [FK_Staging_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] );

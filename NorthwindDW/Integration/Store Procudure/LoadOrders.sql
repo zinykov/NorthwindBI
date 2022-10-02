@@ -68,22 +68,19 @@ BEGIN
 					, [LineageKey]					=	@LineageKey
 
 		FROM		[Landing].[Orders] AS O
-		INNER JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
-		INNER JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
+		LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
+		LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
 					AND C.[Current] = 1
-		INNER JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
+		LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
 					AND E.[Current] = 1
-		INNER JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
+		LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
 		WHERE		[OrderDate] BETWEEN @StartLoad AND @EndLoad
-
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		BEGIN TRANSACTION
 			ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
-		COMMIT
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
 --		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
-		BEGIN TRANSACTION
 			IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
 			MERGE
 				INTO [Fact].[Order] AS TRG

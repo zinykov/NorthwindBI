@@ -128,7 +128,7 @@
     <Build Include="Integration\Store Procudure\AddUnknownDate.sql" />
     <Build Include="Integration\Store Procudure\AddUnknownEmployee.sql" />
     <Build Include="Integration\Store Procudure\AddUnknownProduct.sql" />
-    <Build Include="Integration\Store Procudure\TruncateStaging.sql" />
+    <Build Include="Integration\Store Procudure\TruncateStagingOrder.sql" />
     <Build Include="Reports\View\DimCustomer.sql" />
     <Build Include="Reports\View\DimDate.sql" />
     <Build Include="Reports\View\DimEmployee.sql" />
@@ -150,6 +150,8 @@
     <Build Include="Reports\Stored procedure\DQS_status.sql" />
     <Build Include="Reports\Stored procedure\DQS_status_subscription.sql" />
     <Build Include="Storage\Filegroups\Landing_FG.sql" />
+    <Build Include="Integration\Store Procudure\GetModelVersion.sql" />
+    <Build Include="Integration\Store Procudure\ValidateModel.sql" />
   </ItemGroup>
   <Import Condition="'$(NetCoreBuild)' == 'true'" Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
@@ -161,6 +163,16 @@
   <ItemGroup>
     <None Include="SWIFT3NorthwindDW.publish.xml" />
     <None Include="LocalDBNorthwindDW.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="MDS_ServerName">
+      <DefaultValue>SWIFT3</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="MDS_DatabaseName">
+      <DefaultValue>MDS</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

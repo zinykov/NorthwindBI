@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="155"
-  DTS:VersionGUID="{1E3DC0E8-E899-4B0B-94CD-895DF50142F8}">
+  DTS:VersionBuild="167"
+  DTS:VersionGUID="{A99FCB96-BF3F-4B74-AA94-DCEF04D3C239}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -380,11 +380,11 @@
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{88AE049C-5738-4B8A-A38D-4DE861A61B27}"
-      DTS:IncludeInDebugDump="6789"
+      DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="Variable">
+      DTS:ObjectName="ModelName">
       <DTS:VariableValue
-        DTS:DataType="3">0</DTS:VariableValue>
+        DTS:DataType="8">CustomerNW</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -2012,13 +2012,13 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\DQS\Truncate DQS Staging Customer table"
+          DTS:refId="Package\DQS\Truncate DQS Staging"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{ad97b547-3dea-4008-90f9-45e4902160c7}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Truncate DQS Staging Customer table"
+          DTS:ObjectName="Truncate DQS Staging"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
@@ -2033,7 +2033,7 @@
           DTS:refId="Package\DQS.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
           DTS:DTSID="{DACAB8AF-AD7B-45EA-BD7A-8212466C17A0}"
-          DTS:From="Package\DQS\Truncate DQS Staging Customer table"
+          DTS:From="Package\DQS\Truncate DQS Staging"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\DQS\Clean Customers" />
@@ -5556,7 +5556,7 @@ WHERE	[CustomerAlterKey] = ?</property>
                         <externalMetadataColumn
                           refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Country]"
                           dataType="wstr"
-                          length="100"
+                          length="25"
                           name="Country" />
                         <externalMetadataColumn
                           refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[City]"
@@ -5634,12 +5634,18 @@ WHERE	[CustomerAlterKey] = ?</property>
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
-              SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="SELECT&#x9;&#x9;MV.[Name]&#xA;&#xA;FROM&#x9;&#x9;[mdm].[tblModelVersion] AS MV&#xA;INNER JOIN&#x9;[mdm].[tblModel] AS M ON M.[ID] = MV.[Model_ID]&#xA;&#xA;WHERE&#x9;&#x9;M.[Name] = N'NorthwindDW'"
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetModelVersion] &#xA;&#x9;  @ModelName = ?&#xA;&#x9;, @Flag = N'SSIS'"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="Name"
                 SQLTask:DtsVariableName="User::MDS_VersionName" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ModelName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -5678,6 +5684,29 @@ WHERE	[CustomerAlterKey] = ?</property>
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS\Validate Model"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{D6278BEC-C0D4-41B1-ACB3-EE97881754EE}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Validate Model"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[ValidateModel]&#xA;&#x9;  @ModelName = N'CustomerNW'&#xA;&#x9;, @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::UserName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -5696,6 +5725,14 @@ WHERE	[CustomerAlterKey] = ?</property>
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 1"
           DTS:To="Package\MDS\Update master Customer data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{EEB44EFD-86B2-472C-959A-1E00C4BAC46A}"
+          DTS:From="Package\MDS\Update master Customer data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\MDS\Validate Model" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -5744,7 +5781,7 @@ WHERE	[CustomerAlterKey] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{AD3DA6A3-221A-4D8E-9248-1DEA88C3D539}"
+      DTS:DTSID="{0C6416AB-3C4C-4AD7-BADF-316B154E34E0}"
       DTS:From="Package\Load DWH"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
@@ -5752,7 +5789,7 @@ WHERE	[CustomerAlterKey] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{65B62A03-4A73-4BBA-A168-E754C1192DAA}"
+      DTS:DTSID="{650406D0-8835-4BEA-8A94-5E5E3654EDDF}"
       DTS:From="Package\Get LineAgeKey"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
@@ -5773,14 +5810,14 @@ WHERE	[CustomerAlterKey] = ?</property>
         <NodeLayout
           Size="158,42"
           Id="Package\DQS\Clean Customers"
-          TopLeft="55.5,107.5" />
+          TopLeft="18,107.5" />
         <NodeLayout
-          Size="258,42"
-          Id="Package\DQS\Truncate DQS Staging Customer table"
-          TopLeft="5.5,5.5" />
+          Size="183,42"
+          Id="Package\DQS\Truncate DQS Staging"
+          TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
           Id="Package\DQS.PrecedenceConstraints[Constraint]"
-          TopLeft="134.5,47.5">
+          TopLeft="97,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5803,10 +5840,10 @@ WHERE	[CustomerAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="269,205"
-          Size="269,248"
+          PanelSize="194,204"
+          Size="194,248"
           Id="Package\DQS"
-          TopLeft="95.0000000000001,156.5" />
+          TopLeft="132.5,156.5" />
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
@@ -5844,14 +5881,14 @@ WHERE	[CustomerAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,205"
+          PanelSize="206,204"
           Size="206,248"
           Id="Package\Load DWH"
-          TopLeft="126.5,772.5" />
+          TopLeft="126.5,874.5" />
         <NodeLayout
           Size="160,42"
           Id="Package\MDS\Data managment"
-          TopLeft="5.49999999999997,5.5" />
+          TopLeft="5.50000000000003,5.5" />
         <NodeLayout
           Size="189,42"
           Id="Package\MDS\Get MDS Version Name"
@@ -5900,9 +5937,9 @@ WHERE	[CustomerAlterKey] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="35.3333333333333,60"
+              EndConnector="35.3333333333334,60"
               Start="0,0"
-              End="35.3333333333333,52.5">
+              End="35.3333333333334,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -5913,13 +5950,39 @@ WHERE	[CustomerAlterKey] = ?</property>
                     Point2="0,35.7400722021661"
                     Point3="4,35.7400722021661" />
                   <mssgle:LineSegment
-                    End="31.3333333333333,35.7400722021661" />
+                    End="31.3333333333334,35.7400722021661" />
                   <mssgle:CubicBezierSegment
-                    Point1="31.3333333333333,35.7400722021661"
-                    Point2="35.3333333333333,35.7400722021661"
-                    Point3="35.3333333333333,39.7400722021661" />
+                    Point1="31.3333333333334,35.7400722021661"
+                    Point2="35.3333333333334,35.7400722021661"
+                    Point3="35.3333333333334,39.7400722021661" />
                   <mssgle:LineSegment
-                    End="35.3333333333333,52.5" />
+                    End="35.3333333333334,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="148,42"
+          Id="Package\MDS\Validate Model"
+          TopLeft="246.5,209.5" />
+        <EdgeLayout
+          Id="Package\MDS.PrecedenceConstraints[Constraint 2]"
+          TopLeft="320.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5931,14 +5994,14 @@ WHERE	[CustomerAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436,205"
-          Size="436,248"
+          PanelSize="436,306"
+          Size="436,350"
           Id="Package\MDS"
           TopLeft="11.5000000000001,464.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="132,1080.5" />
+          TopLeft="132,1182.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="229.5,404.5">
@@ -5963,7 +6026,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="229.5,712.5">
+          TopLeft="229.5,814.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5985,7 +6048,7 @@ WHERE	[CustomerAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="229.5,1020.5">
+          TopLeft="229.5,1122.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6034,7 +6097,7 @@ WHERE	[CustomerAlterKey] = ?</property>
     design-time-name="Package\DQS\Clean Customers">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="143,42"
           Id="Package\DQS\Clean Customers\DQS Cleaning"
@@ -6066,7 +6129,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6088,7 +6153,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -6166,7 +6233,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6188,7 +6257,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6210,7 +6281,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6232,7 +6305,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6508,7 +6583,7 @@ WHERE	[CustomerAlterKey] = ?</property>
     design-time-name="Package\MDS\Data managment">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="273,42"
           Id="Package\MDS\Data managment\Add MDS Columns and change datatypes"
@@ -6540,7 +6615,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6562,7 +6639,9 @@ WHERE	[CustomerAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
