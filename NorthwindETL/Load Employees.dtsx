@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="168"
-  DTS:VersionGUID="{7080D5C4-2CF8-4C94-A333-5A34F58F88A9}">
+  DTS:VersionBuild="169"
+  DTS:VersionGUID="{7E195604-A061-4899-B378-E1938F83C486}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -4841,13 +4841,19 @@ where [refTable].[EmployeeAlterKey] = ? and [refTable].[Current] = 1</property>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[ValidateModel]&#xA;   @ModelName = N'EmployeeNW'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[ValidateModel]&#xA;   @ModelName = ?&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
-                SQLTask:ParameterName="0"
+                SQLTask:ParameterName="1"
                 SQLTask:DtsVariableName="System::UserName"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="130"
-                SQLTask:ParameterSize="50" />
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ModelName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
