@@ -2,9 +2,9 @@
 (
     [EmployeeID]        INT             NOT NULL,
     [LastName]          NVARCHAR(20)    NOT NULL,
-    [FirstName]         NVARCHAR(10)    NOT NULL,
-    [Title]             NVARCHAR(10)    NULL,
-    [TitleOfCourtesy]   NVARCHAR(25)    NULL,
+    [FirstName]         NVARCHAR(20)    NOT NULL,
+    [Title]             NVARCHAR(30)    NULL,
+    [TitleOfCourtesy]   NVARCHAR(10)    NULL,
     [City]              NVARCHAR(25)    NULL,
     [Country]           NVARCHAR(25)    NULL
 )
