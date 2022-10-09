@@ -1,7 +1,7 @@
 ﻿CREATE VIEW [Reports].[DimEmployee] AS
 	SELECT		  [EmployeeKey]
 				, [EmployeeAlterKey]
-				, [Name]
+				, [Employee]
 				, [Title]
 				, [TitleOfCourtesy]
 				, [City]

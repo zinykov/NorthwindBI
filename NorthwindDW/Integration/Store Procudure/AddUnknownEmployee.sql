@@ -6,7 +6,7 @@ AS BEGIN
     INSERT INTO [Dimension].[Employee] (
           [EmployeeKey]
         , [EmployeeAlterKey]
-        , [Name]
+        , [Employee]
         , [Title]
         , [TitleOfCourtesy]
         , [City]

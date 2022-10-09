@@ -2,7 +2,7 @@
 (
     [EmployeeKey]           INT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[EmployeeKey] )     NOT NULL,
     [EmployeeAlterKey]      INT                               NOT NULL,
-    [Name]                  NVARCHAR(35)                      NOT NULL,
+    [Employee]              NVARCHAR(35)                      NOT NULL,
     [Title]                 NVARCHAR(30)                      NULL,
     [TitleOfCourtesy]       NVARCHAR(10)                      NULL,
     [City]                  NVARCHAR(25)                      NULL,
@@ -26,7 +26,7 @@ CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Alter_Key] ON [Dimension].[Empl
     ON [Dimention_Index];
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_LastName] ON [Dimension].[Employee] ( [Name] ASC )
+CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Employee] ON [Dimension].[Employee] ( [Employee] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO
