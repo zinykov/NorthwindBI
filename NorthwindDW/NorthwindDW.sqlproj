@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,7 @@
     <ProjectGuid>{068fb3b3-3d64-4798-a67a-b031aeee5122}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>NorthwindDW</RootNamespace>
     <AssemblyName>NorthwindDW</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
@@ -36,7 +35,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -78,7 +76,6 @@
     <Folder Include="Sequences" />
     <Folder Include="Sequences\Sequences" />
     <Folder Include="Scripts" />
-    <Folder Include="Landing\View" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Fact\Tables\Order.sql" />
@@ -104,9 +101,6 @@
     <Build Include="Securiry\Schemas\Landing.sql" />
     <Build Include="Securiry\Schemas\Staging.sql" />
     <Build Include="Staging\Tables\Order.sql" />
-    <Build Include="Integration\Store Procudure\ExtractEmployeeFromLanding.sql" />
-    <Build Include="Integration\Store Procudure\ExtractCustomerFromLanding.sql" />
-    <Build Include="Integration\Store Procudure\ExtractProductFromLanding.sql" />
     <Build Include="Integration\Store Procudure\LoadOrders.sql" />
     <Build Include="Storage\PS_Order_Date_Index.sql" />
     <Build Include="Storage\Filegroups\Fast_Fact_Data.sql" />
@@ -140,9 +134,6 @@
     <Build Include="Reports\Stored procedure\CountRowsInDWH.sql" />
     <Build Include="Integration\Tables\ErrorLog.sql" />
     <Build Include="Integration\Store Procudure\InsertErrorLog.sql" />
-    <Build Include="Landing\View\CustomerV.sql" />
-    <Build Include="Landing\View\EmployeeV.sql" />
-    <Build Include="Landing\View\ProductV.sql" />
     <Build Include="Reports\Stored procedure\LoadDuration.sql" />
     <Build Include="Reports\Stored procedure\ErrorLog.sql" />
     <Build Include="Reports\Stored procedure\DQS_status.sql" />
@@ -154,7 +145,7 @@
     <Build Include="Integration\Store Procudure\UpdateEmployeeChangingAttributes.sql" />
     <Build Include="Integration\Store Procudure\UpdateCustomerAttributesAndMetadata.sql" />
     <Build Include="Integration\Store Procudure\UpdateCustomerChangingAttributes.sql" />
-    <Build Include="Integration\Store Procudure\UpdateProduct.sql" />
+    <Build Include="Integration\Store Procudure\UpdateProductChangingAttributes.sql" />
   </ItemGroup>
   <Import Condition="'$(NetCoreBuild)' == 'true'" Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
@@ -164,6 +155,14 @@
     <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
+    <SqlCmdVariable Include="DQS_Staging_DatabaseName">
+      <DefaultValue>DQS_STAGING_DATA</DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="DQS_Staging_ServerName">
+      <DefaultValue>SWIFT3</DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="MDS_ServerName">
       <DefaultValue>SWIFT3</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
