@@ -72,25 +72,29 @@ GO
 USE [master];
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM sys.objects WHERE type = 'FN' AND name = 'fn_classify_apps' )
-    EXECUTE SQL 'CREATE FUNCTION [dbo].[fn_classify_apps]() RETURNS sysname
-	    WITH SCHEMABINDING
+ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = NULL );
+ALTER RESOURCE GOVERNOR RECONFIGURE;
+GO
+
+CREATE OR ALTER FUNCTION [dbo].[fn_classify_apps]() RETURNS sysname
+WITH SCHEMABINDING
     AS BEGIN
 	    DECLARE @retval sysname
 
 	    IF (
-		    APP_NAME () LIKE ''%SQL Server%'' 
-		    AND USER_NAME () IN ( ''SWIFT3\AzPipelineAgent'',''SWIFT3\SQLAGENT'',''SWIFT3\RDLexec'' )
+		    APP_NAME () LIKE '%SQL Server%' 
+		    AND USER_NAME () IN ( 'SWIFT3\AzPipelineAgent','SWIFT3\SQLAGENT','SWIFT3\RDLexec' )
 		    AND DAY ( GETDATE () ) = 1 
 		    AND DATEPART ( HOUR, GETDATE () ) BETWEEN 1 AND 2
 	    )
-		    SET @retval = ''ETL'';
+		    SET @retval = 'ETL';
 	    ELSE
-		    SET @retval = ''User Queries'';
+		    SET @retval = 'User Queries';
 	
 	    RETURN @retval;
     END
-    
-    ALTER RESOURCE GOVERNOR WITH (CLASSIFIER_FUNCTION = dbo.fn_classify_apps);
-    ALTER RESOURCE GOVERNOR RECONFIGURE;'
+GO
+
+ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = dbo.fn_classify_apps );
+ALTER RESOURCE GOVERNOR RECONFIGURE;
 GO
