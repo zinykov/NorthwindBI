@@ -32,6 +32,7 @@ AS BEGIN
 		LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = I.[data_space_id]
 
 		WHERE		I.[name] IS NOT NULL
+					AND S.[name] <> N'dbo'
 		
 		ORDER BY	  S.[schema_id]
 					, T.[name]
@@ -61,7 +62,8 @@ AS BEGIN
 						ELSE SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REORGANIZE;' )
 						
 						BEGIN TRY
-							EXECUTE @SQLstatment
+							SELECT * FROM sys.dm_db_index_physical_stats ( @DatabaseID, @ObjectID, @IndexID, @PartitionNumber , 'LIMITED' )
+							EXECUTE sp_executesql @stmt = @SQLstatment						
 						END TRY
 						
 						BEGIN CATCH
@@ -83,8 +85,10 @@ AS BEGIN
 						ELSE SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REBUILD WITH ( DATA_COMPRESSION = ', @DataCompression, ' );' )
 						
 						BEGIN TRY
-							EXECUTE @SQLstatment
+							SELECT * FROM sys.dm_db_index_physical_stats ( @DatabaseID, @ObjectID, @IndexID, @PartitionNumber , 'LIMITED' )
+							EXECUTE sp_executesql @stmt = @SQLstatment
 						END TRY
+						
 						BEGIN CATCH
 							EXECUTE [Integration].[InsertErrorLog]
 									  @ErrorCode		= 100
