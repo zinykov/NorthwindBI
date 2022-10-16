@@ -14,7 +14,7 @@ AS BEGIN
 	DECLARE @StartTime			AS DATETIME2		= GETDATE();
 	DECLARE	@UserName			AS NVARCHAR(128)	= SYSTEM_USER;
 
-	DECLARE ManagingIndexes CURSOR FOR 
+	DECLARE OptimizeIndexes CURSOR FOR 
 		SELECT		  [Database]		= DB_ID ( @Database )
 					, [ObjectID]		= OBJECT_ID ( CONCAT ( '[', S.[name], '].[', T.[name], ']' ) )
 					, [ObjectName]		= CONCAT ( '[', S.[name], '].[', T.[name], ']' )
@@ -39,9 +39,9 @@ AS BEGIN
 					, P.[partition_number]
 					, I.[index_id]
 
-	OPEN ManagingIndexes
+	OPEN OptimizeIndexes
 		
-	FETCH NEXT FROM ManagingIndexes INTO 
+	FETCH NEXT FROM OptimizeIndexes INTO 
 		  @DatabaseID
 		, @ObjectID
 		, @ObjectName
@@ -100,7 +100,7 @@ AS BEGIN
 						END CATCH
 					END
 
-				FETCH NEXT FROM ManagingIndexes INTO 
+				FETCH NEXT FROM OptimizeIndexes INTO 
 					  @DatabaseID
 					, @ObjectID
 					, @ObjectName
@@ -111,6 +111,6 @@ AS BEGIN
 					, @PartitionScheme
 			END
 
-	CLOSE ManagingIndexes
-	DEALLOCATE ManagingIndexes
+	CLOSE OptimizeIndexes
+	DEALLOCATE OptimizeIndexes
 END;
