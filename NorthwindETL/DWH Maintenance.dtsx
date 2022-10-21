@@ -11,11 +11,21 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{94A89302-7AE5-40CE-8FC3-E05906B61D1D}">
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{1A29D496-DCAE-48B8-8653-30E1443AED64}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{769D60EA-83BB-4072-B6C6-B53A366F5304}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="3">-1</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\DWH"
@@ -113,43 +123,92 @@
               SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpTransactions]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\MDS\MDS Clean Up Validations"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{0cc3337b-4761-4c97-ae6e-096cab7da8d0}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="MDS Clean Up Validations"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpValidations]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{C58D21A3-3876-4254-B7AE-5FD1DCF3FC21}"
+          DTS:DTSID="{B9C28B51-8FE2-4FA3-B682-124C526C9F41}"
           DTS:From="Package\MDS\MDS Clean Up Staging Tables"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
-          DTS:To="Package\MDS\MDS Clean Up Validations" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{079644ED-D9DA-44A4-A5A7-C2A7F88347D2}"
-          DTS:From="Package\MDS\MDS Clean Up Validations"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
           DTS:To="Package\MDS\MDS Clean Up Transactions" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{0D648520-66C3-4D50-8AF9-364BB54A209D}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{EEAADC0E-FA1C-4EDC-A72E-8DDE1D347DFA}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:DTSID="{258E380F-46AB-4AFF-880D-44EFBED46F98}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -161,70 +220,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="218,42"
-          Id="Package\MDS\MDS Clean Up Staging Tables"
-          TopLeft="5.50000000000001,5.5" />
-        <NodeLayout
-          Size="200,42"
-          Id="Package\MDS\MDS Clean Up Validations"
-          TopLeft="14.5,107.5" />
-        <EdgeLayout
-          Id="Package\MDS.PrecedenceConstraints[Constraint]"
-          TopLeft="114.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="209,42"
-          Id="Package\MDS\MDS Clean Up Transactions"
-          TopLeft="10,209.5" />
-        <EdgeLayout
-          Id="Package\MDS.PrecedenceConstraints[Constraint 1]"
-          TopLeft="114.5,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="229,306"
-          Size="229,350"
-          Id="Package\MDS"
-          TopLeft="69.5000000000001,54.5" />
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="159,42"
           Id="Package\DWH\Optimize indexes"
@@ -258,12 +254,61 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="170,204"
+          PanelSize="170,205"
           Size="170,248"
           Id="Package\DWH"
-          TopLeft="359,105.5" />
+          TopLeft="69.5000000000001,54.5" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\MDS\MDS Clean Up Staging Tables"
+          TopLeft="5.50000000000001,5.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\MDS\MDS Clean Up Transactions"
+          TopLeft="10,107.5" />
+        <EdgeLayout
+          Id="Package\MDS.PrecedenceConstraints[Constraint]"
+          TopLeft="114.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="229,204"
+          Size="229,248"
+          Id="Package\MDS"
+          TopLeft="300,54.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="81,31" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
