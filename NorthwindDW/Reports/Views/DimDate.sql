@@ -21,7 +21,7 @@
                 , [StartOfMonth]
                 , [EndOfMonth]
                 , [Week]
-                , [WeekNumber]
+                , [IOSWeekNumber]
                 , [StartOfWeek]
                 , [EndOfWeek]
                 , [Holiday]
