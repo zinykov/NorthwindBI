@@ -47,11 +47,15 @@ BEGIN
 -- ШАГ 2. Создание новой секции
 		IF NOT EXISTS ( SELECT 1 FROM [sys].[partition_range_values] WHERE [value] = @NewPartitionParameter )
 		BEGIN
-			ALTER PARTITION FUNCTION [PF_Order_Date] ()
-				SPLIT RANGE ( @NewPartitionParameter )
+			ALTER PARTITION FUNCTION [PF_Order_Date] () SPLIT RANGE ( @NewPartitionParameter )
 		END
 
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
+		IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
+			BEGIN
+				SET @StartLoad = @EndLoad
+			END
+		
 		INSERT INTO [Staging].[Order]
 		SELECT		  [OrderKey]					=	O.[OrderID]
 					, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
@@ -70,12 +74,12 @@ BEGIN
 		FROM		[Landing].[Orders] AS O
 		LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
 		LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-					AND C.[Current] = 1
+					AND O.[OrderDate] BETWEEN C.[StartDate] AND C.[EndDate]
 		LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-					AND E.[Current] = 1
+					AND O.[OrderDate] BETWEEN E.[StartDate] AND E.[EndDate]
 		LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
-		WHERE		[OrderDate] BETWEEN @StartLoad AND @EndLoad
+		WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		BEGIN TRANSACTION
 			ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
