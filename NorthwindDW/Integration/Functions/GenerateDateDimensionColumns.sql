@@ -1,43 +1,86 @@
 ﻿CREATE FUNCTION [Integration].[GenerateDateDimensionColumns] ( @Date DATE )
 RETURNS @returntable TABLE
 (
-	[DateKey]               INT             NOT NULL,
+	--Day
+    [DateKey]               INT             NOT NULL,
     [AlterDateKey]          DATE            NOT NULL,
-    [Year]                  INT             NOT NULL,
-    [YearQuarterNumber]     INT             NOT NULL,
-    [YearQuarter]           NVARCHAR(10)    NOT NULL,
-    [Quarter]               NVARCHAR(5)     NOT NULL,
-    [YearMonth]             NVARCHAR(10)    NOT NULL,
-    [YearMonthNumber]       INT             NOT NULL,
-    [Month]                 NVARCHAR(10)    NOT NULL,
-    [MonthNumber]           INT             NOT NULL,
     [DayOfMonth]            TINYINT         NOT NULL,
-    [DayOfWeekNumber]       TINYINT         NOT NULL,
     [DayOfWeek]             NVARCHAR(5)     NOT NULL,
-    [WeekNumber]            TINYINT         NOT NULL
+    [DayOfWeekNumber]       TINYINT         NOT NULL,
+    [DayOfQuarterNumber]    TINYINT         NOT NULL,
+    [DayOfYearNumber]       SMALLINT        NOT NULL,
+    --Year
+    [Year]                  SMALLINT        NOT NULL,
+    [StartOfYear]           DATE            NOT NULL,
+    [EndOfYear]             DATE            NOT NULL,
+    --Quarter
+    [Quarter]               NVARCHAR(5)     NOT NULL,
+    [YearQuarter]           NVARCHAR(10)    NOT NULL,
+    [YearQuarterNumber]     INT             NOT NULL,
+    [StartOfQuarter]        DATE            NOT NULL,
+    [EndOfQuarter]          DATE            NOT NULL,
+    --Month
+    [Month]                 NVARCHAR(10)    NOT NULL,
+    [Mon]                   NVARCHAR(5)     NOT NULL,
+    [MonthNumber]           TINYINT         NOT NULL,
+    [YearMonth]             NVARCHAR(10)    NOT NULL,
+    [StartOfMonth]          DATE            NOT NULL,
+    [EndOfMonth]            DATE            NOT NULL,
+    --Week
+    [Week]                  NVARCHAR(50)    NOT NULL,
+    [WeekNumber]            TINYINT         NOT NULL,
+    [StartOfWeek]           DATE            NOT NULL,
+    [EndOfWeek]             DATE            NOT NULL,
+    --Holiday
+    [Holiday]               NVARCHAR(50)    NULL,
+    [WorkDayType]           NVARCHAR(25)    NULL,--NOT NULL,
+    [WorkDayHours]          TINYINT         NULL--NOT NULL
 )
 AS BEGIN
-    DECLARE @YearNumber SMALLINT            =   YEAR ( @Date )
-    DECLARE @QuarterNumber TINYINT          =   DATEPART ( QQ, @Date )
-    DECLARE @MonthNumber TINYINT            =   MONTH ( @Date )
-    DECLARE @WeekDayNumber TINYINT          =   DATEPART ( DW , @Date ) - CASE WHEN @@DATEFIRST = 7 THEN 1 ELSE 0 END
-    DECLARE @DayNumber TINYINT              =   DATEPART ( DD, @Date )
-    DECLARE @WeekNumber TINYINT             =   DATEPART ( WK, @Date )
+    DECLARE @YearNumber SMALLINT        = YEAR ( @Date )
+    DECLARE @QuarterNumber TINYINT      = DATEPART ( QQ, @Date )
+    DECLARE @MonthNumber TINYINT        = MONTH ( @Date )
+    DECLARE @DayNumber TINYINT          = DATEPART ( DD, @Date )
+    DECLARE @StartOfYear AS DATE        = DATEFROMPARTS ( @YearNumber, 1, 1 )
+    DECLARE @StartOfQuarter AS DATE     = DATEFROMPARTS ( @YearNumber, @QuarterNumber * 3 - 2, 1 )
+    DECLARE @DayOfWeekNumber AS TINYINT = DATEPART ( DW , @Date )
+    DECLARE @StartOfWeek AS DATE        = DATEADD ( DAY, - @DayOfWeekNumber + 1, @Date )
+    DECLARE @EndOfWeek AS DATE          = DATEADD ( DAY, 6, @StartOfWeek )
 
 	INSERT @returntable
-	SELECT    [DateKey]             =   @YearNumber * 10000 + @MonthNumber * 100 + @DayNumber
-            , [AlterDateKey]        =   @Date
-            , [Year]                =   @YearNumber
-            , [YearQuarterNumber]   =   @YearNumber * 4 + @QuarterNumber - 1
-            , [YearQuarter]         =   CONCAT ( 'Q', @QuarterNumber, ' - ', @YearNumber )
-            , [Quarter]             =   CONCAT ( 'Q', @QuarterNumber )
-            , [YearMonth]           =   CONCAT ( SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 ), ' - ', @YearNumber )
-            , [YearMonthNumber]     =   @YearNumber * 12 + @MonthNumber - 1
-            , [Month]               =   SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 )
-            , [MonthNumber]         =   @MonthNumber
-            , [DayOfMonth]          =   @DayNumber
-            , [DayOfWeekNumber]     =   @WeekDayNumber
-            , [DayOfWeek]           =   FORMAT ( @Date, 'ddd' )
-            , [WeekNumber]          =   @WeekNumber
+	        --Day
+    SELECT    [DateKey]             = @YearNumber * 10000 + @MonthNumber * 100 + @DayNumber
+            , [AlterDateKey]        = @Date
+            , [DayOfMonth]          = @DayNumber
+            , [DayOfWeek]           = FORMAT ( @Date, 'ddd' )
+            , [DayOfWeekNumber]     = @DayOfWeekNumber
+            , [DayOfQuarterNumber]  = DATEDIFF ( DAY, @StartOfQuarter, @Date ) + 1
+            , [DayOfYearNumber]     = DATEDIFF ( DAY, @StartOfYear, @Date ) + 1
+            --Year
+            , [Year]                = @YearNumber
+            , [StartOfYear]         = @StartOfYear
+            , [EndOfYear]           = DATEFROMPARTS ( @YearNumber, 12, 31 )
+            --Quarter
+            , [Quarter]             = CONCAT ( 'Q', @QuarterNumber )
+            , [YearQuarter]         = CONCAT ( 'Q', @QuarterNumber, ' - ', @YearNumber )
+            , [YearQuarterNumber]   = @YearNumber * 4 + @QuarterNumber - 1
+            , [StartOfQuarter]      = @StartOfQuarter
+            , [EndOfQuarter]        = EOMONTH ( @StartOfQuarter, 2 )
+            --Month
+            , [Month]               = DATENAME ( MONTH, @Date )
+            , [Mon]                 = SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 )
+            , [MonthNumber]         = @MonthNumber
+            , [YearMonth]           = CONCAT ( SUBSTRING ( DATENAME ( MONTH, @Date ), 1, 3 ), ' - ', @YearNumber )
+            , [StartOfMonth]        = DATEFROMPARTS ( @YearNumber, @MonthNumber, 1 )
+            , [EndOfMonth]          = EOMONTH ( @Date, 0 )
+            --Week
+            , [Week]                = CONCAT ( FORMAT ( @StartOfWeek, 'dd.MM.yyyy' ), ' - ',  FORMAT ( @EndOfWeek, 'dd.MM.yyyy' ) )
+            , [WeekNumber]          = DATEPART ( WK, @Date )
+            , [StartOfWeek]         = @StartOfWeek
+            , [EndOfWeek]           = @EndOfWeek
+            --Holiday
+            , [Holiday]             = NULL
+            , [WorkDayType]         = NULL
+            , [WorkDayHours]        = NULL
 	RETURN
 END;
