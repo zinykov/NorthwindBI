@@ -37,4 +37,14 @@ BEGIN
 	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[NW_Category]
 
 	GROUP BY	[Record_Status]
+	
+	UNION ALL
+
+	SELECT		  [Table]			= 'Holidays'
+				, [Record_Status]
+				, [Row Count]		= COUNT ( * )
+
+	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[Holidays]
+
+	GROUP BY	[Record_Status]
 END
