@@ -7,14 +7,36 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{8732C72F-ABF6-404A-BF69-BB62C2AF1120}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.694.0"
+  DTS:LastModifiedProductVersion="16.0.845.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Error notification"
   DTS:PackageType="5"
-  DTS:VersionBuild="36"
-  DTS:VersionGUID="{6782E2BF-0445-4D02-AA90-05983E02B994}">
+  DTS:VersionBuild="37"
+  DTS:VersionGUID="{68655588-4EA6-464C-B991-1352ECDE41EE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DWH_OLEDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Записывает элементы журнала для событий в базу данных SQL Server"
+      DTS:DTSID="{6D35DFBD-0D82-4C57-9388-D929790CA867}"
+      DTS:ObjectName="Регистратор служб SSIS для SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+    <DTS:LogProvider
+      DTS:ConfigString="DataFlow.log"
+      DTS:CreationName="Microsoft.LogProviderTextFile"
+      DTS:Description="Записывает элементы журнала для событий в CSV-файл"
+      DTS:DTSID="{0F41AE9A-7D6F-4548-9DAC-60A4D04E3330}"
+      DTS:ObjectName="Регистратор служб SSIS для текстовых файлов">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
   <DTS:PackageParameters>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -95,6 +117,16 @@
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{6D35DFBD-0D82-4C57-9388-D929790CA867}" />
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{0F41AE9A-7D6F-4548-9DAC-60A4D04E3330}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Error notification"
@@ -105,8 +137,10 @@
       DTS:FailPackageOnFailure="True"
       DTS:LocaleID="-1"
       DTS:ObjectName="Error notification"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:PropertyExpression
         DTS:Name="MessageSource">"Error code: " + (DT_WSTR, 40) @[$Package::ErrorCode]
 + "\r\nError text: " + @[$Package::ErrorDescription]
@@ -136,8 +170,10 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Insert Error Log"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
