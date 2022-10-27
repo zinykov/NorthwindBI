@@ -8,6 +8,7 @@ BEGIN
 	TRUNCATE TABLE [Landing].[Order Details];
 	TRUNCATE TABLE [Landing].[Orders];
 	TRUNCATE TABLE [Landing].[Products];
+	TRUNCATE TABLE [Landing].[Holidays];
 
 	SET NOCOUNT OFF;
 END;

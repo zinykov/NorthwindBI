@@ -31,9 +31,9 @@
     [StartOfWeek]           DATE            NOT NULL,
     [EndOfWeek]             DATE            NOT NULL,
     --Holiday
-    [Holiday]               NVARCHAR(50)    NULL,
-    [WorkDayType]           NVARCHAR(25)    NULL,--NOT NULL,
-    [WorkDayHours]          TINYINT         NULL--NOT NULL
+    [Holiday]               NVARCHAR(100)   NULL,
+    [WorkDayType]           NVARCHAR(25)    NOT NULL,
+    [WorkDayHours]          TINYINT         NOT NULL
 
     CONSTRAINT [PK_Dimension_Date] PRIMARY KEY CLUSTERED ( [DateKey] ASC )
 )
