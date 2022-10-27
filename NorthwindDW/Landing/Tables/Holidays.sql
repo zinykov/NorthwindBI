@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Landing].[Holidays]
 (
-	[Date]			NVARCHAR(255)	NOT NULL,
-	[DateType]		NVARCHAR(255)	NOT NULL,
+	[Date]			DATE			NOT NULL,
+	[DateType]		TINYINT			NOT NULL,
 	[HolidayName]	NVARCHAR(255)	NULL
 )
     ON [Landing_FG]

@@ -32,20 +32,23 @@ RETURNS @returntable TABLE
     [StartOfWeek]           DATE            NOT NULL,
     [EndOfWeek]             DATE            NOT NULL,
     --Holiday
-    [Holiday]               NVARCHAR(50)    NULL,
+    [Holiday]               NVARCHAR(100)   NULL,
     [WorkDayType]           NVARCHAR(25)    NULL,--NOT NULL,
     [WorkDayHours]          TINYINT         NULL--NOT NULL
 )
 AS BEGIN
-    DECLARE @YearNumber SMALLINT        = YEAR ( @Date )
-    DECLARE @QuarterNumber TINYINT      = DATEPART ( QQ, @Date )
-    DECLARE @MonthNumber TINYINT        = MONTH ( @Date )
-    DECLARE @DayNumber TINYINT          = DATEPART ( DD, @Date )
-    DECLARE @StartOfYear AS DATE        = DATEFROMPARTS ( @YearNumber, 1, 1 )
-    DECLARE @StartOfQuarter AS DATE     = DATEFROMPARTS ( @YearNumber, @QuarterNumber * 3 - 2, 1 )
-    DECLARE @DayOfWeekNumber AS TINYINT = DATEPART ( DW , @Date )
-    DECLARE @StartOfWeek AS DATE        = DATEADD ( DAY, - @DayOfWeekNumber + 1, @Date )
-    DECLARE @EndOfWeek AS DATE          = DATEADD ( DAY, 6, @StartOfWeek )
+    DECLARE @YearNumber AS SMALLINT         = YEAR ( @Date )
+    DECLARE @QuarterNumber AS TINYINT       = DATEPART ( QQ, @Date )
+    DECLARE @MonthNumber AS TINYINT         = MONTH ( @Date )
+    DECLARE @DayNumber AS TINYINT           = DATEPART ( DD, @Date )
+    DECLARE @StartOfYear AS DATE            = DATEFROMPARTS ( @YearNumber, 1, 1 )
+    DECLARE @StartOfQuarter AS DATE         = DATEFROMPARTS ( @YearNumber, @QuarterNumber * 3 - 2, 1 )
+    DECLARE @DayOfWeekNumber AS TINYINT     = DATEPART ( DW , @Date )
+    DECLARE @StartOfWeek AS DATE            = DATEADD ( DAY, - @DayOfWeekNumber + 1, @Date )
+    DECLARE @EndOfWeek AS DATE              = DATEADD ( DAY, 6, @StartOfWeek )
+    DECLARE @Holiday AS NVARCHAR(100)       = ( SELECT TOP(1) [Name] from [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
+    DECLARE @WorkDayType AS NVARCHAR(25)    = ( SELECT TOP(1) [DateType_Name] from [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
+    DECLARE @WorkDayHours AS TINYINT        = ( SELECT TOP(1) [WorkDayHours] from [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
 
 	INSERT @returntable
 	        --Day
@@ -79,8 +82,16 @@ AS BEGIN
             , [StartOfWeek]         = @StartOfWeek
             , [EndOfWeek]           = @EndOfWeek
             --Holiday
-            , [Holiday]             = NULL
-            , [WorkDayType]         = NULL
-            , [WorkDayHours]        = NULL
+            , [Holiday]             = @Holiday
+            , [WorkDayType]         = CASE
+                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber > 5 THEN N'Выходной'
+                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber <= 5 THEN N'Рабочий'
+                                        ELSE @WorkDayType
+                                      END
+            , [WorkDayHours]        = CASE
+                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber > 5 THEN 0
+                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber <= 5 THEN 8
+                                        ELSE @WorkDayType
+                                      END
 	RETURN
 END;

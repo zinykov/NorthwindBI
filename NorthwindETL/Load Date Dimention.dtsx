@@ -11,57 +11,10 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Date Dimention"
   DTS:PackageType="5"
-  DTS:VersionBuild="67"
-  DTS:VersionGUID="{CABC9200-1507-40E0-8373-02B31B733E95}">
+  DTS:VersionBuild="93"
+  DTS:VersionGUID="{52EC3BF2-A393-4B58-B69A-5FD897D13C5A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
-      DTS:CreationName="FLATFILE"
-      DTS:DTSID="{FEAB611A-4855-4E74-A0F2-3633FCEB3237}"
-      DTS:ObjectName="Flat File Connection Manager">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:Format="Delimited"
-          DTS:LocaleID="1049"
-          DTS:HeaderRowDelimiter="_x000D__x000A_"
-          DTS:RowDelimiter=""
-          DTS:TextQualifier="_x003C_none_x003E_"
-          DTS:CodePage="1251"
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\xmlcalendar\1.txt">
-          <DTS:FlatFileColumns>
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="d"
-              DTS:DTSID="{47D853AB-B532-47B1-A088-5B045EBD56BF}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="17"
-              DTS:TextQualified="True"
-              DTS:ObjectName="t"
-              DTS:DTSID="{52A95DC4-D831-4940-9C43-D4A139FA48F7}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x000D__x000A_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="title"
-              DTS:DTSID="{4116A89E-3820-432F-AA48-128D494785F1}"
-              DTS:CreationName="" />
-          </DTS:FlatFileColumns>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-  </DTS:ConnectionManagers>
   <DTS:LogProviders>
     <DTS:LogProvider
       DTS:ConfigString="DWH_OLEDB"
@@ -84,6 +37,27 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
   </DTS:LogProviders>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{B47C25C6-6717-4B46-B42A-57C295A91191}"
+      DTS:ObjectName="CuttoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{1636C78F-2029-4F5A-A496-BEFCBDA138D9}"
+      DTS:ObjectName="ExecutionId">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -93,6 +67,34 @@
       DTS:ObjectName="EndDate">
       <DTS:VariableValue
         DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F70A912D-9537-469D-BB36-86044C07C213}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8C14CA2B-90E4-4071-BB68-13ACD5F19D23}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="MDS_VersionName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9047A9CA-9A75-41DB-B0DF-13191E96768D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ModelName">
+      <DTS:VariableValue
+        DTS:DataType="8">Holidays</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -245,13 +247,898 @@
   </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Add Unknown Date"
+      DTS:refId="Package\DQS"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{594ee9fa-ccb6-4879-b0be-368b8dadc277}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DQS">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DQS\Clean Holidays"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{a04525c4-246a-41a4-84b9-8ffa5d44c6c5}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Clean Holidays"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\DQS\Clean Holidays\Destination DQS Staging"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="Destination DQS Staging"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Holidays]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DQS\Clean Holidays\Destination DQS Staging.Connections[OleDbConnection]"
+                      connectionManagerID="{6904C058-BEE4-4249-9768-273BC2D6430D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DQS_STAGING]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Record Status]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Record Status"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Record_Status]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date_Source]"
+                          cachedDataType="dbDate"
+                          cachedName="Date_Source"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Source]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Source]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date_Output]"
+                          cachedDataType="dbDate"
+                          cachedName="Date_Output"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Output]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Output]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date_Confidence]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Date_Confidence"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Confidence]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Confidence]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType_Source]"
+                          cachedDataType="ui1"
+                          cachedName="DateType_Source"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Source]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Source]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType_Output]"
+                          cachedDataType="ui1"
+                          cachedName="DateType_Output"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Output]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Output]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType_Confidence]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="DateType_Confidence"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Confidence]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Confidence]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName_Source]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="HolidayName_Source"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Source]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Source]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName_Output]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="HolidayName_Output"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Output]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Output]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName_Confidence]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="HolidayName_Confidence"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Confidence]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Confidence]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName_Reason]"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
+                          cachedName="HolidayName_Reason"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Reason]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Reason]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="HolidayName_Status"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Status]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Status]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType_Reason]"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
+                          cachedName="DateType_Reason"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Reason]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Reason]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="DateType_Status"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Status]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Status]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date_Status]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="Date_Status"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Status]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Status]" />
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date_Reason]"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
+                          cachedName="Date_Reason"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Reason]"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Reason]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Record_Status]"
+                          dataType="nText"
+                          name="Record_Status" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Source]"
+                          dataType="dbDate"
+                          name="Date_Source" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Output]"
+                          dataType="dbDate"
+                          name="Date_Output" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Reason]"
+                          dataType="nText"
+                          name="Date_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Confidence]"
+                          dataType="nText"
+                          name="Date_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date_Status]"
+                          dataType="nText"
+                          name="Date_Status" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Source]"
+                          dataType="ui1"
+                          name="DateType_Source" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Output]"
+                          dataType="ui1"
+                          name="DateType_Output" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Reason]"
+                          dataType="nText"
+                          name="DateType_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Confidence]"
+                          dataType="nText"
+                          name="DateType_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType_Status]"
+                          dataType="nText"
+                          name="DateType_Status" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Source]"
+                          dataType="wstr"
+                          length="255"
+                          name="HolidayName_Source" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Output]"
+                          dataType="nText"
+                          name="HolidayName_Output" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Reason]"
+                          dataType="nText"
+                          name="HolidayName_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Confidence]"
+                          dataType="nText"
+                          name="HolidayName_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HolidayName_Status]"
+                          dataType="nText"
+                          name="HolidayName_Status" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DQS\Clean Holidays\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DQS\Clean Holidays\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DQS\Clean Holidays\Destination DQS Staging.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DQS\Clean Holidays\DQS Cleaning"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  description="DQS Cleansing component"
+                  name="DQS Cleaning"
+                  usesDispositions="true">
+                  <properties>
+                    <property
+                      dataType="System.Int64"
+                      name="KnowledgebaseName"
+                      typeConverter="NOTBROWSABLE">1050120</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.DataCorrectionComponent</property>
+                    <property
+                      dataType="System.String"
+                      name="PackageName">Load Date Dimention</property>
+                    <property
+                      dataType="System.String"
+                      name="TaskId">{a04525c4-246a-41a4-84b9-8ffa5d44c6c5}</property>
+                    <property
+                      dataType="System.Boolean"
+                      name="EncryptConnection">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      name="StandardizeOutput">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      name="ConfidenceOutputColumnExists">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      name="ReasonOutputColumnExists">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      name="AppendedDataOutputColumnExists">true</property>
+                    <property
+                      containsID="true"
+                      dataType="System.Int32"
+                      name="AppendedDataOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]}</property>
+                    <property
+                      containsID="true"
+                      dataType="System.Int32"
+                      name="AppendedDataSchemaOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]}</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DQS\Clean Holidays\DQS Cleaning.Connections[DQS]"
+                      connectionManagerID="{F4983D27-FFA5-491F-80AB-4B3D5A958C1B}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DQS]"
+                      name="DQS" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input]"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="DQS Cleansing Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Date"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="SourceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Source]}</property>
+                            <property
+                              dataType="System.String"
+                              name="DomainName">Date</property>
+                            <property
+                              dataType="System.Int64"
+                              name="DomainId">1000</property>
+                            <property
+                              dataType="System.Boolean"
+                              name="CorrectedOutputIsString">false</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="CorrectedOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="StatusOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Status]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ConfidenceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Confidence]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ReasonOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Reason]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[DateType]"
+                          cachedDataType="ui1"
+                          cachedName="DateType"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="SourceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Source]}</property>
+                            <property
+                              dataType="System.String"
+                              name="DomainName">DateType</property>
+                            <property
+                              dataType="System.Int64"
+                              name="DomainId">1001</property>
+                            <property
+                              dataType="System.Boolean"
+                              name="CorrectedOutputIsString">false</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="CorrectedOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="StatusOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Status]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ConfidenceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Confidence]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ReasonOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Reason]}</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[HolidayName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="HolidayName"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="SourceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Source]}</property>
+                            <property
+                              dataType="System.String"
+                              name="DomainName">HolidayName</property>
+                            <property
+                              dataType="System.Int64"
+                              name="DomainId">1002</property>
+                            <property
+                              dataType="System.Boolean"
+                              name="CorrectedOutputIsString">false</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="CorrectedOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="StatusOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Status]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ConfidenceOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Confidence]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              name="ReasonOutputLineageId">#{Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Reason]}</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output]"
+                      name="DQS Cleansing Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Source]"
+                          dataType="dbDate"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Source]"
+                          name="Date_Source" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Output]"
+                          dataType="dbDate"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Output]"
+                          name="Date_Output" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Status]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Status]"
+                          name="Date_Status" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Confidence]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Confidence]"
+                          name="Date_Confidence" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Reason]"
+                          dataType="wstr"
+                          length="4000"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Date_Reason]"
+                          name="Date_Reason" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Source]"
+                          dataType="ui1"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Source]"
+                          name="DateType_Source" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Output]"
+                          dataType="ui1"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Output]"
+                          name="DateType_Output" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Status]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Status]"
+                          name="DateType_Status" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Confidence]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Confidence]"
+                          name="DateType_Confidence" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Reason]"
+                          dataType="wstr"
+                          length="4000"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[DateType_Reason]"
+                          name="DateType_Reason" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Source]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Source]"
+                          name="HolidayName_Source" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Output]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Output]"
+                          name="HolidayName_Output" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Status]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Status]"
+                          name="HolidayName_Status" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Confidence]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Confidence]"
+                          name="HolidayName_Confidence" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Reason]"
+                          dataType="wstr"
+                          length="4000"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[HolidayName_Reason]"
+                          name="HolidayName_Reason" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                          name="Record Status" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]"
+                          dataType="wstr"
+                          length="4000"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data]"
+                          name="Appended Data" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]"
+                          dataType="wstr"
+                          length="4000"
+                          lineageId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output].Columns[Appended Data Schema]"
+                          name="Appended Data Schema" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DQS\Clean Holidays\Landing source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="Landing source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Landing].[Holidays]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding]</property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\DQS\Clean Holidays\Landing source.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date]"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]"
+                          name="Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType]"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]"
+                          name="DateType"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName]"
+                          length="255"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          name="HolidayName"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date]"
+                          dataType="dbDate"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType]"
+                          dataType="ui1"
+                          name="DateType" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName]"
+                          dataType="wstr"
+                          length="255"
+                          name="HolidayName" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date]"
+                          dataType="dbDate"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date]"
+                          name="Date" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType]"
+                          dataType="ui1"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType]"
+                          name="DateType" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          name="HolidayName" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
+                  endId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="DQS Cleansing Output"
+                  startId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output]" />
+                <path
+                  refId="Package\DQS\Clean Holidays.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DQS\Truncate DQS Staging"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{3ede0e90-9909-4db7-be09-d7cc94ba3710}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate DQS Staging"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6904C058-BEE4-4249-9768-273BC2D6430D}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[NW_Holidays];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DQS.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{65b1072f-3e61-4b10-85af-68e8279abb74}"
+          DTS:From="Package\DQS\Truncate DQS Staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\DQS\Clean Holidays" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DWH"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{BD79A68F-1D79-484A-996F-8A48398EC7C1}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DWH">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\DWH\Add Unknown Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:Disabled="True"
+          DTS:DTSID="{fb641a5f-5fbf-4014-afdb-11e8a42b4da2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Add Unknown Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownDate]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DWH\Get Order Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{6966ffaf-17eb-4f62-aaf5-efbf4a288d87}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Order Date"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{B6F96118-B693-4C64-B05F-5AC53C44FB78}"
+              SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [OrderDate] ) )&#xA;   , [EndDate]   = YEAR ( MAX ( [OrderDate] ) ) + 1&#xA;&#xA;FROM  [dbo].[orders]"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="StartDate"
+                SQLTask:DtsVariableName="User::StartDate" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="EndDate"
+                SQLTask:DtsVariableName="User::EndDate" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DWH\Load Date Dimension"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{b69ae202-14f7-4550-a6b2-2b023b8154be}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Date Dimension"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadDateDimension]&#xA;   @StartDate = ?&#xA; , @EndDate = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::StartDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::EndDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{cc0bed4f-d419-4919-bd2e-7a89f035881b}"
+          DTS:From="Package\DWH\Get Order Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\DWH\Add Unknown Date" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{02c299d2-efa9-4c0d-b00d-16de7e1d1f96}"
+          DTS:From="Package\DWH\Add Unknown Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\DWH\Load Date Dimension" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get LineAgeKey"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
-      DTS:DTSID="{77CFBC92-A7F0-45EC-B6AD-73F7C6A24413}"
+      DTS:DTSID="{a3005638-d08d-41e9-846e-50b73d644b26}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Add Unknown Date"
+      DTS:ObjectName="Get LineAgeKey"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
@@ -259,45 +1146,986 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownDate]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Get Order Date"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Задача &quot;Выполнение SQL&quot;"
-      DTS:DTSID="{F23CF69B-4363-4CCC-B30F-4BD7AB07CEA3}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Get Order Date"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{B6F96118-B693-4C64-B05F-5AC53C44FB78}"
-          SQLTask:SqlStatementSource="SELECT&#x9;&#x9;  [StartDate]&#x9;&#x9;=&#x9;YEAR ( MIN ( [OrderDate] ) )&#xA;&#x9;&#x9;&#x9;, [EndDate]&#x9;&#x9;&#x9;=&#x9;YEAR ( MAX ( [OrderDate] ) ) + 1&#xA;&#xA;FROM&#x9;&#x9;[dbo].[orders]"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageKey]&#xA;      @TableName = 'Date'&#xA;    , @CutoffTime = ?&#xA;    , @ExecutionId = ?"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
-            SQLTask:ResultName="StartDate"
-            SQLTask:DtsVariableName="User::StartDate" />
-          <SQLTask:ResultBinding
-            SQLTask:ResultName="EndDate"
-            SQLTask:DtsVariableName="User::EndDate" />
+            SQLTask:ResultName="LineageKey"
+            SQLTask:DtsVariableName="User::LineageKey" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::CuttoffTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="7"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::ExecutionId"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="50" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Date Dimension"
+      DTS:refId="Package\MDS"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{27e35a5e-61db-4a4a-b2a2-191f4ec0c3da}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MDS">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\MDS\Data managment"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{2e29032f-f5a8-4d5e-84b1-a587a31ef59c}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Data managment"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\MDS\Data managment\Add MDS Columns and change datatypes"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+                  name="Add MDS Columns and change datatypes"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца]"
+                      description="Ввод преобразования &quot;Производный столбец&quot;"
+                      name="Вход производного столбца">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца].Columns[Date_Output]"
+                          cachedDataType="dbDate"
+                          cachedName="Date_Output"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Output]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца].Columns[DateType_Output]"
+                          cachedDataType="ui1"
+                          cachedName="DateType_Output"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Output]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца].Columns[HolidayName_Output]"
+                          cachedDataType="nText"
+                          cachedName="HolidayName_Output"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Output]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца]"
+                      description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      name="Выход производного столбца"
+                      synchronousInputId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportType]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportType]"
+                          name="ImportType"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">0</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">0</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportStatus_ID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportStatus_ID]"
+                          name="ImportStatus_ID"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">0</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">0</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          length="38"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]"
+                          name="BatchTag"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">@[System::ExecutionInstanceGUID]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[System::ExecutionInstanceGUID]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Date]"
+                          dataType="date"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Date]"
+                          name="Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_DATE)#{Package\MDS\Data managment\DQS staging source.Outputs[Выход источника "OLE DB"].Columns[Date_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_DATE)Date_Output</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[DateType]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[DateType]"
+                          name="DateType"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_I2)#{Package\MDS\Data managment\DQS staging source.Outputs[Выход источника "OLE DB"].Columns[DateType_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_I2)DateType_Output</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          length="250"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]"
+                          name="HolidayName"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_WSTR,250)#{Package\MDS\Data managment\DQS staging source.Outputs[Выход источника "OLE DB"].Columns[HolidayName_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,250)HolidayName_Output</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          length="250"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Code]"
+                          name="Code"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_WSTR,250)#{Package\MDS\Data managment\DQS staging source.Outputs[Выход источника "OLE DB"].Columns[Date_Output]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_WSTR,250)Date_Output</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Вывод ошибок производного столбца]"
+                      description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок производного столбца"
+                      synchronousInputId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MDS\Data managment\DQS staging source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="DQS staging source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[dbo].[Holidays]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MDS\Data managment\DQS staging source.Connections[OleDbConnection]"
+                      connectionManagerID="{6904C058-BEE4-4249-9768-273BC2D6430D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DQS_STAGING]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Source]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Source]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Source]"
+                          name="Date_Source"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Output]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Output]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Output]"
+                          name="Date_Output"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Reason]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Reason]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Reason]"
+                          name="Date_Reason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Confidence]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Confidence]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Confidence]"
+                          name="Date_Confidence"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Status]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Status]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date_Status]"
+                          name="Date_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Source]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Source]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Source]"
+                          name="DateType_Source"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Output]"
+                          dataType="ui1"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Output]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Output]"
+                          name="DateType_Output"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Reason]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Reason]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Reason]"
+                          name="DateType_Reason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Confidence]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Confidence]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Confidence]"
+                          name="DateType_Confidence"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Status]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Status]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType_Status]"
+                          name="DateType_Status"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Source]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Source]"
+                          length="255"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Source]"
+                          name="HolidayName_Source"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Output]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Output]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Output]"
+                          name="HolidayName_Output"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Reason]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Reason]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Reason]"
+                          name="HolidayName_Reason"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Confidence]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Confidence]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Confidence]"
+                          name="HolidayName_Confidence"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Status]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Status]"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName_Status]"
+                          name="HolidayName_Status"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Record_Status]"
+                          dataType="nText"
+                          name="Record_Status" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Source]"
+                          dataType="dbDate"
+                          name="Date_Source" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Output]"
+                          dataType="dbDate"
+                          name="Date_Output" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Reason]"
+                          dataType="nText"
+                          name="Date_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Confidence]"
+                          dataType="nText"
+                          name="Date_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date_Status]"
+                          dataType="nText"
+                          name="Date_Status" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Source]"
+                          dataType="ui1"
+                          name="DateType_Source" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Output]"
+                          dataType="ui1"
+                          name="DateType_Output" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Reason]"
+                          dataType="nText"
+                          name="DateType_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Confidence]"
+                          dataType="nText"
+                          name="DateType_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType_Status]"
+                          dataType="nText"
+                          name="DateType_Status" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Source]"
+                          dataType="wstr"
+                          length="255"
+                          name="HolidayName_Source" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Output]"
+                          dataType="nText"
+                          name="HolidayName_Output" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Reason]"
+                          dataType="nText"
+                          name="HolidayName_Reason" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Confidence]"
+                          dataType="nText"
+                          name="HolidayName_Confidence" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Status]"
+                          dataType="nText"
+                          name="HolidayName_Status" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Source]"
+                          dataType="dbDate"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Source]"
+                          name="Date_Source" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Output]"
+                          dataType="dbDate"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Output]"
+                          name="Date_Output" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Reason]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Reason]"
+                          name="Date_Reason" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Confidence]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Confidence]"
+                          name="Date_Confidence" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Status]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date_Status]"
+                          name="Date_Status" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Source]"
+                          dataType="ui1"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Source]"
+                          name="DateType_Source" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Output]"
+                          dataType="ui1"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Output]"
+                          name="DateType_Output" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Reason]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Reason]"
+                          name="DateType_Reason" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Confidence]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Confidence]"
+                          name="DateType_Confidence" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Status]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType_Status]"
+                          name="DateType_Status" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Source]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Source]"
+                          name="HolidayName_Source" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Output]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Output]"
+                          name="HolidayName_Output" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Reason]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Reason]"
+                          name="HolidayName_Reason" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Confidence]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Confidence]"
+                          name="HolidayName_Confidence" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Status]"
+                          dataType="nText"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName_Status]"
+                          name="HolidayName_Status" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\DQS staging source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MDS\Data managment\MDS staging table"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                  description="Назначение &quot;OLE DB&quot;"
+                  name="MDS staging table"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[stg].[Holidays_Leaf]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MDS\Data managment\MDS staging table.Connections[OleDbConnection]"
+                      connectionManagerID="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[MDS]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      errorOrTruncationOperation="Вставить"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;OLE DB&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ImportType]"
+                          cachedDataType="i4"
+                          cachedName="ImportType"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ImportType]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportType]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ImportStatus_ID]"
+                          cachedDataType="i4"
+                          cachedName="ImportStatus_ID"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ImportStatus_ID]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[ImportStatus_ID]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[BatchTag]"
+                          cachedDataType="wstr"
+                          cachedLength="38"
+                          cachedName="BatchTag"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BatchTag]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Date]"
+                          cachedDataType="date"
+                          cachedName="Date"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Date]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DateType]"
+                          cachedDataType="i2"
+                          cachedName="DateType"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[DateType]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName]"
+                          cachedDataType="wstr"
+                          cachedLength="250"
+                          cachedName="HolidayName"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]" />
+                        <inputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Code]"
+                          cachedDataType="wstr"
+                          cachedLength="250"
+                          cachedName="Code"
+                          externalMetadataColumnId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Code]"
+                          lineageId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Code]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ImportType]"
+                          dataType="ui1"
+                          name="ImportType" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ImportStatus_ID]"
+                          dataType="ui1"
+                          name="ImportStatus_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Batch_ID]"
+                          dataType="i4"
+                          name="Batch_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BatchTag]"
+                          dataType="wstr"
+                          length="50"
+                          name="BatchTag" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ErrorCode]"
+                          dataType="i4"
+                          name="ErrorCode" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Code]"
+                          dataType="wstr"
+                          length="250"
+                          name="Code" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                          dataType="wstr"
+                          length="250"
+                          name="Name" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[NewCode]"
+                          dataType="wstr"
+                          length="250"
+                          name="NewCode" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Date]"
+                          dataType="dbTimeStamp2"
+                          name="Date"
+                          scale="3" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType]"
+                          dataType="wstr"
+                          length="250"
+                          name="DateType" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WorkDayHours]"
+                          dataType="numeric"
+                          name="WorkDayHours"
+                          precision="38" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS\Data managment\MDS staging table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                      synchronousInputId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\MDS staging table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS\Data managment\MDS staging table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS\Data managment\MDS staging table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\MDS\Data managment.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Inputs[Вход производного столбца]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\MDS\Data managment.Paths[Выход производного столбца]"
+                  endId="Package\MDS\Data managment\MDS staging table.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход производного столбца"
+                  startId="Package\MDS\Data managment\Add MDS Columns and change datatypes.Outputs[Выход производного столбца]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS\Get MDS Version Name"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{875ce7ae-55a1-441e-aa43-84ff4ff010ad}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get MDS Version Name"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetModelVersion] &#xA;   @ModelName = ?&#xA; , @Flag = N'SSIS'"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="Name"
+                SQLTask:DtsVariableName="User::MDS_VersionName" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ModelName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS\Update master Holiday data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{212e0b3b-21e7-4d25-b656-b502e1d928e0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update master Holiday data"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = ?&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::MDS_VersionName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="System::ExecutionInstanceGUID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="72"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="System::UserName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS\Validate Model"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{3eb749c7-bde0-4d12-82cf-a09c676742a8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Validate Model"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[ValidateModel]&#xA;   @ModelName = ?&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="System::UserName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ModelName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{1a374579-69e7-41cc-82c6-7130c00bbd76}"
+          DTS:From="Package\MDS\Data managment"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\MDS\Update master Holiday data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{a63217ea-eba5-47f9-a992-1adf0303b1f8}"
+          DTS:From="Package\MDS\Get MDS Version Name"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\MDS\Update master Holiday data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{9ffea76a-316c-4e90-bffb-789e54da12d4}"
+          DTS:From="Package\MDS\Update master Holiday data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\MDS\Validate Model" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set load compilation info"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
-      DTS:DTSID="{E14B14C7-F293-4AF1-9F14-DFC04A0D2881}"
+      DTS:DTSID="{166bac13-5d2a-409f-9e40-277b5e3e28ef}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Date Dimension"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ObjectName="Set load compilation info"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
@@ -305,16 +2133,10 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadDateDimension]&#xA;&#x9;  @StartDate = ?&#xA;&#x9;, @EndDate = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="UPDATE [Integration].[Lineage]&#xA;SET [WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="User::StartDate"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="3"
-            SQLTask:ParameterSize="-1" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="1"
-            SQLTask:DtsVariableName="User::EndDate"
+            SQLTask:DtsVariableName="User::LineageKey"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="3"
             SQLTask:ParameterSize="-1" />
@@ -326,19 +2148,35 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{B4E23183-DE29-42F5-ADC2-917402FC05D7}"
-      DTS:From="Package\Get Order Date"
+      DTS:DTSID="{2ee05eab-42f2-45e1-9584-2b3ff6f800a5}"
+      DTS:From="Package\DQS"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Add Unknown Date" />
+      DTS:To="Package\MDS" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{1961667A-2BA9-4FD1-B761-2BA04B9CFDFF}"
-      DTS:From="Package\Add Unknown Date"
+      DTS:DTSID="{422C7840-8AED-40DC-B70D-005347711EAC}"
+      DTS:From="Package\MDS"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Load Date Dimension" />
+      DTS:To="Package\DWH" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{48C4AD6B-67E2-44CF-A593-8C07A37EFBB5}"
+      DTS:From="Package\Get LineAgeKey"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\DQS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{82B0C675-CCB0-4BE7-BD83-059D99F6FAC5}"
+      DTS:From="Package\DWH"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Set load compilation info" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -351,33 +2189,242 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="169,42"
-          Id="Package\Add Unknown Date"
-          TopLeft="31,126.5" />
+          Size="148,42"
+          Id="Package\DQS\Clean Holidays"
+          TopLeft="23,107.5" />
         <NodeLayout
-          Size="151,42"
-          Id="Package\Get Order Date"
-          TopLeft="40.5,24.5" />
-        <NodeLayout
-          Size="179,42"
-          Id="Package\Load Date Dimension"
-          TopLeft="26.5,228.5" />
+          Size="183,42"
+          Id="Package\DQS\Truncate DQS Staging"
+          TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="115.75,66.1">
+          Id="Package\DQS.PrecedenceConstraints[Constraint]"
+          TopLeft="97,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.4"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.9">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.9" />
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="194,205"
+          Size="194,248"
+          Id="Package\DQS"
+          TopLeft="167,156.5" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\DWH\Get Order Date"
+          TopLeft="19.5,5.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\DWH\Load Date Dimension"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\DWH\Add Unknown Date"
+          TopLeft="10.5,107.5" />
+        <EdgeLayout
+          Id="Package\DWH.PrecedenceConstraints[Constraint 1]"
+          TopLeft="95,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="95,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="190,307"
+          Size="190,350"
+          Id="Package\DWH"
+          TopLeft="169,874.5" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Get LineAgeKey"
+          TopLeft="187.5,54.5" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\MDS\Data managment"
+          TopLeft="5.50000000000003,5.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\MDS\Get MDS Version Name"
+          TopLeft="226,5.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\MDS\Update master Holiday data"
+          TopLeft="215.5,107.5" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\MDS\Validate Model"
+          TopLeft="246.5,209.5" />
+        <EdgeLayout
+          Id="Package\MDS.PrecedenceConstraints[Constraint]"
+          TopLeft="85.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="201.333333333333,60"
+              Start="0,0"
+              End="201.333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7277882797732" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7277882797732"
+                    Point2="0,35.7277882797732"
+                    Point3="4,35.7277882797732" />
+                  <mssgle:LineSegment
+                    End="197.333333333333,35.7277882797732" />
+                  <mssgle:CubicBezierSegment
+                    Point1="197.333333333333,35.7277882797732"
+                    Point2="201.333333333333,35.7277882797732"
+                    Point3="201.333333333333,39.7277882797732" />
+                  <mssgle:LineSegment
+                    End="201.333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS.PrecedenceConstraints[Constraint 1]"
+          TopLeft="320.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="33.6666666666667,60"
+              Start="0,0"
+              End="33.6666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7277882797732" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7277882797732"
+                    Point2="0,35.7277882797732"
+                    Point3="4,35.7277882797732" />
+                  <mssgle:LineSegment
+                    End="29.6666666666667,35.7277882797732" />
+                  <mssgle:CubicBezierSegment
+                    Point1="29.6666666666667,35.7277882797732"
+                    Point2="33.6666666666667,35.7277882797732"
+                    Point3="33.6666666666667,39.7277882797732" />
+                  <mssgle:LineSegment
+                    End="33.6666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS.PrecedenceConstraints[Constraint 2]"
+          TopLeft="320.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="431,307"
+          Size="431,350"
+          Id="Package\MDS"
+          TopLeft="48.5000000000001,464.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Set load compilation info"
+          TopLeft="166.5,1284.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="264,404.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -388,18 +2435,62 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="115.75,168.1">
+          TopLeft="264,814.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.4"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.9">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.9" />
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="264,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="264,1224.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -411,5 +2502,185 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\DQS\Clean Holidays">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="143,42"
+          Id="Package\DQS\Clean Holidays\DQS Cleaning"
+          TopLeft="72.5,131.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\DQS\Clean Holidays\Destination DQS Staging"
+          TopLeft="46.5,233.5" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\DQS\Clean Holidays\Landing source"
+          TopLeft="69,29.5" />
+        <EdgeLayout
+          Id="Package\DQS\Clean Holidays.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="144,71.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
+          TopLeft="144,173.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DQS\Clean Holidays\Destination DQS Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DQS\Clean Holidays\Landing source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\MDS\Data managment">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="273,42"
+          Id="Package\MDS\Data managment\Add MDS Columns and change datatypes"
+          TopLeft="37.5,156.5" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\MDS\Data managment\MDS staging table"
+          TopLeft="92,258.5" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\MDS\Data managment\DQS staging source"
+          TopLeft="88.5,54.5" />
+        <EdgeLayout
+          Id="Package\MDS\Data managment.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="174,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS\Data managment.Paths[Выход производного столбца]"
+          TopLeft="174,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS\Data managment\MDS staging table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS\Data managment\DQS staging source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
