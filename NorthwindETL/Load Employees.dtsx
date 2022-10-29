@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="189"
-  DTS:VersionGUID="{B0E3F271-099C-435A-AA27-11A43BE16907}">
+  DTS:VersionBuild="193"
+  DTS:VersionGUID="{ABECAC3B-66A3-4B70-8B16-606FBA0B1C75}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -329,6 +329,15 @@
       DTS:ObjectName="ModelName">
       <DTS:VariableValue
         DTS:DataType="8">EmployeeNW</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DC935748-9EC7-466C-A54A-876E015E0425}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartLoad">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -1900,7 +1909,7 @@
               SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownEmployee] @StartDate = ?, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:DtsVariableName="User::StartLoad"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2009,13 +2018,13 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">@[System::StartTime]</property>
+                              name="Expression">@[User::StartLoad]</property>
                             <property
                               containsID="true"
                               dataType="System.String"
                               description="Понятное выражение производного столбца"
                               expressionType="Notify"
-                              name="FriendlyExpression">@[System::StartTime]</property>
+                              name="FriendlyExpression">@[User::StartLoad]</property>
                           </properties>
                         </outputColumn>
                         <outputColumn
@@ -4125,8 +4134,39 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Set StartLoad Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{504d6b3f-4958-40e1-b013-041ab4a9f8fe}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set StartLoad Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetStartDate]&#xA; @TableName = N'Employee'"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="StartLoadDate"
+                SQLTask:DtsVariableName="User::StartLoad" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3D414EBC-0F9F-4250-8B03-749DFF1183AA}"
+          DTS:From="Package\Load DWH\Set StartLoad Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load DWH\Add unknown employee" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
           DTS:CreationName=""
@@ -5292,24 +5332,50 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,205"
+          PanelSize="194,204"
           Size="194,248"
           Id="Package\DQS"
-          TopLeft="142.5,156.5" />
+          TopLeft="143,156.5" />
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="163,54.5" />
+          TopLeft="163.5,54.5" />
         <NodeLayout
           Size="192,42"
           Id="Package\Load DWH\Add unknown employee"
-          TopLeft="7.00000000000001,5.5" />
+          TopLeft="7.00000000000003,107.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Load DWH\Load Employees to DWH"
-          TopLeft="5.50000000000001,107.5" />
+          TopLeft="5.50000000000003,209.5" />
         <EdgeLayout
           Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="103,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Load DWH\Set StartLoad Date"
+          TopLeft="19,5.5" />
+        <EdgeLayout
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint]"
           TopLeft="103,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -5333,10 +5399,10 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,205"
-          Size="206,248"
+          PanelSize="206,306"
+          Size="206,350"
           Id="Package\Load DWH"
-          TopLeft="136.5,874.5" />
+          TopLeft="137,874.5" />
         <NodeLayout
           Size="160,42"
           Id="Package\MDS\Data managment"
@@ -5348,7 +5414,7 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <NodeLayout
           Size="221,42"
           Id="Package\MDS\Update master Employee data"
-          TopLeft="210.5,107.5" />
+          TopLeft="210,107.5" />
         <NodeLayout
           Size="148,42"
           Id="Package\MDS\Validate Model"
@@ -5359,9 +5425,9 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="200,60"
+              EndConnector="199.5,60"
               Start="0,0"
-              End="200,52.5">
+              End="199.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -5372,13 +5438,13 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                     Point2="0,35.7412398921833"
                     Point3="4,35.7412398921833" />
                   <mssgle:LineSegment
-                    End="196,35.7412398921833" />
+                    End="195.5,35.7412398921833" />
                   <mssgle:CubicBezierSegment
-                    Point1="196,35.7412398921833"
-                    Point2="200,35.7412398921833"
-                    Point3="200,39.7412398921833" />
+                    Point1="195.5,35.7412398921833"
+                    Point2="199.5,35.7412398921833"
+                    Point3="199.5,39.7412398921833" />
                   <mssgle:LineSegment
-                    End="200,52.5" />
+                    End="199.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5393,9 +5459,9 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="36,60"
+              EndConnector="35.5000000000001,60"
               Start="0,0"
-              End="36,52.5">
+              End="35.5000000000001,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -5406,13 +5472,13 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                     Point2="0,35.7412398921833"
                     Point3="4,35.7412398921833" />
                   <mssgle:LineSegment
-                    End="32,35.7412398921833" />
+                    End="31.5000000000001,35.7412398921833" />
                   <mssgle:CubicBezierSegment
-                    Point1="32,35.7412398921833"
-                    Point2="36,35.7412398921833"
-                    Point3="36,39.7412398921833" />
+                    Point1="31.5000000000001,35.7412398921833"
+                    Point2="35.5000000000001,35.7412398921833"
+                    Point3="35.5000000000001,39.7412398921833" />
                   <mssgle:LineSegment
-                    End="36,52.5" />
+                    End="35.5000000000001,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5423,7 +5489,7 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 2]"
-          TopLeft="320.75,149.5">
+          TopLeft="320.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5446,17 +5512,17 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436,307"
-          Size="436,350"
+          PanelSize="437,306"
+          Size="437,350"
           Id="Package\MDS"
           TopLeft="21.5000000000001,464.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="142,1182.5" />
+          TopLeft="142.5,1284.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="239.5,96.5">
+          TopLeft="240,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5478,7 +5544,7 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="239.5,1122.5">
+          TopLeft="240,1224.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5500,7 +5566,7 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="239.5,814.5">
+          TopLeft="240,814.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5522,7 +5588,7 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="239.5,404.5">
+          TopLeft="240,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

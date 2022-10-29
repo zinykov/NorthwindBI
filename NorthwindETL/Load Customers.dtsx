@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="184"
-  DTS:VersionGUID="{B88D20BA-5D5F-4DA9-AA3B-4549B80DEEC5}">
+  DTS:VersionBuild="190"
+  DTS:VersionGUID="{F3CFB6BA-F492-4995-B5BC-2E32A4D3CCC4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -385,6 +385,15 @@
       DTS:ObjectName="ModelName">
       <DTS:VariableValue
         DTS:DataType="8">CustomerNW</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9C94E8F1-F17A-4EB8-8C77-EC98A26FCFFF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartLoad">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -2110,7 +2119,7 @@
               SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownCustomer] @StartDate = ?, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="$Package::CuttoffTime"
+                SQLTask:DtsVariableName="User::StartLoad"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2219,13 +2228,13 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">@[System::StartTime]</property>
+                              name="Expression">@[User::StartLoad]</property>
                             <property
                               containsID="true"
                               dataType="System.String"
                               description="Понятное выражение производного столбца"
                               expressionType="Notify"
-                              name="FriendlyExpression">@[System::StartTime]</property>
+                              name="FriendlyExpression">@[User::StartLoad]</property>
                           </properties>
                         </outputColumn>
                         <outputColumn
@@ -4663,16 +4672,47 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Set StartLoad Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{20c446bc-d28c-4430-89f5-b428ca73aa18}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set StartLoad Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetStartDate]&#xA; @TableName = N'Customer'"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="StartLoadDate"
+                SQLTask:DtsVariableName="User::StartLoad" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{8d741c80-f0e2-4064-b9e4-8432ae0122d4}"
+          DTS:DTSID="{B884B239-49DE-4099-93CD-B51E58FDFF56}"
           DTS:From="Package\Load DWH\Add unknown customer"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
+          DTS:ObjectName="Constraint"
           DTS:To="Package\Load DWH\Load Customers to DWH" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{69B18DC3-2880-42C4-A7F0-8A662C9A45B6}"
+          DTS:From="Package\Load DWH\Set StartLoad Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load DWH\Add unknown customer" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -5903,7 +5943,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,205"
+          PanelSize="194,204"
           Size="194,248"
           Id="Package\DQS"
           TopLeft="132.5,156.5" />
@@ -5914,13 +5954,39 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <NodeLayout
           Size="190,42"
           Id="Package\Load DWH\Add unknown customer"
-          TopLeft="8.00000000000001,5.5" />
+          TopLeft="8.00000000000003,107.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Load DWH\Load Customers to DWH"
-          TopLeft="5.50000000000001,107.5" />
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Load DWH\Set StartLoad Date"
+          TopLeft="19,5.5" />
         <EdgeLayout
-          Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="103,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint 1]"
           TopLeft="103,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -5944,8 +6010,8 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,205"
-          Size="206,248"
+          PanelSize="206,306"
+          Size="206,350"
           Id="Package\Load DWH"
           TopLeft="126.5,874.5" />
         <NodeLayout
@@ -6004,9 +6070,9 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="35.3333333333333,60"
+              EndConnector="35.3333333333334,60"
               Start="0,0"
-              End="35.3333333333333,52.5">
+              End="35.3333333333334,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -6017,13 +6083,13 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                     Point2="0,35.7400722021661"
                     Point3="4,35.7400722021661" />
                   <mssgle:LineSegment
-                    End="31.3333333333333,35.7400722021661" />
+                    End="31.3333333333334,35.7400722021661" />
                   <mssgle:CubicBezierSegment
-                    Point1="31.3333333333333,35.7400722021661"
-                    Point2="35.3333333333333,35.7400722021661"
-                    Point3="35.3333333333333,39.7400722021661" />
+                    Point1="31.3333333333334,35.7400722021661"
+                    Point2="35.3333333333334,35.7400722021661"
+                    Point3="35.3333333333334,39.7400722021661" />
                   <mssgle:LineSegment
-                    End="35.3333333333333,52.5" />
+                    End="35.3333333333334,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6057,14 +6123,14 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436,307"
+          PanelSize="436,306"
           Size="436,350"
           Id="Package\MDS"
           TopLeft="11.5000000000001,464.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="132,1182.5" />
+          TopLeft="132,1284.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="229.5,404.5">
@@ -6111,7 +6177,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="229.5,1122.5">
+          TopLeft="229.5,1224.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6221,7 +6287,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Customers\Landing source">
+    design-time-name="Package\DQS\Clean Customers\Destination DQS Staging">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -6234,7 +6300,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Customers\Destination DQS Staging">
+    design-time-name="Package\DQS\Clean Customers\Landing source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -6252,17 +6318,9 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="181,42"
-          Id="Package\Load DWH\Load Customers to DWH\Insert new customers"
-          TopLeft="512.5,564.5" />
-        <NodeLayout
           Size="169,42"
           Id="Package\Load DWH\Load Customers to DWH\Exists business key"
           TopLeft="518.5,360.5" />
-        <NodeLayout
-          Size="193,42"
-          Id="Package\Load DWH\Load Customers to DWH\Find Historical attributes"
-          TopLeft="258.5,564.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Load DWH\Load Customers to DWH\No business key"
@@ -6272,17 +6330,25 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           Id="Package\Load DWH\Load Customers to DWH\Update changing attributes and metadata"
           TopLeft="217.5,666.5" />
         <NodeLayout
-          Size="237,42"
-          Id="Package\Load DWH\Load Customers to DWH\Change Code and Name datatype"
-          TopLeft="484.5,156.5" />
-        <NodeLayout
           Size="138,42"
           Id="Package\Load DWH\Load Customers to DWH\Update rows"
           TopLeft="553,666.5" />
         <NodeLayout
+          Size="237,42"
+          Id="Package\Load DWH\Load Customers to DWH\Change Code and Name datatype"
+          TopLeft="484.5,156.5" />
+        <NodeLayout
           Size="131,42"
           Id="Package\Load DWH\Load Customers to DWH\No Change"
           TopLeft="25.5,666.5" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Load DWH\Load Customers to DWH\Find Historical attributes"
+          TopLeft="258.5,564.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Load DWH\Load Customers to DWH\MDS source"
+          TopLeft="535.5,54.5" />
         <NodeLayout
           Size="140,42"
           Id="Package\Load DWH\Load Customers to DWH\Lookup DWH"
@@ -6296,133 +6362,9 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           Id="Package\Load DWH\Load Customers to DWH\Add LineageKey and metadata"
           TopLeft="491.5,258.5" />
         <NodeLayout
-          Size="135,42"
-          Id="Package\Load DWH\Load Customers to DWH\MDS source"
-          TopLeft="535.5,54.5" />
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Выходные данные преобразования данных]"
-          TopLeft="603,198.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход производного столбца]"
-          TopLeft="603,300.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход команды OLE DB]"
-          TopLeft="355,708.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="603,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Update]"
-          TopLeft="581,504.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-226,60"
-              Start="0,0"
-              End="-226,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.406779661017" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.406779661017"
-                    Point2="0,24.406779661017"
-                    Point3="-4,24.406779661017" />
-                  <mssgle:LineSegment
-                    End="-222,24.406779661017" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-222,24.406779661017"
-                    Point2="-226,24.406779661017"
-                    Point3="-226,28.406779661017" />
-                  <mssgle:LineSegment
-                    End="-226,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-247.68986328125,29.406779661017,269.3797265625,12"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="181,42"
+          Id="Package\Load DWH\Load Customers to DWH\Insert new customers"
+          TopLeft="512.5,564.5" />
         <EdgeLayout
           Id="Package\Load DWH\Load Customers to DWH.Paths[NoChange]"
           TopLeft="308.75,606.5">
@@ -6624,6 +6566,130 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="-53.5592447916667,29.337631887456,80.28515625,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Выходные данные преобразования данных]"
+          TopLeft="603,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход производного столбца]"
+          TopLeft="603,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход команды OLE DB]"
+          TopLeft="355,708.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="603,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Update]"
+          TopLeft="581,504.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-226,60"
+              Start="0,0"
+              End="-226,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.406779661017" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.406779661017"
+                    Point2="0,24.406779661017"
+                    Point3="-4,24.406779661017" />
+                  <mssgle:LineSegment
+                    End="-222,24.406779661017" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-222,24.406779661017"
+                    Point2="-226,24.406779661017"
+                    Point3="-226,28.406779661017" />
+                  <mssgle:LineSegment
+                    End="-226,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-247.68986328125,29.406779661017,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
