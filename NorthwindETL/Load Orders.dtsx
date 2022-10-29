@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="149"
-  DTS:VersionGUID="{74C74218-E180-42E6-8534-AFD1BE4B1454}">
+  DTS:VersionBuild="150"
+  DTS:VersionGUID="{80179762-BB23-4C01-AC87-18A266EDE076}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -317,7 +317,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="IF EXISTS ( SELECT 1 FROM [Integration].[Lineage] WHERE [TableName] = N'Order' AND [WasSuccessful] = 1 )&#xA; SELECT StartLoadDate = MAX ( [CutoffTime] ) FROM [Integration].[Lineage] WHERE [TableName] = N'Order' AND [WasSuccessful] = 1&#xA;ELSE SELECT StartLoadDate = DATEFROMPARTS ( 1996, 1, 1 )"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetStartDate]&#xA;&#x9;@TableName = N'Order'"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="StartLoadDate"
@@ -430,7 +430,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="179,204"
+          PanelSize="179,205"
           Size="179,248"
           Id="Package\Load DWH"
           TopLeft="36.5,156.5" />
@@ -439,8 +439,8 @@
           Id="Package\Set load compilation info"
           TopLeft="28.5,464.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="126,404.5">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="126,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -461,8 +461,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="126,96.5">
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="126,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

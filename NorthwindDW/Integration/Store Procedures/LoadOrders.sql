@@ -74,9 +74,9 @@ BEGIN
 		FROM		[Landing].[Orders] AS O
 		LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
 		LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-					AND O.[OrderDate] BETWEEN C.[StartDate] AND C.[EndDate]
+					AND O.[OrderDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 		LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-					AND O.[OrderDate] BETWEEN E.[StartDate] AND E.[EndDate]
+					AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 		LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
 		WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
