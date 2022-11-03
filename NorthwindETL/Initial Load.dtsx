@@ -13,8 +13,8 @@
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="135"
-  DTS:VersionGUID="{140E2E98-D8B4-4EDD-A67E-8D83FC985262}">
+  DTS:VersionBuild="136"
+  DTS:VersionGUID="{B5793AAC-F993-4150-BB9E-16939A4F0AA7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -222,6 +222,7 @@
       DTS:refId="Package\Landing zone"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
       DTS:DTSID="{D8C17FD8-67E0-4E7B-A36A-8B66A97AFBBD}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -254,7 +255,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate Landing Zone"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -305,6 +306,7 @@
       DTS:refId="Package\Load Dimensions"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
       DTS:DTSID="{0dcbe3fd-799e-443b-a985-79851672bc14}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:FailPackageOnFailure="True"
@@ -429,6 +431,7 @@
       DTS:refId="Package\Load Orders"
       DTS:CreationName="Microsoft.ExecutePackageTask"
       DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{CA9CBB6B-2E8B-414E-903C-A117F1AD2353}"
       DTS:ExecutableType="Microsoft.ExecutePackageTask"
       DTS:FailPackageOnFailure="True"
@@ -457,13 +460,14 @@
       DTS:refId="Package\Truncate DWH"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{09e57b2b-d3ea-4c12-a952-7cae5b52f1a7}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:FailPackageOnFailure="True"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate DWH"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -477,16 +481,34 @@
       DTS:refId="Package\Truncate landing &amp; staging"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{D2D8A75D-9EAD-4959-95FA-7091D8A110F4}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing &amp; staging"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
           SQLTask:SqlStatementSource="EXECUTE [Integration].[TruncateLanding]&#xA;EXECUTE [Integration].[TruncateStagingOrder]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\xmlcalendar"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Задача &quot;Выполнение пакета&quot;"
+      DTS:DTSID="{28847cf9-21d1-462d-a68d-aee7755aba2f}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="xmlcalendar"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>xmlcalendar.dtsx</PackageName>
+        </ExecutePackageTask>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -901,6 +923,10 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="136,42"
+          Id="Package\xmlcalendar"
+          TopLeft="796,64" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
