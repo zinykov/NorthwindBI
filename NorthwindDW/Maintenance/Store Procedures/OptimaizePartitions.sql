@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitions]
-	  @CutoffTime AS DATE
+    @CutoffTime AS DATE
 AS
 /*
     Процедура объединяет секции таблицы фактов.
@@ -11,8 +11,13 @@ AS
         4. Создание схемы секционирования.
         5. Создание копии таблицы фактов.
         6. Перенос строк данных из таблицы фактов в дублёр.
-        7. 
-        --. Удаление временных структур.
+        7. Объединение секций в таблице фактов.
+        8. Удаление CLUSTERED COLUMNSTORE INDEX в таблице-дублёре.
+        9. Объединение секций в таблице-дублёре.
+        10. Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре.
+        11. Определение номера секции для переноса в таблицу фактов.
+        12. Перенос данных в таблицу фактов
+        13. Удаление временных структур.
 */
 BEGIN
 	--DECLARE @CutoffTime		    AS DATE;
@@ -26,7 +31,7 @@ BEGIN
     DECLARE @PartitionNumber    AS INT;
     DECLARE @PartitionValue     AS INT;
     
-	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 2 )
+	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 3 )
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
     IF DAY ( @CutoffTime ) <> 2 RETURN 0;
@@ -37,115 +42,139 @@ BEGIN
 	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartMonthDate )
 	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
 
---	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
+	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
 
----- Создание функции секционирования
---	SET @CreatePF = CONCAT ( 'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
+-- Создание функции секционирования
+	SET @CreatePF = CONCAT ( 'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
 	
---	EXECUTE sp_executesql @CreatePF;
+	EXECUTE sp_executesql @CreatePF;
 
----- Создание схемы секционирования
---	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Data] );
---    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Index] );
+-- Создание схемы секционирования
+	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Data] );
+    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Index] );
 
----- Создание копии таблицы фактов
---	CREATE TABLE [Maintenance].[Order]
---    (
---	    [OrderKey]                      INT             NOT NULL,
---        [ProductKey]                    INT             NOT NULL,
---        [CustomerKey]                   INT             NULL, 
---        [EmployeeKey]                   INT             NULL,
---        [OrderDateKey]                  INT             NOT NULL, 
---        [RequiredDateKey]               INT             NULL, 
---        [ShippedDateKey]                INT             NULL,
---        [UnitPrice]                     MONEY           NULL,
---        [Quantity]                      INT             NULL,
---        [Discount]                      MONEY           NULL,
---        [SalesAmount]                   MONEY           NULL,
---        [SalesAmountWithDiscount]       MONEY           NULL,
---        [LineageKey]                    INT             NULL,
+-- Создание копии таблицы фактов
+	CREATE TABLE [Maintenance].[Order]
+    (
+	    [OrderKey]                      INT             NOT NULL,
+        [ProductKey]                    INT             NOT NULL,
+        [CustomerKey]                   INT             NULL, 
+        [EmployeeKey]                   INT             NULL,
+        [OrderDateKey]                  INT             NOT NULL, 
+        [RequiredDateKey]               INT             NULL, 
+        [ShippedDateKey]                INT             NULL,
+        [UnitPrice]                     MONEY           NULL,
+        [Quantity]                      INT             NULL,
+        [Discount]                      MONEY           NULL,
+        [SalesAmount]                   MONEY           NULL,
+        [SalesAmountWithDiscount]       MONEY           NULL,
+        [LineageKey]                    INT             NULL,
 
---        CONSTRAINT [FK_Maintenance_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Product_Key_Dimension_Product] FOREIGN KEY ( [ProductKey] ) REFERENCES [Dimension].[Product] ( [ProductKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Order_Date_Key_Dimension_Date] FOREIGN KEY ( [OrderDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
---        CONSTRAINT [FK_Maintenance_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
---    )
---    ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
+        CONSTRAINT [FK_Maintenance_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Product_Key_Dimension_Product] FOREIGN KEY ( [ProductKey] ) REFERENCES [Dimension].[Product] ( [ProductKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Order_Date_Key_Dimension_Date] FOREIGN KEY ( [OrderDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
+        CONSTRAINT [FK_Maintenance_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+    )
+    ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
 
---    CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Maintenance_Order] ON [Maintenance].[Order]
---        ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
+    CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Maintenance_Order] ON [Maintenance].[Order]
+        ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Order_Date_Key] ON [Maintenance].[Order] ( [OrderDateKey] )
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Order_Date_Key] ON [Maintenance].[Order] ( [OrderDateKey] )
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Required_Date_Key] ON [Maintenance].[Order] ( [RequiredDateKey] )
---        WHERE [OrderDateKey] >= 19970101
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Required_Date_Key] ON [Maintenance].[Order] ( [RequiredDateKey] )
+        WHERE [OrderDateKey] >= 19970101
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Shipped_Date_Key] ON [Maintenance].[Order] ( [ShippedDateKey] )
---        WHERE [OrderDateKey] >= 19970101
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Shipped_Date_Key] ON [Maintenance].[Order] ( [ShippedDateKey] )
+        WHERE [OrderDateKey] >= 19970101
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Cusotmer_Key] ON [Maintenance].[Order] ( [CustomerKey] )
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Cusotmer_Key] ON [Maintenance].[Order] ( [CustomerKey] )
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Employee_Key] ON [Maintenance].[Order] ( [EmployeeKey] )
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Employee_Key] ON [Maintenance].[Order] ( [EmployeeKey] )
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
---    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Product_Key] ON [Maintenance].[Order] ( [ProductKey] )
---        WITH ( DATA_COMPRESSION = PAGE )
---        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
+    CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Product_Key] ON [Maintenance].[Order] ( [ProductKey] )
+        WITH ( DATA_COMPRESSION = PAGE )
+        ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
----- Перенос строк данных из таблицы фактов в дублёр.
---    DECLARE OptimizePartitions SCROLL CURSOR FOR
---        SELECT		DISTINCT CAST ( P.[partition_number] AS INT ) + 1
---                    , CAST ( PRV.[value] AS INT )
+    DECLARE OptimizePartitions SCROLL CURSOR FOR
+        SELECT		DISTINCT CAST ( P.[partition_number] AS INT ) + 1
+                    , CAST ( PRV.[value] AS INT )
 
---        FROM		[sys].[partition_range_values] AS PRV
---        INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
---			        AND PF.[name] = N'PF_Optimize_Partitions'
---        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
---			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
+        FROM		[sys].[partition_range_values] AS PRV
+        INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
+			        AND PF.[name] = N'PF_Optimize_Partitions'
+        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
+			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
 
---        WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
+        WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
         
---	OPEN OptimizePartitions
---	FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
---        WHILE @@FETCH_STATUS = 0
---			BEGIN
---    			ALTER TABLE [Fact].[Order] SWITCH PARTITION @PartitionNumber TO [Maintenance].[Order] PARTITION @PartitionNumber
---                FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
---			END
+	OPEN OptimizePartitions
+-- Перенос строк данных из таблицы фактов в дублёр.
+	FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+        WHILE @@FETCH_STATUS = 0
+			BEGIN
+    			ALTER TABLE [Fact].[Order] SWITCH PARTITION @PartitionNumber TO [Maintenance].[Order] PARTITION @PartitionNumber
+                FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+			END
+
+-- Объединение секций в таблице фактов	
+    FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+        WHILE @@FETCH_STATUS = 0
+			BEGIN
+    			ALTER PARTITION FUNCTION [PF_Order_Date] () MERGE RANGE ( @PartitionValue )
+                FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+			END
+    CLOSE OptimizePartitions
+
+-- Удаление CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
+	DROP INDEX [CCI_Maintenance_Order] ON [Maintenance].[Order];
 	
---    FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
---        WHILE @@FETCH_STATUS = 0
---			BEGIN
---    			ALTER PARTITION FUNCTION [PF_Order_Date] () MERGE RANGE ( @PartitionValue )
---                FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
---			END
---    CLOSE OptimizePartitions
---    DEALLOCATE OptimizePartitions
+-- Объединение секций в таблице-дублёре
+	OPEN OptimizePartitions
+	FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+        WHILE @@FETCH_STATUS = 0
+			BEGIN
+    			ALTER PARTITION FUNCTION [PF_Optimize_Partitions] () MERGE RANGE ( @PartitionValue )
+                FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+			END
+    CLOSE OptimizePartitions
+    DEALLOCATE OptimizePartitions
 
+-- Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
+    CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Maintenance_Order] ON [Maintenance].[Order]
+        ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
 
+-- Определение номера секции для переноса в таблицу фактов
+    SET @PartitionNumber = (
+    	SELECT		[boundary_id] + 1
+	    FROM		[sys].[partition_range_values] AS PRV
+        INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
+			        AND PF.[name] = N'PF_Optimize_Partitions'
+        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
+			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
+				    AND P.[index_id] = 1
+	    WHERE		[value] = @StartKey
+    )
+
+-- Перенос данных в таблицу фактов
+	ALTER TABLE [Maintenance].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
 
 -- Удаление временных структур
-	--DROP INDEX [IX_Maintenance_Order_Order_Date_Key];
-	--DROP INDEX [IX_Maintenance_Order_Required_Date_Key];
-	--DROP INDEX [IX_Maintenance_Order_Shipped_Date_Key];
-	--DROP INDEX [IX_Maintenance_Order_Cusotmer_Key];
-	--DROP INDEX [IX_Maintenance_Order_Employee_Key];
-	--DROP INDEX [IX_Maintenance_Order_Product_Key];
-	--DROP INDEX [CCI_Maintenance_Order];
-	--DROP TABLE [Maintenance].[Order];
-	--DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
-	--DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
-	--DROP PARTITION FUNCTION [PF_Optimize_Partitions];
+	DROP TABLE [Maintenance].[Order];
+	DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
+	DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
+	DROP PARTITION FUNCTION [PF_Optimize_Partitions];
 END
