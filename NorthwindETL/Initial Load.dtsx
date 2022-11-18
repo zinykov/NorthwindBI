@@ -8,13 +8,13 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{270ACC63-D7A7-49EF-AEA2-AE26FE4813F2}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.845.0"
+  DTS:LastModifiedProductVersion="16.0.948.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="137"
-  DTS:VersionGUID="{FE57CAF8-63BD-4743-8134-6572695C81B3}">
+  DTS:VersionBuild="143"
+  DTS:VersionGUID="{E3BEF69A-638A-4558-A76F-9BBB8341FCE9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -205,6 +205,7 @@
       DTS:refId="Package\DQS status subscription activation"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{30c3281a-145d-4886-9f3e-9e02d9de6acb}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -218,17 +219,17 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Landing zone"
+      DTS:refId="Package\Ingest data"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
       DTS:DTSID="{D8C17FD8-67E0-4E7B-A36A-8B66A97AFBBD}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Landing zone">
+      DTS:ObjectName="Ingest data">
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Landing zone\Northwind (упрощённая)"
+          DTS:refId="Package\Ingest data\Northwind (упрощённая)"
           DTS:CreationName="Microsoft.ExecutePackageTask"
           DTS:Description="Задача &quot;Выполнение пакета&quot;"
           DTS:DTSID="{28f39219-8afd-44d9-82cc-32f7b5115e4a}"
@@ -245,7 +246,7 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Landing zone\Truncate Landing Zone"
+          DTS:refId="Package\Ingest data\Truncate Landing Zone"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{7150fa35-293b-43dd-8b67-b90f81ebe817}"
@@ -264,9 +265,10 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Landing zone\xmlcalendar"
+          DTS:refId="Package\Ingest data\xmlcalendar"
           DTS:CreationName="Microsoft.ExecutePackageTask"
           DTS:Description="Задача &quot;Выполнение пакета&quot;"
+          DTS:Disabled="True"
           DTS:DTSID="{04f06630-8eb6-4650-b9d3-b2bc1a87c6df}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
@@ -283,21 +285,21 @@
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Landing zone.PrecedenceConstraints[Constraint 6]"
+          DTS:refId="Package\Ingest data.PrecedenceConstraints[Constraint 6]"
           DTS:CreationName=""
           DTS:DTSID="{36d6639b-332c-4310-93f5-94b9872f4048}"
-          DTS:From="Package\Landing zone\Truncate Landing Zone"
+          DTS:From="Package\Ingest data\Truncate Landing Zone"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 6"
-          DTS:To="Package\Landing zone\Northwind (упрощённая)" />
+          DTS:To="Package\Ingest data\Northwind (упрощённая)" />
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Landing zone.PrecedenceConstraints[Constraint 7]"
+          DTS:refId="Package\Ingest data.PrecedenceConstraints[Constraint 7]"
           DTS:CreationName=""
           DTS:DTSID="{572f6987-c84f-475e-8a3d-e8435b70b585}"
-          DTS:From="Package\Landing zone\Truncate Landing Zone"
+          DTS:From="Package\Ingest data\Truncate Landing Zone"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 7"
-          DTS:To="Package\Landing zone\xmlcalendar" />
+          DTS:To="Package\Ingest data\xmlcalendar" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -480,7 +482,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing &amp; staging"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -510,7 +512,7 @@
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
       DTS:DTSID="{BAE1ED55-321C-4564-B639-4AD1460776DE}"
-      DTS:From="Package\Landing zone"
+      DTS:From="Package\Ingest data"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Load Dimensions" />
@@ -622,18 +624,18 @@
           TopLeft="559,568.5" />
         <NodeLayout
           Size="199,42"
-          Id="Package\Landing zone\Northwind (упрощённая)"
+          Id="Package\Ingest data\Northwind (упрощённая)"
           TopLeft="5.5,107.5" />
         <NodeLayout
           Size="188,42"
-          Id="Package\Landing zone\Truncate Landing Zone"
+          Id="Package\Ingest data\Truncate Landing Zone"
           TopLeft="239,5.5" />
         <NodeLayout
           Size="136,42"
-          Id="Package\Landing zone\xmlcalendar"
+          Id="Package\Ingest data\xmlcalendar"
           TopLeft="265,107.5" />
         <EdgeLayout
-          Id="Package\Landing zone.PrecedenceConstraints[Constraint 6]"
+          Id="Package\Ingest data.PrecedenceConstraints[Constraint 6]"
           TopLeft="303,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -667,7 +669,7 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing zone.PrecedenceConstraints[Constraint 7]"
+          Id="Package\Ingest data.PrecedenceConstraints[Constraint 7]"
           TopLeft="363,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -705,7 +707,7 @@
           IsExpanded="True"
           PanelSize="432,204"
           Size="432,248"
-          Id="Package\Landing zone"
+          Id="Package\Ingest data"
           TopLeft="111.5,54.5" />
         <NodeLayout
           Size="155,42"

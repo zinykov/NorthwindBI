@@ -41,16 +41,15 @@ AS BEGIN
 
 	OPEN OptimizeIndexes
 		
-	FETCH NEXT FROM OptimizeIndexes INTO 
-		  @DatabaseID
-		, @ObjectID
-		, @ObjectName
-		, @PartitionNumber
-		, @IndexID
-		, @Index
-		, @DataCompression
-		, @PartitionScheme
-	
+		FETCH NEXT FROM OptimizeIndexes INTO 
+			  @DatabaseID
+			, @ObjectID
+			, @ObjectName
+			, @PartitionNumber
+			, @IndexID
+			, @Index
+			, @DataCompression
+			, @PartitionScheme
 		WHILE @@FETCH_STATUS = 0
 			BEGIN
 				SET @AvgFragmentation = ( SELECT MAX ( [avg_fragmentation_in_percent] ) FROM sys.dm_db_index_physical_stats ( @DatabaseID, @ObjectID, @IndexID, @PartitionNumber , 'LIMITED' ) )
@@ -67,7 +66,7 @@ AS BEGIN
 						
 						BEGIN CATCH
 							EXECUTE [Integration].[InsertErrorLog]
-									  @ErrorCode		= 100
+										@ErrorCode		= 100
 									, @ErrorDescription = @SQLstatment
 									, @MachineName		= @@SERVERNAME
 									, @PackageName		= N'SP [Integration].[ManageIndexes]'
@@ -89,7 +88,7 @@ AS BEGIN
 						
 						BEGIN CATCH
 							EXECUTE [Integration].[InsertErrorLog]
-									  @ErrorCode		= 100
+										@ErrorCode		= 100
 									, @ErrorDescription = @SQLstatment
 									, @MachineName		= @@SERVERNAME
 									, @PackageName		= N'SP [Integration].[ManageIndexes]'
@@ -110,7 +109,6 @@ AS BEGIN
 					, @DataCompression
 					, @PartitionScheme
 			END
-
 	CLOSE OptimizeIndexes
 	DEALLOCATE OptimizeIndexes
 END;
