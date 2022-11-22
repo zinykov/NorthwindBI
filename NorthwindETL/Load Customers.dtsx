@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{33783632-9F32-490D-AF1D-10076E97F010}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.845.0"
+  DTS:LastModifiedProductVersion="16.0.948.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="190"
-  DTS:VersionGUID="{F3CFB6BA-F492-4995-B5BC-2E32A4D3CCC4}">
+  DTS:VersionBuild="194"
+  DTS:VersionGUID="{032E02D2-9579-42CB-B418-E45B9305C49E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3445,7 +3445,9 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding];</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	[Code], [Name], [ContactName], [ContactTitle], [Country], [City], [Phone], [Fax]
+FROM	[mdm].[MasterCustomer]
+WHERE	[LastChgDateTime] &gt; ?</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -3462,11 +3464,11 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
-                      name="ParameterMapping"></property>
+                      name="ParameterMapping">"Parameter0:Input",{9C94E8F1-F17A-4EB8-8C77-EC98A26FCFFF};</property>
                   </properties>
                   <connections>
                     <connection
@@ -3595,32 +3597,6 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           length="30"
                           name="Fax" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ID]"
-                          dataType="i4"
-                          name="ID" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MUID]"
-                          dataType="guid"
-                          name="MUID" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionName]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionNumber]"
-                          dataType="i4"
-                          name="VersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Version_ID]"
-                          dataType="i4"
-                          name="Version_ID" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionFlag]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionFlag" />
-                        <externalMetadataColumn
                           refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
                           dataType="wstr"
                           length="250"
@@ -3630,43 +3606,6 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           dataType="wstr"
                           length="250"
                           name="Code" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ChangeTrackingMask]"
-                          dataType="i4"
-                          name="ChangeTrackingMask" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="EnterDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="EnterUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterVersionNumber]"
-                          dataType="i4"
-                          name="EnterVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="LastChgDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="LastChgUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgVersionNumber]"
-                          dataType="i4"
-                          name="LastChgVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Customers to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ValidationStatus]"
-                          dataType="wstr"
-                          length="250"
-                          name="ValidationStatus" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -5943,7 +5882,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,204"
+          PanelSize="194,205"
           Size="194,248"
           Id="Package\DQS"
           TopLeft="132.5,156.5" />
@@ -6010,7 +5949,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,306"
+          PanelSize="206,307"
           Size="206,350"
           Id="Package\Load DWH"
           TopLeft="126.5,874.5" />
@@ -6123,7 +6062,7 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436,306"
+          PanelSize="436,307"
           Size="436,350"
           Id="Package\MDS"
           TopLeft="11.5000000000001,464.5" />
@@ -6706,6 +6645,14 @@ WHERE [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load DWH\Load Customers to DWH\MDS source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
