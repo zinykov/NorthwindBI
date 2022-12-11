@@ -3,7 +3,7 @@ $SSISNamespace = "Microsoft.SqlServer.Management.IntegrationServices"
 $TargetServerName = "SWIFT3"
 $TargetFolderName = "20767"
 $ProjectName = "NorthwindETL"
-$PackageName = "Initial Load.dtsx"
+$PackageName = "Test.dtsx"
 $EnvironmentName = "Test"
 
 # Load the IntegrationServices assembly
