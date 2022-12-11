@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{A100FA94-641B-42FB-8424-B1162760B51C}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.845.0"
+  DTS:LastModifiedProductVersion="16.0.948.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="179"
-  DTS:VersionGUID="{1023834C-1F34-48DC-9A8D-49F0A2C866B4}">
+  DTS:VersionBuild="181"
+  DTS:VersionGUID="{1629B14D-D613-422C-B990-38655835060A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -216,6 +216,15 @@
       DTS:ObjectName="ModelName">
       <DTS:VariableValue
         DTS:DataType="8">ProductNW</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2235E865-6786-40E3-AD77-73E38A93E967}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartLoad">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -2577,7 +2586,9 @@ where [refTable].[ProductAlterKey] = ?</property>
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractProductFromLanding];</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	[Code], [Name], [Category_Name]
+FROM	[mdm].[MasterProduct]
+WHERE	[LastChgDateTime] &gt; ?</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -2594,11 +2605,11 @@ where [refTable].[ProductAlterKey] = ?</property>
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
-                      name="ParameterMapping"></property>
+                      name="ParameterMapping">"Parameter0:Input",{2235E865-6786-40E3-AD77-73E38A93E967};</property>
                   </properties>
                   <connections>
                     <connection
@@ -2647,10 +2658,6 @@ where [refTable].[ProductAlterKey] = ?</property>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ID]"
-                          dataType="i4"
-                          name="ID" />
-                        <externalMetadataColumn
                           refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
                           dataType="wstr"
                           length="250"
@@ -2661,78 +2668,10 @@ where [refTable].[ProductAlterKey] = ?</property>
                           length="250"
                           name="Code" />
                         <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MUID]"
-                          dataType="guid"
-                          name="MUID" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionName]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionName" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionNumber]"
-                          dataType="i4"
-                          name="VersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Version_ID]"
-                          dataType="i4"
-                          name="Version_ID" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionFlag]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionFlag" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ChangeTrackingMask]"
-                          dataType="i4"
-                          name="ChangeTrackingMask" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Category_Code]"
-                          dataType="wstr"
-                          length="250"
-                          name="Category_Code" />
-                        <externalMetadataColumn
                           refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Category_Name]"
                           dataType="wstr"
                           length="250"
                           name="Category_Name" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Category_ID]"
-                          dataType="i4"
-                          name="Category_ID" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="EnterDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="EnterUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterVersionNumber]"
-                          dataType="i4"
-                          name="EnterVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="LastChgDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="LastChgUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgVersionNumber]"
-                          dataType="i4"
-                          name="LastChgVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ValidationStatus]"
-                          dataType="wstr"
-                          length="250"
-                          name="ValidationStatus" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -3178,8 +3117,39 @@ where [refTable].[ProductAlterKey] = ?</property>
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load to DWH\Set StartLoad Date"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{e4c99a07-1c97-4f39-a70e-10b351985ace}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set StartLoad Date"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetStartDate]&#xA; @TableName = N'Product'"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="StartLoadDate"
+                SQLTask:DtsVariableName="User::StartLoad" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load to DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{B70D1989-145A-4C14-9595-1B58E16877FA}"
+          DTS:From="Package\Load to DWH\Set StartLoad Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load to DWH\Add unknown product" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Load to DWH.PrecedenceConstraints[Constraint 2]"
           DTS:CreationName=""
@@ -4611,27 +4581,27 @@ where [refTable].[ProductAlterKey] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="149,42"
+          Size="148.8,41.6"
           Id="Package\DQS\Clean Products"
-          TopLeft="22.5,107.5" />
+          TopLeft="22.7,107.1" />
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\DQS\Truncate DQS Staging"
-          TopLeft="5.50000000000001,5.5" />
+          TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
           Id="Package\DQS.PrecedenceConstraints[Constraint]"
-          TopLeft="97,47.5">
+          TopLeft="97.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4643,36 +4613,62 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,204"
-          Size="194,247"
+          PanelSize="194.4,204"
+          Size="194.4,247.2"
           Id="Package\DQS"
-          TopLeft="144.5,156.5" />
+          TopLeft="148.7,155.9" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="165,54.5" />
+          TopLeft="169.5,54.3" />
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\Load to DWH\Add unknown product"
-          TopLeft="7.00000000000001,5.5" />
+          TopLeft="6.70000000000003,107.1" />
         <NodeLayout
-          Size="186,42"
+          Size="185.6,41.6"
           Id="Package\Load to DWH\Load Products to DWH"
-          TopLeft="5.50000000000001,107.5" />
+          TopLeft="5.50000000000003,208.7" />
         <EdgeLayout
           Id="Package\Load to DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="98.5,47.5">
+          TopLeft="98.3,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Load to DWH\Set StartLoad Date"
+          TopLeft="14.3,5.49999999999995" />
+        <EdgeLayout
+          Id="Package\Load to DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="98.3,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4684,60 +4680,60 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="197,205"
-          Size="197,248"
+          PanelSize="196.8,305.6"
+          Size="196.8,348.8"
           Id="Package\Load to DWH"
-          TopLeft="143,1078.5" />
+          TopLeft="147.5,1075.1" />
         <NodeLayout
-          Size="206,42"
+          Size="206.4,41.6"
           Id="Package\MDS\Data managment Category"
-          TopLeft="255,5.5" />
+          TopLeft="5.49999999999999,5.50000000000007" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\MDS\Data managment Product"
-          TopLeft="258,209.5" />
+          TopLeft="266.7,208.7" />
         <NodeLayout
-          Size="189,42"
+          Size="188.8,41.6"
           Id="Package\MDS\Get MDS Version Name"
-          TopLeft="5.5,5.5" />
+          TopLeft="272.3,5.50000000000007" />
         <NodeLayout
-          Size="218,42"
+          Size="217.6,41.6"
           Id="Package\MDS\Update master Category data"
-          TopLeft="249,107.5" />
+          TopLeft="257.9,107.1" />
         <NodeLayout
-          Size="211,42"
+          Size="211.2,41.6"
           Id="Package\MDS\Update master Product data"
-          TopLeft="252.5,311.5" />
+          TopLeft="261.1,310.3" />
         <NodeLayout
-          Size="148,42"
+          Size="148,41.6"
           Id="Package\MDS\Validate Model"
-          TopLeft="284,413.5" />
+          TopLeft="292.7,411.9" />
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint]"
-          TopLeft="358,47.5">
+          TopLeft="108.7,47.1000000000001">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="35,60"
+              EndConnector="223.066666666667,60.0000000000001"
               Start="0,0"
-              End="35,52.5">
+              End="223.066666666667,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7377049180328" />
+                    End="0,31.7372262773723" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7377049180328"
-                    Point2="0,35.7377049180328"
-                    Point3="4,35.7377049180328" />
+                    Point1="0,31.7372262773723"
+                    Point2="0,35.7372262773723"
+                    Point3="4,35.7372262773723" />
                   <mssgle:LineSegment
-                    End="31,35.7377049180328" />
+                    End="219.066666666667,35.7372262773723" />
                   <mssgle:CubicBezierSegment
-                    Point1="31,35.7377049180328"
-                    Point2="35,35.7377049180328"
-                    Point3="35,39.7377049180328" />
+                    Point1="219.066666666667,35.7372262773723"
+                    Point2="223.066666666667,35.7372262773723"
+                    Point3="223.066666666667,39.7372262773723" />
                   <mssgle:LineSegment
-                    End="35,52.5" />
+                    End="223.066666666667,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4748,7 +4744,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 1]"
-          TopLeft="358,251.5">
+          TopLeft="366.7,250.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4770,7 +4766,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 2]"
-          TopLeft="358,149.5">
+          TopLeft="366.7,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4792,7 +4788,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 3]"
-          TopLeft="358,353.5">
+          TopLeft="366.7,351.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4814,30 +4810,30 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 4]"
-          TopLeft="100,47.5">
+          TopLeft="366.7,47.1000000000001">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="223,60"
+              EndConnector="34.9333333333334,60.0000000000001"
               Start="0,0"
-              End="223,52.5">
+              End="34.9333333333334,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7377049180328" />
+                    End="0,31.7372262773723" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7377049180328"
-                    Point2="0,35.7377049180328"
-                    Point3="4,35.7377049180328" />
+                    Point1="0,31.7372262773723"
+                    Point2="0,35.7372262773723"
+                    Point3="4,35.7372262773723" />
                   <mssgle:LineSegment
-                    End="219,35.7377049180328" />
+                    End="30.9333333333334,35.7372262773723" />
                   <mssgle:CubicBezierSegment
-                    Point1="219,35.7377049180328"
-                    Point2="223,35.7377049180328"
-                    Point3="223,39.7377049180328" />
+                    Point1="30.9333333333334,35.7372262773723"
+                    Point2="34.9333333333334,35.7372262773723"
+                    Point3="34.9333333333334,39.7372262773723" />
                   <mssgle:LineSegment
-                    End="223,52.5" />
+                    End="34.9333333333334,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4849,28 +4845,28 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="472,511"
-          Size="472,554"
+          PanelSize="480.8,508.8"
+          Size="480.8,552"
           Id="Package\MDS"
-          TopLeft="5.50000000000011,464.5" />
+          TopLeft="5.50000000000011,463.1" />
         <NodeLayout
-          Size="195,42"
+          Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="144,1386.5" />
+          TopLeft="148.7,1483.9" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="241.5,96.5">
+          TopLeft="245.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4881,7 +4877,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="241.5,1326.5">
+          TopLeft="245.9,1423.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4903,7 +4899,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="241.5,1018.5">
+          TopLeft="245.9,1015.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4925,18 +4921,18 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="241.5,403.5">
+          TopLeft="245.9,403.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,61"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,53.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,53.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5134,45 +5130,81 @@ where [refTable].[ProductAlterKey] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="157,42"
-          Id="Package\Load to DWH\Load Products to DWH\Update Products"
-          TopLeft="296.5,666.5" />
-        <NodeLayout
-          Size="140,42"
+          Size="140,41.6"
           Id="Package\Load to DWH\Load Products to DWH\Lookup DWH"
           TopLeft="305,462.5" />
         <NodeLayout
-          Size="169,42"
-          Id="Package\Load to DWH\Load Products to DWH\Exists business key"
-          TopLeft="290.5,360.5" />
-        <NodeLayout
-          Size="232,42"
-          Id="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes"
-          TopLeft="259,156.5" />
-        <NodeLayout
-          Size="135,42"
-          Id="Package\Load to DWH\Load Products to DWH\MDS source"
-          TopLeft="307.5,54.5" />
-        <NodeLayout
-          Size="194,42"
-          Id="Package\Load to DWH\Load Products to DWH\Find Changing attributes"
-          TopLeft="278,564.5" />
-        <NodeLayout
-          Size="175,42"
-          Id="Package\Load to DWH\Load Products to DWH\Insert New Products"
-          TopLeft="42.5000000000001,564.5" />
-        <NodeLayout
-          Size="155,42"
+          Size="155.2,41.6"
           Id="Package\Load to DWH\Load Products to DWH\No business key"
           TopLeft="89.5000000000001,462.5" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\Load to DWH\Load Products to DWH\Add LineageKey"
-          TopLeft="298,258.5" />
+          Size="168.8,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Exists business key"
+          TopLeft="290.5,360.5" />
         <NodeLayout
-          Size="131,42"
+          Size="232,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes"
+          TopLeft="259,156.5" />
+        <NodeLayout
+          Size="131.2,41.6"
           Id="Package\Load to DWH\Load Products to DWH\No Change"
           TopLeft="104.5,666.5" />
+        <NodeLayout
+          Size="135.2,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\MDS source"
+          TopLeft="307.5,54.5" />
+        <NodeLayout
+          Size="193.6,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Find Changing attributes"
+          TopLeft="278,564.5" />
+        <NodeLayout
+          Size="175.2,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Insert New Products"
+          TopLeft="42.5000000000001,564.5" />
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Update Products"
+          TopLeft="296.5,666.5" />
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Add LineageKey"
+          TopLeft="298,258.5" />
+        <EdgeLayout
+          Id="Package\Load to DWH\Load Products to DWH.Paths[BusinessKeyExists]"
+          TopLeft="401.833333333333,402.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-26.8333333333333,60"
+              Start="0,0"
+              End="-26.8333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.337631887456" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.337631887456"
+                    Point2="0,24.337631887456"
+                    Point3="-4,24.337631887456" />
+                  <mssgle:LineSegment
+                    End="-22.8333333333333,24.337631887456" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.8333333333333,24.337631887456"
+                    Point2="-26.8333333333333,24.337631887456"
+                    Point3="-26.8333333333333,28.337631887456" />
+                  <mssgle:LineSegment
+                    End="-26.8333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-53.5592447916667,29.337631887456,80.28515625,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[Выходные данные преобразования данных]"
           TopLeft="375,198.5">
@@ -5251,6 +5283,28 @@ where [refTable].[ProductAlterKey] = ?</property>
             <mssgm:EdgeLabel
               BoundingBox="-231.098359375,29.406779661017,239.19671875,11.2822265625"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="375,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5395,64 +5449,6 @@ where [refTable].[ProductAlterKey] = ?</property>
             <mssgm:EdgeLabel
               BoundingBox="-59.48009765625,29.2944785276074,87.9601953125,11.6630859375"
               RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[BusinessKeyExists]"
-          TopLeft="401.833333333333,402.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-26.8333333333333,60"
-              Start="0,0"
-              End="-26.8333333333333,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.337631887456"
-                    Point2="0,24.337631887456"
-                    Point3="-4,24.337631887456" />
-                  <mssgle:LineSegment
-                    End="-22.8333333333333,24.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-22.8333333333333,24.337631887456"
-                    Point2="-26.8333333333333,24.337631887456"
-                    Point3="-26.8333333333333,28.337631887456" />
-                  <mssgle:LineSegment
-                    End="-26.8333333333333,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-53.5592447916667,29.337631887456,80.28515625,11.3310546875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="375,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -5636,7 +5632,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\MDS\Data managment Product\DQS staging source Product">
+    design-time-name="Package\MDS\Data managment Product\MDS staging table Product">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5649,7 +5645,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\MDS\Data managment Product\MDS staging table Product">
+    design-time-name="Package\MDS\Data managment Product\DQS staging source Product">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

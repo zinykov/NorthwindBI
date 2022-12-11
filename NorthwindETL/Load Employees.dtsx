@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{4CCF00BA-3677-4F6D-AB38-BF43A8E0BC44}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.845.0"
+  DTS:LastModifiedProductVersion="16.0.948.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="193"
-  DTS:VersionGUID="{ABECAC3B-66A3-4B70-8B16-606FBA0B1C75}">
+  DTS:VersionBuild="194"
+  DTS:VersionGUID="{5AF43F7B-C575-4898-85B4-D8276012B9F0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3126,7 +3126,9 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractEmployeeFromLanding];</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	[Code], [Name], [Title], [TitleOfCourtesy], [Country], [City]
+FROM	[mdm].[MasterEmployee]
+WHERE	[LastChgDateTime] &gt; ?</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -3143,11 +3145,11 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
-                      name="ParameterMapping"></property>
+                      name="ParameterMapping">"Parameter0:Input",{DC935748-9EC7-466C-A54A-876E015E0425};</property>
                   </properties>
                   <connections>
                     <connection
@@ -3231,40 +3233,10 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           length="250"
                           name="Name" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ID]"
-                          dataType="i4"
-                          name="ID" />
-                        <externalMetadataColumn
                           refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Code]"
                           dataType="wstr"
                           length="250"
                           name="Code" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MUID]"
-                          dataType="guid"
-                          name="MUID" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionName]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionNumber]"
-                          dataType="i4"
-                          name="VersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Version_ID]"
-                          dataType="i4"
-                          name="Version_ID" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[VersionFlag]"
-                          dataType="wstr"
-                          length="50"
-                          name="VersionFlag" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ChangeTrackingMask]"
-                          dataType="i4"
-                          name="ChangeTrackingMask" />
                         <externalMetadataColumn
                           refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Title]"
                           dataType="wstr"
@@ -3285,49 +3257,6 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           dataType="wstr"
                           length="25"
                           name="Country" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="EnterDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="EnterUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EnterVersionNumber]"
-                          dataType="i4"
-                          name="EnterVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgDateTime]"
-                          dataType="dbTimeStamp2"
-                          name="LastChgDateTime"
-                          scale="3" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgUserName]"
-                          dataType="wstr"
-                          length="100"
-                          name="LastChgUserName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastChgVersionNumber]"
-                          dataType="i4"
-                          name="LastChgVersionNumber" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ValidationStatus]"
-                          dataType="wstr"
-                          length="250"
-                          name="ValidationStatus" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FirstName]"
-                          dataType="wstr"
-                          length="20"
-                          name="FirstName" />
-                        <externalMetadataColumn
-                          refId="Package\Load DWH\Load Employees to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LastName]"
-                          dataType="wstr"
-                          length="20"
-                          name="LastName" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -5300,11 +5229,11 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="159,42"
+          Size="159.2,41.6"
           Id="Package\DQS\Clean Employees"
           TopLeft="17.5,107.5" />
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\DQS\Truncate DQS Staging"
           TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
@@ -5332,46 +5261,24 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,204"
-          Size="194,248"
+          PanelSize="193.6,204.8"
+          Size="193.6,248"
           Id="Package\DQS"
           TopLeft="143,156.5" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
           TopLeft="163.5,54.5" />
         <NodeLayout
-          Size="192,42"
+          Size="192,41.6"
           Id="Package\Load DWH\Add unknown employee"
           TopLeft="7.00000000000003,107.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH"
           TopLeft="5.50000000000003,209.5" />
-        <EdgeLayout
-          Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="103,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
-          Size="168,42"
+          Size="168,41.6"
           Id="Package\Load DWH\Set StartLoad Date"
           TopLeft="19,5.5" />
         <EdgeLayout
@@ -5396,27 +5303,49 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="103,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,306"
-          Size="206,350"
+          PanelSize="206.4,307.2"
+          Size="206.4,350.4"
           Id="Package\Load DWH"
           TopLeft="137,874.5" />
         <NodeLayout
-          Size="160,42"
+          Size="160,41.6"
           Id="Package\MDS\Data managment"
           TopLeft="5.50000000000003,5.5" />
         <NodeLayout
-          Size="189,42"
+          Size="188.8,41.6"
           Id="Package\MDS\Get MDS Version Name"
           TopLeft="226,5.5" />
         <NodeLayout
-          Size="221,42"
+          Size="220.8,41.6"
           Id="Package\MDS\Update master Employee data"
           TopLeft="210,107.5" />
         <NodeLayout
-          Size="148,42"
+          Size="148,41.6"
           Id="Package\MDS\Validate Model"
           TopLeft="246.5,209.5" />
         <EdgeLayout
@@ -5512,12 +5441,12 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="437,306"
-          Size="437,350"
+          PanelSize="436.8,307.2"
+          Size="436.8,350.4"
           Id="Package\MDS"
           TopLeft="21.5000000000001,464.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Set load compilation info"
           TopLeft="142.5,1284.5" />
         <EdgeLayout
@@ -5617,15 +5546,15 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="150,42"
+          Size="150.4,41.6"
           Id="Package\DQS\Clean Employees\Landing source"
           TopLeft="65,54.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\DQS\Clean Employees\Destination DQS Staging"
           TopLeft="42.5,258.5" />
         <NodeLayout
-          Size="143,42"
+          Size="143.2,41.6"
           Id="Package\DQS\Clean Employees\DQS Cleaning"
           TopLeft="68.5,156.5" />
         <EdgeLayout
@@ -5707,51 +5636,51 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Insert new employees"
           TopLeft="49.5,564.5" />
         <NodeLayout
-          Size="169,42"
+          Size="168.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Exists business key"
           TopLeft="305.5,360.5" />
         <NodeLayout
-          Size="135,42"
+          Size="135.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH\MDS source"
           TopLeft="322.5,54.5" />
         <NodeLayout
-          Size="129,42"
+          Size="128.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\No change"
           TopLeft="62.5,666.5" />
         <NodeLayout
-          Size="275,42"
+          Size="275.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Update changing attributes and metadata"
           TopLeft="252.5,666.5" />
         <NodeLayout
-          Size="140,42"
+          Size="140,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Lookup DWH"
           TopLeft="320,462.5" />
         <NodeLayout
-          Size="237,42"
+          Size="236.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Change Code and Name datatype"
           TopLeft="271.5,156.5" />
         <NodeLayout
-          Size="138,42"
+          Size="137.6,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Update rows"
           TopLeft="588,666.5" />
         <NodeLayout
-          Size="193,42"
+          Size="192.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Find Historical attributes"
           TopLeft="293.5,564.5" />
         <NodeLayout
-          Size="155,42"
+          Size="155.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH\No business key"
           TopLeft="104.5,462.5" />
         <NodeLayout
-          Size="197,42"
+          Size="196.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Insert current employees"
           TopLeft="291.5,768.5" />
         <NodeLayout
-          Size="154,42"
+          Size="153.6,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Add LineageKey"
           TopLeft="313,258.5" />
         <EdgeLayout
