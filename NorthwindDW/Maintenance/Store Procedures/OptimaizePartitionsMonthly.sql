@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitions]
+﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitionsMonthly]
     @CutoffTime AS DATE
 AS
 /*
@@ -21,7 +21,8 @@ AS
 */
 BEGIN
 	--DECLARE @CutoffTime		    AS DATE;
-	DECLARE @StartMonthDate     AS DATE;
+	DECLARE @ReferenceDate      AS DATE;
+    DECLARE @StartMonthDate     AS DATE;
 	DECLARE @EndMonthDate	    AS DATE;
 	DECLARE @StartKey		    AS INT;
 	DECLARE @EndKey			    AS INT;
@@ -34,7 +35,16 @@ BEGIN
 	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 3 )
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
-    IF DAY ( @CutoffTime ) <> 2 RETURN 0;
+    SET @ReferenceDate = (
+        SELECT	[AlterDateKey]
+        FROM	[Dimension].[Date]
+        WHERE	[DayOfWeekNumber] = 6
+			    AND [DayOfMonth] <= 7
+			    AND [MonthNumber] = MONTH ( @CutoffTime )
+                AND [Year] = YEAR ( @CutoffTime )
+    )
+
+    IF @CutoffTime <> @ReferenceDate RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
@@ -177,4 +187,6 @@ BEGIN
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
 	DROP PARTITION FUNCTION [PF_Optimize_Partitions];
+
+    RETURN 0;
 END

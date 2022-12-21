@@ -20,6 +20,7 @@ AS
 */
 BEGIN
 -- Объявление переменных
+		DECLARE		@PartitionParameter AS INT
 		DECLARE		@NewPartitionParameterDate AS DATE
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
@@ -27,15 +28,8 @@ BEGIN
 -- Определение границы новой секции
 	SET @NewPartitionParameterDate = DATEADD ( DAY, 1, @EndLoad )
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-		SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
-
--- Переменной @Partition_number присваивается номер предпоследней секции
-		SET @Partition_number = (
-			SELECT		TOP (1) partition_number
-			FROM		sys.partitions
-			WHERE		object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Staging.Order' ) )			
-			ORDER BY	partition_number DESC
-		)
+	SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
+	SET @PartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
 
 -- ШАГ 1. Определение файловых групп для схем секционирования
 		ALTER PARTITION SCHEME [PS_Order_Date_Data]  
@@ -49,6 +43,9 @@ BEGIN
 		BEGIN
 			ALTER PARTITION FUNCTION [PF_Order_Date] () SPLIT RANGE ( @NewPartitionParameter )
 		END
+
+-- Переменной @Partition_number присваивается номер предпоследней секции
+		SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter )
 
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
 		IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
