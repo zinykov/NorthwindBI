@@ -120,14 +120,12 @@ BEGIN
         ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
-        SELECT		DISTINCT CAST ( P.[partition_number] AS INT ) + 1
+        SELECT		DISTINCT $PARTITION.[PF_Optimize_Partitions] ( CAST ( PRV.[value] AS INT ) )
                     , CAST ( PRV.[value] AS INT )
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
 			        AND PF.[name] = N'PF_Optimize_Partitions'
-        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
-			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
 
         WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
         
@@ -168,16 +166,7 @@ BEGIN
         ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
-    SET @PartitionNumber = (
-    	SELECT		[boundary_id] + 1
-	    FROM		[sys].[partition_range_values] AS PRV
-        INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
-			        AND PF.[name] = N'PF_Optimize_Partitions'
-        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
-			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
-				    AND P.[index_id] = 1
-	    WHERE		[value] = @StartKey
-    )
+    SET @PartitionNumber = $PARTITION.[PF_Optimize_Partitions] ( @StartKey )
 
 -- Перенос данных в таблицу фактов
 	ALTER TABLE [Maintenance].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
