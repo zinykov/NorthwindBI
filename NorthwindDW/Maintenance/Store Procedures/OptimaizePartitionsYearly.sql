@@ -1,11 +1,11 @@
-﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitions]
+﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitionsYearly]
     @CutoffTime AS DATE
 AS
 /*
     Процедура объединяет секции таблицы фактов.
 
     Алгоритм:
-        1. Проверка даты запуска, если 2 число месяца, то выполняется процедура.
+        1. Проверка даты запуска, если 2 число 1 месяца, то выполняется процедура.
         2. Опеределение границ диапазона слияния секций.
         3. Создание функции секционирования.
         4. Создание схемы секционирования.
@@ -21,8 +21,9 @@ AS
 */
 BEGIN
 	--DECLARE @CutoffTime		    AS DATE;
-	DECLARE @StartMonthDate     AS DATE;
-	DECLARE @EndMonthDate	    AS DATE;
+	DECLARE @ReferenceDate      AS DATE;
+    DECLARE @StartYearDate      AS DATE;
+	DECLARE @EndYearDate	    AS DATE;
 	DECLARE @StartKey		    AS INT;
 	DECLARE @EndKey			    AS INT;
 	DECLARE @Bondaries		    AS NVARCHAR(2000);
@@ -34,13 +35,22 @@ BEGIN
 	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 3 )
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
-    IF DAY ( @CutoffTime ) <> 2 RETURN 0;
+    SET @ReferenceDate = (
+        SELECT	[AlterDateKey]
+        FROM	[Dimension].[Date]
+        WHERE	[DayOfWeekNumber] = 6
+			    AND [DayOfMonth] <= 7
+			    AND [MonthNumber] = 1
+                AND [Year] = YEAR ( @CutoffTime )
+    )
+
+    IF @CutoffTime <> @ReferenceDate RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
-    SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
-	SET @StartMonthDate = ( SELECT [StartOfMonth] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
-	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartMonthDate )
-	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
+    SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
+	SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
+	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
+	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
 
 	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
 
@@ -110,14 +120,12 @@ BEGIN
         ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
-        SELECT		DISTINCT CAST ( P.[partition_number] AS INT ) + 1
+        SELECT		DISTINCT $PARTITION.[PF_Optimize_Partitions] ( CAST ( PRV.[value] AS INT ) )
                     , CAST ( PRV.[value] AS INT )
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
 			        AND PF.[name] = N'PF_Optimize_Partitions'
-        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
-			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
 
         WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
         
@@ -158,16 +166,7 @@ BEGIN
         ON [PS_Optimize_Partitions_Data] ( [OrderDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
-    SET @PartitionNumber = (
-    	SELECT		[boundary_id] + 1
-	    FROM		[sys].[partition_range_values] AS PRV
-        INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
-			        AND PF.[name] = N'PF_Optimize_Partitions'
-        INNER JOIN	[sys].[partitions] AS P ON P.[partition_number] = PRV.[boundary_id]
-			        AND P.object_id = OBJECT_ID ( CONCAT ( DB_NAME (), N'.Maintenance.Order' ) )
-				    AND P.[index_id] = 1
-	    WHERE		[value] = @StartKey
-    )
+    SET @PartitionNumber = $PARTITION.[PF_Optimize_Partitions] ( @StartKey )
 
 -- Перенос данных в таблицу фактов
 	ALTER TABLE [Maintenance].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
@@ -177,4 +176,6 @@ BEGIN
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
 	DROP PARTITION FUNCTION [PF_Optimize_Partitions];
+
+    RETURN 0;
 END

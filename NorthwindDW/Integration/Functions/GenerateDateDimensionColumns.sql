@@ -89,9 +89,9 @@ AS BEGIN
                                         ELSE @WorkDayType
                                       END
             , [WorkDayHours]        = CASE
-                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber > 5 THEN 0
-                                        WHEN @WorkDayType IS NULL AND @DayOfWeekNumber <= 5 THEN 8
-                                        ELSE @WorkDayType
+                                        WHEN @WorkDayHours IS NULL AND @DayOfWeekNumber > 5 THEN 0
+                                        WHEN @WorkDayHours IS NULL AND @DayOfWeekNumber <= 5 THEN 8
+                                        ELSE @WorkDayHours
                                       END
 	RETURN
 END;
