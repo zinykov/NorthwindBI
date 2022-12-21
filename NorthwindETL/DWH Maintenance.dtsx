@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="23"
-  DTS:VersionGUID="{96E5384A-E715-40CA-9658-997F8F9EDC30}">
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{1C020AD0-D8A1-445B-8D08-5BC5E06A2DB6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -174,19 +174,42 @@
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\DWH\Optimaize Partitions"
+          DTS:refId="Package\DWH\Optimaize Partitions Monthly"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{C2A7BA16-17E6-4806-9B8A-F1465A0EC397}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Optimaize Partitions"
+          DTS:ObjectName="Optimaize Partitions Monthly"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizePartitions]&#xA;&#x9;@CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizePartitionsMonthly]&#xA;&#x9;@CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DWH\Optimaize Partitions Yearly"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{00e5a558-5896-4cd7-9c20-d6357939bee7}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Optimaize Partitions Yearly"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizePartitionsYearly]&#xA; @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::CutoffTime"
@@ -249,7 +272,15 @@
           DTS:From="Package\DWH\Update statistics"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 1"
-          DTS:To="Package\DWH\Optimaize Partitions" />
+          DTS:To="Package\DWH\Optimaize Partitions Monthly" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{362E57FD-2C41-483E-B239-88816A8D203B}"
+          DTS:From="Package\DWH\Optimaize Partitions Monthly"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\DWH\Optimaize Partitions Yearly" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -399,27 +430,31 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="159,42"
-          Id="Package\DWH\Optimize indexes"
-          TopLeft="12.5,5.5" />
+          Size="212.8,41.6"
+          Id="Package\DWH\Optimaize Partitions Monthly"
+          TopLeft="5.50000000000003,208.7" />
         <NodeLayout
-          Size="156,42"
+          Size="158.4,41.6"
+          Id="Package\DWH\Optimize indexes"
+          TopLeft="32.7,5.49999999999995" />
+        <NodeLayout
+          Size="156,41.6"
           Id="Package\DWH\Update statistics"
-          TopLeft="14,107.5" />
+          TopLeft="33.9,107.1" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="92,47.5">
+          TopLeft="111.9,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -428,13 +463,9 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="173,42"
-          Id="Package\DWH\Optimaize Partitions"
-          TopLeft="5.50000000000003,209.5" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint 1]"
-          TopLeft="92,149.5">
+          TopLeft="111.9,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -454,35 +485,61 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="204.8,41.6"
+          Id="Package\DWH\Optimaize Partitions Yearly"
+          TopLeft="9.50000000000003,310.3" />
+        <EdgeLayout
+          Id="Package\DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="111.9,250.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.0000000000001"
+              Start="0,0"
+              End="0,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="184,306"
-          Size="184,350"
+          PanelSize="224,407.2"
+          Size="224,450.4"
           Id="Package\DWH"
-          TopLeft="69.5000000000001,54.5" />
+          TopLeft="69.5000000000001,54.5000000000001" />
         <NodeLayout
-          Size="218,42"
+          Size="217.6,41.6"
           Id="Package\MDS\MDS Clean Up Staging Tables"
-          TopLeft="5.50000000000001,5.5" />
+          TopLeft="5.50000000000001,5.50000000000007" />
         <NodeLayout
-          Size="209,42"
+          Size="208.8,41.6"
           Id="Package\MDS\MDS Clean Up Transactions"
-          TopLeft="10,107.5" />
+          TopLeft="9.90000000000001,107.1" />
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint]"
-          TopLeft="114.5,47.5">
+          TopLeft="114.3,47.1000000000001">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -494,10 +551,10 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="229,204"
-          Size="229,248"
+          PanelSize="228.8,204"
+          Size="228.8,247.2"
           Id="Package\MDS"
-          TopLeft="300,54.5" />
+          TopLeft="305.00000008515,53.7352941069223" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
