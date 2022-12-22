@@ -4,4 +4,4 @@
 подстановлены во время сборки и развертывания.
 */
 ALTER DATABASE [$(DatabaseName)]
-	ADD FILEGROUP [Archive_Fact]
+	ADD FILEGROUP [Order_1996_Data]

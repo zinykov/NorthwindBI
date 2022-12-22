@@ -44,7 +44,7 @@ BEGIN
                 AND [Year] = YEAR ( @CutoffTime )
     )
 
-    IF @CutoffTime <> @ReferenceDate RETURN 0;
+    IF @CutoffTime <> @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
@@ -60,8 +60,8 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Data] );
-    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Fast_Fact_Index] );
+	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Data] );
+    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Index] );
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]
