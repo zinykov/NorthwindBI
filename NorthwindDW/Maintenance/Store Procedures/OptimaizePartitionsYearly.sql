@@ -44,7 +44,7 @@ BEGIN
                 AND [Year] = YEAR ( @CutoffTime )
     )
 
-    IF @CutoffTime <> @ReferenceDate RETURN 0;
+    IF @CutoffTime <> @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
