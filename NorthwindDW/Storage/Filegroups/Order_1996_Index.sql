@@ -4,4 +4,4 @@
 подстановлены во время сборки и развертывания.
 */
 ALTER DATABASE [$(DatabaseName)]
-	ADD FILEGROUP [Fast_Fact_Index]
+	ADD FILEGROUP [Order_1996_Index]

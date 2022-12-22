@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="98"
-  DTS:VersionGUID="{4E509068-2D21-43D7-A127-45349F50EAA7}">
+  DTS:VersionBuild="99"
+  DTS:VersionGUID="{FAEFB76F-5109-4B93-A691-B40AA3301191}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -54,7 +54,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="var_CutoffTime">
       <DTS:VariableValue
-        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
+        DTS:DataType="7">12/31/1996</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -203,10 +203,10 @@
       DTS:CreationName="STOCK:FORLOOP"
       DTS:Description="Incremental load immitation for Northwind DWH for 1998-05-01 to 1998-05-06  dates"
       DTS:DTSID="{51EC9912-7838-49AB-A67A-7D1A8FC504C9}"
-      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-01&quot;"
+      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
       DTS:FailPackageOnFailure="True"
-      DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1998-04-01&quot;"
+      DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-01-01&quot;"
       DTS:LocaleID="-1"
       DTS:MaxConcurrent="1"
       DTS:ObjectName="Incremental load immitation">
@@ -253,6 +253,10 @@
         <ExecutePackageTask>
           <UseProjectReference>True</UseProjectReference>
           <PackageName>Initial Load.dtsx</PackageName>
+          <ParameterAssignment>
+            <ParameterName>CutoffTime</ParameterName>
+            <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+          </ParameterAssignment>
         </ExecutePackageTask>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -378,22 +382,22 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="158,42"
+          Size="158.4,41.6"
           Id="Package\Incremental load immitation\Incremental load"
           TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169,102"
-          Size="169,146"
+          PanelSize="168.8,103.2"
+          Size="168.8,145.6"
           Id="Package\Incremental load immitation"
           TopLeft="70.5,258.5" />
         <NodeLayout
-          Size="128,42"
+          Size="128,41.6"
           Id="Package\Initial load"
           TopLeft="91,54.5" />
         <NodeLayout
-          Size="199,42"
+          Size="199.2,41.6"
           Id="Package\Northwind (упрощённая)"
           TopLeft="55.5,156.5" />
         <EdgeLayout
