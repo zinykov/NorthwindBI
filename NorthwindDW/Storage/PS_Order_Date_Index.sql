@@ -3,5 +3,6 @@
 	TO (
 		  [Order_1996_Index]		--1
 		, [Order_1996_Index]		--2
+		, [Order_1997_Index]		--3
 	)
 GO

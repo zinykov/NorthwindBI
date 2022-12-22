@@ -33,10 +33,10 @@ BEGIN
 
 -- ШАГ 1. Определение файловых групп для схем секционирования
 		ALTER PARTITION SCHEME [PS_Order_Date_Data]  
-			NEXT USED [Fast_Fact_Data]
+			NEXT USED [Order_1997_Data]
 
 		ALTER PARTITION SCHEME [PS_Order_Date_Index]  
-			NEXT USED [Fast_Fact_Index]
+			NEXT USED [Order_1997_Index]
 
 -- ШАГ 2. Создание новой секции
 		IF NOT EXISTS ( SELECT 1 FROM [sys].[partition_range_values] WHERE [value] = @NewPartitionParameter )
