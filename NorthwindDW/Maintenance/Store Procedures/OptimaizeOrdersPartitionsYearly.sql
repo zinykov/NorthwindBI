@@ -1,7 +1,5 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsYearly]
       @CutoffTime AS DATE
-	, @FilegroupDataName AS NVARCHAR(200)
-	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
     Процедура объединяет секции таблицы фактов.

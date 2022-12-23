@@ -2,8 +2,6 @@
 	  @StartLoad AS DATE
 	, @EndLoad AS DATE
 	, @LineageKey AS INT
-	, @FilegroupDataName AS NVARCHAR(200)
-	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
 	Процедура производит добавочное обновления таблицы фактов Fact.Order
@@ -36,16 +34,16 @@ BEGIN
 
 -- ШАГ 1. Определение файловых групп для схем секционирования
 		SET @SQL = CONCAT (
-			  N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED ['
-			, @FilegroupDataName
-			, N']'
+			  N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED [Order_'
+			, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
+			, N'_Date]'
 			)
 		EXECUTE sp_executesql @SQL
 
 		SET @SQL = CONCAT (
-			  N'ALTER PARTITION SCHEME [PS_Order_Date_Index] NEXT USED ['
-			, @FilegroupIndexName
-			, N']'
+			  N'ALTER PARTITION SCHEME [PS_Order_Date_Index] NEXT USED [Order_'
+			, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
+			, N'_Index]'
 			)
 		EXECUTE sp_executesql @SQL
 
