@@ -1,5 +1,7 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsYearly]
-    @CutoffTime AS DATE
+      @CutoffTime AS DATE
+	, @FilegroupDataName AS NVARCHAR(200)
+	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
     Процедура объединяет секции таблицы фактов.
@@ -60,8 +62,11 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Data] );
-    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Index] );
+	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N']' );
+    EXECUTE sp_executesql @CreatePS
+
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N']' );
+    EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]

@@ -1,5 +1,7 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsMonthly]
-    @CutoffTime AS DATE
+      @CutoffTime AS DATE
+	, @FilegroupDataName AS NVARCHAR(200)
+	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
     Процедура объединяет секции таблицы фактов.
@@ -55,13 +57,16 @@ BEGIN
 	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
 
 -- Создание функции секционирования
-	SET @CreatePF = CONCAT ( 'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
+	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
 	
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Data] );
-    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Index] );
+	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N']' );
+    EXECUTE sp_executesql @CreatePS
+
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N']' );
+    EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]
