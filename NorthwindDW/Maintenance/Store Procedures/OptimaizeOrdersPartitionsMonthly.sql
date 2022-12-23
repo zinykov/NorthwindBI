@@ -22,7 +22,6 @@ AS
         13. Удаление временных структур.
 */
 BEGIN
-	--DECLARE @CutoffTime		    AS DATE;
 	DECLARE @ReferenceDate      AS DATE;
     DECLARE @StartMonthDate     AS DATE;
 	DECLARE @EndMonthDate	    AS DATE;
@@ -31,11 +30,11 @@ BEGIN
 	DECLARE @Bondaries		    AS NVARCHAR(2000);
 	DECLARE @CreatePF		    AS NVARCHAR(4000);
 	DECLARE @CreatePS		    AS NVARCHAR(4000);
+    DECLARE @FileDataGroups     AS NVARCHAR(2000) = N'[Order_1996_Data]';
+    DECLARE @FileIndexGroups    AS NVARCHAR(2000) = N'[Order_1996_Index]';
     DECLARE @PartitionNumber    AS INT;
     DECLARE @PartitionValue     AS INT;
     
-	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 3 )
-	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
     SET @ReferenceDate = (
         SELECT	[AlterDateKey]
@@ -61,10 +60,20 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N'] )' );
+	SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
+	FROM		sys.partition_range_values AS PRV
+	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
+				AND PF.[name] = N'PF_Order_Date'
+    
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] TO ( ', @FileDataGroups, N' )' );
     EXECUTE sp_executesql @CreatePS
 
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N'] )' );
+    SELECT		@FileIndexGroups = COALESCE ( @FileIndexGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Index]' )
+	FROM		sys.partition_range_values AS PRV
+	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
+				AND PF.[name] = N'PF_Order_Date'
+
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] TO ( ', @FileIndexGroups, N' )' );
     EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
