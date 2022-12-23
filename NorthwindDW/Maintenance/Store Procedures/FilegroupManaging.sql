@@ -2,9 +2,9 @@
 	  @CutoffTime AS DATE
 	, @FactTableName AS NVARCHAR(100)
 	, @FilePath AS VARCHAR(500)
-	, @FileGroupDataName AS NVARCHAR(200) OUTPUT
-	, @FileGroupIndexName AS NVARCHAR(200) OUTPUT
 AS BEGIN
+	DECLARE @FileGroupDataName AS NVARCHAR(200)
+	DECLARE @FileGroupIndexName AS NVARCHAR(200)
 	DECLARE @CheckFilegroupName AS NVARCHAR(500)
 	DECLARE @FileDataName AS VARCHAR(500)
 	DECLARE @FileDataPath AS VARCHAR(500)
