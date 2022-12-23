@@ -22,7 +22,6 @@ AS
         13. Удаление временных структур.
 */
 BEGIN
-	--DECLARE @CutoffTime		    AS DATE;
 	DECLARE @ReferenceDate      AS DATE;
     DECLARE @StartYearDate      AS DATE;
 	DECLARE @EndYearDate	    AS DATE;
@@ -33,8 +32,6 @@ BEGIN
 	DECLARE @CreatePS		    AS NVARCHAR(4000);
     DECLARE @PartitionNumber    AS INT;
     DECLARE @PartitionValue     AS INT;
-    
-	--SET @CutoffTime = DATEFROMPARTS ( 1998, 5, 3 )
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
     SET @ReferenceDate = (
@@ -58,7 +55,6 @@ BEGIN
 
 -- Создание функции секционирования
 	SET @CreatePF = CONCAT ( 'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
-	
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования

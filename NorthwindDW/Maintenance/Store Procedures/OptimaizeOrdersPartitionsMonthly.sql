@@ -58,17 +58,14 @@ BEGIN
 
 -- Создание функции секционирования
 	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
-	
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
 	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N'] )' );
-    PRINT @CreatePS
-    --EXECUTE sp_executesql @CreatePS
+    EXECUTE sp_executesql @CreatePS
 
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N'] )' );
-    PRINT @CreatePS
-    --EXECUTE sp_executesql @CreatePS
+    EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]
