@@ -69,32 +69,32 @@ IF NOT EXISTS ( SELECT 1 FROM sys.resource_governor_workload_groups WHERE [name]
         USING [High Priority];
 GO
 
-USE [master];
-GO
+--USE [master];
+--GO
 
-ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = NULL );
-ALTER RESOURCE GOVERNOR RECONFIGURE;
-GO
+--ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = NULL );
+--ALTER RESOURCE GOVERNOR RECONFIGURE;
+--GO
 
-CREATE OR ALTER FUNCTION [dbo].[fn_classify_apps]() RETURNS sysname
-WITH SCHEMABINDING
-    AS BEGIN
-	    DECLARE @retval sysname
+--CREATE OR ALTER FUNCTION [dbo].[fn_classify_apps]() RETURNS sysname
+--WITH SCHEMABINDING
+--    AS BEGIN
+--	    DECLARE @retval sysname
 
-	    IF (
-		    APP_NAME () LIKE '%SQL Server%' 
-		    AND USER_NAME () IN ( 'SWIFT3\AzPipelineAgent','SWIFT3\SQLAGENT','SWIFT3\RDLexec' )
-		    AND DAY ( GETDATE () ) = 1 
-		    AND DATEPART ( HOUR, GETDATE () ) BETWEEN 1 AND 2
-	    )
-		    SET @retval = 'ETL';
-	    ELSE
-		    SET @retval = 'User Queries';
+--	    IF (
+--		    APP_NAME () LIKE '%SQL Server%' 
+--		    AND USER_NAME () IN ( 'SWIFT3\AzPipelineAgent','SWIFT3\SQLAGENT','SWIFT3\RDLexec' )
+--		    AND DAY ( GETDATE () ) = 1 
+--		    AND DATEPART ( HOUR, GETDATE () ) BETWEEN 1 AND 2
+--	    )
+--		    SET @retval = 'ETL';
+--	    ELSE
+--		    SET @retval = 'User Queries';
 	
-	    RETURN @retval;
-    END
-GO
+--	    RETURN @retval;
+--    END
+--GO
 
-ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = dbo.fn_classify_apps );
-ALTER RESOURCE GOVERNOR RECONFIGURE;
-GO
+--ALTER RESOURCE GOVERNOR WITH ( CLASSIFIER_FUNCTION = dbo.fn_classify_apps );
+--ALTER RESOURCE GOVERNOR RECONFIGURE;
+--GO
