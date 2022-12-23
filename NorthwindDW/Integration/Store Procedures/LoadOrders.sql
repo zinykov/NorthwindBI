@@ -36,7 +36,7 @@ BEGIN
 		SET @SQL = CONCAT (
 			  N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED [Order_'
 			, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
-			, N'_Date]'
+			, N'_Data]'
 			)
 		EXECUTE sp_executesql @SQL
 
