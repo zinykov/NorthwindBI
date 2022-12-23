@@ -41,7 +41,7 @@ BEGIN
         SELECT	[AlterDateKey]
         FROM	[Dimension].[Date]
         WHERE	[DayOfWeekNumber] = 6
-			    AND [DayOfMonth] <= 7
+			    AND [DayOfMonth] BETWEEN 2 AND 8
 			    AND [MonthNumber] = MONTH ( @CutoffTime )
                 AND [Year] = YEAR ( @CutoffTime )
     )
@@ -62,11 +62,13 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N']' );
-    EXECUTE sp_executesql @CreatePS
+	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N'] )' );
+    PRINT @CreatePS
+    --EXECUTE sp_executesql @CreatePS
 
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N']' );
-    EXECUTE sp_executesql @CreatePS
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N'] )' );
+    PRINT @CreatePS
+    --EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]
