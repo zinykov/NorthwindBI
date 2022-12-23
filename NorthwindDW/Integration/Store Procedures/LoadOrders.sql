@@ -2,6 +2,8 @@
 	  @StartLoad AS DATE
 	, @EndLoad AS DATE
 	, @LineageKey AS INT
+	, @FilegroupDataName AS NVARCHAR(200)
+	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
 	Процедура производит добавочное обновления таблицы фактов Fact.Order
@@ -24,6 +26,7 @@ BEGIN
 		DECLARE		@NewPartitionParameterDate AS DATE
 		DECLARE		@NewPartitionParameter AS INT
 		DECLARE		@Partition_number AS INT
+		DECLARE		@SQL AS NVARCHAR(2000)
 
 -- Определение границы новой секции
 	SET @NewPartitionParameterDate = DATEADD ( DAY, 1, @EndLoad )
@@ -32,11 +35,19 @@ BEGIN
 	SET @PartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
 
 -- ШАГ 1. Определение файловых групп для схем секционирования
-		ALTER PARTITION SCHEME [PS_Order_Date_Data]  
-			NEXT USED [Order_1997_Data]
+		SET @SQL = CONCAT (
+			  N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED ['
+			, @FilegroupDataName
+			, N']'
+			)
+		EXECUTE sp_executesql @SQL
 
-		ALTER PARTITION SCHEME [PS_Order_Date_Index]  
-			NEXT USED [Order_1997_Index]
+		SET @SQL = CONCAT (
+			  N'ALTER PARTITION SCHEME [PS_Order_Date_Index] NEXT USED ['
+			, @FilegroupIndexName
+			, N']'
+			)
+		EXECUTE sp_executesql @SQL
 
 -- ШАГ 2. Создание новой секции
 		IF NOT EXISTS ( SELECT 1 FROM [sys].[partition_range_values] WHERE [value] = @NewPartitionParameter )

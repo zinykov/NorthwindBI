@@ -1,11 +1,13 @@
-﻿CREATE PROCEDURE [Maintenance].[OptimaizePartitionsMonthly]
-    @CutoffTime AS DATE
+﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsYearly]
+      @CutoffTime AS DATE
+	, @FilegroupDataName AS NVARCHAR(200)
+	, @FilegroupIndexName AS NVARCHAR(200)
 AS
 /*
     Процедура объединяет секции таблицы фактов.
 
     Алгоритм:
-        1. Проверка даты запуска, если 2 число месяца, то выполняется процедура.
+        1. Проверка даты запуска, если 2 число 1 месяца, то выполняется процедура.
         2. Опеределение границ диапазона слияния секций.
         3. Создание функции секционирования.
         4. Создание схемы секционирования.
@@ -22,8 +24,8 @@ AS
 BEGIN
 	--DECLARE @CutoffTime		    AS DATE;
 	DECLARE @ReferenceDate      AS DATE;
-    DECLARE @StartMonthDate     AS DATE;
-	DECLARE @EndMonthDate	    AS DATE;
+    DECLARE @StartYearDate      AS DATE;
+	DECLARE @EndYearDate	    AS DATE;
 	DECLARE @StartKey		    AS INT;
 	DECLARE @EndKey			    AS INT;
 	DECLARE @Bondaries		    AS NVARCHAR(2000);
@@ -40,17 +42,17 @@ BEGIN
         FROM	[Dimension].[Date]
         WHERE	[DayOfWeekNumber] = 6
 			    AND [DayOfMonth] <= 7
-			    AND [MonthNumber] = MONTH ( @CutoffTime )
+			    AND [MonthNumber] = 1
                 AND [Year] = YEAR ( @CutoffTime )
     )
 
     IF @CutoffTime <> @ReferenceDate OR @CutoffTime = DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
-    SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
-	SET @StartMonthDate = ( SELECT [StartOfMonth] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
-	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartMonthDate )
-	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
+    SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
+	SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
+	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
+	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
 
 	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
 
@@ -60,8 +62,11 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Data] );
-    CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_1997_Index] );
+	SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupDataName, N']' );
+    EXECUTE sp_executesql @CreatePS
+
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [', @FilegroupIndexName, N']' );
+    EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
 	CREATE TABLE [Maintenance].[Order]
