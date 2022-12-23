@@ -56,6 +56,10 @@ BEGIN
 	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
 
 -- Создание функции секционирования
+	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
+	EXECUTE sp_executesql @CreatePF;
+
+-- Создание схемы секционирования
 	SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
 	FROM		sys.partition_range_values AS PRV
 	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
