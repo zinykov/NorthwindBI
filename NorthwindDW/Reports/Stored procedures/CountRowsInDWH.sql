@@ -16,8 +16,6 @@ AS BEGIN
 	LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
 				AND P.[index_id] = I.[index_id]
 	LEFT JOIN	sys.partition_range_values AS PRV ON P.[partition_number] = $PARTITION.[PF_Order_Date] ( CAST ( PRV.[value] AS INT ) )
-	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-				AND PF.[name] = N'PF_Order_Date'
 	
 	ORDER BY	  S.[schema_id]
 				, T.[name]

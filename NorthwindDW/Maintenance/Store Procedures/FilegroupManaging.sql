@@ -13,7 +13,7 @@ AS BEGIN
 	DECLARE @CutoffTimeYear AS INT
 	DECLARE @SQL AS NVARCHAR(2000)
 
-	SET @CutoffTimeYear = YEAR ( @CutoffTime )
+	SET @CutoffTimeYear = YEAR ( DATEADD ( DAY, 1, @CutoffTime ) )
 	
 	SET @FileGroupDataName = CONCAT ( @FactTableName, N'_', @CutoffTimeYear, '_Data' )
 	SET @FileDataName = CONCAT ( @FileGroupDataName, N'_', LEFT ( CONVERT ( NVARCHAR(36), NEWID () ), 8 ) )

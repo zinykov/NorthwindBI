@@ -9,5 +9,5 @@ AS BEGIN
 
 	FROM		[Integration].[Lineage]
 
-	ORDER BY	[Date] DESC
+	ORDER BY	[LineageKey] DESC
 END
