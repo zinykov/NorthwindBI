@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="164"
-  DTS:VersionGUID="{46C02EC7-469E-48CD-964B-B2088C3E12BA}">
+  DTS:VersionBuild="166"
+  DTS:VersionGUID="{D8F6D577-D08A-4655-9A5F-2DE4E733808B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -272,7 +272,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Maintenance].[FilegroupManaging]&#xA;&#x9;&#x9;  @CutoffTime = ?&#xA;&#x9;&#x9;, @FactTableName = ?&#xA;&#x9;&#x9;, @FilePath = ?&#xA;&#x9;&#x9;, @FileGroupDataName = ? OUTPUT&#xA;&#x9;&#x9;, @FileGroupIndexName = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="EXECUTE [Maintenance].[FilegroupManaging]&#xA;&#x9;&#x9;  @CutoffTime = ?&#xA;&#x9;&#x9;, @FactTableName = ?&#xA;&#x9;&#x9;, @FilePath = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -291,18 +291,6 @@
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="500" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="3"
-            SQLTask:DtsVariableName="User::FilegroupDataName"
-            SQLTask:ParameterDirection="Output"
-            SQLTask:DataType="130"
-            SQLTask:ParameterSize="200" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="4"
-            SQLTask:DtsVariableName="User::FilegroupIndexName"
-            SQLTask:ParameterDirection="Output"
-            SQLTask:DataType="130"
-            SQLTask:ParameterSize="200" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -372,7 +360,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadOrders]&#xA;&#x9;  @StartLoad = ?&#xA;&#x9;, @EndLoad = ?&#xA;&#x9;, @LineageKey = ?&#xA;&#x9;, @FilegroupDataName = ?&#xA;&#x9;, @FilegroupIndexName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[LoadOrders]&#xA;&#x9;  @StartLoad = ?&#xA;&#x9;, @EndLoad = ?&#xA;&#x9;, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::StartLoad"
@@ -391,18 +379,6 @@
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="3"
                 SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="3"
-                SQLTask:DtsVariableName="User::FilegroupDataName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="4"
-                SQLTask:DtsVariableName="User::FilegroupIndexName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -470,25 +446,13 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @FilegroupDataName = ?&#xA;&#x9;, @FilegroupIndexName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="User::FilegroupDataName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="2"
-                SQLTask:DtsVariableName="User::FilegroupIndexName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -505,25 +469,13 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsYearly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @FilegroupDataName = ?&#xA;&#x9;, @FilegroupIndexName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsYearly]&#xA;&#x9;  @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="User::FilegroupDataName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="2"
-                SQLTask:DtsVariableName="User::FilegroupIndexName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="200" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>

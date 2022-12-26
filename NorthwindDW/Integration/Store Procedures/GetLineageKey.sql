@@ -2,7 +2,6 @@
     @TableName AS SYSNAME,
     @CutoffTime AS DATETIME2(7),
     @executionid AS NVARCHAR (50)
-    WITH EXECUTE AS OWNER
 AS
 BEGIN
     SET NOCOUNT ON;
