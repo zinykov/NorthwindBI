@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="181"
-  DTS:VersionGUID="{1629B14D-D613-422C-B990-38655835060A}">
+  DTS:VersionBuild="182"
+  DTS:VersionGUID="{04090D18-3AF0-485B-985D-5CE2D4903D43}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -23,6 +23,8 @@
       DTS:CreationName="FLATFILE"
       DTS:DTSID="{6FC2183B-42AA-44C3-9212-471FBB8BC7B3}"
       DTS:ObjectName="Flat File No Business Key">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath]+"NoBusinessKey\\Product.csv"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -32,7 +34,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1251"
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindETL\NoBusinessKey\Product.csv">
+          DTS:ConnectionString="C:\SSIS\NorthwindDW\NoBusinessKey\Product.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -77,6 +79,8 @@
       DTS:CreationName="FLATFILE"
       DTS:DTSID="{20B35BBB-432B-4568-ABCA-AD3C797E578D}"
       DTS:ObjectName="Flat File No Change">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath]+"NoChange\\Product.csv"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -86,7 +90,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1251"
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindETL\NoChange\Product.csv">
+          DTS:ConnectionString="C:\SSIS\NorthwindDW\NoChange\Product.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -4629,9 +4633,13 @@ WHERE	[LastChgDateTime] &gt; ?</property>
           Size="185.6,41.6"
           Id="Package\Load to DWH\Load Products to DWH"
           TopLeft="5.50000000000003,208.7" />
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Load to DWH\Set StartLoad Date"
+          TopLeft="14.3,5.49999999999995" />
         <EdgeLayout
-          Id="Package\Load to DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="98.3,148.7">
+          Id="Package\Load to DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="98.3,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4651,13 +4659,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="168,41.6"
-          Id="Package\Load to DWH\Set StartLoad Date"
-          TopLeft="14.3,5.49999999999995" />
         <EdgeLayout
-          Id="Package\Load to DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="98.3,47.1">
+          Id="Package\Load to DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="98.3,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

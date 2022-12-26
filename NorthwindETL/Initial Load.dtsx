@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindETL\logs\CP_Initial_Load.xml"
+  DTS:CheckpointFileName="C:\SSIS\NorthwindDW\logs\CP_Initial_Load.xml"
   DTS:CreationDate="3/6/2022 10:28:24 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -13,8 +13,8 @@
   DTS:ObjectName="Initial Load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="148"
-  DTS:VersionGUID="{B1A7777F-0F27-4260-AAEE-9DDFA8442CA5}">
+  DTS:VersionBuild="152"
+  DTS:VersionGUID="{767F5E47-2AB5-4DCF-8600-982A2B027492}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -53,7 +53,7 @@
       DTS:CreationName=""
       DTS:DataType="8"
       DTS:DTSID="{29D5A40E-D2C4-426C-BCAB-0F8314EADBD0}"
-      DTS:ObjectName="FilePath">
+      DTS:ObjectName="DBFilePath">
       <DTS:Property
         DTS:DataType="8"
         DTS:Name="ParameterValue"
@@ -210,6 +210,8 @@
         DTS:InstanceID="{B7AFE08D-0F83-4075-9E81-70C9CD065CEA}" />
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
+  <DTS:PropertyExpression
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_Initial_Load.xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\DQS status subscription activation"
@@ -285,7 +287,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate Landing Zone"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -483,7 +485,7 @@
           </ParameterAssignment>
           <ParameterAssignment>
             <ParameterName>FilePath</ParameterName>
-            <BindedVariableOrParameterName>$Package::FilePath</BindedVariableOrParameterName>
+            <BindedVariableOrParameterName>$Package::DBFilePath</BindedVariableOrParameterName>
           </ParameterAssignment>
         </ExecutePackageTask>
       </DTS:ObjectData>
@@ -498,7 +500,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate DWH"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
