@@ -16,8 +16,10 @@ AS
         9. Объединение секций в таблице-дублёре.
         10. Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре.
         11. Определение номера секции для переноса в таблицу фактов.
-        12. Перенос данных в таблицу фактов
+        12. Перенос данных в таблицу фактов.
         13. Удаление временных структур.
+        14. Архивация секции с данными за предпредыдущий год.
+        15. Пометка секций за предпредыдущий год только для чтения.
 */
 BEGIN
 	DECLARE @ReferenceDate      AS DATE;
@@ -32,6 +34,7 @@ BEGIN
     DECLARE @FileIndexGroups    AS NVARCHAR(2000) = N'[Order_1996_Index]';
     DECLARE @PartitionNumber    AS INT;
     DECLARE @PartitionValue     AS INT;
+    DECLARE @YearNumber         AS INT;
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
     SET @ReferenceDate = (
@@ -50,28 +53,30 @@ BEGIN
 	SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
 	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
 	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
+    SET @YearNumber = YEAR ( @EndYearDate )
 
-	SELECT @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] ) FROM [sys].[partition_range_values];
+	SELECT  @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] )
+    FROM    [sys].[partition_range_values];
 
 -- Создание функции секционирования
 	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Optimize_Partitions] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
-	FROM		sys.partition_range_values AS PRV
-	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-				AND PF.[name] = N'PF_Order_Date'
+	--SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
+	--FROM		sys.partition_range_values AS PRV
+	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
+	--			AND PF.[name] = N'PF_Order_Date'
     
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] TO ( ', @FileDataGroups, N' )' );
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Data] )' );
     EXECUTE sp_executesql @CreatePS
 
-    SELECT		@FileIndexGroups = COALESCE ( @FileIndexGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Index]' )
-	FROM		sys.partition_range_values AS PRV
-	INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-				AND PF.[name] = N'PF_Order_Date'
+ --   SELECT		@FileIndexGroups = COALESCE ( @FileIndexGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Index]' )
+	--FROM		sys.partition_range_values AS PRV
+	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
+	--			AND PF.[name] = N'PF_Order_Date'
 
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] TO ( ', @FileIndexGroups, N' )' );
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Index] )' );
     EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
@@ -187,6 +192,51 @@ BEGIN
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
 	DROP PARTITION FUNCTION [PF_Optimize_Partitions];
+    
+-- Пометка файловых групп для предпредыдущего года архивация и пометка только для чтения
+    DECLARE @CutoffTimeYear AS INT;
+    DECLARE @FileGroupDataName AS NVARCHAR(200);
+	DECLARE @FileGroupIndexName AS NVARCHAR(200);
+    DECLARE @SQL AS NVARCHAR(2000);
 
+	SET @CutoffTimeYear = YEAR ( @CutoffTime ) - 2
+    SET @SQL = CONCAT (
+          N'ALTER INDEX [CCI_Fact_Order] ON [Fact].[Order] REBUILD PARTITION = $PARTITION.[PF_Order_Date] ( '
+        , @CutoffTimeYear * 10000 + 101
+        , N' ) WITH ( DATA_COMPRESSION = COLUMNSTORE_ARCHIVE );'
+    )
+	SET @FileGroupDataName = CONCAT ( N'Order_', @CutoffTimeYear, '_Data' )
+	SET @FileGroupIndexName = CONCAT ( N'Order_', @CutoffTimeYear, '_Index' )
+
+	EXECUTE sp_executesql @SQL
+    
+    IF EXISTS ( SELECT 1 FROM sys.filegroups WHERE [name] = @FileGroupDataName AND [is_read_only] = 0 )
+		BEGIN
+            --SELECT @SQL = CONCAT ( @SQL, N'KILL ', CONVERT(varchar(5), session_id), N'; ' )
+			--FROM sys.dm_exec_sessions
+			--WHERE database_id  = db_id('$(DatabaseName)')
+
+			--EXECUTE sp_executesql @SQL
+
+            ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+			SET @SQL = CONCAT ( N'ALTER DATABASE [NorthwindDW] MODIFY FILEGROUP [', @FileGroupDataName, N'] READ_ONLY;' )
+
+			EXECUTE sp_executesql @SQL
+		END
+	IF EXISTS ( SELECT 1 FROM sys.filegroups WHERE [name] = @FileGroupDataName AND [is_read_only] = 0 )
+		BEGIN
+			--SELECT @SQL = CONCAT ( @SQL, N'KILL ', CONVERT(varchar(5), [session_id] ), N'; ' )
+			--FROM sys.dm_exec_sessions
+			--WHERE [database_id]  = DB_ID ( '$(DatabaseName)' )
+
+			--EXECUTE sp_executesql @SQL
+
+			SET @SQL = CONCAT ( N'ALTER DATABASE [NorthwindDW] MODIFY FILEGROUP [', @FileGroupIndexName, N'] READ_ONLY;' )
+
+			EXECUTE sp_executesql @SQL
+
+            ALTER DATABASE [$(DatabaseName)] SET MULTI_USER;
+		END
     RETURN 0;
 END

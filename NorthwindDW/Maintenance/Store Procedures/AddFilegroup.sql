@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[FilegroupManaging]
+﻿CREATE PROCEDURE [Maintenance].[AddFilegroup]
 	  @CutoffTime AS DATE
 	, @FactTableName AS NVARCHAR(100)
 	, @FilePath AS VARCHAR(500)

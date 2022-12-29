@@ -9,10 +9,6 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-ALTER DATABASE [$(DatabaseName)]
-    MODIFY FILEGROUP [Default_FG] DEFAULT;
-GO
-
 GRANT SELECT ON SCHEMA::[Reports] TO [dwh_user];  
 GO
 
