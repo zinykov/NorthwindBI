@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimizeIndexes]
-	@Database AS NVARCHAR(50) = [$(DatabaseName)]
+	@Database AS NVARCHAR(50) = '$(DatabaseName)'
 AS BEGIN
 	DECLARE @DatabaseID			AS SMALLINT;  
 	DECLARE @ObjectID			AS INT;
@@ -23,17 +23,20 @@ AS BEGIN
 					, [Index]			= I.[name]
 					, [DataCompression]	= P.[data_compression_desc]
 					, [PartitionScheme]	= PS.[name]
-	
+
 		FROM		sys.tables AS T
 		INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
 		LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
 		LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
 					AND P.[index_id] = I.[index_id]
 		LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = I.[data_space_id]
-
-		WHERE		I.[name] IS NOT NULL
-					AND S.[name] <> N'dbo'
+		LEFT JOIN	sys.destination_data_spaces AS DDS ON DDS.[partition_scheme_id] = PS.[data_space_id]
+					AND DDS.[destination_id] = P.[partition_number]
+		LEFT JOIN	sys.filegroups AS FG WITH (NOLOCK) ON FG.[data_space_id] = I.[data_space_id]
+		LEFT JOIN	sys.filegroups AS FGP WITH (NOLOCK) ON FGP.[data_space_id] = DDS.[data_space_id]
 		
+		WHERE		FG.[is_read_only] = 0 OR FGP.[is_read_only] = 0
+
 		ORDER BY	  S.[schema_id]
 					, T.[name]
 					, P.[partition_number]
@@ -111,4 +114,4 @@ AS BEGIN
 			END
 	CLOSE OptimizeIndexes
 	DEALLOCATE OptimizeIndexes
-END;
+END
