@@ -25,8 +25,10 @@
 GO
 
 CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Fact_Order] ON [Fact].[Order]
-    WITH ( DATA_COMPRESSION = COLUMNSTORE )
-    ON [PS_Order_Date_Data] ( [OrderDateKey] );
+    WITH (
+          DATA_COMPRESSION = COLUMNSTORE_ARCHIVE ON PARTITIONS ( 1 )
+        , DATA_COMPRESSION = COLUMNSTORE ON PARTITIONS ( 2 TO 3 )
+    ) ON [PS_Order_Date_Data] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Order_Date_Key] ON [Fact].[Order] ( [OrderDateKey] )
