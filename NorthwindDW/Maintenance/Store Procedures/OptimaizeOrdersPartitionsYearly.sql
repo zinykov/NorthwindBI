@@ -30,11 +30,12 @@ BEGIN
 	DECLARE @Bondaries		    AS NVARCHAR(2000);
 	DECLARE @CreatePF		    AS NVARCHAR(4000);
 	DECLARE @CreatePS		    AS NVARCHAR(4000);
-    DECLARE @FileDataGroups     AS NVARCHAR(2000) = N'[Order_1996_Data]';
-    DECLARE @FileIndexGroups    AS NVARCHAR(2000) = N'[Order_1996_Index]';
+    DECLARE @FileDataGroups     AS NVARCHAR(2000);
+    DECLARE @FileIndexGroups    AS NVARCHAR(2000);
     DECLARE @PartitionNumber    AS INT;
     DECLARE @PartitionValue     AS INT;
     DECLARE @YearNumber         AS INT;
+    DECLARE @SQL                AS NVARCHAR(2000);
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
     SET @ReferenceDate = (
@@ -63,18 +64,8 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	--SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
-	--FROM		sys.partition_range_values AS PRV
-	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-	--			AND PF.[name] = N'PF_Order_Date'
-    
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Data] )' );
     EXECUTE sp_executesql @CreatePS
-
- --   SELECT		@FileIndexGroups = COALESCE ( @FileIndexGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Index]' )
-	--FROM		sys.partition_range_values AS PRV
-	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-	--			AND PF.[name] = N'PF_Order_Date'
 
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Index] )' );
     EXECUTE sp_executesql @CreatePS
@@ -192,6 +183,32 @@ BEGIN
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Data];
 	DROP PARTITION SCHEME [PS_Optimize_Partitions_Index];
 	DROP PARTITION FUNCTION [PF_Optimize_Partitions];
+
+-- 
+    SET @StartYearDate = DATEADD ( YEAR, -1, @StartYearDate )
+    SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
+    SET @PartitionNumber = $PARTITION.[PF_Order_Date] ( @StartKey )
+    
+    IF NOT EXISTS (
+        	SELECT      1
+
+	        FROM        sys.partitions AS P
+	        INNER JOIN	sys.indexes AS I ON P.[object_id] = I.[object_id]
+				        AND P.[index_id] = I.[index_id]
+
+	        WHERE		P.[partition_number] = @PartitionNumber
+				        AND I.[name] = N'CCI_Fact_Order'
+                        AND P.[data_compression] = 4
+    )
+        BEGIN
+	        SET @SQL = CONCAT (
+                  N'ALTER INDEX [CCI_Fact_Order] ON [Fact].[Order] REBUILD PARTITION = '
+                , @PartitionNumber
+                , N' WITH ( DATA_COMPRESSION = COLUMNSTORE_ARCHIVE );'
+            )
+    
+	        EXECUTE sp_executesql @SQL
+        END
 
     RETURN 0;
 END
