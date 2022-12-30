@@ -26,8 +26,8 @@ AS BEGIN
 
 		FROM		sys.tables AS T
 		INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
-		LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
-		LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
+		INNER JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
+		INNER JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
 					AND P.[index_id] = I.[index_id]
 		LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = I.[data_space_id]
 		LEFT JOIN	sys.destination_data_spaces AS DDS ON DDS.[partition_scheme_id] = PS.[data_space_id]
@@ -35,7 +35,8 @@ AS BEGIN
 		LEFT JOIN	sys.filegroups AS FG WITH (NOLOCK) ON FG.[data_space_id] = I.[data_space_id]
 		LEFT JOIN	sys.filegroups AS FGP WITH (NOLOCK) ON FGP.[data_space_id] = DDS.[data_space_id]
 		
-		WHERE		FG.[is_read_only] = 0 OR FGP.[is_read_only] = 0
+		WHERE		( FG.[is_read_only] = 0 OR FGP.[is_read_only] = 0 )
+					AND I.[index_id] > 0
 
 		ORDER BY	  S.[schema_id]
 					, T.[name]
