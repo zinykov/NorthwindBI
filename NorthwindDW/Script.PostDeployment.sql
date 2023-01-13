@@ -9,10 +9,7 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-GRANT SELECT ON SCHEMA::[Reports] TO [dwh_user];  
-GO
-
-GRANT EXECUTE ON SCHEMA::[Reports] TO [dwh_user];  
+GRANT SELECT, EXECUTE ON SCHEMA::[Reports] TO [dwh_user];  
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM sys.resource_governor_resource_pools WHERE [name] = N'High Priority' )
