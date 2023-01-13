@@ -1,4 +1,4 @@
-﻿--:setvar Cutofftime '1998-01-01'
+﻿:setvar Cutofftime '1998-01-31'
 
 SELECT	[AlterDateKey]
 FROM	[Dimension].[Date]
