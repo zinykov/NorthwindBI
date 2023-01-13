@@ -63,8 +63,7 @@ WITH SCHEMABINDING
 	    IF (
 		    APP_NAME () LIKE '%SQL Server%' 
 		    AND USER_NAME () IN ( 'SWIFT3\AzPipelineAgent','SWIFT3\SQLAGENT','SWIFT3\RDLexec' )
-		    AND DAY ( GETDATE () ) = 1 
-		    AND DATEPART ( HOUR, GETDATE () ) BETWEEN 1 AND 2
+		    AND DATEPART ( HOUR, GETDATE () ) BETWEEN 0 AND 8
 	    )
 		    SET @retval = 'ETL';
 	    ELSE
