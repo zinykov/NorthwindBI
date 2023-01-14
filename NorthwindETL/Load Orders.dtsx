@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="199"
-  DTS:VersionGUID="{12D20E25-748B-4C7A-A373-DFC42C80C0DA}">
+  DTS:VersionBuild="200"
+  DTS:VersionGUID="{E59BD8ED-E423-4BCA-9F5C-EF0E29A92281}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -486,10 +486,13 @@
           <DTS:Variables />
           <DTS:PropertyExpression
             DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="WorkingDirectory">@[$Project::ExternalFilesPath]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C sqlcmd -s localhost -E -i &quot;C:\SSIS\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order IsYearOptimisationWorked=False" />
+              Arguments="/C sqlcmd -s localhost -E -i &quot;C:\SSIS\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order IsYearOptimisationWorked=False"
+              WorkingDirectory="C:\SSIS\NorthwindDW\" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
