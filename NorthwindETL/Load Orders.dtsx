@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="200"
-  DTS:VersionGUID="{E59BD8ED-E423-4BCA-9F5C-EF0E29A92281}">
+  DTS:VersionBuild="201"
+  DTS:VersionGUID="{92ACDF3F-A048-41FE-BA11-CED205A97FE6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -231,8 +231,6 @@
         DTS:Name="DataBytes">-1</DTS:Property>
     </DTS:Property>
     <DTS:SelectedLogProviders>
-      <DTS:SelectedLogProvider
-        DTS:InstanceID="{A2F39D19-E675-4525-8CA6-BA2D34E78558}" />
       <DTS:SelectedLogProvider
         DTS:InstanceID="{25A159DE-1E9E-46A5-A3DD-61246657CD10}" />
     </DTS:SelectedLogProviders>
@@ -484,6 +482,8 @@
           DTS:ObjectName="Set filegroup readonly"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:PropertyExpression
             DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
           <DTS:PropertyExpression
