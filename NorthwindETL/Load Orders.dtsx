@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="195"
-  DTS:VersionGUID="{B99FAEB7-A3C4-4BC2-909C-CD84196F362B}">
+  DTS:VersionBuild="198"
+  DTS:VersionGUID="{A12FFF52-0FFA-4CA4-9F29-6683E251FBEE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -70,6 +70,15 @@
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3DA89F95-16BB-4F30-BA1A-5FED150F77FF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="IsYearOptimisationWorked">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{0ABB0526-087C-4AE9-8524-D39B92F4E559}"
@@ -449,14 +458,38 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsYearly]&#xA;   @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimaizeOrdersPartitionsYearly]&#xA;     @CutoffTime = ?&#xA;   , @IsYearOptimisationWorked = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::IsYearOptimisationWorked"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="11"
+                SQLTask:ParameterSize="-1" />
             </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Optimaze Partitions\Set filegroup readonly"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:Description="Задача &quot;Выполнение процесса&quot;"
+          DTS:DTSID="{be9bc11a-f8a2-4a4b-8238-2309fb2cc823}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set filegroup readonly"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \""+ @[$Project::ExternalFilesPath] +"\\Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::Database] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="C:\Windows\System32\cmd.exe"
+              Arguments="/C sqlcmd -s localhost -E -i &quot;C:\SSIS\NorthwindDW\\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order IsYearOptimisationWorked=False" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -469,25 +502,15 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\Optimaze Partitions\Optimaize Partitions Yearly" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Optimaze Partitions.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{859B6481-FA10-49BD-9D62-B96B0771F7EB}"
+          DTS:From="Package\Optimaze Partitions\Optimaize Partitions Yearly"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Optimaze Partitions\Set filegroup readonly" />
       </DTS:PrecedenceConstraints>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Set filegroup readonly"
-      DTS:CreationName="Microsoft.ExecuteProcess"
-      DTS:Description="Задача &quot;Выполнение процесса&quot;"
-      DTS:DTSID="{28B54381-CBCC-4DB3-86D8-3CE6CB2023D4}"
-      DTS:ExecutableType="Microsoft.ExecuteProcess"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Set filegroup readonly"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:PropertyExpression
-        DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \"C:\\Users\\zinyk\\source\\repos\\Northwind_BI_Solution\\NorthwindDW\\Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::Database] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName]</DTS:PropertyExpression>
-      <DTS:ObjectData>
-        <ExecuteProcessData
-          Executable="C:\Windows\System32\cmd.exe"
-          Arguments="/C sqlcmd -s localhost -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order" />
-      </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Set load compilation info"
@@ -535,11 +558,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{6B6343DF-CB6E-4675-8493-65185A8EDE5B}"
+      DTS:DTSID="{57D40A2C-959B-4D47-98E2-4D6F47E17D4F}"
       DTS:From="Package\Optimaze Partitions"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
-      DTS:To="Package\Set filegroup readonly" />
+      DTS:To="Package\Set load compilation info" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
@@ -548,14 +571,6 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\Load DWH" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
-      DTS:CreationName=""
-      DTS:DTSID="{2CD60E2B-11EE-4150-8793-E00ABE54BE26}"
-      DTS:From="Package\Set filegroup readonly"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 6"
-      DTS:To="Package\Set load compilation info" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -572,11 +587,11 @@
         <NodeLayout
           Size="143.2,41.6"
           Id="Package\Add Filegroup"
-          TopLeft="69.1000000000001,161.5" />
+          TopLeft="69.1000000000001,155.9" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="64.3,59.9" />
+          TopLeft="64.3,54.3" />
         <NodeLayout
           Size="136,41.6"
           Id="Package\Load DWH\Load Orders"
@@ -613,7 +628,7 @@
           PanelSize="179.2,204"
           Size="179.2,247.2"
           Id="Package\Load DWH"
-          TopLeft="51.1000000000001,263.1" />
+          TopLeft="51.1000000000001,257.5" />
         <NodeLayout
           Size="212.8,41.6"
           Id="Package\Optimaze Partitions\Optimaize Partitions Monthly"
@@ -621,7 +636,11 @@
         <NodeLayout
           Size="204.8,41.6"
           Id="Package\Optimaze Partitions\Optimaize Partitions Yearly"
-          TopLeft="9.50000000000001,107.1" />
+          TopLeft="9.50000000000003,107.1" />
+        <NodeLayout
+          Size="181.6,41.6"
+          Id="Package\Optimaze Partitions\Set filegroup readonly"
+          TopLeft="21.1,208.7" />
         <EdgeLayout
           Id="Package\Optimaze Partitions.PrecedenceConstraints[Constraint]"
           TopLeft="111.9,47.1000000000001">
@@ -644,24 +663,42 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Optimaze Partitions.PrecedenceConstraints[Constraint 1]"
+          TopLeft="111.9,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="224,204"
-          Size="224,247.2"
+          PanelSize="224,305.6"
+          Size="224,348.8"
           Id="Package\Optimaze Partitions"
-          TopLeft="28.7000000000001,570.3" />
-        <NodeLayout
-          Size="181.6,41.6"
-          Id="Package\Set filegroup readonly"
-          TopLeft="49.9000000000001,877.5" />
+          TopLeft="28.7000000000001,564.7" />
         <NodeLayout
           Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="43.5000000000001,979.1" />
+          TopLeft="43.5000000000002,973.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="140.7,101.5">
+          TopLeft="140.7,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -683,7 +720,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="140.7,510.3">
+          TopLeft="140.7,504.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -705,7 +742,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="140.7,817.5">
+          TopLeft="140.7,913.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -727,29 +764,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="140.7,203.1">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="140.7,919.1">
+          TopLeft="140.7,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
