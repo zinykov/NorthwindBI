@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsYearly]
-      @CutoffTime AS DATE
+        @CutoffTime AS DATE
+      , @IsYearOptimisationWorked AS BIT = 0 OUTPUT
 AS
 /*
     Процедура объединяет секции таблицы фактов.
@@ -46,7 +47,7 @@ BEGIN
 			    AND [MonthNumber] = 1
                 AND [Year] = YEAR ( @CutoffTime )
     )
-
+    
     IF @CutoffTime <> @ReferenceDate OR @CutoffTime = DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
@@ -208,7 +209,8 @@ BEGIN
             )
     
 	        EXECUTE sp_executesql @SQL
+            SET @IsYearOptimisationWorked = 1
         END
-
+        
     RETURN 0;
 END
