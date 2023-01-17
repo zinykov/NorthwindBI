@@ -61,18 +61,8 @@ BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-	--SELECT		@FileDataGroups = COALESCE ( @FileDataGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Data]' )
-	--FROM		sys.partition_range_values AS PRV
-	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-	--			AND PF.[name] = N'PF_Order_Date'
-    
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Data] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Data] )' );
     EXECUTE sp_executesql @CreatePS
-
- --   SELECT		@FileIndexGroups = COALESCE ( @FileIndexGroups + ',', '' ) + CONCAT ( N'[Order_', LEFT ( CONVERT ( NVARCHAR(8), PRV.[value] ), 4 ), N'_Index]' )
-	--FROM		sys.partition_range_values AS PRV
-	--INNER JOIN	sys.partition_functions AS PF ON PRV.[function_id] =  PF.[function_id]
-	--			AND PF.[name] = N'PF_Order_Date'
 
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Optimize_Partitions_Index] AS PARTITION [PF_Optimize_Partitions] ALL TO ( [Order_', @YearNumber, N'_Index] )' );
     EXECUTE sp_executesql @CreatePS
