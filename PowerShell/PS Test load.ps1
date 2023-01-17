@@ -1,10 +1,14 @@
-﻿# Variables
+﻿#Params
+param (
+	$TargetServerName,
+	$TargetFolderName,
+	$ProjectName,
+	$PackageName,
+	$EnvironmentName,
+)
+
+# Variables
 $SSISNamespace = "Microsoft.SqlServer.Management.IntegrationServices"
-$TargetServerName = "SWIFT3"
-$TargetFolderName = "20767"
-$ProjectName = "NorthwindETL"
-$PackageName = "Test.dtsx"
-$EnvironmentName = "SWIFT3"
 
 # Load the IntegrationServices assembly
 $loadStatus = [System.Reflection.Assembly]::Load("Microsoft.SQLServer.Management.IntegrationServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL")
