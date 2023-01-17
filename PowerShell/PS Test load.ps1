@@ -4,7 +4,7 @@ param (
 	$TargetFolderName,
 	$ProjectName,
 	$PackageName,
-	$EnvironmentName,
+	$EnvironmentName
 )
 
 # Variables
