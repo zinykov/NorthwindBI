@@ -1,4 +1,7 @@
-﻿--:setvar SSISEnvironmentName SWIFT3
+﻿:setvar SSISEnvironmentName SWIFT3
 
-SELECT [environment_id] FROM [catalog].[environments] WHERE [name] = N'$(SSISEnvironmentName)';
+DECLARE @reference_id AS INT = (
+	SELECT [reference_id] FROM [catalog].[environment_references] WHERE [environment_name] = N'$(SSISEnvironmentName)'
+);
+PRINT @reference_id
 GO
