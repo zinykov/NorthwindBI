@@ -1,0 +1,2 @@
+for /f %%a in ('sqlcmd -s SWIFT3 -d SSISDB -i "C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\GetEnvironmentID.sql" -v SSISEnvironmentName^=SWIFT3') do set referenceid=%%a
+dtexec /ISServer "\SSISDB\NorthwindETL\NorthwindETL\Test.dtsx" /Server "SWIFT3" /Env %referenceid%
