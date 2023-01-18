@@ -1,14 +1,14 @@
-﻿--:setvar DQSDatabaseName=DQS_STAGING_DATA
---:setvar DQSServerName=SWIFT3
---:setvar DWHDatabaseName=NorthwindDW
---:setvar DWHServerName=SWIFT3
---:setvar MDSDatabaseName=MDS
---:setvar MDSServerName=SWIFT3
---:setvar SSISDatabaseName=SISSDB
---:setvar SSISEnvironmentName=SWIFT3
---:setvar SSISFolderName=NorthwindETL
---:setvar SSISProjectName=NorthwindETL
---:setvar SSISServerName=SWIFT3
+﻿--:setvar DQSDatabaseName DQS_STAGING_DATA
+--:setvar DQSServerName SWIFT3
+--:setvar DWHDatabaseName NorthwindDW
+--:setvar DWHServerName SWIFT3
+--:setvar MDSDatabaseName MDS
+--:setvar MDSServerName SWIFT3
+--:setvar SSISDatabaseName SISSDB
+--:setvar SSISEnvironmentName SWIFT3
+--:setvar SSISFolderName NorthwindETL
+--:setvar SSISProjectName NorthwindETL
+--:setvar SSISServerName SWIFT3
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -22,9 +22,9 @@ GO
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environments] WHERE [name] = N'$(SSISEnvironmentName)' )
 BEGIN
 	EXECUTE [catalog].[create_environment]
-		  @environment_name=N'$(SSISEnvironmentName)'
-		, @environment_description=N''
-		, @folder_name=N'$(SSISFolderName)'
+		  @environment_name = N'$(SSISEnvironmentName)'
+		, @environment_description = N''
+		, @folder_name = N'$(SSISFolderName)'
 END;
 GO
 
@@ -71,7 +71,7 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DQSDatabaseName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DWHDatabaseName' )
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DQSDatabaseName' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQSDatabaseName'
@@ -127,10 +127,10 @@ END;
 GO
 
 DECLARE @var sql_variant = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DBFilePath' )
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DBFilesPath' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'DBFilePath'
+			  @variable_name=N'DBFilesPath'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'
