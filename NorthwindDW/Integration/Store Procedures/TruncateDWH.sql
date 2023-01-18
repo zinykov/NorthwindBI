@@ -28,7 +28,7 @@ BEGIN
 	TRUNCATE TABLE [Dimension].[Date];
 	TRUNCATE TABLE [Integration].[Lineage];
 	TRUNCATE TABLE [Integration].[ErrorLog];
-	TRUNCATE TABLE [dbo].[sysssislog];
+	--TRUNCATE TABLE [dbo].[sysssislog];
 	TRUNCATE TABLE [Landing].[Categories];
 	TRUNCATE TABLE [Landing].[Customers];
 	TRUNCATE TABLE [Landing].[Employees];
