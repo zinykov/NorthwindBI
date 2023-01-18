@@ -1,0 +1,2 @@
+for /f %%a in ('sqlcmd -s $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\NorthwindDW\Scripts\GetEnvironmentID.sql" -v SSISEnvironmentName^=$(SSISEnvironmentName)') do set referenceid=%%a
+dtexec /ISServer "\SSISDB\$(SSISFolderName)\$(SSISProjectName)\Test.dtsx" /Server "$(SSISServerName)" /Env %referenceid%
