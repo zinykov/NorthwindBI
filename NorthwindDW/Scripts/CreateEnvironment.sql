@@ -154,7 +154,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N''
+DECLARE @var sql_variant = N'$(OLTPNorthwidPassword)'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'OLTPNorthwidPassword' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
