@@ -1,4 +1,0 @@
-﻿CREATE PROCEDURE [Maintenance].[SetMultiUserMode]
-AS BEGIN
-	ALTER DATABASE [$(DatabaseName)] SET MULTI_USER;
-END

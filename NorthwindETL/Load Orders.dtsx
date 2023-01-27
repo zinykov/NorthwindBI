@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="213"
-  DTS:VersionGUID="{C1E9A3A4-4C5C-4936-9AC8-1168867194A5}">
+  DTS:VersionBuild="216"
+  DTS:VersionGUID="{1AC09D6D-F912-4C42-AAA9-2C96AEB984BB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -554,8 +554,26 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStmtSourceType="Variable"
-              SQLTask:SqlStatementSource="User::SetFilegroupsReadOnly" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[SetFilegroupReadOnly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @FactTableName = ?&#xA;&#x9;, @IsYearOptimisationWorked = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Package::TableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="100" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::IsYearOptimisationWorked"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="17"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -753,6 +771,18 @@
           Id="Package\Optimaze Partitions\Optimaize Partitions Yearly"
           TopLeft="247.9,107.1" />
         <NodeLayout
+          Size="200.8,41.6"
+          Id="Package\Optimaze Partitions\Set DWH multi user mode"
+          TopLeft="249.9,411.9" />
+        <NodeLayout
+          Size="204.8,41.6"
+          Id="Package\Optimaze Partitions\Set DWH single user mode"
+          TopLeft="247.9,208.7" />
+        <NodeLayout
+          Size="193.6,41.6"
+          Id="Package\Optimaze Partitions\Set file groups read only"
+          TopLeft="253.5,310.3" />
+        <NodeLayout
           Size="181.6,41.6"
           Id="Package\Optimaze Partitions\Set filegroup readonly"
           TopLeft="5.50000000000004,208.7" />
@@ -812,10 +842,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="204.8,41.6"
-          Id="Package\Optimaze Partitions\Set DWH single user mode"
-          TopLeft="247.9,208.7" />
         <EdgeLayout
           Id="Package\Optimaze Partitions.PrecedenceConstraints[Constraint 2]"
           TopLeft="383.1,148.7">
@@ -850,10 +876,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="193.6,41.6"
-          Id="Package\Optimaze Partitions\Set file groups read only"
-          TopLeft="253.5,310.3" />
         <EdgeLayout
           Id="Package\Optimaze Partitions.PrecedenceConstraints[Constraint 3]"
           TopLeft="350.3,250.3">
@@ -876,10 +898,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="200.8,41.6"
-          Id="Package\Optimaze Partitions\Set DWH multi user mode"
-          TopLeft="249.9,411.9" />
         <EdgeLayout
           Id="Package\Optimaze Partitions.PrecedenceConstraints[Constraint 4]"
           TopLeft="350.3,351.9">
