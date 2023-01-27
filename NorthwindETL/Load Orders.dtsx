@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{6DCD01FC-0739-4C0A-8AB4-9F8F0C303BD1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="202"
-  DTS:VersionGUID="{083CD320-70B6-470F-BF1D-ECBEB76D991C}">
+  DTS:VersionBuild="206"
+  DTS:VersionGUID="{1BCDF93C-5D64-4B08-9D6F-7F17C00BA890}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -47,7 +47,7 @@
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">1/1/1998</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -77,7 +77,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="IsYearOptimisationWorked">
       <DTS:VariableValue
-        DTS:DataType="11">0</DTS:VariableValue>
+        DTS:DataType="11">-1</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -487,14 +487,14 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+            DTS:Name="Arguments">"/C sqlcmd -s "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
           <DTS:PropertyExpression
             DTS:Name="WorkingDirectory">@[$Project::ExternalFilesPath]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C sqlcmd -s localhost -E -i &quot;C:\SSIS\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order IsYearOptimisationWorked=False"
-              WorkingDirectory="C:\SSIS\NorthwindDW\" />
+              Arguments="/C sqlcmd -s (localdb)\MSSQLLocalDB -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;01.01.1998&quot; FactTableName=Order IsYearOptimisationWorked=True"
+              WorkingDirectory="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
