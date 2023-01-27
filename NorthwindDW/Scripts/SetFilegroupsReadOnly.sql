@@ -1,7 +1,7 @@
-﻿:setvar DatabaseName "NorthwindDW"
-:setvar Cutofftime '1998-01-01'
-:setvar FactTableName "Order"
-:setvar IsYearOptimisationWorked "true"
+﻿--:setvar DatabaseName "NorthwindDW"
+--:setvar Cutofftime '01.01.1998'
+--:setvar FactTableName "Order"
+--:setvar IsYearOptimisationWorked "true"
 
 USE [master];
 GO
@@ -9,6 +9,7 @@ GO
 IF ( CONVERT ( BIT , N'$(IsYearOptimisationWorked)' ) = 1 )
 BEGIN
 	ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	PRINT N'[$(DatabaseName)] setted in SINGLE_USER mode'
 END;
 GO
 
@@ -19,7 +20,7 @@ IF ( CONVERT ( BIT , N'$(IsYearOptimisationWorked)' ) = 1 )
 BEGIN
 	DECLARE @FilegroupName AS NVARCHAR(100) = CONCAT (
 		  N'$(FactTableName)_'
-		, CONVERT ( INT, LEFT ( $(Cutofftime), 4 ) - 2 )
+		, YEAR ( $(Cutofftime) ) - 2
 		, N'_Data'
 	)
 	DECLARE @ReadOnly AS BIT
@@ -32,21 +33,15 @@ BEGIN
 	SELECT @readonly = CONVERT ( BIT, ( STATUS & 0x08 ) ) FROM sysfilegroups WHERE groupname = @FilegroupName
 	IF ( @readonly = 0 )
 		BEGIN
-			EXECUTE sp_executesql @SQL;
-			PRINT CONCAT ( N'@readonly = ', @readonly, N' @SQL = ', @SQL )
+			EXECUTE sp_executesql @SQL
 		END
-END;
-GO
 
-IF ( CONVERT ( BIT , N'$(IsYearOptimisationWorked)' ) = 1 )
-BEGIN
-	DECLARE @FilegroupName AS NVARCHAR(100) = CONCAT (
+	SET @FilegroupName = CONCAT (
 		  N'$(FactTableName)_'
-		, CONVERT ( INT, LEFT ( $(Cutofftime), 4 ) - 2 )
+		, YEAR ( $(Cutofftime) ) - 2
 		, N'_Index'
 	)
-	DECLARE @ReadOnly AS BIT
-	DECLARE @SQL AS NVARCHAR(1000) = CONCAT (
+	SET @SQL = CONCAT (
 		  N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
 		, @FilegroupName
 		, N'] READONLY'
@@ -55,8 +50,7 @@ BEGIN
 	SELECT @readonly = CONVERT ( BIT, ( STATUS & 0x08 ) ) FROM sysfilegroups WHERE groupname = @FilegroupName
 	IF ( @readonly = 0 )
 		BEGIN
-			EXECUTE sp_executesql @SQL;
-			PRINT CONCAT ( N'@readonly = ', @readonly, N' @SQL = ', @SQL )
+			EXECUTE sp_executesql @SQL
 		END
 END;
 GO
@@ -66,6 +60,7 @@ GO
 
 IF ( CONVERT ( BIT , N'$(IsYearOptimisationWorked)' ) = 1 )
 BEGIN
-	ALTER DATABASE [$(DatabaseName)] SET MULTI_USER WITH ROLLBACK IMMEDIATE
+	ALTER DATABASE [$(DatabaseName)] SET MULTI_USER
+	PRINT N'[$(DatabaseName)] setted in MULTI_USER mode'
 END;
 GO
