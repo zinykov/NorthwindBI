@@ -1,0 +1,1 @@
+sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\NorthwindDW\Scripts\SetEnvironmentVars.sql" -v  SSISEnvironmentName=$(SSISEnvironmentName) SSISFolderName=$(SSISFolderName) SSISProjectName=$(SSISProjectName)

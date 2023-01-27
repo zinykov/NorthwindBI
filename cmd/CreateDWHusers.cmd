@@ -1,1 +1,0 @@
-sqlcmd -s $(DWHServerName) -d $(DWHDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\NorthwindDW\Scripts\CreateUsers.sql" -v DWHServerName=$(DWHServerName) AzAgentGroup=$(AzAgentGroup)

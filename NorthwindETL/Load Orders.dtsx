@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{6DCD01FC-0739-4C0A-8AB4-9F8F0C303BD1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="202"
-  DTS:VersionGUID="{083CD320-70B6-470F-BF1D-ECBEB76D991C}">
+  DTS:VersionBuild="208"
+  DTS:VersionGUID="{F434CECC-ED39-4C19-9650-5A631332523E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -487,14 +487,14 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C sqlcmd -s localhost -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime=\""+ (DT_WSTR, 20) @[$Package::CutoffTime] +"\" FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+            DTS:Name="Arguments">"/C sqlcmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 20) @[$Package::CutoffTime] +"' FactTableName=" + @[$Package::TableName] + " IsYearOptimisationWorked="+ (DT_WSTR, 10) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
           <DTS:PropertyExpression
             DTS:Name="WorkingDirectory">@[$Project::ExternalFilesPath]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C sqlcmd -s localhost -E -i &quot;C:\SSIS\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime=&quot;0:00:00&quot; FactTableName=Order IsYearOptimisationWorked=False"
-              WorkingDirectory="C:\SSIS\NorthwindDW\" />
+              Arguments="/C sqlcmd -S (localdb)\MSSQLLocalDB -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' FactTableName=Order IsYearOptimisationWorked=False"
+              WorkingDirectory="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>

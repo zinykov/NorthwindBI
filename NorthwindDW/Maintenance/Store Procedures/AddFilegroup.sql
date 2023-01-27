@@ -40,9 +40,9 @@ AS BEGIN
 				, @FileDataName
 				, N'], FILENAME = '''
 				, @FileDataPath
-				, ''' ) TO FILEGROUP ['
+				, N''' ) TO FILEGROUP ['
 				, @FileGroupDataName
-				, ']'
+				, N']'
 			)
 
 			EXECUTE sp_executesql @SQL
@@ -60,9 +60,9 @@ AS BEGIN
 				, @FileIndexName
 				, N'], FILENAME = '''
 				, @FileIndexPath
-				, ''' ) TO FILEGROUP ['
+				, N''' ) TO FILEGROUP ['
 				, @FileGroupIndexName
-				, ']'
+				, N']'
 			)
 
 			EXECUTE sp_executesql @SQL
