@@ -43,7 +43,7 @@ BEGIN
         @CutoffTime = @CutoffTime
       , @IsYearOptimisationWorked = @IsYearOptimisationWorked OUTPUT
 
-    IF @IsYearOptimisationWorked = 1 RETURN 0;
+    IF @IsYearOptimisationWorked = 0 RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
