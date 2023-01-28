@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="40"
-  DTS:VersionGUID="{40534D30-0F9D-4FD2-AA0A-0B858F412682}">
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{B0C0FD39-8209-4E06-AA68-40829B4420BB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -185,10 +185,128 @@
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\DWH\CheckReferenceDate"
+          DTS:refId="Package\DWH\Optimize indexes"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{063E4765-3998-4055-A508-1D3BA8FFC6C4}"
+          DTS:DTSID="{cf7a07bf-bff7-449a-9b61-c9eeeaa40849}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Optimize indexes"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DWH\Update statistics"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{ab7197fc-cd61-4208-8b28-ae7b53d60aa8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update statistics"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE sp_updatestats" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{56e2452f-e9bf-459d-859a-2e5c2055f2a4}"
+          DTS:From="Package\DWH\Optimize indexes"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\DWH\Update statistics" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\MDS"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{32E79C5D-9D43-4FF0-808D-A024846E15CF}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MDS">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\MDS\MDS Clean Up Staging Tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{6d34f719-b9b7-45e6-a205-ee25ef7abf6f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MDS Clean Up Staging Tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpStagingTables]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS\MDS Clean Up Transactions"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{c4b04d07-a5fd-4c33-9e0d-92fe074e4df5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MDS Clean Up Transactions"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpTransactions]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{B9C28B51-8FE2-4FA3-B682-124C526C9F41}"
+          DTS:From="Package\MDS\MDS Clean Up Staging Tables"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\MDS\MDS Clean Up Transactions" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set filegroups readonly"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{CF41C6A1-C82F-42F0-B948-D53D7DE6D129}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set filegroups readonly">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Set filegroups readonly\CheckReferenceDate"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{68f95726-f8a1-42e4-8d56-2e040e320616}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="CheckReferenceDate"
@@ -214,28 +332,10 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\DWH\Optimize indexes"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{cf7a07bf-bff7-449a-9b61-c9eeeaa40849}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\DWH\SetFileGroupsReadOnly"
+          DTS:refId="Package\Set filegroups readonly\SetFileGroupsReadOnly"
           DTS:CreationName="Microsoft.ExecuteProcess"
           DTS:Description="Задача &quot;Выполнение процесса&quot;"
-          DTS:DTSID="{6D83AA94-35B2-476B-A6A7-DB2B9C9F6B58}"
+          DTS:DTSID="{1ab9cad7-2487-4640-8e45-fed0862820ff}"
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="SetFileGroupsReadOnly"
@@ -249,113 +349,37 @@
               Arguments="-S (localdb)\MSSQLLocalDB -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsYearOptimisationWorked=False" />
           </DTS:ObjectData>
         </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\DWH\Update statistics"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{ab7197fc-cd61-4208-8b28-ae7b53d60aa8}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE sp_updatestats" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint]"
+          DTS:refId="Package\Set filegroups readonly.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{56e2452f-e9bf-459d-859a-2e5c2055f2a4}"
-          DTS:From="Package\DWH\Optimize indexes"
+          DTS:DTSID="{2A126C87-448C-416D-91FC-00F6E585B918}"
+          DTS:From="Package\Set filegroups readonly\CheckReferenceDate"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
-          DTS:To="Package\DWH\Update statistics" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{A8E84005-8562-4789-862E-ED5DE7EE112E}"
-          DTS:From="Package\DWH\Update statistics"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\DWH\CheckReferenceDate" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 2]"
-          DTS:CreationName=""
-          DTS:DTSID="{108BB12E-3DA6-4CC3-AFC1-1948AB740F67}"
-          DTS:From="Package\DWH\CheckReferenceDate"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
-          DTS:To="Package\DWH\SetFileGroupsReadOnly" />
-      </DTS:PrecedenceConstraints>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\MDS"
-      DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Description="Контейнер последовательности"
-      DTS:DTSID="{32E79C5D-9D43-4FF0-808D-A024846E15CF}"
-      DTS:ExecutableType="STOCK:SEQUENCE"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="MDS">
-      <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package\MDS\MDS Clean Up Staging Tables"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{6d34f719-b9b7-45e6-a205-ee25ef7abf6f}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpStagingTables]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\MDS\MDS Clean Up Transactions"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
-          DTS:DTSID="{c4b04d07-a5fd-4c33-9e0d-92fe074e4df5}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[MDS_CleanUpTransactions]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
-      <DTS:PrecedenceConstraints>
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS.PrecedenceConstraints[Constraint]"
-          DTS:CreationName=""
-          DTS:DTSID="{B9C28B51-8FE2-4FA3-B682-124C526C9F41}"
-          DTS:From="Package\MDS\MDS Clean Up Staging Tables"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package\MDS\MDS Clean Up Transactions" />
+          DTS:To="Package\Set filegroups readonly\SetFileGroupsReadOnly" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{47B641D9-0DCB-416A-9E31-D4F1E5C74EFA}"
+      DTS:From="Package\DWH"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Set filegroups readonly" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{525C929B-32F4-4983-8043-B5ACF1C6DED1}"
+      DTS:From="Package\MDS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Set filegroups readonly" />
+  </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
       DTS:refId="Package.EventHandlers[OnError]"
@@ -442,68 +466,16 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="176,41.6"
-          Id="Package\DWH\CheckReferenceDate"
-          TopLeft="11.5,208.7" />
-        <NodeLayout
           Size="158.4,41.6"
           Id="Package\DWH\Optimize indexes"
-          TopLeft="20.3,5.49999999999995" />
-        <NodeLayout
-          Size="188,41.6"
-          Id="Package\DWH\SetFileGroupsReadOnly"
-          TopLeft="5.50000000000003,310.3" />
+          TopLeft="5.50000000000001,5.49999999999995" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\DWH\Update statistics"
-          TopLeft="21.5,107.1" />
+          TopLeft="6.70000000000002,107.1" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="99.5,47.1">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\DWH.PrecedenceConstraints[Constraint 1]"
-          TopLeft="99.5,148.7">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="99.5,250.3">
+          TopLeft="84.7,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -526,10 +498,10 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="199.2,407.2"
-          Size="199.2,450.4"
+          PanelSize="169.6,204"
+          Size="169.6,247.2"
           Id="Package\DWH"
-          TopLeft="69.5000000000001,54.5000000000001" />
+          TopLeft="69.5,54.3" />
         <NodeLayout
           Size="217.6,41.6"
           Id="Package\MDS\MDS Clean Up Staging Tables"
@@ -566,7 +538,112 @@
           PanelSize="228.8,204"
           Size="228.8,247.2"
           Id="Package\MDS"
-          TopLeft="305.00000008515,53.7352941069223" />
+          TopLeft="299.9,54.3" />
+        <NodeLayout
+          Size="176,41.6"
+          Id="Package\Set filegroups readonly\CheckReferenceDate"
+          TopLeft="11.5,5.49999999999995" />
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\Set filegroups readonly\SetFileGroupsReadOnly"
+          TopLeft="5.50000000000001,107.1" />
+        <EdgeLayout
+          Id="Package\Set filegroups readonly.PrecedenceConstraints[Constraint]"
+          TopLeft="99.5,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="199.2,204"
+          Size="199.2,247.2"
+          Id="Package\Set filegroups readonly"
+          TopLeft="314.7,361.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="154.3,301.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="228.133333333333,60"
+              Start="0,0"
+              End="228.133333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7131474103586"
+                    Point2="0,35.7131474103586"
+                    Point3="4,35.7131474103586" />
+                  <mssgle:LineSegment
+                    End="224.133333333333,35.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="224.133333333333,35.7131474103586"
+                    Point2="228.133333333333,35.7131474103586"
+                    Point3="228.133333333333,39.7131474103586" />
+                  <mssgle:LineSegment
+                    End="228.133333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="414.3,301.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31.8666666666667,60"
+              Start="0,0"
+              End="31.8666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7131474103586"
+                    Point2="0,35.7131474103586"
+                    Point3="4,35.7131474103586" />
+                  <mssgle:LineSegment
+                    End="27.8666666666667,35.7131474103586" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27.8666666666667,35.7131474103586"
+                    Point2="31.8666666666667,35.7131474103586"
+                    Point3="31.8666666666667,39.7131474103586" />
+                  <mssgle:LineSegment
+                    End="31.8666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
