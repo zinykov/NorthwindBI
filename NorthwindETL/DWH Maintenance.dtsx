@@ -7,12 +7,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{2DE2AEFF-34E3-48B3-A230-7A662F190BFE}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="29"
-  DTS:VersionGUID="{AFDAA08A-71CD-4D4F-8EE0-542159A87F8E}">
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{7648DAC7-2AFA-46F4-A5FD-B5F8405DC00A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -45,10 +45,19 @@
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">1/1/1998</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{81012F07-0914-4D75-BA8C-A2FC5F934451}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="IsYearOptimisationWorked">
+      <DTS:VariableValue
+        DTS:DataType="11">-1</DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{769D60EA-83BB-4072-B6C6-B53A366F5304}"
@@ -176,6 +185,35 @@
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
+          DTS:refId="Package\DWH\CheckReferenceDate"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{063E4765-3998-4055-A508-1D3BA8FFC6C4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="CheckReferenceDate"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsYearOptimisationWorked = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::IsYearOptimisationWorked"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="17"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
           DTS:refId="Package\DWH\Optimize indexes"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:Description="Задача &quot;Выполнение SQL&quot;"
@@ -191,6 +229,24 @@
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
               SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DWH\SetFileGroupsReadOnly"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:Description="Задача &quot;Выполнение процесса&quot;"
+          DTS:DTSID="{6D83AA94-35B2-476B-A6A7-DB2B9C9F6B58}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SetFileGroupsReadOnly"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"-S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsYearOptimisationWorked="+ (DT_WSTR, 5) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
+              Arguments="-S (localdb)\MSSQLLocalDB -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='01.01.1998' IsYearOptimisationWorked=True" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -221,6 +277,22 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\DWH\Update statistics" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A8E84005-8562-4789-862E-ED5DE7EE112E}"
+          DTS:From="Package\DWH\Update statistics"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\DWH\CheckReferenceDate" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{108BB12E-3DA6-4CC3-AFC1-1948AB740F67}"
+          DTS:From="Package\DWH\CheckReferenceDate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\DWH\SetFileGroupsReadOnly" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -368,18 +440,70 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="158.4,41.6"
           Id="Package\DWH\Optimize indexes"
-          TopLeft="5.50000000000001,5.49999999999995" />
+          TopLeft="20.3,5.49999999999995" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\DWH\Update statistics"
-          TopLeft="6.70000000000002,107.1" />
+          TopLeft="21.5,107.1" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="84.7,47.1">
+          TopLeft="99.5,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\DWH\SetFileGroupsReadOnly"
+          TopLeft="5.50000000000003,310.3" />
+        <NodeLayout
+          Size="176,41.6"
+          Id="Package\DWH\CheckReferenceDate"
+          TopLeft="11.5,208.7" />
+        <EdgeLayout
+          Id="Package\DWH.PrecedenceConstraints[Constraint 1]"
+          TopLeft="99.5,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="99.5,250.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -402,8 +526,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169.6,204"
-          Size="169.6,247.2"
+          PanelSize="199.2,407.2"
+          Size="199.2,450.4"
           Id="Package\DWH"
           TopLeft="69.5000000000001,54.5000000000001" />
         <NodeLayout

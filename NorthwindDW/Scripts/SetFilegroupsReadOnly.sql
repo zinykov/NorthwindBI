@@ -1,6 +1,5 @@
 ﻿--:setvar DatabaseName "NorthwindDW"
 --:setvar Cutofftime '01.01.1998'
---:setvar FactTableName "Order"
 --:setvar IsYearOptimisationWorked "true"
 
 USE [master];
@@ -18,40 +17,61 @@ GO
 
 IF ( CONVERT ( BIT , N'$(IsYearOptimisationWorked)' ) = 1 )
 BEGIN
-	DECLARE @FilegroupName AS NVARCHAR(100) = CONCAT (
-		  N'$(FactTableName)_'
-		, YEAR ( $(Cutofftime) ) - 2
-		, N'_Data'
-	)
+	DECLARE @FactTableName AS NVARCHAR(100)
+	DECLARE @FilegroupName AS NVARCHAR(100)
 	DECLARE @ReadOnly AS BIT
-	DECLARE @SQL AS NVARCHAR(1000) = CONCAT (
-		  N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
-		, @FilegroupName
-		, N'] READONLY'
-	)
+	DECLARE @SQL AS NVARCHAR(1000)
 
-	SELECT @readonly = CONVERT ( BIT, ( STATUS & 0x08 ) ) FROM sysfilegroups WHERE groupname = @FilegroupName
-	IF ( @readonly = 0 )
-		BEGIN
-			EXECUTE sp_executesql @SQL
-		END
+	DECLARE FactTables CURSOR FOR
+		SELECT		T.[name]
+		FROM		sys.tables AS T
+		INNER JOIN	sys.schemas AS S ON S.[schema_id] = T.[schema_id]
+					AND S.[name] = N'Fact'
 
-	SET @FilegroupName = CONCAT (
-		  N'$(FactTableName)_'
-		, YEAR ( $(Cutofftime) ) - 2
-		, N'_Index'
-	)
-	SET @SQL = CONCAT (
-		  N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
-		, @FilegroupName
-		, N'] READONLY'
-	)
+	OPEN FactTables
+		FETCH NEXT FROM FactTables INTO @FactTableName
+		WHILE @@FETCH_STATUS = 0
+			BEGIN
+				SET @FilegroupName = CONCAT (
+					  @FactTableName
+					, N'_'
+					, YEAR ( $(Cutofftime) ) - 2
+					, N'_Data'
+				)
 
-	SELECT @readonly = CONVERT ( BIT, ( STATUS & 0x08 ) ) FROM sysfilegroups WHERE groupname = @FilegroupName
-	IF ( @readonly = 0 )
-		BEGIN
-			EXECUTE sp_executesql @SQL
-		END
+				SELECT @readonly = [is_read_only] FROM sys.filegroups WHERE [name] = @FilegroupName
+				IF ( @readonly = 0 )
+					BEGIN
+						SET @SQL = CONCAT (
+							  N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
+							, @FilegroupName
+							, N'] READONLY'
+						)
+						EXECUTE sp_executesql @SQL
+					END
+
+				SET @FilegroupName = CONCAT (
+					  @FactTableName
+					, N'_'
+					, YEAR ( $(Cutofftime) ) - 2
+					, N'_Data'
+				)
+
+				SELECT @readonly = [is_read_only] FROM sys.filegroups WHERE [name] = @FilegroupName
+				IF ( @readonly = 0 )
+					BEGIN
+						SET @SQL = CONCAT (
+							  N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
+							, @FilegroupName
+							, N'] READONLY'
+						)
+						EXECUTE sp_executesql @SQL
+					END
+
+				FETCH NEXT FROM FactTables INTO @FactTableName
+			END
+	CLOSE FactTables
+	DEALLOCATE FactTables
 END;
 GO
 

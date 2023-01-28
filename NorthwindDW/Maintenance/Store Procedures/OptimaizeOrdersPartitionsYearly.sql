@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsYearly]
         @CutoffTime AS DATE
-      , @IsYearOptimisationWorked AS BIT = 0 OUTPUT
 AS
 /*
     Процедура объединяет секции таблицы фактов.
@@ -23,32 +22,28 @@ AS
         15. Пометка секций за предпредыдущий год только для чтения.
 */
 BEGIN
-	DECLARE @ReferenceDate      AS DATE;
-    DECLARE @StartYearDate      AS DATE;
-	DECLARE @EndYearDate	    AS DATE;
-	DECLARE @StartKey		    AS INT;
-	DECLARE @EndKey			    AS INT;
-	DECLARE @Bondaries		    AS NVARCHAR(2000);
-	DECLARE @CreatePF		    AS NVARCHAR(4000);
-	DECLARE @CreatePS		    AS NVARCHAR(4000);
-    DECLARE @FileDataGroups     AS NVARCHAR(2000);
-    DECLARE @FileIndexGroups    AS NVARCHAR(2000);
-    DECLARE @PartitionNumber    AS INT;
-    DECLARE @PartitionValue     AS INT;
-    DECLARE @YearNumber         AS INT;
-    DECLARE @SQL                AS NVARCHAR(2000);
+	DECLARE @ReferenceDate              AS DATE;
+    DECLARE @IsYearOptimisationWorked   AS BIT;
+    DECLARE @StartYearDate              AS DATE;
+	DECLARE @EndYearDate	            AS DATE;
+	DECLARE @StartKey		            AS INT;
+	DECLARE @EndKey			            AS INT;
+	DECLARE @Bondaries		            AS NVARCHAR(2000);
+	DECLARE @CreatePF		            AS NVARCHAR(4000);
+	DECLARE @CreatePS		            AS NVARCHAR(4000);
+    DECLARE @FileDataGroups             AS NVARCHAR(2000);
+    DECLARE @FileIndexGroups            AS NVARCHAR(2000);
+    DECLARE @PartitionNumber            AS INT;
+    DECLARE @PartitionValue             AS INT;
+    DECLARE @YearNumber                 AS INT;
+    DECLARE @SQL                        AS NVARCHAR(2000);
 	
 -- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
-    SET @ReferenceDate = (
-        SELECT	[AlterDateKey]
-        FROM	[Dimension].[Date]
-        WHERE	[DayOfWeekNumber] = 6
-			    AND [DayOfMonth] BETWEEN 2 AND 8
-			    AND [MonthNumber] = 1
-                AND [Year] = YEAR ( @CutoffTime )
-    )
-    
-    IF @CutoffTime <> @ReferenceDate OR @CutoffTime = DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
+    EXECUTE [Maintenance].[CheckReferenceDate]
+        @CutoffTime = @CutoffTime
+      , @IsYearOptimisationWorked = @IsYearOptimisationWorked OUTPUT
+
+    IF @IsYearOptimisationWorked = 1 RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
@@ -209,7 +204,6 @@ BEGIN
             )
     
 	        EXECUTE sp_executesql @SQL
-            SET @IsYearOptimisationWorked = 1
         END
         
     RETURN 0;
