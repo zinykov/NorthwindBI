@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [Reports].[SSISlog]
 	@period AS INT = 1
-	WITH EXECUTE AS OWNER
 AS BEGIN
 	DECLARE @starttime AS DATETIME = DATEADD ( DAY, -1 * @period, GETDATE () )
 
