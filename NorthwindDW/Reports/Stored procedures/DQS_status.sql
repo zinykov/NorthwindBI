@@ -4,7 +4,7 @@ BEGIN
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
 
-	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[NW_Customer]
+	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Customer]
 
 	GROUP BY	[Record_Status]
 
@@ -14,7 +14,7 @@ BEGIN
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
 
-	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[NW_Employee]
+	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Employee]
 
 	GROUP BY	[Record_Status]
 
@@ -24,7 +24,7 @@ BEGIN
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
 
-	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[NW_Product]
+	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Product]
 
 	GROUP BY	[Record_Status]
 
@@ -34,7 +34,7 @@ BEGIN
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
 
-	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[NW_Category]
+	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Category]
 
 	GROUP BY	[Record_Status]
 	
@@ -44,7 +44,7 @@ BEGIN
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
 
-	FROM		[$(DQS_Staging_ServerName)].[$(DQS_Staging_DatabaseName)].[dbo].[Holidays]
+	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[Holidays]
 
 	GROUP BY	[Record_Status]
 END

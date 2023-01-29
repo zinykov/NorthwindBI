@@ -10,10 +10,10 @@ AS BEGIN
 				, [DataCompression]		= P.[data_compression_desc]
 				, [FileGroupName]		= COALESCE ( FG.[name], FGP.[name] )
 				, [IsFileGroupReadOnly]	= COALESCE ( FG.[is_read_only], FGP.[is_read_only] )
-				, [avg_fragmentation]	= DMV.[avg_fragmentation_in_percent] / 100
-				, dmv.Fragment_Count
-				, dmv.Avg_Fragment_Size_In_Pages
-				, dmv.Page_Count 
+				--, [avg_fragmentation]	= DMV.[avg_fragmentation_in_percent] / 100
+				--, dmv.Fragment_Count
+				--, dmv.Avg_Fragment_Size_In_Pages
+				--, dmv.Page_Count 
 				, [NumRows]				= P.[rows]
 	
 	FROM		sys.tables AS T
@@ -29,9 +29,9 @@ AS BEGIN
 				AND DDS.[destination_id] = P.[partition_number]
 	LEFT JOIN	sys.filegroups AS FG ON FG.[data_space_id] = I.[data_space_id]
 	LEFT JOIN	sys.filegroups AS FGP ON FGP.[data_space_id] = DDS.[data_space_id]
-	INNER JOIN	sys.dm_db_index_physical_stats ( DB_ID(), NULL, NULL , NULL, N'LIMITED' ) DMV ON DMV.[object_id] = I.[object_id]
-				AND DMV.[index_id] = I.[index_id]
-				AND DMV.[partition_number]  = P.[partition_number]
+	--INNER JOIN	sys.dm_db_index_physical_stats ( DB_ID(), NULL, NULL , NULL, N'LIMITED' ) DMV ON DMV.[object_id] = I.[object_id]
+	--			AND DMV.[index_id] = I.[index_id]
+	--			AND DMV.[partition_number]  = P.[partition_number]
 	
 	WHERE		OBJECTPROPERTY ( P.[object_id], 'ISMSShipped') = 0
 	

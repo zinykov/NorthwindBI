@@ -6,7 +6,7 @@ BEGIN
 	SET @CleanupOlderThanDate = DATEADD ( DAY, -7, GETDATE () );
 
 	DECLARE MDS_maintenance CURSOR FOR 
-		SELECT Model_ID FROM [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[viw_SYSTEM_SCHEMA_VERSION] WHERE [Flag] = N'SSIS';
+		SELECT Model_ID FROM [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[viw_SYSTEM_SCHEMA_VERSION] WHERE [Flag] = N'SSIS';
 
 	OPEN MDS_maintenance
 
@@ -14,7 +14,7 @@ BEGIN
 
 		WHILE @@FETCH_STATUS = 0
 			BEGIN
-				EXECUTE [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[udpEntityStagingBatchTableCleanup]
+				EXECUTE [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[udpEntityStagingBatchTableCleanup]
 					  @Model_ID = @Model_ID
 					, @CleanupOlderThanDate = @CleanupOlderThanDate
 
