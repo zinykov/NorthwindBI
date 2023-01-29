@@ -10,7 +10,7 @@ AS BEGIN
     SET @Model_ID   = ( SELECT TOP 1 [Model_ID] FROM [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[viw_SYSTEM_SCHEMA_VERSION] WHERE [Model_Name] = @ModelName )
     SET @Version_ID = ( SELECT MAX ( [ID] ) FROM [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[viw_SYSTEM_SCHEMA_VERSION] WHERE [Model_ID] = @Model_ID )
   
-    EXECUTE [$(MDS_ServerName)].[$(MDS_DatabaseName)].[mdm].[udpValidateModel]
+    EXECUTE [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[udpValidateModel]
           @User_ID
         , @Model_ID
         , @Version_ID
