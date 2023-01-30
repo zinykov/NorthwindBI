@@ -102,12 +102,10 @@ BEGIN
         ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
     CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Required_Date_Key] ON [Maintenance].[Order] ( [RequiredDateKey] )
-        WHERE [OrderDateKey] >= 19970101
         WITH ( DATA_COMPRESSION = PAGE )
         ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 
     CREATE NONCLUSTERED INDEX [IX_Maintenance_Order_Shipped_Date_Key] ON [Maintenance].[Order] ( [ShippedDateKey] )
-        WHERE [OrderDateKey] >= 19970101
         WITH ( DATA_COMPRESSION = PAGE )
         ON [PS_Optimize_Partitions_Index] ( [OrderDateKey] );
 

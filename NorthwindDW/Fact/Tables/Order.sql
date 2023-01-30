@@ -37,13 +37,11 @@ CREATE NONCLUSTERED INDEX [IX_Fact_Order_Order_Date_Key] ON [Fact].[Order] ( [Or
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Required_Date_Key] ON [Fact].[Order] ( [RequiredDateKey] )
-    WHERE [OrderDateKey] >= 19970101
     WITH ( DATA_COMPRESSION = PAGE )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Shipped_Date_Key] ON [Fact].[Order] ( [ShippedDateKey] )
-    WHERE [OrderDateKey] >= 19970101
     WITH ( DATA_COMPRESSION = PAGE )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
 GO
