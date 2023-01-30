@@ -140,7 +140,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\SSIS\NorthwindDW\'
+DECLARE @var sql_variant = N'C:\SSIS\NorthwindBI\'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'ExternalFilesPath' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
