@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="41"
-  DTS:VersionGUID="{B0C0FD39-8209-4E06-AA68-40829B4420BB}">
+  DTS:VersionBuild="44"
+  DTS:VersionGUID="{29FBC35C-83C8-47A7-BDE2-41EE2F4FEFE3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -54,7 +54,7 @@
       DTS:DTSID="{81012F07-0914-4D75-BA8C-A2FC5F934451}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="IsYearOptimisationWorked">
+      DTS:ObjectName="IsStartOptimization">
       <DTS:VariableValue
         DTS:DataType="11">0</DTS:VariableValue>
     </DTS:Variable>
@@ -315,7 +315,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsYearOptimisationWorked = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsMonthlyOptimization = 0&#xA;      , @IsStartOptimization = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -324,7 +324,7 @@
                 SQLTask:ParameterSize="-1" />
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="User::IsYearOptimisationWorked"
+                SQLTask:DtsVariableName="User::IsStartOptimization"
                 SQLTask:ParameterDirection="Output"
                 SQLTask:DataType="11"
                 SQLTask:ParameterSize="-1" />
@@ -342,11 +342,11 @@
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"-S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsYearOptimisationWorked="+ (DT_WSTR, 5) @[User::IsYearOptimisationWorked]</DTS:PropertyExpression>
+            DTS:Name="Arguments">"-S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsStartOptimization="+ (DT_WSTR, 5)  @[User::IsStartOptimization]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
-              Arguments="-S (localdb)\MSSQLLocalDB -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindDW\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsYearOptimisationWorked=False" />
+              Arguments="-S (localdb)\MSSQLLocalDB -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsStartOptimization=False" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>

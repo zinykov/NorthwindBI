@@ -20,31 +20,28 @@ AS
         13. Удаление временных структур.
 */
 BEGIN
-	DECLARE @ReferenceDate      AS DATE;
-    DECLARE @StartMonthDate     AS DATE;
-	DECLARE @EndMonthDate	    AS DATE;
-	DECLARE @StartKey		    AS INT;
-	DECLARE @EndKey			    AS INT;
-	DECLARE @Bondaries		    AS NVARCHAR(2000);
-	DECLARE @CreatePF		    AS NVARCHAR(4000);
-	DECLARE @CreatePS		    AS NVARCHAR(4000);
-    DECLARE @FileDataGroups     AS NVARCHAR(2000);
-    DECLARE @FileIndexGroups    AS NVARCHAR(2000);
-    DECLARE @PartitionNumber    AS INT;
-    DECLARE @PartitionValue     AS INT;
-    DECLARE @YearNumber         AS INT;
-    
--- Проверка даты запуска, если 2 число месяца, то выполняется процедура.
-    SET @ReferenceDate = (
-        SELECT	[AlterDateKey]
-        FROM	[Dimension].[Date]
-        WHERE	[DayOfWeekNumber] = 6
-			    AND [DayOfMonth] BETWEEN 2 AND 8
-			    AND [MonthNumber] = MONTH ( @CutoffTime )
-                AND [Year] = YEAR ( @CutoffTime )
-    )
+	DECLARE @ReferenceDate          AS DATE;
+    DECLARE @IsStartOptimization    AS BIT;
+    DECLARE @StartMonthDate         AS DATE;
+	DECLARE @EndMonthDate	        AS DATE;
+	DECLARE @StartKey		        AS INT;
+	DECLARE @EndKey			        AS INT;
+	DECLARE @Bondaries		        AS NVARCHAR(2000);
+	DECLARE @CreatePF		        AS NVARCHAR(4000);
+	DECLARE @CreatePS		        AS NVARCHAR(4000);
+    DECLARE @FileDataGroups         AS NVARCHAR(2000);
+    DECLARE @FileIndexGroups        AS NVARCHAR(2000);
+    DECLARE @PartitionNumber        AS INT;
+    DECLARE @PartitionValue         AS INT;
+    DECLARE @YearNumber             AS INT;
+	
+-- Проверка даты запуска
+    EXECUTE [Maintenance].[CheckReferenceDate]
+        @CutoffTime = @CutoffTime
+      , @IsMonthlyOptimization = 1
+      , @IsStartOptimization = @IsStartOptimization OUTPUT
 
-    IF @CutoffTime <> @ReferenceDate OR @CutoffTime = DATEFROMPARTS ( 1997, 1, 4 ) RETURN 0;
+    IF @IsStartOptimization = 0 RETURN 0;
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
