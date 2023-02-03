@@ -1,8 +1,10 @@
 ﻿CREATE TABLE [Maintenance].[DatabaseFiles] (
 	[DatabaseFileKey]					INT				CONSTRAINT [SQ_DatabaseFile_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[DatabaseFileKey] ) NOT NULL,
 	[GroupName]							NVARCHAR(100)	NOT NULL,
+	[IsReadOnly]						BIT				NOT NULL,
 	[Name]								NVARCHAR(100)	NOT NULL,
 	[FileName]							NVARCHAR(500)	NOT NULL,
+	[BackupFileName]					NVARCHAR(500)	NULL,
 
 	CONSTRAINT [PK_Maintenance_DatabaseFiles] PRIMARY KEY CLUSTERED ( [DatabaseFileKey] ASC )
 )

@@ -30,8 +30,8 @@ AS BEGIN
 
 	IF EXISTS ( SELECT 1 FROM #file_exist WHERE [Parent_Directory_Exists] = 1 )
 		BEGIN
-			INSERT INTO [Maintenance].[DatabaseFiles] ( [GroupName], [Name], [FileName] )
-			VALUES ( @GroupName, @Name, @FileName )
+			INSERT INTO [Maintenance].[DatabaseFiles] ( [GroupName], [IsReadOnly], [Name], [FileName] )
+			VALUES ( @GroupName, 0, @Name, @FileName )
 		END
 	ELSE
 		BEGIN

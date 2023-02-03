@@ -18,14 +18,17 @@ IF NOT EXISTS ( SELECT 1 FROM [Maintenance].[DatabaseFiles] )
 BEGIN
 	INSERT INTO [Maintenance].[DatabaseFiles] (
 		  [GroupName]
+		, [IsReadOnly]
 		, [Name]
 		, [FileName]
 	)
 		SELECT		  FG.[groupname]
+					, FG1.[is_read_only]
 					, F.[name]
 					, F.[filename]
 		FROM		sys.sysfilegroups AS FG
-		INNER JOIN	sys.sysfiles AS F ON FG.[groupid] = F.[groupid];
+		INNER JOIN	sys.sysfiles AS F ON FG.[groupid] = F.[groupid]
+		INNER JOIN	sys.filegroups AS FG1 ON FG.[groupname] = FG1.[name];
 END
 GO
 
