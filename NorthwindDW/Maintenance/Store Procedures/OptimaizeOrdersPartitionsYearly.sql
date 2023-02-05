@@ -24,7 +24,6 @@ AS
 BEGIN
 	DECLARE @ReferenceDate         AS DATE;
     DECLARE @IsStartOptimization   AS BIT;
-    DECLARE @IsStartFullBackup     AS BIT;
     DECLARE @StartYearDate         AS DATE;
 	DECLARE @EndYearDate	       AS DATE;
 	DECLARE @StartKey		       AS INT;
@@ -44,7 +43,6 @@ BEGIN
         @CutoffTime = @CutoffTime
       , @IsMonthlyOptimization = 0
       , @IsStartOptimization = @IsStartOptimization OUTPUT
-      , @IsStartFullBackup = @IsStartFullBackup OUTPUT
 
     IF @IsStartOptimization = 0 RETURN 0;
     

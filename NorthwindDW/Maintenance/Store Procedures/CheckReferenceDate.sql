@@ -2,7 +2,6 @@
         @CutoffTime AS DATE
       , @IsMonthlyOptimization AS BIT
       , @IsStartOptimization AS BIT OUTPUT
-      , @IsStartFullBackup AS BIT OUTPUT
 AS BEGIN
 	DECLARE @ReferenceDate AS DATE;
     DECLARE @MonthNumber AS TINYINT;
@@ -33,15 +32,5 @@ AS BEGIN
         BEGIN
             SET @IsStartOptimization = 0
         END
-    
-    IF ( DATEPART ( DW , @CutoffTime ) = 6 )
-        BEGIN
-            SET @IsStartFullBackup = 1
-        END
-    ELSE
-        BEGIN
-            SET @IsStartFullBackup = 0
-        END
-
     RETURN 0;
 END
