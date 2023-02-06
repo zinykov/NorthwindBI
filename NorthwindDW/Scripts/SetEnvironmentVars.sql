@@ -52,6 +52,16 @@ GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
+		, @parameter_name = N'BackupFilesPath'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'BackupFilesPath'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
 		, @parameter_name = N'DQSDatabaseName'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
@@ -128,4 +138,34 @@ EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
 		, @parameter_value = N'XMLCalendarFolder'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'RetrainWeeks'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'RetrainWeeks'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LogsDatabaseName'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LogsDatabaseName'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LogsServerName'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LogsServerName'
 GO

@@ -140,6 +140,20 @@ BEGIN
 END;
 GO
 
+DECLARE @var sql_variant = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\'
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'BackupFilesPath' )
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'BackupFilesPath'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
 DECLARE @var sql_variant = N'C:\SSIS\NorthwindBI\'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'ExternalFilesPath' )
 BEGIN
@@ -179,5 +193,49 @@ BEGIN
 	, @folder_name=N'$(SSISFolderName)'
 	, @value=@var
 	, @data_type=N'String'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(LogsServerName)'
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'LogsServerName' )
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LogsServerName'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(LogsDatabaseName)'
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'LogsDatabaseName' )
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LogsDatabaseName'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
+
+
+DECLARE @var smallint = N'$(RetrainWeeks)'
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'RetrainWeeks' )
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'RetrainWeeks'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'Int16'
 END;
 GO
