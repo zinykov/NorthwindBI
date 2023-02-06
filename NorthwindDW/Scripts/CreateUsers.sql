@@ -3,6 +3,8 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
 --:setvar MDSServerName SWIFT3
 --:setvar SSISDatabaseName SISSDB
@@ -46,7 +48,7 @@ GO
 ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\RDLexec]
 GO
 
-USE [Logs]
+USE [$(LogsDatabaseName)]
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\RDLexec' )
