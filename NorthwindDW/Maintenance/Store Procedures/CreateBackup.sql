@@ -11,32 +11,32 @@ AS BEGIN
 		SELECT		DISTINCT [GroupName]
 		FROM		[Maintenance].[DatabaseFiles] 
 		WHERE		[IsReadOnly] = 1
-					AND [BackupFileName] NOT LIKE N'%\$(DatabaseName)_backup_read_only_filegroup_%'
+					AND [BackupFileName] NOT LIKE N'%_backup_read_only_filegroup_%'
 
 	OPEN [BackupReadOnlyFilegroups]
 		FETCH NEXT FROM [BackupReadOnlyFilegroups] INTO @GroupName
-		WHILE @@FETCH_STATUS > 0
-		BEGIN
-			SET @BackupFileName = CONCAT (
-				  @BackupsReadOnlyPath
-				, N'\$(DatabaseName)_backup_read_only_filegroup_'
-				, @GroupName
-				, N'.bak'
-			)
+		WHILE @@FETCH_STATUS = 0
+			BEGIN
+				SET @BackupFileName = CONCAT (
+					  @BackupsReadOnlyPath
+					, N'\$(DatabaseName)_backup_read_only_filegroup_'
+					, @GroupName
+					, N'.bak'
+				)
 			
-			BACKUP DATABASE [$(DatabaseName)]
-				FILEGROUP = @GroupName
-				TO DISK = @BackupFileName
-				WITH
-					  NAME = @BackupName
-					--, COMPRESSION
+				BACKUP DATABASE [$(DatabaseName)]
+					FILEGROUP = @GroupName
+					TO DISK = @BackupFileName
+					WITH
+						  NAME = @BackupName
+						--, COMPRESSION
 
-			UPDATE	[Maintenance].[DatabaseFiles]
-			SET		[BackupFileName] = @BackupFileName
-			WHERE	[GroupName] = @GroupName
+				UPDATE	[Maintenance].[DatabaseFiles]
+				SET		[BackupFileName] = @BackupFileName
+				WHERE	[GroupName] = @GroupName
 
-			FETCH NEXT FROM [BackupReadOnlyFilegroups] INTO @GroupName
-		END
+				FETCH NEXT FROM [BackupReadOnlyFilegroups] INTO @GroupName
+			END
 	CLOSE [BackupReadOnlyFilegroups]
 	DEALLOCATE [BackupReadOnlyFilegroups]
 

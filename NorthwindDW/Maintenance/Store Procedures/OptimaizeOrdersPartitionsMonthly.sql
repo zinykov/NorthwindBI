@@ -130,20 +130,20 @@ BEGIN
         
 	OPEN OptimizePartitions
 -- Перенос строк данных из таблицы фактов в дублёр.
-	FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+	    FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
         WHILE @@FETCH_STATUS = 0
-			BEGIN
-    			ALTER TABLE [Fact].[Order] SWITCH PARTITION @PartitionNumber TO [Maintenance].[Order] PARTITION @PartitionNumber
+		    BEGIN
+    		    ALTER TABLE [Fact].[Order] SWITCH PARTITION @PartitionNumber TO [Maintenance].[Order] PARTITION @PartitionNumber
                 FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
-			END
+		    END
 
 -- Объединение секций в таблице фактов	
-    FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+        FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
         WHILE @@FETCH_STATUS = 0
-			BEGIN
-    			ALTER PARTITION FUNCTION [PF_Order_Date] () MERGE RANGE ( @PartitionValue )
+		    BEGIN
+    		    ALTER PARTITION FUNCTION [PF_Order_Date] () MERGE RANGE ( @PartitionValue )
                 FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
-			END
+		    END
     CLOSE OptimizePartitions
 
 -- Удаление CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
@@ -151,7 +151,7 @@ BEGIN
 	
 -- Объединение секций в таблице-дублёре
 	OPEN OptimizePartitions
-	FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
+	    FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
         WHILE @@FETCH_STATUS = 0
 			BEGIN
     			ALTER PARTITION FUNCTION [PF_Optimize_Partitions] () MERGE RANGE ( @PartitionValue )
