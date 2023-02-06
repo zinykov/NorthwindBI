@@ -1,8 +1,9 @@
-﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar DQSDatabaseName DQS_STAGING_DATA
+﻿--:setvar DQSDatabaseName DQS_STAGING_DATA
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
 --:setvar MDSServerName SWIFT3
 --:setvar SSISDatabaseName SISSDB
@@ -10,6 +11,7 @@
 --:setvar SSISFolderName NorthwindETL
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
+--:setvar RetrainWeeks 3
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]

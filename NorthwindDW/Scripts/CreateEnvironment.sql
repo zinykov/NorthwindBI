@@ -2,6 +2,8 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
 --:setvar MDSServerName SWIFT3
 --:setvar SSISDatabaseName SISSDB
@@ -9,6 +11,7 @@
 --:setvar SSISFolderName NorthwindETL
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
+--:setvar RetrainWeeks 3
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
