@@ -39,6 +39,10 @@ BEGIN
 							, N'] READONLY'
 						)
 						EXECUTE sp_executesql @SQL
+
+						UPDATE	[Maintenance].[DatabaseFiles]
+						SET		[IsReadOnly] = 1
+						WHERE	[GroupName] = @FilegroupName
 					END
 				FETCH NEXT FROM FactTables INTO @FilegroupName
 			END
