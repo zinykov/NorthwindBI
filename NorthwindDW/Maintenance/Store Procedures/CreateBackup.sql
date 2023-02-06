@@ -11,7 +11,7 @@ AS BEGIN
 		SELECT		DISTINCT [GroupName]
 		FROM		[Maintenance].[DatabaseFiles] 
 		WHERE		[IsReadOnly] = 1
-					AND [BackupFileName] IS NULL
+					AND [BackupFileName] NOT LIKE N'%\$(DatabaseName)_backup_read_only_filegroup_%'
 
 	OPEN [BackupReadOnlyFilegroups]
 		FETCH NEXT FROM [BackupReadOnlyFilegroups] INTO @GroupName
@@ -40,7 +40,8 @@ AS BEGIN
 	CLOSE [BackupReadOnlyFilegroups]
 	DEALLOCATE [BackupReadOnlyFilegroups]
 
-	IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [AlterDateKey] = @CutoffTime ) = 6 )
+	IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [AlterDateKey] = @CutoffTime ) = 6
+		OR @CutoffTime = DATEFROMPARTS ( 1996, 12, 31 ) )
 		BEGIN
 			SET @BackupFileName = CONCAT (
 				  @BackupsReadWritePath
