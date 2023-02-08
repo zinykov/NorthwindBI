@@ -9,14 +9,28 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{A3065476-644F-4170-B237-B5361B9A5EC4}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
   DTS:LocaleID="1049"
   DTS:ObjectName="Northwind  упрощённая"
   DTS:PackageType="5"
-  DTS:VersionBuild="25"
-  DTS:VersionGUID="{FB2E2EB8-E228-4272-B806-9D6546C1E18A}">
+  DTS:VersionBuild="33"
+  DTS:VersionGUID="{D0AE321B-6329-48D1-A44D-2C56AFE04909}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[*.dat]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{ED703ADE-1DA6-4923-A288-2679C12F56F2}"
+      DTS:ObjectName="*.dat">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\" +  @[User::FileName] + ".dat"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\SSIS\NorthwindBI\IngestData\.dat" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:LogProviders>
     <DTS:LogProvider
       DTS:ConfigString="Logs"
@@ -39,7 +53,18 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
   </DTS:LogProviders>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A89F0891-A5EF-4AD3-A8CC-809D1B3FB571}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:LoggingOptions
     DTS:FilterKind="0"
     DTS:LoggingMode="1">
@@ -181,9 +206,72 @@
   </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
+      DTS:refId="Package\For each dat files"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Контейнер &quot;Цикл по каждому элементу&quot;"
+      DTS:DTSID="{6C758489-3B3C-45E6-85D9-E94842A1E243}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="For each dat files">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}"
+        DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData"</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="C:\SSIS\NorthwindBI\IngestData" />
+            <FEFEProperty
+              FileSpec="*.dat" />
+            <FEFEProperty
+              FileNameRetrievalType="2" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\For each dat files\Bulk Insert"
+          DTS:CreationName="Microsoft.BulkInsertTask"
+          DTS:Description="Задача &quot;Массовая вставка&quot;"
+          DTS:DTSID="{235b455a-8ca9-4677-92e9-96f06f67ca47}"
+          DTS:ExecutableType="Microsoft.BulkInsertTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Bulk Insert"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="DestinationTableName">"[Landing].[" +  @[User::FileName] + "]"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\" +  @[User::FileName] + ".xml"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <BulkInsertTask:BulkInsertTaskData
+              BulkInsertTask:SourceConnectionName="{ED703ADE-1DA6-4923-A288-2679C12F56F2}"
+              BulkInsertTask:DestinationConnectionName="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              BulkInsertTask:DestinationTableName="[Landing].[]"
+              BulkInsertTask:UseFormatFile="True"
+              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\.xml" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{C1141D29-2D80-4628-BA1B-F03E1FC4EF0C}"
+          DTS:ObjectName="{C1141D29-2D80-4628-BA1B-F03E1FC4EF0C}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FileName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Ingest data"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
       DTS:DTSID="{FF17D6A7-16CF-4DD1-A209-848A3DDFEEFA}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -2577,26 +2665,37 @@
         <NodeLayout
           Size="128.8,41.6"
           Id="Package\Ingest data\Customers"
-          TopLeft="5.5,5.5" />
+          TopLeft="5.49999999999997,5.49999999999995" />
         <NodeLayout
           Size="128.8,41.6"
           Id="Package\Ingest data\Employees"
-          TopLeft="195.5,5.49999999999989" />
+          TopLeft="194.5,5.49999999999984" />
         <NodeLayout
           Size="111.2,41.6"
           Id="Package\Ingest data\Orders"
-          TopLeft="385.5,5.49999999999989" />
+          TopLeft="384.3,5.49999999999984" />
         <NodeLayout
           Size="120,41.6"
           Id="Package\Ingest data\Products"
-          TopLeft="557,5.49999999999989" />
+          TopLeft="555.9,5.49999999999984" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="681.6,102.4"
+          Size="156,43.2"
+          Id="Package\Ingest data"
+          TopLeft="23.9,105.5" />
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\For each dat files\Bulk Insert"
+          TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="681.6,103.2"
-          Size="681.6,145.6"
-          Id="Package\Ingest data"
-          TopLeft="61.5000000000001,156.5" />
+          PanelSize="150.4,102.4"
+          Size="140.8,145.6"
+          Id="Package\For each dat files"
+          TopLeft="240.5,54.3" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -2670,7 +2769,7 @@
     design-time-name="Package\Ingest data\Employees">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="125,42"
           Id="Package\Ingest data\Employees\SourceDB"
@@ -2698,7 +2797,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
