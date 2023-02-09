@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[OptimaizeOrdersPartitionsMonthly]
+﻿CREATE PROCEDURE [Maintenance].[OptimizeOrdersPartitionsMonthly]
       @CutoffTime AS DATE
 AS
 /*

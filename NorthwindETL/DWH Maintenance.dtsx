@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="102"
-  DTS:VersionGUID="{B1DC7C97-2717-40BE-8A38-B782917338BB}">
+  DTS:VersionBuild="105"
+  DTS:VersionGUID="{A6017B41-AA17-43BB-9EC7-9C1868695391}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -1327,69 +1327,25 @@
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\DWH\Rebuild indexes"
-          DTS:CreationName="Microsoft.DbMaintenanceReindexTask"
-          DTS:Description="Задача &quot;Перестроение индекса&quot;"
-          DTS:DTSID="{ada29b1a-b8a9-4e48-a632-51e4f9242c82}"
-          DTS:ExecutableType="Microsoft.DbMaintenanceReindexTask"
+          DTS:refId="Package\DWH\Optimize indexes"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{D7B765EE-A1C2-487D-8B47-C735147A1C0D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Rebuild indexes"
+          DTS:ObjectName="Optimize indexes"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
-              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:DatabaseSelectionType="4"
-              SQLTask:ServerVersion="15"
-              SQLTask:ExtendedLogging="True"
-              SQLTask:LocalConnectionForLogging=""
-              SQLTask:TaskName=""
-              SQLTask:IgnoreDatabasesInNotOnlineState="False"
-              SQLTask:UseOriginalAmount="True"
-              SQLTask:Percentage="20"
-              SQLTask:Sort="False"
-              SQLTask:KeepOnline="False"
-              SQLTask:SkipUnsupported="False"
-              SQLTask:PadIndex="True"
-              SQLTask:MaximumDegreeOfParallelismUsed="False"
-              SQLTask:LowPriorityUsed="False"
-              SQLTask:CheckFragmentationPercentUsed="True"
-              SQLTask:CheckPageCountUsed="False"
-              SQLTask:FragmentationOp="Fast"
-              SQLTask:FragmentationPercent="30"
-              SQLTask:CheckLastUsageInDaysUsed="False" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:SelectedDatabases
-                SQLTask:DatabaseName="NorthwindDW" />
-            </SQLTask:SqlTaskData>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\DWH\Reorganize indexes"
-          DTS:CreationName="Microsoft.DbMaintenanceDefragmentIndexTask"
-          DTS:Description="Задача &quot;Реорганизация индекса&quot;"
-          DTS:DTSID="{5b372895-f86b-446c-9897-0a539414e40a}"
-          DTS:ExecutableType="Microsoft.DbMaintenanceDefragmentIndexTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Reorganize indexes"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:DatabaseSelectionType="4"
-              SQLTask:ServerVersion="15"
-              SQLTask:ExtendedLogging="True"
-              SQLTask:LocalConnectionForLogging=""
-              SQLTask:TaskName=""
-              SQLTask:IgnoreDatabasesInNotOnlineState="False"
-              SQLTask:CompactLargeObjects="False"
-              SQLTask:CheckFragmentationPercentUsed="True"
-              SQLTask:CheckPageCountUsed="False"
-              SQLTask:FragmentationOp="Detailed"
-              SQLTask:FragmentationPercent="10"
-              SQLTask:CheckLastUsageInDaysUsed="False" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:SelectedDatabases
-                SQLTask:DatabaseName="NorthwindDW" />
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]&#xA;&#x9;@DatabaseName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -1423,20 +1379,12 @@
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{4b490081-ee6d-4cdc-b465-53f75ff0b8d3}"
-          DTS:From="Package\DWH\Rebuild indexes"
+          DTS:DTSID="{05A2A717-3BCA-4589-AB00-5350AF33BC06}"
+          DTS:From="Package\DWH\Optimize indexes"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\DWH\Reorganize indexes" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{de51a5ce-eec6-4b81-9010-575149bc4b06}"
-          DTS:From="Package\DWH\Reorganize indexes"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1 1"
+          DTS:ObjectName="Constraint"
           DTS:To="Package\DWH\Update statistics" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
@@ -1861,11 +1809,11 @@
           PanelSize="530.4,508.8"
           Size="530.4,552"
           Id="Package\Backups"
-          TopLeft="159.7,871.9" />
+          TopLeft="149.1,770.3" />
         <NodeLayout
           Size="176,41.6"
           Id="Package\Check DWH integrity"
-          TopLeft="336.9,770.3" />
+          TopLeft="326.3,668.7" />
         <NodeLayout
           Size="149.6,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
@@ -1902,44 +1850,18 @@
           PanelSize="181.6,204"
           Size="181.6,247.2"
           Id="Package\Copy DWH metadata to Logs DB"
-          TopLeft="334.1,1483.9" />
-        <NodeLayout
-          Size="152,41.6"
-          Id="Package\DWH\Rebuild indexes"
-          TopLeft="14.3,5.49999999999995" />
-        <NodeLayout
-          Size="169.6,41.6"
-          Id="Package\DWH\Reorganize indexes"
-          TopLeft="5.50000000000003,107.1" />
+          TopLeft="323.5,1382.3" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\DWH\Update statistics"
-          TopLeft="12.3,208.7" />
+          TopLeft="6.70000000000002,107.1" />
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\DWH\Optimize indexes"
+          TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
-          Id="Package\DWH.PrecedenceConstraints[Constraint 1]"
-          TopLeft="90.3,47.1">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\DWH.PrecedenceConstraints[Constraint 1 1]"
-          TopLeft="90.3,148.7">
+          Id="Package\DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="84.7,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1962,10 +1884,10 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="180.8,305.6"
-          Size="180.8,348.8"
+          PanelSize="169.6,204"
+          Size="169.6,247.2"
           Id="Package\DWH"
-          TopLeft="69.5000000000001,54.2999999999999" />
+          TopLeft="69.5,54.3000000000002" />
         <NodeLayout
           Size="217.6,41.6"
           Id="Package\MDS\MDS Clean Up Staging Tables"
@@ -2002,7 +1924,7 @@
           PanelSize="228.8,204"
           Size="228.8,247.2"
           Id="Package\MDS"
-          TopLeft="310.5,105.1" />
+          TopLeft="299.9,54.3000000000002" />
         <NodeLayout
           Size="176,41.6"
           Id="Package\Set filegroups readonly\CheckReferenceDate"
@@ -2039,33 +1961,33 @@
           PanelSize="199.2,204"
           Size="199.2,247.2"
           Id="Package\Set filegroups readonly"
-          TopLeft="325.3,463.1" />
+          TopLeft="314.7,361.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="159.9,403.1">
+          TopLeft="154.3,301.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="233.133333333333,60"
+              EndConnector="228.133333333333,59.9999999999998"
               Start="0,0"
-              End="233.133333333333,52.5">
+              End="228.133333333333,52.4999999999998">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7131474103586" />
+                    End="0,31.7131474103584" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7131474103586"
-                    Point2="0,35.7131474103586"
-                    Point3="4,35.7131474103586" />
+                    Point1="0,31.7131474103584"
+                    Point2="0,35.7131474103584"
+                    Point3="4,35.7131474103584" />
                   <mssgle:LineSegment
-                    End="229.133333333333,35.7131474103586" />
+                    End="224.133333333333,35.7131474103584" />
                   <mssgle:CubicBezierSegment
-                    Point1="229.133333333333,35.7131474103586"
-                    Point2="233.133333333333,35.7131474103586"
-                    Point3="233.133333333333,39.7131474103586" />
+                    Point1="224.133333333333,35.7131474103584"
+                    Point2="228.133333333333,35.7131474103584"
+                    Point3="228.133333333333,39.7131474103584" />
                   <mssgle:LineSegment
-                    End="233.133333333333,52.5" />
+                    End="228.133333333333,52.4999999999998" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2076,30 +1998,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="424.9,352.3">
+          TopLeft="414.3,301.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="31.8666666666666,110.8"
+              EndConnector="31.8666666666667,59.9999999999998"
               Start="0,0"
-              End="31.8666666666666,103.3">
+              End="31.8666666666667,52.4999999999998">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,61.9502788844621" />
+                    End="0,31.7131474103584" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,61.9502788844621"
-                    Point2="0,65.9502788844621"
-                    Point3="4,65.9502788844621" />
+                    Point1="0,31.7131474103584"
+                    Point2="0,35.7131474103584"
+                    Point3="4,35.7131474103584" />
                   <mssgle:LineSegment
-                    End="27.8666666666666,65.9502788844621" />
+                    End="27.8666666666667,35.7131474103584" />
                   <mssgle:CubicBezierSegment
-                    Point1="27.8666666666666,65.9502788844621"
-                    Point2="31.8666666666666,65.9502788844621"
-                    Point3="31.8666666666666,69.9502788844621" />
+                    Point1="27.8666666666667,35.7131474103584"
+                    Point2="31.8666666666667,35.7131474103584"
+                    Point3="31.8666666666667,39.7131474103584" />
                   <mssgle:LineSegment
-                    End="31.8666666666666,103.3" />
+                    End="31.8666666666667,52.4999999999998" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2110,7 +2032,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="424.9,710.3">
+          TopLeft="414.3,608.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2132,7 +2054,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="424.9,811.9">
+          TopLeft="414.3,710.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2154,7 +2076,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="424.9,1423.9">
+          TopLeft="414.3,1322.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
