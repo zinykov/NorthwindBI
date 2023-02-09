@@ -2,7 +2,7 @@ Hi,
 
 My name is Denis Zinukov and there is my portfolio.
 
-In the portfolio I tried use all best practices provided by vendor and tried automating all everyday tasks such as ETL and maintenance.
+In the portfolio I tried to use all best practices provided by vendor and tried automating all everyday tasks such as ETL and maintenance.
 I have realized next features:
 
 1.	Three step loading data.
