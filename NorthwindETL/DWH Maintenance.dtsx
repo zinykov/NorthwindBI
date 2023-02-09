@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="105"
-  DTS:VersionGUID="{A6017B41-AA17-43BB-9EC7-9C1868695391}">
+  DTS:VersionBuild="109"
+  DTS:VersionGUID="{AF96B9BC-9139-4E73-BDBB-19495E2672C2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -431,6 +431,7 @@
       DTS:refId="Package\Check DWH integrity"
       DTS:CreationName="Microsoft.DbMaintenanceCheckIntegrityTask"
       DTS:Description="Задача &quot;Проверка целостности базы данных&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{235F955D-8A43-43FA-8120-20DA49954B23}"
       DTS:ExecutableType="Microsoft.DbMaintenanceCheckIntegrityTask"
       DTS:LocaleID="-1"
@@ -1334,46 +1335,28 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]&#xA;&#x9;@DatabaseName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="$Project::DWHDatabaseName"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="130"
-                SQLTask:ParameterSize="50" />
-            </SQLTask:SqlTaskData>
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeIndexes]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
           DTS:refId="Package\DWH\Update statistics"
-          DTS:CreationName="Microsoft.DbMaintenanceUpdateStatisticsTask"
-          DTS:Description="Задача &quot;Обновление статистики&quot;"
-          DTS:DTSID="{3a72816d-fbb8-443f-81b1-4e33b684fe84}"
-          DTS:ExecutableType="Microsoft.DbMaintenanceUpdateStatisticsTask"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{E3C92736-DCA5-4788-BF9B-0C0A141605C0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
-              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:DatabaseSelectionType="4"
-              SQLTask:ServerVersion="9"
-              SQLTask:ExtendedLogging="True"
-              SQLTask:LocalConnectionForLogging=""
-              SQLTask:TaskName=""
-              SQLTask:IgnoreDatabasesInNotOnlineState="False"
-              SQLTask:UpdateStatisticsType="2"
-              SQLTask:UpdateScanType="3"
-              SQLTask:UpdateSampleValue="50" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:SelectedDatabases
-                SQLTask:DatabaseName="NorthwindDW" />
-            </SQLTask:SqlTaskData>
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE sp_updatestats;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1381,7 +1364,7 @@
         <DTS:PrecedenceConstraint
           DTS:refId="Package\DWH.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{05A2A717-3BCA-4589-AB00-5350AF33BC06}"
+          DTS:DTSID="{F7D533AE-527C-4FD2-8FD5-16568889E7A8}"
           DTS:From="Package\DWH\Optimize indexes"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
@@ -1408,7 +1391,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1426,7 +1409,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1852,13 +1835,13 @@
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="323.5,1382.3" />
         <NodeLayout
-          Size="156,41.6"
-          Id="Package\DWH\Update statistics"
-          TopLeft="6.70000000000002,107.1" />
-        <NodeLayout
           Size="158.4,41.6"
           Id="Package\DWH\Optimize indexes"
           TopLeft="5.50000000000001,5.49999999999995" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\DWH\Update statistics"
+          TopLeft="6.70000000000002,107.1" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
           TopLeft="84.7,47.1">
