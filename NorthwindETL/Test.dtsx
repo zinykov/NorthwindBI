@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="175"
-  DTS:VersionGUID="{80FA1D0A-0D7F-4CAD-8A23-F38339ADB2F5}">
+  DTS:VersionBuild="176"
+  DTS:VersionGUID="{B0F67173-DC5D-4B16-A580-2F9B75838F35}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -220,7 +220,6 @@
     <DTS:Executable
       DTS:refId="Package\Clean up backups"
       DTS:CreationName="Microsoft.FileSystemTask"
-      DTS:Description="Задача &quot;Файловая система&quot;"
       DTS:DTSID="{08165356-a830-48ff-8365-a49ccdafa0ee}"
       DTS:ExecutableType="Microsoft.FileSystemTask"
       DTS:LocaleID="-1"
@@ -238,7 +237,6 @@
       DTS:refId="Package\Incremental load immitation"
       DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
       DTS:CreationName="STOCK:FORLOOP"
-      DTS:Description="Incremental load immitation for Northwind DWH for 1997-01-01 to 1998-05-06  dates"
       DTS:DTSID="{51EC9912-7838-49AB-A67A-7D1A8FC504C9}"
       DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
@@ -254,7 +252,6 @@
         <DTS:Executable
           DTS:refId="Package\Incremental load immitation\Incremental load"
           DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:Description="Задача &quot;Выполнение пакета&quot;"
           DTS:DTSID="{75EFBC8E-461C-4BD8-B7A2-96C07F65F0FE}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
@@ -279,7 +276,6 @@
     <DTS:Executable
       DTS:refId="Package\Initial load"
       DTS:CreationName="Microsoft.ExecutePackageTask"
-      DTS:Description="Задача &quot;Выполнение пакета&quot;"
       DTS:DTSID="{301257A8-8920-4ADC-A272-14E7F1F2A1FA}"
       DTS:ExecutableType="Microsoft.ExecutePackageTask"
       DTS:LocaleID="-1"
@@ -300,13 +296,12 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Maintenance Subsystems"
+      DTS:refId="Package\Maintence Subsystems"
       DTS:CreationName="Microsoft.DbMaintenanceExecuteAgentJobTask"
-      DTS:Description="Задача &quot;Выполнение задания агента SQL Server&quot;"
       DTS:DTSID="{E9B459AB-93E3-44E1-9A4B-019EA5F7B8CA}"
       DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Maintenance Subsystems"
+      DTS:ObjectName="Maintence Subsystems"
       DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -342,7 +337,7 @@
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
       DTS:DTSID="{11D733AC-957D-436A-9D5B-80DBF712EDE5}"
-      DTS:From="Package\Maintenance Subsystems"
+      DTS:From="Package\Maintence Subsystems"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Initial load" />
@@ -451,6 +446,10 @@
           Size="128,41.6"
           Id="Package\Initial load"
           TopLeft="327.9,155.9" />
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\Maintence Subsystems"
+          TopLeft="293.5,54.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="391.9,197.5">
@@ -507,10 +506,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="196.8,41.6"
-          Id="Package\Maintenance Subsystems"
-          TopLeft="293.5,54.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
           TopLeft="391.9,95.8999999999999">

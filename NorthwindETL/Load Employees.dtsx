@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{4CCF00BA-3677-4F6D-AB38-BF43A8E0BC44}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.948.0"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="199"
-  DTS:VersionGUID="{A1E9213A-B07D-43E5-8DB6-77085D826CB8}">
+  DTS:VersionBuild="201"
+  DTS:VersionGUID="{E2DA353E-E804-46BE-A775-E7214AC156EE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -34,7 +34,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1251"
-          DTS:ConnectionString="C:\SSIS\NorthwindDW\NoBusinessKey\Employee.csv">
+          DTS:ConnectionString="C:\SSIS\NorthwindBI\NoBusinessKey\Employee.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -133,7 +133,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1251"
-          DTS:ConnectionString="C:\SSIS\NorthwindDW\NoChange\Employee.csv">
+          DTS:ConnectionString="C:\SSIS\NorthwindBI\NoChange\Employee.csv">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -487,8 +487,6 @@
     <DTS:Executable
       DTS:refId="Package\DQS"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Description="Контейнер последовательности"
-      DTS:Disabled="True"
       DTS:DTSID="{2c2f16ca-fc8d-4fdc-a5ea-3e097ced418f}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -500,7 +498,6 @@
         <DTS:Executable
           DTS:refId="Package\DQS\Clean Employees"
           DTS:CreationName="Microsoft.Pipeline"
-          DTS:Description="Задача потока данных"
           DTS:DTSID="{5283e74f-8e15-4420-8d7d-e4b73b069128}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
@@ -517,7 +514,6 @@
                   refId="Package\DQS\Clean Employees\Destination DQS Staging"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-                  description="Назначение &quot;OLE DB&quot;"
                   name="Destination DQS Staging"
                   usesDispositions="true"
                   version="4">
@@ -1019,7 +1015,6 @@
                 <component
                   refId="Package\DQS\Clean Employees\DQS Cleaning"
                   componentClassID="Microsoft.ManagedComponentHost"
-                  description="DQS Cleansing component"
                   name="DQS Cleaning"
                   usesDispositions="true">
                   <properties>
@@ -1583,7 +1578,6 @@
                   refId="Package\DQS\Clean Employees\Landing source"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
-                  description="Источник &quot;OLE DB&quot;"
                   name="Landing source"
                   usesDispositions="true"
                   version="7">
@@ -1830,7 +1824,6 @@
         <DTS:Executable
           DTS:refId="Package\DQS\Truncate DQS Staging"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{886a39c9-213b-41bf-9d1c-be2a0bcc95c7}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -1860,7 +1853,6 @@
     <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Задача &quot;Выполнение SQL&quot;"
       DTS:DTSID="{28BCFF05-4958-4071-B5A0-9E3E879D32C7}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -1895,7 +1887,6 @@
     <DTS:Executable
       DTS:refId="Package\Load DWH"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Description="Контейнер последовательности"
       DTS:DTSID="{57A2F7E5-93FA-40D6-828A-7D2E92D8AD15}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1907,7 +1898,6 @@
         <DTS:Executable
           DTS:refId="Package\Load DWH\Add unknown employee"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{d4b1a22d-148f-4591-8957-a5fcb058a3f6}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -1938,7 +1928,6 @@
         <DTS:Executable
           DTS:refId="Package\Load DWH\Load Employees to DWH"
           DTS:CreationName="Microsoft.Pipeline"
-          DTS:Description="Задача потока данных"
           DTS:DTSID="{f7b52163-c203-4256-89b3-d31a65806656}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
@@ -1955,7 +1944,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Add LineageKey"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
                   name="Add LineageKey"
                   usesDispositions="true">
                   <inputs>
@@ -2094,7 +2082,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Change Code and Name datatype"
                   componentClassID="Microsoft.DataConvert"
                   contactInfo="Преобразование данных;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  description="Преобразование данных"
                   name="Change Code and Name datatype"
                   usesDispositions="true">
                   <inputs>
@@ -2197,7 +2184,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Exists business key"
                   componentClassID="Microsoft.ConditionalSplit"
                   contactInfo="Условное разбиение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  description="Распределяет строки данных по разным выходам в зависимости от содержимого данных. Используйте условие (выражения SSIS), чтобы указать распределяемые строки. Пример: разделение записей, которые необходимо очистить, от подготовленных к загрузке или распределение только подмножества записей."
                   name="Exists business key"
                   usesDispositions="true">
                   <inputs>
@@ -2286,7 +2272,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Find Historical attributes"
                   componentClassID="Microsoft.ConditionalSplit"
                   contactInfo="Условное разбиение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  description="Распределяет строки данных по разным выходам в зависимости от содержимого данных. Используйте условие (выражения SSIS), чтобы указать распределяемые строки. Пример: разделение записей, которые необходимо очистить, от подготовленных к загрузке или распределение только подмножества записей."
                   name="Find Historical attributes"
                   usesDispositions="true">
                   <inputs>
@@ -2458,7 +2443,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Insert current employees"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-                  description="Назначение &quot;OLE DB&quot;"
                   name="Insert current employees"
                   usesDispositions="true"
                   version="4">
@@ -2671,7 +2655,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Insert new employees"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-                  description="Назначение &quot;OLE DB&quot;"
                   name="Insert new employees"
                   usesDispositions="true"
                   version="4">
@@ -2884,7 +2867,6 @@
                   refId="Package\Load DWH\Load Employees to DWH\Lookup DWH"
                   componentClassID="Microsoft.Lookup"
                   contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
-                  description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
                   name="Lookup DWH"
                   usesDispositions="true"
                   version="6">
@@ -3118,7 +3100,6 @@ WHERE [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   refId="Package\Load DWH\Load Employees to DWH\MDS source"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
-                  description="Источник &quot;OLE DB&quot;"
                   name="MDS source"
                   usesDispositions="true"
                   version="7">
@@ -3334,7 +3315,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\Load DWH\Load Employees to DWH\No business key"
                   componentClassID="Microsoft.FlatFileDestination"
                   contactInfo="Назначение &quot;Неструктурированный файл&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
-                  description="Назначение &quot;Неструктурированный файл&quot;"
                   localeId="1049"
                   name="No business key"
                   version="1">
@@ -3478,7 +3458,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\Load DWH\Load Employees to DWH\No change"
                   componentClassID="Microsoft.FlatFileDestination"
                   contactInfo="Назначение &quot;Неструктурированный файл&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
-                  description="Назначение &quot;Неструктурированный файл&quot;"
                   localeId="1049"
                   name="No change"
                   version="1">
@@ -3675,7 +3654,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\Load DWH\Load Employees to DWH\Update changing attributes and metadata"
                   componentClassID="Microsoft.OLEDBCommand"
                   contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
-                  description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
                   name="Update changing attributes and metadata"
                   usesDispositions="true"
                   version="2">
@@ -3847,7 +3825,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\Load DWH\Load Employees to DWH\Update rows"
                   componentClassID="Microsoft.OLEDBCommand"
                   contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
-                  description="Выполняет инструкцию SQL для каждой строки в потоке данных. Пример: вызов хранимой процедуры &quot;new employee setup&quot; для всех строк в таблице &quot;new employees&quot;. Примечание. Выполнение инструкции SQL для всех строк большого потока данных может занять длительное время."
                   name="Update rows"
                   usesDispositions="true"
                   version="2">
@@ -4079,7 +4056,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
         <DTS:Executable
           DTS:refId="Package\Load DWH\Set StartLoad Date"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{504d6b3f-4958-40e1-b013-041ab4a9f8fe}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -4122,8 +4098,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     <DTS:Executable
       DTS:refId="Package\MDS"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Description="Контейнер последовательности"
-      DTS:Disabled="True"
       DTS:DTSID="{8a1eac87-f2b0-487a-9618-eb049a52ed68}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -4135,7 +4109,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
         <DTS:Executable
           DTS:refId="Package\MDS\Data managment"
           DTS:CreationName="Microsoft.Pipeline"
-          DTS:Description="Задача потока данных"
           DTS:DTSID="{10a72745-c11a-4b47-849a-4f8bf7497d72}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
@@ -4152,7 +4125,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\MDS\Data managment\Add MDS Columns and change datatypes"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
                   name="Add MDS Columns and change datatypes"
                   usesDispositions="true">
                   <inputs>
@@ -4467,7 +4439,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\MDS\Data managment\DQS staging source"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
-                  description="Источник &quot;OLE DB&quot;"
                   name="DQS staging source"
                   usesDispositions="true"
                   version="7">
@@ -4803,7 +4774,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   refId="Package\MDS\Data managment\MDS staging table"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
-                  description="Назначение &quot;OLE DB&quot;"
                   name="MDS staging table"
                   usesDispositions="true"
                   version="4">
@@ -5058,7 +5028,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
         <DTS:Executable
           DTS:refId="Package\MDS\Get MDS Version Name"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{ab9d657f-5913-409c-b749-ba67865d4bd7}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -5087,7 +5056,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
         <DTS:Executable
           DTS:refId="Package\MDS\Update master Employee data"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{e2d1d4de-e912-4ce6-b68d-cdd9722924fe}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -5124,7 +5092,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
         <DTS:Executable
           DTS:refId="Package\MDS\Validate Model"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:Description="Задача &quot;Выполнение SQL&quot;"
           DTS:DTSID="{335a5aca-d69d-4457-bc42-a968a45fc336}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
@@ -5183,7 +5150,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     <DTS:Executable
       DTS:refId="Package\Set load compilation info"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Задача &quot;Выполнение SQL&quot;"
       DTS:DTSID="{C53D4C4F-97E0-47BB-9666-A67CC598F291}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -5672,13 +5638,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
           Id="Package\Load DWH\Load Employees to DWH\MDS source"
           TopLeft="322.5,54.5" />
         <NodeLayout
-          Size="128.8,41.6"
-          Id="Package\Load DWH\Load Employees to DWH\No change"
-          TopLeft="62.5,666.5" />
-        <NodeLayout
-          Size="275.2,41.6"
-          Id="Package\Load DWH\Load Employees to DWH\Update changing attributes and metadata"
-          TopLeft="252.5,666.5" />
+          Size="155.2,41.6"
+          Id="Package\Load DWH\Load Employees to DWH\No business key"
+          TopLeft="104.5,462.5" />
         <NodeLayout
           Size="140,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Lookup DWH"
@@ -5688,17 +5650,17 @@ WHERE	[LastChgDateTime] &gt; ?</property>
           Id="Package\Load DWH\Load Employees to DWH\Change Code and Name datatype"
           TopLeft="271.5,156.5" />
         <NodeLayout
-          Size="137.6,41.6"
-          Id="Package\Load DWH\Load Employees to DWH\Update rows"
-          TopLeft="588,666.5" />
+          Size="128.8,41.6"
+          Id="Package\Load DWH\Load Employees to DWH\No change"
+          TopLeft="62.5,666.5" />
+        <NodeLayout
+          Size="275.2,41.6"
+          Id="Package\Load DWH\Load Employees to DWH\Update changing attributes and metadata"
+          TopLeft="252.5,666.5" />
         <NodeLayout
           Size="192.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Find Historical attributes"
           TopLeft="293.5,564.5" />
-        <NodeLayout
-          Size="155.2,41.6"
-          Id="Package\Load DWH\Load Employees to DWH\No business key"
-          TopLeft="104.5,462.5" />
         <NodeLayout
           Size="196.8,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Insert current employees"
@@ -5707,30 +5669,10 @@ WHERE	[LastChgDateTime] &gt; ?</property>
           Size="153.6,41.6"
           Id="Package\Load DWH\Load Employees to DWH\Add LineageKey"
           TopLeft="313,258.5" />
-        <EdgeLayout
-          Id="Package\Load DWH\Load Employees to DWH.Paths[Historical Attributes]"
-          TopLeft="390,606.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-43.627578125,21.37548828125,87.25515625,9.7490234375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="137.6,41.6"
+          Id="Package\Load DWH\Load Employees to DWH\Update rows"
+          TopLeft="588,666.5" />
         <EdgeLayout
           Id="Package\Load DWH\Load Employees to DWH.Paths[Changing Attributes]"
           TopLeft="436.25,606.5">
@@ -6035,6 +5977,30 @@ WHERE	[LastChgDateTime] &gt; ?</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Employees to DWH.Paths[Historical Attributes]"
+          TopLeft="390,606.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-43.627578125,21.37548828125,87.25515625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -6104,17 +6070,17 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     design-time-name="Package\MDS\Data managment">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="164,42"
+          Size="164,41.6"
           Id="Package\MDS\Data managment\MDS staging table"
           TopLeft="92,258.5" />
         <NodeLayout
-          Size="171,42"
+          Size="171.2,41.6"
           Id="Package\MDS\Data managment\DQS staging source"
           TopLeft="88.5,54.5" />
         <NodeLayout
-          Size="273,42"
+          Size="272.8,41.6"
           Id="Package\MDS\Data managment\Add MDS Columns and change datatypes"
           TopLeft="37.5,156.5" />
         <EdgeLayout
@@ -6136,9 +6102,7 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6160,9 +6124,7 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
