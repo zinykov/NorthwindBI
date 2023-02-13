@@ -16,4 +16,4 @@
 ::setvar SSISFolderName NorthwindETL
 ::setvar SSISProjectName NorthwindETL
 ::setvar SSISServerName SWIFT3
-sqlcmd -S $(DWHServerName) -d $(DWHDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CreateUsers.sql" -v DWHServerName=$(DWHServerName) AzAgentGroup=$(AzAgentGroup)
+sqlcmd -S $(DWHServerName) -d $(DWHDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CreateUsers.sql" -v DWHServerName="$(DWHServerName)" AzAgentGroup="$(AzAgentGroup)"
