@@ -5,6 +5,7 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar EndLoadDate 1998-01-10
 --:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
@@ -315,8 +316,6 @@ BEGIN
 END;
 GO
 
-
-
 DECLARE @var smallint = N'$(RetrainWeeks)'
 IF NOT EXISTS (
 	SELECT 1
@@ -334,5 +333,25 @@ BEGIN
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'Int16'
+END;
+GO
+
+DECLARE @var smallint = N'$(EndLoadDate)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'EndLoadDate'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'EndLoadDate'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
 END;
 GO

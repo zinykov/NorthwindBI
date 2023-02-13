@@ -5,6 +5,7 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar EndLoadDate 1998-01-10
 --:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
@@ -164,4 +165,14 @@ EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
 		, @parameter_value = N'LogsServerName'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'EndLoadDate'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'EndLoadDate'
 GO

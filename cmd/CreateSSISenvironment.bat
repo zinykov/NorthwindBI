@@ -5,6 +5,7 @@
 ::setvar DQSServerName SWIFT3
 ::setvar DWHDatabaseName NorthwindDW
 ::setvar DWHServerName SWIFT3
+::setvar EndLoadDate "1998-01-10"
 ::setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 ::setvar LogsDatabaseName Logs
 ::setvar LogsServerName SWIFT3
@@ -16,4 +17,4 @@
 ::setvar SSISFolderName NorthwindETL
 ::setvar SSISProjectName NorthwindETL
 ::setvar SSISServerName SWIFT3
-sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CreateEnvironment.sql" -v BackupFilesPath="$(BackupFilesPath)" DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)"
+sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CreateEnvironment.sql" -v BackupFilesPath="$(BackupFilesPath)" DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" EndLoadDate="$(EndLoadDate)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)"
