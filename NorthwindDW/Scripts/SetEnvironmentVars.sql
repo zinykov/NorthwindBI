@@ -1,17 +1,21 @@
-﻿--:setvar DQSDatabaseName DQS_STAGING_DATA
+﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
+--:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+--:setvar DQSDatabaseName DQS_STAGING_DATA
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
 --:setvar MDSServerName SWIFT3
+--:setvar RetrainWeeks 3
 --:setvar SSISDatabaseName SISSDB
 --:setvar SSISEnvironmentName SWIFT3
 --:setvar SSISFolderName NorthwindETL
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
---:setvar RetrainWeeks 3
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
@@ -25,16 +29,6 @@ GO
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
 		, @parameter_name = N'CM.OLTP_ADO_NET.Password'
-		, @object_name = N'$(SSISProjectName)'
-		, @folder_name = N'$(SSISFolderName)'
-		, @project_name = N'$(SSISProjectName)'
-		, @value_type = R
-		, @parameter_value = N'OLTPNorthwidPassword'
-GO
-
-EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
-		  @object_type = 20
-		, @parameter_name = N'CM.OLTP_OLEDB.Password'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
 		, @project_name = N'$(SSISProjectName)'
