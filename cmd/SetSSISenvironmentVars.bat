@@ -16,4 +16,4 @@
 ::setvar SSISFolderName NorthwindETL
 ::setvar SSISProjectName NorthwindETL
 ::setvar SSISServerName SWIFT3
-sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\SetEnvironmentVars.sql" -v  SSISEnvironmentName=$(SSISEnvironmentName) SSISFolderName=$(SSISFolderName) SSISProjectName=$(SSISProjectName)
+sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\SetEnvironmentVars.sql" -v  SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)"

@@ -36,7 +36,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DWHServerName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DWHServerName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DWHServerName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DWHServerName'
@@ -50,7 +56,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DWHDatabaseName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DWHDatabaseName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DWHDatabaseName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DWHDatabaseName'
@@ -64,7 +76,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DQSServerName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DQSServerName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DQSServerName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQSServerName'
@@ -78,7 +96,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DQSDatabaseName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DQSDatabaseName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DQSDatabaseName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQSDatabaseName'
@@ -92,7 +116,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(MDSServerName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'MDSServerName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'MDSServerName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'MDSServerName'
@@ -106,7 +136,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(MDSDatabaseName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'MDSDatabaseName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'MDSDatabaseName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'MDSDatabaseName'
@@ -120,7 +156,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(ExternalFilesPath)\Northwind Data Profile.xml'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DataProfilingConnectionString' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DataProfilingConnectionString'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DataProfilingConnectionString'
@@ -134,7 +176,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(DBFilesPath)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DBFilesPath' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DBFilesPath'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DBFilesPath'
@@ -148,7 +196,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(BackupFilesPath)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'BackupFilesPath' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'BackupFilesPath'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'BackupFilesPath'
@@ -162,7 +216,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(ExternalFilesPath)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'ExternalFilesPath' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'ExternalFilesPath'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'ExternalFilesPath'
@@ -176,7 +236,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(OLTPNorthwidPassword)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'OLTPNorthwidPassword' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'OLTPNorthwidPassword'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'OLTPNorthwidPassword'
@@ -190,7 +256,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'C:\SSIS\xmlcalendar'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'XMLCalendarFolder' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'XMLCalendarFolder'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 	  @variable_name=N'XMLCalendarFolder'
@@ -204,7 +276,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(LogsServerName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'LogsServerName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LogsServerName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LogsServerName'
@@ -218,7 +296,13 @@ END;
 GO
 
 DECLARE @var sql_variant = N'$(LogsDatabaseName)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'LogsDatabaseName' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LogsDatabaseName'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LogsDatabaseName'
@@ -234,7 +318,13 @@ GO
 
 
 DECLARE @var smallint = N'$(RetrainWeeks)'
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'RetrainWeeks' )
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'RetrainWeeks'
+)
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'RetrainWeeks'
