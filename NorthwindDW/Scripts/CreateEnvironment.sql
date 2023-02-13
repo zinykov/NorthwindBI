@@ -1,17 +1,21 @@
-﻿--:setvar DQSDatabaseName DQS_STAGING_DATA
+﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
+--:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+--:setvar DQSDatabaseName DQS_STAGING_DATA
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
 --:setvar MDSServerName SWIFT3
+--:setvar RetrainWeeks 3
 --:setvar SSISDatabaseName SISSDB
 --:setvar SSISEnvironmentName SWIFT3
 --:setvar SSISFolderName NorthwindETL
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
---:setvar RetrainWeeks 3
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -115,7 +119,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\$(ProjectName)\Northwind Data Profile.xml'
+DECLARE @var sql_variant = N'$(ExternalFilesPath)\Northwind Data Profile.xml'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DataProfilingConnectionString' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
@@ -129,7 +133,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\'
+DECLARE @var sql_variant = N'$(DBFilesPath)'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'DBFilesPath' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
@@ -143,7 +147,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\'
+DECLARE @var sql_variant = N'$(BackupFilesPath)'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'BackupFilesPath' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
@@ -157,7 +161,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\SSIS\NorthwindBI\'
+DECLARE @var sql_variant = N'$(ExternalFilesPath)'
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[environment_variables] WHERE [name] = N'ExternalFilesPath' )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
