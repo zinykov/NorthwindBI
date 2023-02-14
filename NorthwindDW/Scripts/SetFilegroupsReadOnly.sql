@@ -1,11 +1,11 @@
 ﻿--:setvar DatabaseName "NorthwindDW"
 --:setvar Cutofftime '01.01.1998'
---:setvar IsStartOptimization "true"
+--:setvar IsSetFilegroupReadonly "true"
 
 USE [master];
 GO
 
-IF ( CONVERT ( BIT , N'$(IsStartOptimization)' ) = 1 )
+IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
 BEGIN
 	ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 	PRINT N'[$(DatabaseName)] setted in SINGLE_USER mode'
@@ -15,7 +15,7 @@ GO
 USE [$(DatabaseName)];
 GO
 
-IF ( CONVERT ( BIT , N'$(IsStartOptimization)' ) = 1 )
+IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
 BEGIN
 	DECLARE @FilegroupName AS NVARCHAR(100)
 	DECLARE @ReadOnly AS BIT
@@ -54,7 +54,7 @@ GO
 USE [master];
 GO
 
-IF ( CONVERT ( BIT , N'$(IsStartOptimization)' ) = 1 )
+IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
 BEGIN
 	ALTER DATABASE [$(DatabaseName)] SET MULTI_USER
 	PRINT N'[$(DatabaseName)] setted in MULTI_USER mode'

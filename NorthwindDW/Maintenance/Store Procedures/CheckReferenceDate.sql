@@ -2,6 +2,7 @@
         @CutoffTime AS DATE
       , @IsMonthlyOptimization AS BIT
       , @IsStartOptimization AS BIT OUTPUT
+      , @IsSetFilegroupReadonly AS BIT OUTPUT
 AS BEGIN
 	DECLARE @ReferenceDate AS DATE;
     DECLARE @MonthNumber AS TINYINT;
@@ -31,6 +32,24 @@ AS BEGIN
     ELSE
         BEGIN
             SET @IsStartOptimization = 0
+        END
+	
+    SET @ReferenceDate = (
+        SELECT	[AlterDateKey]
+        FROM	[Dimension].[Date]
+        WHERE	[DayOfWeekNumber] = 6
+			    AND [DayOfMonth] BETWEEN 2 AND 8
+			    AND [MonthNumber] = CAST ( 1 AS TINYINT )
+                AND [Year] = YEAR ( @CutoffTime )
+    )
+    
+    IF @CutoffTime = @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1997, 1, 4 )
+        BEGIN
+            SET @IsSetFilegroupReadonly = 1
+        END
+    ELSE
+        BEGIN
+            SET @IsSetFilegroupReadonly = 0
         END
     RETURN 0;
 END
