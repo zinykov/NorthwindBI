@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [Reports].[DQS_status] AS
-BEGIN
+﻿CREATE PROCEDURE [Reports].[DQS_status]
+AS BEGIN
 	SELECT		  [Table]			= 'Customer'
 				, [Record_Status]
 				, [Row Count]		= COUNT ( * )
