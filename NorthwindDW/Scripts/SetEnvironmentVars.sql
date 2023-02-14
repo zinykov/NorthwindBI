@@ -13,8 +13,8 @@
 --:setvar MDSServerName SWIFT3
 --:setvar RetrainWeeks 3
 --:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName SWIFT3
---:setvar SSISFolderName NorthwindETL
+--:setvar SSISEnvironmentName Release
+--:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
 
@@ -167,7 +167,7 @@ EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		, @parameter_value = N'LogsServerName'
 GO
 
-EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
 		, @parameter_name = N'EndLoadDate'
 		, @object_name = N'$(SSISProjectName)'
