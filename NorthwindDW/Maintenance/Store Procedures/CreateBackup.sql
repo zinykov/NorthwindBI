@@ -29,7 +29,7 @@ AS BEGIN
 					TO DISK = @BackupFileName
 					WITH
 						  NAME = @BackupName
-						--, COMPRESSION
+						, COMPRESSION
 
 				UPDATE	[Maintenance].[DatabaseFiles]
 				SET		[BackupFileName] = @BackupFileName
@@ -55,7 +55,7 @@ AS BEGIN
 				TO DISK = @BackupFileName
 				WITH
 					  NAME = @BackupName
-					--, COMPRESSION
+					, COMPRESSION
 
 			UPDATE	[Maintenance].[DatabaseFiles]
 			SET		[BackupFileName] = @BackupFileName
@@ -76,7 +76,7 @@ AS BEGIN
 				WITH
 					  DIFFERENTIAL
 					, NAME = @BackupName
-					--, COMPRESSION
+					, COMPRESSION
 			
 			UPDATE	[Maintenance].[DatabaseFiles]
 			SET		[BackupFileName] = @BackupFileName

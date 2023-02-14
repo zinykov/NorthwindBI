@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="111"
-  DTS:VersionGUID="{71EFDBD8-C8B4-445E-88AA-1172ED47B21D}">
+  DTS:VersionBuild="112"
+  DTS:VersionGUID="{D3D26946-EA8A-4A53-B316-A18FDA6EAB64}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -90,6 +90,15 @@
       DTS:ObjectName="BackupsReadWritePath">
       <DTS:VariableValue
         DTS:DataType="8">C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{499CA2B2-3D78-45A8-9160-26A9D2C0B25C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="IsSetFilegroupReadonly">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -275,7 +284,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -292,7 +301,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -343,7 +352,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1318,7 +1327,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1333,7 +1342,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1371,7 +1380,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1388,7 +1397,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1431,7 +1440,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsMonthlyOptimization = 0&#xA;      , @IsStartOptimization = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsMonthlyOptimization = 0&#xA;      , @IsStartOptimization = ? OUTPUT&#xA;      , @IsSetFilegroupReadonly = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -1441,6 +1450,12 @@
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="1"
                 SQLTask:DtsVariableName="User::IsStartOptimization"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="11"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::IsSetFilegroupReadonly"
                 SQLTask:ParameterDirection="Output"
                 SQLTask:DataType="11"
                 SQLTask:ParameterSize="-1" />
@@ -1457,11 +1472,11 @@
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsStartOptimization="+ (DT_WSTR, 5)  @[User::IsStartOptimization]</DTS:PropertyExpression>
+            DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsStartOptimization=False" />
+              Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsSetFilegroupReadonly=False" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
