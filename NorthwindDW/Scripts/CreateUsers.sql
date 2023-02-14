@@ -12,8 +12,8 @@
 --:setvar MDSServerName SWIFT3
 --:setvar RetrainWeeks 3
 --:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName SWIFT3
---:setvar SSISFolderName NorthwindETL
+--:setvar SSISEnvironmentName Release
+--:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
 
