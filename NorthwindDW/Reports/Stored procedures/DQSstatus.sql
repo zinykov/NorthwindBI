@@ -1,8 +1,8 @@
-﻿CREATE PROCEDURE [Reports].[DQS_status]
+﻿CREATE PROCEDURE [Reports].[DQSStatus]
 AS BEGIN
 	SELECT		  [Table]			= 'Customer'
 				, [Record_Status]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Customer]
 
@@ -12,7 +12,7 @@ AS BEGIN
 
 	SELECT		  [Table]			= 'Employee'
 				, [Record_Status]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Employee]
 
@@ -22,7 +22,7 @@ AS BEGIN
 
 	SELECT		  [Table]			= 'Product'
 				, [Record_Status]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Product]
 
@@ -32,7 +32,7 @@ AS BEGIN
 
 	SELECT		  [Table]			= 'Category'
 				, [Record_Status]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[NW_Category]
 
@@ -42,7 +42,7 @@ AS BEGIN
 
 	SELECT		  [Table]			= 'Holidays'
 				, [Record_Status]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(DQSServerName)].[$(DQSDatabaseName)].[dbo].[Holidays]
 

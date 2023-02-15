@@ -1,8 +1,8 @@
-﻿CREATE PROCEDURE [Reports].[MDS_status]
+﻿CREATE PROCEDURE [Reports].[MDSStatus]
 AS BEGIN
 	SELECT		  [Table]			= 'Customer'
 				, [ValidationStatus]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterCustomer]
 
@@ -12,7 +12,7 @@ AS BEGIN
 	
 	SELECT		  [Table]			= 'Employee'
 				, [ValidationStatus]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterEmployee]
 
@@ -22,7 +22,7 @@ AS BEGIN
 	
 	SELECT		  [Table]			= 'Holidays'
 				, [ValidationStatus]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterHolidays]
 
@@ -32,7 +32,7 @@ AS BEGIN
 	
 	SELECT		  [Table]			= 'Product'
 				, [ValidationStatus]
-				, [Row Count]		= COUNT ( * )
+				, [RowCount]		= COUNT ( * )
 
 	FROM		[$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterProduct]
 
