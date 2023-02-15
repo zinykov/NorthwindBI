@@ -1,5 +1,0 @@
-﻿CREATE ROLE [dwh_user] AUTHORIZATION [dbo];
-GO
-
-GRANT SELECT, EXECUTE ON SCHEMA::[Reports] TO [dwh_user];  
-GO

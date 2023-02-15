@@ -1,21 +1,21 @@
-﻿:setvar AzAgentGroup VSTS_AgentService_G39071
-:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
-:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
-:setvar DQSDatabaseName DQS_STAGING_DATA
-:setvar DQSServerName SWIFT3
-:setvar DWHDatabaseName NorthwindDW
-:setvar DWHServerName SWIFT3
-:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
-:setvar LogsDatabaseName Logs
-:setvar LogsServerName SWIFT3
-:setvar MDSDatabaseName MDS
-:setvar MDSServerName SWIFT3
-:setvar RetrainWeeks 3
-:setvar SSISDatabaseName SISSDB
-:setvar SSISEnvironmentName Release
-:setvar SSISFolderName NorthwindBI
-:setvar SSISProjectName NorthwindETL
-:setvar SSISServerName SWIFT3
+﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
+--:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+--:setvar DQSDatabaseName DQS_STAGING_DATA
+--:setvar DQSServerName SWIFT3
+--:setvar DWHDatabaseName NorthwindDW
+--:setvar DWHServerName SWIFT3
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
+--:setvar MDSDatabaseName MDS
+--:setvar MDSServerName SWIFT3
+--:setvar RetrainWeeks 3
+--:setvar SSISDatabaseName SISSDB
+--:setvar SSISEnvironmentName Release
+--:setvar SSISFolderName NorthwindBI
+--:setvar SSISProjectName NorthwindETL
+--:setvar SSISServerName SWIFT3
 
 USE [$(DWHDatabaseName)]
 GO
@@ -33,10 +33,11 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 			WITH DEFAULT_SCHEMA=[Reports]
 	END
 GO
-
-ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\RDLexec]
+ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\RDLexec]
 GO
-ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\UserBI]
+ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\UserBI]
+GO
+GRANT EXECUTE ON SCHEMA::[Reports] TO [$(DWHServerName)\RDLexec]
 GO
 
 USE [$(DQSDatabaseName)]
@@ -48,7 +49,6 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQSServerName)\
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
-
 ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\RDLexec]
 GO
 
@@ -61,7 +61,6 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
-
 ALTER ROLE [db_datareader] ADD MEMBER [$(DWHServerName)\RDLexec]
 GO
 
@@ -74,10 +73,8 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 			WITH DEFAULT_SCHEMA=[stg]
 	END
 GO
-
 GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
 GO
-
 GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
 GO
 
@@ -87,15 +84,11 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 			WITH DEFAULT_SCHEMA=[mdm]
 	END
 GO
-
 GRANT SELECT ON [mdm].[MasterCustomer] TO [$(MDSServerName)\RDLexec]
 GO
-
 GRANT SELECT ON [mdm].[MasterEmployee] TO [$(MDSServerName)\RDLexec]
 GO
-
 GRANT SELECT ON [mdm].[MasterHolidays] TO [$(MDSServerName)\RDLexec]
 GO
-
 GRANT SELECT ON [mdm].[MasterProduct] TO [$(MDSServerName)\RDLexec]
 GO
