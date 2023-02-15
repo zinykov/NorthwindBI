@@ -33,10 +33,13 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 			WITH DEFAULT_SCHEMA=[Reports]
 	END
 GO
+
 ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\RDLexec]
 GO
+
 ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\UserBI]
 GO
+
 GRANT EXECUTE ON SCHEMA::[Reports] TO [$(DWHServerName)\RDLexec]
 GO
 
@@ -49,6 +52,7 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQSServerName)\
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
+
 ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\RDLexec]
 GO
 
@@ -61,6 +65,7 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
+
 ALTER ROLE [db_datareader] ADD MEMBER [$(DWHServerName)\RDLexec]
 GO
 
@@ -73,9 +78,8 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 			WITH DEFAULT_SCHEMA=[stg]
 	END
 GO
-GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
-GO
-GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
+
+ALTER ROLE [$(AzAgentGroup)] ADD MEMBER [$(MDSServerName)\$(AzAgentGroup)]
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\RDLexec' )
@@ -84,11 +88,6 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 			WITH DEFAULT_SCHEMA=[mdm]
 	END
 GO
-GRANT SELECT ON [mdm].[MasterCustomer] TO [$(MDSServerName)\RDLexec]
-GO
-GRANT SELECT ON [mdm].[MasterEmployee] TO [$(MDSServerName)\RDLexec]
-GO
-GRANT SELECT ON [mdm].[MasterHolidays] TO [$(MDSServerName)\RDLexec]
-GO
-GRANT SELECT ON [mdm].[MasterProduct] TO [$(MDSServerName)\RDLexec]
+
+ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\RDLexec]
 GO
