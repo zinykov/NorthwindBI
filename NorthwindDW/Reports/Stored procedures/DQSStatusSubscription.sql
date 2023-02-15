@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[DQS_status_subscription] AS
+﻿CREATE PROCEDURE [Reports].[DQSStatusSubscription] AS
 BEGIN
 	IF OBJECT_ID ( N'#tempDQSstatus' ) IS NOT NULL
 		BEGIN

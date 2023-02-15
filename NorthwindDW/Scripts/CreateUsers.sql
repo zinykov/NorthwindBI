@@ -34,9 +34,13 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 	END
 GO
 
-ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\RDLexec]
+ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\RDLexec]
 GO
-ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\UserBI]
+
+ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\UserBI]
+GO
+
+GRANT EXECUTE ON SCHEMA::[Reports] TO [$(DWHServerName)\RDLexec]
 GO
 
 USE [$(DQSDatabaseName)]
@@ -75,8 +79,15 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 	END
 GO
 
-GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
+ALTER ROLE [$(AzAgentGroup)] ADD MEMBER [$(MDSServerName)\$(AzAgentGroup)]
 GO
 
-GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\RDLexec' )
+	BEGIN
+		CREATE USER [$(MDSServerName)\RDLexec] FOR LOGIN [$(MDSServerName)\RDLexec]
+			WITH DEFAULT_SCHEMA=[mdm]
+	END
+GO
+
+ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\RDLexec]
 GO
