@@ -56,13 +56,17 @@ BEGIN
 -- Переменной @Partition_number присваивается номер предпоследней секции
 		SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter )
 
+		EXECUTE [Integration].[CreateLoadTableOrder]
+			  @CutoffTime = @EndLoad
+			, @IsMaitenance = 0;
+
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
 		IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
 			BEGIN
 				SET @StartLoad = @EndLoad
 			END
 		
-		INSERT INTO [Staging].[Order]
+		INSERT INTO [Integration].[Order]
 		SELECT		  [OrderKey]					=	O.[OrderID]
 					, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
 					, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
@@ -88,13 +92,13 @@ BEGIN
 		WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		BEGIN TRANSACTION
-			ALTER TABLE [Staging].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
+			ALTER TABLE [Integration].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
 --		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
-			IF ( SELECT COUNT ( * ) FROM [Staging].[Order] ) > 0
+			IF ( SELECT COUNT ( * ) FROM [Integration].[Order] ) > 0
 			MERGE
 				INTO [Fact].[Order] AS TRG
-				USING [Staging].[Order] AS SRC
+				USING [Integration].[Order] AS SRC
 				ON	(
 						TRG.[OrderKey]		=	SRC.[OrderKey]
 					AND TRG.[ProductKey]	=	SRC.[ProductKey]
@@ -145,4 +149,6 @@ BEGIN
 						, SRC.[LineageKey]
 					);
 		COMMIT
+
+		EXECUTE [Integration].[DropLoadTableOrder];
 END
