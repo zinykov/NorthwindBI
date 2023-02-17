@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="183"
-  DTS:VersionGUID="{4501A913-02CD-4CEC-9CE7-0118A31E47BA}">
+  DTS:VersionBuild="185"
+  DTS:VersionGUID="{FBAC2BCC-53EF-4674-B2A3-CD0896D986E0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -243,11 +243,11 @@
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
-        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropAndRestore.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ @[$Project::ExternalFilesPath]  +"'"</DTS:PropertyExpression>
+        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] + "\nSQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\RestoreDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
-          Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropAndRestore.sql&quot; -v DWHDatabaseName=NorthwindDW CutoffTime='C:\SSIS\NorthwindBI\'" />
+          Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW&#xA;SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\RestoreDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -578,6 +578,14 @@
           Id="Package\Clean up backups"
           TopLeft="35.1,54.3" />
         <NodeLayout
+          Size="200,41.6"
+          Id="Package\Crash and recovery 1 of 2"
+          TopLeft="249.9,463.1" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Crash and recovery 2 of 2"
+          TopLeft="249.9,871.899999999999" />
+        <NodeLayout
           Size="158.4,41.6"
           Id="Package\Incremental load immitation 1 of 2\Incremental load"
           TopLeft="5.5,5.49999999999995" />
@@ -589,6 +597,17 @@
           Id="Package\Incremental load immitation 1 of 2"
           TopLeft="265.1,257.5" />
         <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\Incremental load immitation 2 of 2\Incremental load"
+          TopLeft="5.5,5.49999999999995" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="169.6,102.4"
+          Size="169.6,145.6"
+          Id="Package\Incremental load immitation 2 of 2"
+          TopLeft="265.1,666.3" />
+        <NodeLayout
           Size="128,41.6"
           Id="Package\Initial load"
           TopLeft="285.9,155.9" />
@@ -596,6 +615,14 @@
           Size="184.8,41.6"
           Id="Package\Maintence Subsystems"
           TopLeft="257.5,54.3" />
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Test select 1 of 2"
+          TopLeft="269.9,564.7" />
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Test select 2 of 2"
+          TopLeft="269.9,973.499999999999" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="349.9,197.5">
@@ -686,21 +713,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="158.4,41.6"
-          Id="Package\Incremental load immitation 2 of 2\Incremental load"
-          TopLeft="5.5,5.49999999999995" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="169.6,102.4"
-          Size="169.6,145.6"
-          Id="Package\Incremental load immitation 2 of 2"
-          TopLeft="265.1,666.3" />
-        <NodeLayout
-          Size="200,41.6"
-          Id="Package\Crash and recovery 1 of 2"
-          TopLeft="249.9,463.1" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
           TopLeft="349.9,403.1">
@@ -723,10 +735,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="200,41.6"
-          Id="Package\Crash and recovery 2 of 2"
-          TopLeft="249.9,871.899999999999" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="349.9,811.9">
@@ -749,10 +757,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="160,41.6"
-          Id="Package\Test select 1 of 2"
-          TopLeft="269.9,564.7" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
           TopLeft="349.9,504.7">
@@ -775,10 +779,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="160,41.6"
-          Id="Package\Test select 2 of 2"
-          TopLeft="269.9,973.499999999999" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
           TopLeft="349.9,913.499999999999">

@@ -14,5 +14,3 @@ IF EXISTS ( SELECT 1 FROM [sys].[databases] WHERE [name] = N'$(DWHDatabaseName)'
 		PRINT N'[$(DWHDatabaseName)] dropped'
 	END;
 GO
-
-:r $(ExternalFilesPath)\Scripts\RestoreDatabase.sql
