@@ -1,39 +1,69 @@
-﻿USE [master];
+﻿:setvar DWHDatabaseName NorthwindDW
+
+USE [Logs];
 GO
 
-RESTORE DATABASE [NorthwindDW]
-	READ_WRITE_FILEGROUPS
-	FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\1998-01-03\NorthwindDW_backup_read_write_filegroups_19980103_FULL.bak'
-	WITH PARTIAL, NORECOVERY;
-GO
+DECLARE @IsReadOnly AS BIT;
+DECLARE @BackupFileName AS NVARCHAR(500);
+DECLARE @SQL AS NVARCHAR(1000);
+DECLARE @GroupName AS NVARCHAR(100);
 
-RESTORE DATABASE [NorthwindDW]
-	READ_WRITE_FILEGROUPS
-	FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\1998-01-03\NorthwindDW_backup_read_write_filegroups_19980109_DIFF.bak'
-	WITH NORECOVERY;
-GO
+DECLARE RestoreDWH CURSOR FOR 
+	SELECT		  DISTINCT [IsReadOnly], [BackupFileName]
+	FROM		[dbo].[DatabaseFiles]
+	ORDER BY	  [IsReadOnly] ASC
+				, [BackupFileName] ASC
 
-RESTORE DATABASE [NorthwindDW]
-	WITH RECOVERY;
-GO
+OPEN RestoreDWH
+	FETCH NEXT FROM RestoreDWH INTO @IsReadOnly, @BackupFileName
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			IF ( @IsReadOnly = 0 )
+				BEGIN
+					IF ( @BackupFileName LIKE '%_FULL.bak' )
+						BEGIN
+							SET @SQL = CONCAT (
+								  N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] READ_WRITE_FILEGROUPS FROM DISK = '''
+								, @BackupFileName
+								, N''' WITH PARTIAL, NORECOVERY;'
+							)
 
-SELECT	MIN ( [OrderDateKey] ), MAX ( [OrderDateKey] )
-FROM	[NorthwindDW].[Fact].[Order]
-WHERE	[OrderDateKey] >= 19970101;
-GO
+							EXECUTE sp_executesql @SQL
+						END
+					ELSE IF ( @BackupFileName LIKE '%_DIFF.bak' )
+						BEGIN
+							SET @SQL = CONCAT (
+								  N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] READ_WRITE_FILEGROUPS FROM DISK = '''
+								, @BackupFileName
+								, N''' WITH NORECOVERY;'
+							)
 
-RESTORE DATABASE [NorthwindDW]
-	FILEGROUP = 'Order_1996_Data'
-	FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\ReadOnly\NorthwindDW_backup_read_only_filegroup_Order_1996_Data.bak'
-	WITH RECOVERY;
-GO
+							EXECUTE sp_executesql @SQL
+						END
+						
+						SET @SQL = N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] WITH RECOVERY;'
+						
+						EXECUTE sp_executesql @SQL
+				END
+			ELSE IF ( @IsReadOnly = 1 )
+				BEGIN
+					SET @GroupName = (
+						SELECT	[GroupName]
+						FROM	[dbo].[DatabaseFiles]
+						WHERE	[BackupFileName] = @BackupFileName
+					)
 
-RESTORE DATABASE [NorthwindDW]
-	FILEGROUP = 'Order_1996_Index'
-	FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\ReadOnly\NorthwindDW_backup_read_only_filegroup_Order_1996_Index.bak'
-	WITH RECOVERY;
-GO
+					SET @SQL = CONCAT (
+						  N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] FILEGROUP = '''
+						, @GroupName
+						, N''' FROM DISK = '''
+						, @BackupFileName
+						, N''' WITH RECOVERY;'
+					)
 
-SELECT	MIN ( [OrderDateKey] ), MAX ( [OrderDateKey] )
-FROM	[NorthwindDW].[Fact].[Order];
-GO
+					EXECUTE sp_executesql @SQL
+				END
+			FETCH NEXT FROM RestoreDWH INTO @IsReadOnly, @BackupFileName
+		END
+CLOSE RestoreDWH
+DEALLOCATE RestoreDWH

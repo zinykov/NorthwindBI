@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[CreateBackup]
+﻿CREATE PROCEDURE [Maintenance].[BackupDatabase]
 	  @CutoffTime AS DATE
 	, @BackupsReadOnlyPath AS NVARCHAR(1000)
 	, @BackupsReadWritePath AS NVARCHAR(1000)
@@ -81,6 +81,7 @@ AS BEGIN
 			UPDATE	[Maintenance].[DatabaseFiles]
 			SET		[BackupFileName] = @BackupFileName
 			WHERE	[IsReadOnly] = 0
+					AND [GroupName] <> 'PRIMARY'
 		END
 	RETURN 0;
 END
