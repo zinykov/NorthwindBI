@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="178"
-  DTS:VersionGUID="{D304B0C2-9966-412C-AEFC-CA9FB9AE9272}">
+  DTS:VersionBuild="183"
+  DTS:VersionGUID="{4501A913-02CD-4CEC-9CE7-0118A31E47BA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -234,17 +234,91 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Incremental load immitation"
+      DTS:refId="Package\Crash and recovery 1 of 2"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:DTSID="{44c8bac8-e51a-4f3d-bab5-b1707cb8ba71}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crash and recovery 1 of 2"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropAndRestore.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ @[$Project::ExternalFilesPath]  +"'"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="C:\Windows\System32\cmd.exe"
+          Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropAndRestore.sql&quot; -v DWHDatabaseName=NorthwindDW CutoffTime='C:\SSIS\NorthwindBI\'" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Crash and recovery 2 of 2"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:DTSID="{9b838820-df23-43a9-9a7f-95ddeacb7b32}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crash and recovery 2 of 2"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropAndRestore.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ @[$Project::ExternalFilesPath]  +"'"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="C:\Windows\System32\cmd.exe"
+          Arguments="/C SQLCmd -S SWIFT3 -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropAndRestore.sql&quot; -v DWHDatabaseName=NorthwindDW CutoffTime='C:\SSIS\NorthwindBI\'" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Incremental load immitation 1 of 2"
       DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
       DTS:CreationName="STOCK:FORLOOP"
       DTS:DTSID="{51EC9912-7838-49AB-A67A-7D1A8FC504C9}"
-      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
+      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1997-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
       DTS:FailPackageOnFailure="True"
       DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-01-01&quot;"
       DTS:LocaleID="-1"
       DTS:MaxConcurrent="1"
-      DTS:ObjectName="Incremental load immitation">
+      DTS:ObjectName="Incremental load immitation 1 of 2">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation 1 of 2\Incremental load"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{75EFBC8E-461C-4BD8-B7A2-96C07F65F0FE}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Incremental load.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Incremental load immitation 2 of 2"
+      DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
+      DTS:CreationName="STOCK:FORLOOP"
+      DTS:DTSID="{3b269111-7c3d-4379-b3ef-53bc2ec6ab80}"
+      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
+      DTS:ExecutableType="STOCK:FORLOOP"
+      DTS:FailPackageOnFailure="True"
+      DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-05-07&quot;"
+      DTS:LocaleID="-1"
+      DTS:MaxConcurrent="1"
+      DTS:ObjectName="Incremental load immitation 2 of 2">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -252,9 +326,9 @@
         DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" +  @[$Project::EndLoadDate] + "\""</DTS:PropertyExpression>
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Incremental load immitation\Incremental load"
+          DTS:refId="Package\Incremental load immitation 2 of 2\Incremental load"
           DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:DTSID="{75EFBC8E-461C-4BD8-B7A2-96C07F65F0FE}"
+          DTS:DTSID="{4713f405-55e5-4a71-b537-d0a1eb19dbb0}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load"
@@ -317,6 +391,36 @@
           SQLTask:AgentJobID="NorthwindBI.MaintenceSubSystems" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Test select 1 of 2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{749206AA-07EB-4758-9692-0673EE4FEEAE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Test select 1 of 2"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="SELECT * FROM [Reports].[FactOrders]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Test select 2 of 2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{63f04758-cdce-48f3-bb24-d00b62962a83}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Test select 2 of 2"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="SELECT * FROM [Reports].[FactOrders]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -326,7 +430,7 @@
       DTS:From="Package\Initial load"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Incremental load immitation" />
+      DTS:To="Package\Incremental load immitation 1 of 2" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
@@ -343,6 +447,46 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Initial load" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{075DAB78-614A-4ED2-8EB6-E35CB7A72DE0}"
+      DTS:From="Package\Incremental load immitation 1 of 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Crash and recovery 1 of 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{210F993C-5FB2-4267-842C-F97DD8A05961}"
+      DTS:From="Package\Incremental load immitation 2 of 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Crash and recovery 2 of 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{F87C7FB2-CC50-4F27-AB13-12560E961DEB}"
+      DTS:From="Package\Crash and recovery 1 of 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Test select 1 of 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{41E5C6FD-361B-4733-8FF4-9757714FB2CC}"
+      DTS:From="Package\Crash and recovery 2 of 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Test select 2 of 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{B9F893A3-F96A-418F-88F9-49DCAB7B3DE5}"
+      DTS:From="Package\Test select 1 of 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Incremental load immitation 2 of 2" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -428,33 +572,33 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="161.6,41.6"
           Id="Package\Clean up backups"
-          TopLeft="71.1,54.3" />
+          TopLeft="35.1,54.3" />
         <NodeLayout
           Size="158.4,41.6"
-          Id="Package\Incremental load immitation\Incremental load"
+          Id="Package\Incremental load immitation 1 of 2\Incremental load"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="169.6,102.4"
           Size="169.6,145.6"
-          Id="Package\Incremental load immitation"
-          TopLeft="307.1,257.5" />
+          Id="Package\Incremental load immitation 1 of 2"
+          TopLeft="265.1,257.5" />
         <NodeLayout
           Size="128,41.6"
           Id="Package\Initial load"
-          TopLeft="327.9,155.9" />
+          TopLeft="285.9,155.9" />
         <NodeLayout
-          Size="196.8,41.6"
+          Size="184.8,41.6"
           Id="Package\Maintence Subsystems"
-          TopLeft="293.5,54.3" />
+          TopLeft="257.5,54.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="391.9,197.5">
+          TopLeft="349.9,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -476,13 +620,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="151.9,95.8999999999999">
+          TopLeft="115.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="220,59.9999999999999"
+              EndConnector="214,59.9999999999999"
               Start="0,0"
-              End="220,52.4999999999999">
+              End="214,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -493,13 +637,13 @@
                     Point2="0,35.5555555555555"
                     Point3="4,35.5555555555555" />
                   <mssgle:LineSegment
-                    End="216,35.5555555555555" />
+                    End="210,35.5555555555555" />
                   <mssgle:CubicBezierSegment
-                    Point1="216,35.5555555555555"
-                    Point2="220,35.5555555555555"
-                    Point3="220,39.5555555555555" />
+                    Point1="210,35.5555555555555"
+                    Point2="214,35.5555555555555"
+                    Point3="214,39.5555555555555" />
                   <mssgle:LineSegment
-                    End="220,52.4999999999999" />
+                    End="214,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -510,7 +654,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="391.9,95.8999999999999">
+          TopLeft="349.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -534,6 +678,143 @@
                     Point3="20,39.5555555555555" />
                   <mssgle:LineSegment
                     End="20,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\Incremental load immitation 2 of 2\Incremental load"
+          TopLeft="5.5,5.49999999999995" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="169.6,102.4"
+          Size="169.6,145.6"
+          Id="Package\Incremental load immitation 2 of 2"
+          TopLeft="265.1,666.3" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Crash and recovery 1 of 2"
+          TopLeft="249.9,463.1" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="349.9,403.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Crash and recovery 2 of 2"
+          TopLeft="249.9,871.899999999999" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="349.9,811.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Test select 1 of 2"
+          TopLeft="269.9,564.7" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="349.9,504.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Test select 2 of 2"
+          TopLeft="269.9,973.499999999999" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="349.9,913.499999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="349.9,606.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
