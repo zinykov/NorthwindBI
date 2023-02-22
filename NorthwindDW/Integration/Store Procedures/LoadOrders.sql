@@ -89,7 +89,7 @@ BEGIN
 					AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 		LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
-		WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
+		WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 		BEGIN TRANSACTION
 			ALTER TABLE [Integration].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
@@ -102,7 +102,6 @@ BEGIN
 				ON	(
 						TRG.[OrderKey]		=	SRC.[OrderKey]
 					AND TRG.[ProductKey]	=	SRC.[ProductKey]
-					AND TRG.[OrderDateKey]	=	SRC.[OrderDateKey]
 					)
 				WHEN MATCHED THEN UPDATE SET
 						  TRG.[OrderKey]				=	SRC.[OrderKey]

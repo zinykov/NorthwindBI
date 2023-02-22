@@ -28,35 +28,35 @@ CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Fact_Order] ON [Fact].[Order]
     WITH (
           DATA_COMPRESSION = COLUMNSTORE_ARCHIVE ON PARTITIONS ( 1 )
         , DATA_COMPRESSION = COLUMNSTORE ON PARTITIONS ( 2 TO 3 )
-    ) ON [PS_Order_Date_Data] ( [OrderDateKey] );
+    ) ON [PS_Order_Date_Data] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Order_Date_Key] ON [Fact].[Order] ( [OrderDateKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Required_Date_Key] ON [Fact].[Order] ( [RequiredDateKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Shipped_Date_Key] ON [Fact].[Order] ( [ShippedDateKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Cusotmer_Key] ON [Fact].[Order] ( [CustomerKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Employee_Key] ON [Fact].[Order] ( [EmployeeKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Product_Key] ON [Fact].[Order] ( [ProductKey] )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PS_Order_Date_Index] ( [OrderDateKey] );
+    ON [PS_Order_Date_Index] ( [ShippedDateKey] );
 GO

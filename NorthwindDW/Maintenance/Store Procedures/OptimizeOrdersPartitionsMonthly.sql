@@ -49,7 +49,7 @@ AS BEGIN
 			, @IsMaitenance = 1;
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
-        SELECT		DISTINCT $PARTITION.[PF_Integration] ( CAST ( PRV.[value] AS INT ) )
+        SELECT		DISTINCT $PARTITION.[PF_Load_Order] ( CAST ( PRV.[value] AS INT ) )
                     , CAST ( PRV.[value] AS INT )
 
         FROM		[sys].[partition_range_values] AS PRV
@@ -84,7 +84,7 @@ AS BEGIN
 	    FETCH ABSOLUTE 2 FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
         WHILE @@FETCH_STATUS = 0
 			BEGIN
-    			ALTER PARTITION FUNCTION [PF_Integration] () MERGE RANGE ( @PartitionValue )
+    			ALTER PARTITION FUNCTION [PF_Load_Order] () MERGE RANGE ( @PartitionValue )
                 FETCH NEXT FROM OptimizePartitions INTO @PartitionNumber, @PartitionValue
 			END
     CLOSE OptimizePartitions
@@ -92,10 +92,10 @@ AS BEGIN
 
 -- Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
     CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
-        ON [PS_Integration_Data] ( [OrderDateKey] );
+        ON [PS_Load_Order_Data] ( [OrderDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
-    SET @PartitionNumber = $PARTITION.[PF_Integration] ( @StartKey )
+    SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartKey )
 
 -- Перенос данных в таблицу фактов
 	ALTER TABLE [Integration].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
