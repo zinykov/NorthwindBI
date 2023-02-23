@@ -4,7 +4,7 @@
     [ProductKey]                    INT             NOT NULL,
     [CustomerKey]                   INT             NULL, 
     [EmployeeKey]                   INT             NULL,
-    [OrderDateKey]                  INT             NOT NULL, 
+    [OrderDateKey]                  INT             NULL, 
     [RequiredDateKey]               INT             NULL, 
     [ShippedDateKey]                INT             NULL,
     [UnitPrice]                     MONEY           NULL,

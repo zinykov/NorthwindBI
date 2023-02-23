@@ -57,7 +57,7 @@ AS BEGIN
         CONSTRAINT [FK_Integration_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
         CONSTRAINT [FK_Integration_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
     )
-    ON [PS_Load_Order_Data] ( [OrderDateKey] );
+    ON [PS_Load_Order_Data] ( [ShippedDateKey] );
 
     CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
         ON [PS_Load_Order_Data] ( [ShippedDateKey] );

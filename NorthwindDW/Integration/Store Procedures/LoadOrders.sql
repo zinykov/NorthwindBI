@@ -32,10 +32,6 @@ BEGIN
 	SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
 	SET @PartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
 
-	EXECUTE [Integration].[CreateLoadTableOrder]
-		  @CutoffTime = @EndLoad
-		, @IsMaitenance = 0;
-
 -- ШАГ 1. Определение файловых групп для схем секционирования
 	SET @SQL = CONCAT (
 			N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED [Order_'
@@ -56,6 +52,10 @@ BEGIN
 	BEGIN
 		ALTER PARTITION FUNCTION [PF_Order_Date] () SPLIT RANGE ( @NewPartitionParameter )
 	END
+
+	EXECUTE [Integration].[CreateLoadTableOrder]
+		  @CutoffTime = @EndLoad
+		, @IsMaitenance = 0;
 
 -- Переменной @Partition_number присваивается номер предпоследней секции
 	SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter )
