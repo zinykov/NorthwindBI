@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Date Dimention"
   DTS:PackageType="5"
-  DTS:VersionBuild="106"
-  DTS:VersionGUID="{A4F93E3E-10B5-451D-8A98-536AB2D3F52E}">
+  DTS:VersionBuild="107"
+  DTS:VersionGUID="{19160B02-A32B-489A-A4A4-5E0B72002FB3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -1053,12 +1053,12 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\DWH\Get Order Date"
+          DTS:refId="Package\DWH\Get Shipped Date"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:DTSID="{6966ffaf-17eb-4f62-aaf5-efbf4a288d87}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Get Order Date"
+          DTS:ObjectName="Get Shipped Date"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
           DTS:ThreadHint="0">
           <DTS:Variables />
@@ -1067,7 +1067,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [OrderDate] ) )&#xA;   , [EndDate]   = YEAR ( MAX ( [OrderDate] ) ) + 1&#xA;&#xA;FROM  [landing].[Orders]"
+              SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [ShippedDate] ) )&#xA;   , [EndDate]   = YEAR ( MAX ( [ShippedDate] ) ) + 1&#xA;&#xA;FROM  [landing].[Orders]"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="StartDate"
@@ -1123,7 +1123,7 @@
           DTS:refId="Package\DWH.PrecedenceConstraints[Constraint 1]"
           DTS:CreationName=""
           DTS:DTSID="{69959FFD-6A61-49BA-B638-725153597148}"
-          DTS:From="Package\DWH\Get Order Date"
+          DTS:From="Package\DWH\Get Shipped Date"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 1"
           DTS:To="Package\DWH\Add unknown date" />
@@ -2227,17 +2227,17 @@
           Id="Package\DQS"
           TopLeft="167.1,155.9" />
         <NodeLayout
-          Size="151.2,41.6"
-          Id="Package\DWH\Get Order Date"
-          TopLeft="19.5,5.49999999999995" />
+          Size="166.4,41.6"
+          Id="Package\DWH\Add unknown date"
+          TopLeft="11.9,107.1" />
+        <NodeLayout
+          Size="160.8,41.6"
+          Id="Package\DWH\Get Shipped Date"
+          TopLeft="14.7,5.49999999999995" />
         <NodeLayout
           Size="179.2,41.6"
           Id="Package\DWH\Load Date Dimension"
           TopLeft="5.50000000000003,208.7" />
-        <NodeLayout
-          Size="166.4,41.6"
-          Id="Package\DWH\Add unknown date"
-          TopLeft="11.9,107.1" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
           TopLeft="95.1,148.7">
@@ -2438,14 +2438,14 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
