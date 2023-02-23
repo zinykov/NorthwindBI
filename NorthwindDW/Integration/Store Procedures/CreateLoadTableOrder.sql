@@ -4,6 +4,8 @@
 AS BEGIN
 	DECLARE @EndMonthDate	        AS DATE;
 	DECLARE @Bondaries		        AS NVARCHAR(2000);
+    DECLARE @FileGroupNamesData     AS NVARCHAR(2000);
+    DECLARE @FileGroupNamesIndex    AS NVARCHAR(2000);
 	DECLARE @CreatePF		        AS NVARCHAR(4000);
 	DECLARE @CreatePS		        AS NVARCHAR(4000);
     DECLARE @YearNumber             AS INT;
@@ -27,10 +29,54 @@ AS BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Data] AS PARTITION [PF_Load_Order] ALL TO ( [Order_', @YearNumber, N'_Data] )' );
-    EXECUTE sp_executesql @CreatePS
+    SELECT		  @FileGroupNamesData = COALESCE ( @FileGroupNamesData + ',', '' ) + CONCAT ('[', COALESCE ( FG.[name], FGP.[name] ), ']' )
+	
+	FROM		sys.tables AS T
+	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
+	LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
+	LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
+				AND P.[index_id] = I.[index_id]
+	LEFT JOIN	sys.data_spaces AS DS ON DS.[data_space_id] = I.[data_space_id]
+	LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = DS.[data_space_id]
+	LEFT JOIN	sys.partition_functions AS PF ON PF.[function_id] = PS.[function_id]
+	LEFT JOIN	sys.destination_data_spaces AS DDS ON DDS.[partition_scheme_id] = PS.[data_space_id]
+				AND DDS.[destination_id] = P.[partition_number]
+	LEFT JOIN	sys.filegroups AS FG ON FG.[data_space_id] = I.[data_space_id]
+	LEFT JOIN	sys.filegroups AS FGP ON FGP.[data_space_id] = DDS.[data_space_id]
+	
+	WHERE		OBJECTPROPERTY ( P.[object_id], 'ISMSShipped') = 0
+			    AND S.[name] = 'Fact'
+				AND T.[name] = 'Order'
+				AND I.[index_id] = 1
+	
+	ORDER BY	  P.[partition_number]
 
-    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Index] AS PARTITION [PF_Load_Order] ALL TO ( [Order_', @YearNumber, N'_Index] )' );
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Data] AS PARTITION [PF_Load_Order] TO ( ', @FileGroupNamesData, N' )' );
+    EXECUTE sp_executesql @CreatePS
+    
+    SELECT		  @FileGroupNamesIndex = COALESCE ( @FileGroupNamesIndex + ',', '' ) + CONCAT ('[', COALESCE ( FG.[name], FGP.[name] ), ']' )
+	
+	FROM		sys.tables AS T
+	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
+	LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
+	LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
+				AND P.[index_id] = I.[index_id]
+	LEFT JOIN	sys.data_spaces AS DS ON DS.[data_space_id] = I.[data_space_id]
+	LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = DS.[data_space_id]
+	LEFT JOIN	sys.partition_functions AS PF ON PF.[function_id] = PS.[function_id]
+	LEFT JOIN	sys.destination_data_spaces AS DDS ON DDS.[partition_scheme_id] = PS.[data_space_id]
+				AND DDS.[destination_id] = P.[partition_number]
+	LEFT JOIN	sys.filegroups AS FG ON FG.[data_space_id] = I.[data_space_id]
+	LEFT JOIN	sys.filegroups AS FGP ON FGP.[data_space_id] = DDS.[data_space_id]
+	
+	WHERE		OBJECTPROPERTY ( P.[object_id], 'ISMSShipped') = 0
+			    AND S.[name] = 'Fact'
+				AND T.[name] = 'Order'
+				AND I.[index_id] = 2
+	
+	ORDER BY	  P.[partition_number]
+
+    SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Index] AS PARTITION [PF_Load_Order] TO ( ', @FileGroupNamesIndex, N' )' );
     EXECUTE sp_executesql @CreatePS
 
 -- Создание копии таблицы фактов
