@@ -58,5 +58,5 @@ AS BEGIN
                 , [Holiday]
                 , [WorkDayType]
                 , [WorkDayHours]
-		FROM	[Integration].[GenerateDateDimensionColumns] ( 19951231 )
+		FROM	[Integration].[GenerateDateDimensionColumns] ( DATEFROMPARTS (1995, 12, 31 ) )
 END
