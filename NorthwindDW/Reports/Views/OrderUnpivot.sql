@@ -1,4 +1,6 @@
-﻿CREATE VIEW [Reports].[FactOrderUnpvt] AS (
+﻿CREATE VIEW [Reports].[OrderUnpivot]
+	WITH SCHEMABINDING
+AS 
 	SELECT		  [OrderKey]
 				, [DateType]					=	CASE [DateType]
 														WHEN 'OrderDateKey'		THEN 'OrderDate'
@@ -31,13 +33,11 @@
 
 					FROM		[Fact].[Order]
 				) AS O
-
 	UNPIVOT		(
 					[DateKey] FOR [DateType] IN ( 
 						  [OrderDateKey]
 						, [RequiredDateKey]
 						, [ShippedDateKey]
 					)
-				) AS UNPVT
-);
+				) AS UNPVT;
 GO

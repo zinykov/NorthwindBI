@@ -1,4 +1,6 @@
-﻿CREATE VIEW [Reports].[DimCustomer] AS
+﻿CREATE VIEW [Reports].[Customer]
+	WITH SCHEMABINDING
+AS
 	SELECT		  [CustomerKey]
 				, [CustomerAlterKey]
 				, [Customer]
@@ -8,8 +10,6 @@
 				, [City]
 				, [Phone]
 				, [Fax]
-				, [StartDate]
-				, [EndDate]
-				, [Current]
 	
-	FROM		[Dimension].[Customer];
+	FROM		[Dimension].[Customer]
+	WITH (NOLOCK);

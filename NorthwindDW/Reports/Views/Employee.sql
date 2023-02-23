@@ -1,4 +1,6 @@
-﻿CREATE VIEW [Reports].[DimEmployee] AS
+﻿CREATE VIEW [Reports].[Employee]
+	WITH SCHEMABINDING
+AS
 	SELECT		  [EmployeeKey]
 				, [EmployeeAlterKey]
 				, [Employee]
@@ -6,8 +8,6 @@
 				, [TitleOfCourtesy]
 				, [City]
 				, [Country]
-				, [StartDate]
-				, [EndDate]
-				, [Current]
 	
 	FROM [Dimension].[Employee]
+	WITH (NOLOCK);

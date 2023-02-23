@@ -1,4 +1,6 @@
-﻿CREATE VIEW [Reports].[DimDate] AS
+﻿CREATE VIEW [Reports].[Date]
+    WITH SCHEMABINDING
+AS
 	SELECT		  [DateKey]
                 , [AlterDateKey]
                 , [DayOfMonth]
@@ -29,3 +31,4 @@
                 , [WorkDayHours] 
 	
 	FROM		[Dimension].[Date]
+	WITH (NOLOCK);

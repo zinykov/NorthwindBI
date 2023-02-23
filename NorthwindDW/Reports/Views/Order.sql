@@ -1,4 +1,6 @@
-﻿CREATE VIEW [Reports].[FactOrder] AS
+﻿CREATE VIEW [Reports].[Order]
+	WITH SCHEMABINDING
+AS
 	SELECT		  [OrderKey]
 				, [ProductKey]
 				, [CustomerKey]
@@ -13,3 +15,4 @@
 				, [SalesAmountWithDiscount]
 	
 	FROM		[Fact].[Order]
+	WITH (NOLOCK);
