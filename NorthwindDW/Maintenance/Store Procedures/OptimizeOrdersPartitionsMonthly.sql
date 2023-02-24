@@ -54,7 +54,7 @@ AS BEGIN
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
-			        AND PF.[name] = N'PF_Integration'
+			        AND PF.[name] = N'PF_Load_Order'
 
         WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
         
@@ -92,7 +92,7 @@ AS BEGIN
 
 -- Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
     CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
-        ON [PS_Load_Order_Data] ( [OrderDateKey] );
+        ON [PS_Load_Order_Data] ( [ShippedDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
     SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartKey )
