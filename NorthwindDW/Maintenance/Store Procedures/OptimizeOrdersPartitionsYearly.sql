@@ -57,7 +57,7 @@ AS BEGIN
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
-			        AND PF.[name] = N'PF_Integration'
+			        AND PF.[name] = N'PF_Load_Order'
 
         WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
         
