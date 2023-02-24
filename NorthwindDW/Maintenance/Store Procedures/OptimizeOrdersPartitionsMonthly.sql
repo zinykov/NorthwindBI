@@ -92,7 +92,7 @@ AS BEGIN
 
 -- Создание CLUSTERED COLUMNSTORE INDEX в таблице-дублёре
     CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
-        ON [PS_Load_Order_Data] ( [OrderDateKey] );
+        ON [PS_Load_Order_Data] ( [ShippedDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
     SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartKey )
