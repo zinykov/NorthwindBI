@@ -13,67 +13,11 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="191"
-  DTS:VersionGUID="{364CBBF0-4979-4C2F-ACE8-84C1B54F09C7}">
+  DTS:VersionBuild="196"
+  DTS:VersionGUID="{83D9232B-EE2F-497E-9730-B03D435AA183}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Flat File No Business Key]"
-      DTS:CreationName="FLATFILE"
-      DTS:DTSID="{6FC2183B-42AA-44C3-9212-471FBB8BC7B3}"
-      DTS:ObjectName="Flat File No Business Key">
-      <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath]+"NoBusinessKey\\Product.csv"</DTS:PropertyExpression>
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:Format="Delimited"
-          DTS:LocaleID="1049"
-          DTS:HeaderRowDelimiter="_x000D__x000A_"
-          DTS:ColumnNamesInFirstDataRow="True"
-          DTS:RowDelimiter=""
-          DTS:TextQualifier="_x003C_none_x003E_"
-          DTS:CodePage="1251"
-          DTS:ConnectionString="C:\SSIS\NorthwindBI\NoBusinessKey\Product.csv">
-          <DTS:FlatFileColumns>
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="3"
-              DTS:TextQualified="True"
-              DTS:ObjectName="ProductAlterKey"
-              DTS:DTSID="{325DF898-F730-4CDF-BAA4-79928B33E558}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="40"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Product"
-              DTS:DTSID="{8A142660-8231-4FE3-9D87-7717AFC53B8A}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="15"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Category"
-              DTS:DTSID="{DD8E5682-2915-42BB-BFBA-85AACBB0DC83}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x000D__x000A_"
-              DTS:DataType="3"
-              DTS:TextQualified="True"
-              DTS:ObjectName="LineageKey"
-              DTS:DTSID="{5E16FFB8-1F95-432D-98A8-3D4D85B1CC5D}"
-              DTS:CreationName="" />
-          </DTS:FlatFileColumns>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Flat File No Change]"
       DTS:CreationName="FLATFILE"
@@ -2039,94 +1983,6 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load to DWH\Load Products to DWH\Exists business key"
-                  componentClassID="Microsoft.ConditionalSplit"
-                  contactInfo="Условное разбиение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  name="Exists business key"
-                  usesDispositions="true">
-                  <inputs>
-                    <input
-                      refId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения]"
-                      description="Ввод преобразования &quot;Условное разбиение&quot;"
-                      name="Вход условного разбиения">
-                      <inputColumns>
-                        <inputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения].Columns[ProductAlterKey]"
-                          cachedDataType="i4"
-                          cachedName="ProductAlterKey"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[ProductAlterKey]" />
-                      </inputColumns>
-                      <externalMetadataColumns />
-                    </input>
-                  </inputs>
-                  <outputs>
-                    <output
-                      refId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[BusinessKeyExists]"
-                      description="Вывод 1 преобразования &quot;Условное разбиение&quot;"
-                      errorOrTruncationOperation="Вычисление"
-                      errorRowDisposition="FailComponent"
-                      exclusionGroup="1"
-                      name="BusinessKeyExists"
-                      synchronousInputId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения]"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Указывает выражение. Версия этого выражения использует вместо имен столбцов идентификаторы журнала обращений и преобразований."
-                          name="Expression">![ISNULL](#{Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[ProductAlterKey]})</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Задает понятную версию выражения. Эта версия выражения использует имена столбцов."
-                          expressionType="Notify"
-                          name="FriendlyExpression">!ISNULL(ProductAlterKey)</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Указывает положение условия в списке условий, который вычисляется преобразованием. Вычисление производится в порядке от меньшего к большему значению."
-                          name="EvaluationOrder">0</property>
-                      </properties>
-                      <externalMetadataColumns />
-                    </output>
-                    <output
-                      refId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[NoBusinessKey]"
-                      description="Выход по умолчанию преобразования &quot;Условное разбиение&quot;"
-                      exclusionGroup="1"
-                      name="NoBusinessKey"
-                      synchronousInputId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения]">
-                      <properties>
-                        <property
-                          dataType="System.Boolean"
-                          name="IsDefaultOut">true</property>
-                      </properties>
-                      <externalMetadataColumns />
-                    </output>
-                    <output
-                      refId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[Вывод ошибок условного разбиения]"
-                      description="Вывод ошибок преобразования &quot;Условное разбиение&quot;"
-                      exclusionGroup="1"
-                      isErrorOut="true"
-                      name="Вывод ошибок условного разбиения"
-                      synchronousInputId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения]">
-                      <outputColumns>
-                        <outputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[Вывод ошибок условного разбиения].Columns[ErrorCode]"
-                          dataType="i4"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[Вывод ошибок условного разбиения].Columns[ErrorCode]"
-                          name="ErrorCode"
-                          specialFlags="1" />
-                        <outputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[Вывод ошибок условного разбиения].Columns[ErrorColumn]"
-                          dataType="i4"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[Вывод ошибок условного разбиения].Columns[ErrorColumn]"
-                          name="ErrorColumn"
-                          specialFlags="2" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-                <component
                   refId="Package\Load to DWH\Load Products to DWH\Find Changing attributes"
                   componentClassID="Microsoft.ConditionalSplit"
                   contactInfo="Условное разбиение;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
@@ -2581,7 +2437,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                       name="SqlCommand"
                       UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	[Code], [Name], [Category_Name]
 FROM	[mdm].[MasterProduct]
-WHERE	[LastChgDateTime] &gt; ?</property>
+WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -2706,92 +2562,6 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                       <externalMetadataColumns />
                     </output>
                   </outputs>
-                </component>
-                <component
-                  refId="Package\Load to DWH\Load Products to DWH\No business key"
-                  componentClassID="Microsoft.FlatFileDestination"
-                  contactInfo="Назначение &quot;Неструктурированный файл&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
-                  localeId="1049"
-                  name="No business key"
-                  version="1">
-                  <properties>
-                    <property
-                      dataType="System.Boolean"
-                      description="Указывает, следует ли перезаписывать данные в целевой файл или добавлять их в его конец."
-                      name="Overwrite">false</property>
-                    <property
-                      dataType="System.Null"
-                      description="Задает текст, который записывается в целевой файл перед записью любых данных."
-                      expressionType="Notify"
-                      name="Header" />
-                    <property
-                      dataType="System.Boolean"
-                      description="Если ограничитель текста включен, указывает, будут ли добавляться escape-символы для ограничителя в данных, записываемых в конечный файл."
-                      name="EscapeQualifier">false</property>
-                  </properties>
-                  <connections>
-                    <connection
-                      refId="Package\Load to DWH\Load Products to DWH\No business key.Connections[FlatFileConnection]"
-                      connectionManagerID="Package.ConnectionManagers[Flat File No Business Key]"
-                      connectionManagerRefId="Package.ConnectionManagers[Flat File No Business Key]"
-                      name="FlatFileConnection" />
-                  </connections>
-                  <inputs>
-                    <input
-                      refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
-                      hasSideEffects="true"
-                      name="Вход назначения &quot;Неструктурированный файл&quot;">
-                      <inputColumns>
-                        <inputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[ProductAlterKey]"
-                          cachedDataType="i4"
-                          cachedName="ProductAlterKey"
-                          externalMetadataColumnId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ProductAlterKey]"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[ProductAlterKey]" />
-                        <inputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Product]"
-                          cachedDataType="wstr"
-                          cachedLength="50"
-                          cachedName="Product"
-                          externalMetadataColumnId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Product]"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[Product]" />
-                        <inputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[Category_Name]"
-                          cachedDataType="wstr"
-                          cachedLength="250"
-                          cachedName="Category_Name"
-                          externalMetadataColumnId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Category]"
-                          lineageId="Package\Load to DWH\Load Products to DWH\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Name]" />
-                        <inputColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[LineageKey]"
-                          cachedDataType="i4"
-                          cachedName="LineageKey"
-                          externalMetadataColumnId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[LineageKey]"
-                          lineageId="Package\Load to DWH\Load Products to DWH\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
-                      </inputColumns>
-                      <externalMetadataColumns
-                        isUsed="True">
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[ProductAlterKey]"
-                          dataType="i4"
-                          name="ProductAlterKey" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Product]"
-                          dataType="wstr"
-                          length="40"
-                          name="Product" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[Category]"
-                          dataType="wstr"
-                          length="15"
-                          name="Category" />
-                        <externalMetadataColumn
-                          refId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[LineageKey]"
-                          dataType="i4"
-                          name="LineageKey" />
-                      </externalMetadataColumns>
-                    </input>
-                  </inputs>
                 </component>
                 <component
                   refId="Package\Load to DWH\Load Products to DWH\No Change"
@@ -3059,20 +2829,10 @@ WHERE	[LastChgDateTime] &gt; ?</property>
               </components>
               <paths>
                 <path
-                  refId="Package\Load to DWH\Load Products to DWH.Paths[BusinessKeyExists]"
-                  endId="Package\Load to DWH\Load Products to DWH\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
-                  name="BusinessKeyExists"
-                  startId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[BusinessKeyExists]" />
-                <path
                   refId="Package\Load to DWH\Load Products to DWH.Paths[Changing attributes]"
                   endId="Package\Load to DWH\Load Products to DWH\Update Products.Inputs[Вход команды OLE DB]"
                   name="Changing attributes"
                   startId="Package\Load to DWH\Load Products to DWH\Find Changing attributes.Outputs[Changing attributes]" />
-                <path
-                  refId="Package\Load to DWH\Load Products to DWH.Paths[NoBusinessKey]"
-                  endId="Package\Load to DWH\Load Products to DWH\No business key.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
-                  name="NoBusinessKey"
-                  startId="Package\Load to DWH\Load Products to DWH\Exists business key.Outputs[NoBusinessKey]" />
                 <path
                   refId="Package\Load to DWH\Load Products to DWH.Paths[NoChange]"
                   endId="Package\Load to DWH\Load Products to DWH\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
@@ -3095,7 +2855,7 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   startId="Package\Load to DWH\Load Products to DWH\Lookup DWH.Outputs[Выход несовпадающих строк уточняющего запроса]" />
                 <path
                   refId="Package\Load to DWH\Load Products to DWH.Paths[Выход производного столбца]"
-                  endId="Package\Load to DWH\Load Products to DWH\Exists business key.Inputs[Вход условного разбиения]"
+                  endId="Package\Load to DWH\Load Products to DWH\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Выход производного столбца"
                   startId="Package\Load to DWH\Load Products to DWH\Add LineageKey.Outputs[Выход производного столбца]" />
                 <path
@@ -4962,7 +4722,7 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     design-time-name="Package\DQS\Clean Products">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="196.8,41.6"
           Id="Package\DQS\Clean Products\Source Landing Category"
@@ -5006,7 +4766,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5028,7 +4790,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5050,7 +4814,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5072,7 +4838,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -5134,50 +4902,42 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     design-time-name="Package\Load to DWH\Load Products to DWH">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="156.8,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\Update Products"
-          TopLeft="296.5,666.5" />
-        <NodeLayout
-          Size="140,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\Lookup DWH"
-          TopLeft="305,462.5" />
-        <NodeLayout
-          Size="168.8,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\Exists business key"
-          TopLeft="290.5,360.5" />
-        <NodeLayout
-          Size="232,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes"
-          TopLeft="259,156.5" />
-        <NodeLayout
-          Size="131.2,41.6"
+          Size="130.4,41.6"
           Id="Package\Load to DWH\Load Products to DWH\No Change"
-          TopLeft="104.5,666.5" />
-        <NodeLayout
-          Size="135.2,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\MDS source"
-          TopLeft="307.5,54.5" />
+          TopLeft="105.3,562.3" />
         <NodeLayout
           Size="193.6,41.6"
           Id="Package\Load to DWH\Load Products to DWH\Find Changing attributes"
-          TopLeft="278,564.5" />
+          TopLeft="277.7,460.7" />
         <NodeLayout
-          Size="175.2,41.6"
+          Size="231.2,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Change Code &amp; Name datatypes"
+          TopLeft="258.9,155.9" />
+        <NodeLayout
+          Size="174.4,41.6"
           Id="Package\Load to DWH\Load Products to DWH\Insert New Products"
-          TopLeft="42.5000000000001,564.5" />
+          TopLeft="42.3,460.7" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Update Products"
+          TopLeft="296.5,562.3" />
         <NodeLayout
           Size="153.6,41.6"
           Id="Package\Load to DWH\Load Products to DWH\Add LineageKey"
-          TopLeft="298,258.5" />
+          TopLeft="297.7,257.5" />
         <NodeLayout
-          Size="155.2,41.6"
-          Id="Package\Load to DWH\Load Products to DWH\No business key"
-          TopLeft="89.5000000000001,462.5" />
+          Size="134.4,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\MDS source"
+          TopLeft="307.3,54.3" />
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Load to DWH\Load Products to DWH\Lookup DWH"
+          TopLeft="304.5,359.1" />
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[Выходные данные преобразования данных]"
-          TopLeft="375,198.5">
+          TopLeft="374.5,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5189,75 +4949,79 @@ WHERE	[LastChgDateTime] &gt; ?</property>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход производного столбца]"
-          TopLeft="375,300.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход несовпадающих строк уточняющего запроса]"
-          TopLeft="353,504.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-223,60"
-              Start="0,0"
-              End="-223,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.406779661017" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.406779661017"
-                    Point2="0,24.406779661017"
-                    Point3="-4,24.406779661017" />
-                  <mssgle:LineSegment
-                    End="-219,24.406779661017" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-219,24.406779661017"
-                    Point2="-223,24.406779661017"
-                    Point3="-223,28.406779661017" />
-                  <mssgle:LineSegment
-                    End="-223,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-231.098359375,29.406779661017,239.19671875,11.2822265625"
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход производного столбца]"
+          TopLeft="374.5,299.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load to DWH\Load Products to DWH.Paths[Выход несовпадающих строк уточняющего запроса]"
+          TopLeft="352.5,400.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-223,59.9999999999999"
+              Start="0,0"
+              End="-223,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.4067796610169" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4067796610169"
+                    Point2="0,24.4067796610169"
+                    Point3="-4,24.4067796610169" />
+                  <mssgle:LineSegment
+                    End="-219,24.4067796610169" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-219,24.4067796610169"
+                    Point2="-223,24.4067796610169"
+                    Point3="-223,28.4067796610169" />
+                  <mssgle:LineSegment
+                    End="-223,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-231.098359375,29.4067796610169,239.19671875,11.2822265625"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="375,96.5">
+          TopLeft="374.5,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5274,192 +5038,148 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-          TopLeft="397,504.5">
+          TopLeft="396.5,400.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-21.9999999999999,60"
+              EndConnector="-21.9999999999999,59.9999999999999"
               Start="0,0"
-              End="-21.9999999999999,52.5">
+              End="-21.9999999999999,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.406779661017" />
+                    End="0,20.4067796610169" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.406779661017"
-                    Point2="0,24.406779661017"
-                    Point3="-4,24.406779661017" />
+                    Point1="0,20.4067796610169"
+                    Point2="0,24.4067796610169"
+                    Point3="-4,24.4067796610169" />
                   <mssgle:LineSegment
-                    End="-17.9999999999999,24.406779661017" />
+                    End="-17.9999999999999,24.4067796610169" />
                   <mssgle:CubicBezierSegment
-                    Point1="-17.9999999999999,24.406779661017"
-                    Point2="-21.9999999999999,24.406779661017"
-                    Point3="-21.9999999999999,28.406779661017" />
+                    Point1="-17.9999999999999,24.4067796610169"
+                    Point2="-21.9999999999999,24.4067796610169"
+                    Point3="-21.9999999999999,28.4067796610169" />
                   <mssgle:LineSegment
-                    End="-21.9999999999999,52.5" />
+                    End="-21.9999999999999,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-145.68986328125,29.406779661017,269.3797265625,12"
+              BoundingBox="-145.68986328125,29.4067796610169,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[NoChange]"
-          TopLeft="344,606.5">
+          TopLeft="343.566666666667,502.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-174,60"
+              EndConnector="-173.066666666667,59.9999999999999"
               Start="0,0"
-              End="-174,52.5">
+              End="-173.066666666667,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.2944785276074" />
+                    End="0,20.2950819672131" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.2944785276074"
-                    Point2="0,24.2944785276074"
-                    Point3="-4,24.2944785276074" />
+                    Point1="0,20.2950819672131"
+                    Point2="0,24.2950819672131"
+                    Point3="-4,24.2950819672131" />
                   <mssgle:LineSegment
-                    End="-170,24.2944785276074" />
+                    End="-169.066666666667,24.2950819672131" />
                   <mssgle:CubicBezierSegment
-                    Point1="-170,24.2944785276074"
-                    Point2="-174,24.2944785276074"
-                    Point3="-174,28.2944785276074" />
+                    Point1="-169.066666666667,24.2950819672131"
+                    Point2="-173.066666666667,24.2950819672131"
+                    Point3="-173.066666666667,28.2950819672131" />
                   <mssgle:LineSegment
-                    End="-174,52.5" />
+                    End="-173.066666666667,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-110.15634765625,29.2944785276074,46.3126953125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[NoBusinessKey]"
-          TopLeft="348.166666666667,402.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-181.166666666667,60"
-              Start="0,0"
-              End="-181.166666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.337631887456"
-                    Point2="0,24.337631887456"
-                    Point3="-4,24.337631887456" />
-                  <mssgle:LineSegment
-                    End="-177.166666666667,24.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-177.166666666667,24.337631887456"
-                    Point2="-181.166666666667,24.337631887456"
-                    Point3="-181.166666666667,28.337631887456" />
-                  <mssgle:LineSegment
-                    End="-181.166666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-124.300266927083,29.337631887456,67.4338671875,11.3310546875"
+              BoundingBox="-109.689680989583,29.2950819672131,46.3126953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load to DWH\Load Products to DWH.Paths[Changing attributes]"
-          TopLeft="406,606.5">
+          TopLeft="405.433333333333,502.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-31,60"
+              EndConnector="-30.9333333333333,59.9999999999999"
               Start="0,0"
-              End="-31,52.5">
+              End="-30.9333333333333,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.2944785276074" />
+                    End="0,20.2950819672131" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.2944785276074"
-                    Point2="0,24.2944785276074"
-                    Point3="-4,24.2944785276074" />
+                    Point1="0,20.2950819672131"
+                    Point2="0,24.2950819672131"
+                    Point3="-4,24.2950819672131" />
                   <mssgle:LineSegment
-                    End="-27,24.2944785276074" />
+                    End="-26.9333333333333,24.2950819672131" />
                   <mssgle:CubicBezierSegment
-                    Point1="-27,24.2944785276074"
-                    Point2="-31,24.2944785276074"
-                    Point3="-31,28.2944785276074" />
+                    Point1="-26.9333333333333,24.2950819672131"
+                    Point2="-30.9333333333333,24.2950819672131"
+                    Point3="-30.9333333333333,28.2950819672131" />
                   <mssgle:LineSegment
-                    End="-31,52.5" />
+                    End="-30.9333333333333,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-59.48009765625,29.2944785276074,87.9601953125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load to DWH\Load Products to DWH.Paths[BusinessKeyExists]"
-          TopLeft="401.833333333333,402.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-26.8333333333333,60"
-              Start="0,0"
-              End="-26.8333333333333,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.337631887456"
-                    Point2="0,24.337631887456"
-                    Point3="-4,24.337631887456" />
-                  <mssgle:LineSegment
-                    End="-22.8333333333333,24.337631887456" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-22.8333333333333,24.337631887456"
-                    Point2="-26.8333333333333,24.337631887456"
-                    Point3="-26.8333333333333,28.337631887456" />
-                  <mssgle:LineSegment
-                    End="-26.8333333333333,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-53.5592447916667,29.337631887456,80.28515625,11.3310546875"
+              BoundingBox="-59.4467643229167,29.2950819672131,87.9601953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load to DWH\Load Products to DWH\Insert New Products">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load to DWH\Load Products to DWH\MDS source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load to DWH\Load Products to DWH\Lookup DWH">
     <Properties>
@@ -5483,37 +5203,11 @@ WHERE	[LastChgDateTime] &gt; ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load to DWH\Load Products to DWH\MDS source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">View</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load to DWH\Load Products to DWH\Insert New Products">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\MDS\Data managment Category">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="216.8,41.6"
           Id="Package\MDS\Data managment Category\DQS staging source Category"
@@ -5545,7 +5239,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5567,7 +5263,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -5577,7 +5275,7 @@ WHERE	[LastChgDateTime] &gt; ?</property>
     design-time-name="Package\MDS\Data managment Product">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="203.2,41.6"
           Id="Package\MDS\Data managment Product\MDS staging table Product"
@@ -5609,7 +5307,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5631,7 +5331,9 @@ WHERE	[LastChgDateTime] &gt; ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
