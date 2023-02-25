@@ -3,6 +3,7 @@
       [LogKey]						INT						IDENTITY ( 1, 1 ) NOT NULL,
 	  [ErrorCode]					INT						NOT NULL,
 	  [ErrorDescription]			NVARCHAR ( 2048 )		NOT NULL,
+	  [ParametersValues]			NVARCHAR ( 2048 )		NOT NULL,
 	  [MachineName]					NVARCHAR ( 128 )		NOT NULL,
 	  [PackageName]					NVARCHAR ( 1024 )		NOT NULL,
 	  [SourceName]					NVARCHAR ( 1024 )		NOT NULL,

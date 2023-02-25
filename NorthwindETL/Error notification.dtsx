@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Error notification"
   DTS:PackageType="5"
-  DTS:VersionBuild="40"
-  DTS:VersionGUID="{20FA3AB1-150E-46F7-B2A5-B94233DE851F}">
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{B9D84BBF-CF3D-42AD-B7B0-C62F82CD537A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -89,6 +89,16 @@
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="8"
+      DTS:DTSID="{C084F630-D1E6-4B13-BA9D-9F4CC06347B5}"
+      DTS:ObjectName="ParametersValues">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
       DTS:DTSID="{D221A894-61E7-4104-876C-55E0CDAB6D52}"
       DTS:ObjectName="SourceName">
       <DTS:Property
@@ -144,6 +154,7 @@
       <DTS:PropertyExpression
         DTS:Name="MessageSource">"Error code: " + (DT_WSTR, 40) @[$Package::ErrorCode]
 + "\r\nError text: " + @[$Package::ErrorDescription]
++ "\r\nParameters values: " + @[$Package::ParametersValues] 
 + "\r\nPackage: " + @[$Package::PackageName] 
 + "\r\nSource: " + @[$Package::SourceName]
 + "\r\nLineageKey: " + (DT_WSTR,10) @[$Package::LineageKey] 
@@ -159,7 +170,7 @@
           SendMailTask:To="zinykov@hotmail.com"
           SendMailTask:Subject="ERROR in &quot;&quot;"
           SendMailTask:Priority="High"
-          SendMailTask:MessageSource="Error code: 0&#xA;Error text: &#xA;Package: &#xA;Source: &#xA;LineageKey: 0&#xA;Machine: &#xA;StartTime:0:00:00&#xA;User:" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          SendMailTask:MessageSource="Error code: 0&#xA;Error text: &#xA;Parameters values: &#xA;Package: &#xA;Source: &#xA;LineageKey: 0&#xA;Machine: &#xA;StartTime:0:00:00&#xA;User:" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -176,7 +187,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[InsertErrorLog]&#xA;&#x9;  @ErrorCode = ?&#xA;&#x9;, @ErrorDescription = ?&#xA;&#x9;, @MachineName = ?&#xA;&#x9;, @PackageName = ?&#xA;&#x9;, @SourceName = ?&#xA;&#x9;, @StartTime = ?&#xA;&#x9;, @UserName = ?&#xA;&#x9;, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[InsertErrorLog]&#xA;&#x9;  @ErrorCode = ?&#xA;&#x9;, @ErrorDescription = ?&#xA;&#x9;, @ParametersValues = ?&#xA;&#x9;, @MachineName = ?&#xA;&#x9;, @PackageName = ?&#xA;&#x9;, @SourceName = ?&#xA;&#x9;, @StartTime = ?&#xA;&#x9;, @UserName = ?&#xA;&#x9;, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="$Package::ErrorCode"
@@ -190,40 +201,46 @@
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="2"
+            SQLTask:ParameterName="3"
             SQLTask:DtsVariableName="$Package::MachineName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="3"
+            SQLTask:ParameterName="4"
             SQLTask:DtsVariableName="$Package::PackageName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="4"
+            SQLTask:ParameterName="5"
             SQLTask:DtsVariableName="$Package::SourceName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="5"
+            SQLTask:ParameterName="6"
             SQLTask:DtsVariableName="$Package::StartTime"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="6"
+            SQLTask:ParameterName="7"
             SQLTask:DtsVariableName="$Package::UserName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
-            SQLTask:ParameterName="7"
+            SQLTask:ParameterName="8"
             SQLTask:DtsVariableName="$Package::LineageKey"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::ParametersValues"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
@@ -248,7 +265,7 @@
         <NodeLayout
           Size="153.6,41.6"
           Id="Package\Insert Error Log"
-          TopLeft="286.5,54.5" />
+          TopLeft="287.9285714529,53.7352941069223" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
