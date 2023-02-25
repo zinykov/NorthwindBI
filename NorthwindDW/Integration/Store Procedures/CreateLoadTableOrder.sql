@@ -29,7 +29,17 @@ AS BEGIN
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
-    SELECT		  @FileGroupNamesData = COALESCE ( @FileGroupNamesData + ',', '' ) + CONCAT ('[', COALESCE ( FG.[name], FGP.[name] ), ']' )
+    SELECT		  @FileGroupNamesData = 
+					COALESCE ( @FileGroupNamesData + ',', '' )
+					+ CONCAT (
+								'[', 
+								CASE
+										WHEN COALESCE ( FG.[is_read_only], FGP.[is_read_only] ) = CAST ( 1 AS BIT )
+										THEN CONCAT ( N'Order_', @YearNumber, N'_Data' )
+										ELSE COALESCE ( FG.[name], FGP.[name] )
+									END,
+								']'
+					)
 	
 	FROM		sys.tables AS T
 	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
@@ -54,7 +64,17 @@ AS BEGIN
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Data] AS PARTITION [PF_Load_Order] TO ( ', @FileGroupNamesData, N' )' );
     EXECUTE sp_executesql @CreatePS
     
-    SELECT		  @FileGroupNamesIndex = COALESCE ( @FileGroupNamesIndex + ',', '' ) + CONCAT ('[', COALESCE ( FG.[name], FGP.[name] ), ']' )
+    SELECT		  @FileGroupNamesIndex = 
+					COALESCE ( @FileGroupNamesIndex + ',', '' )
+					+ CONCAT (
+								'[', 
+								CASE
+										WHEN COALESCE ( FG.[is_read_only], FGP.[is_read_only] ) = CAST ( 1 AS BIT )
+										THEN CONCAT ( N'Order_', @YearNumber, N'_Index' )
+										ELSE COALESCE ( FG.[name], FGP.[name] )
+									END,
+								']'
+					)
 	
 	FROM		sys.tables AS T
 	INNER JOIN	sys.schemas AS S ON T.[schema_id] = S.[schema_id]
