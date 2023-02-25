@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="113"
-  DTS:VersionGUID="{5ECC192C-3BDD-4923-A30D-FF8651C60B8A}">
+  DTS:VersionBuild="115"
+  DTS:VersionGUID="{4841B8E0-CA03-474E-B122-BC4AB954BBA9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -128,6 +128,16 @@
       DTS:ObjectName="OldBackupFolder">
       <DTS:VariableValue
         DTS:DataType="8">C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1C6396BA-05DE-4535-84F1-B0B0D27B342B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ParametersValues">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -284,7 +294,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -301,7 +311,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -352,7 +362,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1559,7 +1569,7 @@
           DTS:refId="Package.EventHandlers[OnError]\Error notification"
           DTS:CreationName="Microsoft.ExecutePackageTask"
           DTS:Description="Задача &quot;Выполнение пакета&quot;"
-          DTS:DTSID="{258E380F-46AB-4AFF-880D-44EFBED46F98}"
+          DTS:DTSID="{7c982883-36a3-45ae-9360-58c31d0e80d4}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Error notification"
@@ -1601,10 +1611,38 @@
                 <ParameterName>UserName</ParameterName>
                 <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
               </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:Description="Задача выражения"
+          DTS:DTSID="{3111cd3a-64c5-4a45-9541-89cdc5a18455}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameters values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nBackupFolderName = &quot; + (DT_WSTR, 500) @[User::BackupFolderName] + &quot;\r\nBackupOldFolderName = &quot; + (DT_WSTR, 500) @[User::BackupOldFolderName] + &quot;\r\nOldBackupFolder = &quot; + (DT_WSTR, 500) @[User::OldBackupFolder] + &quot;\r\nBackupsReadOnlyPath = &quot; + (DT_WSTR, 500) @[User::BackupsReadOnlyPath] + &quot;\r\nBackupsReadWritePath = &quot; + (DT_WSTR, 500) @[User::BackupsReadWritePath] + &quot;\r\nIsSetFilegroupReadonly = &quot; + (DT_WSTR, 5) @[User::IsSetFilegroupReadonly] + &quot;\r\nIsStartOptimization = &quot; + (DT_WSTR, 5) @[User::IsStartOptimization]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{0b88c292-2a46-48c7-bf7a-46a6fdcbd250}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
@@ -2077,11 +2115,37 @@
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="156.8,41.6"
           Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="81,31" />
+          TopLeft="73.6,161.6" />
+        <NodeLayout
+          Size="184,41.6"
+          Id="Package.EventHandlers[OnError]\Get parameters values"
+          TopLeft="60,60" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="152,101.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </DtsEventHandler>
