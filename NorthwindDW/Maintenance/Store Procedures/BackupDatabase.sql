@@ -23,6 +23,10 @@ AS BEGIN
 					, @GroupName
 					, N'.bak'
 				)
+
+				UPDATE	[Maintenance].[DatabaseFiles]
+				SET		[BackupFileName] = @BackupFileName
+				WHERE	[GroupName] = @GroupName
 			
 				BACKUP DATABASE [$(DatabaseName)]
 					FILEGROUP = @GroupName
@@ -30,10 +34,6 @@ AS BEGIN
 					WITH
 						  NAME = @BackupName
 						, COMPRESSION
-
-				UPDATE	[Maintenance].[DatabaseFiles]
-				SET		[BackupFileName] = @BackupFileName
-				WHERE	[GroupName] = @GroupName
 
 				FETCH NEXT FROM [BackupReadOnlyFilegroups] INTO @GroupName
 			END
@@ -49,6 +49,10 @@ AS BEGIN
 				, FORMAT ( @CutoffTime, 'yyyyMMdd' )
 				, N'_FULL.bak'
 			)
+
+			UPDATE	[Maintenance].[DatabaseFiles]
+			SET		[BackupFileName] = @BackupFileName
+			WHERE	[IsReadOnly] = 0
 			
 			BACKUP DATABASE [$(DatabaseName)]
 				READ_WRITE_FILEGROUPS
@@ -56,10 +60,6 @@ AS BEGIN
 				WITH
 					  NAME = @BackupName
 					, COMPRESSION
-
-			UPDATE	[Maintenance].[DatabaseFiles]
-			SET		[BackupFileName] = @BackupFileName
-			WHERE	[IsReadOnly] = 0
 		END
 	ELSE
 		BEGIN
@@ -70,6 +70,11 @@ AS BEGIN
 				, N'_DIFF.bak'
 			)
 			
+			UPDATE	[Maintenance].[DatabaseFiles]
+			SET		[BackupFileName] = @BackupFileName
+			WHERE	[IsReadOnly] = 0
+					AND [GroupName] <> 'PRIMARY'
+			
 			BACKUP DATABASE [$(DatabaseName)]
 				READ_WRITE_FILEGROUPS
 				TO DISK = @BackupFileName
@@ -77,11 +82,6 @@ AS BEGIN
 					  DIFFERENTIAL
 					, NAME = @BackupName
 					, COMPRESSION
-			
-			UPDATE	[Maintenance].[DatabaseFiles]
-			SET		[BackupFileName] = @BackupFileName
-			WHERE	[IsReadOnly] = 0
-					AND [GroupName] <> 'PRIMARY'
 		END
 	RETURN 0;
 END
