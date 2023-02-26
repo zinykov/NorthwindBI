@@ -41,12 +41,12 @@ OPEN RestoreDWH
 							EXECUTE sp_executesql @SQL
 						END
 				END
-			ELSE IF ( @IsReadOnly = 1 )
-				BEGIN
-					SET @SQL = N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] WITH RECOVERY;'
-						
-					EXECUTE sp_executesql @SQL
+			
+			SET @SQL = N'USE [master]; RESTORE DATABASE [$(DWHDatabaseName)] WITH RECOVERY;'
+			EXECUTE sp_executesql @SQL
 
+			IF ( @IsReadOnly = 1 )
+				BEGIN
 					SET @GroupName = (
 						SELECT	[GroupName]
 						FROM	[dbo].[DatabaseFiles]
