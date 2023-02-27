@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [Maintenance].[GetOrInsertDatabaseFilesData]
 	  @CutoffTime AS DATE
 	, @FactTableName AS NVARCHAR(100)
-	, @FilePath AS VARCHAR(500)
+	, @FilePath AS NVARCHAR(500)
 
 AS BEGIN
 	DECLARE @GroupName AS NVARCHAR(100)
@@ -9,7 +9,6 @@ AS BEGIN
 	DECLARE @Name AS NVARCHAR(100)
 	DECLARE @FileName AS NVARCHAR(500)
 
-	SET @Year = YEAR ( DATEADD ( DAY, 1, @CutoffTime ) )
 	SET @GroupName = CONCAT ( @FactTableName, N'_', @Year )
 
 	IF NOT EXISTS (
@@ -19,7 +18,7 @@ AS BEGIN
 		WHERE		DBF.[GroupName] = CONCAT ( @GroupName, N'_Data' )
 	)
 		EXECUTE [Maintenance].[InsertDatabaseFilesData]
-				@Year = @Year
+			  @CutoffTime = @CutoffTime
 			, @FactTableName = @FactTableName
 			, @FilePath = @FilePath
 			, @IsClustered = 1
@@ -28,10 +27,10 @@ AS BEGIN
 		SELECT		1
 		FROM		[Maintenance].[DatabaseFiles] AS DBF
 		INNER JOIN	sys.sysfilegroups AS FG ON FG.[groupname] = DBF.[GroupName]
-		WHERE		DBF.[GroupName] = CONCAT ( @GroupName, N'_Data' )
+		WHERE		DBF.[GroupName] = CONCAT ( @GroupName, N'_Index' )
 	)		
 		EXECUTE [Maintenance].[InsertDatabaseFilesData]
-				@Year = @Year
+			  @CutoffTime = @CutoffTime
 			, @FactTableName = @FactTableName
 			, @FilePath = @FilePath
 			, @IsClustered = 0
