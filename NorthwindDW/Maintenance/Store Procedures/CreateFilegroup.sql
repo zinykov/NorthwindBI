@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [Maintenance].[CreateFilegroup]
 	  @CutoffTime AS DATE
 	, @FactTableName AS NVARCHAR(100)
-	, @FilePath AS VARCHAR(500)
+	, @FilePath AS NVARCHAR(500)
 AS BEGIN
 	DECLARE @GroupName AS NVARCHAR(100)
 	DECLARE @Name AS NVARCHAR(100)
