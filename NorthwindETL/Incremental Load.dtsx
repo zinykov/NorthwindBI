@@ -14,8 +14,8 @@
   DTS:ObjectName="Incremental load"
   DTS:PackageType="5"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="128"
-  DTS:VersionGUID="{DFCEABE1-7035-4D39-B60D-1BA539C39BE4}">
+  DTS:VersionBuild="129"
+  DTS:VersionGUID="{CAF8152D-78CB-499E-953F-D5A95EDD7F46}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -232,7 +232,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="DQS status subscription activation"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -383,30 +383,42 @@
       </DTS:Executables>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Orders"
-      DTS:CreationName="Microsoft.ExecutePackageTask"
-      DTS:DTSID="{3bbeac17-bb84-43d5-916e-0ea1dd7983c5}"
-      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:refId="Package\Load facts"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{3B967C65-6067-4462-B109-CA13AD217A4A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Orders"
-      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      DTS:ObjectName="Load facts">
       <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:ObjectData>
-        <ExecutePackageTask>
-          <UseProjectReference>True</UseProjectReference>
-          <PackageName>Load Orders.dtsx</PackageName>
-          <ParameterAssignment>
-            <ParameterName>CutoffTime</ParameterName>
-            <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
-          </ParameterAssignment>
-          <ParameterAssignment>
-            <ParameterName>ExecutionId</ParameterName>
-            <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-          </ParameterAssignment>
-        </ExecutePackageTask>
-      </DTS:ObjectData>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load facts\Load Orders"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{3516833f-a6b6-468c-bc57-f18afba56109}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Orders"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Load Orders.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>CutoffTime</ParameterName>
+                <BindedVariableOrParameterName>$Package::CutoffTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionId</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Truncate landing"
@@ -416,7 +428,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -439,19 +451,19 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{02CEDCA9-4B5C-4967-AAEF-9A983E883BC5}"
-      DTS:From="Package\Load Orders"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Truncate landing" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
-      DTS:CreationName=""
-      DTS:DTSID="{C6AD057E-4EF5-4E7A-A7D6-F22F6C050BD8}"
+      DTS:DTSID="{9608EBA1-541C-42FD-8B75-769A40E6AE63}"
       DTS:From="Package\Load Dimensions"
       DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 3"
-      DTS:To="Package\Load Orders" />
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load facts" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{84DE5A21-8438-49A7-BBAF-0E1EB63D4563}"
+      DTS:From="Package\Load facts"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Truncate landing" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
       DTS:CreationName=""
@@ -645,11 +657,11 @@
         <NodeLayout
           Size="238.4,41.6"
           Id="Package\DQS status subscription activation"
-          TopLeft="326.3,259.9" />
+          TopLeft="73.3,311.9" />
         <NodeLayout
           Size="165.6,41.6"
           Id="Package\DWH Maintenance"
-          TopLeft="114.7,463.1" />
+          TopLeft="362.7,567.1" />
         <NodeLayout
           Size="153.6,41.6"
           Id="Package\Load Dimensions\Load Customers"
@@ -674,16 +686,12 @@
           Id="Package\Load Dimensions"
           TopLeft="33.5,54.3000000000001" />
         <NodeLayout
-          Size="136,41.6"
-          Id="Package\Load Orders"
-          TopLeft="129.5,259.9" />
-        <NodeLayout
           Size="157.6,41.6"
           Id="Package\Truncate landing"
-          TopLeft="118.7,361.5" />
+          TopLeft="366.7,465.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="197.5,403.1">
+          TopLeft="445.5,507.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -704,53 +712,31 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="197.5,301.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
+          Id="Package.PrecedenceConstraints[Constraint 5]"
           TopLeft="309.5,199.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-112,60.0000000000001"
+              EndConnector="-117,112"
               Start="0,0"
-              End="-112,52.5000000000001">
+              End="-117,104.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.0697674418605" />
+                    End="0,40.9302325581395" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.0697674418605"
-                    Point2="0,24.0697674418605"
-                    Point3="-4,24.0697674418605" />
+                    Point1="0,40.9302325581395"
+                    Point2="0,44.9302325581395"
+                    Point3="-4,44.9302325581395" />
                   <mssgle:LineSegment
-                    End="-108,24.0697674418605" />
+                    End="-113,44.9302325581395" />
                   <mssgle:CubicBezierSegment
-                    Point1="-108,24.0697674418605"
-                    Point2="-112,24.0697674418605"
-                    Point3="-112,28.0697674418605" />
+                    Point1="-113,44.9302325581395"
+                    Point2="-117,44.9302325581395"
+                    Point3="-117,48.9302325581395" />
                   <mssgle:LineSegment
-                    End="-112,52.5000000000001" />
+                    End="-117,104.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -759,15 +745,26 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="136,41.6"
+          Id="Package\Load facts\Load Orders"
+          TopLeft="5.5,5.49999999999995" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="150.4,102.4"
+          Size="147.2,145.6"
+          Id="Package\Load facts"
+          TopLeft="371.9,259.9" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
+          Id="Package.PrecedenceConstraints[Constraint 1]"
           TopLeft="581.5,199.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-136,60.0000000000001"
+              EndConnector="-136,60"
               Start="0,0"
-              End="-136,52.5000000000001">
+              End="-136,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -784,7 +781,29 @@
                     Point2="-136,24.0697674418605"
                     Point3="-136,28.0697674418605" />
                   <mssgle:LineSegment
-                    End="-136,52.5000000000001" />
+                    End="-136,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="445.5,405.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -800,7 +819,15 @@
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="78.3,155.9" />
+        <NodeLayout
+          Size="184,41.6"
+          Id="Package.EventHandlers[OnError]\Get parameters values"
+          TopLeft="64.7,54.3" />
         <EdgeLayout
           Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
           TopLeft="156.7,95.8999999999999">
@@ -820,17 +847,11 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="184,41.6"
-          Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="64.7,54.3" />
-        <NodeLayout
-          Size="156.8,41.6"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="78.3,155.9" />
       </GraphLayout>
     </LayoutInfo>
   </DtsEventHandler>
