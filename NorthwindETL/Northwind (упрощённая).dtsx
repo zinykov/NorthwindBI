@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Northwind  упрощённая"
   DTS:PackageType="5"
-  DTS:VersionBuild="35"
-  DTS:VersionGUID="{E44A5665-8E4D-4F78-807C-1503E42B1272}">
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{172572FC-85D0-4AE0-9147-C4DD4589BE89}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -53,6 +53,28 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
   </DTS:LogProviders>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{B32BA251-1E3D-42D1-840F-2242552F512E}"
+      DTS:ObjectName="Login">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{8E946173-0D9F-45BC-A3E0-EA62F070E9F2}"
+      DTS:ObjectName="Password">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -206,24 +228,24 @@
   </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\For each dat files"
+      DTS:refId="Package\For each fmt"
       DTS:CreationName="STOCK:FOREACHLOOP"
-      DTS:DTSID="{6C758489-3B3C-45E6-85D9-E94842A1E243}"
+      DTS:DTSID="{4b96d563-d302-4331-8eac-757069ce01de}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
-      DTS:ObjectName="For each dat files">
+      DTS:ObjectName="For each fmt">
       <DTS:ForEachEnumerator
         DTS:CreationName="Microsoft.ForEachFileEnumerator"
-        DTS:DTSID="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}"
+        DTS:DTSID="{0ff2a825-0af9-4ccf-b548-018fb39802ee}"
         DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
         <DTS:PropertyExpression
-          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData"</DTS:PropertyExpression>
+          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData\\"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\SSIS\NorthwindBI\IngestData" />
+              Folder="C:\SSIS\NorthwindBI\IngestData\" />
             <FEFEProperty
-              FileSpec="*.dat" />
+              FileSpec="*.fmt" />
             <FEFEProperty
               FileNameRetrievalType="2" />
             <FEFEProperty
@@ -234,33 +256,28 @@
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\For each dat files\Bulk Insert"
-          DTS:CreationName="Microsoft.BulkInsertTask"
-          DTS:DTSID="{235b455a-8ca9-4677-92e9-96f06f67ca47}"
-          DTS:ExecutableType="Microsoft.BulkInsertTask"
+          DTS:refId="Package\For each fmt\Ingest data"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{5342c96d-a925-40e6-a2a6-ce9c278dbcff}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Bulk Insert"
+          DTS:ObjectName="Ingest data"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:PropertyExpression
-            DTS:Name="DestinationTableName">"[Landing].[" +  @[User::FileName] + "]"</DTS:PropertyExpression>
-          <DTS:PropertyExpression
-            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\" +  @[User::FileName] + ".xml"</DTS:PropertyExpression>
+            DTS:Name="Arguments">"/C bcp \"[dbo].["+ @[User::FileName]  +"]\" out \""+ @[$Project::ExternalFilesPath] +"IngestData\\"+ @[User::FileName]  +".dat\" -f \""+ @[$Project::ExternalFilesPath] +"IngestData\\"+ @[User::FileName]  +".fmt\" -S \"SQL.Samorodov.su\" -d \"Northwind (упрощённая)\" -U \""+ @[$Package::Login] +"\" -P \"" + @[$Package::Password] + "\""</DTS:PropertyExpression>
           <DTS:ObjectData>
-            <BulkInsertTask:BulkInsertTaskData
-              BulkInsertTask:SourceConnectionName="{ED703ADE-1DA6-4923-A288-2679C12F56F2}"
-              BulkInsertTask:DestinationConnectionName="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              BulkInsertTask:DestinationTableName="[Landing].[]"
-              BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\.xml" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+            <ExecuteProcessData
+              Executable="C:\Windows\System32\cmd.exe"
+              Arguments="/C bcp &quot;[dbo].[]&quot; out &quot;C:\SSIS\NorthwindBI\IngestData\.dat&quot; -f &quot;C:\SSIS\NorthwindBI\IngestData\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{C1141D29-2D80-4628-BA1B-F03E1FC4EF0C}"
-          DTS:ObjectName="{C1141D29-2D80-4628-BA1B-F03E1FC4EF0C}"
+          DTS:DTSID="{bcf080d2-75ff-4c90-a999-a996f122188e}"
+          DTS:ObjectName="{53E6ABA3-927F-47DA-90FC-E3F10975381A}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
@@ -279,16 +296,16 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="129.6,41.6"
-          Id="Package\For each dat files\Bulk Insert"
+          Size="132,41.6"
+          Id="Package\For each fmt\Ingest data"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="150.4,102.4"
-          Size="140.8,145.6"
-          Id="Package\For each dat files"
-          TopLeft="46.9285681320696,18.3588230253503" />
+          Size="143.2,145.6"
+          Id="Package\For each fmt"
+          TopLeft="67.1428582862933,37.470588760805" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
