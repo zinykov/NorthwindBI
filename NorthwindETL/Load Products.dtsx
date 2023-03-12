@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="197"
-  DTS:VersionGUID="{27B7020A-BC15-4782-B017-1B49CBC249EA}">
+  DTS:VersionBuild="198"
+  DTS:VersionGUID="{4DD1AC39-3DF1-4EF1-9CB2-C1946B12D475}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2949,7 +2949,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.BulkInsertTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Bulk Insert Categories"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:PropertyExpression
             DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\Cagetories.fmt"</DTS:PropertyExpression>
@@ -2970,7 +2970,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.BulkInsertTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Bulk Insert Products"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:PropertyExpression
             DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\Products.fmt"</DTS:PropertyExpression>
@@ -2984,7 +2984,59 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
               BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\Products.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load to landing\Truncate Landing Categories"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{08fedf64-43fa-4803-9d2b-e3c01b5c2ae1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Landing Categories"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1E14B7DB-D3F2-4268-913D-1984C0FB273F}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [Landing].[Categories];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load to landing\Truncate Landing Products"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{69de6838-3742-4f39-bd74-feb178ea7f00}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Landing Products"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1E14B7DB-D3F2-4268-913D-1984C0FB273F}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [Landing].[Products];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load to landing.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{1998A75B-0240-46B0-A696-3A017A2D1F15}"
+          DTS:From="Package\Load to landing\Truncate Landing Categories"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Load to landing\Bulk Insert Categories" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load to landing.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{3B0B3268-497C-4C92-AF88-7FD3AB1AABDE}"
+          DTS:From="Package\Load to landing\Truncate Landing Products"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load to landing\Bulk Insert Products" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\MDS"
@@ -4414,7 +4466,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="148.8,41.6"
           Id="Package\DQS\Clean Products"
@@ -4451,7 +4503,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           PanelSize="194.4,204"
           Size="194.4,247.2"
           Id="Package\DQS"
-          TopLeft="152.7,361.5" />
+          TopLeft="152.7,463.1" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
@@ -4518,7 +4570,74 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           PanelSize="196.8,305.6"
           Size="196.8,348.8"
           Id="Package\Load to DWH"
-          TopLeft="151.5,1179.1" />
+          TopLeft="151.5,1280.7" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load to landing\Bulk Insert Categories"
+          TopLeft="21.1,107.1" />
+        <NodeLayout
+          Size="173.6,41.6"
+          Id="Package\Load to landing\Bulk Insert Products"
+          TopLeft="294.5,107.1" />
+        <NodeLayout
+          Size="213.6,41.6"
+          Id="Package\Load to landing\Truncate Landing Categories"
+          TopLeft="5.50000000000001,5.50000000000007" />
+        <NodeLayout
+          Size="204,41.6"
+          Id="Package\Load to landing\Truncate Landing Products"
+          TopLeft="279.3,5.50000000000007" />
+        <EdgeLayout
+          Id="Package\Load to landing.PrecedenceConstraints[Constraint]"
+          TopLeft="112.3,47.1000000000001">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load to landing.PrecedenceConstraints[Constraint 1]"
+          TopLeft="381.3,47.1000000000001">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="488.8,204"
+          Size="488.8,247.2"
+          Id="Package\Load to landing"
+          TopLeft="5.50000000000006,155.9" />
         <NodeLayout
           Size="206.4,41.6"
           Id="Package\MDS\Data managment Category"
@@ -4707,14 +4826,14 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           PanelSize="488.8,407.2"
           Size="488.8,450.4"
           Id="Package\MDS"
-          TopLeft="5.50000000000014,668.7" />
+          TopLeft="5.50000000000014,770.3" />
         <NodeLayout
           Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="152.7,1587.9" />
+          TopLeft="152.7,1689.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="249.9,1527.9">
+          TopLeft="249.9,1629.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4736,7 +4855,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="249.9,1119.1">
+          TopLeft="249.9,1220.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4758,7 +4877,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="249.9,608.7">
+          TopLeft="249.9,710.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4778,35 +4897,20 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="182.4,41.6"
-          Id="Package\Load to landing\Bulk Insert Categories"
-          TopLeft="5.49999999999999,5.49999999999995" />
-        <NodeLayout
-          Size="173.6,41.6"
-          Id="Package\Load to landing\Bulk Insert Products"
-          TopLeft="248.9,5.49999999999995" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="428,102.4"
-          Size="428,145.6"
-          Id="Package\Load to landing"
-          TopLeft="35.9000000000001,155.9" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="249.9,95.9000000000002">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60.0000000000001"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4817,18 +4921,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="249.9,301.5">
+          TopLeft="249.9,403.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999998"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999998">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999998" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

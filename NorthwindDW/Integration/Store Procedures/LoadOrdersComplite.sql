@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[LoadOrders]
+﻿CREATE PROCEDURE [Integration].[LoadOrdersComplite]
 	  @StartLoad AS DATE
 	, @EndLoad AS DATE
 	, @LineageKey AS INT
@@ -32,64 +32,6 @@ BEGIN
 	SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
 	SET @PartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
 
--- ШАГ 1. Определение файловых групп для схем секционирования
-	SET @SQL = CONCAT (
-			N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED [Order_'
-		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
-		, N'_Data]'
-		)
-	EXECUTE sp_executesql @SQL
-
-	SET @SQL = CONCAT (
-			N'ALTER PARTITION SCHEME [PS_Order_Date_Index] NEXT USED [Order_'
-		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
-		, N'_Index]'
-		)
-	EXECUTE sp_executesql @SQL
-
--- ШАГ 2. Создание новой секции
-	IF NOT EXISTS ( SELECT 1 FROM [sys].[partition_range_values] WHERE [value] = @NewPartitionParameter )
-	BEGIN
-		ALTER PARTITION FUNCTION [PF_Order_Date] () SPLIT RANGE ( @NewPartitionParameter )
-	END
-
-	EXECUTE [Integration].[CreateLoadTableOrder]
-		  @CutoffTime = @EndLoad
-		, @IsMaitenance = 0;
-
--- Переменной @Partition_number присваивается номер предпоследней секции
-	SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter )
-
--- ШАГ 3. Загрузка данных в промежуточную таблицу
-	IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
-		BEGIN
-			SET @StartLoad = @EndLoad
-		END
-		
-	INSERT INTO [Integration].[Order]
-	SELECT		  [OrderKey]					=	O.[OrderID]
-				, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
-				, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
-				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
-				, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 19951231 )
-				, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 19951231 )
-				, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
-				, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
-				, [Quantity]					=	ISNULL ( [Quantity], 0 )
-				, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
-				, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
-				, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * ( [Quantity] - [Discount] ), 0 )
-				, [LineageKey]					=	@LineageKey
-
-	FROM		[Landing].[Orders] AS O
-	LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
-	LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-				AND O.[ShippedDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
-	LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-				AND O.[ShippedDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
-	LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
-
-	WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 	BEGIN TRANSACTION
 		ALTER TABLE [Integration].[Order] SWITCH PARTITION 2 TO [Fact].[Order] PARTITION 2
