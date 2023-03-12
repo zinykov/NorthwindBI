@@ -14,6 +14,8 @@
 USE [$(DatabaseName)];
 GO
 
+--Move database files using information from Designing File Storage.
+
 IF NOT EXISTS ( SELECT 1 FROM [Maintenance].[DatabaseFiles] )
 BEGIN
 	INSERT INTO [Maintenance].[DatabaseFiles] (

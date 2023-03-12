@@ -13,11 +13,23 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="210"
-  DTS:VersionGUID="{F1E80B41-146D-4262-BC96-69B4F077D5AC}">
+  DTS:VersionBuild="213"
+  DTS:VersionGUID="{087B3232-ED5A-4CE6-AB55-C5879C958AA9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Employees.dat]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{C305F7B1-71B9-4B63-AF8C-02C28A1235A4}"
+      DTS:ObjectName="Employees.dat">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\Employees.dat"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\SSIS\NorthwindBI\IngestData\Employees.dat" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Flat File No Change]"
       DTS:CreationName="FLATFILE"
@@ -3757,6 +3769,38 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Load to landing"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:DTSID="{70599F49-91B3-4CB7-B13F-61C7E3FD2C84}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load to landing">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load to landing\Bulk Insert Employees"
+          DTS:CreationName="Microsoft.BulkInsertTask"
+          DTS:DTSID="{2dac14f9-cc60-4dfe-a93b-dcf6aaccb534}"
+          DTS:ExecutableType="Microsoft.BulkInsertTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Bulk Insert Employees"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\Employees.fmt"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <BulkInsertTask:BulkInsertTaskData
+              BulkInsertTask:SourceConnectionName="{C305F7B1-71B9-4B63-AF8C-02C28A1235A4}"
+              BulkInsertTask:DestinationConnectionName="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              BulkInsertTask:DataFileType="DTSBulkInsert_DataFileType_Native"
+              BulkInsertTask:DestinationTableName="[Landing].[Employees]"
+              BulkInsertTask:UseFormatFile="True"
+              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\Employees.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\MDS"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Disabled="True"
@@ -4838,11 +4882,11 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{A4AB11B8-5BB9-4770-B31D-B504130EA8E1}"
+      DTS:DTSID="{862EB419-F522-4848-A790-B5F1181B6788}"
       DTS:From="Package\Get LineAgeKey"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\DQS" />
+      DTS:To="Package\Load to landing" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
@@ -4867,6 +4911,14 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{4160F7C6-A416-4542-BCEA-2C50C1C8A95C}"
+      DTS:From="Package\Load to landing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\DQS" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -4883,25 +4935,25 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <NodeLayout
           Size="159.2,41.6"
           Id="Package\DQS\Clean Employees"
-          TopLeft="17.5,107.5" />
+          TopLeft="17.5,107.1" />
         <NodeLayout
           Size="183.2,41.6"
           Id="Package\DQS\Truncate DQS Staging"
-          TopLeft="5.50000000000001,5.5" />
+          TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
           Id="Package\DQS.PrecedenceConstraints[Constraint]"
-          TopLeft="97,47.5">
+          TopLeft="97.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4913,40 +4965,40 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="193.6,204.8"
-          Size="193.6,248"
+          PanelSize="194.4,204"
+          Size="194.4,247.2"
           Id="Package\DQS"
-          TopLeft="143,156.5" />
+          TopLeft="142.7,361.5" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="163.5,54.5" />
+          TopLeft="163.5,54.3" />
         <NodeLayout
           Size="192,41.6"
           Id="Package\Load DWH\Add unknown employee"
-          TopLeft="7.00000000000003,107.5" />
+          TopLeft="7.10000000000002,107.1" />
         <NodeLayout
           Size="195.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH"
-          TopLeft="5.50000000000003,209.5" />
+          TopLeft="5.50000000000003,208.7" />
         <NodeLayout
           Size="168,41.6"
           Id="Package\Load DWH\Set StartLoad Date"
-          TopLeft="19,5.5" />
+          TopLeft="19.1,5.49999999999995" />
         <EdgeLayout
           Id="Package\Load DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="103,47.5">
+          TopLeft="103.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4957,18 +5009,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="103,149.5">
+          TopLeft="103.1,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4980,52 +5032,63 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206.4,307.2"
-          Size="206.4,350.4"
+          PanelSize="206.4,305.6"
+          Size="206.4,348.8"
           Id="Package\Load DWH"
-          TopLeft="137,874.5" />
+          TopLeft="136.7,1077.5" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load to landing\Bulk Insert Employees"
+          TopLeft="5.5,5.49999999999995" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="193.6,102.4"
+          Size="193.6,145.6"
+          Id="Package\Load to landing"
+          TopLeft="143.1,155.9" />
         <NodeLayout
           Size="160,41.6"
           Id="Package\MDS\Data managment"
-          TopLeft="5.50000000000003,5.5" />
+          TopLeft="5.50000000000003,5.49999999999995" />
         <NodeLayout
           Size="188.8,41.6"
           Id="Package\MDS\Get MDS Version Name"
-          TopLeft="226,5.5" />
+          TopLeft="226.1,5.49999999999995" />
         <NodeLayout
           Size="220.8,41.6"
           Id="Package\MDS\Update master Employee data"
-          TopLeft="210,107.5" />
+          TopLeft="210.1,107.1" />
         <NodeLayout
           Size="148,41.6"
           Id="Package\MDS\Validate Model"
-          TopLeft="246.5,209.5" />
+          TopLeft="246.5,208.7" />
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint]"
-          TopLeft="85.5,47.5">
+          TopLeft="85.5,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="199.5,60"
+              EndConnector="199.533333333333,60"
               Start="0,0"
-              End="199.5,52.5">
+              End="199.533333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7412398921833" />
+                    End="0,31.7410071942446" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7412398921833"
-                    Point2="0,35.7412398921833"
-                    Point3="4,35.7412398921833" />
+                    Point1="0,31.7410071942446"
+                    Point2="0,35.7410071942446"
+                    Point3="4,35.7410071942446" />
                   <mssgle:LineSegment
-                    End="195.5,35.7412398921833" />
+                    End="195.533333333333,35.7410071942446" />
                   <mssgle:CubicBezierSegment
-                    Point1="195.5,35.7412398921833"
-                    Point2="199.5,35.7412398921833"
-                    Point3="199.5,39.7412398921833" />
+                    Point1="195.533333333333,35.7410071942446"
+                    Point2="199.533333333333,35.7410071942446"
+                    Point3="199.533333333333,39.7410071942446" />
                   <mssgle:LineSegment
-                    End="199.5,52.5" />
+                    End="199.533333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5036,30 +5099,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 1]"
-          TopLeft="320.5,47.5">
+          TopLeft="320.5,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="35.5000000000001,60"
+              EndConnector="35.4666666666667,60"
               Start="0,0"
-              End="35.5000000000001,52.5">
+              End="35.4666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7412398921833" />
+                    End="0,31.7410071942446" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7412398921833"
-                    Point2="0,35.7412398921833"
-                    Point3="4,35.7412398921833" />
+                    Point1="0,31.7410071942446"
+                    Point2="0,35.7410071942446"
+                    Point3="4,35.7410071942446" />
                   <mssgle:LineSegment
-                    End="31.5000000000001,35.7412398921833" />
+                    End="31.4666666666667,35.7410071942446" />
                   <mssgle:CubicBezierSegment
-                    Point1="31.5000000000001,35.7412398921833"
-                    Point2="35.5000000000001,35.7412398921833"
-                    Point3="35.5000000000001,39.7412398921833" />
+                    Point1="31.4666666666667,35.7410071942446"
+                    Point2="35.4666666666667,35.7410071942446"
+                    Point3="35.4666666666667,39.7410071942446" />
                   <mssgle:LineSegment
-                    End="35.5000000000001,52.5" />
+                    End="35.4666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5070,7 +5133,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint 2]"
-          TopLeft="320.5,149.5">
+          TopLeft="320.5,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5093,28 +5156,28 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436.8,307.2"
-          Size="436.8,350.4"
+          PanelSize="436.8,305.6"
+          Size="436.8,348.8"
           Id="Package\MDS"
-          TopLeft="21.5000000000001,464.5" />
+          TopLeft="21.5000000000001,668.7" />
         <NodeLayout
-          Size="195.2,41.6"
+          Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="142.5,1284.5" />
+          TopLeft="142.7,1486.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="240,96.5">
+          TopLeft="239.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5125,7 +5188,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="240,1224.5">
+          TopLeft="239.9,1426.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5147,7 +5210,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="240,814.5">
+          TopLeft="239.9,1017.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5169,18 +5232,40 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="240,404.5">
+          TopLeft="239.9,608.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="239.9,301.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999998"
+              Start="0,0"
+              End="0,52.4999999999998">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999998" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
