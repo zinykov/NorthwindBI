@@ -73,7 +73,9 @@ BEGIN
 				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
 				, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 19951231 )
 				, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 19951231 )
-				, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
+				, [ShippedDateKey]				=	CASE WHEN [ShippedDate] > @EndLoad THEN 19951231
+														ELSE ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
+													END
 				, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
 				, [Quantity]					=	ISNULL ( [Quantity], 0 )
 				, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
@@ -89,7 +91,7 @@ BEGIN
 				AND O.[ShippedDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 	LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
-	WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
+	WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 	BEGIN TRANSACTION
 		ALTER TABLE [Integration].[Order] SWITCH PARTITION 2 TO [Fact].[Order] PARTITION 2
