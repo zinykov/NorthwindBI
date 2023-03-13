@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="227"
-  DTS:VersionGUID="{0EFEF91B-B561-45B2-8C79-CE1E6E1C19E0}">
+  DTS:VersionBuild="228"
+  DTS:VersionGUID="{36BE45A4-1CDC-401B-ADF2-4503DC82016A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -419,59 +419,6 @@
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load to landing"
-      DTS:CreationName="STOCK:SEQUENCE"
-      DTS:DTSID="{fdbddf1c-2f02-4cea-bf2f-74df2fa97af9}"
-      DTS:ExecutableType="STOCK:SEQUENCE"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Load to landing">
-      <DTS:Variables />
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package\Load to landing\Bulk Insert Order Details"
-          DTS:CreationName="Microsoft.BulkInsertTask"
-          DTS:DTSID="{a9313315-70dc-45be-900c-e1074011863e}"
-          DTS:ExecutableType="Microsoft.BulkInsertTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Bulk Insert Order Details"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:PropertyExpression
-            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\Order Details.dat"</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <BulkInsertTask:BulkInsertTaskData
-              BulkInsertTask:SourceConnectionName="{83292E7C-2E49-4859-9674-10BBABE88DEF}"
-              BulkInsertTask:DestinationConnectionName="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              BulkInsertTask:DataFileType="DTSBulkInsert_DataFileType_Native"
-              BulkInsertTask:DestinationTableName="[Landing].[Order Details]"
-              BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\Order Details.dat" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Load to landing\Bulk Insert Orders"
-          DTS:CreationName="Microsoft.BulkInsertTask"
-          DTS:DTSID="{018c11e4-dfe2-4fab-b30d-d30f95f40174}"
-          DTS:ExecutableType="Microsoft.BulkInsertTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Bulk Insert Orders"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:PropertyExpression
-            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\Orders.dat"</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <BulkInsertTask:BulkInsertTaskData
-              BulkInsertTask:SourceConnectionName="{4D970B0A-4450-4437-B5A7-9C8C721122A0}"
-              BulkInsertTask:DestinationConnectionName="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              BulkInsertTask:DataFileType="DTSBulkInsert_DataFileType_Native"
-              BulkInsertTask:DestinationTableName="[Landing].[Orders]"
-              BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\Orders.dat" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
-    </DTS:Executable>
-    <DTS:Executable
       DTS:refId="Package\Optimaze Partitions"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:DTSID="{05A59D51-0D36-46B9-95E8-57C972FB88E9}"
@@ -571,11 +518,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{4F5FFFF2-2B28-465C-86DD-3E8717F3D995}"
+      DTS:DTSID="{25E0185E-52A1-4FC8-9F3A-35CA6FAF7CCF}"
       DTS:From="Package\Get LineAgeKey"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Load to landing" />
+      DTS:To="Package\Create Filegroup" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
@@ -600,14 +547,6 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\Load DWH" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
-      DTS:CreationName=""
-      DTS:DTSID="{51FC2B1C-2DFB-49CF-8745-A834C5C98A5B}"
-      DTS:From="Package\Load to landing"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 4"
-      DTS:To="Package\Create Filegroup" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -620,15 +559,15 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="156,41.6"
           Id="Package\Create Filegroup"
-          TopLeft="165.9,361.5" />
+          TopLeft="166.3,155.9" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="167.5,54.3" />
+          TopLeft="167.9,54.3" />
         <NodeLayout
           Size="136,41.6"
           Id="Package\Load DWH\Load Orders"
@@ -665,22 +604,7 @@
           PanelSize="179.2,204"
           Size="179.2,247.2"
           Id="Package\Load DWH"
-          TopLeft="154.3,463.1" />
-        <NodeLayout
-          Size="194.4,41.6"
-          Id="Package\Load to landing\Bulk Insert Order Details"
-          TopLeft="230.3,5.49999999999995" />
-        <NodeLayout
-          Size="164,41.6"
-          Id="Package\Load to landing\Bulk Insert Orders"
-          TopLeft="5.5,5.49999999999995" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="430.4,102.4"
-          Size="430.4,145.6"
-          Id="Package\Load to landing"
-          TopLeft="28.7,155.9" />
+          TopLeft="154.7,257.5" />
         <NodeLayout
           Size="207.2,41.6"
           Id="Package\Optimaze Partitions\Optimize Partitions Monthly"
@@ -717,14 +641,14 @@
           PanelSize="218.4,204"
           Size="218.4,247.2"
           Id="Package\Optimaze Partitions"
-          TopLeft="134.7,770.3" />
+          TopLeft="135.1,564.7" />
         <NodeLayout
           Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="146.7,1077.5" />
+          TopLeft="147.1,871.9" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="243.9,95.8999999999999">
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="244.3,504.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -745,30 +669,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="243.9,710.3">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="243.9,1017.5">
+          TopLeft="244.3,811.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -790,18 +692,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="243.9,403.1">
+          TopLeft="244.3,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999998"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.4999999999998">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999998" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -811,8 +713,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="243.9,301.5">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="244.3,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
