@@ -1,23 +1,21 @@
-﻿:setvar AzAgentGroup VSTS_AgentService_G39071
-:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
-:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
-:setvar DQSDatabaseName DQS_STAGING_DATA
-:setvar DQSServerName SWIFT3
-:setvar DWHDatabaseName NorthwindDW
-:setvar DWHServerName SWIFT3
-:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
-:setvar LandingDatabaseName Landing
-:setvar LandingServerName SWIFT3
-:setvar LogsDatabaseName Logs
-:setvar LogsServerName SWIFT3
-:setvar MDSDatabaseName MDS
-:setvar MDSServerName SWIFT3
-:setvar RetrainWeeks 3
-:setvar SSISDatabaseName SISSDB
-:setvar SSISEnvironmentName Release
-:setvar SSISFolderName NorthwindBI
-:setvar SSISProjectName NorthwindETL
-:setvar SSISServerName SWIFT3
+﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
+--:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+--:setvar DQSDatabaseName DQS_STAGING_DATA
+--:setvar DQSServerName SWIFT3
+--:setvar DWHDatabaseName NorthwindDW
+--:setvar DWHServerName SWIFT3
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
+--:setvar MDSDatabaseName MDS
+--:setvar MDSServerName SWIFT3
+--:setvar RetrainWeeks 3
+--:setvar SSISDatabaseName SISSDB
+--:setvar SSISEnvironmentName Release
+--:setvar SSISFolderName NorthwindBI
+--:setvar SSISProjectName NorthwindETL
+--:setvar SSISServerName SWIFT3
 
 USE [$(DWHDatabaseName)]
 GO
@@ -61,9 +59,9 @@ GO
 USE [$(LogsDatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LogsServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\RDLexec' )
 	BEGIN
-		CREATE USER [$(LogsServerName)\RDLexec] FOR LOGIN [$(LogsServerName)\RDLexec]
+		CREATE USER [$(DWHServerName)\RDLexec] FOR LOGIN [$(DWHServerName)\RDLexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
@@ -92,20 +90,4 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 GO
 
 ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\RDLexec]
-GO
-
-USE [$(LandingDatabaseName)]
-GO
-
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LandingServerName)\$(AzAgentGroup)' )
-	BEGIN
-		CREATE USER [$(LandingServerName)\$(AzAgentGroup)] FOR LOGIN [$(LandingServerName)\$(AzAgentGroup)]
-			WITH DEFAULT_SCHEMA=[dbo]
-	END
-GO
-
-ALTER ROLE [db_datareader] ADD MEMBER [$(LandingServerName)\RDLexec]
-GO
-
-ALTER ROLE [db_datawriter] ADD MEMBER [$(LandingServerName)\RDLexec]
 GO
