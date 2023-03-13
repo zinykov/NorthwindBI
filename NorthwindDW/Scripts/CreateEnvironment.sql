@@ -1,22 +1,23 @@
-﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
---:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
---:setvar DQSDatabaseName DQS_STAGING_DATA
---:setvar DQSServerName SWIFT3
---:setvar DWHDatabaseName NorthwindDW
---:setvar DWHServerName SWIFT3
---:setvar EndLoadDate 1998-01-10
---:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
---:setvar LogsDatabaseName Logs
---:setvar LogsServerName SWIFT3
---:setvar MDSDatabaseName MDS
---:setvar MDSServerName SWIFT3
---:setvar RetrainWeeks 3
---:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName Release
---:setvar SSISFolderName NorthwindBI
---:setvar SSISProjectName NorthwindETL
---:setvar SSISServerName SWIFT3
+﻿:setvar AzAgentGroup VSTS_AgentService_G39071
+:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+:setvar DQSDatabaseName DQS_STAGING_DATA
+:setvar DQSServerName SWIFT3
+:setvar DWHDatabaseName NorthwindDW
+:setvar DWHServerName SWIFT3
+:setvar EndLoadDate 1998-01-10
+:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
+:setvar LogsDatabaseName Logs
+:setvar LogsServerName SWIFT3
+:setvar MDSDatabaseName MDS
+:setvar MDSServerName SWIFT3
+:setvar RetrainWeeks 3
+:setvar SSISDatabaseName SISSDB
+:setvar SSISEnvironmentName Release
+:setvar SSISFolderName NorthwindBI
+:setvar SSISProjectName NorthwindETL
+:setvar SSISServerName SWIFT3
+:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -256,7 +257,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'C:\SSIS\xmlcalendar'
+DECLARE @var sql_variant = N'$(XMLCalendarFolder)'
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
