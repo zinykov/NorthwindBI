@@ -73,9 +73,7 @@ BEGIN
 				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
 				, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 19951231 )
 				, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 19951231 )
-				, [ShippedDateKey]				=	CASE WHEN [ShippedDate] > @EndLoad THEN 19951231
-														ELSE ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
-													END
+				, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
 				, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
 				, [Quantity]					=	ISNULL ( [Quantity], 0 )
 				, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
@@ -86,15 +84,14 @@ BEGIN
 	FROM		[Landing].[Orders] AS O
 	LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
 	LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-				AND O.[ShippedDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+				AND O.[OrderDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 	LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-				AND O.[ShippedDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+				AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
 	LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
-	WHERE		O.[OrderDate] BETWEEN @StartLoad AND @EndLoad
+	WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 	BEGIN TRANSACTION
-		ALTER TABLE [Integration].[Order] SWITCH PARTITION 2 TO [Fact].[Order] PARTITION 2
 		ALTER TABLE [Integration].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
 --		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
@@ -103,25 +100,24 @@ BEGIN
 			INTO [Fact].[Order] AS TRG
 			USING [Integration].[Order] AS SRC
 			ON	(
-					TRG.[OrderKey]		=	SRC.[OrderKey]
-				AND TRG.[ProductKey]	=	SRC.[ProductKey]
+					SRC.[OrderKey]		=	TRG.[OrderKey]
+				AND SRC.[ProductKey]	=	TRG.[ProductKey]
 				)
 			WHEN MATCHED THEN UPDATE SET
-					  TRG.[OrderKey]				=	SRC.[OrderKey]
-					, TRG.[ProductKey]				=	SRC.[ProductKey]
-					, TRG.[CustomerKey]				=	SRC.[CustomerKey]
-					, TRG.[EmployeeKey]				=	SRC.[EmployeeKey]
-					, TRG.[OrderDateKey]			=	SRC.[OrderDateKey]
-					, TRG.[RequiredDateKey]			=	SRC.[RequiredDateKey]
-					, TRG.[ShippedDateKey]			=	SRC.[ShippedDateKey]
-					, TRG.[UnitPrice]				=	SRC.[UnitPrice]
-					, TRG.[Quantity]				=	SRC.[Quantity]
-					, TRG.[Discount]				=	SRC.[Discount]
-					, TRG.[SalesAmount]				=	SRC.[SalesAmount]
-					, TRG.[SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
-					, TRG.[LineageKey]				=	SRC.[LineageKey]
-			
-			WHEN NOT MATCHED THEN INSERT (
+					  [OrderKey]				=	SRC.[OrderKey]
+					, [ProductKey]				=	SRC.[ProductKey]
+					, [CustomerKey]				=	SRC.[CustomerKey]
+					, [EmployeeKey]				=	SRC.[EmployeeKey]
+					, [OrderDateKey]			=	SRC.[OrderDateKey]
+					, [RequiredDateKey]			=	SRC.[RequiredDateKey]
+					, [ShippedDateKey]			=	SRC.[ShippedDateKey]
+					, [UnitPrice]				=	SRC.[UnitPrice]
+					, [Quantity]				=	SRC.[Quantity]
+					, [Discount]				=	SRC.[Discount]
+					, [SalesAmount]				=	SRC.[SalesAmount]
+					, [SalesAmountWithDiscount]	=	SRC.[SalesAmountWithDiscount]
+					, [LineageKey]				=	SRC.[LineageKey]
+			WHEN NOT MATCHED BY TARGET THEN INSERT (
 					  [OrderKey]
 					, [ProductKey]
 					, [CustomerKey]
@@ -149,7 +145,7 @@ BEGIN
 					, SRC.[SalesAmount]
 					, SRC.[SalesAmountWithDiscount]
 					, SRC.[LineageKey]
-				);
+				);	
 	COMMIT
 
 	EXECUTE [Integration].[DropLoadTableOrder];
