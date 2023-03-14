@@ -1,22 +1,22 @@
-﻿:setvar AzAgentGroup VSTS_AgentService_G39071
-:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
-:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
-:setvar DQSDatabaseName DQS_STAGING_DATA
-:setvar DQSServerName SWIFT3
-:setvar DWHDatabaseName NorthwindDW
-:setvar DWHServerName SWIFT3
-:setvar EndLoadDate 1998-01-10
-:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
-:setvar LogsDatabaseName Logs
-:setvar LogsServerName SWIFT3
-:setvar MDSDatabaseName MDS
-:setvar MDSServerName SWIFT3
-:setvar RetrainWeeks 3
-:setvar SSISDatabaseName SISSDB
-:setvar SSISEnvironmentName Release
-:setvar SSISFolderName NorthwindBI
-:setvar SSISProjectName NorthwindETL
-:setvar SSISServerName SWIFT3
+﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
+--:setvar BackupFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
+--:setvar DQSDatabaseName DQS_STAGING_DATA
+--:setvar DQSServerName SWIFT3
+--:setvar DWHDatabaseName NorthwindDW
+--:setvar DWHServerName SWIFT3
+--:setvar EndLoadDate 1998-01-10
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
+--:setvar LogsDatabaseName Logs
+--:setvar LogsServerName SWIFT3
+--:setvar MDSDatabaseName MDS
+--:setvar MDSServerName SWIFT3
+--:setvar RetrainWeeks 3
+--:setvar SSISDatabaseName SISSDB
+--:setvar SSISEnvironmentName Release
+--:setvar SSISFolderName NorthwindBI
+--:setvar SSISProjectName NorthwindETL
+--:setvar SSISServerName SWIFT3
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
