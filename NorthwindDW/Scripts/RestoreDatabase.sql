@@ -1,4 +1,4 @@
-﻿:setvar DWHDatabaseName NorthwindDW
+﻿--:setvar DWHDatabaseName NorthwindDW
 
 USE [Logs];
 GO
