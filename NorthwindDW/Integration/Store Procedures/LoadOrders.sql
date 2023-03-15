@@ -20,29 +20,27 @@ AS
 */
 BEGIN
 -- Объявление переменных
-	DECLARE		@PartitionParameter AS INT
-	DECLARE		@NewPartitionParameterDate AS DATE
-	DECLARE		@NewPartitionParameter AS INT
+	DECLARE		@PartitionParameter AS DATE
+	DECLARE		@NewPartitionParameter AS DATE
 	DECLARE		@Partition_number AS INT
 	DECLARE		@SQL AS NVARCHAR(2000)
 
 -- Определение границы новой секции
-	SET @NewPartitionParameterDate = DATEADD ( DAY, 1, @EndLoad )
+	SET @NewPartitionParameter = DATEADD ( DAY, 1, @EndLoad )
 -- Переменной @NewPartitionParameter присваивается значение @NewPartitionDate в формате OrderDateKey
-	SET @NewPartitionParameter = YEAR ( @NewPartitionParameterDate ) * 10000 + MONTH ( @NewPartitionParameterDate ) * 100 + DAY ( @NewPartitionParameterDate )
-	SET @PartitionParameter = YEAR ( @EndLoad ) * 10000 + MONTH ( @EndLoad ) * 100 + DAY ( @EndLoad )
+	SET @PartitionParameter = @EndLoad
 
 -- ШАГ 1. Определение файловых групп для схем секционирования
 	SET @SQL = CONCAT (
 			N'ALTER PARTITION SCHEME [PS_Order_Date_Data] NEXT USED [Order_'
-		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
+		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameter ) )
 		, N'_Data]'
 		)
 	EXECUTE sp_executesql @SQL
 
 	SET @SQL = CONCAT (
 			N'ALTER PARTITION SCHEME [PS_Order_Date_Index] NEXT USED [Order_'
-		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameterDate ) )
+		, CONVERT ( NVARCHAR(4), YEAR ( @NewPartitionParameter ) )
 		, N'_Index]'
 		)
 	EXECUTE sp_executesql @SQL
@@ -71,9 +69,9 @@ BEGIN
 				, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
 				, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
 				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
-				, [OrderDateKey]				=	ISNULL ( YEAR ( [OrderDate] ) * 10000 + MONTH ( [OrderDate] ) * 100 + DAY ( [OrderDate] ), 19951231 )
-				, [RequiredDateKey]				=	ISNULL ( YEAR ( [RequiredDate] ) * 10000 + MONTH ( [RequiredDate] ) * 100 + DAY ( [RequiredDate] ), 19951231 )
-				, [ShippedDateKey]				=	ISNULL ( YEAR ( [ShippedDate] ) * 10000 + MONTH ( [ShippedDate] ) * 100 + DAY ( [ShippedDate] ), 19951231 )
+				, [OrderDateKey]				=	ISNULL ( [OrderDate], DATEFROMPARTS ( 1995, 12, 31 ) )
+				, [RequiredDateKey]				=	ISNULL ( [RequiredDate], DATEFROMPARTS ( 1995, 12, 31 ) )
+				, [ShippedDateKey]				=	ISNULL ( [ShippedDate], DATEFROMPARTS ( 1995, 12, 31 ) )
 				, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
 				, [Quantity]					=	ISNULL ( [Quantity], 0 )
 				, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
