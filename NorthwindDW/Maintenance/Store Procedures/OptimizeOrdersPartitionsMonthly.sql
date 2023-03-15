@@ -23,10 +23,8 @@ AS BEGIN
     DECLARE @IsSetFilegroupReadonly AS BIT;
     DECLARE @StartMonthDate         AS DATE;
 	DECLARE @EndMonthDate	        AS DATE;
-	DECLARE @StartKey		        AS INT;
-	DECLARE @EndKey			        AS INT;
 	DECLARE @PartitionNumber        AS INT;
-    DECLARE @PartitionValue         AS INT;
+    DECLARE @PartitionValue         AS DATE;
 	
 -- Проверка даты запуска
     EXECUTE [Maintenance].[CheckReferenceDate]
@@ -39,9 +37,7 @@ AS BEGIN
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
-	SET @StartMonthDate = ( SELECT [StartOfMonth] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
-	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartMonthDate )
-	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndMonthDate )
+	SET @StartMonthDate = ( SELECT [StartOfMonth] FROM [Dimension].[Date] AS D WHERE [DateKey] = @EndMonthDate )
 
 -- Создание копии таблицы фактов
 		EXECUTE [Integration].[CreateLoadTableOrder]
@@ -49,14 +45,14 @@ AS BEGIN
 			, @IsMaitenance = 1;
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
-        SELECT		DISTINCT $PARTITION.[PF_Load_Order] ( CAST ( PRV.[value] AS INT ) )
-                    , CAST ( PRV.[value] AS INT )
+        SELECT		DISTINCT $PARTITION.[PF_Load_Order] ( CONVERT ( DATE, PRV.[value], 23 ) )
+                    , CONVERT ( DATE, PRV.[value], 23 )
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
 			        AND PF.[name] = N'PF_Load_Order'
 
-        WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
+        WHERE		PRV.[value] BETWEEN @StartMonthDate AND @EndMonthDate
         
 	OPEN OptimizePartitions
 -- Перенос строк данных из таблицы фактов в дублёр.
@@ -95,7 +91,7 @@ AS BEGIN
         ON [PS_Load_Order_Data] ( [ShippedDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
-    SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartKey )
+    SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartMonthDate )
 
 -- Перенос данных в таблицу фактов
 	ALTER TABLE [Integration].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
