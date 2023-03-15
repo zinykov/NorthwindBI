@@ -21,11 +21,11 @@ AS BEGIN
         END
 	SET @YearNumber = YEAR ( @EndMonthDate )
 
-	SELECT  @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONVERT ( NVARCHAR(8), [value] )
+	SELECT  @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONCAT ( N' CAST ( ''', CAST ( CONVERT ( DATE, [value], 23 ) AS NVARCHAR(10) ), N''' AS DATE )' )
     FROM    [sys].[partition_range_values];
-
+	
 -- Создание функции секционирования
-	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Load_Order] ( INT ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
+	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Load_Order] ( DATE ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
 	EXECUTE sp_executesql @CreatePF;
 
 -- Создание схемы секционирования
@@ -105,9 +105,9 @@ AS BEGIN
         [ProductKey]                    INT             NOT NULL,
         [CustomerKey]                   INT             NULL, 
         [EmployeeKey]                   INT             NULL,
-        [OrderDateKey]                  INT             NULL, 
-        [RequiredDateKey]               INT             NULL, 
-        [ShippedDateKey]                INT             NULL,
+        [OrderDateKey]                  DATE			NULL, 
+        [RequiredDateKey]               DATE			NULL, 
+        [ShippedDateKey]                DATE			NULL, 
         [UnitPrice]                     MONEY           NULL,
         [Quantity]                      INT             NULL,
         [Discount]                      MONEY           NULL,
