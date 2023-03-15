@@ -4,7 +4,7 @@ AS BEGIN
 	SELECT		  DISTINCT [Schema]		= S.[name]
 				, [Table]				= T.[name]
 				, [PartitionNumber]		= P.[partition_number]
-				, [PartitionRange]		= PRV.[value]
+				, [PartitionRange]		= CONVERT ( DATE, PRV.[value], 23 )
 				, [IndexID]				= I.[index_id]
 				, [IndexType]			= I.[type_desc]
 				, [DataCompression]		= P.[data_compression_desc]
