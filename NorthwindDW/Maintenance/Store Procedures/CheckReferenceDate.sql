@@ -17,7 +17,7 @@ AS BEGIN
         END
 	
     SET @ReferenceDate = (
-        SELECT	[AlterDateKey]
+        SELECT	[DateKey]
         FROM	[Dimension].[Date]
         WHERE	[DayOfWeekNumber] = 5
 			    AND [DayOfMonth] BETWEEN 2 AND 8
@@ -35,7 +35,7 @@ AS BEGIN
         END
 	
     SET @ReferenceDate = (
-        SELECT	[AlterDateKey]
+        SELECT	[DateKey]
         FROM	[Dimension].[Date]
         WHERE	[DayOfWeekNumber] = 6
 			    AND [DayOfMonth] BETWEEN 2 AND 8

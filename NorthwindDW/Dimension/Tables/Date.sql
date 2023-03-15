@@ -1,8 +1,7 @@
 ﻿CREATE TABLE [Dimension].[Date]
 (
 	--Day
-    [DateKey]               INT             NOT NULL,
-    [AlterDateKey]          DATE            NOT NULL,
+    [DateKey]               DATE            NOT NULL,
     [DayOfMonth]            TINYINT         NOT NULL,
     [DayOfWeek]             NVARCHAR(5)     NOT NULL,
     [DayOfWeekNumber]       TINYINT         NOT NULL,
@@ -41,7 +40,7 @@
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
 
-CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [AlterDateKey] ASC )
+CREATE NONCLUSTERED INDEX [IX_Dimension_Date_Alter_Date_Key] ON [Dimension].[Date] ( [DateKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO

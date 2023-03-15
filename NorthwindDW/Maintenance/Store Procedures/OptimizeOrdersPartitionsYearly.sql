@@ -20,16 +20,14 @@ AS BEGIN
         13. Удаление временных структур.
         14. Архивация секции с данными за предпредыдущий год.
 */
-	DECLARE @IsStartOptimization   AS BIT;
+	DECLARE @IsStartOptimization    AS BIT;
     DECLARE @IsSetFilegroupReadonly AS BIT;
-    DECLARE @StartYearDate         AS DATE;
-	DECLARE @EndYearDate	       AS DATE;
-	DECLARE @StartKey		       AS INT;
-	DECLARE @EndKey			       AS INT;
-	DECLARE @PartitionNumber       AS INT;
-    DECLARE @PartitionValue        AS INT;
-    DECLARE @YearNumber            AS INT;
-    DECLARE @SQL                   AS NVARCHAR(2000);
+    DECLARE @StartYearDate          AS DATE;
+	DECLARE @EndYearDate            AS DATE;
+	DECLARE @PartitionNumber        AS INT;
+    DECLARE @PartitionValue         AS DATE;
+    DECLARE @YearNumber             AS INT;
+    DECLARE @SQL                    AS NVARCHAR(2000);
 	
 -- Проверка даты запуска
     EXECUTE [Maintenance].[CheckReferenceDate]
@@ -42,9 +40,7 @@ AS BEGIN
     
 -- Опеределение границ диапазона слияния секций.
     SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
-	SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
-	SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
-	SET @EndKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @EndYearDate )
+	SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [DateKey] = @EndYearDate )
     
 -- Создание временной таблицы
 		EXECUTE [Integration].[CreateLoadTableOrder]
@@ -52,14 +48,14 @@ AS BEGIN
 			, @IsMaitenance = 1;
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
-        SELECT		DISTINCT $PARTITION.[PF_Load_Order] ( CAST ( PRV.[value] AS INT ) )
-                    , CAST ( PRV.[value] AS INT )
+        SELECT		DISTINCT $PARTITION.[PF_Load_Order] ( CONVERT ( DATE, PRV.[value], 23 ) )
+                    , CONVERT ( DATE, PRV.[value], 23 )
 
         FROM		[sys].[partition_range_values] AS PRV
         INNER JOIN	[sys].[partition_functions] AS PF ON PF.[function_id] = PRV.[function_id]
 			        AND PF.[name] = N'PF_Load_Order'
 
-        WHERE		PRV.[value] BETWEEN @StartKey AND @EndKey
+        WHERE		PRV.[value] BETWEEN @StartYearDate AND @EndYearDate
         
 	OPEN OptimizePartitions
 -- Перенос строк данных из таблицы фактов в дублёр.
@@ -98,7 +94,7 @@ AS BEGIN
         ON [PS_Load_Order_Data] ( [ShippedDateKey] );
 
 -- Определение номера секции для переноса в таблицу фактов
-    SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartKey )
+    SET @PartitionNumber = $PARTITION.[PF_Load_Order] ( @StartYearDate )
 
 -- Перенос данных в таблицу фактов
 	ALTER TABLE [Integration].[Order] SWITCH PARTITION @PartitionNumber TO [Fact].[Order] PARTITION @PartitionNumber
@@ -108,8 +104,7 @@ AS BEGIN
 
 -- Архивация старых данных
     SET @StartYearDate = DATEADD ( YEAR, -1, @StartYearDate )
-    SET @StartKey = ( SELECT [DateKey] FROM [Dimension].[Date] AS D WHERE [AlterDateKey] = @StartYearDate )
-    SET @PartitionNumber = $PARTITION.[PF_Order_Date] ( @StartKey )
+    SET @PartitionNumber = $PARTITION.[PF_Order_Date] ( @StartYearDate )
     
     IF NOT EXISTS (
         	SELECT      1

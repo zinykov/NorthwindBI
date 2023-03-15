@@ -13,11 +13,10 @@ BEGIN
 		BEGIN TRAN
 			WHILE @DateCounter <= DATEFROMPARTS ( @EndDate, 12, 31 )
 			BEGIN
-				IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Date] WHERE [AlterDateKey] = @DateCounter )
+				IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Date] WHERE [DateKey] = @DateCounter )
 				BEGIN
 					INSERT [Dimension].[Date] (
 						  [DateKey]
-                        , [AlterDateKey]
                         , [DayOfMonth]
                         , [DayOfWeek]
                         , [DayOfWeekNumber]
@@ -45,7 +44,6 @@ BEGIN
                         , [WorkDayType]
                         , [WorkDayHours]
 					) SELECT	  [DateKey]
-                                , [AlterDateKey]
                                 , [DayOfMonth]
                                 , [DayOfWeek]
                                 , [DayOfWeekNumber]

@@ -6,12 +6,12 @@
 AS BEGIN
 	DECLARE @date AS DATE;
 	
-	IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [AlterDateKey] = @CutoffTime ) < 6 )
+	IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [DateKey] = @CutoffTime ) < 6 )
 		BEGIN
 			SET @date = (
 				SELECT		DATEADD ( DAY, -2, [StartOfWeek] )
 				FROM		[Dimension].[Date]
-				WHERE		[AlterDateKey] = @CutoffTime
+				WHERE		[DateKey] = @CutoffTime
 			)
 		END
 	ELSE
@@ -19,7 +19,7 @@ AS BEGIN
 		SET @date = (
 				SELECT		DATEADD ( DAY, -1, [EndOfWeek] )
 				FROM		[Dimension].[Date]
-				WHERE		[AlterDateKey] = @CutoffTime
+				WHERE		[DateKey] = @CutoffTime
 			)
 		END
 	

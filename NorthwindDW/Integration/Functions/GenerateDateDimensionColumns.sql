@@ -2,8 +2,7 @@
 RETURNS @returntable TABLE
 (
 	--Day
-    [DateKey]               INT             NOT NULL,
-    [AlterDateKey]          DATE            NOT NULL,
+    [DateKey]               DATE            NOT NULL,
     [DayOfMonth]            TINYINT         NOT NULL,
     [DayOfWeek]             NVARCHAR(5)     NOT NULL,
     [DayOfWeekNumber]       TINYINT         NOT NULL,
@@ -52,8 +51,7 @@ AS BEGIN
 
 	INSERT @returntable
 	        --Day
-    SELECT    [DateKey]             = @YearNumber * 10000 + @MonthNumber * 100 + @DayNumber
-            , [AlterDateKey]        = @Date
+    SELECT    [DateKey]             = @Date
             , [DayOfMonth]          = @DayNumber
             , [DayOfWeek]           = FORMAT ( @Date, 'ddd' )
             , [DayOfWeekNumber]     = @DayOfWeekNumber
