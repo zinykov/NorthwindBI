@@ -2,7 +2,6 @@
     WITH SCHEMABINDING
 AS
 	SELECT		  [DateKey]
-                , [AlterDateKey]
                 , [DayOfMonth]
                 , [DayOfWeek]
                 , [DayOfWeekNumber]
