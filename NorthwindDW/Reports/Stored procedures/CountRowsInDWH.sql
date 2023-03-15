@@ -21,7 +21,7 @@ AS BEGIN
 	LEFT JOIN	sys.partitions AS P ON T.[object_id] = P.[object_id]
 	LEFT JOIN	sys.indexes AS I ON T.[object_id] = I.[object_id]
 				AND P.[index_id] = I.[index_id]
-	LEFT JOIN	sys.partition_range_values AS PRV ON P.[partition_number] = $PARTITION.[PF_Order_Date] ( CAST ( PRV.[value] AS INT ) )
+	LEFT JOIN	sys.partition_range_values AS PRV ON P.[partition_number] = $PARTITION.[PF_Order_Date] ( CAST ( PRV.[value] AS DATE ) )
 	LEFT JOIN	sys.data_spaces AS DS ON DS.[data_space_id] = I.[data_space_id]
 	LEFT JOIN	sys.partition_schemes AS PS ON PS.[data_space_id] = DS.[data_space_id]
 	LEFT JOIN	sys.partition_functions AS PF ON PF.[function_id] = PS.[function_id]
