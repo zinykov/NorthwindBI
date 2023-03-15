@@ -7,13 +7,13 @@ AS BEGIN
 	DECLARE @Name AS NVARCHAR(100)
 	DECLARE @FileName AS NVARCHAR(500)
 	DECLARE	@SQL AS NVARCHAR(2000)
-	
-	SET @CutoffTime = DATEADD ( DAY, 1, @CutoffTime )
 
 	EXECUTE [Maintenance].[GetOrInsertDatabaseFilesData]
 		  @CutoffTime = @CutoffTime
 		, @FactTableName = @FactTableName
 		, @FilePath = @FilePath
+	
+	SET @CutoffTime = DATEADD ( DAY, 1, @CutoffTime )
 	
 	DECLARE CreateFilegroupsInDatabase CURSOR FOR
 		SELECT		DBF.[GroupName], DBF.[Name], DBF.[FileName]
