@@ -39,6 +39,8 @@
     [Fax_Reason]              NVARCHAR (MAX) NULL,
     [Fax_Confidence]          NVARCHAR (MAX) NULL,
     [Fax_Status]              NVARCHAR (MAX) NULL,
-    [Record_Status]           NVARCHAR (MAX) NULL
+    [Record_Status]           NVARCHAR (MAX) NULL,
+    [Appended_data]           NVARCHAR (MAX) NULL,
+    [Appended_data_schema]    NVARCHAR (MAX) NULL
 );
 

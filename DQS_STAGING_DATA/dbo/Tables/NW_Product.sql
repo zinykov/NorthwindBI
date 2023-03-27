@@ -9,13 +9,13 @@
     [ProductName_Reason]     NVARCHAR (MAX) NULL,
     [ProductName_Confidence] NVARCHAR (MAX) NULL,
     [ProductName_Status]     NVARCHAR (MAX) NULL,
-    [SupplierID_Output]      INT            NULL,
     [CategoryID_Source]      INT            NULL,
     [CategoryID_Output]      INT            NULL,
     [CategoryID_Reason]      NVARCHAR (MAX) NULL,
     [CategoryID_Confidence]  NVARCHAR (MAX) NULL,
     [CategoryID_Status]      NVARCHAR (MAX) NULL,
-    [UnitPrice_Output]       MONEY          NULL,
-    [Record_Status]          NVARCHAR (MAX) NULL
+    [Record_Status]          NVARCHAR (MAX) NULL,
+    [Appended_data]          NVARCHAR (MAX) NULL,
+    [Appended_data_schema]   NVARCHAR (MAX) NULL
 );
 

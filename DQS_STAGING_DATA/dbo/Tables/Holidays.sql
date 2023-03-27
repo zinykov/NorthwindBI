@@ -14,6 +14,8 @@
     [HolidayName_Reason]     NVARCHAR (MAX) NULL,
     [HolidayName_Confidence] NVARCHAR (MAX) NULL,
     [HolidayName_Status]     NVARCHAR (MAX) NULL,
-    [Record_Status]          NVARCHAR (MAX) NULL
+    [Record_Status]          NVARCHAR (MAX) NULL,
+    [Appended_data]          NVARCHAR (MAX) NULL,
+    [Appended_data_schema]   NVARCHAR (MAX) NULL
 );
 
