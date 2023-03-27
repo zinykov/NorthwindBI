@@ -34,6 +34,8 @@
     [Country_Reason]             NVARCHAR (MAX) NULL,
     [Country_Confidence]         NVARCHAR (MAX) NULL,
     [Country_Status]             NVARCHAR (MAX) NULL,
-    [Record_Status]              NVARCHAR (MAX) NULL
+    [Record_Status]              NVARCHAR (MAX) NULL,
+    [Appended_data]              NVARCHAR (MAX) NULL,
+    [Appended_data_schema]       NVARCHAR (MAX) NULL
 );
 

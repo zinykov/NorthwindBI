@@ -9,7 +9,8 @@
     [CategoryName_Reason]     NVARCHAR (MAX) NULL,
     [CategoryName_Confidence] NVARCHAR (MAX) NULL,
     [CategoryName_Status]     NVARCHAR (MAX) NULL,
-    [Description_Output]      NVARCHAR (MAX) NULL,
-    [Record_Status]           NVARCHAR (MAX) NULL
+    [Record_Status]           NVARCHAR (MAX) NULL,
+    [Appended_data]           NVARCHAR (MAX) NULL,
+    [Appended_data_schema]    NVARCHAR (MAX) NULL
 );
 
