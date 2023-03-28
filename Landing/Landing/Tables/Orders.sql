@@ -7,7 +7,8 @@
     [RequiredDate] DATETIME      NULL,
     [ShippedDate]  DATETIME      NULL,
     [ShipCity]     NVARCHAR (15) NULL,
-    [ShipCountry]  NVARCHAR (15) NULL
+    [ShipCountry]  NVARCHAR (15) NULL,
+    [CheckSum]     INT           NULL
 )
     ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;

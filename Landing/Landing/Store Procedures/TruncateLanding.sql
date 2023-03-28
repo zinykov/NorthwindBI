@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[TruncateLanding] AS
+﻿CREATE PROCEDURE [Landing].[TruncateLanding] AS
 BEGIN
 	SET NOCOUNT ON;
 
