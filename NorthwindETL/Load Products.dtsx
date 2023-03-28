@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="201"
-  DTS:VersionGUID="{5D18B34A-F733-4AF4-BFAB-9CDA0FF18D62}">
+  DTS:VersionBuild="202"
+  DTS:VersionGUID="{06D10A15-6D72-4033-AA99-32AC28ABA9B4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -574,10 +574,6 @@
                           refId="Package\DQS\Clean Products\Destination DQS Staging Category.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryName_Status]"
                           dataType="nText"
                           name="CategoryName_Status" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Destination DQS Staging Category.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Description_Output]"
-                          dataType="nText"
-                          name="Description_Output" />
                         <externalMetadataColumn
                           refId="Package\DQS\Clean Products\Destination DQS Staging Category.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Appended_data]"
                           dataType="nText"
@@ -1452,7 +1448,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractProductFromLanding]</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractCategories];</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -1469,7 +1465,7 @@
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
@@ -1478,8 +1474,8 @@
                   <connections>
                     <connection
                       refId="Package\DQS\Clean Products\Source Landing Category.Connections[OleDbConnection]"
-                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                       name="OleDbConnection" />
                   </connections>
@@ -1519,10 +1515,6 @@
                           dataType="wstr"
                           length="15"
                           name="CategoryName" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Source Landing Category.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Description]"
-                          dataType="nText"
-                          name="Description" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -4792,10 +4784,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="196.8,41.6"
-          Id="Package\DQS\Clean Products\Source Landing Category"
-          TopLeft="364,54.5" />
-        <NodeLayout
           Size="188.8,41.6"
           Id="Package\DQS\Clean Products\DQS Cleaning Category"
           TopLeft="368,156.5" />
@@ -4808,13 +4796,17 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Id="Package\DQS\Clean Products\DQS Cleaning Product"
           TopLeft="73.0000000000001,156.5" />
         <NodeLayout
-          Size="240,41.6"
-          Id="Package\DQS\Clean Products\Destination DQS Staging Category"
-          TopLeft="342.5,258.5" />
-        <NodeLayout
           Size="191.2,41.6"
           Id="Package\DQS\Clean Products\Source Landing Product"
           TopLeft="69,54.5" />
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\DQS\Clean Products\Source Landing Category"
+          TopLeft="364,54.5" />
+        <NodeLayout
+          Size="240,41.6"
+          Id="Package\DQS\Clean Products\Destination DQS Staging Category"
+          TopLeft="342.5,258.5" />
         <EdgeLayout
           Id="Package\DQS\Clean Products.Paths[Выход источника &quot;OLE DB&quot;1]"
           TopLeft="462.5,96.5">
@@ -4907,19 +4899,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Products\Source Landing Category">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\DQS\Clean Products\Destination DQS Staging Product">
     <Properties>
       <Property>
@@ -4933,7 +4912,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Products\Destination DQS Staging Category">
+    design-time-name="Package\DQS\Clean Products\Source Landing Product">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4946,7 +4925,20 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Products\Source Landing Product">
+    design-time-name="Package\DQS\Clean Products\Source Landing Category">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DQS\Clean Products\Destination DQS Staging Category">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
