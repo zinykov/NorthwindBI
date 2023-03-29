@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Products"
   DTS:PackageType="5"
-  DTS:VersionBuild="202"
-  DTS:VersionGUID="{06D10A15-6D72-4033-AA99-32AC28ABA9B4}">
+  DTS:VersionBuild="205"
+  DTS:VersionGUID="{7435E765-858E-4E50-8200-C49A996F8B21}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -342,7 +342,6 @@
     <DTS:Executable
       DTS:refId="Package\DQS"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Disabled="True"
       DTS:DTSID="{cb42ddb6-6817-4720-899c-811ce06a4219}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -852,10 +851,6 @@
                           dataType="nText"
                           name="ProductName_Status" />
                         <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Destination DQS Staging Product.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SupplierID_Output]"
-                          dataType="i4"
-                          name="SupplierID_Output" />
-                        <externalMetadataColumn
                           refId="Package\DQS\Clean Products\Destination DQS Staging Product.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID_Source]"
                           dataType="i4"
                           name="CategoryID_Source" />
@@ -875,10 +870,6 @@
                           refId="Package\DQS\Clean Products\Destination DQS Staging Product.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CategoryID_Status]"
                           dataType="nText"
                           name="CategoryID_Status" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Destination DQS Staging Product.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice_Output]"
-                          dataType="cy"
-                          name="UnitPrice_Output" />
                         <externalMetadataColumn
                           refId="Package\DQS\Clean Products\Destination DQS Staging Product.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Appended_data]"
                           dataType="nText"
@@ -1574,7 +1565,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractProductFromLanding]</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractProducts];</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -1591,7 +1582,7 @@
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
@@ -1600,8 +1591,8 @@
                   <connections>
                     <connection
                       refId="Package\DQS\Clean Products\Source Landing Product.Connections[OleDbConnection]"
-                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                       name="OleDbConnection" />
                   </connections>
@@ -1651,17 +1642,9 @@
                           length="40"
                           name="ProductName" />
                         <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Source Landing Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[SupplierID]"
-                          dataType="i4"
-                          name="SupplierID" />
-                        <externalMetadataColumn
                           refId="Package\DQS\Clean Products\Source Landing Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CategoryID]"
                           dataType="i4"
                           name="CategoryID" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Products\Source Landing Product.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          dataType="cy"
-                          name="UnitPrice" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -1794,6 +1777,7 @@
     <DTS:Executable
       DTS:refId="Package\Load to DWH"
       DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Disabled="True"
       DTS:DTSID="{2462460E-A1B1-4D55-A14D-BE3AE5F6C032}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -4782,7 +4766,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\DQS\Clean Products">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="188.8,41.6"
           Id="Package\DQS\Clean Products\DQS Cleaning Category"
@@ -4800,35 +4784,13 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Id="Package\DQS\Clean Products\Source Landing Product"
           TopLeft="69,54.5" />
         <NodeLayout
-          Size="196.8,41.6"
-          Id="Package\DQS\Clean Products\Source Landing Category"
-          TopLeft="364,54.5" />
-        <NodeLayout
           Size="240,41.6"
           Id="Package\DQS\Clean Products\Destination DQS Staging Category"
           TopLeft="342.5,258.5" />
-        <EdgeLayout
-          Id="Package\DQS\Clean Products.Paths[Выход источника &quot;OLE DB&quot;1]"
-          TopLeft="462.5,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\DQS\Clean Products\Source Landing Category"
+          TopLeft="364,54.5" />
         <EdgeLayout
           Id="Package\DQS\Clean Products.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="164.5,96.5">
@@ -4848,7 +4810,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4870,7 +4834,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4892,7 +4858,33 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DQS\Clean Products.Paths[Выход источника &quot;OLE DB&quot;1]"
+          TopLeft="462.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4925,7 +4917,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Products\Source Landing Category">
+    design-time-name="Package\DQS\Clean Products\Destination DQS Staging Category">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4938,7 +4930,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Products\Destination DQS Staging Category">
+    design-time-name="Package\DQS\Clean Products\Source Landing Category">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

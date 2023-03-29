@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="220"
-  DTS:VersionGUID="{65D51BEC-2ECE-482B-AE0C-4D5EA0386579}">
+  DTS:VersionBuild="223"
+  DTS:VersionGUID="{82EF81A3-48C1-4242-ABB0-A91F0D11BA89}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -437,7 +437,6 @@
     <DTS:Executable
       DTS:refId="Package\DQS"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Disabled="True"
       DTS:DTSID="{F9D06E4E-61CD-4A78-B5C3-986351DB1F55}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1701,7 +1700,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[ExtractCustomerFromLanding]</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractCustomers];</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -1718,7 +1717,7 @@
                       dataType="System.Int32"
                       description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
@@ -1727,8 +1726,8 @@
                   <connections>
                     <connection
                       refId="Package\DQS\Clean Customers\Landing source.Connections[OleDbConnection]"
-                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                       name="OleDbConnection" />
                   </connections>
@@ -2014,6 +2013,7 @@
     <DTS:Executable
       DTS:refId="Package\Load DWH"
       DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Disabled="True"
       DTS:DTSID="{F936ACE7-2942-4169-93FD-679EA0DD2C33}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -5806,19 +5806,19 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\DQS\Clean Customers">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="143.2,41.6"
-          Id="Package\DQS\Clean Customers\DQS Cleaning"
-          TopLeft="72.5,131.5" />
+          Size="150.4,41.6"
+          Id="Package\DQS\Clean Customers\Landing source"
+          TopLeft="69,29.5" />
         <NodeLayout
           Size="195.2,41.6"
           Id="Package\DQS\Clean Customers\Destination DQS Staging"
           TopLeft="46.5,233.5" />
         <NodeLayout
-          Size="150.4,41.6"
-          Id="Package\DQS\Clean Customers\Landing source"
-          TopLeft="69,29.5" />
+          Size="143.2,41.6"
+          Id="Package\DQS\Clean Customers\DQS Cleaning"
+          TopLeft="72.5,131.5" />
         <EdgeLayout
           Id="Package\DQS\Clean Customers.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="144,71.5">
@@ -5838,7 +5838,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5860,14 +5862,16 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Customers\Destination DQS Staging">
+    design-time-name="Package\DQS\Clean Customers\Landing source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5880,7 +5884,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Customers\Landing source">
+    design-time-name="Package\DQS\Clean Customers\Destination DQS Staging">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5898,22 +5902,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="192.8,41.6"
-          Id="Package\Load DWH\Load Customers to DWH\Find Historical attributes"
-          TopLeft="192.9,460.7" />
-        <NodeLayout
-          Size="180.8,41.6"
-          Id="Package\Load DWH\Load Customers to DWH\Insert new customers"
-          TopLeft="445.9,460.7" />
-        <NodeLayout
-          Size="236.8,41.6"
-          Id="Package\Load DWH\Load Customers to DWH\Change Code and Name datatype"
-          TopLeft="417.9,155.9" />
-        <NodeLayout
-          Size="130.4,41.6"
-          Id="Package\Load DWH\Load Customers to DWH\No Change"
-          TopLeft="224.1,562.3" />
-        <NodeLayout
           Size="134.4,41.6"
           Id="Package\Load DWH\Load Customers to DWH\MDS source"
           TopLeft="469.1,54.3" />
@@ -5921,6 +5909,14 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Size="274.4,41.6"
           Id="Package\Load DWH\Load Customers to DWH\Update changing attributes and metadata"
           TopLeft="415.1,562.3" />
+        <NodeLayout
+          Size="180.8,41.6"
+          Id="Package\Load DWH\Load Customers to DWH\Insert new customers"
+          TopLeft="445.9,460.7" />
+        <NodeLayout
+          Size="173.6,41.6"
+          Id="Package\Load DWH\Load Customers to DWH\Insert updated rows"
+          TopLeft="465.5,663.9" />
         <NodeLayout
           Size="140,41.6"
           Id="Package\Load DWH\Load Customers to DWH\Lookup DWH"
@@ -5930,49 +5926,21 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Id="Package\Load DWH\Load Customers to DWH\Update rows"
           TopLeft="25.5,562.3" />
         <NodeLayout
-          Size="173.6,41.6"
-          Id="Package\Load DWH\Load Customers to DWH\Insert updated rows"
-          TopLeft="465.5,663.9" />
+          Size="130.4,41.6"
+          Id="Package\Load DWH\Load Customers to DWH\No Change"
+          TopLeft="224.1,562.3" />
+        <NodeLayout
+          Size="236.8,41.6"
+          Id="Package\Load DWH\Load Customers to DWH\Change Code and Name datatype"
+          TopLeft="417.9,155.9" />
         <NodeLayout
           Size="222.4,41.6"
           Id="Package\Load DWH\Load Customers to DWH\Add LineageKey and metadata"
           TopLeft="425.1,257.5" />
-        <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[ChangingAttributes]"
-          TopLeft="243.1,502.3">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-148.8,60.0000000000001"
-              Start="0,0"
-              End="-148.8,52.5000000000001">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.5457025920873" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.5457025920873"
-                    Point2="0,20.5457025920873"
-                    Point3="-4,20.5457025920873" />
-                  <mssgle:LineSegment
-                    End="-144.8,20.5457025920873" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-144.8,20.5457025920873"
-                    Point2="-148.8,20.5457025920873"
-                    Point3="-148.8,24.5457025920873" />
-                  <mssgle:LineSegment
-                    End="-148.8,52.5000000000001" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-117.19009765625,25.5457025920873,85.5801953125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="192.8,41.6"
+          Id="Package\Load DWH\Load Customers to DWH\Find Historical attributes"
+          TopLeft="192.9,460.7" />
         <EdgeLayout
           Id="Package\Load DWH\Load Customers to DWH.Paths[Выходные данные преобразования данных]"
           TopLeft="536.3,197.5">
@@ -5992,7 +5960,33 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход производного столбца]"
+          TopLeft="536.3,299.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6014,7 +6008,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6036,7 +6032,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6172,25 +6170,39 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Customers to DWH.Paths[Выход производного столбца]"
-          TopLeft="536.3,299.1">
+          Id="Package\Load DWH\Load Customers to DWH.Paths[ChangingAttributes]"
+          TopLeft="243.1,502.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-148.8,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="-148.8,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,16.5457025920873" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.5457025920873"
+                    Point2="0,20.5457025920873"
+                    Point3="-4,20.5457025920873" />
+                  <mssgle:LineSegment
+                    End="-144.8,20.5457025920873" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-144.8,20.5457025920873"
+                    Point2="-148.8,20.5457025920873"
+                    Point3="-148.8,24.5457025920873" />
+                  <mssgle:LineSegment
+                    End="-148.8,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-117.19009765625,25.5457025920873,85.5801953125,11.6630859375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -6249,7 +6261,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\MDS\Data managment">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="272.8,41.6"
           Id="Package\MDS\Data managment\Add MDS Columns and change datatypes"
@@ -6281,7 +6293,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6303,7 +6317,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
