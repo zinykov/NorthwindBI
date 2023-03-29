@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Date Dimention"
   DTS:PackageType="5"
-  DTS:VersionBuild="112"
-  DTS:VersionGUID="{A64830C2-744F-499A-8487-AA17C429E184}">
+  DTS:VersionBuild="119"
+  DTS:VersionGUID="{AE04E5A5-A8BA-4D5C-BF1B-E94879ABB722}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -61,6 +61,15 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{0ED74535-949B-4D39-AE1F-F5006FA3500F}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CountChangedRows">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{32A9FD7A-9452-437A-B310-BE3FAB6EFB59}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
@@ -95,6 +104,24 @@
       DTS:ObjectName="ModelName">
       <DTS:VariableValue
         DTS:DataType="8">Holidays</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{33D01C0A-B885-4F53-97CF-A09ABF5A6667}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RowSet">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -630,7 +657,7 @@
                           refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[Date]"
                           cachedDataType="dbDate"
                           cachedName="Date"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]">
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[Date]">
                           <properties>
                             <property
                               containsID="true"
@@ -667,7 +694,7 @@
                           refId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input].Columns[DateType]"
                           cachedDataType="ui1"
                           cachedName="DateType"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]">
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[DateType]">
                           <properties>
                             <property
                               containsID="true"
@@ -705,7 +732,7 @@
                           cachedDataType="wstr"
                           cachedLength="255"
                           cachedName="HolidayName"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]">
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[HolidayName]">
                           <properties>
                             <property
                               containsID="true"
@@ -857,7 +884,1117 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\DQS\Clean Holidays\Landing source"
+                  refId="Package\DQS\Clean Holidays\Source Row Set"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Включает и выполняет пользовательский код скрипта. Пример: применение бизнес-правила, ограничивающего диапазон допустимых значений в столбце &quot;income&quot;, или суммирование значений в двух столбцах и вычисление среднего значения суммы.Корпорация Майкрософт (Microsoft Corporation). Microsoft SQL Server. Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support12"
+                  name="Source Row Set"
+                  version="12">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Хранит исходный код компонента"
+                      isArray="true"
+                      name="SourceCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="30">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+using System.Data;
+using System.Data.OleDb;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    #region Help:  Using Integration Services variables and parameters
+    /* To use a variable in this script, first ensure that the variable has been added to
+     * either the list contained in the ReadOnlyVariables property or the list contained in
+     * the ReadWriteVariables property of this script component, according to whether or not your
+     * code needs to write into the variable.  To do so, save this script, close this instance of
+     * Visual Studio, and update the ReadOnlyVariables and ReadWriteVariables properties in the
+     * Script Transformation Editor window.
+     * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+     *
+     * Example of reading from a variable or parameter:
+     *  DateTime startTime = Variables.MyStartTime;
+     *
+     * Example of writing to a variable:
+     *  Variables.myStringVariable = "new value";
+     */
+    #endregion
+
+    #region Help:  Using Integration Services Connnection Managers
+    /* Some types of connection managers can be used in this script component.  See the help topic
+     * "Working with Connection Managers Programatically" for details.
+     *
+     * To use a connection manager in this script, first ensure that the connection manager has
+     * been added to either the list of connection managers on the Connection Managers page of the
+     * script component editor.  To add the connection manager, save this script, close this instance of
+     * Visual Studio, and add the Connection Manager to the list.
+     *
+     * If the component needs to hold a connection open while processing rows, override the
+     * AcquireConnections and ReleaseConnections methods.
+     * 
+     * Example of using an ADO.Net connection manager to acquire a SqlConnection:
+     *  object rawConnection = Connections.SalesDB.AcquireConnection(transaction);
+     *  SqlConnection salesDBConn = (SqlConnection)rawConnection;
+     *
+     * Example of using a File connection manager to acquire a file path:
+     *  object rawConnection = Connections.Prices_zip.AcquireConnection(transaction);
+     *  string filePath = (string)rawConnection;
+     *
+     * Example of releasing a connection manager:
+     *  Connections.SalesDB.ReleaseConnection(rawConnection);
+     */
+    #endregion
+
+    #region Help:  Firing Integration Services Events
+    /* This script component can fire events.
+     *
+     * Example of firing an error event:
+     *  ComponentMetaData.FireError(10, "Process Values", "Bad value", "", 0, out cancel);
+     *
+     * Example of firing an information event:
+     *  ComponentMetaData.FireInformation(10, "Process Values", "Processing has started", "", 0, fireAgain);
+     *
+     * Example of firing a warning event:
+     *  ComponentMetaData.FireWarning(10, "Process Values", "No rows were received", "", 0);
+     */
+    #endregion
+
+    /// <summary>
+    /// This method is called once, before rows begin to be processed in the data flow.
+    ///
+    /// You can remove this method if you don't need to do anything here.
+    /// </summary>
+    public override void PreExecute()
+    {
+        base.PreExecute();
+        /*
+         * Add your code here
+         */
+    }
+
+    /// <summary>
+    /// This method is called after all the rows have passed through this component.
+    ///
+    /// You can delete this method if you don't need to do anything here.
+    /// </summary>
+    public override void PostExecute()
+    {
+        base.PostExecute();
+        /*
+         * Add your code here
+         */
+    }
+
+    public override void CreateNewOutputRows()
+    {
+        /*
+          Add rows by calling the AddRow method on the member variable named "<Output Name>Buffer".
+          For example, call MyOutputBuffer.AddRow() if your output was named "MyOutput".
+        */
+        // Set up the DataAdapter to extract the data, and the DataTable object to capture those results
+        OleDbDataAdapter da = new OleDbDataAdapter();
+        DataTable dt = new DataTable();
+
+        // Extract the data from the object variable into the table
+        da.Fill(dt, Variables.RowSet);
+
+        // Since we know the column metadata at design time, we simply need to iterate over each row in
+        //  the DataTable, creating a new row in our Data Flow buffer for each
+        foreach (DataRow dr in dt.Rows)
+        {
+            // Create a new, empty row in the output buffer
+            RowSetBuffer.AddRow();
+
+            // Now populate the columns
+            RowSetBuffer.Date = DateTime.Parse(dr["Date"].ToString());
+            RowSetBuffer.DateType = byte.Parse(dr["DateType"].ToString());
+            RowSetBuffer.HolidayName = dr["HolidayName"].ToString();
+        }
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_93426cec581b482e8c4b7e7678931c41.csproj]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4e799f32-3396-466b-8d84-74a84d880edb}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_93426cec581b482e8c4b7e7678931c41</RootNamespace>
+    <AssemblyName>SC_6C123C76976E4D53A5C846CFCEB38760</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptComponent" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoExeName="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptComponent" GeneratedNamespace="SC_93426cec581b482e8c4b7e7678931c41" IconIndex="0"></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC150</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class RowSetBuffer: ScriptBuffer
+
+{
+    public RowSetBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String HolidayName
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool HolidayName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("Свойство IsNull не может иметь значение FALSE. Присвойте столбцу какое-либо значение.");
+            }
+        }
+    }
+
+    public Byte DateType
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool DateType_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("Свойство IsNull не может иметь значение FALSE. Присвойте столбцу какое-либо значение.");
+            }
+        }
+    }
+
+    public DateTime Date
+    {
+        set
+        {
+            this[2] = value;
+        }
+    }
+    public bool Date_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(2);
+            }
+            else
+            {
+                throw new InvalidOperationException("Свойство IsNull не может иметь значение FALSE. Присвойте столбцу какое-либо значение.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_93426cec581b482e8c4b7e7678931c41.Properties.Settings.get_Default():SC_93426cec581b482e8c4b7e7678931c41.Properties.Sett" +
+    "ings")]
+
+namespace SC_93426cec581b482e8c4b7e7678931c41.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public RowSetBuffer RowSetBuffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != RowSetBuffer)
+        {
+            RowSetBuffer.SetEndOfRowset();
+            RowSetBuffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"RowSet"))
+            {
+                RowSetBuffer = new RowSetBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Object RowSet
+    {
+        get
+        {
+            return (Object)(ParentComponent.ReadOnlyVariables["RowSet"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Project]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="4.0" schemaVersion="1.0">
+  <msb:PropertyGroup>
+    <msb:CodeName>SC_93426cec581b482e8c4b7e7678931c41</msb:CodeName>
+    <msb:Language>msBuild</msb:Language>
+    <msb:DisplayName>SC_93426cec581b482e8c4b7e7678931c41</msb:DisplayName>
+    <msb:ProjectId>{753A1E61-2166-4E8A-92C0-DC2D665CC969}</msb:ProjectId>
+  </msb:PropertyGroup>
+  <msb:ItemGroup>
+    <msb:Project Include="SC_93426cec581b482e8c4b7e7678931c41.csproj" />
+    <msb:File Include="Properties\Settings.Designer.cs" />
+    <msb:File Include="main.cs" />
+    <msb:File Include="BufferWrapper.cs" />
+    <msb:File Include="ComponentWrapper.cs" />
+    <msb:File Include="Properties\Settings.settings" />
+    <msb:File Include="Properties\AssemblyInfo.cs" />
+    <msb:File Include="Properties\Resources.resx" />
+    <msb:File Include="Properties\Resources.Designer.cs" />
+  </msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_93426cec581b482e8c4b7e7678931c41")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SC_93426cec581b482e8c4b7e7678931c41")]
+[assembly: AssemblyCopyright("Copyright @  2023")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_93426cec581b482e8c4b7e7678931c41.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_93426cec581b482e8c4b7e7678931c41.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_93426cec581b482e8c4b7e7678931c41.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_93426cec581b482e8c4b7e7678931c41.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_93426cec581b482e8c4b7e7678931c41.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Хранит представление компонента в двоичном коде"
+                      isArray="true"
+                      name="BinaryCode"
+                      state="cdata">
+                      <arrayElements
+                        arrayElementCount="2">
+                        <arrayElement
+                          dataType="System.String"><![CDATA[SC_6C123C76976E4D53A5C846CFCEB38760.dll]]></arrayElement>
+                        <arrayElement
+                          dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAMrrI2QAAAAAAAAAAOAAIiALATAAABgAAAAIAAAAAAAAtjYA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAGQ2AABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAvBYAAAAgAAAAGAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAEgEAAAAQAAAAAYAAAAaAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAIAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAACY
+NgAAAAAAAEgAAAACAAUABCMAAKgSAAABAAAAAAAAAKw1AAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4CKBAAAAoqHgIoEQAACiobMAMAuQAAAAEAABFzEgAACnMT
+AAAKCgYCewIAAARvFgAABm8UAAAKJgZvFQAACm8WAAAKCytyB28XAAAKdBAAAAEMAnsDAAAEbwwA
+AAYCewMAAAQIcgEAAHBvGAAACm8ZAAAKKBoAAApvCgAABgJ7AwAABAhyCwAAcG8YAAAKbxkAAAoo
+GwAACm8IAAAGAnsDAAAECHIdAABwbxgAAApvGQAACm8GAAAGB28cAAAKLYbeEQd1EQAAAQ0JLAYJ
+bx0AAArcKgAAAAEQAAACACkAfqcAEQAAAAAeAigPAAAGKioCAwQFKB4AAAoqJgIWAygfAAAKKloD
+LAgCFiggAAAKKnI1AABwcyEAAAp6OgIXA4wiAAABKB8AAAoqWgMsCAIXKCAAAAoqcjUAAHBzIQAA
+Cno6AhgDjBUAAAEoHwAACipaAywIAhgoIAAACipyNQAAcHMhAAAKeh4CKCIAAAoqHgIoIwAACioe
+AigkAAAKKn4CKCUAAAoCAnMUAAAGfQEAAAQCAnMVAAAGfQIAAAQqBipuAnsDAAAELBICewMAAARv
+DQAABgIUfQMAAAQqAAATMAUASQAAAAIAABEWCisuBAaUDgRy4gAAcCgmAAAKMxkCBQaaAgQGlCgn
+AAAKDgRzBQAABn0DAAAEBhdYCgYDMs4CbxMAAAYCbxAAAAYCKBEAAAYqOgIoKAAACgIDfQQAAAQq
+OgIoKAAACgIDfQUAAAQqggJ7BQAABG8pAAAKcuIAAHBvKgAACigrAAAKbywAAAoqHgIoKAAACiqu
+fgYAAAQtHnLwAABw0AcAAAIoLQAACm8uAAAKcy8AAAqABgAABH4GAAAEKhp+BwAABCoeAoAHAAAE
+Khp+CAAABCoeAigwAAAKKi5zHAAABoAIAAAEKgAAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAzMTkA
+AAAABQBsAAAAoAYAACN+AAAMBwAALAgAACNTdHJpbmdzAAAAADgPAABkAQAAI1VTAJwQAAAQAAAA
+I0dVSUQAAACsEAAA/AEAACNCbG9iAAAAAAAAAAIAAAFXFaIBCQEAAAD6ATMAFgAAAQAAACoAAAAI
+AAAACAAAAB0AAAAQAAAAMAAAABAAAAACAAAABAAAAAoAAAALAAAAAQAAAAYAAAABAAAAAAC/AwEA
+AAAAAAYAsgLIBQYARgPIBQYA/gG1BQ8APAYAAAYAKwKJBAYAlQKJBAYAdgKJBAYALQOJBAYA0gKJ
+BAYA6wKJBAYAQgKJBAYAXQKGAwoABgMRAQ4AvgBzAAYAhAW+Bg4ADghzAAYAyABBBAoAKgURARIA
+DgURAQoA0wQRAQYACAFBBAoAWwcRAQYAEAdBBAYA4QG1BQYAOwXoBQYAxwR0BBYAsQGpAxYAEgKp
+AxYAggFfBAYAxgHIBQ4AcwV/AA4AmwRzAA4AZwFzAAYAewNBBAYArQRBBBoAEQBLBRoAAQBLBVsA
+3gcAABoAIgBLBQYAOgFBBAYA1ABBBAYAIQiJBAAAAABeAAAAAAABAAEAAQAQAFQEAAAQAAEAAQAB
+ABAAHQUAAEkAAQAFAAEAEAA9BwAAWQABAA8AAQAQANEGAABdAAQAFAABABAAhgYAAF0ABQAVAAAA
+EADvBUsGXQAGABcAAAEQALUGSwZ1AAgAGwAGANEGuAAGAIYGvAAGAB0FwAABAEsHxAABAEsHxAAR
+AEgEyAARAFcBzAARAK4A0ABQIAAAAADGAGQDBgABAFggAAAAAMYAbwMGAAEAYCAAAAAAxgD8BgYA
+AQA4IQAAAACGGJ4FBgABAEAhAAAAAIYYngVUAAEASyEAAAAAhgj4ABAABABVIQAAAACGCOwD1AAF
+AGwhAAAAAIYIMgHZAAYAeyEAAAAAhggDBNQABwCSIQAAAACGCKgB3gAIAKEhAAAAAIYIFwTUAAkA
+uCEAAAAAhgAWCAYACgDAIQAAAACGACIHBgAKAMghAAAAAIYAJQdQAAoA0CEAAAAAhhieBQYACgDw
+IQAAAADGAeUGBgAKAPIhAAAAAIEAmgAGAAoAECIAAAAAxgC1B+QACgDwIQAAAADGAfwGBgAOAGUi
+AAAAAIYYngXwAA4AdCIAAAAAhhieBfAADwCDIgAAAACGCBcHOAAQAKQiAAAAAIMYngUGABAArCIA
+AAAAkwg3BfYAEADYIgAAAACTCD8B+wAQAN8iAAAAAJMISwEAARAA5yIAAAAAlggxBwYBEQDuIgAA
+AACGGJ4FBgARAPYiAAAAAJEYpAULAREAAAABADAFAAACAJAGAAADAOEEAAABAIADAAABAIADAAAB
+AIADAAABAIADAAABAIADAAABAIADAAABAOsGAAACAKsFAAADAN0GAAAEAOEEAAABAGEHAAABAGEH
+AAABAIADCQCeBQEAEQCeBQYAGQCeBQoAKQCeBRAAMQCeBRAAOQCeBRAAQQCeBRAASQCeBRAAUQCe
+BRAAWQCeBRAAYQCeBRAAaQCeBQYAwQCeBQYA4QCeBRUA8QCeBQYAsQBkAwYAsQBvAwYA+QCeBQYA
+cQCeBQYA+QDnAyYAcQDzBi0ACQGQBTMAeQBrBzgAgQAvBDwAuQCgA0EAqQCiAUUAEQGiAUsAeQDB
+B1AAiQCaAQYAkQCeBVQAkQA4BF4AkQAnBAEAGQGeBRAAkQAWCAYAkQAiBwYAkQAlB1AAsQCeBQYA
+sQBnAGgAsQCkBm8AuQCeBQYAsQB6BnUAIQEvBHsAsQD5B4IAKQHKB4gAQQHmAI8AQQEdCJgAyQCe
+BZ4A6QCeBQYALgALADMBLgATADwBLgAbAFsBLgAjAGQBLgArAI0BLgAzAI0BLgA7AI0BLgBDAGQB
+LgBLAJMBLgBTAI0BLgBbAKoBQwBjAPQB4wBrAPQBAQF7APQBCQFzAFsBKQFzAFsBGwBkAAMAAQAG
+AAcABwAIAAgACgAAAPwADwEAAPADEwEAADYBFwEAAAcEEwEAAKwBGwEAABsEEwEAABsHIAEAADsF
+JAEAAF8BKQEAADUHLgEBAAYAAwABAAcABQABAAgABwABAAkACQABAAoACwABAAsADQACABYADwAC
+ABgAEQACABkAEwABABoAEwACABsAFQAEgAAAAQAAAAAAAAAAAAAAAAA6AAAABAAAAAAAAAAAAAAA
+pgCRAAAAAAAPAAAAAAAAAAAAAACvAHcHAAAAAAQAAAAAAAAAAAAAAKYAcwAAAAAADwAAAAAAAAAA
+AAAArwCUBwAAAAAEAAAAAAAAAAAAAACmAEEEAAAAAA8AAAAAAAAAAAAAAK8A6wQAAAAAAAAAAAEA
+AAD5BQAAAAAAAABJRFRTVmFyaWFibGUxMDAASURUU1ZhcmlhYmxlczEwMABJRFRTRXZhbHVhdG9y
+Q29udGV4dDEwMABTQ182QzEyM0M3Njk3NkU0RDUzQTVDODQ2Q0ZDRUIzODc2MAA8TW9kdWxlPgBH
+ZXRPdXRwdXRJRABTeXN0ZW0uRGF0YQBTeXN0ZW0uRGF0YS5PbGVEYgBtc2NvcmxpYgBNYXJrT3V0
+cHV0c0ZpbmlzaGVkAGRlZmF1bHRJbnN0YW5jZQBEYXRhVGFibGUASURpc3Bvc2FibGUAUnVudGlt
+ZVR5cGVIYW5kbGUAR2V0VHlwZUZyb21IYW5kbGUAc2V0X0hvbGlkYXlOYW1lAERhdGVUaW1lAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlBpcGVsaW5lAHNldF9EYXRlVHlwZQBnZXRfQ3VsdHVyZQBz
+ZXRfQ3VsdHVyZQByZXNvdXJjZUN1bHR1cmUASW50ZXJuYWxEYXRhQ29sbGVjdGlvbkJhc2UAQXBw
+bGljYXRpb25TZXR0aW5nc0Jhc2UARGlzcG9zZQBQYXJzZQBzZXRfRGF0ZQBFZGl0b3JCcm93c2Fi
+bGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQBEZWJ1Z2dlck5vblVzZXJDb2RlQXR0
+cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9yQnJvd3NhYmxlQXR0cmlidXRlAEFzc2Vt
+Ymx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1hcmtBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3
+b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBBc3NlbWJseURlc2Ny
+aXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhhdGlvbnNBdHRyaWJ1dGUAQXNzZW1ibHlQ
+cm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0QXR0cmlidXRlAFNTSVNTY3JpcHRDb21w
+b25lbnRFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBSdW50aW1l
+Q29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBQcmVFeGVjdXRlAFBvc3RFeGVjdXRlAEJ5dGUAdmFsdWUA
+U3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBUb1N0cmluZwBTeXN0ZW0uQ29tcG9uZW50TW9kZWwA
+U0NfNkMxMjNDNzY5NzZFNEQ1M0E1Qzg0NkNGQ0VCMzg3NjAuZGxsAEZpbGwAc2V0X0hvbGlkYXlO
+YW1lX0lzTnVsbABzZXRfRGF0ZVR5cGVfSXNOdWxsAHNldF9EYXRlX0lzTnVsbABTZXROdWxsAGdl
+dF9JdGVtAHNldF9JdGVtAFN5c3RlbQByZXNvdXJjZU1hbgBTY3JpcHRNYWluAFN5c3RlbS5Db25m
+aWd1cmF0aW9uAFN5c3RlbS5HbG9iYWxpemF0aW9uAFN5c3RlbS5SZWZsZWN0aW9uAERhdGFSb3dD
+b2xsZWN0aW9uAEludmFsaWRPcGVyYXRpb25FeGNlcHRpb24AQ3VsdHVyZUluZm8AT3V0cHV0TmFt
+ZU1hcABPdXRwdXRNYXAATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1lV3JhcABQaXBlbGlu
+ZUJ1ZmZlcgBSb3dTZXRCdWZmZXIAU2NyaXB0QnVmZmVyAGdldF9SZXNvdXJjZU1hbmFnZXIATWlj
+cm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGltZS5XcmFwcGVyAE9sZURiRGF0YUFkYXB0ZXIASUVu
+dW1lcmF0b3IAR2V0RW51bWVyYXRvcgAuY3RvcgAuY2N0b3IAT3V0cHV0SURzAFN5c3RlbS5EaWFn
+bm9zdGljcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAFN5c3RlbS5SZXNvdXJjZXMA
+U0NfOTM0MjZjZWM1ODFiNDgyZThjNGI3ZTc2Nzg5MzFjNDEuUHJvcGVydGllcy5SZXNvdXJjZXMu
+cmVzb3VyY2VzAERlYnVnZ2luZ01vZGVzAFNDXzkzNDI2Y2VjNTgxYjQ4MmU4YzRiN2U3Njc4OTMx
+YzQxLlByb3BlcnRpZXMAZ2V0X1JlYWRPbmx5VmFyaWFibGVzAEJ1ZmZlckNvbHVtbkluZGV4ZXMA
+R2V0Q29sdW1uSW5kZXhlcwBTZXR0aW5ncwBTeXN0ZW0uQ29sbGVjdGlvbnMAQ29ubmVjdGlvbnMA
+QnVmZmVycwBGaW5pc2hPdXRwdXRzAGdldF9Sb3dzAENyZWF0ZU5ld091dHB1dFJvd3MAT2JqZWN0
+AGdldF9Sb3dTZXQAU2V0RW5kT2ZSb3dzZXQAZ2V0X0RlZmF1bHQAVXNlckNvbXBvbmVudABQYXJl
+bnRDb21wb25lbnQAU2NyaXB0Q29tcG9uZW50AGdldF9DdXJyZW50AE1pY3Jvc29mdC5TcWxTZXJ2
+ZXIuVHhTY3JpcHQATWljcm9zb2Z0LlNxbFNlcnZlci5QaXBlbGluZUhvc3QAUHJpbWVPdXRwdXQA
+TW92ZU5leHQAR2V0VmFsdWVXaXRoQ29udGV4dABTY3JpcHRDb21wb25lbnRFdmFsQ29udGV4dABn
+ZXRfRXZhbHVhdG9yQ29udGV4dABEYXRhUm93AEFkZFJvdwBnZXRfQXNzZW1ibHkAAAAACUQAYQB0
+AGUAABFEAGEAdABlAFQAeQBwAGUAABdIAG8AbABpAGQAYQB5AE4AYQBtAGUAAICrIQQyBD4EOQRB
+BEIEMgQ+BCAASQBzAE4AdQBsAGwAIAA9BDUEIAA8BD4ENgQ1BEIEIAA4BDwENQRCBEwEIAA3BD0E
+MARHBDUEPQQ4BDUEIABGAEEATABTAEUALgAgAB8EQAQ4BEEEMgQ+BDkEQgQ1BCAAQQRCBD4EOwQx
+BEYEQwQgADoEMAQ6BD4ENQQtADsEOAQxBD4EIAA3BD0EMARHBDUEPQQ4BDUELgABDVIAbwB3AFMA
+ZQB0AABxUwBDAF8AOQAzADQAMgA2AGMAZQBjADUAOAAxAGIANAA4ADIAZQA4AGMANABiADcAZQA3
+ADYANwA4ADkAMwAxAGMANAAxAC4AUAByAG8AcABlAHIAdABpAGUAcwAuAFIAZQBzAG8AdQByAGMA
+ZQBzAAAAAOFluo5YtCVDr/rPhyWWIssABCABAQgDIAABBSABARERBCABAQ4FIAEBEW0KBwQSORI9
+EkESRQYgAggSORwFIAASgIEEIAASPQMgABwEIAEcDgMgAA4FAAERVQ4EAAEFDgMgAAIJIAMBEk0d
+CBJRBSACAQgcAwcBCAYAAggSUQ4FIAEdCAgFIAASgJEGIAESgJUcBQAAEoCZBiABHBKAnQgAARKA
+oRGApQUgABKAqQcgAgEOEoCpCLd6XFYZNOCJCImEXc2AgMyRAwYSFAMGEhgDBhIMAwYSWQMGEmUD
+BhJpAwYSIAQgAQECBCABAQUFIAEBEVULIAQBCB0IHRJNElEFIAEBElkEAAASZQQAABJpBQABARJp
+BAAAEiADAAABAygADgMoAAIDKAAFBCgAEVUDKAAcBAgAEmUECAASaQQIABIgCAEACAAAAAAAHgEA
+AQBUAhZXcmFwTm9uRXhjZXB0aW9uVGhyb3dzAQgBAAIAAAAAACgBACNTQ185MzQyNmNlYzU4MWI0
+ODJlOGM0YjdlNzY3ODkzMWM0MQAABQEAAAAAFgEAEUNvcHlyaWdodCBAICAyMDIzAABJAQAaLk5F
+VEZyYW1ld29yayxWZXJzaW9uPXY0LjcBAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEi5ORVQgRnJh
+bWV3b3JrIDQuNwQBAAAAAAAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2VzLlJlc291
+cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1
+YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50aW1lUmVz
+b3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAIw2AAAAAAAAAAAAAKY2AAAAIAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAACYNgAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/
+JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAEAEAAAABgAAIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgA
+AABYQAAA7AMAAAAAAAAAAAAA7AM0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAA
+AL0E7/4AAAEAAAABAAAAAAAAAAEAAAAAAD8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAA
+AQBWAGEAcgBGAGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAA
+AAAAAACwBEwDAAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAACgDAAABADAAMAAwADAA
+MAA0AGIAMAAAABoAAQABAEMAbwBtAG0AZQBuAHQAcwAAAAAAAAAiAAEAAQBDAG8AbQBwAGEAbgB5
+AE4AYQBtAGUAAAAAAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAA
+UwBDAF8AOQAzADQAMgA2AGMAZQBjADUAOAAxAGIANAA4ADIAZQA4AGMANABiADcAZQA3ADYANwA4
+ADkAMwAxAGMANAAxAAAAMAAIAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADAA
+LgAwAAAAcAAoAAEASQBuAHQAZQByAG4AYQBsAE4AYQBtAGUAAABTAEMAXwA2AEMAMQAyADMAQwA3
+ADYAOQA3ADYARQA0AEQANQAzAEEANQBDADgANAA2AEMARgBDAEUAQgAzADgANwA2ADAALgBkAGwA
+bAAAAEgAEgABAEwAZQBnAGEAbABDAG8AcAB5AHIAaQBnAGgAdAAAAEMAbwBwAHkAcgBpAGcAaAB0
+ACAAQAAgACAAMgAwADIAMwAAACoAAQABAEwAZQBnAGEAbABUAHIAYQBkAGUAbQBhAHIAawBzAAAA
+AAAAAAAAeAAoAAEATwByAGkAZwBpAG4AYQBsAEYAaQBsAGUAbgBhAG0AZQAAAFMAQwBfADYAQwAx
+ADIAMwBDADcANgA5ADcANgBFADQARAA1ADMAQQA1AEMAOAA0ADYAQwBGAEMARQBCADMAOAA3ADYA
+MAAuAGQAbABsAAAAaAAkAAEAUAByAG8AZAB1AGMAdABOAGEAbQBlAAAAAABTAEMAXwA5ADMANAAy
+ADYAYwBlAGMANQA4ADEAYgA0ADgAMgBlADgAYwA0AGIANwBlADcANgA3ADgAOQAzADEAYwA0ADEA
+AAA0AAgAAQBQAHIAbwBkAHUAYwB0AFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADAALgAwAAAAOAAI
+AAEAQQBzAHMAZQBtAGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AMAAuADAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAALg2AAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
+                      </arrayElements>
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает проект средств Microsoft Visual Studio для приложений. Имена проектов должны быть уникальными в пределах пакета."
+                      name="VSTAProjectName"
+                      typeConverter="NOTBROWSABLE">SC_6c123c76976e4d53a5c846cfceb38760</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает язык программирования, используемый скриптом."
+                      name="ScriptLanguage"
+                      typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages">CSharp</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменные, доступные только для чтения (через запятую)."
+                      name="ReadOnlyVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg">User::RowSet</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменные, доступные для чтения и записи (через запятую)."
+                      name="ReadWriteVariables"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg"></property>
+                    <property
+                      dataType="System.String"
+                      description="Список имеющихся в скрипте точек останова."
+                      isArray="true"
+                      name="BreakpointCollection"
+                      typeConverter="NOTBROWSABLE">
+                      <arrayElements
+                        arrayElementCount="0" />
+                    </property>
+                    <property
+                      dataType="System.String"
+                      description="Контрольная сумма для сопоставления метаданных компонента со скомпилированным кодом."
+                      name="MetadataChecksum140"
+                      typeConverter="NOTBROWSABLE">37</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ScriptComponentHost</property>
+                  </properties>
+                  <outputs>
+                    <output
+                      refId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet]"
+                      hasSideEffects="true"
+                      name="RowSet">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[HolidayName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[HolidayName]"
+                          name="HolidayName" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[DateType]"
+                          dataType="ui1"
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[DateType]"
+                          name="DateType" />
+                        <outputColumn
+                          refId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[Date]"
+                          dataType="dbDate"
+                          lineageId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet].Columns[Date]"
+                          name="Date" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
+                  endId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="DQS Cleansing Output"
+                  startId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output]" />
+                <path
+                  refId="Package\DQS\Clean Holidays.Paths[RowSet]"
+                  endId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input]"
+                  name="RowSet"
+                  startId="Package\DQS\Clean Holidays\Source Row Set.Outputs[RowSet]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\DQS\Extract changes"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DTSID="{bd01b2c0-1dac-4362-8b38-a75e18165466}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Extract changes"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\DQS\Extract changes\CountRows"
+                  componentClassID="Microsoft.RowCount"
+                  contactInfo="Счетчик строк;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Подсчитывает количество строк, обработанных потоком данных. Пример: количество обработанных строк можно использовать для определения необходимости выполнения операций очистки или обновления текста в сообщении электронной почты для передачи сведений о выполнении обработки."
+                  name="CountRows">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, хранящую счетчик строк."
+                      name="VariableName">User::CountChangedRows</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\DQS\Extract changes\CountRows.Inputs[Счетчик строк Вход 1]"
+                      hasSideEffects="true"
+                      name="Счетчик строк Вход 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\DQS\Extract changes\CountRows.Outputs[Счетчик строк Выход 1]"
+                      name="Счетчик строк Выход 1"
+                      synchronousInputId="Package\DQS\Extract changes\CountRows.Inputs[Счетчик строк Вход 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\DQS\Extract changes\Destination Rows Set"
+                  componentClassID="Microsoft.RecordsetDestination"
+                  contactInfo="Назначение &quot;Набор записей&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  name="Destination Rows Set">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую набор записей."
+                      name="VariableName">User::RowSet</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;]"
+                      hasSideEffects="true"
+                      name="Вход назначения &quot;Набор записей&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[City]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="City"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[Country]"
+                          cachedDataType="wstr"
+                          cachedLength="15"
+                          cachedName="Country"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[ContactName]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactName"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[ContactTitle]"
+                          cachedDataType="wstr"
+                          cachedLength="30"
+                          cachedName="ContactTitle"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[Phone]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Phone"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[Fax]"
+                          cachedDataType="wstr"
+                          cachedLength="24"
+                          cachedName="Fax"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerID"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]" />
+                        <inputColumn
+                          refId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;].Columns[CompanyName]"
+                          cachedDataType="wstr"
+                          cachedLength="40"
+                          cachedName="CompanyName"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\DQS\Extract changes\Landing source"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   name="Landing source"
@@ -871,7 +2008,7 @@
                     <property
                       dataType="System.String"
                       description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowset">[Landing].[Holidays]</property>
+                      name="OpenRowset">[Landing].[Customers]</property>
                     <property
                       dataType="System.String"
                       description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
@@ -880,7 +2017,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractHolidays];</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractCustomers];</property>
                     <property
                       dataType="System.String"
                       description="Переменная, содержащая команду SQL для выполнения."
@@ -905,7 +2042,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\DQS\Clean Holidays\Landing source.Connections[OleDbConnection]"
+                      refId="Package\DQS\Extract changes\Landing source.Connections[OleDbConnection]"
                       connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
                       connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -913,86 +2050,197 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]"
                       name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]"
-                          dataType="dbDate"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date]"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Date]"
-                          name="Date"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]"
-                          dataType="ui1"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType]"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DateType]"
-                          name="DateType"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName]"
-                          length="255"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[HolidayName]"
-                          name="HolidayName"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
+                          length="30"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          name="ContactName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          length="30"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          name="ContactTitle"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          length="15"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          length="15"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          length="24"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Phone]"
+                          name="Phone"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          length="24"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Fax]"
+                          name="Fax"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          length="5"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          length="40"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          name="CompanyName"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Date]"
-                          dataType="dbDate"
-                          name="Date" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DateType]"
-                          dataType="ui1"
-                          name="DateType" />
-                        <externalMetadataColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName]"
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactName]"
                           dataType="wstr"
-                          length="255"
-                          name="HolidayName" />
+                          length="30"
+                          name="ContactName" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          name="ContactTitle" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          name="Country" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[City]"
+                          dataType="wstr"
+                          length="15"
+                          name="City" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          name="Phone" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          name="Fax" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          name="CompanyName" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date]"
-                          dataType="dbDate"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Date]"
-                          name="Date" />
-                        <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType]"
-                          dataType="ui1"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DateType]"
-                          name="DateType" />
-                        <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName]"
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           dataType="wstr"
-                          length="255"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[HolidayName]"
-                          name="HolidayName" />
+                          length="5"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID" />
                         <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          dataType="wstr"
+                          length="40"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CompanyName]"
+                          name="CompanyName" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactName]"
+                          name="ContactName" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          dataType="wstr"
+                          length="30"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ContactTitle]"
+                          name="ContactTitle" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Country]"
+                          name="Country" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          dataType="wstr"
+                          length="15"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[City]"
+                          name="City" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Phone]"
+                          name="Phone" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          dataType="wstr"
+                          length="24"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Fax]"
+                          name="Fax" />
+                        <outputColumn
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\DQS\Clean Holidays\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\DQS\Extract changes\Landing source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1003,15 +2251,15 @@
               </components>
               <paths>
                 <path
-                  refId="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
-                  endId="Package\DQS\Clean Holidays\Destination DQS Staging.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                  name="DQS Cleansing Output"
-                  startId="Package\DQS\Clean Holidays\DQS Cleaning.Outputs[DQS Cleansing Output]" />
-                <path
-                  refId="Package\DQS\Clean Holidays.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\DQS\Clean Holidays\DQS Cleaning.Inputs[DQS Cleansing Input]"
+                  refId="Package\DQS\Extract changes.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\DQS\Extract changes\CountRows.Inputs[Счетчик строк Вход 1]"
                   name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\DQS\Clean Holidays\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  startId="Package\DQS\Extract changes\Landing source.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\DQS\Extract changes.Paths[Счетчик строк Выход 1]"
+                  endId="Package\DQS\Extract changes\Destination Rows Set.Inputs[Вход назначения &quot;Набор записей&quot;]"
+                  name="Счетчик строк Выход 1"
+                  startId="Package\DQS\Extract changes\CountRows.Outputs[Счетчик строк Выход 1]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -1036,19 +2284,28 @@
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\DQS.PrecedenceConstraints[Constraint]"
+          DTS:refId="Package\DQS.PrecedenceConstraints[Constraint 1]"
           DTS:CreationName=""
-          DTS:DTSID="{65b1072f-3e61-4b10-85af-68e8279abb74}"
+          DTS:DTSID="{790B6CAE-135C-4054-86B3-8997C39FDE4C}"
           DTS:From="Package\DQS\Truncate DQS Staging"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\DQS\Extract changes" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\DQS.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{95089445-B2AD-4868-9141-E42DBAC9100E}"
+          DTS:EvalOp="1"
+          DTS:Expression="@[User::CountChangedRows] &gt; 0"
+          DTS:From="Package\DQS\Extract changes"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
           DTS:To="Package\DQS\Clean Holidays" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\DWH"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Disabled="True"
       DTS:DTSID="{BD79A68F-1D79-484A-996F-8A48398EC7C1}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1088,7 +2345,7 @@
             DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
               SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [ShippedDate] ) )&#xA;   , [EndDate]   = YEAR ( MAX ( [ShippedDate] ) ) + 1&#xA;&#xA;FROM  [landing].[Orders]"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
@@ -1188,7 +2445,6 @@
     <DTS:Executable
       DTS:refId="Package\MDS"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:Disabled="True"
       DTS:DTSID="{27e35a5e-61db-4a4a-b2a2-191f4ec0c3da}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1700,6 +2956,14 @@
                           refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[HolidayName_Status]"
                           dataType="nText"
                           name="HolidayName_Status" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Appended_data]"
+                          dataType="nText"
+                          name="Appended_data" />
+                        <externalMetadataColumn
+                          refId="Package\MDS\Data managment\DQS staging source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Appended_data_schema]"
+                          dataType="nText"
+                          name="Appended_data_schema" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -2210,17 +3474,21 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="148,41.6"
           Id="Package\DQS\Clean Holidays"
-          TopLeft="23.1,107.1" />
+          TopLeft="23.1,208.7" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\DQS\Extract changes"
+          TopLeft="20.7,107.1" />
         <NodeLayout
           Size="183.2,41.6"
           Id="Package\DQS\Truncate DQS Staging"
           TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
-          Id="Package\DQS.PrecedenceConstraints[Constraint]"
+          Id="Package\DQS.PrecedenceConstraints[Constraint 1]"
           TopLeft="97.1,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2241,11 +3509,35 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DQS.PrecedenceConstraints[Constraint 2]"
+          TopLeft="97.1,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.2499999999999,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194.4,204"
-          Size="194.4,247.2"
+          PanelSize="194.4,305.6"
+          Size="194.4,348.8"
           Id="Package\DQS"
           TopLeft="167.1,155.9" />
         <NodeLayout
@@ -2310,7 +3602,7 @@
           PanelSize="190.4,305.6"
           Size="190.4,348.8"
           Id="Package\DWH"
-          TopLeft="169.1,871.9" />
+          TopLeft="169.1,973.5" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
@@ -2427,25 +3719,25 @@
           PanelSize="431.2,305.6"
           Size="431.2,348.8"
           Id="Package\MDS"
-          TopLeft="48.7000000000001,463.1" />
+          TopLeft="48.7000000000001,564.7" />
         <NodeLayout
           Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="167.1,1280.7" />
+          TopLeft="167.1,1382.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="264.3,403.1">
+          TopLeft="264.3,504.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,60.0000000000002"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.5000000000002">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.5000000000002" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2456,18 +3748,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="264.3,811.9">
+          TopLeft="264.3,913.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60.0000000000001"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2482,14 +3774,14 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2500,18 +3792,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="264.3,1220.7">
+          TopLeft="264.3,1322.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999998"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999998">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999998" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2527,83 +3819,66 @@
     design-time-name="Package\DQS\Clean Holidays">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="143.2,41.6"
           Id="Package\DQS\Clean Holidays\DQS Cleaning"
-          TopLeft="72.5,131.5" />
+          TopLeft="72.3,155.9" />
         <NodeLayout
-          Size="150.4,41.6"
-          Id="Package\DQS\Clean Holidays\Landing source"
-          TopLeft="69,29.5" />
+          Size="152.8,41.6"
+          Id="Package\DQS\Clean Holidays\Source Row Set"
+          TopLeft="67.5,54.3" />
         <NodeLayout
           Size="195.2,41.6"
           Id="Package\DQS\Clean Holidays\Destination DQS Staging"
-          TopLeft="46.5,233.5" />
+          TopLeft="46.3,257.5" />
         <EdgeLayout
-          Id="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
-          TopLeft="144,173.5">
+          Id="Package\DQS\Clean Holidays.Paths[RowSet]"
+          TopLeft="143.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\DQS\Clean Holidays.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="144,71.5">
+          Id="Package\DQS\Clean Holidays.Paths[DQS Cleansing Output]"
+          TopLeft="143.9,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\DQS\Clean Holidays\Landing source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\DQS\Clean Holidays\Destination DQS Staging">
     <Properties>
@@ -2617,6 +3892,70 @@
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DQS\Extract changes">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178.4,41.6"
+          Id="Package\DQS\Extract changes\Destination Rows Set"
+          TopLeft="59.1,257.5" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\DQS\Extract changes\Landing source"
+          TopLeft="73.5,54.3" />
+        <NodeLayout
+          Size="131.2,41.6"
+          Id="Package\DQS\Extract changes\CountRows"
+          TopLeft="82.7,155.9" />
+        <EdgeLayout
+          Id="Package\DQS\Extract changes.Paths[Счетчик строк Выход 1]"
+          TopLeft="148.3,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DQS\Extract changes.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="148.3,95.8999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
   <TaskHost
     design-time-name="Package\MDS\Data managment">
     <LayoutInfo>
