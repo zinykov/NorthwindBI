@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractOrderDetails] AS
 BEGIN
+	ALTER TABLE [Landing].[Order Details] ADD CONSTRAINT [PK_Landing_Order_Details]
+		PRIMARY KEY CLUSTERED ( [OrderID] ASC, [ProductID] ASC );
+
 	UPDATE [Landing].[Order Details]
 	SET [CheckSum] = CHECKSUM (
 		  [UnitPrice]
@@ -17,12 +20,4 @@ BEGIN
 				AND LOD.[ProductID] = HOD.[ProductID]
 	WHERE		LOD.[CheckSum] <> HOD.[CheckSum]
 				OR HOD.[OrderID] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Order Details];
-
-	INSERT INTO [Hash].[Order Details]
-	SELECT		  LOD.[OrderID]
-				, LOD.[ProductID]
-				, LOD.[CheckSum]
-	FROM		[Landing].[Order Details] AS LOD;
 END

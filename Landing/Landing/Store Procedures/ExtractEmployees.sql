@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractEmployees] AS
 BEGIN
+	ALTER TABLE [Landing].[Employees] ADD CONSTRAINT [PK_Landing_Employees]
+		PRIMARY KEY CLUSTERED ( [EmployeeID] ASC );
+
 	UPDATE [Landing].[Employees]
 	SET [CheckSum] = CHECKSUM (
 		  [LastName]
@@ -21,11 +24,4 @@ BEGIN
 	LEFT JOIN	[Hash].[Employees] AS HE ON LE.[EmployeeID] = HE.[EmployeeID]
 	WHERE		LE.[CheckSum] <> HE.[CheckSum]
 				OR HE.[EmployeeID] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Employees];
-
-	INSERT INTO [Hash].[Employees]
-	SELECT		  LE.[EmployeeID]
-				, LE.[CheckSum]
-	FROM		[Landing].[Employees] AS LE;
 END

@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
-  DTS:VersionBuild="230"
-  DTS:VersionGUID="{3AA531BE-3712-43C5-A1A0-20ED65997701}">
+  DTS:VersionBuild="232"
+  DTS:VersionGUID="{345E0632-C167-4633-A91A-CC45B351DDE6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -6139,6 +6139,21 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Hash Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{be5e16e7-2146-440d-8dd3-906289937659}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Hash Table"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+          SQLTask:SqlStatementSource="EXECUTE [Hash].[UpdateHashEmployees];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -6175,6 +6190,14 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\MDS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{A9AC9CB2-DF36-48CC-BE7F-D0E4A1140551}"
+      DTS:From="Package\DQS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Update Hash Table" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -6252,11 +6275,11 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           PanelSize="194.4,305.6"
           Size="194.4,348.8"
           Id="Package\DQS"
-          TopLeft="142.7,155.9" />
+          TopLeft="505.7,155.9" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="163.5,54.3" />
+          TopLeft="526.5,54.3" />
         <NodeLayout
           Size="192,41.6"
           Id="Package\Load DWH\Add unknown employee"
@@ -6439,7 +6462,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           TopLeft="142.7,1382.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="239.9,95.8999999999999">
+          TopLeft="602.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6505,18 +6528,68 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="239.9,504.7">
+          TopLeft="571.833333333333,504.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000002"
+              EndConnector="-331.933333333333,60.0000000000002"
               Start="0,0"
-              End="0,52.5000000000002">
+              End="-331.933333333333,52.5000000000002">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000002" />
+                    End="0,20.2938775510205" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2938775510205"
+                    Point2="0,24.2938775510205"
+                    Point3="-4,24.2938775510205" />
+                  <mssgle:LineSegment
+                    End="-327.933333333333,24.2938775510205" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-327.933333333333,24.2938775510205"
+                    Point2="-331.933333333333,24.2938775510205"
+                    Point3="-331.933333333333,28.2938775510205" />
+                  <mssgle:LineSegment
+                    End="-331.933333333333,52.5000000000002" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Update Hash Table"
+          TopLeft="518.9,718.3" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="633.966666666667,504.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-31.0666666666666,213.6"
+              Start="0,0"
+              End="-31.0666666666666,206.1">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,82.4862040816327" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,82.4862040816327"
+                    Point2="0,86.4862040816327"
+                    Point3="-4,86.4862040816327" />
+                  <mssgle:LineSegment
+                    End="-27.0666666666666,86.4862040816327" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27.0666666666666,86.4862040816327"
+                    Point2="-31.0666666666666,86.4862040816327"
+                    Point3="-31.0666666666666,90.4862040816327" />
+                  <mssgle:LineSegment
+                    End="-31.0666666666666,206.1" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractCustomers] AS
 BEGIN
+	ALTER TABLE [Landing].[Customers] ADD CONSTRAINT [PK_Landing_Customers]
+		PRIMARY KEY CLUSTERED ( [CustomerID] ASC );
+
 	UPDATE [Landing].[Customers]
 	SET [CheckSum] = CHECKSUM (
 		  [CompanyName]
@@ -23,11 +26,4 @@ BEGIN
 	LEFT JOIN	[Hash].[Customers] AS HC ON LC.[CustomerID] = HC.[CustomerID]
 	WHERE		LC.[CheckSum] <> HC.[CheckSum]
 				OR HC.[CustomerID] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Customers];
-
-	INSERT INTO [Hash].[Customers]
-	SELECT		  LC.[CustomerID]
-				, LC.[CheckSum]
-	FROM		[Landing].[Customers] AS LC;
 END

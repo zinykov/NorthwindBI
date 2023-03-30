@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractHolidays] AS
 BEGIN
+	ALTER TABLE [Landing].[Holidays] ADD CONSTRAINT [PK_Landing_Holidays]
+		PRIMARY KEY CLUSTERED ( [Date] ASC );
+
 	UPDATE [Landing].[Holidays]
 	SET [CheckSum] = CHECKSUM (
 		  [Date]
@@ -14,11 +17,4 @@ BEGIN
 	LEFT JOIN	[Hash].[Holidays] AS HH ON LH.[Date] = HH.[Date]
 	WHERE		LH.[CheckSum] <> HH.[CheckSum]
 				OR HH.[Date] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Holidays];
-
-	INSERT INTO [Hash].[Holidays]
-	SELECT		  LH.[Date]
-				, LH.[CheckSum]
-	FROM		[Landing].[Holidays] AS LH;
 END

@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractOrders] AS
 BEGIN
+	ALTER TABLE [Landing].[Orders] ADD CONSTRAINT [PK_Landing_Orders]
+		PRIMARY KEY CLUSTERED ( [OrderID] ASC );
+
 	UPDATE [Landing].[Orders]
 	SET [CheckSum] = CHECKSUM (
 		  [CustomerID]
@@ -23,11 +26,4 @@ BEGIN
 	LEFT JOIN	[Hash].[Orders] AS HO ON LO.[OrderID] = HO.[OrderID]
 	WHERE		LO.[CheckSum] <> HO.[CheckSum]
 				OR HO.[OrderID] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Orders];
-
-	INSERT INTO [Hash].[Orders]
-	SELECT		  LO.[OrderID]
-				, LO.[CheckSum]
-	FROM		[Landing].[Orders] AS LO;
 END

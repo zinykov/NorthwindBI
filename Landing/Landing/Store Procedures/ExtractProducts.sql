@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[ExtractProducts] AS
 BEGIN
+	ALTER TABLE [Landing].[Products] ADD CONSTRAINT [PK_Landing_Products]
+		PRIMARY KEY CLUSTERED ( [ProductID] ASC );
+
 	UPDATE [Landing].[Products]
 	SET [CheckSum] = CHECKSUM (
 		  [ProductName]
@@ -13,11 +16,4 @@ BEGIN
 	LEFT JOIN	[Hash].[Products] AS HP ON LP.[ProductID] = HP.[ProductID]
 	WHERE		LP.[CheckSum] <> HP.[CheckSum]
 				OR HP.[ProductID] IS NULL;
-	
-	TRUNCATE TABLE [Hash].[Products];
-
-	INSERT INTO [Hash].[Products]
-	SELECT		  LP.[ProductID]
-				, LP.[CheckSum]
-	FROM		[Landing].[Products] AS LP;
 END
