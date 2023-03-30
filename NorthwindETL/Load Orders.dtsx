@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="228"
-  DTS:VersionGUID="{36BE45A4-1CDC-401B-ADF2-4503DC82016A}">
+  DTS:VersionBuild="236"
+  DTS:VersionGUID="{5C4E724C-718B-4941-BC43-009A98DDD53B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -343,13 +343,1059 @@
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Load DWH\Load Orders"
+          DTS:refId="Package\Load DWH\Create Orders Hash"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{68F0FC5C-3CE0-46A6-925D-F9FB0D47C497}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Orders Hash"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              SQLTask:SqlStatementSource="EXECUTE [Landing].[CreateOrdersHash];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Load Orders"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{68AAB7B8-766B-4CA2-B7E1-229CD1134916}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Orders"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Load DWH\Load Orders\Add Load Date"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+                  name="Add Load Date"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Load DWH\Load Orders\Add Load Date.Inputs[Вход производного столбца]"
+                      description="Ввод преобразования &quot;Производный столбец&quot;"
+                      name="Вход производного столбца">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца]"
+                      description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      name="Выход производного столбца"
+                      synchronousInputId="Package\Load DWH\Load Orders\Add Load Date.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
+                          name="LoadDate"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_DBTIMESTAMP2,0)@[User::StartLoad]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_DBTIMESTAMP2,0)@[User::StartLoad]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Вывод ошибок производного столбца]"
+                      description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок производного столбца"
+                      synchronousInputId="Package\Load DWH\Load Orders\Add Load Date.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load DWH\Load Orders\Add unknown members"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
+                  description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
+                  name="Add unknown members"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца]"
+                      description="Ввод преобразования &quot;Производный столбец&quot;"
+                      name="Вход производного столбца">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца].Columns[CustomerKeyWithoutUnknown]"
+                          cachedDataType="i4"
+                          cachedName="CustomerKeyWithoutUnknown"
+                          lineageId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKeyWithoutUnknown]" />
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца].Columns[EmployeeKeyWithoutUnknown]"
+                          cachedDataType="i4"
+                          cachedName="EmployeeKeyWithoutUnknown"
+                          lineageId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKeyWithoutUnknown]" />
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца].Columns[ProductKeyWithoutUnknown]"
+                          cachedDataType="i4"
+                          cachedName="ProductKeyWithoutUnknown"
+                          lineageId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKeyWithoutUnknown]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца]"
+                      description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      name="Выход производного столбца"
+                      synchronousInputId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[CustomerKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[CustomerKey]"
+                          name="CustomerKey"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[CustomerKeyWithoutUnknown]},-1)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">REPLACENULL(CustomerKeyWithoutUnknown,-1)</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[EmployeeKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[EmployeeKey]"
+                          name="EmployeeKey"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[EmployeeKeyWithoutUnknown]},-1)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">REPLACENULL(EmployeeKeyWithoutUnknown,-1)</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[ProductKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Выход производного столбца].Columns[ProductKey]"
+                          name="ProductKey"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[ProductKeyWithoutUnknown]},-1)</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">REPLACENULL(ProductKeyWithoutUnknown,-1)</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Вывод ошибок производного столбца]"
+                      description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок производного столбца"
+                      synchronousInputId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Add unknown members.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load DWH\Load Orders\Extract data"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="Extract data"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractOrders];</property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load DWH\Load Orders\Extract data.Connections[OleDbConnection]"
+                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[Landing]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          length="5"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          name="OrderDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          name="RequiredDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          name="ShippedDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          dataType="i2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          name="Quantity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          dataType="r4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          name="Discount"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          dataType="i4"
+                          name="OrderID" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          name="CustomerID" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          dataType="i4"
+                          name="EmployeeID" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          dataType="i4"
+                          name="ProductID" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          name="OrderDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          name="RequiredDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          name="ShippedDate" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          dataType="cy"
+                          name="UnitPrice" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          dataType="i2"
+                          name="Quantity" />
+                        <externalMetadataColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          dataType="r4"
+                          name="Discount" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          name="OrderID" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          name="CustomerID" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          name="EmployeeID" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          name="ProductID" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          name="OrderDate" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          name="RequiredDate" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          name="ShippedDate" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          dataType="cy"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          name="UnitPrice" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          dataType="i2"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          name="Quantity" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          dataType="r4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          name="Discount" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load DWH\Load Orders\Lookup CustomerKey"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+                  description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
+                  name="Lookup CustomerKey"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Customer]</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Customer]) [refTable]
+where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND ISNULL ( [refTable].[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип кэша таблицы уточняющих запросов."
+                      name="CacheType"
+                      typeConverter="CacheType">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CustomerKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CustomerAlterKey" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactTitle" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Phone" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fax" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                      name="ParameterMap">#{Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника "OLE DB"].Columns[CustomerID]};#{Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerID]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerID"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">CustomerAlterKey</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="LoadDate"
+                          lineageId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">StartDate</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      errorOrTruncationOperation="Уточняющий запрос"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKeyWithoutUnknown]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Копировать столбец"
+                          lineageId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKeyWithoutUnknown]"
+                          name="CustomerKeyWithoutUnknown"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn">CustomerKey</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                      exclusionGroup="1"
+                      name="Выход несовпадающих строк уточняющего запроса"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load DWH\Load Orders\Lookup EmployeeKey"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+                  description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
+                  name="Lookup EmployeeKey"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Employee]</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Employee]) [refTable]
+where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND ISNULL ( [refTable].[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип кэша таблицы уточняющих запросов."
+                      name="CacheType"
+                      typeConverter="CacheType">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="EmployeeKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EmployeeAlterKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Employee" dataType="DT_WSTR" length="35" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Title" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="TitleOfCourtesy" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                      name="ParameterMap">#{Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника "OLE DB"].Columns[EmployeeID]};#{Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeID]"
+                          cachedDataType="i4"
+                          cachedName="EmployeeID"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">EmployeeAlterKey</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="LoadDate"
+                          lineageId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">StartDate</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      errorOrTruncationOperation="Уточняющий запрос"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKeyWithoutUnknown]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Копировать столбец"
+                          lineageId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKeyWithoutUnknown]"
+                          name="EmployeeKeyWithoutUnknown"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn">EmployeeKey</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                      exclusionGroup="1"
+                      name="Выход несовпадающих строк уточняющего запроса"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load DWH\Load Orders\Lookup ProductKey"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+                  description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
+                  name="Lookup ProductKey"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Product]</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Product]) [refTable]
+where [refTable].[ProductAlterKey] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип кэша таблицы уточняющих запросов."
+                      name="CacheType"
+                      typeConverter="CacheType">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProductKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductAlterKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Product" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Category" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                      name="ParameterMap">#{Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника "OLE DB"].Columns[ProductID]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load DWH\Load Orders\Lookup ProductKey.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[ProductID]"
+                          cachedDataType="i4"
+                          cachedName="ProductID"
+                          lineageId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">ProductAlterKey</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      errorOrTruncationOperation="Уточняющий запрос"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKeyWithoutUnknown]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Копировать столбец"
+                          lineageId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKeyWithoutUnknown]"
+                          name="ProductKeyWithoutUnknown"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn">ProductKey</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                      exclusionGroup="1"
+                      name="Выход несовпадающих строк уточняющего запроса"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                  endId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  startId="Package\Load DWH\Load Orders\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                <path
+                  refId="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+                  endId="Package\Load DWH\Load Orders\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  startId="Package\Load DWH\Load Orders\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                <path
+                  refId="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+                  endId="Package\Load DWH\Load Orders\Add unknown members.Inputs[Вход производного столбца]"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  startId="Package\Load DWH\Load Orders\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                <path
+                  refId="Package\Load DWH\Load Orders.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Load DWH\Load Orders\Add Load Date.Inputs[Вход производного столбца]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Load DWH\Load Orders\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                <path
+                  refId="Package\Load DWH\Load Orders.Paths[Выход производного столбца]"
+                  endId="Package\Load DWH\Load Orders\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  name="Выход производного столбца"
+                  startId="Package\Load DWH\Load Orders\Add Load Date.Outputs[Выход производного столбца]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load DWH\Load Orders Old"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Disabled="True"
           DTS:DTSID="{4b0c94b4-d836-441a-ac37-48b0b8d6357b}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Load Orders"
-          DTS:ThreadHint="0">
+          DTS:ObjectName="Load Orders Old"
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -385,7 +1431,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -415,6 +1461,22 @@
           DTS:From="Package\Load DWH\Set StartLoad Date"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
+          DTS:To="Package\Load DWH\Load Orders Old" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{FC26E445-1E94-406E-BAAC-A6E206BAEC24}"
+          DTS:From="Package\Load DWH\Set StartLoad Date"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Load DWH\Load Orders" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{5502D468-9A5E-4D56-B685-D6C6F1F3FE80}"
+          DTS:From="Package\Load DWH\Create Orders Hash"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
           DTS:To="Package\Load DWH\Load Orders" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
@@ -559,26 +1621,102 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="156,41.6"
           Id="Package\Create Filegroup"
-          TopLeft="166.3,155.9" />
+          TopLeft="262.3,155.9" />
         <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
-          TopLeft="167.9,54.3" />
+          TopLeft="263.9,54.3" />
         <NodeLayout
-          Size="136,41.6"
-          Id="Package\Load DWH\Load Orders"
-          TopLeft="21.5,107.1" />
+          Size="155.2,41.6"
+          Id="Package\Load DWH\Load Orders Old"
+          TopLeft="11.9,107.1" />
         <NodeLayout
           Size="168,41.6"
           Id="Package\Load DWH\Set StartLoad Date"
-          TopLeft="5.50000000000001,5.49999999999995" />
+          TopLeft="5.49999999999997,5.49999999999995" />
         <EdgeLayout
           Id="Package\Load DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="89.5,47.1">
+          TopLeft="62.8333333333333,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="26.6666666666667,59.9999999999999"
+              Start="0,0"
+              End="26.6666666666667,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3396226415094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3396226415094"
+                    Point2="0,24.3396226415094"
+                    Point3="4,24.3396226415094" />
+                  <mssgle:LineSegment
+                    End="22.6666666666667,24.3396226415094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22.6666666666667,24.3396226415094"
+                    Point2="26.6666666666667,24.3396226415094"
+                    Point3="26.6666666666667,28.3396226415094" />
+                  <mssgle:LineSegment
+                    End="26.6666666666667,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="136,41.6"
+          Id="Package\Load DWH\Load Orders"
+          TopLeft="227.5,107.1" />
+        <EdgeLayout
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint 1]"
+          TopLeft="116.166666666667,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="158,59.9999999999999"
+              Start="0,0"
+              End="158,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9181446111869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.9181446111869"
+                    Point2="0,29.9181446111869"
+                    Point3="4,29.9181446111869" />
+                  <mssgle:LineSegment
+                    End="154,29.9181446111869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="154,29.9181446111869"
+                    Point2="158,29.9181446111869"
+                    Point3="158,33.9181446111869" />
+                  <mssgle:LineSegment
+                    End="158,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Load DWH\Create Orders Hash"
+          TopLeft="234.3,5.49999999999995" />
+        <EdgeLayout
+          Id="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="318.166666666667,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -601,10 +1739,10 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="179.2,204"
-          Size="179.2,247.2"
+          PanelSize="410.4,204"
+          Size="410.4,247.2"
           Id="Package\Load DWH"
-          TopLeft="154.7,257.5" />
+          TopLeft="135.1,257.5" />
         <NodeLayout
           Size="207.2,41.6"
           Id="Package\Optimaze Partitions\Optimize Partitions Monthly"
@@ -641,14 +1779,14 @@
           PanelSize="218.4,204"
           Size="218.4,247.2"
           Id="Package\Optimaze Partitions"
-          TopLeft="135.1,564.7" />
+          TopLeft="231.1,564.7" />
         <NodeLayout
           Size="194.4,41.6"
           Id="Package\Set load compilation info"
-          TopLeft="147.1,871.9" />
+          TopLeft="243.1,871.9" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="244.3,504.7">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="340.3,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -669,8 +1807,30 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="340.3,504.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.0000000000001"
+              Start="0,0"
+              End="0,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="244.3,811.9">
+          TopLeft="340.3,811.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -692,29 +1852,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="244.3,197.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="244.3,95.8999999999999">
+          TopLeft="340.3,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -737,5 +1875,230 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Load DWH\Load Orders">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="135.2,41.6"
+          Id="Package\Load DWH\Load Orders\Extract data"
+          TopLeft="78.3,54.3" />
+        <NodeLayout
+          Size="177.6,41.6"
+          Id="Package\Load DWH\Load Orders\Lookup CustomerKey"
+          TopLeft="57.1,257.5" />
+        <NodeLayout
+          Size="148,41.6"
+          Id="Package\Load DWH\Load Orders\Add Load Date"
+          TopLeft="71.9,155.9" />
+        <EdgeLayout
+          Id="Package\Load DWH\Load Orders.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="145.9,95.8999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load DWH\Load Orders.Paths[Выход производного столбца]"
+          TopLeft="145.9,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="178.4,41.6"
+          Id="Package\Load DWH\Load Orders\Lookup EmployeeKey"
+          TopLeft="56.7,359.1" />
+        <EdgeLayout
+          Id="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          TopLeft="145.9,299.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\Load DWH\Load Orders\Lookup ProductKey"
+          TopLeft="61.5000000000001,460.7" />
+        <EdgeLayout
+          Id="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+          TopLeft="145.9,400.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.2499999999999,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="189.6,41.6"
+          Id="Package\Load DWH\Load Orders\Add unknown members"
+          TopLeft="51.1000000000001,562.3" />
+        <EdgeLayout
+          Id="Package\Load DWH\Load Orders.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+          TopLeft="145.9,502.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load DWH\Load Orders\Extract data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load DWH\Load Orders\Lookup CustomerKey">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[Dimension].[Customer]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load DWH\Load Orders\Lookup EmployeeKey">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[Dimension].[Employee]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q4:boolean">true</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load DWH\Load Orders\Lookup ProductKey">
+    <Properties>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q2:string">[Dimension].[Product]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q3:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q4:boolean">false</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
