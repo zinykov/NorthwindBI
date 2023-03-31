@@ -1,5 +1,12 @@
-﻿CREATE PROCEDURE [Landing].[ExtractOrders] AS
-BEGIN
+﻿CREATE PROCEDURE [Landing].[ExtractOrders]
+	  @StartLoad AS DATE
+	, @EndLoad AS DATE
+AS BEGIN
+	IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
+		BEGIN
+			SET @StartLoad = @EndLoad
+		END
+
 	SELECT		  LO.[OrderID]
 				, LO.[CustomerID]
 				, LO.[EmployeeID]
@@ -17,5 +24,6 @@ BEGIN
 	WHERE		( LO.[CheckSum] <> HO.[CheckSum]
 				OR HO.[OrderID] IS NULL )
 				AND ( LOD.[CheckSum] <> HOD.[CheckSum]
-				OR HOD.[OrderID] IS NULL );
+				OR HOD.[OrderID] IS NULL )
+				AND LO.[ShippedDate] BETWEEN @StartLoad AND @EndLoad;
 END
