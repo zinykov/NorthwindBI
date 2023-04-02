@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="274"
-  DTS:VersionGUID="{A73DC3B3-3B1B-485A-97A5-5375E841A3D8}">
+  DTS:VersionBuild="284"
+  DTS:VersionGUID="{C11D55F2-3445-432D-A30E-515B719AF226}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -358,12 +358,12 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Load Table"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableOrder]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @IsMaitenance = 0;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableOrder]&#xA;      @CutoffTime = ?&#xA;    , @IsMaitenance = 0;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -385,7 +385,14 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
-              SQLTask:SqlStatementSource="EXECUTE [Landing].[CreateOrdersHash];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXECUTE [Landing].[CreateOrdersHash]&#xA;&#x9;@CutoffTime = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -404,13 +411,14 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Load DWH\Load Staged Table"
+          DTS:refId="Package\Load DWH\Fill Load Table"
           DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
           DTS:Description="Задача потока данных"
           DTS:DTSID="{68AAB7B8-766B-4CA2-B7E1-229CD1134916}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Load Staged Table"
+          DTS:ObjectName="Fill Load Table"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
           <DTS:ObjectData>
@@ -418,7 +426,7 @@
               version="1">
               <components>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Add Load Date"
+                  refId="Package\Load DWH\Fill Load Table\Add Load Date"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
                   description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
@@ -426,7 +434,7 @@
                   usesDispositions="true">
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Add Load Date.Inputs[Вход производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]"
                       description="Ввод преобразования &quot;Производный столбец&quot;"
                       name="Вход производного столбца">
                       <externalMetadataColumns />
@@ -434,18 +442,18 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца]"
                       description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       name="Выход производного столбца"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Add Load Date.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
+                          refId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
                           dataType="dbTimeStamp2"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
                           name="LoadDate"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -466,23 +474,23 @@
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Вывод ошибок производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца]"
                       description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок производного столбца"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Add Load Date.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -491,7 +499,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Add measures"
+                  refId="Package\Load DWH\Fill Load Table\Add measures"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
                   description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
@@ -499,17 +507,17 @@
                   usesDispositions="true">
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца]"
                       description="Ввод преобразования &quot;Производный столбец&quot;"
                       name="Вход производного столбца">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[CustomerKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[CustomerKey]"
                           cachedDataType="i4"
                           cachedName="CustomerKey"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -517,7 +525,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[CustomerKey]},-1)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[CustomerKey]},-1)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -527,12 +535,12 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[EmployeeKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[EmployeeKey]"
                           cachedDataType="i4"
                           cachedName="EmployeeKey"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -540,7 +548,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[EmployeeKey]},-1)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[EmployeeKey]},-1)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -550,12 +558,12 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[ProductKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[ProductKey]"
                           cachedDataType="i4"
                           cachedName="ProductKey"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -563,7 +571,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[ProductKey]},-1)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[ProductKey]},-1)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -573,12 +581,12 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[UnitPrice]"
                           cachedDataType="cy"
                           cachedName="UnitPrice"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -586,7 +594,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]},0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]},0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -596,12 +604,12 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[Quantity]"
                           cachedDataType="i2"
                           cachedName="Quantity"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -609,7 +617,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]},0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]},0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -619,12 +627,12 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[Discount]"
                           cachedDataType="r4"
                           cachedName="Discount"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
                           truncationRowDisposition="FailComponent"
                           usageType="readWrite">
                           <properties>
@@ -632,7 +640,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -642,38 +650,38 @@
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[OrderDate]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[OrderDate]"
                           cachedDataType="dbTimeStamp"
                           cachedName="OrderDate"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]" />
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[RequiredDate]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[RequiredDate]"
                           cachedDataType="dbTimeStamp"
                           cachedName="RequiredDate"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]" />
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца].Columns[ShippedDate]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца].Columns[ShippedDate]"
                           cachedDataType="dbTimeStamp"
                           cachedName="ShippedDate"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]" />
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца]"
                       description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       name="Выход производного столбца"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]"
                           dataType="numeric"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]"
                           name="SalesAmount"
                           precision="25"
                           scale="4"
@@ -683,7 +691,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]},0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]},0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -693,11 +701,11 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]"
                           name="OrderDateKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -705,7 +713,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[OrderDate]},(DT_DATE)"1995-12-31")</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[OrderDate]},(DT_DATE)"1995-12-31")</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -715,11 +723,11 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]"
                           name="RequiredDateKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -727,7 +735,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[RequiredDate]},(DT_DATE)"1995-12-31")</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[RequiredDate]},(DT_DATE)"1995-12-31")</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -737,11 +745,11 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]"
                           name="ShippedDateKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -749,7 +757,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[ShippedDate]},(DT_DATE)"1995-12-31")</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[ShippedDate]},(DT_DATE)"1995-12-31")</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -759,11 +767,11 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]"
                           dataType="r4"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]"
                           name="SalesAmountWithDiscount"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -771,7 +779,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]} * (1 - [REPLACENULL](#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)),0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]} * (1 - [REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)),0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -781,11 +789,11 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]"
                           name="LineageKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -806,23 +814,23 @@
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Вывод ошибок производного столбца]"
+                      refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Вывод ошибок производного столбца]"
                       description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок производного столбца"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -831,7 +839,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Extract data"
+                  refId="Package\Load DWH\Fill Load Table\Extract data"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   description="Источник &quot;OLE DB&quot;"
@@ -878,11 +886,11 @@
                     <property
                       dataType="System.String"
                       description="Сопоставления между параметрами в команде SQL и переменными."
-                      name="ParameterMapping">"Parameter0:Input",{59E4FBDE-5DD3-4D40-8C1B-698DBFEEA896};"Parameter1:Input",{810A8E85-58DF-4959-8AD2-ACEDE7D8826F};</property>
+                      name="ParameterMapping">"@StartLoad:Input",{59E4FBDE-5DD3-4D40-8C1B-698DBFEEA896};"@EndLoad:Input",{810A8E85-58DF-4959-8AD2-ACEDE7D8826F};</property>
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Load DWH\Load Staged Table\Extract data.Connections[OleDbConnection]"
+                      refId="Package\Load DWH\Fill Load Table\Extract data.Connections[OleDbConnection]"
                       connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
                       connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -890,212 +898,212 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]"
                       name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]"
                           name="OrderID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
                           length="5"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           name="CustomerID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           name="EmployeeID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]"
                           name="ProductID"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderDate]"
                           name="OrderDate"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[RequiredDate]"
                           name="RequiredDate"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
                           dataType="dbTimeStamp"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ShippedDate]"
                           name="ShippedDate"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           dataType="cy"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           name="UnitPrice"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
                           dataType="i2"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]"
                           name="Quantity"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
                           dataType="r4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]"
                           name="Discount"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderID]"
                           dataType="i4"
                           name="OrderID" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CustomerID]"
                           dataType="wstr"
                           length="5"
                           name="CustomerID" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[EmployeeID]"
                           dataType="i4"
                           name="EmployeeID" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ProductID]"
                           dataType="i4"
                           name="ProductID" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[OrderDate]"
                           dataType="dbTimeStamp"
                           name="OrderDate" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[RequiredDate]"
                           dataType="dbTimeStamp"
                           name="RequiredDate" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ShippedDate]"
                           dataType="dbTimeStamp"
                           name="ShippedDate" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
                           dataType="cy"
                           name="UnitPrice" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Quantity]"
                           dataType="i2"
                           name="Quantity" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Discount]"
                           dataType="r4"
                           name="Discount" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
                       name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderID]"
                           name="OrderID" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           dataType="wstr"
                           length="5"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CustomerID]"
                           name="CustomerID" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[EmployeeID]"
                           name="EmployeeID" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ProductID]"
                           name="ProductID" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
                           dataType="dbTimeStamp"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[OrderDate]"
                           name="OrderDate" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
                           dataType="dbTimeStamp"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[RequiredDate]"
                           name="RequiredDate" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
                           dataType="dbTimeStamp"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ShippedDate]"
                           name="ShippedDate" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           dataType="cy"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[UnitPrice]"
                           name="UnitPrice" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
                           dataType="i2"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Quantity]"
                           name="Quantity" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
                           dataType="r4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Discount]"
                           name="Discount" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1104,7 +1112,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Load Stage Table"
+                  refId="Package\Load DWH\Fill Load Table\Load Stage Table"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   description="Назначение &quot;OLE DB&quot;"
@@ -1149,7 +1157,7 @@
                     <property
                       dataType="System.Boolean"
                       description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
-                      name="FastLoadKeepNulls">true</property>
+                      name="FastLoadKeepNulls">false</property>
                     <property
                       dataType="System.String"
                       description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
@@ -1161,7 +1169,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Load DWH\Load Staged Table\Load Stage Table.Connections[OleDbConnection]"
+                      refId="Package\Load DWH\Fill Load Table\Load Stage Table.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1169,145 +1177,145 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[UnitPrice]"
                           cachedDataType="cy"
                           cachedName="UnitPrice"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[UnitPrice]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Quantity]"
                           cachedDataType="i2"
                           cachedName="Quantity"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Quantity]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Discount]"
                           cachedDataType="r4"
                           cachedName="Discount"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Discount]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CustomerKey]"
                           cachedDataType="i4"
                           cachedName="CustomerKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeKey]"
                           cachedDataType="i4"
                           cachedName="EmployeeKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductKey]"
                           cachedDataType="i4"
                           cachedName="ProductKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderDateKey]"
                           cachedDataType="dbTimeStamp"
                           cachedName="OrderDateKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[OrderDateKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[RequiredDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[RequiredDateKey]"
                           cachedDataType="dbTimeStamp"
                           cachedName="RequiredDateKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[RequiredDateKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShippedDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ShippedDateKey]"
                           cachedDataType="dbTimeStamp"
                           cachedName="ShippedDateKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[ShippedDateKey]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmountWithDiscount]"
                           cachedDataType="r4"
                           cachedName="SalesAmountWithDiscount"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmountWithDiscount]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderID]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderID]"
                           cachedDataType="i4"
                           cachedName="OrderID"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[OrderID]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[SalesAmount]"
                           cachedDataType="numeric"
                           cachedName="SalesAmount"
                           cachedPrecision="25"
                           cachedScale="4"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[SalesAmount]" />
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
                           cachedDataType="i4"
                           cachedName="LineageKey"
-                          externalMetadataColumnId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
-                          lineageId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                          externalMetadataColumnId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца].Columns[LineageKey]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderKey]"
                           dataType="i4"
                           name="OrderKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
                           dataType="i4"
                           name="ProductKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
                           dataType="i4"
                           name="CustomerKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
                           dataType="i4"
                           name="EmployeeKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[OrderDateKey]"
                           dataType="dbDate"
                           name="OrderDateKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[RequiredDateKey]"
                           dataType="dbDate"
                           name="RequiredDateKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ShippedDateKey]"
                           dataType="dbDate"
                           name="ShippedDateKey" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[UnitPrice]"
                           dataType="cy"
                           name="UnitPrice" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Quantity]"
                           dataType="i4"
                           name="Quantity" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Discount]"
                           dataType="cy"
                           name="Discount" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmount]"
                           dataType="cy"
                           name="SalesAmount" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[SalesAmountWithDiscount]"
                           dataType="cy"
                           name="SalesAmountWithDiscount" />
                         <externalMetadataColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                           dataType="i4"
                           name="LineageKey" />
                       </externalMetadataColumns>
@@ -1315,22 +1323,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Load Stage Table.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1339,7 +1347,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey"
+                  refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey"
                   componentClassID="Microsoft.Lookup"
                   contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
                   description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
@@ -1395,7 +1403,7 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       containsID="true"
                       dataType="System.String"
                       description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
-                      name="ParameterMap">#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[CustomerID]};#{Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
+                      name="ParameterMap">#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[CustomerID]};#{Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1407,7 +1415,7 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Connections[OleDbConnection]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                       description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
@@ -1415,15 +1423,15 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Ввод преобразования &quot;Уточняющий запрос&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerID]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerID]"
                           cachedDataType="wstr"
                           cachedLength="5"
                           cachedName="CustomerID"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]">
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CustomerID]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1436,10 +1444,10 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="LoadDate"
-                          lineageId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
+                          lineageId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1457,18 +1465,18 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                       errorOrTruncationOperation="Уточняющий запрос"
                       errorRowDisposition="IgnoreFailure"
                       exclusionGroup="1"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Копировать столбец"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
                           name="CustomerKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1482,30 +1490,30 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
                       description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                       exclusionGroup="1"
                       name="Выход несовпадающих строк уточняющего запроса"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1514,7 +1522,7 @@ where [refTable].[CustomerAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey"
+                  refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey"
                   componentClassID="Microsoft.Lookup"
                   contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
                   description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
@@ -1570,7 +1578,7 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       containsID="true"
                       dataType="System.String"
                       description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
-                      name="ParameterMap">#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[EmployeeID]};#{Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
+                      name="ParameterMap">#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[EmployeeID]};#{Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]};</property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1582,7 +1590,7 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Connections[OleDbConnection]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                       description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
@@ -1590,14 +1598,14 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Ввод преобразования &quot;Уточняющий запрос&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeID]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeID]"
                           cachedDataType="i4"
                           cachedName="EmployeeID"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]">
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[EmployeeID]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1610,10 +1618,10 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                           </properties>
                         </inputColumn>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[LoadDate]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="LoadDate"
-                          lineageId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
+                          lineageId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1631,18 +1639,18 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                       errorOrTruncationOperation="Уточняющий запрос"
                       errorRowDisposition="IgnoreFailure"
                       exclusionGroup="1"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Копировать столбец"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
                           name="EmployeeKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1656,30 +1664,30 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
                       description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                       exclusionGroup="1"
                       name="Выход несовпадающих строк уточняющего запроса"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1688,7 +1696,7 @@ where [refTable].[EmployeeAlterKey] = ? AND ? BETWEEN [refTable].[StartDate] AND
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Load DWH\Load Staged Table\Lookup ProductKey"
+                  refId="Package\Load DWH\Fill Load Table\Lookup ProductKey"
                   componentClassID="Microsoft.Lookup"
                   contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
                   description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
@@ -1744,7 +1752,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                       containsID="true"
                       dataType="System.String"
                       description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
-                      name="ParameterMap">#{Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[ProductID]};</property>
+                      name="ParameterMap">#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[ProductID]};</property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1756,7 +1764,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Connections[OleDbConnection]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                       description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
@@ -1764,14 +1772,14 @@ where [refTable].[ProductAlterKey] = ?</property>
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Ввод преобразования &quot;Уточняющий запрос&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[ProductID]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[ProductID]"
                           cachedDataType="i4"
                           cachedName="ProductID"
-                          lineageId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]">
+                          lineageId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ProductID]">
                           <properties>
                             <property
                               dataType="System.String"
@@ -1789,18 +1797,18 @@ where [refTable].[ProductAlterKey] = ?</property>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                       errorOrTruncationOperation="Уточняющий запрос"
                       errorRowDisposition="IgnoreFailure"
                       exclusionGroup="1"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Копировать столбец"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
                           name="ProductKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1814,30 +1822,30 @@ where [refTable].[ProductAlterKey] = ?</property>
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
                       description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                       exclusionGroup="1"
                       name="Выход несовпадающих строк уточняющего запроса"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      synchronousInputId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          refId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1848,35 +1856,35 @@ where [refTable].[ProductAlterKey] = ?</property>
               </components>
               <paths>
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-                  endId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                  endId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                  startId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                  startId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
-                  endId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+                  endId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                  startId="Package\Load DWH\Load Staged Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                  startId="Package\Load DWH\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
-                  endId="Package\Load DWH\Load Staged Table\Add measures.Inputs[Вход производного столбца]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+                  endId="Package\Load DWH\Fill Load Table\Add measures.Inputs[Вход производного столбца]"
                   name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                  startId="Package\Load DWH\Load Staged Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                  startId="Package\Load DWH\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Выход источника &quot;OLE DB&quot;]"
-                  endId="Package\Load DWH\Load Staged Table\Add Load Date.Inputs[Вход производного столбца]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Load DWH\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]"
                   name="Выход источника &quot;OLE DB&quot;"
-                  startId="Package\Load DWH\Load Staged Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  startId="Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]" />
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Выход производного столбца]"
-                  endId="Package\Load DWH\Load Staged Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Выход производного столбца]"
+                  endId="Package\Load DWH\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Выход производного столбца"
-                  startId="Package\Load DWH\Load Staged Table\Add Load Date.Outputs[Выход производного столбца]" />
+                  startId="Package\Load DWH\Fill Load Table\Add Load Date.Outputs[Выход производного столбца]" />
                 <path
-                  refId="Package\Load DWH\Load Staged Table.Paths[Выход производного столбца1]"
-                  endId="Package\Load DWH\Load Staged Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  refId="Package\Load DWH\Fill Load Table.Paths[Выход производного столбца1]"
+                  endId="Package\Load DWH\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]"
                   name="Выход производного столбца"
-                  startId="Package\Load DWH\Load Staged Table\Add measures.Outputs[Выход производного столбца]" />
+                  startId="Package\Load DWH\Fill Load Table\Add measures.Outputs[Выход производного столбца]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -1888,7 +1896,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1938,7 +1946,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update Partition Schema Order"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1965,7 +1973,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
           DTS:DTSID="{CF2A18F4-6EA1-4772-AA3B-3BC0C5F6E8E5}"
-          DTS:From="Package\Load DWH\Load Staged Table"
+          DTS:From="Package\Load DWH\Fill Load Table"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\Load DWH\Switch Partition" />
@@ -1976,7 +1984,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:From="Package\Load DWH\Set StartLoad Date"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 1"
-          DTS:To="Package\Load DWH\Load Staged Table" />
+          DTS:To="Package\Load DWH\Fill Load Table" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 2]"
           DTS:CreationName=""
@@ -1984,7 +1992,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:From="Package\Load DWH\Create Orders Hash"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 2"
-          DTS:To="Package\Load DWH\Load Staged Table" />
+          DTS:To="Package\Load DWH\Fill Load Table" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 3]"
           DTS:CreationName=""
@@ -2000,7 +2008,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:From="Package\Load DWH\Create Load Table"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 4"
-          DTS:To="Package\Load DWH\Load Staged Table" />
+          DTS:To="Package\Load DWH\Fill Load Table" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Load DWH.PrecedenceConstraints[Constraint 5]"
           DTS:CreationName=""
@@ -2118,7 +2126,14 @@ where [refTable].[ProductAlterKey] = ?</property>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
-          SQLTask:SqlStatementSource="EXECUTE [Hash].[UpdateHashOrders];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="EXECUTE [Hash].[UpdateHashOrders]&#xA;&#x9;@CutoffTime = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::CutoffTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="7"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -2197,9 +2212,9 @@ where [refTable].[ProductAlterKey] = ?</property>
           Id="Package\Load DWH\Drop Load Table"
           TopLeft="241.7,411.9" />
         <NodeLayout
-          Size="165.6,41.6"
-          Id="Package\Load DWH\Load Staged Table"
-          TopLeft="236.9,208.7" />
+          Size="146.4,41.6"
+          Id="Package\Load DWH\Fill Load Table"
+          TopLeft="246.5,208.7" />
         <NodeLayout
           Size="167.2,41.6"
           Id="Package\Load DWH\Set StartLoad Date"
@@ -2262,26 +2277,26 @@ where [refTable].[ProductAlterKey] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="189.6,59.9999999999999"
+              EndConnector="194.4,59.9999999999999"
               Start="0,0"
-              End="189.6,52.4999999999999">
+              End="194.4,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.3660855784468" />
+                    End="0,35.2844364937387" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,35.3660855784468"
-                    Point2="0,39.3660855784468"
-                    Point3="4,39.3660855784468" />
+                    Point1="0,35.2844364937387"
+                    Point2="0,39.2844364937387"
+                    Point3="4,39.2844364937387" />
                   <mssgle:LineSegment
-                    End="185.6,39.3660855784468" />
+                    End="190.4,39.2844364937387" />
                   <mssgle:CubicBezierSegment
-                    Point1="185.6,39.3660855784468"
-                    Point2="189.6,39.3660855784468"
-                    Point3="189.6,43.3660855784468" />
+                    Point1="190.4,39.2844364937387"
+                    Point2="194.4,39.2844364937387"
+                    Point3="194.4,43.2844364937387" />
                   <mssgle:LineSegment
-                    End="189.6,52.4999999999999" />
+                    End="194.4,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2318,26 +2333,26 @@ where [refTable].[ProductAlterKey] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-186.6,59.9999999999999"
+              EndConnector="-191.4,59.9999999999999"
               Start="0,0"
-              End="-186.6,52.4999999999999">
+              End="-191.4,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.3660855784468" />
+                    End="0,35.2844364937388" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,35.3660855784468"
-                    Point2="0,39.3660855784468"
-                    Point3="-4,39.3660855784468" />
+                    Point1="0,35.2844364937388"
+                    Point2="0,39.2844364937388"
+                    Point3="-4,39.2844364937388" />
                   <mssgle:LineSegment
-                    End="-182.6,39.3660855784468" />
+                    End="-187.4,39.2844364937388" />
                   <mssgle:CubicBezierSegment
-                    Point1="-182.6,39.3660855784468"
-                    Point2="-186.6,39.3660855784468"
-                    Point3="-186.6,43.3660855784468" />
+                    Point1="-187.4,39.2844364937388"
+                    Point2="-191.4,39.2844364937388"
+                    Point3="-191.4,43.2844364937388" />
                   <mssgle:LineSegment
-                    End="-186.6,52.4999999999999" />
+                    End="-191.4,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2504,14 +2519,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2558,40 +2573,40 @@ where [refTable].[ProductAlterKey] = ?</property>
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Load DWH\Load Staged Table">
+    design-time-name="Package\Load DWH\Fill Load Table">
     <LayoutInfo>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="160,41.6"
-          Id="Package\Load DWH\Load Staged Table\Load Stage Table"
+          Id="Package\Load DWH\Fill Load Table\Load Stage Table"
           TopLeft="65.9000000000001,663.899999999999" />
         <NodeLayout
           Size="178.4,41.6"
-          Id="Package\Load DWH\Load Staged Table\Lookup EmployeeKey"
+          Id="Package\Load DWH\Fill Load Table\Lookup EmployeeKey"
           TopLeft="56.7,359.1" />
         <NodeLayout
           Size="168.8,41.6"
-          Id="Package\Load DWH\Load Staged Table\Lookup ProductKey"
+          Id="Package\Load DWH\Fill Load Table\Lookup ProductKey"
           TopLeft="61.5000000000001,460.7" />
         <NodeLayout
           Size="144.8,41.6"
-          Id="Package\Load DWH\Load Staged Table\Add measures"
+          Id="Package\Load DWH\Fill Load Table\Add measures"
           TopLeft="73.5000000000001,562.3" />
         <NodeLayout
           Size="177.6,41.6"
-          Id="Package\Load DWH\Load Staged Table\Lookup CustomerKey"
+          Id="Package\Load DWH\Fill Load Table\Lookup CustomerKey"
           TopLeft="57.1,257.5" />
         <NodeLayout
           Size="135.2,41.6"
-          Id="Package\Load DWH\Load Staged Table\Extract data"
+          Id="Package\Load DWH\Fill Load Table\Extract data"
           TopLeft="78.3,54.3" />
         <NodeLayout
           Size="148,41.6"
-          Id="Package\Load DWH\Load Staged Table\Add Load Date"
+          Id="Package\Load DWH\Fill Load Table\Add Load Date"
           TopLeft="71.9,155.9" />
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Выход производного столбца1]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Выход производного столбца1]"
           TopLeft="145.9,603.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2613,7 +2628,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Выход производного столбца]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Выход производного столбца]"
           TopLeft="145.9,197.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2635,7 +2650,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Выход источника &quot;OLE DB&quot;]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="145.9,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2657,7 +2672,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
           TopLeft="145.9,502.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2681,7 +2696,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
           TopLeft="145.9,400.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2700,12 +2715,12 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.2499999999999,269.3797265625,12"
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load DWH\Load Staged Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          Id="Package\Load DWH\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
           TopLeft="145.9,299.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2732,7 +2747,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load DWH\Load Staged Table\Load Stage Table">
+    design-time-name="Package\Load DWH\Fill Load Table\Load Stage Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2745,7 +2760,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load DWH\Load Staged Table\Lookup EmployeeKey">
+    design-time-name="Package\Load DWH\Fill Load Table\Lookup EmployeeKey">
     <Properties>
       <Property>
         <Name>UsedTableName</Name>
@@ -2768,7 +2783,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load DWH\Load Staged Table\Lookup ProductKey">
+    design-time-name="Package\Load DWH\Fill Load Table\Lookup ProductKey">
     <Properties>
       <Property>
         <Name>UsedTableName</Name>
@@ -2791,7 +2806,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load DWH\Load Staged Table\Lookup CustomerKey">
+    design-time-name="Package\Load DWH\Fill Load Table\Lookup CustomerKey">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
@@ -2814,7 +2829,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load DWH\Load Staged Table\Extract data">
+    design-time-name="Package\Load DWH\Fill Load Table\Extract data">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
