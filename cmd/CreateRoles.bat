@@ -16,4 +16,6 @@
 ::setvar SSISFolderName NorthwindETL
 ::setvar SSISProjectName NorthwindETL
 ::setvar SSISServerName SWIFT3
+::setvar LandingDatabaseName Landing
+::setvar LandingServerName SWIFT3
 sqlcmd -S $(DWHServerName) -d $(DWHDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CreateRoles.sql" -v AzAgentGroup="$(AzAgentGroup)"

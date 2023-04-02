@@ -16,6 +16,8 @@
 --:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
+--:setvar LandingDatabaseName Landing
+--:setvar LandingServerName SWIFT3
 
 USE [$(MDSDatabaseName)]
 GO

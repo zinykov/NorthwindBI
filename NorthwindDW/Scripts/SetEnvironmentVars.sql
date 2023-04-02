@@ -17,6 +17,8 @@
 --:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
+--:setvar LandingDatabaseName Landing
+--:setvar LandingServerName SWIFT3
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
@@ -175,4 +177,24 @@ EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
 		, @parameter_value = N'EndLoadDate'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LandingDatabaseName'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LandingDatabaseName'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LandingServerName'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LandingServerName'
 GO

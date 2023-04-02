@@ -16,6 +16,8 @@
 --:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
+--:setvar LandingDatabaseName Landing
+--:setvar LandingServerName SWIFT3
 
 USE [$(DWHDatabaseName)]
 GO
@@ -90,4 +92,20 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 GO
 
 ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\RDLexec]
+GO
+
+USE [$(LandingDatabaseName)]
+GO
+
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LandingServerName)\$(AzAgentGroup)' )
+	BEGIN
+		CREATE USER [$(LandingServerName)\RDLexec] FOR LOGIN [$(LandingServerName)\$(AzAgentGroup)]
+			WITH DEFAULT_SCHEMA=[dbo]
+	END
+GO
+
+ALTER ROLE [db_datareader] ADD MEMBER [$(LandingServerName)\$(AzAgentGroup)]
+GO
+
+ALTER ROLE [db_datawriter] ADD MEMBER [$(LandingServerName)\$(AzAgentGroup)]
 GO

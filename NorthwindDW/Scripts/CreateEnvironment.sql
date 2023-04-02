@@ -18,6 +18,8 @@
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
 --:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
+--:setvar LandingDatabaseName Landing
+--:setvar LandingServerName SWIFT3
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -348,6 +350,46 @@ IF NOT EXISTS (
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'EndLoadDate'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(LandingServerName)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LandingServerName'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LandingServerName'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(LandingDatabaseName)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LandingDatabaseName'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LandingDatabaseName'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'

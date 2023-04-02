@@ -59,35 +59,35 @@ BEGIN
 	SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter )
 
 -- ШАГ 3. Загрузка данных в промежуточную таблицу
-	IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
-		BEGIN
-			SET @StartLoad = @EndLoad
-		END
+	--IF DATEDIFF ( DAY, @StartLoad, @EndLoad ) = 1
+	--	BEGIN
+	--		SET @StartLoad = @EndLoad
+	--	END
 		
-	INSERT INTO [Integration].[Order]
-	SELECT		  [OrderKey]					=	O.[OrderID]
-				, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
-				, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
-				, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
-				, [OrderDateKey]				=	ISNULL ( [OrderDate], DATEFROMPARTS ( 1995, 12, 31 ) )
-				, [RequiredDateKey]				=	ISNULL ( [RequiredDate], DATEFROMPARTS ( 1995, 12, 31 ) )
-				, [ShippedDateKey]				=	ISNULL ( [ShippedDate], DATEFROMPARTS ( 1995, 12, 31 ) )
-				, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
-				, [Quantity]					=	ISNULL ( [Quantity], 0 )
-				, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
-				, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
-				, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * ( [Quantity] - [Discount] ), 0 )
-				, [LineageKey]					=	@LineageKey
+	--INSERT INTO [Integration].[Order]
+	--SELECT		  [OrderKey]					=	O.[OrderID]
+	--			, [ProductKey]					=	ISNULL ( [ProductKey], -1 )
+	--			, [CustomerKey]					=	ISNULL ( [CustomerKey], -1 )
+	--			, [EmployeeKey]					=	ISNULL ( [EmployeeKey], -1 )
+	--			, [OrderDateKey]				=	ISNULL ( [OrderDate], DATEFROMPARTS ( 1995, 12, 31 ) )
+	--			, [RequiredDateKey]				=	ISNULL ( [RequiredDate], DATEFROMPARTS ( 1995, 12, 31 ) )
+	--			, [ShippedDateKey]				=	ISNULL ( [ShippedDate], DATEFROMPARTS ( 1995, 12, 31 ) )
+	--			, [UnitPrice]					=	ISNULL ( [UnitPrice], 0 )
+	--			, [Quantity]					=	ISNULL ( [Quantity], 0 )
+	--			, [Discount]					=	ISNULL ( [UnitPrice] * [Discount], 0 )
+	--			, [SalesAmount]					=	ISNULL ( [UnitPrice] * [Quantity], 0 )
+	--			, [SalesAmountWithDiscount]		=	ISNULL ( [UnitPrice] * ( [Quantity] - [Discount] ), 0 )
+	--			, [LineageKey]					=	@LineageKey
 
-	FROM		[Landing].[Orders] AS O
-	LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
-	LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
-				AND O.[OrderDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
-	LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
-				AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
-	LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
+	--FROM		[Landing].[Orders] AS O
+	--LEFT JOIN	[Landing].[Order Details] AS OD ON O.[OrderID] = OD.[OrderID]
+	--LEFT JOIN	[Dimension].[Customer] AS C ON C.[CustomerAlterKey] = O.[CustomerID]
+	--			AND O.[OrderDate] BETWEEN C.[StartDate] AND ISNULL ( C.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+	--LEFT JOIN	[Dimension].[Employee] AS E ON E.[EmployeeAlterKey] = O.[EmployeeID]
+	--			AND O.[OrderDate] BETWEEN E.[StartDate] AND ISNULL ( E.[EndDate], DATEFROMPARTS ( 3999, 12, 31 ) )
+	--LEFT JOIN	[Dimension].[Product] AS P ON P.[ProductAlterKey] = OD.[ProductID]
 
-	WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
+	--WHERE		O.[ShippedDate] BETWEEN @StartLoad AND @EndLoad
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
 	BEGIN TRANSACTION
 		ALTER TABLE [Integration].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
