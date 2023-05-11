@@ -11,7 +11,7 @@ AS BEGIN
 				, [datacode]
 				, [message]
 	
-	FROM		[Logs].[dbo].[sysssislog]
+	FROM		[$(LogsServerName)].[$(LogsDatabaseName)].[dbo].[sysssislog]
 
 	WHERE		[starttime] >= @starttime
 				AND [event] <> N'DiagnosticEx'

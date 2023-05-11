@@ -161,11 +161,11 @@
   <ItemGroup>
     <SqlCmdVariable Include="DQSDatabaseName">
       <DefaultValue>DQS_STAGING_DATA</DefaultValue>
-      <Value>$(SqlCmdVar__4)</Value>
+      <Value>$(SqlCmdVar__8)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="DQSServerName">
-      <DefaultValue>(localdb)\MSSQLLocalDB</DefaultValue>
-      <Value>$(SqlCmdVar__3)</Value>
+      <DefaultValue>SWIFT3</DefaultValue>
+      <Value>$(SqlCmdVar__9)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="DWHServerName">
       <DefaultValue>SWIFT3</DefaultValue>
@@ -173,11 +173,11 @@
     </SqlCmdVariable>
     <SqlCmdVariable Include="LogsDatabaseName">
       <DefaultValue>Logs</DefaultValue>
-      <Value>$(SqlCmdVar__5)</Value>
+      <Value>$(SqlCmdVar__10)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="LogsServerName">
       <DefaultValue>SWIFT3</DefaultValue>
-      <Value>$(SqlCmdVar__6)</Value>
+      <Value>$(SqlCmdVar__11)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="MDSServerName">
       <DefaultValue>SWIFT3</DefaultValue>
@@ -199,6 +199,24 @@
     <None Include="Scripts\RestoreDatabase.sql" />
     <None Include="Scripts\CreateRoles.sql" />
     <None Include="Scripts\DropDatabase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DQS_STAGING_DATA\DQS_STAGING_DATA.sqlproj">
+      <Name>DQS_STAGING_DATA</Name>
+      <Project>{f7b9e19f-a23f-4f3d-98bc-c4e0c008893b}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>DQSDatabaseName</DatabaseSqlCmdVariable>
+      <ServerSqlCmdVariable>DQSServerName</ServerSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\Logs\Logs.sqlproj">
+      <Name>Logs</Name>
+      <Project>{6ad8a0c4-e11b-40e3-8f2b-f6f0dffed640}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>LogsDatabaseName</DatabaseSqlCmdVariable>
+      <ServerSqlCmdVariable>LogsServerName</ServerSqlCmdVariable>
+    </ProjectReference>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
