@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="203"
-  DTS:VersionGUID="{CE71670A-9295-4C11-AC2A-9DE12EE7BBD4}">
+  DTS:VersionBuild="204"
+  DTS:VersionGUID="{5C6DC13A-51E9-4D03-9F5D-601975D5A3BF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -540,6 +540,78 @@
           DTS:To="Package.EventHandlers[OnError]\Error notification" />
       </DTS:PrecedenceConstraints>
     </DTS:EventHandler>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnPostExecute]"
+      DTS:CreationName="OnPostExecute"
+      DTS:DTSID="{56961D7E-AF51-4D76-A8D7-86B38E304DBE}"
+      DTS:EventID="763979036"
+      DTS:EventName="OnPostExecute"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{8B81CFF7-054E-41BB-B529-FD6CA1D36C7D}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnPostExecute]\Logman Stop"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{f3f6ec62-b21a-4d57-938b-edca9fd51566}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Logman Stop">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="C:\Windows\System32\cmd.exe"
+              Arguments="logman stop &quot;SQL Server&quot;" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnPreExecute]"
+      DTS:CreationName="OnPreExecute"
+      DTS:DTSID="{AC91E1DD-C516-43C0-BB90-31CF34CCB30F}"
+      DTS:EventID="763979036"
+      DTS:EventName="OnPreExecute"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{EC88C613-D926-4261-AE10-9A728235619C}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnPreExecute]\Logman Start"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{9605ae58-3f56-4d87-8187-d33a75e6046b}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Logman Start">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="C:\Windows\System32\cmd.exe"
+              Arguments="logman start &quot;SQL Server&quot;" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -554,30 +626,30 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="161.6,41.6"
+          Size="162,42"
           Id="Package\Clean up backups"
           TopLeft="35.1,54.3" />
         <NodeLayout
-          Size="169.6,41.6"
+          Size="170,42"
           Id="Package\Crash and recovery"
           TopLeft="265.1,463.1" />
         <NodeLayout
-          Size="158.4,41.6"
+          Size="158,42"
           Id="Package\Incremental load immitation\Incremental load"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169.6,102.4"
-          Size="169.6,145.6"
+          PanelSize="170,103"
+          Size="170,146"
           Id="Package\Incremental load immitation"
           TopLeft="265.1,257.5" />
         <NodeLayout
-          Size="128,41.6"
+          Size="128,42"
           Id="Package\Initial load"
           TopLeft="285.9,155.9" />
         <NodeLayout
-          Size="184.8,41.6"
+          Size="185,42"
           Id="Package\Maintence Subsystems"
           TopLeft="257.5,54.3" />
         <EdgeLayout
@@ -699,13 +771,13 @@
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="156.8,41.6"
+          Size="157,42"
           Id="Package.EventHandlers[OnError]\Error notification"
           TopLeft="73.6,161.6" />
         <NodeLayout
-          Size="184,41.6"
+          Size="184,42"
           Id="Package.EventHandlers[OnError]\Get parameters values"
           TopLeft="60,60" />
         <EdgeLayout
@@ -727,11 +799,33 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnPreExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="142,42"
+          Id="Package.EventHandlers[OnPreExecute]\Logman Start"
+          TopLeft="43.5,54.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnPostExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="141,42"
+          Id="Package.EventHandlers[OnPostExecute]\Logman Stop"
+          TopLeft="51.5,54.5" />
       </GraphLayout>
     </LayoutInfo>
   </DtsEventHandler>

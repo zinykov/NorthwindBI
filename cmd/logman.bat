@@ -1,0 +1,1 @@
+logman import -name "SQL Server" -xml "C:\Users\zinyk\source\repos\Northwind_BI_Solution\Monitoring\PerformanceMonitoring.xml"
