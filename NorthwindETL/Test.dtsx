@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="217"
-  DTS:VersionGUID="{ED594655-4961-475D-9E93-C1CFEF37233D}">
+  DTS:VersionBuild="220"
+  DTS:VersionGUID="{852880AF-8538-4AA8-8FAB-045447E5FD66}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -227,6 +227,8 @@
       DTS:ObjectName="Clean up backups"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <FileSystemData
           TaskOperationType="DeleteDirectoryContent"
@@ -244,6 +246,8 @@
       DTS:ObjectName="Crash and recovery"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:PropertyExpression
         DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] + " &amp;&amp; SQLCmd -S "+ @[$Project::LogsServerName]  +" -d "+ @[$Project::LogsDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\RestoreDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
       <DTS:ObjectData>
@@ -325,6 +329,8 @@
       DTS:ObjectName="Logman Start"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
@@ -340,6 +346,8 @@
       DTS:ObjectName="Logman Stop"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
@@ -356,6 +364,8 @@
       DTS:ObjectName="Maintence Subsystems"
       DTS:ThreadHint="1">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"

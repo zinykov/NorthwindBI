@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="117"
-  DTS:VersionGUID="{71139E15-33CA-4B76-98FB-0DDAFEE4A59A}">
+  DTS:VersionBuild="118"
+  DTS:VersionGUID="{619662A1-560E-4310-8FA9-D012F8EDD165}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -27,7 +27,7 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
     <DTS:LogProvider
-      DTS:ConfigString="DataFlow.log"
+      DTS:ConfigString="NorthwindETL.log"
       DTS:CreationName="Microsoft.LogProviderTextFile"
       DTS:Description="Записывает элементы журнала для событий в CSV-файл"
       DTS:DTSID="{A8EA3780-95D7-4D54-BC05-E50D35D7BD41}"
@@ -252,6 +252,8 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Backups">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\Backups\Backup DWH"
@@ -262,6 +264,8 @@
           DTS:ObjectName="Backup DWH"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -294,8 +298,10 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <FileSystemData
               TaskOperationType="CreateDirectory"
@@ -311,8 +317,10 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <FileSystemData
               TaskOperationType="CreateDirectory"
@@ -330,6 +338,8 @@
           DTS:ObjectName="CreateOldBackupFolder"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <FileSystemData
               TaskOperationType="CreateDirectory"
@@ -347,6 +357,8 @@
           DTS:ObjectName="DeleteOldBackupFolder"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <FileSystemData
               TaskOperationType="DeleteDirectory"
@@ -362,8 +374,10 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -449,6 +463,8 @@
       DTS:ObjectName="Check DWH integrity"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
@@ -475,6 +491,8 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Copy DWH metadata to Logs DB">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\Copy DWH metadata to Logs DB\Copy metadata"
@@ -485,6 +503,8 @@
           DTS:ObjectName="Copy metadata"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <pipeline
               version="1">
@@ -1319,6 +1339,8 @@
           DTS:ObjectName="Truncate Logs copy"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
@@ -1355,8 +1377,10 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -1370,8 +1394,10 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -1408,7 +1434,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1425,7 +1451,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1455,6 +1481,8 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Set filegroups readonly">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\Set filegroups readonly\CheckReferenceDate"
@@ -1465,6 +1493,8 @@
           DTS:ObjectName="CheckReferenceDate"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -1499,6 +1529,8 @@
           DTS:ObjectName="SetFileGroupsReadOnly"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:PropertyExpression
             DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly]</DTS:PropertyExpression>
           <DTS:ObjectData>
@@ -1836,7 +1868,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="530,510"
+          PanelSize="530,511"
           Size="530,554"
           Id="Package\Backups"
           TopLeft="149.5,772.5" />
@@ -1877,7 +1909,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="181,204"
+          PanelSize="181,205"
           Size="181,248"
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="324,1386.5" />
@@ -1914,7 +1946,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="170,204"
+          PanelSize="170,205"
           Size="170,248"
           Id="Package\DWH"
           TopLeft="69.5000000000001,54.5" />
@@ -1951,7 +1983,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="229,204"
+          PanelSize="229,205"
           Size="229,248"
           Id="Package\MDS"
           TopLeft="300,54.5" />
@@ -1988,7 +2020,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="199,204"
+          PanelSize="199,205"
           Size="199,248"
           Id="Package\Set filegroups readonly"
           TopLeft="315,362.5" />
@@ -2251,7 +2283,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles">
+    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2264,7 +2296,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage">
+    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

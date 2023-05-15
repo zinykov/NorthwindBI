@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Landing"
   DTS:PackageType="5"
-  DTS:VersionBuild="19"
-  DTS:VersionGUID="{EFF91494-5E91-43DB-997A-BC10E36609ED}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{84903D79-DEAE-4DEA-BA8D-3C1F0D230A0A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,6 +29,28 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="Logs"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Записывает элементы журнала для событий в базу данных SQL Server"
+      DTS:DTSID="{4183DE23-EAFC-4244-B3CA-6908833CC0CA}"
+      DTS:ObjectName="Регистратор служб SSIS для SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+    <DTS:LogProvider
+      DTS:ConfigString="NorthwindETL.log"
+      DTS:CreationName="Microsoft.LogProviderTextFile"
+      DTS:Description="Записывает элементы журнала для событий в CSV-файл"
+      DTS:DTSID="{96C5619C-D1FC-4FC0-88E4-95E32ACC2721}"
+      DTS:ObjectName="Регистратор служб SSIS для текстовых файлов">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -49,6 +71,16 @@
         DTS:DataType="8">C:\SSIS\xmlcalendar\ru\2020\calendar.xml</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{4183DE23-EAFC-4244-B3CA-6908833CC0CA}" />
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{96C5619C-D1FC-4FC0-88E4-95E32ACC2721}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\For each fmt"
@@ -77,6 +109,8 @@
         </DTS:ObjectData>
       </DTS:ForEachEnumerator>
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\For each fmt\Bulk Insert Landing"
@@ -87,6 +121,8 @@
           DTS:ObjectName="Bulk Insert Landing"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:PropertyExpression
             DTS:Name="DestinationTableName">"[Landing].["+ @[User::FileName] + "]"</DTS:PropertyExpression>
           <DTS:PropertyExpression
@@ -1443,31 +1479,31 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="169.6,41.6"
+          Size="170,42"
           Id="Package\For each fmt\Bulk Insert Landing"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="180.8,102.4"
-          Size="180.8,145.6"
+          PanelSize="181,103"
+          Size="181,146"
           Id="Package\For each fmt"
           TopLeft="59.9000000000001,155.9" />
         <NodeLayout
-          Size="154.4,41.6"
+          Size="187,42"
+          Id="Package\Truncate Landing Zone"
+          TopLeft="290.7,54.3" />
+        <NodeLayout
+          Size="154,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="165.6,102.4"
-          Size="165.6,145.6"
+          PanelSize="166,103"
+          Size="166,146"
           Id="Package\xmlcalendar foreach loop"
           TopLeft="301.5,155.9" />
-        <NodeLayout
-          Size="187.2,41.6"
-          Id="Package\Truncate Landing Zone"
-          TopLeft="290.7,54.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="354.433333333333,95.8999999999999">

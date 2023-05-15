@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
-  DTS:VersionBuild="236"
-  DTS:VersionGUID="{9A1DE7D0-0E51-4289-BE82-E9335570FD91}">
+  DTS:VersionBuild="237"
+  DTS:VersionGUID="{F4B202C5-E916-4C0D-B101-5DF5975E616B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -224,7 +224,7 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
     <DTS:LogProvider
-      DTS:ConfigString="DataFlow.log"
+      DTS:ConfigString="NorthwindETL.log"
       DTS:CreationName="Microsoft.LogProviderTextFile"
       DTS:Description="Записывает элементы журнала для событий в CSV-файл"
       DTS:DTSID="{669027E9-7BA2-4328-BA2B-C5891FF97533}"
@@ -2867,6 +2867,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
           DTS:ObjectName="Extract changes"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <pipeline
               version="1">
@@ -3332,7 +3334,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]]></arrayElement>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Add unknown customer"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5561,7 +5563,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -6614,7 +6616,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Get MDS Version Name"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -6642,7 +6644,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update master Customer data"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -6678,7 +6680,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Validate Model"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -6736,7 +6738,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set load compilation info"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -6760,8 +6762,10 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Update Hash Table"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
@@ -6824,15 +6828,15 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="158.4,41.6"
+          Size="158,42"
           Id="Package\DQS\Clean Customers"
           TopLeft="17.9,208.7" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\DQS\Extract changes"
           TopLeft="20.7,107.1" />
         <NodeLayout
-          Size="183.2,41.6"
+          Size="183,42"
           Id="Package\DQS\Truncate DQS Staging"
           TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
@@ -6884,24 +6888,24 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194.4,305.6"
-          Size="194.4,348.8"
+          PanelSize="194,306"
+          Size="194,349"
           Id="Package\DQS"
           TopLeft="495.7,155.9" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\Get LineAgeKey"
           TopLeft="516.5,54.3" />
         <NodeLayout
-          Size="190.4,41.6"
+          Size="190,42"
           Id="Package\Load DWH\Add unknown customer"
           TopLeft="7.90000000000002,107.1" />
         <NodeLayout
-          Size="195.2,41.6"
+          Size="195,42"
           Id="Package\Load DWH\Load Customers to DWH"
           TopLeft="5.50000000000003,208.7" />
         <NodeLayout
-          Size="168,41.6"
+          Size="168,42"
           Id="Package\Load DWH\Set StartLoad Date"
           TopLeft="19.1,5.49999999999995" />
         <EdgeLayout
@@ -6951,24 +6955,24 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206.4,305.6"
-          Size="206.4,348.8"
+          PanelSize="206,306"
+          Size="206,349"
           Id="Package\Load DWH"
           TopLeft="126.7,973.5" />
         <NodeLayout
-          Size="160,41.6"
+          Size="160,42"
           Id="Package\MDS\Data managment"
           TopLeft="5.50000000000003,5.49999999999995" />
         <NodeLayout
-          Size="188.8,41.6"
+          Size="189,42"
           Id="Package\MDS\Get MDS Version Name"
           TopLeft="226.1,5.49999999999995" />
         <NodeLayout
-          Size="220,41.6"
+          Size="220,42"
           Id="Package\MDS\Update master Customer data"
           TopLeft="210.5,107.1" />
         <NodeLayout
-          Size="148,41.6"
+          Size="148,42"
           Id="Package\MDS\Validate Model"
           TopLeft="246.5,208.7" />
         <EdgeLayout
@@ -7064,14 +7068,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="436,305.6"
-          Size="436,348.8"
+          PanelSize="436,306"
+          Size="436,349"
           Id="Package\MDS"
           TopLeft="11.9000000000001,564.7" />
         <NodeLayout
-          Size="194.4,41.6"
+          Size="194,42"
           Id="Package\Set load compilation info"
           TopLeft="132.7,1382.3" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Update Hash Table"
+          TopLeft="508.9,718.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="561.833333333333,504.7">
@@ -7172,10 +7180,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="168,41.6"
-          Id="Package\Update Hash Table"
-          TopLeft="508.9,718.3" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="623.966666666667,504.7">
