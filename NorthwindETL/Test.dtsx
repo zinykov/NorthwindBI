@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="209"
-  DTS:VersionGUID="{0A862B69-CE46-4EF5-8B23-01689E8EAB55}">
+  DTS:VersionBuild="215"
+  DTS:VersionGUID="{17C3A84C-FD85-4B3F-95B0-9D630396740E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -27,7 +27,7 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
     <DTS:LogProvider
-      DTS:ConfigString="DataFlow.log"
+      DTS:ConfigString="NorthwindETL.log"
       DTS:CreationName="Microsoft.LogProviderTextFile"
       DTS:Description="Записывает элементы журнала для событий в CSV-файл"
       DTS:DTSID="{4DEDFA13-6072-4938-960B-6994B66C8D83}"
@@ -225,7 +225,7 @@
       DTS:ExecutableType="Microsoft.FileSystemTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Clean up backups"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <FileSystemData
@@ -257,7 +257,7 @@
       DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
       DTS:CreationName="STOCK:FORLOOP"
       DTS:DTSID="{3b269111-7c3d-4379-b3ef-53bc2ec6ab80}"
-      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1997-01-02&quot;"
+      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-05-06&quot;"
       DTS:ExecutableType="STOCK:FORLOOP"
       DTS:FailPackageOnFailure="True"
       DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-01-01&quot;"
@@ -319,7 +319,7 @@
     <DTS:Executable
       DTS:refId="Package\Logman Start"
       DTS:CreationName="Microsoft.ExecuteProcess"
-      DTS:DTSID="{3ad7c738-3969-47dd-b8c6-b6dc831b162d}"
+      DTS:DTSID="{accbcf17-60bd-44f0-b336-e42dad92ee54}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Logman Start"
@@ -328,7 +328,7 @@
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
-          Arguments="/C &quot;logman start &quot;SQL Server&quot;&quot;" />
+          Arguments="/C &quot;logman start -name &quot;SQL Server&quot; -as&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -343,7 +343,7 @@
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
-          Arguments="/C &quot;logman stop &quot;SQL Server&quot;&quot;" />
+          Arguments="/C &quot;logman stop -name &quot;SQL Server&quot; -as&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -354,7 +354,7 @@
       DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Maintence Subsystems"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -396,11 +396,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{A84468A8-F805-4B8E-8B0E-83D005E7E0D9}"
+      DTS:DTSID="{7F11CA42-2522-43ED-988B-E31851A12782}"
       DTS:From="Package\Logman Start"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
-      DTS:To="Package\Clean up backups" />
+      DTS:To="Package\Maintence Subsystems" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
@@ -412,11 +412,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
       DTS:CreationName=""
-      DTS:DTSID="{6BB08832-653E-4ABA-81BC-5A84EA398BFF}"
+      DTS:DTSID="{6D611115-5222-4055-B831-6279895856DF}"
       DTS:From="Package\Logman Start"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 5"
-      DTS:To="Package\Maintence Subsystems" />
+      DTS:To="Package\Clean up backups" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
       DTS:CreationName=""
@@ -450,143 +450,163 @@
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package.EventHandlers[OnError]\Error notification"
-          DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:Description="Задача &quot;Выполнение пакета&quot;"
-          DTS:DTSID="{6ec51103-fbeb-499a-94e6-abacedee3517}"
-          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:DTSID="{5A350A3F-9057-491C-8DE9-81E2DF43A4E0}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Error notification"
-          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          DTS:ObjectName="Error notification">
           <DTS:Variables />
-          <DTS:ObjectData>
-            <ExecutePackageTask>
-              <UseProjectReference>True</UseProjectReference>
-              <PackageName>Error notification.dtsx</PackageName>
-              <ParameterAssignment>
-                <ParameterName>ErrorCode</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorDescription</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>LineageKey</ParameterName>
-                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>MachineName</ParameterName>
-                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>PackageName</ParameterName>
-                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceName</ParameterName>
-                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>UserName</ParameterName>
-                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ParametersValues</ParameterName>
-                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorCode</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorDescription</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>LineageKey</ParameterName>
-                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>MachineName</ParameterName>
-                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>PackageName</ParameterName>
-                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceName</ParameterName>
-                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>UserName</ParameterName>
-                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorCode</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorDescription</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>LineageKey</ParameterName>
-                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>MachineName</ParameterName>
-                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>PackageName</ParameterName>
-                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceName</ParameterName>
-                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>UserName</ParameterName>
-                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ParametersValues</ParameterName>
-                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
-              </ParameterAssignment>
-            </ExecutePackageTask>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:CreationName="Microsoft.ExpressionTask"
-          DTS:Description="Задача выражения"
-          DTS:DTSID="{ec47c5f4-2015-495c-8056-f5572a2ab60a}"
-          DTS:ExecutableType="Microsoft.ExpressionTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Get parameters values">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <ExpressionTask
-              Expression="@[User::ParametersValues]=&quot;var_CutoffTime = &quot; + (DT_WSTR, 20) @[User::var_CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey]" />
-          </DTS:ObjectData>
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package.EventHandlers[OnError]\Error notification\Error notification"
+              DTS:CreationName="Microsoft.ExecutePackageTask"
+              DTS:Description="Задача &quot;Выполнение пакета&quot;"
+              DTS:DTSID="{6ec51103-fbeb-499a-94e6-abacedee3517}"
+              DTS:ExecutableType="Microsoft.ExecutePackageTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Error notification"
+              DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExecutePackageTask>
+                  <UseProjectReference>True</UseProjectReference>
+                  <PackageName>Error notification.dtsx</PackageName>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorCode</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorDescription</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>LineageKey</ParameterName>
+                    <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>MachineName</ParameterName>
+                    <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>PackageName</ParameterName>
+                    <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>SourceName</ParameterName>
+                    <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>StartTime</ParameterName>
+                    <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>UserName</ParameterName>
+                    <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ParametersValues</ParameterName>
+                    <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorCode</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorDescription</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>LineageKey</ParameterName>
+                    <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>MachineName</ParameterName>
+                    <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>PackageName</ParameterName>
+                    <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>SourceName</ParameterName>
+                    <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>StartTime</ParameterName>
+                    <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>UserName</ParameterName>
+                    <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorCode</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ErrorDescription</ParameterName>
+                    <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>LineageKey</ParameterName>
+                    <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>MachineName</ParameterName>
+                    <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>PackageName</ParameterName>
+                    <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>SourceName</ParameterName>
+                    <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>StartTime</ParameterName>
+                    <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>UserName</ParameterName>
+                    <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                  <ParameterAssignment>
+                    <ParameterName>ParametersValues</ParameterName>
+                    <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+                  </ParameterAssignment>
+                </ExecutePackageTask>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package.EventHandlers[OnError]\Error notification\Get parameters values"
+              DTS:CreationName="Microsoft.ExpressionTask"
+              DTS:Description="Задача выражения"
+              DTS:DTSID="{ec47c5f4-2015-495c-8056-f5572a2ab60a}"
+              DTS:ExecutableType="Microsoft.ExpressionTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Get parameters values">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <ExpressionTask
+                  Expression="@[User::ParametersValues]=&quot;var_CutoffTime = &quot; + (DT_WSTR, 20) @[User::var_CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey]" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package.EventHandlers[OnError]\Error notification.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{2b3c8d0f-b6b1-4124-b099-7fe4212f2668}"
+              DTS:From="Package.EventHandlers[OnError]\Error notification\Get parameters values"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package.EventHandlers[OnError]\Error notification\Error notification" />
+          </DTS:PrecedenceConstraints>
         </DTS:Executable>
         <DTS:Executable
           DTS:refId="Package.EventHandlers[OnError]\Logman Stop"
           DTS:CreationName="Microsoft.ExecuteProcess"
-          DTS:Disabled="True"
           DTS:DTSID="{a632cb19-1f1d-428a-88fe-00637b0344c2}"
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
@@ -595,7 +615,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C &quot;logman stop &quot;SQL Server&quot;&quot;" />
+              Arguments="/C &quot;logman stop -name &quot;SQL Server&quot; -as&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -603,18 +623,10 @@
         <DTS:PrecedenceConstraint
           DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{2b3c8d0f-b6b1-4124-b099-7fe4212f2668}"
-          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package.EventHandlers[OnError]\Error notification" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{FC08C6B9-6A83-4329-A965-B80528C54830}"
+          DTS:DTSID="{7ED356EC-5D95-4AF8-BFB8-46D5FBB7CEF7}"
           DTS:From="Package.EventHandlers[OnError]\Error notification"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
+          DTS:ObjectName="Constraint"
           DTS:To="Package.EventHandlers[OnError]\Logman Stop"
           DTS:Value="2" />
       </DTS:PrecedenceConstraints>
@@ -635,11 +647,11 @@
         <NodeLayout
           Size="162,42"
           Id="Package\Clean up backups"
-          TopLeft="35.5000000000001,156.5" />
+          TopLeft="282.5,156.5" />
         <NodeLayout
           Size="170,42"
           Id="Package\Crash and recovery"
-          TopLeft="266.5,566.5" />
+          TopLeft="278.5,566.5" />
         <NodeLayout
           Size="158,42"
           Id="Package\Incremental load immitation\Incremental load"
@@ -650,26 +662,26 @@
           PanelSize="169,103"
           Size="169,146"
           Id="Package\Incremental load immitation"
-          TopLeft="267,360.5" />
+          TopLeft="279,360.5" />
         <NodeLayout
           Size="128,42"
           Id="Package\Initial load"
-          TopLeft="287.5,258.5" />
+          TopLeft="299.5,258.5" />
         <NodeLayout
           Size="142,42"
           Id="Package\Logman Start"
-          TopLeft="280.5,54.5" />
+          TopLeft="292.5,54.5" />
         <NodeLayout
           Size="141,42"
           Id="Package\Logman Stop"
-          TopLeft="281,668.5" />
+          TopLeft="293,668.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Maintence Subsystems"
-          TopLeft="258.5,156.5" />
+          TopLeft="35.5000000000001,156.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="351.5,300.5">
+          TopLeft="363.5,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -691,41 +703,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="116.5,198.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="215,60"
-              Start="0,0"
-              End="215,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.5555555555556" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.5555555555556"
-                    Point2="0,35.5555555555556"
-                    Point3="4,35.5555555555556" />
-                  <mssgle:LineSegment
-                    End="211,35.5555555555556" />
-                  <mssgle:CubicBezierSegment
-                    Point1="211,35.5555555555556"
-                    Point2="215,35.5555555555556"
-                    Point3="215,39.5555555555556" />
-                  <mssgle:LineSegment
-                    End="215,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="351.5,198.5">
+          TopLeft="363.5,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -758,8 +736,42 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="128.5,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="215,60"
+              Start="0,0"
+              End="215,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5555555555556" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5555555555556"
+                    Point2="0,35.5555555555556"
+                    Point3="4,35.5555555555556" />
+                  <mssgle:LineSegment
+                    End="211,35.5555555555556" />
+                  <mssgle:CubicBezierSegment
+                    Point1="211,35.5555555555556"
+                    Point2="215,35.5555555555556"
+                    Point3="215,39.5555555555556" />
+                  <mssgle:LineSegment
+                    End="215,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="329.166666666667,96.5">
+          TopLeft="341.166666666667,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -793,7 +805,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="351.5,506.5">
+          TopLeft="363.5,506.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -815,7 +827,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="373.833333333333,96.5">
+          TopLeft="385.833333333333,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -849,7 +861,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="351.5,608.5">
+          TopLeft="363.5,608.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -881,19 +893,15 @@
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="73.5,156.5" />
+          Id="Package.EventHandlers[OnError]\Error notification\Error notification"
+          TopLeft="19.5,107.5" />
         <NodeLayout
           Size="185,42"
-          Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="59.5,54.5" />
-        <NodeLayout
-          Size="141,42"
-          Id="Package.EventHandlers[OnError]\Logman Stop"
-          TopLeft="81.5,258.5" />
+          Id="Package.EventHandlers[OnError]\Error notification\Get parameters values"
+          TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          TopLeft="152,96.5">
+          Id="Package.EventHandlers[OnError]\Error notification.PrecedenceConstraints[Constraint]"
+          TopLeft="98,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -910,12 +918,25 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="196,205"
+          Size="196,248"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="81.5,54.5" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package.EventHandlers[OnError]\Logman Stop"
+          TopLeft="109,362.5" />
         <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint 1]"
-          TopLeft="152,198.5">
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="179.5,302.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

@@ -5,7 +5,7 @@
 ::setvar DQSServerName SWIFT3
 ::setvar DWHDatabaseName NorthwindDW
 ::setvar DWHServerName SWIFT3
-::setvar EndLoadDate "1998-01-10"
+::setvar EndLoadDate "1998-05-06"
 ::setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 ::setvar LogsDatabaseName Logs
 ::setvar LogsServerName SWIFT3

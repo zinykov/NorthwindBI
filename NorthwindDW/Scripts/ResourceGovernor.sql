@@ -1,4 +1,4 @@
-﻿--:setvar DWHServerName SWIFT3
+﻿--:setvar DomainName SWIFT3
 
 IF NOT EXISTS ( SELECT 1 FROM sys.resource_governor_resource_pools WHERE [name] = N'High Priority' )
     CREATE RESOURCE POOL [High Priority]
@@ -107,10 +107,10 @@ AS BEGIN
 	IF (
 		--APP_NAME () LIKE '%SQL Server%' AND 
         USER_NAME () IN (
-              '$(DWHServerName)\AzPipelineAgent'
-            , '$(DWHServerName)\SQLAGENT'
-            , '$(DWHServerName)\RDLexec'
-            , '$(DWHServerName)\zinyk'
+              '$(DomainName)\AzPipelineAgent'
+            , '$(DomainName)\SQLAGENT'
+            , '$(DomainName)\RDLexec'
+            , '$(DomainName)\zinyk'
         )
 		--AND DATEPART ( HOUR, GETDATE () ) BETWEEN 0 AND 8
 	)
