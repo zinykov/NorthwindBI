@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="115"
-  DTS:VersionGUID="{4841B8E0-CA03-474E-B122-BC4AB954BBA9}">
+  DTS:VersionBuild="117"
+  DTS:VersionGUID="{71139E15-33CA-4B76-98FB-0DDAFEE4A59A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -294,7 +294,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -311,7 +311,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <FileSystemData
@@ -362,7 +362,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -607,6 +607,15 @@
                           lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           name="BackupFileName"
                           truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                          name="CutoffTime"
+                          truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -638,6 +647,10 @@
                           dataType="wstr"
                           length="500"
                           name="BackupFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          dataType="dbDate"
+                          name="CutoffTime" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -679,6 +692,11 @@
                           length="500"
                           lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           name="BackupFileName" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                          dataType="dbDate"
+                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                          name="CutoffTime" />
                         <outputColumn
                           refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
@@ -1658,32 +1676,32 @@
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="140,41.6"
+          Size="140,42"
           Id="Package\Backups\Backup DWH"
-          TopLeft="335.9,208.7" />
+          TopLeft="339,209.5" />
         <NodeLayout
-          Size="227.2,41.6"
+          Size="227,42"
           Id="Package\Backups\Create Backup ReadOnly Folder"
-          TopLeft="5.50000000000003,107.1" />
+          TopLeft="5.5,107.5" />
         <NodeLayout
-          Size="231.2,41.6"
+          Size="231,42"
           Id="Package\Backups\Create Backup ReadWrite Folder"
-          TopLeft="293.5,107.1" />
+          TopLeft="293.5,107.5" />
         <NodeLayout
-          Size="188,41.6"
+          Size="188,42"
           Id="Package\Backups\CreateOldBackupFolder"
-          TopLeft="315.1,310.3" />
+          TopLeft="315,311.5" />
         <NodeLayout
-          Size="187.2,41.6"
+          Size="187,42"
           Id="Package\Backups\DeleteOldBackupFolder"
-          TopLeft="315.5,411.9" />
+          TopLeft="315.5,413.5" />
         <NodeLayout
-          Size="189.6,41.6"
+          Size="190,42"
           Id="Package\Backups\GetBackupFolderNames"
-          TopLeft="314.3,5.49999999999995" />
+          TopLeft="314,5.5" />
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint]"
-          TopLeft="409.1,250.3">
+          TopLeft="409,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1705,30 +1723,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 1]"
-          TopLeft="119.1,148.7">
+          TopLeft="119,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="266.933333333333,60"
+              EndConnector="268,60"
               Start="0,0"
-              End="266.933333333333,52.5">
+              End="268,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6108108108108" />
+                    End="0,31.5932203389831" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6108108108108"
-                    Point2="0,35.6108108108108"
-                    Point3="4,35.6108108108108" />
+                    Point1="0,31.5932203389831"
+                    Point2="0,35.5932203389831"
+                    Point3="4,35.5932203389831" />
                   <mssgle:LineSegment
-                    End="262.933333333333,35.6108108108108" />
+                    End="264,35.5932203389831" />
                   <mssgle:CubicBezierSegment
-                    Point1="262.933333333333,35.6108108108108"
-                    Point2="266.933333333333,35.6108108108108"
-                    Point3="266.933333333333,39.6108108108108" />
+                    Point1="264,35.5932203389831"
+                    Point2="268,35.5932203389831"
+                    Point3="268,39.5932203389831" />
                   <mssgle:LineSegment
-                    End="266.933333333333,52.5" />
+                    End="268,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1739,30 +1757,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 2]"
-          TopLeft="409.1,148.7">
+          TopLeft="409,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="23.0666666666666,60"
+              EndConnector="22,60"
               Start="0,0"
-              End="23.0666666666666,52.5">
+              End="22,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6108108108108" />
+                    End="0,31.5932203389831" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6108108108108"
-                    Point2="0,35.6108108108108"
-                    Point3="4,35.6108108108108" />
+                    Point1="0,31.5932203389831"
+                    Point2="0,35.5932203389831"
+                    Point3="4,35.5932203389831" />
                   <mssgle:LineSegment
-                    End="19.0666666666666,35.6108108108108" />
+                    End="18,35.5932203389831" />
                   <mssgle:CubicBezierSegment
-                    Point1="19.0666666666666,35.6108108108108"
-                    Point2="23.0666666666666,35.6108108108108"
-                    Point3="23.0666666666666,39.6108108108108" />
+                    Point1="18,35.5932203389831"
+                    Point2="22,35.5932203389831"
+                    Point3="22,39.5932203389831" />
                   <mssgle:LineSegment
-                    End="23.0666666666666,52.5" />
+                    End="22,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1773,7 +1791,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 3]"
-          TopLeft="409.1,47.1">
+          TopLeft="409,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1795,18 +1813,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 4]"
-          TopLeft="409.1,351.9">
+          TopLeft="409,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1818,36 +1836,36 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="530.4,508.8"
-          Size="530.4,552"
+          PanelSize="530,510"
+          Size="530,554"
           Id="Package\Backups"
-          TopLeft="149.1,770.3" />
+          TopLeft="149.5,772.5" />
         <NodeLayout
-          Size="176,41.6"
+          Size="177,42"
           Id="Package\Check DWH integrity"
-          TopLeft="326.3,668.7" />
+          TopLeft="326,670.5" />
         <NodeLayout
-          Size="149.6,41.6"
+          Size="150,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
-          TopLeft="15.9,107.1" />
+          TopLeft="15.5,107.5" />
         <NodeLayout
-          Size="170.4,41.6"
+          Size="170,42"
           Id="Package\Copy DWH metadata to Logs DB\Truncate Logs copy"
-          TopLeft="5.50000000000001,5.49999999999995" />
+          TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
           Id="Package\Copy DWH metadata to Logs DB.PrecedenceConstraints[Constraint 4]"
-          TopLeft="90.7,47.1">
+          TopLeft="90.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1859,32 +1877,32 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="181.6,204"
-          Size="181.6,247.2"
+          PanelSize="181,204"
+          Size="181,248"
           Id="Package\Copy DWH metadata to Logs DB"
-          TopLeft="323.5,1382.3" />
+          TopLeft="324,1386.5" />
         <NodeLayout
-          Size="158.4,41.6"
+          Size="159,42"
           Id="Package\DWH\Optimize indexes"
-          TopLeft="5.50000000000001,5.49999999999995" />
+          TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="156,41.6"
+          Size="156,42"
           Id="Package\DWH\Update statistics"
-          TopLeft="6.70000000000002,107.1" />
+          TopLeft="7.00000000000001,107.5" />
         <EdgeLayout
           Id="Package\DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="84.7,47.1">
+          TopLeft="85,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1896,32 +1914,32 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169.6,204"
-          Size="169.6,247.2"
+          PanelSize="170,204"
+          Size="170,248"
           Id="Package\DWH"
-          TopLeft="69.5,54.3000000000002" />
+          TopLeft="69.5000000000001,54.5" />
         <NodeLayout
-          Size="217.6,41.6"
+          Size="218,42"
           Id="Package\MDS\MDS Clean Up Staging Tables"
-          TopLeft="5.50000000000001,5.50000000000007" />
+          TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="208.8,41.6"
+          Size="209,42"
           Id="Package\MDS\MDS Clean Up Transactions"
-          TopLeft="9.90000000000001,107.1" />
+          TopLeft="10,107.5" />
         <EdgeLayout
           Id="Package\MDS.PrecedenceConstraints[Constraint]"
-          TopLeft="114.3,47.1000000000001">
+          TopLeft="114.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1933,32 +1951,32 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="228.8,204"
-          Size="228.8,247.2"
+          PanelSize="229,204"
+          Size="229,248"
           Id="Package\MDS"
-          TopLeft="299.9,54.3000000000002" />
+          TopLeft="300,54.5" />
         <NodeLayout
-          Size="176,41.6"
+          Size="176,42"
           Id="Package\Set filegroups readonly\CheckReferenceDate"
-          TopLeft="11.5,5.49999999999995" />
+          TopLeft="11.5,5.5" />
         <NodeLayout
-          Size="188,41.6"
+          Size="188,42"
           Id="Package\Set filegroups readonly\SetFileGroupsReadOnly"
-          TopLeft="5.50000000000001,107.1" />
+          TopLeft="5.50000000000001,107.5" />
         <EdgeLayout
           Id="Package\Set filegroups readonly.PrecedenceConstraints[Constraint]"
-          TopLeft="99.5,47.1">
+          TopLeft="99.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1970,36 +1988,36 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="199.2,204"
-          Size="199.2,247.2"
+          PanelSize="199,204"
+          Size="199,248"
           Id="Package\Set filegroups readonly"
-          TopLeft="314.7,361.5" />
+          TopLeft="315,362.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="154.3,301.5">
+          TopLeft="154.5,302.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="228.133333333333,59.9999999999998"
+              EndConnector="228.166666666667,60"
               Start="0,0"
-              End="228.133333333333,52.4999999999998">
+              End="228.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7131474103584" />
+                    End="0,31.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7131474103584"
-                    Point2="0,35.7131474103584"
-                    Point3="4,35.7131474103584" />
+                    Point1="0,31.7128614157527"
+                    Point2="0,35.7128614157527"
+                    Point3="4,35.7128614157527" />
                   <mssgle:LineSegment
-                    End="224.133333333333,35.7131474103584" />
+                    End="224.166666666667,35.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="224.133333333333,35.7131474103584"
-                    Point2="228.133333333333,35.7131474103584"
-                    Point3="228.133333333333,39.7131474103584" />
+                    Point1="224.166666666667,35.7128614157527"
+                    Point2="228.166666666667,35.7128614157527"
+                    Point3="228.166666666667,39.7128614157527" />
                   <mssgle:LineSegment
-                    End="228.133333333333,52.4999999999998" />
+                    End="228.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2010,30 +2028,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="414.3,301.5">
+          TopLeft="414.5,302.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="31.8666666666667,59.9999999999998"
+              EndConnector="31.8333333333333,60"
               Start="0,0"
-              End="31.8666666666667,52.4999999999998">
+              End="31.8333333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7131474103584" />
+                    End="0,31.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7131474103584"
-                    Point2="0,35.7131474103584"
-                    Point3="4,35.7131474103584" />
+                    Point1="0,31.7128614157527"
+                    Point2="0,35.7128614157527"
+                    Point3="4,35.7128614157527" />
                   <mssgle:LineSegment
-                    End="27.8666666666667,35.7131474103584" />
+                    End="27.8333333333333,35.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="27.8666666666667,35.7131474103584"
-                    Point2="31.8666666666667,35.7131474103584"
-                    Point3="31.8666666666667,39.7131474103584" />
+                    Point1="27.8333333333333,35.7128614157527"
+                    Point2="31.8333333333333,35.7128614157527"
+                    Point3="31.8333333333333,39.7128614157527" />
                   <mssgle:LineSegment
-                    End="31.8666666666667,52.4999999999998" />
+                    End="31.8333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2044,7 +2062,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="414.3,608.7">
+          TopLeft="414.5,610.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2066,18 +2084,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="414.3,710.3">
+          TopLeft="414.5,712.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2088,18 +2106,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="414.3,1322.3">
+          TopLeft="414.5,1326.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000002"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000002">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000002" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2115,7 +2133,7 @@
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="156.8,41.6"
           Id="Package.EventHandlers[OnError]\Error notification"
@@ -2143,7 +2161,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2155,35 +2175,35 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="140,41.6"
+          Size="141,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
-          TopLeft="272.9,155.9" />
+          TopLeft="273.5,156.5" />
         <NodeLayout
-          Size="170.4,41.6"
+          Size="171,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles"
-          TopLeft="40.7000000000001,54.2999999999998" />
+          TopLeft="40.5,54.5" />
         <NodeLayout
-          Size="168,41.6"
+          Size="169,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles"
-          TopLeft="41.9000000000001,155.9" />
+          TopLeft="41.5,156.5" />
         <NodeLayout
-          Size="142.4,41.6"
+          Size="143,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage"
-          TopLeft="271.7,54.2999999999998" />
+          TopLeft="272.5,54.5" />
         <EdgeLayout
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;1]"
-          TopLeft="342.9,95.8999999999998">
+          TopLeft="344,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2194,18 +2214,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="125.9,95.8999999999998">
+          TopLeft="126,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2219,6 +2239,19 @@
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
