@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="119"
-  DTS:VersionGUID="{8468BC72-FE31-487B-BA2E-869DF9B47564}">
+  DTS:VersionBuild="120"
+  DTS:VersionGUID="{7B68E66E-AA44-406F-8324-C1327E55E124}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -409,6 +409,84 @@
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Backups\Set filegroups readonly"
+          DTS:CreationName="STOCK:SEQUENCE"
+          DTS:DTSID="{01f924ac-23d5-4f52-a7c1-fd05bda95001}"
+          DTS:ExecutableType="STOCK:SEQUENCE"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set filegroups readonly">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Backups\Set filegroups readonly\CheckReferenceDate"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:DTSID="{03328459-0909-4cdd-8b1b-7f28120b0d8e}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="CheckReferenceDate"
+              DTS:ThreadHint="1">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+                  SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsMonthlyOptimization = 0&#xA;      , @IsStartOptimization = ? OUTPUT&#xA;      , @IsSetFilegroupReadonly = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="$Package::CutoffTime"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="7"
+                    SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="1"
+                    SQLTask:DtsVariableName="User::IsStartOptimization"
+                    SQLTask:ParameterDirection="Output"
+                    SQLTask:DataType="11"
+                    SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="2"
+                    SQLTask:DtsVariableName="User::IsSetFilegroupReadonly"
+                    SQLTask:ParameterDirection="Output"
+                    SQLTask:DataType="11"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Backups\Set filegroups readonly\SetFileGroupsReadOnly"
+              DTS:CreationName="Microsoft.ExecuteProcess"
+              DTS:DTSID="{1a3d251c-18d7-4f67-a872-19dd51442592}"
+              DTS:ExecutableType="Microsoft.ExecuteProcess"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="SetFileGroupsReadOnly"
+              DTS:ThreadHint="1">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly]</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <ExecuteProcessData
+                  Executable="C:\Windows\System32\cmd.exe"
+                  Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsSetFilegroupReadonly=False" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Backups\Set filegroups readonly.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{989646ff-e88d-401e-91b0-775cd4afe2e5}"
+              DTS:From="Package\Backups\Set filegroups readonly\CheckReferenceDate"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\Backups\Set filegroups readonly\SetFileGroupsReadOnly" />
+          </DTS:PrecedenceConstraints>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -451,6 +529,14 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 4"
           DTS:To="Package\Backups\DeleteOldBackupFolder" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Backups.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{E83C1523-955F-4B93-93DC-223CBBA8F0CD}"
+          DTS:From="Package\Backups\Set filegroups readonly"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\Backups\GetBackupFolderNames" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -1473,117 +1559,31 @@
           DTS:To="Package\MDS\MDS Clean Up Transactions" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Set filegroups readonly"
-      DTS:CreationName="STOCK:SEQUENCE"
-      DTS:DTSID="{CF41C6A1-C82F-42F0-B948-D53D7DE6D129}"
-      DTS:ExecutableType="STOCK:SEQUENCE"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Set filegroups readonly">
-      <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package\Set filegroups readonly\CheckReferenceDate"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:DTSID="{68f95726-f8a1-42e4-8d56-2e040e320616}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="CheckReferenceDate"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime = ?&#xA;      , @IsMonthlyOptimization = 0&#xA;      , @IsStartOptimization = ? OUTPUT&#xA;      , @IsSetFilegroupReadonly = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="$Package::CutoffTime"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="7"
-                SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="User::IsStartOptimization"
-                SQLTask:ParameterDirection="Output"
-                SQLTask:DataType="11"
-                SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="2"
-                SQLTask:DtsVariableName="User::IsSetFilegroupReadonly"
-                SQLTask:ParameterDirection="Output"
-                SQLTask:DataType="11"
-                SQLTask:ParameterSize="-1" />
-            </SQLTask:SqlTaskData>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Set filegroups readonly\SetFileGroupsReadOnly"
-          DTS:CreationName="Microsoft.ExecuteProcess"
-          DTS:DTSID="{1ab9cad7-2487-4640-8e45-fed0862820ff}"
-          DTS:ExecutableType="Microsoft.ExecuteProcess"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="SetFileGroupsReadOnly"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly]</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <ExecuteProcessData
-              Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsSetFilegroupReadonly=False" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
-      <DTS:PrecedenceConstraints>
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Set filegroups readonly.PrecedenceConstraints[Constraint]"
-          DTS:CreationName=""
-          DTS:DTSID="{2A126C87-448C-416D-91FC-00F6E585B918}"
-          DTS:From="Package\Set filegroups readonly\CheckReferenceDate"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package\Set filegroups readonly\SetFileGroupsReadOnly" />
-      </DTS:PrecedenceConstraints>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{47B641D9-0DCB-416A-9E31-D4F1E5C74EFA}"
+      DTS:DTSID="{6D62195A-6BE7-4F15-8042-97A3C2EAD453}"
       DTS:From="Package\DWH"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Set filegroups readonly" />
+      DTS:To="Package\Check DWH integrity" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{525C929B-32F4-4983-8043-B5ACF1C6DED1}"
+      DTS:DTSID="{E637A7E3-80E0-4F9C-867D-BB2CD73653F6}"
       DTS:From="Package\MDS"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Set filegroups readonly" />
+      DTS:To="Package\Check DWH integrity" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{D5741358-E297-46BF-A2F8-9287049416B2}"
-      DTS:From="Package\Set filegroups readonly"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 2"
-      DTS:To="Package\Check DWH integrity" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
-      DTS:CreationName=""
-      DTS:DTSID="{F030066E-7A11-443C-81AC-42526D1BEE74}"
+      DTS:DTSID="{988974C5-C4B9-4869-9602-07CD07ED2492}"
       DTS:From="Package\Check DWH integrity"
       DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 3"
+      DTS:ObjectName="Constraint 2"
       DTS:To="Package\Backups" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
@@ -1708,32 +1708,32 @@
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="140,41.6"
+          Size="140,42"
           Id="Package\Backups\Backup DWH"
-          TopLeft="339,209.5" />
+          TopLeft="339,517.5" />
         <NodeLayout
-          Size="227.2,41.6"
+          Size="227,42"
           Id="Package\Backups\Create Backup ReadOnly Folder"
-          TopLeft="5.5,107.5" />
+          TopLeft="5.50000000000006,415.5" />
         <NodeLayout
-          Size="231.2,41.6"
+          Size="231,42"
           Id="Package\Backups\Create Backup ReadWrite Folder"
-          TopLeft="293.5,107.5" />
+          TopLeft="293.5,415.5" />
         <NodeLayout
-          Size="188,41.6"
+          Size="188,42"
           Id="Package\Backups\CreateOldBackupFolder"
-          TopLeft="315,311.5" />
+          TopLeft="315,619.5" />
         <NodeLayout
-          Size="187.2,41.6"
+          Size="187,42"
           Id="Package\Backups\DeleteOldBackupFolder"
-          TopLeft="315.5,413.5" />
+          TopLeft="315.5,721.5" />
         <NodeLayout
-          Size="190.4,41.6"
+          Size="190,42"
           Id="Package\Backups\GetBackupFolderNames"
-          TopLeft="314,5.5" />
+          TopLeft="314,313.5" />
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint]"
-          TopLeft="409,251.5">
+          TopLeft="409,559.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1755,7 +1755,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 1]"
-          TopLeft="119,149.5">
+          TopLeft="119,457.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1789,7 +1789,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 2]"
-          TopLeft="409,149.5">
+          TopLeft="409,457.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1823,7 +1823,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 3]"
-          TopLeft="409,47.5">
+          TopLeft="409,355.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1845,7 +1845,37 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Backups.PrecedenceConstraints[Constraint 4]"
-          TopLeft="409,353.5">
+          TopLeft="409,661.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Backups\Set filegroups readonly\CheckReferenceDate"
+          TopLeft="11.5,5.5" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Backups\Set filegroups readonly\SetFileGroupsReadOnly"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Backups\Set filegroups readonly.PrecedenceConstraints[Constraint]"
+          TopLeft="99.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1868,20 +1898,49 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="529.6,511.2"
-          Size="529.6,553.6"
+          PanelSize="199,205"
+          Size="199,248"
+          Id="Package\Backups\Set filegroups readonly"
+          TopLeft="309.5,5.5" />
+        <EdgeLayout
+          Id="Package\Backups.PrecedenceConstraints[Constraint 5]"
+          TopLeft="409,253.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="530,818"
+          Size="530,862"
           Id="Package\Backups"
-          TopLeft="149.5,772.5" />
+          TopLeft="149.5,464.5" />
         <NodeLayout
-          Size="176.8,41.6"
+          Size="177,42"
           Id="Package\Check DWH integrity"
-          TopLeft="326,670.5" />
+          TopLeft="326,362.5" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="150,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
           TopLeft="15.5,107.5" />
         <NodeLayout
-          Size="169.6,41.6"
+          Size="170,42"
           Id="Package\Copy DWH metadata to Logs DB\Truncate Logs copy"
           TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
@@ -1909,16 +1968,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="180.8,204.8"
-          Size="180.8,248"
+          PanelSize="181,204"
+          Size="181,248"
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="324,1386.5" />
         <NodeLayout
-          Size="159.2,41.6"
+          Size="159,42"
           Id="Package\DWH\Optimize indexes"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="156,41.6"
+          Size="156,42"
           Id="Package\DWH\Update statistics"
           TopLeft="7.00000000000001,107.5" />
         <EdgeLayout
@@ -1946,16 +2005,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169.6,204.8"
-          Size="169.6,248"
+          PanelSize="170,204"
+          Size="170,248"
           Id="Package\DWH"
           TopLeft="69.5000000000001,54.5" />
         <NodeLayout
-          Size="217.6,41.6"
+          Size="218,42"
           Id="Package\MDS\MDS Clean Up Staging Tables"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="208.8,41.6"
+          Size="209,42"
           Id="Package\MDS\MDS Clean Up Transactions"
           TopLeft="10,107.5" />
         <EdgeLayout
@@ -1983,21 +2042,13 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="228.8,204.8"
-          Size="228.8,248"
+          PanelSize="229,204"
+          Size="229,248"
           Id="Package\MDS"
           TopLeft="300,54.5" />
-        <NodeLayout
-          Size="176,41.6"
-          Id="Package\Set filegroups readonly\CheckReferenceDate"
-          TopLeft="11.5,5.5" />
-        <NodeLayout
-          Size="188,41.6"
-          Id="Package\Set filegroups readonly\SetFileGroupsReadOnly"
-          TopLeft="5.50000000000001,107.5" />
         <EdgeLayout
-          Id="Package\Set filegroups readonly.PrecedenceConstraints[Constraint]"
-          TopLeft="99.5,47.5">
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="414.5,1326.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2017,39 +2068,32 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="199.2,204.8"
-          Size="199.2,248"
-          Id="Package\Set filegroups readonly"
-          TopLeft="315,362.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="154.5,302.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="228.166666666667,60"
+              EndConnector="231.833333333333,60"
               Start="0,0"
-              End="228.166666666667,52.5">
+              End="231.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7128614157527" />
+                    End="0,31.6774916013438" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7128614157527"
-                    Point2="0,35.7128614157527"
-                    Point3="4,35.7128614157527" />
+                    Point1="0,31.6774916013438"
+                    Point2="0,35.6774916013438"
+                    Point3="4,35.6774916013438" />
                   <mssgle:LineSegment
-                    End="224.166666666667,35.7128614157527" />
+                    End="227.833333333333,35.6774916013438" />
                   <mssgle:CubicBezierSegment
-                    Point1="224.166666666667,35.7128614157527"
-                    Point2="228.166666666667,35.7128614157527"
-                    Point3="228.166666666667,39.7128614157527" />
+                    Point1="227.833333333333,35.6774916013438"
+                    Point2="231.833333333333,35.6774916013438"
+                    Point3="231.833333333333,39.6774916013438" />
                   <mssgle:LineSegment
-                    End="228.166666666667,52.5" />
+                    End="231.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2064,26 +2108,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="31.8333333333333,60"
+              EndConnector="28.1666666666667,60"
               Start="0,0"
-              End="31.8333333333333,52.5">
+              End="28.1666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7128614157527" />
+                    End="0,31.6774916013438" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7128614157527"
-                    Point2="0,35.7128614157527"
-                    Point3="4,35.7128614157527" />
+                    Point1="0,31.6774916013438"
+                    Point2="0,35.6774916013438"
+                    Point3="4,35.6774916013438" />
                   <mssgle:LineSegment
-                    End="27.8333333333333,35.7128614157527" />
+                    End="24.1666666666667,35.6774916013438" />
                   <mssgle:CubicBezierSegment
-                    Point1="27.8333333333333,35.7128614157527"
-                    Point2="31.8333333333333,35.7128614157527"
-                    Point3="31.8333333333333,39.7128614157527" />
+                    Point1="24.1666666666667,35.6774916013438"
+                    Point2="28.1666666666667,35.6774916013438"
+                    Point3="28.1666666666667,39.6774916013438" />
                   <mssgle:LineSegment
-                    End="31.8333333333333,52.5" />
+                    End="28.1666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2094,51 +2138,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="414.5,610.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="414.5,712.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="414.5,1326.5">
+          TopLeft="414.5,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

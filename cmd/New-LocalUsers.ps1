@@ -12,3 +12,6 @@ New-LocalUser -Name "MDS" -Password $Password -Description "SQL Server serivices
 New-LocalUser -Name "PBIRSexec" -Description "PBIRS execution account" -Password $Password -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword
 # Abstract data analyst account
 New-LocalUser -Name "DataAnalyst" -Password $Password -Description "Abstract data analyst account" -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword
+
+# Add AzPipelineAgent to local 
+Add-LocalGroupMember -Group "Пользователи системного монитора" -Member "AzPipelineAgent"
