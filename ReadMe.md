@@ -16,3 +16,5 @@ The goal of this project is to develop a BI solution that provides sales analyti
 - Easy operations
 - Ready analytical templates
 - CI/CD
+
+Start with [documentation](https://dev.azure.com/zinykov/20767/_git/Northwind_BI_Solution?path=/Docs/Northwind%20BI%20Solution.docx).
