@@ -1,1 +1,1 @@
-/C "CALL "logman start -name "SQL Server"""
+/D /E:ON /V:OFF /S /C "CALL "logman start -name \"SQL Server\"""
