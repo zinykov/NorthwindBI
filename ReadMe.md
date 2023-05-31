@@ -15,6 +15,12 @@ The goal of this project is to develop a BI solution that provides sales analyti
 	- Backup
 - Easy operations
 - Ready analytical templates
+	- Time intelligence
+    - New & returning customers
+    - Cluster customers based on spending volume
+    - Product ABC classification
+    - Basket analysis
+    - Events in progress
 - CI/CD
 
 Start with [documentation](https://dev.azure.com/zinykov/20767/_git/Northwind_BI_Solution?path=/Docs/Northwind%20BI%20Solution.docx).
