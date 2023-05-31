@@ -1,1 +1,1 @@
-/C logman start -name "SQL Server"
+logman start -name "SQL Server"
