@@ -1,21 +1,26 @@
-$password = ConvertTo-SecureString "P@55w.rd" -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential ("PBIRSrelease", $password)
-
-Write-RsRestFolderContent -Path:"C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindPBIRS\Sales" -RsFolder:"/" -Overwrite:$true -ReportPortalUri:"http://swift3/reports" -Credential:$Cred
+Start-Process "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -Credential "SWIFT3\AzPipelineAgent"
 
 $password = ConvertTo-SecureString "P@55w.rd" -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential ("PBIRSrelease", $password)
+$WebSession = New-RsRestSession -ReportPortalUri "http://swift3/reports" -RestApiVersion v2.0 -Credential $Cred
 
-$dataSources = Get-RsRestItemDataSource -RsItem:'/SalesV2' -Credential:$Cred -ReportPortalUri:'http://swift3/reports'
+Write-RsRestFolderContent `
+	-Path:"C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindPBIRS\Sales" `
+	-RsFolder:"/" `
+	-Overwrite:$true `
+	-WebSession:$WebSession
 
-$dataSources[0].DataModelDataSource.AuthType = 'Windows'
-$dataSources[0].DataModelDataSource.Username = 'SWIFT3\RDLexec'
-$dataSources[0].DataModelDataSource.Secret = 'P@55w.rd'
+$RsItem = "/SalesV2"
 
-Set-RsRestItemDataSource -RsItem:'/SalesV2' -RsItemType:PowerBIReport -DataSources:$datasources -Credential:$Cred -ReportPortalUri:'http://swift3/reports'
+$dataSources = Get-RsRestItemDataSource -RsItem:$RsItem -WebSession:$WebSession
+$dataSources[0].DataModelDataSource.AuthType = "Windows"
+$dataSources[0].DataModelDataSource.Username = "SWIFT3\RDLexec"
+$dataSources[0].DataModelDataSource.Secret = "P@55w.rd"
 
-New-RsRestCacheRefreshPlan -RsItem:'/SalesV2' -StartDateTime:"2023-05-31T11:00:00+03:00" -Credential:$Cred -ReportPortalUri:'http://swift3/reports'
+Set-RsRestItemDataSource -RsItem:$RsItem -RsItemType:PowerBIReport -DataSources:$datasources -WebSession:$WebSession
 
-$ID = Get-RsRestCacheRefreshPlan -RsReport:"/SalesV2"  -Credential:$Cred -ReportPortalUri:'http://swift3/reports' | Select-Object -ExpandProperty:"ID"
-        
-Start-RsRestCacheRefreshPlan -Id:$ID -Credential:$Cred -ReportPortalUri:'http://swift3/reports'
+New-RsRestCacheRefreshPlan -RsItem:$RsItem -StartDateTime:"2023-05-31T11:00:00+03:00" -WebSession:$WebSession
+
+$ID = Get-RsRestCacheRefreshPlan -RsReport:$RsItem -WebSession:$WebSession | Select-Object -ExpandProperty:"ID"
+
+Start-RsRestCacheRefreshPlan -Id:$ID -WebSession:$WebSession
