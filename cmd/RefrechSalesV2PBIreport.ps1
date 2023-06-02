@@ -1,4 +1,7 @@
-param ( [String]$password="P@55w.rd", [String]$PBIRSServerName="SWIFT3" )
+# Start-Process -FilePath:"C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -Credential:"SWIFT3\AzPipelineAgent"
+
+$password = "P@55w.rd"
+$PBIRSServerName = "SWIFT3"
 
 $passwordSS = ConvertTo-SecureString $password -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential ("PBIRSrelease", $passwordSS)
@@ -17,6 +20,6 @@ Set-RsRestItemDataSource -RsItem:$RsItem -RsItemType:PowerBIReport -DataSources:
 
 New-RsRestCacheRefreshPlan -RsItem:$RsItem -StartDateTime:"2023-05-31T11:00:00+03:00" -WebSession:$WebSession
 
-$ID = Get-RsRestCacheRefreshPlan -RsReport:$RsItem -WebSession:$WebSession | Select-Object -first 1 -ExpandProperty:"ID" | out-string
+$ID = Get-RsRestCacheRefreshPlan -RsReport:$RsItem -WebSession:$WebSession | Select-Object -ExpandProperty:"ID" -First:1 | Out-String
 
 Start-RsRestCacheRefreshPlan -Id:$ID -WebSession:$WebSession
