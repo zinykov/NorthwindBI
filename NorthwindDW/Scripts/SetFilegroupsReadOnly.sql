@@ -1,6 +1,6 @@
-﻿:setvar DatabaseName "NorthwindDW"
-:setvar Cutofftime '01.01.1998'
-:setvar IsSetFilegroupReadonly "true"
+﻿--:setvar DatabaseName "NorthwindDW"
+--:setvar Cutofftime '01.01.1998'
+--:setvar IsSetFilegroupReadonly "true"
 
 USE [master];
 GO
@@ -63,6 +63,15 @@ GO
 
 IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
 BEGIN
-	WAITFOR DELAY '00:00:05';
+	WAITFOR DELAY '00:00:05'
+END;
+GO
+
+USE [$(DatabaseName)];
+GO
+
+IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
+BEGIN
+	SELECT 1 FROM sys.tables
 END;
 GO
