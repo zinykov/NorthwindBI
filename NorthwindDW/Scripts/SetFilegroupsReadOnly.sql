@@ -1,6 +1,6 @@
-﻿--:setvar DatabaseName "NorthwindDW"
---:setvar Cutofftime '01.01.1998'
---:setvar IsSetFilegroupReadonly "true"
+﻿:setvar DatabaseName "NorthwindDW"
+:setvar Cutofftime '01.01.1998'
+:setvar IsSetFilegroupReadonly "true"
 
 USE [master];
 GO
@@ -58,5 +58,11 @@ IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
 BEGIN
 	ALTER DATABASE [$(DatabaseName)] SET MULTI_USER
 	PRINT N'[$(DatabaseName)] setted in MULTI_USER mode'
+END;
+GO
+
+IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
+BEGIN
+	WAITFOR DELAY '00:00:05';
 END;
 GO
