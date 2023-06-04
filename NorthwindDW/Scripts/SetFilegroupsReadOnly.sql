@@ -60,18 +60,3 @@ BEGIN
 	PRINT N'[$(DatabaseName)] setted in MULTI_USER mode'
 END;
 GO
-
-IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
-BEGIN
-	WAITFOR DELAY '00:00:05'
-END;
-GO
-
-USE [$(DatabaseName)];
-GO
-
-IF ( CONVERT ( BIT , N'$(IsSetFilegroupReadonly)' ) = 1 )
-BEGIN
-	SELECT 1 FROM sys.tables
-END;
-GO

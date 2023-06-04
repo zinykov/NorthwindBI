@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="122"
-  DTS:VersionGUID="{05696535-D79E-426E-8A0C-2F6658575B82}">
+  DTS:VersionBuild="124"
+  DTS:VersionGUID="{1E6470BC-377D-41E7-9B45-0A5636B7C586}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -468,11 +468,11 @@
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
               <DTS:PropertyExpression
-                DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly]</DTS:PropertyExpression>
+                DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' IsSetFilegroupReadonly="+ (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly] + " &amp;&amp; timeout /t 5"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <ExecuteProcessData
                   Executable="C:\Windows\System32\cmd.exe"
-                  Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsSetFilegroupReadonly=False" />
+                  Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' IsSetFilegroupReadonly=False &amp;&amp; timeout /t 5" />
               </DTS:ObjectData>
             </DTS:Executable>
           </DTS:Executables>
@@ -481,6 +481,8 @@
               DTS:refId="Package\Backups\Set filegroups readonly.PrecedenceConstraints[Constraint]"
               DTS:CreationName=""
               DTS:DTSID="{989646ff-e88d-401e-91b0-775cd4afe2e5}"
+              DTS:EvalOp="1"
+              DTS:Expression="@[User::IsSetFilegroupReadonly]"
               DTS:From="Package\Backups\Set filegroups readonly\CheckReferenceDate"
               DTS:LogicalAnd="True"
               DTS:ObjectName="Constraint"
@@ -1706,7 +1708,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="140,42"
           Id="Package\Backups\Backup DWH"
@@ -1758,7 +1760,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.25,16,16"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout
@@ -2167,28 +2171,24 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="156.8,41.6"
+          Size="NaN,NaN"
           Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="73.6,161.6" />
+          TopLeft="NaN,NaN" />
         <NodeLayout
-          Size="184,41.6"
+          Size="NaN,NaN"
           Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="60,60" />
+          TopLeft="NaN,NaN" />
         <EdgeLayout
           Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          TopLeft="152,101.6">
+          TopLeft="NaN,NaN">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="{assembly:Null}"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,0">
               <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
+                <assembly:Null />
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
