@@ -9,11 +9,11 @@
 
 	CONSTRAINT [PK_Maintenance_DatabaseFiles] PRIMARY KEY CLUSTERED ( [DatabaseFileKey] ASC )
 )
-    ON [PRIMARY]
+    ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Maintenance_DatabaseFiles_FilegroupName] ON [Maintenance].[DatabaseFiles] ( [GroupName] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
-    ON [PRIMARY];
+    ON [Dimention_Index];
 GO
