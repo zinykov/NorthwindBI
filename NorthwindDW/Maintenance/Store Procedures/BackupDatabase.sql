@@ -41,7 +41,7 @@ AS BEGIN
 	DEALLOCATE [BackupReadOnlyFilegroups]
 
 	IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [DateKey] = @CutoffTime ) = 6
-		OR @CutoffTime = DATEFROMPARTS ( 1996, 12, 31 ) )
+		OR @CutoffTime = DATEFROMPARTS ( 1997, 12, 31 ) )
 		BEGIN
 			SET @BackupFileName = CONCAT (
 				  @BackupsReadWritePath
