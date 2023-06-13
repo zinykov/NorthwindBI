@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="126"
-  DTS:VersionGUID="{AD0B6F3A-60A8-4E39-B42F-F9CA5F5B7D24}">
+  DTS:VersionBuild="139"
+  DTS:VersionGUID="{B6447EF3-EC68-472B-B444-723FE5E7B77A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -298,7 +298,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -317,7 +317,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -374,7 +374,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -427,7 +427,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -463,16 +463,16 @@
               DTS:ExecutableType="Microsoft.ExecuteProcess"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
               <DTS:PropertyExpression
-                DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime] +"' &amp;&amp; timeout /t 5"</DTS:PropertyExpression>
+                DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d "+ @[$Project::DWHDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime]+" &amp;&amp; timeout /t 20"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <ExecuteProcessData
                   Executable="C:\Windows\System32\cmd.exe"
-                  Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00' &amp;&amp; timeout /t 5" />
+                  Arguments="/C SQLCmd -S SWIFT3 -d NorthwindDW -E -i &quot;C:\SSIS\NorthwindBI\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00 &amp;&amp; timeout /t 20" />
               </DTS:ObjectData>
             </DTS:Executable>
           </DTS:Executables>
@@ -544,7 +544,6 @@
     <DTS:Executable
       DTS:refId="Package\Check DWH integrity"
       DTS:CreationName="Microsoft.DbMaintenanceCheckIntegrityTask"
-      DTS:Disabled="True"
       DTS:DTSID="{235F955D-8A43-43FA-8120-20DA49954B23}"
       DTS:ExecutableType="Microsoft.DbMaintenanceCheckIntegrityTask"
       DTS:LocaleID="-1"
@@ -1931,7 +1930,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="532,819"
+          PanelSize="532,818"
           Size="532,862"
           Id="Package\Backups"
           TopLeft="148.5,464.5" />
@@ -1972,7 +1971,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="182,205"
+          PanelSize="182,204"
           Size="182,248"
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="323.5,1386.5" />
@@ -2009,7 +2008,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="170,205"
+          PanelSize="170,204"
           Size="170,248"
           Id="Package\DWH"
           TopLeft="69.5000000000001,54.5" />
@@ -2046,7 +2045,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="229,205"
+          PanelSize="229,204"
           Size="229,248"
           Id="Package\MDS"
           TopLeft="300,54.5" />
@@ -2090,9 +2089,9 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="28.1666666666667,60"
+              EndConnector="28.1666666666666,60"
               Start="0,0"
-              End="28.1666666666667,52.5">
+              End="28.1666666666666,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2103,13 +2102,13 @@
                     Point2="0,35.6774916013438"
                     Point3="4,35.6774916013438" />
                   <mssgle:LineSegment
-                    End="24.1666666666667,35.6774916013438" />
+                    End="24.1666666666666,35.6774916013438" />
                   <mssgle:CubicBezierSegment
-                    Point1="24.1666666666667,35.6774916013438"
-                    Point2="28.1666666666667,35.6774916013438"
-                    Point3="28.1666666666667,39.6774916013438" />
+                    Point1="24.1666666666666,35.6774916013438"
+                    Point2="28.1666666666666,35.6774916013438"
+                    Point3="28.1666666666666,39.6774916013438" />
                   <mssgle:LineSegment
-                    End="28.1666666666667,52.5" />
+                    End="28.1666666666666,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

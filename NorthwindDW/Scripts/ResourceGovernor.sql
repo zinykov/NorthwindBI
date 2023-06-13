@@ -107,7 +107,8 @@ AS BEGIN
 	IF (
 		--APP_NAME () LIKE '%SQL Server%' AND 
         USER_NAME () IN (
-              '$(DomainName)\AzPipelineAgent'
+              'dbo'
+            , '$(DomainName)\AzPipelineAgent'
             , '$(DomainName)\SQLAGENT'
             , '$(DomainName)\RDLexec'
             , '$(DomainName)\zinyk'
