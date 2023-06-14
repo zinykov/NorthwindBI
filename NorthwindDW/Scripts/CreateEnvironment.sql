@@ -1,12 +1,12 @@
 ﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar BackupFilesPath "C:/SSIS/NorthwindBI/Backups/"
---:setvar DBFilesPath "C:/Program Files/Microsoft SQL Server/MSSQL15.MSSQLSERVER/MSSQL/DATA/"
+--:setvar BackupFilesPath "C:\SSIS\NorthwindBI\Backups\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
 --:setvar DQSDatabaseName DQS_STAGING_DATA
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
 --:setvar EndLoadDate 1998-01-10
---:setvar ExternalFilesPath "C:/SSIS/NorthwindBI/"
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
@@ -17,7 +17,7 @@
 --:setvar SSISFolderName NorthwindBI
 --:setvar SSISProjectName NorthwindETL
 --:setvar SSISServerName SWIFT3
---:setvar XMLCalendarFolder "C:/SSIS/xmlcalendar/"
+--:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
 --:setvar LandingDatabaseName Landing
 --:setvar LandingServerName SWIFT3
 
