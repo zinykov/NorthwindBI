@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="141"
-  DTS:VersionGUID="{C7DED453-0660-4FB6-989B-18771E9E4E37}">
+  DTS:VersionBuild="147"
+  DTS:VersionGUID="{EA3E1B75-C071-465F-9B4B-D09E3F1E9D7C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -251,14 +251,14 @@
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Backups"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
-        DTS:Name="Arguments">@[$Project::ExternalFilesPath] + "Scripts\\PartialBackup.ps1 " +  (DT_WSTR, 10)  @[$Package::CutoffTime] + " " +  @[$Project::DWHServerName] + " " +  @[$Project::DWHDatabaseName] + " \"" + @[$Project::ExternalFilesPath] + "\"" + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\""</DTS:PropertyExpression>
+        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \""+ @[$Project::ExternalFilesPath] +"Scripts\\Backup.ps1 ( Get-Date -Year:" + (DT_WSTR, 4) YEAR( @[$Package::CutoffTime]  ) + " -Month:"+ (DT_WSTR, 2) MONTH( @[$Package::CutoffTime]  ) + " -Day:" + (DT_WSTR, 2) DAY( @[$Package::CutoffTime]  ) + " -Hour:00 -Minute:00 -Second:00 -Format:\"yyyy-MM-dd\" ) \""+ @[$Project::DWHServerName] +"\" \""+ @[$Project::DWHDatabaseName] +"\" \""+ @[$Project::ExternalFilesPath] +"\" "+ (DT_WSTR, 2) @[$Project::RetrainWeeks] +" \""+ @[$Project::BackupFilesPath] +"\"\""</DTS:PropertyExpression>
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
-          Arguments="C:\SSIS\NorthwindBI\Scripts\PartialBackup.ps1 0:00:00 SWIFT3 NorthwindDW &quot;C:\SSIS\NorthwindBI\&quot;3 &quot;C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\&quot;" />
+          Arguments="-ExecutionPolicy Unrestricted -command &quot;C:\SSIS\NorthwindBI\Scripts\Backup.ps1 ( Get-Date -Year:1899 -Month:12 -Day:30 -Hour:00 -Minute:00 -Second:00 -Format:&quot;yyyy-MM-dd&quot; ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;C:\SSIS\NorthwindBI\&quot; 3 &quot;C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\&quot;&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -280,7 +280,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Backup DWH"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -335,7 +335,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -354,7 +354,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="CreateOldBackupFolder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -373,7 +373,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DeleteOldBackupFolder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -392,7 +392,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -445,7 +445,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="2">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -481,7 +481,7 @@
               DTS:ExecutableType="Microsoft.ExecuteProcess"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="2">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1743,6 +1743,10 @@
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="124,42"
+          Id="Package\Backups"
+          TopLeft="352.5,465" />
+        <NodeLayout
           Size="140,42"
           Id="Package\BackupsOld\Backup DWH"
           TopLeft="340.5,517.5" />
@@ -1824,9 +1828,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1860,9 +1862,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1896,9 +1896,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1920,9 +1918,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1944,9 +1940,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1968,22 +1962,16 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="False"
           PanelSize="532,819"
-          Size="141,43"
+          Size="157,43"
           Id="Package\BackupsOld"
           TopLeft="151,464.5" />
-        <NodeLayout
-          Size="124,42"
-          Id="Package\Backups"
-          TopLeft="352.5,465" />
         <NodeLayout
           Size="177,42"
           Id="Package\Check DWH integrity"
@@ -2173,9 +2161,9 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-164.833333333333,60"
+              EndConnector="-156.833333333333,60"
               Start="0,0"
-              End="-164.833333333333,52.5">
+              End="-156.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2186,13 +2174,13 @@
                     Point2="0,24.3225083986562"
                     Point3="-4,24.3225083986562" />
                   <mssgle:LineSegment
-                    End="-160.833333333333,24.3225083986562" />
+                    End="-152.833333333333,24.3225083986562" />
                   <mssgle:CubicBezierSegment
-                    Point1="-160.833333333333,24.3225083986562"
-                    Point2="-164.833333333333,24.3225083986562"
-                    Point3="-164.833333333333,28.3225083986562" />
+                    Point1="-152.833333333333,24.3225083986562"
+                    Point2="-156.833333333333,24.3225083986562"
+                    Point3="-156.833333333333,28.3225083986562" />
                   <mssgle:LineSegment
-                    End="-164.833333333333,52.5" />
+                    End="-156.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2237,13 +2225,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="221.5,507.5">
+          TopLeft="229.5,507.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="164,60"
+              EndConnector="156,60"
               Start="0,0"
-              End="164,52.5">
+              End="156,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2254,13 +2242,13 @@
                     Point2="0,35.6862745098039"
                     Point3="4,35.6862745098039" />
                   <mssgle:LineSegment
-                    End="160,35.6862745098039" />
+                    End="152,35.6862745098039" />
                   <mssgle:CubicBezierSegment
-                    Point1="160,35.6862745098039"
-                    Point2="164,35.6862745098039"
-                    Point3="164,39.6862745098039" />
+                    Point1="152,35.6862745098039"
+                    Point2="156,35.6862745098039"
+                    Point3="156,39.6862745098039" />
                   <mssgle:LineSegment
-                    End="164,52.5" />
+                    End="156,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

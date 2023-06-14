@@ -1,11 +1,30 @@
-param( [DateTime]$CutoffTime, [String]$DWHServerName, [String]$DWHDatabaseName, [String]$ExternalFilesPath, [Int]$RetrainWeeks, [String]$BackupFilesPath )
+<#
+	Call Script
+PowerShell -ExecutionPolicy Unrestricted -command "C:\Users\zinyk\source\repos\Northwind_BI_Solution\cmd\Backup.ps1 ( Get-Date -Year:1998 -Month:01 -Day:03 -Hour:00 -Minute:00 -Second:00 -Format:"yyyy-MM-dd" ) "SWIFT3" "NorthwindDW" "C:\SSIS\NorthwindBI\" 3 "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\""
 
-#If ( $CutoffTime -eq $null ) { $CutoffTime=Get-Date -Year:1998 -Month:01 -Day:03 -Hour:00 -Minute:00 -Second:00 -Format:"yyyy-MM-dd"}
-#If ( $DWHServerName -eq $null ) { $DWHServerName = "SWIFT3" | Write-Host }
-#If ( $DWHDatabaseName -eq $null ) { $DWHDatabaseName = "NorthwindDW" | Write-Host }
-#If ( $ExternalFilesPath -eq $null ) { $ExternalFilesPath = "C:\SSIS\NorthwindBI\" | Write-Host }
-#If ( $RetrainWeeks -eq $null ) { $RetrainWeeks = 3 }
-#If ( $BackupFilesPath -eq $null ) { $BackupFilesPath = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\" }
+	Call Expression
+-ExecutionPolicy Unrestricted -command \""+ @[$Project::ExternalFilesPath] +"Scripts\\Backup.ps1 ( Get-Date -Year:" + (DT_WSTR, 4) YEAR( @[$Package::CutoffTime]  ) + " -Month:"+ (DT_WSTR, 2) MONTH( @[$Package::CutoffTime]  ) + " -Day:" + (DT_WSTR, 2) DAY( @[$Package::CutoffTime]  ) + " -Hour:00 -Minute:00 -Second:00 -Format:\"yyyy-MM-dd\" ) \""+ @[$Project::DWHServerName] +"\" \""+ @[$Project::DWHDatabaseName] +"\" \""+ @[$Project::ExternalFilesPath] +"\" "+ (DT_WSTR, 2) @[$Project::RetrainWeeks] +" \""+ @[$Project::BackupFilesPath] +"\""
+#>
+
+
+param(
+	[DateTime]$CutoffTime,
+	[String]$DWHServerName,
+	[String]$DWHDatabaseName,
+	[String]$ExternalFilesPath,
+	[Int]$RetrainWeeks,
+	[String]$BackupFilesPath
+)
+
+
+<#
+If ( $CutoffTime -eq $null ) { $CutoffTime=Get-Date -Year:1998 -Month:01 -Day:03 -Hour:00 -Minute:00 -Second:00 -Format:"yyyy-MM-dd"}
+If ( $DWHServerName -eq $null ) { $DWHServerName = "SWIFT3" | Write-Host }
+If ( $DWHDatabaseName -eq $null ) { $DWHDatabaseName = "NorthwindDW" | Write-Host }
+If ( $ExternalFilesPath -eq $null ) { $ExternalFilesPath = "C:\SSIS\NorthwindBI\" | Write-Host }
+If ( $RetrainWeeks -eq $null ) { $RetrainWeeks = 3 }
+If ( $BackupFilesPath -eq $null ) { $BackupFilesPath = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\" }
+#>
 
 $query = "
 DECLARE	@IsStartOptimization BIT = 0,
