@@ -1,6 +1,5 @@
 ﻿--:setvar DatabaseName "NorthwindDW"
 --:setvar Cutofftime '01.01.1998'
---:setvar IsSetFilegroupReadonly "true"
 
 USE [master];
 GO
@@ -15,11 +14,12 @@ GO
 DECLARE @FilegroupName AS NVARCHAR(100)
 DECLARE @ReadOnly AS BIT
 DECLARE @SQL AS NVARCHAR(1000)
+DECLARE @Print AS NVARCHAR(250)
 
 DECLARE FactTables CURSOR FOR
 	SELECT		[groupname]
 	FROM		sys.sysfilegroups
-	WHERE		[groupname] LIKE CONCAT ( N'%_', YEAR ( $(Cutofftime) ) - 2, N'_%' )
+	WHERE		[groupname] LIKE CONCAT ( N'%_', YEAR ( N'$(Cutofftime)' ) - 2, N'_%' )
 
 OPEN FactTables
 	FETCH NEXT FROM FactTables INTO @FilegroupName
@@ -38,6 +38,10 @@ OPEN FactTables
 					UPDATE	[Maintenance].[DatabaseFiles]
 					SET		[IsReadOnly] = 1
 					WHERE	[GroupName] = @FilegroupName
+
+					SET @Print = CONCAT ( @FilegroupName, N' setted as Read_only filegroup' )
+
+					PRINT @Print
 				END
 			FETCH NEXT FROM FactTables INTO @FilegroupName
 		END
