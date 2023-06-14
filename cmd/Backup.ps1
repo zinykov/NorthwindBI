@@ -3,7 +3,7 @@
 PowerShell -ExecutionPolicy Unrestricted -command "C:/SSIS/NorthwindBI/Scripts/Backup.ps1 ( Get-Date -Date:31.12.1997 ) "SWIFT3" "NorthwindDW" "C:/SSIS/NorthwindBI/" 3 "C:/SSIS/NorthwindBI/Backups/""
 
 	Call Expression
-"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts\\Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""
+"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""
 #>
 
 param(
