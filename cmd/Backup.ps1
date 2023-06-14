@@ -1,9 +1,9 @@
 <#
 	Call Script
-PowerShell -ExecutionPolicy Unrestricted -command "C:/Users/zinyk/source/repos/Northwind_BI_Solution/cmd/Backup.ps1 ( Get-Date -Date:03.01.1998 ) "SWIFT3" "NorthwindDW" "C:/SSIS/NorthwindBI/" 3 "C:/SSIS/NorthwindBI/Backups/""
+PowerShell -ExecutionPolicy Unrestricted -command "C:/SSIS/NorthwindBI/Scripts/Backup.ps1 ( Get-Date -Date:31.12.1997 ) "SWIFT3" "NorthwindDW" "C:/SSIS/NorthwindBI/" 3 "C:/SSIS/NorthwindBI/Backups/""
 
 	Call Expression
-"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""
+"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts\\Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""
 #>
 
 param(
@@ -59,13 +59,15 @@ If ( !( Test-Path -Path:$BackupsReadOnly ) ) { New-Item -ItemType:'directory' -P
 $BackupFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupFolderName' )
 If ( !( Test-Path -Path:$BackupFolderName ) ) { New-Item -ItemType:'directory' -Path:$BackupFolderName }
 
-$query = "
-    EXECUTE	[Maintenance].[BackupDatabase]
-		    @CutoffTime = N'$CutoffTimeStr',
-		    @BackupsReadOnlyPath = N'$BackupsReadOnly',
-		    @BackupsReadWritePath = N'$BackupFolderName'
-"
-Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
-
+If ( Test-Path -Path:$BackupFolderName, $BackupsReadOnly )
+{
+	$query = "
+		EXECUTE	[Maintenance].[BackupDatabase]
+				@CutoffTime = N'$CutoffTimeStr',
+				@BackupsReadOnlyPath = N'$BackupsReadOnly',
+				@BackupsReadWritePath = N'$BackupFolderName'
+	"
+	Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
+}
 $BackupOldFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupOldFolderName' )
 If ( Test-Path -Path:$BackupOldFolderName ) { Remove-Item -Path:$BackupOldFolderName -Recurse }
