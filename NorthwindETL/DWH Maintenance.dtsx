@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="147"
-  DTS:VersionGUID="{EA3E1B75-C071-465F-9B4B-D09E3F1E9D7C}">
+  DTS:VersionBuild="159"
+  DTS:VersionGUID="{5A2743B2-8EC9-40E8-B51C-9F0D20E9A726}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -78,7 +78,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BackupsReadOnlyPath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\ReadOnly</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\BackupsNorthwindDW\ReadOnly</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -89,7 +89,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BackupsReadWritePath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\BackupsNorthwindDW\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -127,7 +127,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="OldBackupFolder">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\NorthwindDW\</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\BackupsNorthwindDW\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -251,14 +251,14 @@
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Backups"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:PropertyExpression
-        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \""+ @[$Project::ExternalFilesPath] +"Scripts\\Backup.ps1 ( Get-Date -Year:" + (DT_WSTR, 4) YEAR( @[$Package::CutoffTime]  ) + " -Month:"+ (DT_WSTR, 2) MONTH( @[$Package::CutoffTime]  ) + " -Day:" + (DT_WSTR, 2) DAY( @[$Package::CutoffTime]  ) + " -Hour:00 -Minute:00 -Second:00 -Format:\"yyyy-MM-dd\" ) \""+ @[$Project::DWHServerName] +"\" \""+ @[$Project::DWHDatabaseName] +"\" \""+ @[$Project::ExternalFilesPath] +"\" "+ (DT_WSTR, 2) @[$Project::RetrainWeeks] +" \""+ @[$Project::BackupFilesPath] +"\"\""</DTS:PropertyExpression>
+        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts\\Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""</DTS:PropertyExpression>
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
-          Arguments="-ExecutionPolicy Unrestricted -command &quot;C:\SSIS\NorthwindBI\Scripts\Backup.ps1 ( Get-Date -Year:1899 -Month:12 -Day:30 -Hour:00 -Minute:00 -Second:00 -Format:&quot;yyyy-MM-dd&quot; ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;C:\SSIS\NorthwindBI\&quot; 3 &quot;C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\&quot;&quot;" />
+          Arguments="-ExecutionPolicy Unrestricted -command &quot;C:\SSIS\NorthwindBI\Scripts\Backup.ps1 ( Get-Date -Date:0:00:00 ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;C:\SSIS\NorthwindBI\&quot; 3 &quot;C:\SSIS\NorthwindBI\Backups&quot;&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -280,7 +280,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Backup DWH"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -316,7 +316,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -335,7 +335,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -354,7 +354,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="CreateOldBackupFolder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -373,7 +373,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DeleteOldBackupFolder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -392,7 +392,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -445,7 +445,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="2">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -481,7 +481,7 @@
               DTS:ExecutableType="Microsoft.ExecuteProcess"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="2">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -562,6 +562,7 @@
     <DTS:Executable
       DTS:refId="Package\Check DWH integrity"
       DTS:CreationName="Microsoft.DbMaintenanceCheckIntegrityTask"
+      DTS:Disabled="True"
       DTS:DTSID="{235F955D-8A43-43FA-8120-20DA49954B23}"
       DTS:ExecutableType="Microsoft.DbMaintenanceCheckIntegrityTask"
       DTS:LocaleID="-1"
@@ -1828,7 +1829,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1862,7 +1865,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1896,7 +1901,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1918,7 +1925,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1940,7 +1949,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1962,7 +1973,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout

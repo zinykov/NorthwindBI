@@ -1,11 +1,10 @@
 <#
 	Call Script
-PowerShell -ExecutionPolicy Unrestricted -command "C:\Users\zinyk\source\repos\Northwind_BI_Solution\cmd\Backup.ps1 ( Get-Date -Year:1998 -Month:01 -Day:03 -Hour:00 -Minute:00 -Second:00 -Format:"yyyy-MM-dd" ) "SWIFT3" "NorthwindDW" "C:\SSIS\NorthwindBI\" 3 "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\""
+PowerShell -ExecutionPolicy Unrestricted -command "C:/Users/zinyk/source/repos/Northwind_BI_Solution/cmd/Backup.ps1 ( Get-Date -Date:03.01.1998 ) "SWIFT3" "NorthwindDW" "C:/SSIS/NorthwindBI/" 3 "C:/SSIS/NorthwindBI/Backups/""
 
 	Call Expression
--ExecutionPolicy Unrestricted -command \""+ @[$Project::ExternalFilesPath] +"Scripts\\Backup.ps1 ( Get-Date -Year:" + (DT_WSTR, 4) YEAR( @[$Package::CutoffTime]  ) + " -Month:"+ (DT_WSTR, 2) MONTH( @[$Package::CutoffTime]  ) + " -Day:" + (DT_WSTR, 2) DAY( @[$Package::CutoffTime]  ) + " -Hour:00 -Minute:00 -Second:00 -Format:\"yyyy-MM-dd\" ) \""+ @[$Project::DWHServerName] +"\" \""+ @[$Project::DWHDatabaseName] +"\" \""+ @[$Project::ExternalFilesPath] +"\" "+ (DT_WSTR, 2) @[$Project::RetrainWeeks] +" \""+ @[$Project::BackupFilesPath] +"\""
+"-ExecutionPolicy Unrestricted -command \"" + @[$Project::ExternalFilesPath] + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$Project::ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$Project::BackupFilesPath] + "\"\""
 #>
-
 
 param(
 	[DateTime]$CutoffTime,
@@ -16,22 +15,14 @@ param(
 	[String]$BackupFilesPath
 )
 
-
-<#
-If ( $CutoffTime -eq $null ) { $CutoffTime=Get-Date -Year:1998 -Month:01 -Day:03 -Hour:00 -Minute:00 -Second:00 -Format:"yyyy-MM-dd"}
-If ( $DWHServerName -eq $null ) { $DWHServerName = "SWIFT3" | Write-Host }
-If ( $DWHDatabaseName -eq $null ) { $DWHDatabaseName = "NorthwindDW" | Write-Host }
-If ( $ExternalFilesPath -eq $null ) { $ExternalFilesPath = "C:\SSIS\NorthwindBI\" | Write-Host }
-If ( $RetrainWeeks -eq $null ) { $RetrainWeeks = 3 }
-If ( $BackupFilesPath -eq $null ) { $BackupFilesPath = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\" }
-#>
+$CutoffTimeStr = $CutoffTime.ToString('yyyy-MM-dd')
 
 $query = "
 DECLARE	@IsStartOptimization BIT = 0,
 		@IsSetFilegroupReadonly BIT = 0
 
 EXECUTE	[Maintenance].[CheckReferenceDate]
-		@CutoffTime = N'"+$CutoffTime+"',
+		@CutoffTime = N'$CutoffTimeStr',
 		@IsMonthlyOptimization = 0,
 		@IsStartOptimization = @IsStartOptimization OUTPUT,
 		@IsSetFilegroupReadonly = @IsSetFilegroupReadonly OUTPUT
@@ -39,13 +30,12 @@ EXECUTE	[Maintenance].[CheckReferenceDate]
 SELECT	[IsSetFilegroupReadonly] = @IsSetFilegroupReadonly;
 "
 
-$IsSetFilegroupReadonly = Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose | Select-Object -ExpandProperty:"IsSetFilegroupReadonly"
-
+$IsSetFilegroupReadonly = Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose | Select-Object -ExpandProperty:'IsSetFilegroupReadonly'
 
 If ( $IsSetFilegroupReadonly )
 {
-    $InputFile = $ExternalFilesPath + "Scripts\SetFilegroupsReadOnly.sql"
-    Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -InputFile:$InputFile -Variable:"DatabaseName=$DWHDatabaseName","Cutofftime=$CutoffTime" -Verbose
+    $InputFile = $ExternalFilesPath + 'Scripts\SetFilegroupsReadOnly.sql'
+    Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -InputFile:$InputFile -Variable:"DatabaseName=$DWHDatabaseName","Cutofftime=$CutoffTimeStr" -Verbose
 }
 
 $query = "
@@ -53,8 +43,8 @@ $query = "
 		    @BackupOldFolderName nvarchar(10)
 
     EXECUTE	[Maintenance].[GetBackupFolderNames]
-		    @CutoffTime = N'"+$CutoffTime+"',
-		    @RetrainWeeks = "+$RetrainWeeks+",
+		    @CutoffTime = N'$CutoffTimeStr',
+		    @RetrainWeeks = $RetrainWeeks,
 		    @BackupFolderName = @BackupFolderName OUTPUT,
 		    @BackupOldFolderName = @BackupOldFolderName OUTPUT
 
@@ -63,19 +53,19 @@ $query = "
 "
 $Output = Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
 
-$BackupsReadOnly = $BackupFilesPath + $DWHDatabaseName + "\ReadOnly"
-$BackupFolderName = $BackupFilesPath + $DWHDatabaseName + "\" + ( $Output | Select-Object -ExpandProperty:"BackupFolderName" )
+$BackupsReadOnly = $BackupFilesPath + $DWHDatabaseName + '\ReadOnly'
+If ( !( Test-Path -Path:$BackupsReadOnly ) ) { New-Item -ItemType:'directory' -Path:$BackupsReadOnly }
 
-If ( !( Test-Path -Path:$BackupsReadOnly ) ) { New-Item -ItemType:"directory" -Path:$BackupsReadOnly }
-If ( !( Test-Path -Path:$BackupFolderName ) ) { New-Item -ItemType:"directory" -Path:$BackupFolderName }
+$BackupFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupFolderName' )
+If ( !( Test-Path -Path:$BackupFolderName ) ) { New-Item -ItemType:'directory' -Path:$BackupFolderName }
 
 $query = "
     EXECUTE	[Maintenance].[BackupDatabase]
-		    @CutoffTime = N'1998-01-03',
-		    @BackupsReadOnlyPath = N'"+$BackupsReadOnly+"',
-		    @BackupsReadWritePath = N'"+$BackupFolderName+"'
+		    @CutoffTime = N'$CutoffTimeStr',
+		    @BackupsReadOnlyPath = N'$BackupsReadOnly',
+		    @BackupsReadWritePath = N'$BackupFolderName'
 "
 Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
 
-$BackupOldFolderName = $BackupFilesPath + $DWHDatabaseName + "\" + ( $Output | Select-Object -ExpandProperty:"BackupOldFolderName" )
+$BackupOldFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupOldFolderName' )
 If ( Test-Path -Path:$BackupOldFolderName ) { Remove-Item -Path:$BackupOldFolderName -Recurse }
