@@ -5,7 +5,8 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
---:setvar EndLoadDate 1998-01-10
+--:setvar LoadDateIncrementalEnd 1998-01-04
+--:setvar LoadDateInitialEnd 1997-12-31
 --:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
@@ -150,26 +151,6 @@ IF NOT EXISTS (
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'MDSDatabaseName'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'String'
-END;
-GO
-
-DECLARE @var sql_variant = N'$(ExternalFilesPath)\Northwind Data Profile.xml'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'DataProfilingConnectionString'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'DataProfilingConnectionString'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'
@@ -339,23 +320,43 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'$(EndLoadDate)'
+DECLARE @var sql_variant = N'$(LoadDateIncrementelEnd)'
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
 				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'EndLoadDate'
+	WHERE		EV.[name] = N'LoadDateIncrementelEnd'
 )
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'EndLoadDate'
+			  @variable_name=N'LoadDateIncrementelEnd'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
-			, @data_type=N'String'
+			, @data_type=N'DateTime'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(LoadDateInitialEnd)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LoadDateInitialEnd'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LoadDateInitialEnd'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'DateTime'
 END;
 GO
 

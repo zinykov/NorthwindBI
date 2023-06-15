@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="238"
-  DTS:VersionGUID="{766F21BC-7158-49A3-BA88-ACAAFDD0007A}">
+  DTS:VersionBuild="243"
+  DTS:VersionGUID="{FA5C8052-C144-4EA2-98A1-1F6A3E7A9F08}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -64,7 +64,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="var_CutoffTime">
       <DTS:VariableValue
-        DTS:DataType="7">12/31/1997</DTS:VariableValue>
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -260,7 +260,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean up backups"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -296,10 +296,10 @@
           DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
           DTS:CreationName="STOCK:FORLOOP"
           DTS:DTSID="{890fd178-04d3-45e3-a155-568a8acc69ef}"
-          DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-01-02&quot;"
+          DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-1-3&quot;"
           DTS:ExecutableType="STOCK:FORLOOP"
           DTS:FailPackageOnFailure="True"
-          DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1998-01-01&quot;"
+          DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1998-1-1&quot;"
           DTS:LocaleID="-1"
           DTS:MaxConcurrent="1"
           DTS:ObjectName="Incremental load immitation">
@@ -307,7 +307,9 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" +  @[$Project::EndLoadDate] + "\""</DTS:PropertyExpression>
+            DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" + (DT_WSTR, 4) YEAR( @[$Project::LoadDateIncrementelEndLoad]  ) + "-" + (DT_WSTR, 2) MONTH( @[$Project::LoadDateIncrementelEndLoad]  ) + "-" + (DT_WSTR, 2) DAY( @[$Project::LoadDateIncrementelEndLoad]  ) + "\""</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="InitExpression">"@var_CutoffTime = (DT_DATE)\"" + (DT_WSTR, 4) YEAR( DATEADD( "dd", 1, @[$Project::LoadDateInitialEndLoad]  )  ) + "-" + (DT_WSTR, 2) MONTH( DATEADD( "dd", 1, @[$Project::LoadDateInitialEndLoad]  )  ) + "-" + (DT_WSTR, 2) DAY( DATEADD( "dd", 1, @[$Project::LoadDateInitialEndLoad]  )  ) + "\""</DTS:PropertyExpression>
           <DTS:Executables>
             <DTS:Executable
               DTS:refId="Package\Test\Incremental load immitation\Incremental load"
@@ -350,7 +352,7 @@
               <PackageName>Initial Load.dtsx</PackageName>
               <ParameterAssignment>
                 <ParameterName>CutoffTime</ParameterName>
-                <BindedVariableOrParameterName>User::var_CutoffTime</BindedVariableOrParameterName>
+                <BindedVariableOrParameterName>$Project::LoadDateIncrementalEnd</BindedVariableOrParameterName>
               </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
@@ -363,7 +365,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Maintence Subsystems"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />

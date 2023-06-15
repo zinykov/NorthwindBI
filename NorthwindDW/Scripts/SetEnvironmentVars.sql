@@ -5,7 +5,8 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
---:setvar EndLoadDate 1998-01-10
+--:setvar LoadDateIncrementalEnd 1998-01-04
+--:setvar LoadDateInitialEnd 1997-12-31
 --:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
@@ -171,12 +172,12 @@ GO
 
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
-		, @parameter_name = N'EndLoadDate'
+		, @parameter_name = N'LoadDateIncrementalEnd'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
-		, @parameter_value = N'EndLoadDate'
+		, @parameter_value = N'LoadDateIncrementalEnd'
 GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
