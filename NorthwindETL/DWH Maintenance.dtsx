@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="164"
-  DTS:VersionGUID="{76D422B0-0632-4C13-84D6-12495CC3D4A4}">
+  DTS:VersionBuild="170"
+  DTS:VersionGUID="{7186EFEB-47DC-4E88-89CB-A9A0D876F703}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -51,24 +51,6 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{499CA2B2-3D78-45A8-9160-26A9D2C0B25C}"
-      DTS:IncludeInDebugDump="6789"
-      DTS:Namespace="User"
-      DTS:ObjectName="IsSetFilegroupReadonly">
-      <DTS:VariableValue
-        DTS:DataType="11">0</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{81012F07-0914-4D75-BA8C-A2FC5F934451}"
-      DTS:IncludeInDebugDump="6789"
-      DTS:Namespace="User"
-      DTS:ObjectName="IsStartOptimization">
-      <DTS:VariableValue
-        DTS:DataType="11">0</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
       DTS:DTSID="{769D60EA-83BB-4072-B6C6-B53A366F5304}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
@@ -85,28 +67,6 @@
       <DTS:VariableValue
         DTS:DataType="8"
         xml:space="preserve"></DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{EB29ADC7-810B-4D43-8240-06B3BE109267}"
-      DTS:EvaluateAsExpression="True"
-      DTS:Expression="REPLACE( @[$Project::BackupFilesPath] ,  &quot;\\&quot;, &quot;/&quot; )"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="var_BackupFilesPath">
-      <DTS:VariableValue
-        DTS:DataType="8">C:/SSIS/NorthwindBI/Backups/</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{B958A1AB-6490-4120-A5C1-A7D0293C9C30}"
-      DTS:EvaluateAsExpression="True"
-      DTS:Expression="REPLACE( @[$Project::ExternalFilesPath],  &quot;\\&quot;, &quot;/&quot; )"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="var_ExternalFilesPath">
-      <DTS:VariableValue
-        DTS:DataType="8">C:/SSIS/NorthwindBI/</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -216,7 +176,7 @@
     <DTS:Executable
       DTS:refId="Package\Backups"
       DTS:CreationName="Microsoft.ExecuteProcess"
-      DTS:DTSID="{F9F81B94-C1E4-4100-8672-E8A5736286B4}"
+      DTS:DTSID="{46ac5b8a-45a3-4a45-af45-d69781feb07e}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Backups"
@@ -1154,7 +1114,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1171,7 +1131,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1211,7 +1171,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1228,7 +1188,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1269,21 +1229,21 @@
       DTS:ObjectName="Constraint 1"
       DTS:To="Package\Check DWH integrity" />
     <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
-      DTS:DTSID="{38821AFF-E303-482D-A2BA-CECBBE9C6ECC}"
-      DTS:From="Package\Check DWH integrity"
+      DTS:DTSID="{3EFC332E-B704-4582-AEF6-2F555D8C97B3}"
+      DTS:From="Package\Backups"
       DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 3"
-      DTS:To="Package\Backups" />
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Copy DWH metadata to Logs DB" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
       DTS:CreationName=""
-      DTS:DTSID="{8FB1E5D9-9FFD-4CF9-8D62-39E8AA353F3B}"
-      DTS:From="Package\Backups"
+      DTS:DTSID="{6C6ED61C-56E1-477A-9146-F1B5377B3C82}"
+      DTS:From="Package\Check DWH integrity"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 5"
-      DTS:To="Package\Copy DWH metadata to Logs DB" />
+      DTS:To="Package\Backups" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -1370,7 +1330,7 @@
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nBackupFolderName = &quot; + (DT_WSTR, 500) @[User::BackupFolderName] + &quot;\r\nBackupOldFolderName = &quot; + (DT_WSTR, 500) @[User::BackupOldFolderName] + &quot;\r\nOldBackupFolder = &quot; + (DT_WSTR, 500) @[User::OldBackupFolder] + &quot;\r\nBackupsReadOnlyPath = &quot; + (DT_WSTR, 500) @[User::BackupsReadOnlyPath] + &quot;\r\nBackupsReadWritePath = &quot; + (DT_WSTR, 500) @[User::BackupsReadWritePath] + &quot;\r\nIsSetFilegroupReadonly = &quot; + (DT_WSTR, 5) @[User::IsSetFilegroupReadonly] + &quot;\r\nIsStartOptimization = &quot; + (DT_WSTR, 5) @[User::IsStartOptimization]" />
+              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nIsSetFilegroupReadonly = &quot; + (DT_WSTR, 5) @[User::IsSetFilegroupReadonly] + &quot;\r\nIsStartOptimization = &quot; + (DT_WSTR, 5) @[User::IsStartOptimization]" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1398,10 +1358,6 @@
     <LayoutInfo>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="124,42"
-          Id="Package\Backups"
-          TopLeft="352.5,465" />
         <NodeLayout
           Size="177,42"
           Id="Package\Check DWH integrity"
@@ -1442,7 +1398,7 @@
           PanelSize="182,205"
           Size="182,248"
           Id="Package\Copy DWH metadata to Logs DB"
-          TopLeft="323.5,567.5" />
+          TopLeft="323.5,566.5" />
         <NodeLayout
           Size="159,42"
           Id="Package\DWH\Optimize indexes"
@@ -1585,32 +1541,24 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Backups"
+          TopLeft="355.5,464.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="442.666666666667,404.5">
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="414.5,506.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-28.1666666666667,60.5"
+              EndConnector="0,60"
               Start="0,0"
-              End="-28.1666666666667,53">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.525195968645" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.525195968645"
-                    Point2="0,24.525195968645"
-                    Point3="-4,24.525195968645" />
-                  <mssgle:LineSegment
-                    End="-24.1666666666667,24.525195968645" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-24.1666666666667,24.525195968645"
-                    Point2="-28.1666666666667,24.525195968645"
-                    Point3="-28.1666666666667,28.525195968645" />
-                  <mssgle:LineSegment
-                    End="-28.1666666666667,53" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1621,30 +1569,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="414.5,507">
+          TopLeft="414.5,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="29.0000000000001,60.5"
+              EndConnector="0,60"
               Start="0,0"
-              End="29.0000000000001,53">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.983660130719" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.983660130719"
-                    Point2="0,35.983660130719"
-                    Point3="4,35.983660130719" />
-                  <mssgle:LineSegment
-                    End="25.0000000000001,35.983660130719" />
-                  <mssgle:CubicBezierSegment
-                    Point1="25.0000000000001,35.983660130719"
-                    Point2="29.0000000000001,35.983660130719"
-                    Point3="29.0000000000001,39.983660130719" />
-                  <mssgle:LineSegment
-                    End="29.0000000000001,53" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1662,24 +1598,28 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="NaN,NaN"
+          Size="157,42"
           Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="NaN,NaN" />
+          TopLeft="68.5,136.5" />
         <NodeLayout
-          Size="NaN,NaN"
+          Size="185,42"
           Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="NaN,NaN" />
+          TopLeft="54.5,34.5" />
         <EdgeLayout
           Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          TopLeft="NaN,NaN">
+          TopLeft="147,76.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="{assembly:Null}"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,0">
+              End="0,52.5">
               <mssgle:Curve.Segments>
-                <assembly:Null />
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
@@ -1696,7 +1636,7 @@
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="141,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
@@ -1732,9 +1672,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1756,9 +1694,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
