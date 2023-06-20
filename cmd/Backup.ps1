@@ -3,7 +3,7 @@
 PowerShell -ExecutionPolicy Unrestricted -command "C:/SSIS/NorthwindBI/Scripts/Backup.ps1 ( Get-Date -Date:31.12.1997 ) "SWIFT3" "NorthwindDW" "C:/SSIS/NorthwindBI/" 3 "C:/SSIS/NorthwindBI/Backups/""
 
 	Call Expression
-"-ExecutionPolicy Unrestricted -command \"" + @[$User::var_ExternalFilesPath] + "Scripts\\Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$User::var_ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$User::var_BackupFilesPath] + "\"\""
+"-ExecutionPolicy Unrestricted -command \"" + @[$User::var_ExternalFilesPath] + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[$User::var_ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[$User::var_BackupFilesPath] + "\"\""
 #>
 
 param(
@@ -34,7 +34,7 @@ $IsSetFilegroupReadonly = Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database
 
 If ( $IsSetFilegroupReadonly )
 {
-    $InputFile = $ExternalFilesPath + 'Scripts\SetFilegroupsReadOnly.sql'
+    $InputFile = $ExternalFilesPath + 'Scripts/SetFilegroupsReadOnly.sql'
     Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -InputFile:$InputFile -Variable:"DatabaseName=$DWHDatabaseName","Cutofftime=$CutoffTimeStr" -Verbose
 }
 
@@ -53,10 +53,10 @@ $query = "
 "
 $Output = Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
 
-$BackupsReadOnly = $BackupFilesPath + $DWHDatabaseName + '\ReadOnly'
+$BackupsReadOnly = $BackupFilesPath + $DWHDatabaseName + '/ReadOnly'
 If ( !( Test-Path -Path:$BackupsReadOnly ) ) { New-Item -ItemType:'directory' -Path:$BackupsReadOnly }
 
-$BackupFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupFolderName' )
+$BackupFolderName = $BackupFilesPath + $DWHDatabaseName + '/' + ( $Output | Select-Object -ExpandProperty:'BackupFolderName' )
 If ( !( Test-Path -Path:$BackupFolderName ) ) { New-Item -ItemType:'directory' -Path:$BackupFolderName }
 
 If ( Test-Path -Path:$BackupFolderName, $BackupsReadOnly )
@@ -69,5 +69,5 @@ If ( Test-Path -Path:$BackupFolderName, $BackupsReadOnly )
 	"
 	Invoke-Sqlcmd -ServerInstance:$DWHServerName -Database:$DWHDatabaseName -Query:$query -Verbose
 }
-$BackupOldFolderName = $BackupFilesPath + $DWHDatabaseName + '\' + ( $Output | Select-Object -ExpandProperty:'BackupOldFolderName' )
+$BackupOldFolderName = $BackupFilesPath + $DWHDatabaseName + '/' + ( $Output | Select-Object -ExpandProperty:'BackupOldFolderName' )
 If ( Test-Path -Path:$BackupOldFolderName ) { Remove-Item -Path:$BackupOldFolderName -Recurse }

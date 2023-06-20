@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
-  DTS:VersionBuild="170"
-  DTS:VersionGUID="{7186EFEB-47DC-4E88-89CB-A9A0D876F703}">
+  DTS:VersionBuild="177"
+  DTS:VersionGUID="{CA442A93-DE77-4AAE-B5C6-C81A1621EB92}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -45,7 +45,7 @@
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">1/3/1998</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -67,6 +67,28 @@
       <DTS:VariableValue
         DTS:DataType="8"
         xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B6E123B1-0175-4064-B15F-EDB7BE0EF3E0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="REPLACE( @[$Project::BackupFilesPath] , &quot;\\&quot;, &quot;/&quot; )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Var_BackupsFilsPath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:/SSIS/NorthwindBI/Backups/</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{81D7EE07-8139-4D12-A780-76734954A0C9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="REPLACE( @[$Project::ExternalFilesPath] , &quot;\\&quot;, &quot;/&quot; )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Var_ExternalFilesPath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:/SSIS/NorthwindBI/</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -183,11 +205,11 @@
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
-        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \"" + @[User::var_ExternalFilesPath] + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[User::var_ExternalFilesPath] + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[User::var_BackupFilesPath] + "\"\""</DTS:PropertyExpression>
+        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \"" + @[User::Var_ExternalFilesPath]  + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[User::Var_ExternalFilesPath]  + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[User::Var_BackupsFilsPath] + "\"\""</DTS:PropertyExpression>
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
-          Arguments="-ExecutionPolicy Unrestricted -command &quot;C:/SSIS/NorthwindBI/Scripts/Backup.ps1 ( Get-Date -Date:0:00:00 ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;C:/SSIS/NorthwindBI/&quot; 3 &quot;C:/SSIS/NorthwindBI/Backups/&quot;&quot;" />
+          Arguments="-ExecutionPolicy Unrestricted -command &quot;C:/SSIS/NorthwindBI/Scripts/Backup.ps1 ( Get-Date -Date:03.01.1998 ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;C:/SSIS/NorthwindBI/&quot; 3 &quot;C:/SSIS/NorthwindBI/Backups/&quot;&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -1114,7 +1136,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1131,7 +1153,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1171,7 +1193,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1188,7 +1210,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1330,7 +1352,7 @@
           <DTS:Variables />
           <DTS:ObjectData>
             <ExpressionTask
-              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nIsSetFilegroupReadonly = &quot; + (DT_WSTR, 5) @[User::IsSetFilegroupReadonly] + &quot;\r\nIsStartOptimization = &quot; + (DT_WSTR, 5) @[User::IsStartOptimization]" />
+              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey]" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1358,6 +1380,10 @@
     <LayoutInfo>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Backups"
+          TopLeft="355.5,464.5" />
         <NodeLayout
           Size="177,42"
           Id="Package\Check DWH integrity"
@@ -1541,10 +1567,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="118,42"
-          Id="Package\Backups"
-          TopLeft="355.5,464.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="414.5,506.5">
@@ -1596,7 +1618,7 @@
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="157,42"
           Id="Package.EventHandlers[OnError]\Error notification"
@@ -1624,9 +1646,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1636,7 +1656,7 @@
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="141,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
@@ -1672,7 +1692,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1694,7 +1716,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
