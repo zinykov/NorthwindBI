@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
-  DTS:VersionBuild="247"
-  DTS:VersionGUID="{7AB01160-4280-4E0B-AE60-BAC9062E1815}">
+  DTS:VersionBuild="248"
+  DTS:VersionGUID="{5B754CF3-35FD-430F-97E7-80E7D0FDD958}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -210,7 +210,6 @@
     <DTS:Executable
       DTS:refId="Package\Logman Start"
       DTS:CreationName="Microsoft.ExecuteProcess"
-      DTS:Disabled="True"
       DTS:DTSID="{accbcf17-60bd-44f0-b336-e42dad92ee54}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
@@ -221,14 +220,13 @@
         DTS:FilterKind="0" />
       <DTS:ObjectData>
         <ExecuteProcessData
-          Executable="C:\Windows\System32\cmd.exe"
-          Arguments="C:\Users\zinyk\source\repos\Northwind_BI_Solution\cmd\logmanStart.bat" />
+          Executable="%SystemRoot%\System32\logman.exe"
+          Arguments="start &quot;SQL Server&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Logman Stop"
       DTS:CreationName="Microsoft.ExecuteProcess"
-      DTS:Disabled="True"
       DTS:DTSID="{ebadb407-9bd5-4219-bc12-3d9c002f0599}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
@@ -239,8 +237,8 @@
         DTS:FilterKind="0" />
       <DTS:ObjectData>
         <ExecuteProcessData
-          Executable="C:\Windows\System32\cmd.exe"
-          Arguments="C:\Users\zinyk\source\repos\Northwind_BI_Solution\cmd\logmanStop.bat" />
+          Executable="%SystemRoot%\System32\logman.exe"
+          Arguments="stop &quot;SQL Server&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -272,22 +270,22 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Test\Crash and recovery"
+          DTS:refId="Package\Test\Crash DWH"
           DTS:CreationName="Microsoft.ExecuteProcess"
           DTS:DTSID="{e6525052-6fda-479c-b44e-5a468e327568}"
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Crash and recovery"
+          DTS:ObjectName="Crash DWH"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName] + " &amp;&amp; SQLCmd -S "+ @[$Project::LogsServerName]  +" -d "+ @[$Project::LogsDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\RestoreDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
+            DTS:Name="Arguments">"-S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
-              Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C SQLCmd -S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW &amp;&amp; SQLCmd -S SWIFT3 -d NorthwindLogs -E -i &quot;C:\SSIS\NorthwindBI\Scripts\RestoreDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
+              Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
+              Arguments="-S SWIFT3 -d master -E -i &quot;C:\SSIS\NorthwindBI\Scripts\DropDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -379,6 +377,25 @@
               SQLTask:AgentJobID="NorthwindBI.Maintence Subsystems" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Test\Recover DWH"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{336b8e42-c385-40fe-8b40-26ae0856f6d5}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Recover DWH"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"-S "+ @[$Project::LogsServerName]  +" -d "+ @[$Project::LogsDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\RestoreDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
+              Arguments="-S SWIFT3 -d NorthwindLogs -E -i &quot;C:\SSIS\NorthwindBI\Scripts\RestoreDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -406,13 +423,21 @@
           DTS:ObjectName="Constraint 2"
           DTS:To="Package\Test\Initial load" />
         <DTS:PrecedenceConstraint
+          DTS:refId="Package\Test.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{3B134B70-4BA9-44A7-9427-9859ABEFAADC}"
+          DTS:From="Package\Test\Crash DWH"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Test\Recover DWH" />
+        <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Constraint 4]"
           DTS:CreationName=""
           DTS:DTSID="{22187405-6867-4e28-9d08-dc005d416a26}"
           DTS:From="Package\Test\Incremental load immitation"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 4"
-          DTS:To="Package\Test\Crash and recovery" />
+          DTS:To="Package\Test\Crash DWH" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
   </DTS:Executables>
@@ -615,23 +640,23 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="142,42"
           Id="Package\Logman Start"
-          TopLeft="159.1,49.5" />
+          TopLeft="158.5,54.5" />
         <NodeLayout
           Size="141,42"
           Id="Package\Logman Stop"
-          TopLeft="159.5,765.5" />
+          TopLeft="159,874.5" />
         <NodeLayout
           Size="162,42"
           Id="Package\Test\Clean up backups"
-          TopLeft="5.50000000000001,5.49999999999995" />
+          TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="170,42"
-          Id="Package\Test\Crash and recovery"
-          TopLeft="235.5,414.3" />
+          Size="133,42"
+          Id="Package\Test\Crash DWH"
+          TopLeft="254,415.5" />
         <NodeLayout
           Size="158,42"
           Id="Package\Test\Incremental load immitation\Incremental load"
@@ -642,29 +667,29 @@
           PanelSize="170,103"
           Size="170,146"
           Id="Package\Test\Incremental load immitation"
-          TopLeft="235.9,208.7" />
+          TopLeft="235.5,209.5" />
         <NodeLayout
           Size="128,42"
           Id="Package\Test\Initial load"
-          TopLeft="256.3,107.1" />
+          TopLeft="256.5,107.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\Test\Maintence Subsystems"
-          TopLeft="227.5,5.49999999999995" />
+          TopLeft="228,5.5" />
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint]"
-          TopLeft="320.5,148.7">
+          TopLeft="320.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -675,30 +700,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint 1]"
-          TopLeft="86.3,47.1">
+          TopLeft="86.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="214,59.9999999999999"
+              EndConnector="214,60"
               Start="0,0"
-              End="214,52.4999999999999">
+              End="214,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5555555555555" />
+                    End="0,31.5555555555556" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.5555555555555"
-                    Point2="0,35.5555555555555"
-                    Point3="4,35.5555555555555" />
+                    Point1="0,31.5555555555556"
+                    Point2="0,35.5555555555556"
+                    Point3="4,35.5555555555556" />
                   <mssgle:LineSegment
-                    End="210,35.5555555555555" />
+                    End="210,35.5555555555556" />
                   <mssgle:CubicBezierSegment
-                    Point1="210,35.5555555555555"
-                    Point2="214,35.5555555555555"
-                    Point3="214,39.5555555555555" />
+                    Point1="210,35.5555555555556"
+                    Point2="214,35.5555555555556"
+                    Point3="214,39.5555555555556" />
                   <mssgle:LineSegment
-                    End="214,52.4999999999999" />
+                    End="214,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -709,30 +734,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint 2]"
-          TopLeft="319.9,47.1">
+          TopLeft="320.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="20.4,59.9999999999999"
+              EndConnector="20,60"
               Start="0,0"
-              End="20.4,52.4999999999999">
+              End="20,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5555555555555" />
+                    End="0,31.5555555555556" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.5555555555555"
-                    Point2="0,35.5555555555555"
-                    Point3="4,35.5555555555555" />
+                    Point1="0,31.5555555555556"
+                    Point2="0,35.5555555555556"
+                    Point3="4,35.5555555555556" />
                   <mssgle:LineSegment
-                    End="16.4,35.5555555555555" />
+                    End="16,35.5555555555556" />
                   <mssgle:CubicBezierSegment
-                    Point1="16.4,35.5555555555555"
-                    Point2="20.4,35.5555555555555"
-                    Point3="20.4,39.5555555555555" />
+                    Point1="16,35.5555555555556"
+                    Point2="20,35.5555555555556"
+                    Point3="20,39.5555555555556" />
                   <mssgle:LineSegment
-                    End="20.4,52.4999999999999" />
+                    End="20,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -743,18 +768,44 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint 4]"
-          TopLeft="320.5,354.3">
+          TopLeft="320.5,355.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Test\Recover DWH"
+          TopLeft="251,517.5" />
+        <EdgeLayout
+          Id="Package\Test.PrecedenceConstraints[Constraint 3]"
+          TopLeft="320.5,457.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -766,13 +817,13 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="418,511"
-          Size="418,554"
+          PanelSize="418,614"
+          Size="418,658"
           Id="Package\Test"
-          TopLeft="20.7,151.1" />
+          TopLeft="20.5000000000001,156.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="229.9,91.1">
+          TopLeft="229.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -794,7 +845,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="229.9,705.5">
+          TopLeft="229.5,814.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
