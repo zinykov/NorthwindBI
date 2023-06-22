@@ -180,6 +180,16 @@ EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		, @parameter_value = N'LoadDateIncrementalEnd'
 GO
 
+EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LoadDateInitialEnd'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LoadDateInitialEnd'
+GO
+
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
 		, @parameter_name = N'LandingDatabaseName'

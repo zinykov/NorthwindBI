@@ -340,6 +340,26 @@ BEGIN
 END;
 GO
 
+DECLARE @var sql_variant = N'$(LoadDateIncrementalEnd)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'LoadDateIncrementalEnd'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LoadDateIncrementalEnd'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'DateTime'
+END;
+GO
+
 DECLARE @var sql_variant = N'$(LoadDateInitialEnd)'
 IF NOT EXISTS (
 	SELECT 1
