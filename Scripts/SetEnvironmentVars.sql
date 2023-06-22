@@ -1,12 +1,13 @@
 ﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar BackupFilesPath "C:/SSIS/NorthwindBI/Backups/"
---:setvar DBFilesPath "C:/Program Files/Microsoft SQL Server/MSSQL15.MSSQLSERVER/MSSQL/DATA/"
+--:setvar BackupFilesPath "C:\SSIS\NorthwindBI\Backups\"
+--:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
 --:setvar DQSDatabaseName DQS_STAGING_DATA
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
---:setvar EndLoadDate 1998-01-10
---:setvar ExternalFilesPath "C:/SSIS/NorthwindBI/"
+--:setvar LoadDateIncrementalEnd 1998-01-04
+--:setvar LoadDateInitialEnd 1997-12-31
+--:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
 --:setvar LogsServerName SWIFT3
 --:setvar MDSDatabaseName MDS
@@ -171,12 +172,22 @@ GO
 
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
-		, @parameter_name = N'EndLoadDate'
+		, @parameter_name = N'LoadDateIncrementalEnd'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
-		, @parameter_value = N'EndLoadDate'
+		, @parameter_value = N'LoadDateIncrementalEnd'
+GO
+
+EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'LoadDateInitialEnd'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'LoadDateInitialEnd'
 GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]

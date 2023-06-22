@@ -13,8 +13,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Northwind  упрощённая"
   DTS:PackageType="5"
-  DTS:VersionBuild="41"
-  DTS:VersionGUID="{543CF9C9-BA9C-4576-9C3A-538AD5A10B87}">
+  DTS:VersionBuild="44"
+  DTS:VersionGUID="{BD8AC877-2A2B-478F-A970-8EEBEE4418FE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -225,11 +225,11 @@
         DTS:DTSID="{0ff2a825-0af9-4ccf-b548-018fb39802ee}"
         DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
         <DTS:PropertyExpression
-          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData/"</DTS:PropertyExpression>
+          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData\\"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:/SSIS/NorthwindBI/IngestData/" />
+              Folder="C:\SSIS\NorthwindBI\IngestData\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -255,19 +255,19 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="Arguments">"/C bcp \"[dbo].["+ @[User::FileName]  +"]\" out \""+ @[$Project::ExternalFilesPath] +"IngestData/"+ @[User::FileName]  +".dat\" -f \""+ @[$Project::ExternalFilesPath] +"IngestData/"+ @[User::FileName]  +".fmt\" -S \"SQL.Samorodov.su\" -d \"Northwind (упрощённая)\" -U \""+ @[$Package::Login] +"\" -P \"" + @[$Package::Password] + "\""</DTS:PropertyExpression>
+            DTS:Name="Arguments">"\"[dbo].["+ @[User::FileName]  +"]\" out \""+ @[$Project::ExternalFilesPath] +"IngestData\\"+ @[User::FileName]  +".dat\" -f \""+ @[$Project::ExternalFilesPath] +"IngestData\\"+ @[User::FileName]  +".fmt\" -S \"SQL.Samorodov.su\" -d \"Northwind (упрощённая)\" -U \""+ @[$Package::Login] +"\" -P \"" + @[$Package::Password] + "\""</DTS:PropertyExpression>
           <DTS:ObjectData>
             <ExecuteProcessData
-              Executable="C:\Windows\System32\cmd.exe"
-              Arguments="/C bcp &quot;[dbo].[]&quot; out &quot;C:/SSIS/NorthwindBI/IngestData/.dat&quot; -f &quot;C:/SSIS/NorthwindBI/IngestData/.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
+              Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;[dbo].[]&quot; out &quot;C:\SSIS\NorthwindBI\IngestData\.dat&quot; -f &quot;C:\SSIS\NorthwindBI\IngestData\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{928AE983-1118-469A-9CE2-BAF03E04459B}"
-          DTS:ObjectName="{928AE983-1118-469A-9CE2-BAF03E04459B}"
+          DTS:DTSID="{bcf080d2-75ff-4c90-a999-a996f122188e}"
+          DTS:ObjectName="{53E6ABA3-927F-47DA-90FC-E3F10975381A}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
