@@ -340,7 +340,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'$(LoadDateIncrementalEnd)'
+DECLARE @var datetime = N'$(LoadDateIncrementalEnd)'
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
@@ -360,7 +360,7 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'$(LoadDateInitialEnd)'
+DECLARE @var datetime = N'$(LoadDateInitialEnd)'
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
