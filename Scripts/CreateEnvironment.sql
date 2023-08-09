@@ -5,7 +5,7 @@
 --:setvar DQSServerName SWIFT3
 --:setvar DWHDatabaseName NorthwindDW
 --:setvar DWHServerName SWIFT3
---:setvar LoadDateIncrementalEnd 1998-01-04
+--:setvar LoadDateIncrementalEnd 1998-05-06
 --:setvar LoadDateInitialEnd 1997-12-31
 --:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
 --:setvar LogsDatabaseName Logs
@@ -220,26 +220,6 @@ BEGIN
 END;
 GO
 
-DECLARE @var sql_variant = N'$(OLTPNorthwidPassword)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'OLTPNorthwidPassword'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'OLTPNorthwidPassword'
-			, @sensitive=True
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'String'
-END;
-GO
-
 DECLARE @var sql_variant = N'$(XMLCalendarFolder)'
 IF NOT EXISTS (
 	SELECT 1
@@ -317,26 +297,6 @@ BEGIN
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'Int16'
-END;
-GO
-
-DECLARE @var sql_variant = N'$(LoadDateIncrementelEnd)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'LoadDateIncrementelEnd'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'LoadDateIncrementelEnd'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'DateTime'
 END;
 GO
 

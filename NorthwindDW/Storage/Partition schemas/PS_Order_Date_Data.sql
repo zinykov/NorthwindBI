@@ -5,6 +5,6 @@
 		, [Order_Unknown_member_Data]	--2
 		, [Order_1996_Data]				--3
 		, [Order_1997_Data]				--4
-		, [Order_1998_Data]				--5
+		--, [Order_1998_Data]				--5
 	)
 GO

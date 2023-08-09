@@ -9,7 +9,7 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\Scripts\ResourceGovernor.sql
+--:r .\Scripts\ResourceGovernor.sql
 
 USE [$(DatabaseName)];
 GO
