@@ -9,12 +9,12 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{6DCD01FC-0739-4C0A-8AB4-9F8F0C303BD1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5035.3"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Orders"
   DTS:PackageType="5"
-  DTS:VersionBuild="288"
-  DTS:VersionGUID="{DCA0A6D2-8103-4EA3-91D8-A1FB0C8C8257}">
+  DTS:VersionBuild="290"
+  DTS:VersionGUID="{642F68AE-635A-4ABD-8B7A-AA894A1AB291}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -648,13 +648,13 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
                               description="Понятное выражение производного столбца"
                               expressionType="Notify"
-                              name="FriendlyExpression">REPLACENULL(UnitPrice * Discount,0)</property>
+                              name="FriendlyExpression">REPLACENULL(Quantity * UnitPrice * Discount,0)</property>
                           </properties>
                         </inputColumn>
                         <inputColumn
@@ -787,13 +787,13 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * (1 - [REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]},0)),0)</property>
+                              name="Expression">[REPLACENULL](#{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Quantity]} * #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[UnitPrice]} * (1 - #{Package\Load DWH\Fill Load Table\Extract data.Outputs[Выход источника "OLE DB"].Columns[Discount]}),0)</property>
                             <property
                               containsID="true"
                               dataType="System.String"
                               description="Понятное выражение производного столбца"
                               expressionType="Notify"
-                              name="FriendlyExpression">REPLACENULL(Quantity * UnitPrice * (1 - REPLACENULL(Discount,0)),0)</property>
+                              name="FriendlyExpression">REPLACENULL(Quantity * UnitPrice * (1 - Discount),0)</property>
                           </properties>
                         </outputColumn>
                         <outputColumn
@@ -2194,12 +2194,12 @@ where [refTable].[ProductAlterKey] = ?</property>
       DTS:To="Package\Update Hash Table" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -2592,31 +2592,31 @@ where [refTable].[ProductAlterKey] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="160,41.6"
+          Size="160,42"
           Id="Package\Load DWH\Fill Load Table\Load Stage Table"
           TopLeft="101.5,663.9" />
         <NodeLayout
-          Size="178.4,41.6"
+          Size="178,42"
           Id="Package\Load DWH\Fill Load Table\Lookup EmployeeKey"
           TopLeft="92.3000000000001,359.1" />
         <NodeLayout
-          Size="168.8,41.6"
+          Size="169,42"
           Id="Package\Load DWH\Fill Load Table\Lookup ProductKey"
           TopLeft="97.1000000000001,460.7" />
         <NodeLayout
-          Size="249.6,41.6"
+          Size="250,42"
           Id="Package\Load DWH\Fill Load Table\Calculate measures &amp; replace NULLs"
           TopLeft="56.7000000000001,562.3" />
         <NodeLayout
-          Size="177.6,41.6"
+          Size="178,42"
           Id="Package\Load DWH\Fill Load Table\Lookup CustomerKey"
           TopLeft="92.7000000000001,257.5" />
         <NodeLayout
-          Size="135.2,41.6"
+          Size="135,42"
           Id="Package\Load DWH\Fill Load Table\Extract data"
           TopLeft="113.9,54.3" />
         <NodeLayout
-          Size="148,41.6"
+          Size="148,42"
           Id="Package\Load DWH\Fill Load Table\Add Load Date"
           TopLeft="107.5,155.9" />
         <EdgeLayout
