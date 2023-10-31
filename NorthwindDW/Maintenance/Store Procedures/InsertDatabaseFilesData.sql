@@ -3,7 +3,6 @@
 	, @FactTableName AS NVARCHAR(100)
 	, @FilePath AS VARCHAR(500)
 	, @IsClustered AS BIT
-
 AS BEGIN
 	DECLARE @GroupName AS NVARCHAR(100)
 	DECLARE @Name AS NVARCHAR(100)
