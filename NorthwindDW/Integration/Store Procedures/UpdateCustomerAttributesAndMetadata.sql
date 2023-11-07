@@ -7,8 +7,7 @@
 	, @Phone AS NVARCHAR(30)
 	, @Fax AS NVARCHAR(30)
 	, @EndDate AS DATE
-AS
-BEGIN
+AS BEGIN
 	UPDATE [Dimension].[Customer]
 	SET [Customer] = @Customer, [ContactName] = @ContactName, [ContactTitle] = @ContactTitle, [Phone] = @Phone, [Fax] = @Fax, [LineageKey] = @LineageKey
 	WHERE	[CustomerAlterKey] = @CustomerAlterKey

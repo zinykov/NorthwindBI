@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [Reports].[DQSStatusSubscription] AS
-BEGIN
+﻿CREATE PROCEDURE [Reports].[DQSStatusSubscription]
+AS BEGIN
 	IF OBJECT_ID ( N'#tempDQSstatus' ) IS NOT NULL
 		BEGIN
 			DROP TABLE #tempDQSstatus
