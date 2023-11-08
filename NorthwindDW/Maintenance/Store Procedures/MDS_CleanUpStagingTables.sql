@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [Maintenance].[MDS_CleanUpStagingTables] AS
-BEGIN
+﻿CREATE PROCEDURE [Maintenance].[MDS_CleanUpStagingTables]
+AS BEGIN
 	DECLARE @Model_id				AS INT;
 	DECLARE @CleanupOlderThanDate	AS DATE;
 

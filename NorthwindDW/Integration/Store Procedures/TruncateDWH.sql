@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [Integration].[TruncateDWH] AS
-BEGIN
+﻿CREATE PROCEDURE [Integration].[TruncateDWH]
+AS BEGIN
 	SET NOCOUNT ON;
 
 	ALTER TABLE [Dimension].[Customer] DROP CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage];

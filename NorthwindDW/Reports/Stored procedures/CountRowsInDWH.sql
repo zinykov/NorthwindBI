@@ -1,5 +1,4 @@
 ﻿CREATE PROCEDURE [Reports].[CountRowsInDWH]
-	WITH EXECUTE AS OWNER
 AS BEGIN
 	SELECT		  DISTINCT [Schema]		= S.[name]
 				, [Table]				= T.[name]
