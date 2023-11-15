@@ -20,4 +20,4 @@
     - Events in progress
 - CI/CD
 
-Start with [documentation](https://dev.azure.com/zinykov/20767/_git/Northwind_BI_Solution?path=/Docs/Northwind%20BI%20Solution.docx).
+Start with [documentation](https://dev.azure.com/zinykov/NorthwindBI/_git/Northwind_BI_Solution?path=%2FDocs%2FNorthwind%20BI%20Solution.docx&version=GBmaster&_a=contents).
