@@ -1,6 +1,10 @@
 ﻿--:setvar DatabaseName "NorthwindDW"
 --:setvar Cutofftime '01.01.1998'
 
+/*
+	"-S "++" -E -i \""++"Scripts\SetFilegroupsReadOnly.sql" -v DatabaseName="++" CutoffTime='"++"' IsStartOptimization="++" && timeout /t 5"
+*/
+
 USE [master];
 GO
 

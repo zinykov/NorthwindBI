@@ -1,1 +1,0 @@
-"-S "++" -E -i \""++"Scripts\SetFilegroupsReadOnly.sql" -v DatabaseName="++" CutoffTime='"++"' IsStartOptimization="++" && timeout /t 5"
