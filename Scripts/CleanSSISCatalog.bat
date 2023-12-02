@@ -20,4 +20,4 @@
 ::setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
 ::setvar LandingDatabaseName Landing
 ::setvar LandingServerName SWIFT3
-sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\$(DWHDatabaseName)\Scripts\CleanSSISCatalog.sql" -v SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISEnvironmentName="$(SSISEnvironmentName)"
+sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CleanSSISCatalog.sql" -v SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISEnvironmentName="$(SSISEnvironmentName)"

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью указанного ниже 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("LandingTestProject")]
+[assembly: AssemblyTitle("UnitTestsDW")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LandingTestProject")]
+[assembly: AssemblyProduct("UnitTestsDW")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("3f5ac7fa-fa31-464b-8fae-7478a2b00edc")]
+[assembly: Guid("75108a59-4f5d-4fd0-a64e-679d80512433")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
