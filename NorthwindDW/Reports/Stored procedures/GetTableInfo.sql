@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[GetTableInfo]
+﻿CREATE PROCEDURE [Reports].[GetTableInfo]
 AS BEGIN
 	IF OBJECT_ID ( N'tempdb..#tblspaceused' ) IS NULL
 		BEGIN
