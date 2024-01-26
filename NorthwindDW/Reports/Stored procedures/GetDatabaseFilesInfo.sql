@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[GetDatabaseFilesInformation]
+﻿CREATE PROCEDURE [Reports].[GetDatabaseFilesInfo]
 AS BEGIN
 	SELECT	  [DatabaseFileKey]
 			, [GroupName]
