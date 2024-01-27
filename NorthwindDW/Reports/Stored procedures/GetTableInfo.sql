@@ -92,19 +92,6 @@ AS BEGIN
 				AND SEP.[minor_id] = 0
 				AND SEP.[name] = N'MS_Description'
 
-	SELECT * FROM #tblresult
-
-	--SELECT		  [schema]
-	--			--, [name]
-	--			, [rows]		= FORMAT ( SUM ( [rows] ), N'#,##0', N'RU-RU' )
-	--			, [reserved]	= FORMAT ( SUM ( [reserved] ), N'#,##0', N'RU-RU' )
-	--			, [data]		= FORMAT ( SUM ( [data] ), N'#,##0', N'RU-RU' )
-	--			, [index_size]	= FORMAT ( SUM ( [index_size] ), N'#,##0', N'RU-RU' )
-	--			, [unused]		= FORMAT ( SUM ( [unused] ), N'#,##0', N'RU-RU' )
-	--FROM		#tblresult
-	--WHERE		[schema] IN ( N'Fact', N'Dimension' )
-	--GROUP BY	[schema] WITH ROLLUP
-
 	IF OBJECT_ID ( N'tempdb..#tblspaceused' ) IS NOT NULL DROP TABLE #tblspaceused
 	IF OBJECT_ID ( N'tempdb..#tblresult' ) IS NOT NULL DROP TABLE #tblresult
 END

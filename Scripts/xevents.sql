@@ -62,11 +62,34 @@
 --    STATE = STOP;
 --GO
 
-SELECT        CAST ( [event_data] AS xml ).value('(/event/action/value)[1]', 'NVARCHAR(MAX)') AS [statement]
-FROM        sys.fn_xe_file_target_read_file(
-                'C:\Windows\Temp\MySession_Target_0_133507587223670000.xel'
-              , null
-              , null
-              , null
-            );
+--DECLARE @FilePath AS NVARCHAR(260) = N'C:\Windows\Temp\MySession_Target_0_133507587223670000.xel';
+
+--SELECT        CAST ( [event_data] AS xml ).value('(/event/action/value)[1]', 'NVARCHAR(MAX)') AS [statement]
+--FROM        sys.fn_xe_file_target_read_file(
+--                @FilePath
+--              , null
+--              , null
+--              , null
+--            );
+--GO
+
+SELECT * FROM sys.traces;  
 GO
+
+USE [master];
+GO
+
+DECLARE @trace_id INT = 1;  
+
+SELECT        DISTINCT el.eventid
+            , em.package_name
+            , em.xe_event_name AS 'event'
+            , el.columnid
+            , ec.xe_action_name AS 'action'
+FROM        (
+                sys.fn_trace_geteventinfo ( @trace_id ) AS el
+                LEFT JOIN   sys.trace_xe_event_map AS em ON el.eventid = em.trace_event_id
+            )
+LEFT JOIN   sys.trace_xe_action_map AS ec ON el.columnid = ec.trace_column_id  
+WHERE       em.xe_event_name IS NOT NULL
+            AND ec.xe_action_name IS NOT NULL;
