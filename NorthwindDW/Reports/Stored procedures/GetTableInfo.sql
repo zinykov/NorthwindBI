@@ -79,14 +79,14 @@ AS BEGIN
 	CLOSE [GetTableSizeAndRows]
 	DEALLOCATE [GetTableSizeAndRows]
 
-	SELECT		  T.[schema]
-				, T.[name]
-				, SEP.[value] AS [Description]
-				, T.[rows]
-				, T.[reserved]
-				, T.[data]
-				, T.[index_size]
-				, T.[unused]
+	SELECT		  [Schema]		= T.[schema]
+				, [Table]		= T.[name]
+				, [Description]	= SEP.[value]
+				, [#Rows]		= T.[rows]
+				, [DataKB]		= T.[data]
+				, [IndexSizeKB]	= T.[index_size]
+				, [UnusedKB]	= T.[unused]
+				, [ReservedKB]	= T.[reserved]
 	FROM		#tblresult AS T
 	LEFT JOIN  sys.extended_properties AS SEP ON T.[object_id] = SEP.[major_id]
 				AND SEP.[minor_id] = 0
