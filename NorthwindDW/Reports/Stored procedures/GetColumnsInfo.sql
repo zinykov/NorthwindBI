@@ -4,11 +4,9 @@ AS BEGIN
     DECLARE @columnid AS INT;
     DECLARE @SchemaName AS SYSNAME;
     DECLARE @TableName AS SYSNAME;
-    DECLARE @FullObjectName AS NVARCHAR(MAX);
     DECLARE @ColumnName AS SYSNAME;
     DECLARE @Parameters AS NVARCHAR(MAX) = N'@objectid INT, @columnid INT';
     DECLARE @GetStats AS NVARCHAR(MAX);
-    DECLARE @GetDistribution AS NVARCHAR(MAX);
 
     IF OBJECT_ID ( N'tempdb..#GetColumsInfo' ) IS NULL
         CREATE TABLE #GetColumsInfo (
@@ -22,14 +20,6 @@ AS BEGIN
             , [IsNULL]          NVARCHAR(8)
             , [Min]             NVARCHAR(MAX)
             , [Max]             NVARCHAR(MAX)
-            , [CountDistinct]   BIGINT
-        );
-
-    IF OBJECT_ID ( N'tempdb..#GetColumsDistribution' ) IS NULL
-        CREATE TABLE #GetColumsDistribution (
-              [ObjectId]        INT
-            , [ColumnId]        INT
-            , [ColumnValue]     NVARCHAR(MAX)
             , [CountDistinct]   BIGINT
         );
 
@@ -95,26 +85,10 @@ AS BEGIN
                 ')
 
                 EXECUTE sp_executesql
-                      @GetStats
+                        @GetStats
                     , @Parameters
                     , @objectid = @objectid
                     , @columnid = @columnid;
-
-                SET @GetDistribution = CONCAT ( N'
-                    INSERT INTO #GetColumsDistribution (
-                          [ObjectId]
-                        , [ColumnId]
-                        , [ColumnValue]
-                        , [CountDistinct]
-                    )
-                    SELECT        ', @objectid, N'
-                                , ', @columnid, N'
-                                , CAST ( ', QUOTENAME ( @ColumnName ),N' AS NVARCHAR(MAX) )
-                                , COUNT_BIG ( * )
-                    FROM        ', QUOTENAME ( @SchemaName ), N'.', QUOTENAME ( @TableName ), '
-                    GROUP BY    ', QUOTENAME ( @ColumnName ) )
-
-                EXECUTE sp_executesql @GetDistribution;
 
                 FETCH NEXT FROM [GetColumnInfoCursor] INTO @objectid, @columnid, @SchemaName, @TableName, @ColumnName
             END;
@@ -122,8 +96,6 @@ AS BEGIN
     DEALLOCATE [GetColumnInfoCursor];
 
     SELECT * FROM #GetColumsInfo;
-    SELECT * FROM #GetColumsDistribution;
 
     IF OBJECT_ID ( N'tempdb..#GetColumsInfo' ) IS NOT NULL DROP TABLE #GetColumsInfo;
-    IF OBJECT_ID ( N'tempdb..#GetColumsDistribution' ) IS NOT NULL DROP TABLE #GetColumsDistribution;
 END
