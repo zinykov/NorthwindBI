@@ -4,7 +4,6 @@ AS BEGIN
     DECLARE @columnid AS INT;
     DECLARE @SchemaName AS SYSNAME;
     DECLARE @TableName AS SYSNAME;
-    DECLARE @FullObjectName AS NVARCHAR(MAX);
     DECLARE @ColumnName AS SYSNAME;
     DECLARE @Parameters AS NVARCHAR(MAX) = N'@objectid INT, @columnid INT';
     DECLARE @GetStats AS NVARCHAR(MAX);
@@ -24,7 +23,7 @@ AS BEGIN
             , [CountDistinct]   BIGINT
         );
 
-    INSERT INTO #GetColumnsInfo (
+    INSERT INTO #GetColumsInfo (
           [ObjectId]
         , [ColumnId]
         , [SchemaName]
@@ -117,7 +116,7 @@ AS BEGIN
                 ')
 
                 EXECUTE sp_executesql
-                      @GetStats
+                        @GetStats
                     , @Parameters
                     , @objectid = @objectid
                     , @columnid = @columnid;
@@ -127,7 +126,7 @@ AS BEGIN
     CLOSE [GetColumnInfoCursor];
     DEALLOCATE [GetColumnInfoCursor];
 
-    SELECT * FROM #GetColumnsInfo;
+    SELECT * FROM #GetColumsInfo;
 
-    IF OBJECT_ID ( N'tempdb..#GetColumnsInfo' ) IS NOT NULL DROP TABLE #GetColumnsInfo;
+    IF OBJECT_ID ( N'tempdb..#GetColumsInfo' ) IS NOT NULL DROP TABLE #GetColumsInfo;
 END
