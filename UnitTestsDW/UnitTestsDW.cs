@@ -41,14 +41,14 @@ namespace UnitTestsDW
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition unknownMemberYear;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_LoadDateDimensionTest_PretestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Reports_GetTableInfo_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Reports_Profiling_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition inconclusiveCondition1;
             this.Integration_LoadDateDimensionTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.Reports_GetTableInfoData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.Reports_ProfilingData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Integration_LoadDateDimensionTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             unknownMemberYear = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             Integration_LoadDateDimensionTest_PretestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            Reports_GetTableInfo_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            Reports_Profiling_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             inconclusiveCondition1 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
             // 
             // Integration_LoadDateDimensionTest_TestAction
@@ -76,16 +76,16 @@ namespace UnitTestsDW
             this.Integration_LoadDateDimensionTestData.PretestAction = Integration_LoadDateDimensionTest_PretestAction;
             this.Integration_LoadDateDimensionTestData.TestAction = Integration_LoadDateDimensionTest_TestAction;
             // 
-            // Reports_GetTableInfoData
+            // Reports_ProfilingData
             // 
-            this.Reports_GetTableInfoData.PosttestAction = null;
-            this.Reports_GetTableInfoData.PretestAction = null;
-            this.Reports_GetTableInfoData.TestAction = Reports_GetTableInfo_TestAction;
+            this.Reports_ProfilingData.PosttestAction = null;
+            this.Reports_ProfilingData.PretestAction = null;
+            this.Reports_ProfilingData.TestAction = Reports_Profiling_TestAction;
             // 
-            // Reports_GetTableInfo_TestAction
+            // Reports_Profiling_TestAction
             // 
-            Reports_GetTableInfo_TestAction.Conditions.Add(inconclusiveCondition1);
-            resources.ApplyResources(Reports_GetTableInfo_TestAction, "Reports_GetTableInfo_TestAction");
+            Reports_Profiling_TestAction.Conditions.Add(inconclusiveCondition1);
+            resources.ApplyResources(Reports_Profiling_TestAction, "Reports_Profiling_TestAction");
             // 
             // inconclusiveCondition1
             // 
@@ -134,9 +134,9 @@ namespace UnitTestsDW
             }
         }
         [TestMethod()]
-        public void Reports_GetTableInfo()
+        public void Reports_Profiling()
         {
-            SqlDatabaseTestActions testActions = this.Reports_GetTableInfoData;
+            SqlDatabaseTestActions testActions = this.Reports_ProfilingData;
             // Выполнить скрипт перед тестом
             // 
             System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
@@ -157,7 +157,8 @@ namespace UnitTestsDW
             }
         }
 
+
         private SqlDatabaseTestActions Integration_LoadDateDimensionTestData;
-        private SqlDatabaseTestActions Reports_GetTableInfoData;
+        private SqlDatabaseTestActions Reports_ProfilingData;
     }
 }
