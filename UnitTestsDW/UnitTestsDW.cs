@@ -70,6 +70,16 @@ namespace UnitTestsDW
             // 
             resources.ApplyResources(Integration_LoadDateDimensionTest_PretestAction, "Integration_LoadDateDimensionTest_PretestAction");
             // 
+            // Reports_Profiling_TestAction
+            // 
+            Reports_Profiling_TestAction.Conditions.Add(inconclusiveCondition1);
+            resources.ApplyResources(Reports_Profiling_TestAction, "Reports_Profiling_TestAction");
+            // 
+            // inconclusiveCondition1
+            // 
+            inconclusiveCondition1.Enabled = true;
+            inconclusiveCondition1.Name = "inconclusiveCondition1";
+            // 
             // Integration_LoadDateDimensionTestData
             // 
             this.Integration_LoadDateDimensionTestData.PosttestAction = null;
@@ -81,16 +91,6 @@ namespace UnitTestsDW
             this.Reports_ProfilingData.PosttestAction = null;
             this.Reports_ProfilingData.PretestAction = null;
             this.Reports_ProfilingData.TestAction = Reports_Profiling_TestAction;
-            // 
-            // Reports_Profiling_TestAction
-            // 
-            Reports_Profiling_TestAction.Conditions.Add(inconclusiveCondition1);
-            resources.ApplyResources(Reports_Profiling_TestAction, "Reports_Profiling_TestAction");
-            // 
-            // inconclusiveCondition1
-            // 
-            inconclusiveCondition1.Enabled = true;
-            inconclusiveCondition1.Name = "inconclusiveCondition1";
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[GetColumnsInfo]
+﻿CREATE PROCEDURE [Reports].[GetColumnInfo]
 AS BEGIN
     DECLARE @objectid AS INT;
     DECLARE @columnid AS INT;
@@ -8,8 +8,8 @@ AS BEGIN
     DECLARE @Parameters AS NVARCHAR(MAX) = N'@objectid INT, @columnid INT';
     DECLARE @GetStats AS NVARCHAR(MAX);
 
-    IF OBJECT_ID ( N'tempdb..#GetColumnsInfo' ) IS NULL
-        CREATE TABLE #GetColumnsInfo (
+    IF OBJECT_ID ( N'tempdb..#GetColumnInfo' ) IS NULL
+        CREATE TABLE #GetColumnInfo (
               [ObjectId]        INT
             , [ColumnId]        INT
             , [SchemaName]      SYSNAME
@@ -23,7 +23,7 @@ AS BEGIN
             , [CountDistinct]   BIGINT
         );
 
-    INSERT INTO #GetColumsInfo (
+    INSERT INTO #GetColumnInfo (
           [ObjectId]
         , [ColumnId]
         , [SchemaName]
@@ -50,7 +50,7 @@ AS BEGIN
                     , CASE Q.[IS_NULLABLE]
                             WHEN N'NO' THEN N'NOT NULL'
                             WHEN N'YES' THEN N'NULL'
-                        END
+                      END
     
         FROM        sys.tables AS ST
         INNER JOIN  sys.schemas AS S ON ST.[schema_id] = S.[schema_id]
@@ -65,23 +65,23 @@ AS BEGIN
         UNION ALL
         
                 SELECT        ST.[object_id]
-                    , SC.[column_id]
-                    , S.[name]
-                    , ST.[name]
-                    , SC.[name]
-                    , CAST ( SEP.[value] AS NVARCHAR(MAX) )
-                    , CONCAT( Q.[DATA_TYPE], ISNULL( 
-                        CASE
-                            WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
-                            WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
-                            WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
-                            WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
-                        END
-                    , N'' ) )
-                    , CASE Q.[IS_NULLABLE]
-                            WHEN N'NO' THEN N'NOT NULL'
-                            WHEN N'YES' THEN N'NULL'
-                        END
+                            , SC.[column_id]
+                            , S.[name]
+                            , ST.[name]
+                            , SC.[name]
+                            , CAST ( SEP.[value] AS NVARCHAR(MAX) )
+                            , CONCAT( Q.[DATA_TYPE], ISNULL( 
+                                CASE
+                                    WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
+                                    WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
+                                    WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
+                                    WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
+                                END
+                            , N'' ) )
+                            , CASE Q.[IS_NULLABLE]
+                                    WHEN N'NO' THEN N'NOT NULL'
+                                    WHEN N'YES' THEN N'NULL'
+                              END
     
         FROM        sys.views AS ST
         INNER JOIN  sys.schemas AS S ON ST.[schema_id] = S.[schema_id]
@@ -99,7 +99,7 @@ AS BEGIN
                     , [SchemaName]
                     , [TableName]
                     , [ColumnName]
-        FROM        #GetColumnsInfo
+        FROM        #GetColumnInfo
         WHERE       [DataType] NOT IN ( N'bit', N'image', N'ntext', N'text' );
 
     OPEN [GetColumnInfoCursor]
@@ -107,7 +107,7 @@ AS BEGIN
         WHILE @@FETCH_STATUS = 0
             BEGIN
                 SET @GetStats = CONCAT ( N'
-                    UPDATE #GetColumnsInfo
+                    UPDATE #GetColumnInfo
                     SET       [Min] = CAST ( ( SELECT MIN ( ', QUOTENAME ( @ColumnName ), N' ) FROM ', QUOTENAME ( @SchemaName ), N'.', QUOTENAME ( @TableName ), ') AS NVARCHAR(MAX) )
                             , [Max] = CAST ( ( SELECT MAX ( ', QUOTENAME ( @ColumnName ), N' ) FROM ', QUOTENAME ( @SchemaName ), N'.', QUOTENAME ( @TableName ), ') AS NVARCHAR(MAX) )
                             , [CountDistinct] = ( SELECT COUNT ( DISTINCT ', QUOTENAME ( @ColumnName ), N' ) FROM ', QUOTENAME ( @SchemaName ), N'.', QUOTENAME ( @TableName ), ')
@@ -126,7 +126,7 @@ AS BEGIN
     CLOSE [GetColumnInfoCursor];
     DEALLOCATE [GetColumnInfoCursor];
 
-    SELECT * FROM #GetColumsInfo;
+    SELECT * FROM #GetColumnInfo;
 
-    IF OBJECT_ID ( N'tempdb..#GetColumsInfo' ) IS NOT NULL DROP TABLE #GetColumsInfo;
+    IF OBJECT_ID ( N'tempdb..#GetColumnInfo' ) IS NOT NULL DROP TABLE #GetColumnInfo;
 END

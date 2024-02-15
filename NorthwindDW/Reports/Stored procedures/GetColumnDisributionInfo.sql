@@ -10,35 +10,74 @@ AS BEGIN
 
     IF OBJECT_ID ( N'tempdb..#GetColumnInfo' ) IS NULL
         CREATE TABLE #GetColumnInfo (
-              [ObjectId]        INT
+                [ObjectId]        INT
             , [ColumnId]        INT
             , [SchemaName]      SYSNAME
             , [TableName]       SYSNAME
             , [ColumnName]      SYSNAME
+            , [DataType]        NVARCHAR(100)
         );
 
     IF OBJECT_ID ( N'tempdb..#GetColumnDistribution' ) IS NULL
         CREATE TABLE #GetColumnDistribution (
-              [ObjectId]        INT
+                [ObjectId]        INT
             , [ColumnId]        INT
+            , [SchemaName]      SYSNAME
+            , [TableName]       SYSNAME
+            , [ColumnName]      SYSNAME
             , [ColumnValue]     NVARCHAR(MAX)
             , [CountDistinct]   BIGINT
         );
 
     INSERT INTO #GetColumnInfo (
-          [ObjectId]
+            [ObjectId]
         , [ColumnId]
         , [SchemaName]
         , [TableName]
         , [ColumnName]
+        , [DataType]
     )
         SELECT        ST.[object_id]
                     , SC.[column_id]
                     , S.[name]
                     , ST.[name]
                     , SC.[name]
+                    , CONCAT( Q.[DATA_TYPE], ISNULL( 
+                        CASE
+                            WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
+                            WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
+                            WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
+                            WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
+                        END
+                    , N'' ) )
     
         FROM        sys.tables AS ST
+        INNER JOIN  sys.schemas AS S ON ST.[schema_id] = S.[schema_id]
+        INNER JOIN  sys.columns AS SC ON ST.[object_id] = SC.[object_id]
+        LEFT JOIN   sys.extended_properties AS SEP ON ST.[object_id] = SEP.[major_id]
+                    AND SC.[column_id] = SEP.[minor_id]
+                    AND SEP.[name] = N'MS_Description'
+        INNER JOIN  INFORMATION_SCHEMA.COLUMNS AS Q ON ST.[name] = Q.[TABLE_NAME]
+                    AND S.[name] = Q.[TABLE_SCHEMA]
+                    AND SC.[name] = Q.[COLUMN_NAME]
+                    
+        UNION ALL
+        
+                SELECT        ST.[object_id]
+                            , SC.[column_id]
+                            , S.[name]
+                            , ST.[name]
+                            , SC.[name]
+                            , CONCAT( Q.[DATA_TYPE], ISNULL( 
+                                CASE
+                                    WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
+                                    WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
+                                    WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
+                                    WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
+                                END
+                            , N'' ) )
+    
+        FROM        sys.views AS ST
         INNER JOIN  sys.schemas AS S ON ST.[schema_id] = S.[schema_id]
         INNER JOIN  sys.columns AS SC ON ST.[object_id] = SC.[object_id]
         LEFT JOIN   sys.extended_properties AS SEP ON ST.[object_id] = SEP.[major_id]
@@ -66,11 +105,17 @@ AS BEGIN
                     INSERT INTO #GetColumnDistribution (
                           [ObjectId]
                         , [ColumnId]
+                        , [SchemaName]
+                        , [TableName]
+                        , [ColumnName]
                         , [ColumnValue]
                         , [CountDistinct]
                     )
                     SELECT        ', @objectid, N'
                                 , ', @columnid, N'
+                                , N''', @SchemaName, N'''
+                                , N''', @TableName, N'''
+                                , N''', @ColumnName, N'''
                                 , CAST ( ', QUOTENAME ( @ColumnName ),N' AS NVARCHAR(MAX) )
                                 , COUNT_BIG ( * )
                     FROM        ', QUOTENAME ( @SchemaName ), N'.', QUOTENAME ( @TableName ), '
