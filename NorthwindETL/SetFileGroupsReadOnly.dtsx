@@ -12,8 +12,8 @@
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="26"
-  DTS:VersionGUID="{07916507-58E9-4385-81A8-5D68E0B5A716}">
+  DTS:VersionBuild="30"
+  DTS:VersionGUID="{3D8D82BA-3602-4DC8-A5A3-6E405B9B8319}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -121,6 +121,7 @@
     <DTS:Executable
       DTS:refId="Package\SetFilegroupsReadOnly"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Disabled="True"
       DTS:DTSID="{E7D1D788-B2EA-4359-B145-30CC7ED061A6}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -156,6 +157,25 @@
             SQLTask:DataType="130"
             SQLTask:ParameterSize="128" />
         </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SetFileGroupsReadOnlyCmd"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:DTSID="{f73748bf-27d2-40a1-a686-62b557d41ba8}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SetFileGroupsReadOnlyCmd"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d "+ @[$Project::DWHDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime]+" &amp;&amp; timeout /t 20"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="C:\Windows\System32\cmd.exe"
+          Arguments="/C SQLCmd -S SWIFT3 -d NorthwindDW -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00 &amp;&amp; timeout /t 20" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -238,17 +258,17 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="198,205"
+          PanelSize="198,204"
           Size="198,248"
           Id="Package\Set FileGroups Read Only"
-          TopLeft="10.5,50.5" />
+          TopLeft="10.5,54.5" />
         <NodeLayout
           Size="163,42"
           Id="Package\SetMultiUserMode"
-          TopLeft="28,358.5" />
+          TopLeft="28.0000000000001,362.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="109.5,298.5">
+          TopLeft="109.5,302.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -273,7 +293,11 @@
         <NodeLayout
           Size="187,42"
           Id="Package\SetFilegroupsReadOnly"
-          TopLeft="343,89" />
+          TopLeft="252,362.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\SetFileGroupsReadOnlyCmd"
+          TopLeft="499.5,362.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>

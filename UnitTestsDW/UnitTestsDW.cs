@@ -41,16 +41,15 @@ namespace UnitTestsDW
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsStartOptimization;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsSetFilegroupReadonly;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Maintenance_BackupDatabaseTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition inconclusiveCondition1;
             this.Maintenance_CheckReferenceDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.Maintenance_BackupDatabaseTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Maintenance_CheckReferenceDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             valueIsStartOptimization = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             valueIsSetFilegroupReadonly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            // 
-            // Maintenance_CheckReferenceDateTestData
-            // 
-            this.Maintenance_CheckReferenceDateTestData.PosttestAction = null;
-            this.Maintenance_CheckReferenceDateTestData.PretestAction = null;
-            this.Maintenance_CheckReferenceDateTestData.TestAction = Maintenance_CheckReferenceDateTest_TestAction;
+            Maintenance_BackupDatabaseTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            inconclusiveCondition1 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
             // 
             // Maintenance_CheckReferenceDateTest_TestAction
             // 
@@ -77,6 +76,28 @@ namespace UnitTestsDW
             valueIsSetFilegroupReadonly.NullExpected = false;
             valueIsSetFilegroupReadonly.ResultSet = 1;
             valueIsSetFilegroupReadonly.RowNumber = 1;
+            // 
+            // Maintenance_CheckReferenceDateTestData
+            // 
+            this.Maintenance_CheckReferenceDateTestData.PosttestAction = null;
+            this.Maintenance_CheckReferenceDateTestData.PretestAction = null;
+            this.Maintenance_CheckReferenceDateTestData.TestAction = Maintenance_CheckReferenceDateTest_TestAction;
+            // 
+            // Maintenance_BackupDatabaseTestData
+            // 
+            this.Maintenance_BackupDatabaseTestData.PosttestAction = null;
+            this.Maintenance_BackupDatabaseTestData.PretestAction = null;
+            this.Maintenance_BackupDatabaseTestData.TestAction = Maintenance_BackupDatabaseTest_TestAction;
+            // 
+            // Maintenance_BackupDatabaseTest_TestAction
+            // 
+            Maintenance_BackupDatabaseTest_TestAction.Conditions.Add(inconclusiveCondition1);
+            resources.ApplyResources(Maintenance_BackupDatabaseTest_TestAction, "Maintenance_BackupDatabaseTest_TestAction");
+            // 
+            // inconclusiveCondition1
+            // 
+            inconclusiveCondition1.Enabled = true;
+            inconclusiveCondition1.Name = "inconclusiveCondition1";
         }
 
         #endregion
@@ -118,7 +139,32 @@ namespace UnitTestsDW
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void Maintenance_BackupDatabaseTest()
+        {
+            SqlDatabaseTestActions testActions = this.Maintenance_BackupDatabaseTestData;
+            // Выполнить скрипт перед тестом
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Выполнить скрипт теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Выполнить скрипт после теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
 
         private SqlDatabaseTestActions Maintenance_CheckReferenceDateTestData;
+        private SqlDatabaseTestActions Maintenance_BackupDatabaseTestData;
     }
 }
