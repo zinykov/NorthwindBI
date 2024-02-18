@@ -37,60 +37,46 @@ namespace UnitTestsDW
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_LoadDateDimensionTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Maintenance_CheckReferenceDateTest_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition unknownMemberYear;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_LoadDateDimensionTest_PretestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Reports_Profiling_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition inconclusiveCondition1;
-            this.Integration_LoadDateDimensionTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.Reports_ProfilingData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            Integration_LoadDateDimensionTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            unknownMemberYear = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            Integration_LoadDateDimensionTest_PretestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            Reports_Profiling_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            inconclusiveCondition1 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsStartOptimization;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsSetFilegroupReadonly;
+            this.Maintenance_CheckReferenceDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            Maintenance_CheckReferenceDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            valueIsStartOptimization = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            valueIsSetFilegroupReadonly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
-            // Integration_LoadDateDimensionTest_TestAction
+            // Maintenance_CheckReferenceDateTestData
             // 
-            Integration_LoadDateDimensionTest_TestAction.Conditions.Add(unknownMemberYear);
-            resources.ApplyResources(Integration_LoadDateDimensionTest_TestAction, "Integration_LoadDateDimensionTest_TestAction");
+            this.Maintenance_CheckReferenceDateTestData.PosttestAction = null;
+            this.Maintenance_CheckReferenceDateTestData.PretestAction = null;
+            this.Maintenance_CheckReferenceDateTestData.TestAction = Maintenance_CheckReferenceDateTest_TestAction;
             // 
-            // unknownMemberYear
+            // Maintenance_CheckReferenceDateTest_TestAction
             // 
-            unknownMemberYear.ColumnNumber = 7;
-            unknownMemberYear.Enabled = true;
-            unknownMemberYear.ExpectedValue = "1996";
-            unknownMemberYear.Name = "unknownMemberYear";
-            unknownMemberYear.NullExpected = false;
-            unknownMemberYear.ResultSet = 1;
-            unknownMemberYear.RowNumber = 1;
+            Maintenance_CheckReferenceDateTest_TestAction.Conditions.Add(valueIsStartOptimization);
+            Maintenance_CheckReferenceDateTest_TestAction.Conditions.Add(valueIsSetFilegroupReadonly);
+            resources.ApplyResources(Maintenance_CheckReferenceDateTest_TestAction, "Maintenance_CheckReferenceDateTest_TestAction");
             // 
-            // Integration_LoadDateDimensionTest_PretestAction
+            // valueIsStartOptimization
             // 
-            resources.ApplyResources(Integration_LoadDateDimensionTest_PretestAction, "Integration_LoadDateDimensionTest_PretestAction");
+            valueIsStartOptimization.ColumnNumber = 1;
+            valueIsStartOptimization.Enabled = true;
+            valueIsStartOptimization.ExpectedValue = "False";
+            valueIsStartOptimization.Name = "valueIsStartOptimization";
+            valueIsStartOptimization.NullExpected = false;
+            valueIsStartOptimization.ResultSet = 1;
+            valueIsStartOptimization.RowNumber = 1;
             // 
-            // Reports_Profiling_TestAction
+            // valueIsSetFilegroupReadonly
             // 
-            Reports_Profiling_TestAction.Conditions.Add(inconclusiveCondition1);
-            resources.ApplyResources(Reports_Profiling_TestAction, "Reports_Profiling_TestAction");
-            // 
-            // inconclusiveCondition1
-            // 
-            inconclusiveCondition1.Enabled = true;
-            inconclusiveCondition1.Name = "inconclusiveCondition1";
-            // 
-            // Integration_LoadDateDimensionTestData
-            // 
-            this.Integration_LoadDateDimensionTestData.PosttestAction = null;
-            this.Integration_LoadDateDimensionTestData.PretestAction = Integration_LoadDateDimensionTest_PretestAction;
-            this.Integration_LoadDateDimensionTestData.TestAction = Integration_LoadDateDimensionTest_TestAction;
-            // 
-            // Reports_ProfilingData
-            // 
-            this.Reports_ProfilingData.PosttestAction = null;
-            this.Reports_ProfilingData.PretestAction = null;
-            this.Reports_ProfilingData.TestAction = Reports_Profiling_TestAction;
+            valueIsSetFilegroupReadonly.ColumnNumber = 2;
+            valueIsSetFilegroupReadonly.Enabled = true;
+            valueIsSetFilegroupReadonly.ExpectedValue = "False";
+            valueIsSetFilegroupReadonly.Name = "valueIsSetFilegroupReadonly";
+            valueIsSetFilegroupReadonly.NullExpected = false;
+            valueIsSetFilegroupReadonly.ResultSet = 1;
+            valueIsSetFilegroupReadonly.RowNumber = 1;
         }
 
         #endregion
@@ -109,34 +95,10 @@ namespace UnitTestsDW
         // public static void MyClassCleanup() { }
         //
         #endregion
-
         [TestMethod()]
-        public void Integration_LoadDateDimensionTest()
+        public void Maintenance_CheckReferenceDateTest()
         {
-            SqlDatabaseTestActions testActions = this.Integration_LoadDateDimensionTestData;
-            // Выполнить скрипт перед тестом
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Выполнить скрипт теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Выполнить скрипт после теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-        [TestMethod()]
-        public void Reports_Profiling()
-        {
-            SqlDatabaseTestActions testActions = this.Reports_ProfilingData;
+            SqlDatabaseTestActions testActions = this.Maintenance_CheckReferenceDateTestData;
             // Выполнить скрипт перед тестом
             // 
             System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
@@ -157,8 +119,6 @@ namespace UnitTestsDW
             }
         }
 
-
-        private SqlDatabaseTestActions Integration_LoadDateDimensionTestData;
-        private SqlDatabaseTestActions Reports_ProfilingData;
+        private SqlDatabaseTestActions Maintenance_CheckReferenceDateTestData;
     }
 }

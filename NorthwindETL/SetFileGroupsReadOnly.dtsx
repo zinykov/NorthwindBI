@@ -1,0 +1,281 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/18/2024 9:51:24 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SWIFT3"
+  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:DTSID="{6788D079-272D-4790-BD7D-6864B5A7AFBD}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{07916507-58E9-4385-81A8-5D68E0B5A716}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Master]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{87C1117B-34F6-4F31-86F5-BA376AC4FA1F}"
+      DTS:ObjectName="Master">
+      <DTS:PropertyExpression
+        DTS:Name="ServerName">@[$Project::DWHServerName]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=SWIFT3;Initial Catalog=master;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{87C1117B-34F6-4F31-86F5-BA376AC4FA1F}SWIFT3.master;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{453E5D6D-CFC8-4AD5-868D-727FDBDC7E8C}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Set FileGroups Read Only"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
+      DTS:DTSID="{B66F45D4-6959-4C2D-9C0E-F5CD1EA687C6}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set FileGroups Read Only">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Set FileGroups Read Only\SetFilegroupsReadOnly"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{04b00618-fdc6-4183-bb9b-2cf7437ba490}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SetFilegroupsReadOnly"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource=" --:setvar DatabaseName &quot;NorthwindDW&quot;&#xA;--:setvar Cutofftime '01.01.1998'&#xA;&#xA;/*&#xA;&#x9;&quot;-S &quot;++&quot; -E -i \&quot;&quot;++&quot;Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=&quot;++&quot; CutoffTime='&quot;++&quot;' IsStartOptimization=&quot;++&quot; &amp;&amp; timeout /t 5&quot;&#xA;*/&#xA;&#xA;DECLARE @FilegroupName AS NVARCHAR(100)&#xA;DECLARE @ReadOnly AS BIT&#xA;DECLARE @SQL AS NVARCHAR(1000)&#xA;DECLARE @Print AS NVARCHAR(250)&#xA;&#xA;DECLARE FactTables CURSOR FOR&#xA;&#x9;SELECT&#x9;&#x9;[groupname]&#xA;&#x9;FROM&#x9;&#x9;sys.sysfilegroups&#xA;&#x9;WHERE&#x9;&#x9;[groupname] LIKE CONCAT ( N'%_', YEAR ( ? ) - 2, N'_%' )&#xA;&#xA;OPEN FactTables&#xA;&#x9;FETCH NEXT FROM FactTables INTO @FilegroupName&#xA;&#x9;WHILE @@FETCH_STATUS = 0&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SELECT @readonly = [is_read_only] FROM sys.filegroups WHERE [name] = @FilegroupName&#xA;&#x9;&#x9;&#x9;IF ( @readonly = 0 )&#xA;&#x9;&#x9;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET @SQL = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( ? )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' MODIFY FILEGROUP '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @FilegroupName )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' READONLY'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;EXECUTE sp_executesql @SQL&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;UPDATE&#x9;[Maintenance].[DatabaseFiles]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET&#x9;&#x9;[IsReadOnly] = 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE&#x9;[GroupName] = @FilegroupName&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET @Print = CONCAT ( @FilegroupName, N' setted as Read_only filegroup' )&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;PRINT @Print&#xA;&#x9;&#x9;&#x9;&#x9;END&#xA;&#x9;&#x9;&#x9;FETCH NEXT FROM FactTables INTO @FilegroupName&#xA;&#x9;&#x9;END&#xA;CLOSE FactTables&#xA;DEALLOCATE FactTables;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="128" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Set FileGroups Read Only\SetSingleUserMode"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{1c65883b-0967-4497-ad43-5e694ba48804}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="SetSingleUserMode"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{87C1117B-34F6-4F31-86F5-BA376AC4FA1F}"
+              SQLTask:SqlStatementSource="DECLARE @SQLStatment AS NVARCHAR(MAX)&#xA;&#xA;SET @SQLStatment = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( ? )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' SET SINGLE_USER WITH ROLLBACK IMMEDIATE'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#xA;EXECUTE sp_executesql @SQLStatment;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="128" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Set FileGroups Read Only.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{ef3c5fa3-d5aa-41a9-a614-4903258ef94e}"
+          DTS:From="Package\Set FileGroups Read Only\SetSingleUserMode"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Set FileGroups Read Only\SetFilegroupsReadOnly" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SetFilegroupsReadOnly"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{E7D1D788-B2EA-4359-B145-30CC7ED061A6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SetFilegroupsReadOnly"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="--:setvar DatabaseName &quot;NorthwindDW&quot;&#xA;--:setvar Cutofftime '01.01.1998'&#xA;&#xA;/*&#xA;&#x9;&quot;-S &quot;++&quot; -E -i \&quot;&quot;++&quot;Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=&quot;++&quot; CutoffTime='&quot;++&quot;' IsStartOptimization=&quot;++&quot; &amp;&amp; timeout /t 5&quot;&#xA;*/&#xA;&#xA;USE [master];&#xA;GO&#xA;&#xA;DECLARE @DatabaseName AS SYSNAME = ?;&#xA;DECLARE @stmt AS NVARCHAR(MAX)&#xA;&#xA;SET @stmt = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;  N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @DatabaseName )&#xA;&#x9;&#x9;&#x9;&#x9;, N' SET SINGLE_USER WITH ROLLBACK IMMEDIATE; USE '&#xA;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @DatabaseName )&#xA;&#x9;&#x9;&#x9;&#x9;, N';'&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;EXECUTE sp_executesql @stmt;&#xA;GO&#xA;&#xA;DECLARE @FilegroupName AS NVARCHAR(100)&#xA;DECLARE @ReadOnly AS BIT&#xA;DECLARE @Print AS NVARCHAR(250)&#xA;DECLARE @DatabaseName AS SYSNAME = ?;&#xA;DECLARE @CutoffTime AS DATE = ?;&#xA;DECLARE @stmt AS NVARCHAR(MAX)&#xA;&#xA;DECLARE FactTables CURSOR FOR&#xA;&#x9;SELECT&#x9;&#x9;[groupname]&#xA;&#x9;FROM&#x9;&#x9;sys.sysfilegroups&#xA;&#x9;WHERE&#x9;&#x9;[groupname] LIKE CONCAT ( N'%_', YEAR ( @CutoffTime ) - 2, N'_%' )&#xA;&#xA;OPEN FactTables&#xA;&#x9;FETCH NEXT FROM FactTables INTO @FilegroupName&#xA;&#x9;WHILE @@FETCH_STATUS = 0&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SELECT @readonly = [is_read_only] FROM sys.filegroups WHERE [name] = @FilegroupName&#xA;&#x9;&#x9;&#x9;IF ( @readonly = 0 )&#xA;&#x9;&#x9;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET @stmt = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @DatabaseName )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' MODIFY FILEGROUP '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @FilegroupName )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' READONLY'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;EXECUTE sp_executesql @stmt&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;UPDATE&#x9;[Maintenance].[DatabaseFiles]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET&#x9;&#x9;[IsReadOnly] = 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE&#x9;[GroupName] = @FilegroupName&#xA;&#x9;&#x9;&#x9;&#x9;END&#xA;&#x9;&#x9;&#x9;FETCH NEXT FROM FactTables INTO @FilegroupName&#xA;&#x9;&#x9;END&#xA;CLOSE FactTables&#xA;DEALLOCATE FactTables;&#xA;GO&#xA;&#xA;USE [master];&#xA;GO&#xA;&#xA;DECLARE @DatabaseName AS SYSNAME = ?;&#xA;DECLARE @stmt AS NVARCHAR(MAX)&#xA;&#xA;SET @stmt = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;  N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @DatabaseName )&#xA;&#x9;&#x9;&#x9;&#x9;, N' SET MULTI_USER;'&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;EXECUTE sp_executesql @stmt;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="128" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="128" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::CutoffTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="7"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="128" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SetMultiUserMode"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Disabled="True"
+      DTS:DTSID="{4474B90E-E843-4397-AEE7-6BFEBA83307A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SetMultiUserMode"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87C1117B-34F6-4F31-86F5-BA376AC4FA1F}"
+          SQLTask:SqlStatementSource="DECLARE @SQLStatment AS NVARCHAR(MAX);&#xA;DECLARE @DatabaseName AS SYSNAME = ?;&#xA;&#xA;SELECT @SQLStatment = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  @SQLStatment&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N'KILL '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, CONVERT ( NVARCHAR(5), [session_id] )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, ';'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;FROM sys.dm_exec_sessions&#xA;WHERE [database_id]  = db_id( @DatabaseName )&#xA;&#xA;SET @SQLStatment = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  @SQLStatment&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N'ALTER DATABASE '&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, QUOTENAME ( @DatabaseName )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, N' SET MULTI_USER;'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#xA;EXECUTE sp_executesql @SQLStatment;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Project::DWHDatabaseName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="128" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{962404EE-4E60-4D26-A87A-F74D8C8A4A8C}"
+      DTS:From="Package\Set FileGroups Read Only"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\SetMultiUserMode"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Set FileGroups Read Only\SetFilegroupsReadOnly"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Set FileGroups Read Only\SetSingleUserMode"
+          TopLeft="14.5,5.5" />
+        <EdgeLayout
+          Id="Package\Set FileGroups Read Only.PrecedenceConstraints[Ограничение]"
+          TopLeft="99,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="198,205"
+          Size="198,248"
+          Id="Package\Set FileGroups Read Only"
+          TopLeft="10.5,50.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\SetMultiUserMode"
+          TopLeft="28,358.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="109.5,298.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-28.87931640625,20.54296875,57.7586328125,11.4140625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="187,42"
+          Id="Package\SetFilegroupsReadOnly"
+          TopLeft="343,89" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
