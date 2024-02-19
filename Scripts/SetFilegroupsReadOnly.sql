@@ -1,38 +1,28 @@
-﻿--:setvar DatabaseName "NorthwindDW"
---:setvar Cutofftime '01.01.1998'
+﻿/*
+/C SQLCmd -S SWIFT3 -d NorthwindDW -E -i "C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\SetFilegroupsReadOnly.sql" -v DatabaseName=NorthwindDW CutoffTime='0:00:00
 
-/*
-	"-S "++" -E -i \""++"Scripts\SetFilegroupsReadOnly.sql" -v DatabaseName="++" CutoffTime='"++"' IsStartOptimization="++" && timeout /t 5"
+"/C SQLCmd -S "+@[$Project::DWHServerName]+" -d "+@[$Project::DWHDatabaseName]+" -E -i \""+@[$Project::ExternalFilesPath]+"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+@[$Project::DWHDatabaseName]+" CutoffYear="+(DT_WSTR,4)YEAR(@[$Package::CutoffTime])
 */
 
 USE [master];
 GO
 
-DECLARE @DatabaseName AS SYSNAME = ?;
-DECLARE @stmt AS NVARCHAR(MAX)
+ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+PRINT N'[$(DatabaseName)] setted in SINGLE_USER mode';
+GO
 
-SET @stmt = CONCAT (
-				  N'ALTER DATABASE '
-				, QUOTENAME ( @DatabaseName )
-				, N' SET SINGLE_USER WITH ROLLBACK IMMEDIATE; USE '
-				, QUOTENAME ( @DatabaseName )
-				, N';'
-			)
-
-EXECUTE sp_executesql @stmt;
+USE [$(DatabaseName)];
 GO
 
 DECLARE @FilegroupName AS NVARCHAR(100)
 DECLARE @ReadOnly AS BIT
+DECLARE @SQL AS NVARCHAR(1000)
 DECLARE @Print AS NVARCHAR(250)
-DECLARE @DatabaseName AS SYSNAME = ?;
-DECLARE @CutoffTime AS DATE = ?;
-DECLARE @stmt AS NVARCHAR(MAX)
 
 DECLARE FactTables CURSOR FOR
 	SELECT		[groupname]
 	FROM		sys.sysfilegroups
-	WHERE		[groupname] LIKE CONCAT ( N'%_', YEAR ( @CutoffTime ) - 2, N'_%' )
+	WHERE		[groupname] LIKE CONCAT ( N'%_', CAST ( N'$(CutoffYear)' AS INT ) - 2, N'_%' )
 
 OPEN FactTables
 	FETCH NEXT FROM FactTables INTO @FilegroupName
@@ -41,18 +31,20 @@ OPEN FactTables
 			SELECT @readonly = [is_read_only] FROM sys.filegroups WHERE [name] = @FilegroupName
 			IF ( @readonly = 0 )
 				BEGIN
-					SET @stmt = CONCAT (
-									  N'ALTER DATABASE '
-									, QUOTENAME ( @DatabaseName )
-									, N' MODIFY FILEGROUP '
-									, QUOTENAME ( @FilegroupName )
-									, N' READONLY'
-								)
-					EXECUTE sp_executesql @stmt
+					SET @SQL = CONCAT (
+							N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP '
+						, QUOTENAME ( @FilegroupName )
+						, N' READONLY'
+					)
+					EXECUTE sp_executesql @SQL
 
 					UPDATE	[Maintenance].[DatabaseFiles]
 					SET		[IsReadOnly] = 1
 					WHERE	[GroupName] = @FilegroupName
+
+					SET @Print = CONCAT ( @FilegroupName, N' setted as Read_only filegroup' )
+
+					PRINT @Print
 				END
 			FETCH NEXT FROM FactTables INTO @FilegroupName
 		END
@@ -63,14 +55,6 @@ GO
 USE [master];
 GO
 
-DECLARE @DatabaseName AS SYSNAME = ?;
-DECLARE @stmt AS NVARCHAR(MAX)
-
-SET @stmt = CONCAT (
-				  N'ALTER DATABASE '
-				, QUOTENAME ( @DatabaseName )
-				, N' SET MULTI_USER;'
-			)
-
-EXECUTE sp_executesql @stmt;
+ALTER DATABASE [$(DatabaseName)] SET MULTI_USER
+PRINT N'[$(DatabaseName)] setted in MULTI_USER mode';
 GO

@@ -12,8 +12,8 @@
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="30"
-  DTS:VersionGUID="{3D8D82BA-3602-4DC8-A5A3-6E405B9B8319}">
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{232E22B6-C3AA-4180-825E-4813E67568DF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -63,7 +63,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="SetFilegroupsReadOnly"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -91,7 +91,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="SetSingleUserMode"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -126,7 +126,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="SetFilegroupsReadOnly"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -171,11 +171,29 @@
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
       <DTS:PropertyExpression
-        DTS:Name="Arguments">"/C SQLCmd -S "+ @[$Project::DWHServerName] +" -d "+ @[$Project::DWHDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+ @[$Project::DWHDatabaseName] +" CutoffTime='"+ (DT_WSTR, 10) @[$Package::CutoffTime]+" &amp;&amp; timeout /t 20"</DTS:PropertyExpression>
+        DTS:Name="Arguments">"/C SQLCmd -S "+@[$Project::DWHServerName]+" -d "+@[$Project::DWHDatabaseName]+" -E -i \""+@[$Project::ExternalFilesPath]+"Scripts\\SetFilegroupsReadOnly.sql\" -v DatabaseName="+@[$Project::DWHDatabaseName]+" CutoffYear="+(DT_WSTR,4)YEAR(@[$Package::CutoffTime])</DTS:PropertyExpression>
       <DTS:ObjectData>
         <ExecuteProcessData
           Executable="C:\Windows\System32\cmd.exe"
-          Arguments="/C SQLCmd -S SWIFT3 -d NorthwindDW -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffTime='0:00:00 &amp;&amp; timeout /t 20" />
+          Arguments="/C SQLCmd -S SWIFT3 -d NorthwindDW -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\SetFilegroupsReadOnly.sql&quot; -v DatabaseName=NorthwindDW CutoffYear=1899" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SetFileGroupsReadOnlyPS"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:Disabled="True"
+      DTS:DTSID="{6c222728-5e9e-4bf3-862a-19c0036869af}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SetFileGroupsReadOnlyPS"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \"" + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 4)  YEAR( @[$Package::CutoffTime]  ) + "-" +  (DT_WSTR, 2)  MONTH( @[$Package::CutoffTime]  ) + "-" + (DT_WSTR, 2)  DAY( @[$Package::CutoffTime]  ) + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" +  "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + "\"\""</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+          Arguments="-ExecutionPolicy Unrestricted -command &quot;Scripts/Backup.ps1 ( Get-Date -Date:1899-12-30 ) &quot;SWIFT3&quot; &quot;NorthwindDW&quot; &quot;&quot; 3 &quot;&quot;&quot;" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -186,7 +204,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="SetMultiUserMode"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -224,7 +242,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="187,42"
           Id="Package\Set FileGroups Read Only\SetFilegroupsReadOnly"
@@ -258,14 +276,22 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="198,204"
+          PanelSize="198,205"
           Size="198,248"
           Id="Package\Set FileGroups Read Only"
           TopLeft="10.5,54.5" />
         <NodeLayout
+          Size="187,42"
+          Id="Package\SetFilegroupsReadOnly"
+          TopLeft="252,362.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\SetFileGroupsReadOnlyCmd"
+          TopLeft="499.5,362.5" />
+        <NodeLayout
           Size="163,42"
           Id="Package\SetMultiUserMode"
-          TopLeft="28.0000000000001,362.5" />
+          TopLeft="28,362.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
           TopLeft="109.5,302.5">
@@ -291,13 +317,9 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="187,42"
-          Id="Package\SetFilegroupsReadOnly"
-          TopLeft="252,362.5" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\SetFileGroupsReadOnlyCmd"
-          TopLeft="499.5,362.5" />
+          Size="200,42"
+          Id="Package\SetFileGroupsReadOnlyPS"
+          TopLeft="771.5,362.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>

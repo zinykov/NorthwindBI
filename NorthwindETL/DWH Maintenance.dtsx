@@ -12,8 +12,8 @@
   DTS:ObjectName="DWH Maintenance"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="209"
-  DTS:VersionGUID="{3EBA59C9-E2D3-47A7-8E3A-BB957B6287F0}">
+  DTS:VersionBuild="214"
+  DTS:VersionGUID="{EFE8688E-3A88-4C25-9E16-625F4389DA42}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -275,7 +275,7 @@
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Backups"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
         DTS:Name="Arguments">"-ExecutionPolicy Unrestricted -command \"" + @[User::Var_ExternalFilesPath]  + "Scripts/Backup.ps1 ( Get-Date -Date:" + (DT_WSTR, 10) @[$Package::CutoffTime] + " ) \""+ @[$Project::DWHServerName] +"\" \"" + @[$Project::DWHDatabaseName] + "\" \"" + @[User::Var_ExternalFilesPath]  + "\" " + (DT_WSTR, 2) @[$Project::RetrainWeeks] + " \"" + @[User::Var_BackupsFilsPath] + "\"\""</DTS:PropertyExpression>
@@ -1208,7 +1208,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize indexes"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1225,7 +1225,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1265,7 +1265,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Staging Tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1282,7 +1282,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS Clean Up Transactions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1321,7 +1321,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Backup DWH"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1357,7 +1357,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1395,7 +1395,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="CreateOldBackupFolder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1414,7 +1414,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DeleteOldBackupFolder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1944,7 +1944,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="200,204"
+          PanelSize="200,205"
           Size="200,248"
           Id="Package\Контейнер последовательности\Set filegroups readonly"
           TopLeft="310.5,5.5" />
@@ -2107,7 +2107,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="532,818"
+          PanelSize="532,819"
           Size="532,862"
           Id="Package\Контейнер последовательности"
           TopLeft="188.5,464.5" />
