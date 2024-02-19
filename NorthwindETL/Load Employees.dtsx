@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NorthwindETL\logs\CP_Employees_Load.xml"
-  DTS:CheckpointUsage="1"
+  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Employees.xml"
   DTS:CreationDate="3/8/2022 7:53:48 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -14,8 +13,9 @@
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="235"
-  DTS:VersionGUID="{A64CFF0B-0968-4A6F-89F2-CAC4C61FB4DB}">
+  DTS:SaveCheckpoints="True"
+  DTS:VersionBuild="236"
+  DTS:VersionGUID="{99F3287C-B777-4D76-8462-C2CE88107778}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -424,6 +424,8 @@
         DTS:InstanceID="{01B38177-11DC-441D-8CE6-B5E1C8405A5A}" />
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
+  <DTS:PropertyExpression
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\DQS"
@@ -6217,15 +6219,15 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="159,42"
+          Size="159.2,41.6"
           Id="Package\DQS\Clean Employees"
           TopLeft="17.5,208.7" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\DQS\Extract changes"
           TopLeft="20.7,107.1" />
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\DQS\Truncate DQS Staging"
           TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
@@ -6277,24 +6279,24 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="194,306"
-          Size="194,349"
+          PanelSize="193.6,305.6"
+          Size="193.6,348.8"
           Id="Package\DQS"
           TopLeft="505.7,155.9" />
         <NodeLayout
-          Size="153,42"
+          Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
           TopLeft="526.5,54.3" />
         <NodeLayout
-          Size="192,42"
+          Size="192,41.6"
           Id="Package\Load DWH\Add unknown employee"
           TopLeft="7.10000000000002,107.1" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Load DWH\Load Employees to DWH"
           TopLeft="5.50000000000003,208.7" />
         <NodeLayout
-          Size="168,42"
+          Size="168,41.6"
           Id="Package\Load DWH\Set StartLoad Date"
           TopLeft="19.1,5.49999999999995" />
         <EdgeLayout
@@ -6344,24 +6346,24 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,306"
-          Size="206,349"
+          PanelSize="206.4,305.6"
+          Size="206.4,348.8"
           Id="Package\Load DWH"
           TopLeft="136.7,973.5" />
         <NodeLayout
-          Size="160,42"
+          Size="160,41.6"
           Id="Package\MDS\Data managment"
           TopLeft="5.50000000000003,5.49999999999995" />
         <NodeLayout
-          Size="189,42"
+          Size="188.8,41.6"
           Id="Package\MDS\Get MDS Version Name"
           TopLeft="226.1,5.49999999999995" />
         <NodeLayout
-          Size="221,42"
+          Size="220.8,41.6"
           Id="Package\MDS\Update master Employee data"
           TopLeft="210.1,107.1" />
         <NodeLayout
-          Size="148,42"
+          Size="148,41.6"
           Id="Package\MDS\Validate Model"
           TopLeft="246.5,208.7" />
         <EdgeLayout
@@ -6457,16 +6459,16 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="437,306"
-          Size="437,349"
+          PanelSize="436.8,305.6"
+          Size="436.8,348.8"
           Id="Package\MDS"
           TopLeft="21.5000000000001,564.7" />
         <NodeLayout
-          Size="194,42"
+          Size="193.6,41.6"
           Id="Package\Set load compilation info"
           TopLeft="142.7,1382.3" />
         <NodeLayout
-          Size="168,42"
+          Size="168,41.6"
           Id="Package\Update Hash Table"
           TopLeft="518.9,718.3" />
         <EdgeLayout

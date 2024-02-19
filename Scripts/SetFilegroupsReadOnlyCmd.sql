@@ -22,7 +22,7 @@ DECLARE @Print AS NVARCHAR(250)
 DECLARE FactTables CURSOR FOR
 	SELECT		[groupname]
 	FROM		sys.sysfilegroups
-	WHERE		[groupname] LIKE CONCAT ( N'%_', CAST ( N'$(CutoffYear)' AS INT ) - 2, N'_%' )
+	WHERE		[groupname] LIKE CONCAT ( N'%_', CAST ( N'$(CutoffYear)' AS INT ), N'_%' )
 
 OPEN FactTables
 	FETCH NEXT FROM FactTables INTO @FilegroupName
