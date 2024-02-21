@@ -12,8 +12,8 @@
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="266"
-  DTS:VersionGUID="{66543269-7BF0-475F-9A0B-034B2C3F1AAC}">
+  DTS:VersionBuild="269"
+  DTS:VersionGUID="{D2C281AB-8ECF-423B-A898-C806CA776EEF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -228,20 +228,19 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Test"
+      DTS:refId="Package\Pre-test"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:DTSID="{D90864E1-C7B9-440F-85B2-838FC617D9D4}"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{65868300-46FB-4F60-BF5F-C1C8DF6D4D4B}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Test">
+      DTS:ObjectName="Pre-test">
       <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Test\Clean up backups"
+          DTS:refId="Package\Pre-test\Clean up backups"
           DTS:CreationName="Microsoft.FileSystemTask"
-          DTS:DTSID="{5764e237-e5f9-4574-8d99-29d0a2b4b9a5}"
+          DTS:DTSID="{3f50b46d-8a1e-4e83-b297-36f63f006181}"
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean up backups"
@@ -257,9 +256,9 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Test\Clean up logs"
+          DTS:refId="Package\Pre-test\Clean up logs"
           DTS:CreationName="Microsoft.FileSystemTask"
-          DTS:DTSID="{c7c62708-41d7-4a91-a057-0602c537ff18}"
+          DTS:DTSID="{32f4fd47-c406-48b6-958c-2548f6d2c88c}"
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean up logs"
@@ -275,23 +274,60 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Test\Crash DWH"
-          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:refId="Package\Pre-test\Maintence Subsystems"
+          DTS:CreationName="Microsoft.DbMaintenanceExecuteAgentJobTask"
           DTS:Disabled="True"
-          DTS:DTSID="{e6525052-6fda-479c-b44e-5a468e327568}"
-          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:DTSID="{46d30441-dbc2-48bb-9a5d-30c29cccd6f4}"
+          DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Crash DWH"
-          DTS:ThreadHint="0">
+          DTS:ObjectName="Maintence Subsystems"
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
-          <DTS:PropertyExpression
-            DTS:Name="Arguments">"-S "+ @[$Project::DWHServerName] +" -d master -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\DropDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
           <DTS:ObjectData>
-            <ExecuteProcessData
-              Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
-              Arguments="-S SWIFT3 -d master -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\DropDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
+              SQLTask:ServerVersion="9"
+              SQLTask:ExtendedLogging="True"
+              SQLTask:LocalConnectionForLogging=""
+              SQLTask:TaskName=""
+              SQLTask:IgnoreDatabasesInNotOnlineState="False"
+              SQLTask:AgentJobID="NorthwindBI.Maintence Subsystems" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Test"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:DTSID="{D90864E1-C7B9-440F-85B2-838FC617D9D4}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Test">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Test\Crash and Restore DWH"
+          DTS:CreationName="Microsoft.DbMaintenanceTSQLExecuteTask"
+          DTS:Description="Задача &quot;Выполнение инструкции T-SQL&quot;"
+          DTS:DTSID="{AB7F1CA3-2B1E-4EF4-BF7F-59B09574EDE2}"
+          DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Crash and Restore DWH"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
+              SQLTask:SqlStatementSource="USE [master];&#xA;GO&#xA;ALTER DATABASE [NorthwindDW] SET SINGLE_USER WITH ROLLBACK IMMEDIATE&#xA;PRINT N'NorthwindDW setted in SINGLE_USER mode';&#xA;GO&#xA;&#xA;IF EXISTS ( SELECT 1 FROM [sys].[databases] WHERE [name] = N'NorthwindDW' )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;DROP DATABASE [NorthwindDW]&#xA;&#x9;&#x9;PRINT N'NorthwindDW dropped'&#xA;&#x9;END;&#xA;GO&#xA;&#xA;USE [NorthwindLogs];&#xA;GO&#xA;DECLARE @IsReadOnly AS BIT;&#xA;DECLARE @BackupFileName AS NVARCHAR(500);&#xA;DECLARE @SQL AS NVARCHAR(1000);&#xA;DECLARE @GroupName AS NVARCHAR(100);&#xA;&#xA;SET @BackupFileName = (&#xA;&#x9;SELECT&#x9;&#x9;TOP(1) [BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[BackupFileName] LIKE '%_FULL.bak'&#xA;&#x9;ORDER BY&#x9;[BackupFileName] DESC&#xA;)&#x9;&#xA;SET @SQL = CONCAT (&#xA;&#x9;  N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA;&#x9;, @BackupFileName&#xA;&#x9;, N''' WITH PARTIAL, NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;SET @BackupFileName = (&#xA;&#x9;SELECT&#x9;&#x9;TOP(1) [BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[BackupFileName] LIKE '%_DIFF.bak' &#xA;&#x9;ORDER BY&#x9;[BackupFileName] DESC&#xA;)&#xA;SET @SQL = CONCAT (&#xA;&#x9;  N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA;&#x9;, @BackupFileName&#xA;&#x9;, N''' WITH NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#xA;SET @SQL = N'USE [master]; RESTORE DATABASE [NorthwindDW] WITH RECOVERY;'&#xA;EXECUTE sp_executesql @SQL&#xA;&#xA;DECLARE RestoreDWH CURSOR FOR &#xA;&#x9;SELECT&#x9;&#x9;[BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[IsReadOnly] = 1&#xA;&#x9;ORDER BY&#x9;[BackupFileName] ASC&#xA;&#xA;OPEN RestoreDWH&#xA;&#x9;FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA;&#x9;WHILE @@FETCH_STATUS = 0&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SET @GroupName = (&#xA;&#x9;&#x9;&#x9;&#x9;SELECT&#x9;[GroupName]&#xA;&#x9;&#x9;&#x9;&#x9;FROM&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#x9;[BackupFileName] = @BackupFileName&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;&#x9;SET @SQL = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;N'USE [master]; RESTORE DATABASE [NorthwindDW] FILEGROUP = '''&#xA;&#x9;&#x9;&#x9;&#x9;, @GroupName&#xA;&#x9;&#x9;&#x9;&#x9;, N''' FROM DISK = '''&#xA;&#x9;&#x9;&#x9;&#x9;, @BackupFileName&#xA;&#x9;&#x9;&#x9;&#x9;, N''' WITH RECOVERY;'&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;&#x9;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA;&#x9;&#x9;END&#xA;CLOSE RestoreDWH&#xA;DEALLOCATE RestoreDWH;&#xA;GO"
+              SQLTask:ServerVersion="9"
+              SQLTask:ExtendedLogging="True"
+              SQLTask:LocalConnectionForLogging=""
+              SQLTask:TaskName=""
+              SQLTask:IgnoreDatabasesInNotOnlineState="False" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -414,49 +450,6 @@
             </ExecutePackageTask>
           </DTS:ObjectData>
         </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Test\Maintence Subsystems"
-          DTS:CreationName="Microsoft.DbMaintenanceExecuteAgentJobTask"
-          DTS:Disabled="True"
-          DTS:DTSID="{09253c50-972c-4163-9e04-d111c95e1a04}"
-          DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Maintence Subsystems"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:ServerVersion="9"
-              SQLTask:ExtendedLogging="True"
-              SQLTask:LocalConnectionForLogging=""
-              SQLTask:TaskName=""
-              SQLTask:IgnoreDatabasesInNotOnlineState="False"
-              SQLTask:AgentJobID="NorthwindBI.Maintence Subsystems" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package\Test\Recover DWH"
-          DTS:CreationName="Microsoft.ExecuteProcess"
-          DTS:Disabled="True"
-          DTS:DTSID="{336b8e42-c385-40fe-8b40-26ae0856f6d5}"
-          DTS:ExecutableType="Microsoft.ExecuteProcess"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Recover DWH"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:PropertyExpression
-            DTS:Name="Arguments">"-S "+ @[$Project::LogsServerName]  +" -d "+ @[$Project::LogsDatabaseName] +" -E -i \""+ @[$Project::ExternalFilesPath] +"Scripts\\RestoreDatabase.sql\" -v DWHDatabaseName="+ @[$Project::DWHDatabaseName]</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <ExecuteProcessData
-              Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE"
-              Arguments="-S SWIFT3 -d NorthwindLogs -E -i &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\RestoreDatabase.sql&quot; -v DWHDatabaseName=NorthwindDW" />
-          </DTS:ObjectData>
-        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -468,45 +461,13 @@
           DTS:ObjectName="Constraint"
           DTS:To="Package\Test\Incremental load immitation" />
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Test.PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{1876353d-5bdf-4688-bc3b-4ceed0a30e8b}"
-          DTS:From="Package\Test\Clean up backups"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\Test\Initial load" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Test.PrecedenceConstraints[Constraint 2]"
-          DTS:CreationName=""
-          DTS:DTSID="{c0d47446-b463-4461-8e9b-7758ec71e765}"
-          DTS:From="Package\Test\Maintence Subsystems"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
-          DTS:To="Package\Test\Initial load" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Test.PrecedenceConstraints[Constraint 3]"
-          DTS:CreationName=""
-          DTS:DTSID="{3B134B70-4BA9-44A7-9427-9859ABEFAADC}"
-          DTS:From="Package\Test\Crash DWH"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 3"
-          DTS:To="Package\Test\Recover DWH" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Test.PrecedenceConstraints[Constraint 4]"
-          DTS:CreationName=""
-          DTS:DTSID="{22187405-6867-4e28-9d08-dc005d416a26}"
-          DTS:From="Package\Test\Incremental load immitation"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 4"
-          DTS:To="Package\Test\Crash DWH" />
-        <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Ограничение]"
           DTS:CreationName=""
-          DTS:DTSID="{3BCF1BFB-DFBE-43D0-B5E5-94398B2FDE47}"
-          DTS:From="Package\Test\Clean up logs"
+          DTS:DTSID="{FBBB9FAD-A114-4370-B0A0-6901F1997068}"
+          DTS:From="Package\Test\Incremental load immitation"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение"
-          DTS:To="Package\Test\Initial load" />
+          DTS:To="Package\Test\Crash and Restore DWH" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Ограничение 1]"
           DTS:CreationName=""
@@ -520,14 +481,6 @@
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint]"
-      DTS:CreationName=""
-      DTS:DTSID="{42BB4D56-EDF2-4A72-8416-32B577961868}"
-      DTS:From="Package\Logman Start"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint"
-      DTS:To="Package\Test" />
-    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
       DTS:DTSID="{AC092DAA-83A5-403A-9189-910A45F1FA26}"
@@ -536,6 +489,22 @@
       DTS:ObjectName="Constraint 1"
       DTS:To="Package\Logman Stop"
       DTS:Value="2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{FBC68301-F869-4812-9F0F-12F018E68D60}"
+      DTS:From="Package\Logman Start"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\Pre-test" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D5743C86-9BE2-4045-887A-52E019661B72}"
+      DTS:From="Package\Pre-test"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\Test" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -719,174 +688,46 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="142.4,41.6"
+          Size="142,42"
           Id="Package\Logman Start"
-          TopLeft="396.000000170299,54.5" />
+          TopLeft="264,54.5" />
         <NodeLayout
-          Size="140.8,41.6"
+          Size="141,42"
           Id="Package\Logman Stop"
-          TopLeft="396.500000170299,978.5" />
+          TopLeft="264.5,1081.5" />
         <NodeLayout
-          Size="161.6,41.6"
-          Id="Package\Test\Clean up backups"
-          TopLeft="5.49999999999996,57.4999999999997" />
-        <NodeLayout
-          Size="132.8,41.6"
-          Id="Package\Test\Crash DWH"
-          TopLeft="721.9,518.3" />
-        <NodeLayout
-          Size="158.4,41.6"
+          Size="158,42"
           Id="Package\Test\Incremental load immitation\Incremental load"
           TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="168.8,103.2"
-          Size="168.8,145.6"
+          PanelSize="169,103"
+          Size="169,146"
           Id="Package\Test\Incremental load immitation"
-          TopLeft="703.9,312.7" />
+          TopLeft="124,313.5" />
         <NodeLayout
-          Size="199.2,41.6"
+          Size="199,42"
           Id="Package\Test\Ingest data\Northwind (упрощённая)"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Test\Ingest data\xmlcalendar"
           TopLeft="265,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="406.4,103.2"
-          Size="406.4,145.6"
+          PanelSize="406,103"
+          Size="406,146"
           Id="Package\Test\Ingest data"
-          TopLeft="228.1,5.49999999999973" />
+          TopLeft="5.50000000000003,5.5" />
         <NodeLayout
-          Size="128,41.6"
+          Size="128,42"
           Id="Package\Test\Initial load"
-          TopLeft="724.3,211.1" />
-        <NodeLayout
-          Size="185.6,41.6"
-          Id="Package\Test\Maintence Subsystems"
-          TopLeft="695.5,57.4999999999997" />
-        <NodeLayout
-          Size="144,41.6"
-          Id="Package\Test\Recover DWH"
-          TopLeft="716.3,619.899999999999" />
+          TopLeft="144.5,211.5" />
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint]"
-          TopLeft="788.3,252.7">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Test.PrecedenceConstraints[Constraint 1]"
-          TopLeft="86.3,99.0999999999997">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="666,112"
-              Start="0,0"
-              End="666,104.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,73.9130434782608" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,73.9130434782608"
-                    Point2="0,77.9130434782608"
-                    Point3="4,77.9130434782608" />
-                  <mssgle:LineSegment
-                    End="662,77.9130434782608" />
-                  <mssgle:CubicBezierSegment
-                    Point1="662,77.9130434782608"
-                    Point2="666,77.9130434782608"
-                    Point3="666,81.9130434782608" />
-                  <mssgle:LineSegment
-                    End="666,104.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Test.PrecedenceConstraints[Constraint 2]"
-          TopLeft="788.3,99.0999999999997">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="12,112"
-              Start="0,0"
-              End="12,104.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,57.7931034482758" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,57.7931034482758"
-                    Point2="0,61.7931034482758"
-                    Point3="4,61.7931034482758" />
-                  <mssgle:LineSegment
-                    End="8,61.7931034482758" />
-                  <mssgle:CubicBezierSegment
-                    Point1="8,61.7931034482758"
-                    Point2="12,61.7931034482758"
-                    Point3="12,65.7931034482758" />
-                  <mssgle:LineSegment
-                    End="12,104.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Test.PrecedenceConstraints[Constraint 3]"
-          TopLeft="788.3,559.9">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Test.PrecedenceConstraints[Constraint 4]"
-          TopLeft="788.3,458.3">
+          TopLeft="208.5,253.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -908,30 +749,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="431.3,151.1">
+          TopLeft="208.5,151.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="345,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="345,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.103448275862" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,29.103448275862"
-                    Point2="0,33.103448275862"
-                    Point3="4,33.103448275862" />
-                  <mssgle:LineSegment
-                    End="341,33.103448275862" />
-                  <mssgle:CubicBezierSegment
-                    Point1="341,33.103448275862"
-                    Point2="345,33.103448275862"
-                    Point3="345,37.103448275862" />
-                  <mssgle:LineSegment
-                    End="345,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -941,35 +770,23 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="141.6,41.6"
-          Id="Package\Test\Clean up logs"
-          TopLeft="941.5,57.4999999999997" />
+          Size="193,42"
+          Id="Package\Test\Crash and Restore DWH"
+          TopLeft="112,519.5" />
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Ограничение]"
-          TopLeft="1012.3,99.0999999999997">
+          TopLeft="208.5,459.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-188,112"
+              EndConnector="0,60"
               Start="0,0"
-              End="-188,104.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,73.9130434782608" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,73.9130434782608"
-                    Point2="0,77.9130434782608"
-                    Point3="-4,77.9130434782608" />
-                  <mssgle:LineSegment
-                    End="-184,77.9130434782608" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-184,77.9130434782608"
-                    Point2="-188,77.9130434782608"
-                    Point3="-188,81.9130434782608" />
-                  <mssgle:LineSegment
-                    End="-188,104.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -981,36 +798,67 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="1088.8,716.8"
-          Size="1088.8,760"
+          PanelSize="417,616"
+          Size="417,660"
           Id="Package\Test"
-          TopLeft="23.5000001702991,156.5" />
+          TopLeft="126.5,361.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="467.200000170299,96.1">
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="335,1021.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100.7,60.4"
+              EndConnector="0,60"
               Start="0,0"
-              End="100.7,52.9">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,26.2" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26.2"
-                    Point2="0,30.2"
-                    Point3="4,30.2" />
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-28.87931640625,20.54296875,57.7586328125,11.4140625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Pre-test\Clean up backups"
+          TopLeft="5.50000000000006,5.49999999999989" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Pre-test\Maintence Subsystems"
+          TopLeft="228.5,5.49999999999989" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Pre-test\Clean up logs"
+          TopLeft="475.5,5.49999999999989" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="623,102"
+          Size="623,145"
+          Id="Package\Pre-test"
+          TopLeft="23.5,156.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="335,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="96.7000000000001,30.2" />
-                  <mssgle:CubicBezierSegment
-                    Point1="96.7000000000001,30.2"
-                    Point2="100.7,30.2"
-                    Point3="100.7,34.2" />
-                  <mssgle:LineSegment
-                    End="100.7,52.9" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1020,39 +868,25 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="567.900000170299,916.5">
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="335,301.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-101,62"
+              EndConnector="0,60"
               Start="0,0"
-              End="-101,54.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,27" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,27"
-                    Point2="0,31"
-                    Point3="-4,31" />
-                  <mssgle:LineSegment
-                    End="-97.0000000000001,31" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-97.0000000000001,31"
-                    Point2="-101,31"
-                    Point3="-101,35" />
-                  <mssgle:LineSegment
-                    End="-101,54.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-79.3793164062501,36,57.7586328125,11.4140625"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
