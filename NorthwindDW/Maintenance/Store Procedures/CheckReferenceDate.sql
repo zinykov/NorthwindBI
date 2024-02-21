@@ -25,7 +25,7 @@ AS BEGIN
                 AND [Year] = YEAR ( @CutoffTime )
     )
     
-    IF @CutoffTime = @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1998, 1, 2 )
+    IF @CutoffTime = @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1997, 1, 3 ) --<> DATEFROMPARTS ( 1998, 1, 2 )
         BEGIN
             SET @IsStartOptimization = 1
         END
