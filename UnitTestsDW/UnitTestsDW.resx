@@ -117,51 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Integration_LoadDateDimensionTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- модульный тест базы данных для Integration.LoadDateDimension
-DECLARE @StartDate AS INT, @EndDate AS INT;
+  <data name="Maintenance_CheckReferenceDateTest_TestAction.SqlScript" xml:space="preserve">
+    <value>-- модульный тест базы данных для Maintenance.CheckReferenceDate
+DECLARE @CutoffTime AS DATE;
+DECLARE @IsMonthlyOptimization AS BIT;
+DECLARE @IsStartOptimization AS BIT;
+DECLARE @IsSetFilegroupReadonly AS BIT;
 
-SELECT @StartDate = 1996,
-       @EndDate = 1998;
+SET @CutoffTime = DATEFROMPARTS( 1997, 12, 31 );
+SET @IsMonthlyOptimization = 0;
 
-EXECUTE [Integration].[LoadDateDimension] @StartDate, @EndDate;
+EXECUTE [Maintenance].[CheckReferenceDate]
+			  @CutoffTime
+			, @IsMonthlyOptimization
+			, @IsStartOptimization OUTPUT
+			, @IsSetFilegroupReadonly OUTPUT;
 
-SELECT * FROM [Dimension].[Date]</value>
+SELECT	  @IsStartOptimization AS [IsStartOptimization]
+		, @IsSetFilegroupReadonly AS [IsSetFilegroupReadonly];</value>
   </data>
-  <data name="Integration_LoadDateDimensionTest_PretestAction.SqlScript" xml:space="preserve">
-    <value>/*
-Добавьте здесь инструкции SQL, которые должны быть выполнены до
-выполнения тестового скрипта.
+  <data name="Maintenance_BackupDatabaseTest_TestAction.SqlScript" xml:space="preserve">
+    <value>-- модульный тест базы данных для Maintenance.BackupDatabase
+DECLARE @CutoffTime AS DATE, @BackupsReadOnlyPath AS NVARCHAR (1000), @BackupsReadWritePath AS NVARCHAR (1000);
 
-В нижней области можно добавить условия теста, позволяющие проверить, 
-согласуются ли результаты инструкций SQL с 
-ожидаемыми.
-*/
+SELECT @CutoffTime = NULL,
+       @BackupsReadOnlyPath = NULL,
+       @BackupsReadWritePath = N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\';
 
-USE [Landing];
-
-ALTER TABLE [Landing].[Orders] DROP COLUMN [CheckSum];
-
-BULK INSERT [Landing].[Orders]
-	FROM 'C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\Orders.dat'
-	WITH ( FORMATFILE = 'C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\Orders.fmt' );
-
-ALTER TABLE [Landing].[Orders] ADD [CheckSum] INT NULL;</value>
-  </data>
-  <data name="Reports_Profiling_TestAction.SqlScript" xml:space="preserve">
-    <value>/*
-Добавьте здесь инструкции SQL, применяемые к объекту базы данных, 
-который должен быть протестирован.
-
-Для тестирования хранимой процедуры вызовите ее здесь путем добавления 
-инструкции EXEC, которая имеет соответствующие параметры.
-
-В нижней области можно добавить условия теста, позволяющие проверить, 
-согласуются ли результаты инструкций SQL с 
-ожидаемыми.
-*/
-
-EXECUTE [Reports].[GetColumnDisributionInfo];</value>
+EXECUTE [Maintenance].[BackupDatabase] @CutoffTime, @BackupsReadOnlyPath, @BackupsReadWritePath;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

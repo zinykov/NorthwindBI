@@ -1,19 +1,24 @@
-﻿--:setvar DatabaseName "NorthwindDW"
---:setvar Cutofftime '01.01.1998'
+﻿DECLARE @SQLStatment AS NVARCHAR(MAX);
+DECLARE @DatabaseName AS SYSNAME = ?;
 
-/*
-	"-S "++" -E -i \""++"Scripts\SetFilegroupsReadOnly.sql" -v DatabaseName="++" CutoffTime='"++"' IsStartOptimization="++" && timeout /t 5"
-*/
+SELECT @SQLStatment = CONCAT (
+								  @SQLStatment
+								, N'KILL '
+								, CONVERT ( NVARCHAR(5), [session_id] )
+								, ';'
+							)
+FROM sys.dm_exec_sessions
+WHERE [database_id]  = db_id( @DatabaseName );
 
-USE [master];
-GO
+EXECUTE sp_executesql @SQLStatment;
 
-ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-PRINT N'[$(DatabaseName)] setted in SINGLE_USER mode';
-GO
+SET @SQLStatment = CONCAT (
+					  N'USE '
+					, QUOTENAME ( ? )
+					, N';'
+					)
 
-USE [$(DatabaseName)];
-GO
+EXECUTE sp_executesql @SQLStatment;
 
 DECLARE @FilegroupName AS NVARCHAR(100)
 DECLARE @ReadOnly AS BIT
@@ -23,7 +28,7 @@ DECLARE @Print AS NVARCHAR(250)
 DECLARE FactTables CURSOR FOR
 	SELECT		[groupname]
 	FROM		sys.sysfilegroups
-	WHERE		[groupname] LIKE CONCAT ( N'%_', YEAR ( N'$(Cutofftime)' ) - 2, N'_%' )
+	WHERE		[groupname] LIKE CONCAT ( N'%_', ?, N'_%' )
 
 OPEN FactTables
 	FETCH NEXT FROM FactTables INTO @FilegroupName
@@ -33,9 +38,11 @@ OPEN FactTables
 			IF ( @readonly = 0 )
 				BEGIN
 					SET @SQL = CONCAT (
-							N'ALTER DATABASE [$(DatabaseName)] MODIFY FILEGROUP ['
-						, @FilegroupName
-						, N'] READONLY'
+							N'ALTER DATABASE '
+						, QUOTENAME ( ? )
+						,N' MODIFY FILEGROUP '
+						, QUOTENAME ( @FilegroupName )
+						, N' READONLY'
 					)
 					EXECUTE sp_executesql @SQL
 
@@ -51,11 +58,3 @@ OPEN FactTables
 		END
 CLOSE FactTables
 DEALLOCATE FactTables;
-GO
-
-USE [master];
-GO
-
-ALTER DATABASE [$(DatabaseName)] SET MULTI_USER
-PRINT N'[$(DatabaseName)] setted in MULTI_USER mode';
-GO
