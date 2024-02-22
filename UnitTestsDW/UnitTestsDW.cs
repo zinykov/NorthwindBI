@@ -37,67 +37,30 @@ namespace UnitTestsDW
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Maintenance_CheckReferenceDateTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Reports_GetViewInfo_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ExpectedSchemaCondition ReportGetViewInfoexpectedSchema;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsStartOptimization;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition valueIsSetFilegroupReadonly;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Maintenance_BackupDatabaseTest_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition inconclusiveCondition1;
-            this.Maintenance_CheckReferenceDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.Maintenance_BackupDatabaseTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            Maintenance_CheckReferenceDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            valueIsStartOptimization = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            valueIsSetFilegroupReadonly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            Maintenance_BackupDatabaseTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            inconclusiveCondition1 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
+            this.Reports_GetViewInfoData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            Reports_GetViewInfo_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            ReportGetViewInfoexpectedSchema = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ExpectedSchemaCondition();
             // 
-            // Maintenance_CheckReferenceDateTest_TestAction
+            // Reports_GetViewInfoData
             // 
-            Maintenance_CheckReferenceDateTest_TestAction.Conditions.Add(valueIsStartOptimization);
-            Maintenance_CheckReferenceDateTest_TestAction.Conditions.Add(valueIsSetFilegroupReadonly);
-            resources.ApplyResources(Maintenance_CheckReferenceDateTest_TestAction, "Maintenance_CheckReferenceDateTest_TestAction");
+            this.Reports_GetViewInfoData.PosttestAction = null;
+            this.Reports_GetViewInfoData.PretestAction = null;
+            this.Reports_GetViewInfoData.TestAction = Reports_GetViewInfo_TestAction;
             // 
-            // valueIsStartOptimization
+            // Reports_GetViewInfo_TestAction
             // 
-            valueIsStartOptimization.ColumnNumber = 1;
-            valueIsStartOptimization.Enabled = true;
-            valueIsStartOptimization.ExpectedValue = "False";
-            valueIsStartOptimization.Name = "valueIsStartOptimization";
-            valueIsStartOptimization.NullExpected = false;
-            valueIsStartOptimization.ResultSet = 1;
-            valueIsStartOptimization.RowNumber = 1;
+            Reports_GetViewInfo_TestAction.Conditions.Add(ReportGetViewInfoexpectedSchema);
+            resources.ApplyResources(Reports_GetViewInfo_TestAction, "Reports_GetViewInfo_TestAction");
             // 
-            // valueIsSetFilegroupReadonly
+            // ReportGetViewInfoexpectedSchema
             // 
-            valueIsSetFilegroupReadonly.ColumnNumber = 2;
-            valueIsSetFilegroupReadonly.Enabled = true;
-            valueIsSetFilegroupReadonly.ExpectedValue = "False";
-            valueIsSetFilegroupReadonly.Name = "valueIsSetFilegroupReadonly";
-            valueIsSetFilegroupReadonly.NullExpected = false;
-            valueIsSetFilegroupReadonly.ResultSet = 1;
-            valueIsSetFilegroupReadonly.RowNumber = 1;
-            // 
-            // Maintenance_CheckReferenceDateTestData
-            // 
-            this.Maintenance_CheckReferenceDateTestData.PosttestAction = null;
-            this.Maintenance_CheckReferenceDateTestData.PretestAction = null;
-            this.Maintenance_CheckReferenceDateTestData.TestAction = Maintenance_CheckReferenceDateTest_TestAction;
-            // 
-            // Maintenance_BackupDatabaseTestData
-            // 
-            this.Maintenance_BackupDatabaseTestData.PosttestAction = null;
-            this.Maintenance_BackupDatabaseTestData.PretestAction = null;
-            this.Maintenance_BackupDatabaseTestData.TestAction = Maintenance_BackupDatabaseTest_TestAction;
-            // 
-            // Maintenance_BackupDatabaseTest_TestAction
-            // 
-            Maintenance_BackupDatabaseTest_TestAction.Conditions.Add(inconclusiveCondition1);
-            resources.ApplyResources(Maintenance_BackupDatabaseTest_TestAction, "Maintenance_BackupDatabaseTest_TestAction");
-            // 
-            // inconclusiveCondition1
-            // 
-            inconclusiveCondition1.Enabled = true;
-            inconclusiveCondition1.Name = "inconclusiveCondition1";
+            ReportGetViewInfoexpectedSchema.Enabled = true;
+            ReportGetViewInfoexpectedSchema.Name = "ReportGetViewInfoexpectedSchema";
+            resources.ApplyResources(ReportGetViewInfoexpectedSchema, "ReportGetViewInfoexpectedSchema");
+            ReportGetViewInfoexpectedSchema.Verbose = false;
         }
 
         #endregion
@@ -116,10 +79,12 @@ namespace UnitTestsDW
         // public static void MyClassCleanup() { }
         //
         #endregion
+
+
         [TestMethod()]
-        public void Maintenance_CheckReferenceDateTest()
+        public void Reports_GetViewInfo()
         {
-            SqlDatabaseTestActions testActions = this.Maintenance_CheckReferenceDateTestData;
+            SqlDatabaseTestActions testActions = this.Reports_GetViewInfoData;
             // Выполнить скрипт перед тестом
             // 
             System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
@@ -139,32 +104,6 @@ namespace UnitTestsDW
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
-        [TestMethod()]
-        public void Maintenance_BackupDatabaseTest()
-        {
-            SqlDatabaseTestActions testActions = this.Maintenance_BackupDatabaseTestData;
-            // Выполнить скрипт перед тестом
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Выполнить скрипт теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Выполнить скрипт после теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-
-
-        private SqlDatabaseTestActions Maintenance_CheckReferenceDateTestData;
-        private SqlDatabaseTestActions Maintenance_BackupDatabaseTestData;
+        private SqlDatabaseTestActions Reports_GetViewInfoData;
     }
 }
