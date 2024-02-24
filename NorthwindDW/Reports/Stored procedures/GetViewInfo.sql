@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [Reports].[GetViewInfo]
 AS BEGIN
-		SELECT		  [Schema]		= T.[schema]
+		SELECT		  [Schema]		= S.[name]
 					, [Table]		= T.[name]
 					, [Description]	= SEP.[value]
 		FROM		sys.views AS T
