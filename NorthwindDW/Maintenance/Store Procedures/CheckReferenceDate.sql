@@ -1,11 +1,13 @@
 ﻿CREATE PROCEDURE [Maintenance].[CheckReferenceDate]
-        @CutoffTime AS DATE
-      , @IsMonthlyOptimization AS BIT
-      , @IsStartOptimization AS BIT OUTPUT
-      , @IsSetFilegroupReadonly AS BIT OUTPUT
+      @CutoffTime AS DATE
+    , @IsMonthlyOptimization AS BIT
+    , @IsStartOptimization AS BIT OUTPUT
+    , @IsSetFilegroupReadonly AS BIT OUTPUT
+    , @LoadDateInitialEnd AS DATE
 AS BEGIN
 	DECLARE @ReferenceDate AS DATE;
     DECLARE @MonthNumber AS TINYINT;
+    DECLARE @IsMissingStartOptimization AS BIT = 0;
 
     IF ( @IsMonthlyOptimization = 1 )
         BEGIN
@@ -24,8 +26,16 @@ AS BEGIN
 			    AND [MonthNumber] = @MonthNumber
                 AND [Year] = YEAR ( @CutoffTime )
     )
+
+    IF (
+            YEAR ( @LoadDateInitialEnd ) = 1996 AND @CutoffTime = DATEFROMPARTS ( 1997, 1, 3 )
+            OR YEAR ( @LoadDateInitialEnd ) = 1997 AND @CutoffTime = DATEFROMPARTS ( 1998, 1, 2 )
+       )
+        BEGIN
+            SET @IsMissingStartOptimization = 1
+        END
     
-    IF @CutoffTime = @ReferenceDate AND @CutoffTime <> DATEFROMPARTS ( 1997, 1, 3 ) --<> DATEFROMPARTS ( 1998, 1, 2 )
+    IF @CutoffTime = @ReferenceDate AND @IsMissingStartOptimization = 0
         BEGIN
             SET @IsStartOptimization = 1
         END

@@ -117,34 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Maintenance_CheckReferenceDateTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- модульный тест базы данных для Maintenance.CheckReferenceDate
-DECLARE @CutoffTime AS DATE;
-DECLARE @IsMonthlyOptimization AS BIT;
-DECLARE @IsStartOptimization AS BIT;
-DECLARE @IsSetFilegroupReadonly AS BIT;
+  <data name="Integration_CreateLoadTableOrderTest_TestAction.SqlScript" xml:space="preserve">
+    <value>-- модульный тест базы данных для Integration.CreateLoadTableOrder
+DECLARE @CutoffTime AS DATE, @IsMaitenance AS BIT;
 
-SET @CutoffTime = DATEFROMPARTS( 1997, 12, 31 );
-SET @IsMonthlyOptimization = 0;
+SELECT @CutoffTime = DATEFROMPARTS ( 1998, 3, 2 ),
+       @IsMaitenance = 0;
 
-EXECUTE [Maintenance].[CheckReferenceDate]
-			  @CutoffTime
-			, @IsMonthlyOptimization
-			, @IsStartOptimization OUTPUT
-			, @IsSetFilegroupReadonly OUTPUT;
-
-SELECT	  @IsStartOptimization AS [IsStartOptimization]
-		, @IsSetFilegroupReadonly AS [IsSetFilegroupReadonly];</value>
-  </data>
-  <data name="Maintenance_BackupDatabaseTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- модульный тест базы данных для Maintenance.BackupDatabase
-DECLARE @CutoffTime AS DATE, @BackupsReadOnlyPath AS NVARCHAR (1000), @BackupsReadWritePath AS NVARCHAR (1000);
-
-SELECT @CutoffTime = NULL,
-       @BackupsReadOnlyPath = NULL,
-       @BackupsReadWritePath = N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\';
-
-EXECUTE [Maintenance].[BackupDatabase] @CutoffTime, @BackupsReadOnlyPath, @BackupsReadWritePath;</value>
+EXECUTE [Integration].[CreateLoadTableOrder] @CutoffTime, @IsMaitenance;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

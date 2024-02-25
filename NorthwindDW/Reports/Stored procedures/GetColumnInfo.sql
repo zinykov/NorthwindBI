@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [Reports].[GetColumnInfo]
+WITH EXECUTE AS OWNER
 AS BEGIN
     DECLARE @objectid AS INT;
     DECLARE @columnid AS INT;

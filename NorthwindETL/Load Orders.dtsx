@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="292"
-  DTS:VersionGUID="{8F9C1817-2370-4D33-A851-FF39C9D191C3}">
+  DTS:VersionBuild="293"
+  DTS:VersionGUID="{75DE5B95-3CD3-4116-9107-ECEF022CEB0C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -361,7 +361,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Load Table"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -385,7 +385,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Orders Hash"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1907,7 +1907,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1959,7 +1959,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update Partition Schema"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2059,10 +2059,16 @@ where [refTable].[ProductAlterKey] = ?</property>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2083,10 +2089,16 @@ where [refTable].[ProductAlterKey] = ?</property>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsYearly]&#xA;     @CutoffTime = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsYearly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2209,39 +2221,39 @@ where [refTable].[ProductAlterKey] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="156,41.6"
+          Size="156,42"
           Id="Package\Create Filegroup"
           TopLeft="420.3,155.9" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\Get LineAgeKey"
           TopLeft="421.9,54.3" />
         <NodeLayout
-          Size="164,41.6"
+          Size="164,42"
           Id="Package\Load DWH\Create Load Table"
           TopLeft="463.7,107.1" />
         <NodeLayout
-          Size="169.6,41.6"
+          Size="170,42"
           Id="Package\Load DWH\Create Orders Hash"
           TopLeft="5.50000000000004,107.1" />
         <NodeLayout
-          Size="156,41.6"
+          Size="156,42"
           Id="Package\Load DWH\Drop Load Table"
           TopLeft="241.7,411.899999999999" />
         <NodeLayout
-          Size="145.6,41.6"
+          Size="146,42"
           Id="Package\Load DWH\Fill Load Table"
           TopLeft="246.5,208.7" />
         <NodeLayout
-          Size="167.2,41.6"
+          Size="167,42"
           Id="Package\Load DWH\Set StartLoad Date"
           TopLeft="236.1,107.1" />
         <NodeLayout
-          Size="151.2,41.6"
+          Size="151,42"
           Id="Package\Load DWH\Switch Partition"
           TopLeft="244.1,310.3" />
         <NodeLayout
-          Size="193.6,41.6"
+          Size="194,42"
           Id="Package\Load DWH\Update Partition Schema"
           TopLeft="448.5,5.49999999999984" />
         <EdgeLayout
@@ -2403,16 +2415,16 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="648.8,508.8"
-          Size="648.8,552"
+          PanelSize="649,509"
+          Size="649,552"
           Id="Package\Load DWH"
           TopLeft="173.9,257.5" />
         <NodeLayout
-          Size="207.2,41.6"
+          Size="207,42"
           Id="Package\Optimaze Partitions\Optimize Partitions Monthly"
           TopLeft="5.50000000000001,5.50000000000007" />
         <NodeLayout
-          Size="204.8,41.6"
+          Size="205,42"
           Id="Package\Optimaze Partitions\Optimize Partitions Yearly"
           TopLeft="6.7,107.1" />
         <EdgeLayout
@@ -2440,16 +2452,16 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="217.6,204"
-          Size="217.6,247.2"
+          PanelSize="218,204"
+          Size="218,247"
           Id="Package\Optimaze Partitions"
           TopLeft="135.1,869.5" />
         <NodeLayout
-          Size="193.6,41.6"
+          Size="194,42"
           Id="Package\Set load compilation info"
           TopLeft="147.1,1176.7" />
         <NodeLayout
-          Size="168,41.6"
+          Size="168,42"
           Id="Package\Update Hash Table"
           TopLeft="414.3,972.3" />
         <EdgeLayout
@@ -2641,7 +2653,9 @@ where [refTable].[ProductAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2663,7 +2677,9 @@ where [refTable].[ProductAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2685,7 +2701,9 @@ where [refTable].[ProductAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
