@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [Reports].[GetTableInfo]
+WITH EXECUTE AS OWNER
 AS BEGIN
 	IF OBJECT_ID ( N'tempdb..#tblspaceused' ) IS NULL
 		BEGIN

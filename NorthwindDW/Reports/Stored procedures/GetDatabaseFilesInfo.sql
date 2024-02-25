@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [Reports].[GetDatabaseFilesInfo]
+WITH EXECUTE AS OWNER
 AS BEGIN
 	SELECT	  [DatabaseFileKey]
 			, [GroupName]

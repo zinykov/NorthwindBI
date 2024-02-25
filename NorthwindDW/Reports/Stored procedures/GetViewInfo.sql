@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [Reports].[GetViewInfo]
+WITH EXECUTE AS OWNER
 AS BEGIN
 		SELECT		  [Schema]		= S.[name]
 					, [Table]		= T.[name]
