@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Maintenance].[OptimizeOrdersPartitionsMonthly]
-        @CutoffTime AS DATE
+      @CutoffTime AS DATE
+	, @LoadDateInitialEnd AS DATE
 AS BEGIN
 /*
     Процедура объединяет секции таблицы фактов.
@@ -32,6 +33,7 @@ AS BEGIN
       , @IsMonthlyOptimization = 1
       , @IsStartOptimization = @IsStartOptimization OUTPUT
       , @IsSetFilegroupReadonly = @IsSetFilegroupReadonly OUTPUT
+      , @LoadDateInitialEnd = @LoadDateInitialEnd
 
     IF @IsStartOptimization = 0 RETURN 0;
     

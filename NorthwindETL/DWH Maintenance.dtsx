@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="258"
-  DTS:VersionGUID="{0A775F81-FD60-402D-8518-4440A5E5D431}">
+  DTS:VersionBuild="262"
+  DTS:VersionGUID="{B168BBBD-A75A-40D4-875E-0E98E6AD1E76}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -297,7 +297,8 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[BackupDatabase]&#xA;   @CutoffTime&#xA; , @BackupsReadOnlyPath&#xA; , @BackupsReadWritePath" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:IsStoredProc="True"
+              SQLTask:SqlStatementSource="[Maintenance].[BackupDatabase]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="@BackupsReadOnlyPath"
                 SQLTask:DtsVariableName="User::BackupsReadOnlyPath"
@@ -316,6 +317,12 @@
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="26"
                 SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@LoadDateInitialEnd"
+                SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="5"
+                SQLTask:ParameterSize="-1" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -326,7 +333,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -345,7 +352,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -402,14 +409,15 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[GetBackupFolderNames]&#xA;   @CutoffTime&#xA; , @RetrainWeeks&#xA; , @BackupFolderName OUTPUT&#xA; , @BackupOldFolderName OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:IsStoredProc="True"
+              SQLTask:SqlStatementSource="[Maintenance].[GetBackupFolderNames]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="@CutoffTime "
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -455,19 +463,36 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="0">
-              <DTS:Variables />
+              DTS:ThreadHint="1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:DTSID="{3A8FC0D1-1B3C-47C8-813B-0D7224DFCDEE}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="User"
+                  DTS:ObjectName="IsMonthlyOptimization">
+                  <DTS:VariableValue
+                    DTS:DataType="11">0</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{EEF7B69D-5582-443F-9879-F2A3F89FA203}"
-                  SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CheckReferenceDate]&#xA;        @CutoffTime&#xA;      , 0&#xA;      , @IsStartOptimization OUTPUT&#xA;      , @IsSetFilegroupReadonly OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  SQLTask:IsStoredProc="True"
+                  SQLTask:SqlStatementSource="[Maintenance].[CheckReferenceDate]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="@CutoffTime"
                     SQLTask:DtsVariableName="$Package::CutoffTime"
                     SQLTask:ParameterDirection="Input"
                     SQLTask:DataType="26"
+                    SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="@IsMonthlyOptimization"
+                    SQLTask:DtsVariableName="User::IsMonthlyOptimization"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="3"
                     SQLTask:ParameterSize="-1" />
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="@IsStartOptimization"
@@ -481,6 +506,12 @@
                     SQLTask:ParameterDirection="Output"
                     SQLTask:DataType="3"
                     SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="@LoadDateInitialEnd"
+                    SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="5"
+                    SQLTask:ParameterSize="-1" />
                 </SQLTask:SqlTaskData>
               </DTS:ObjectData>
             </DTS:Executable>
@@ -492,7 +523,7 @@
               DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
@@ -1739,35 +1770,35 @@
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="140,41.6"
+          Size="140,42"
           Id="Package\Backup\Backup DWH"
           TopLeft="340.5,517.5" />
         <NodeLayout
-          Size="228,41.6"
+          Size="228,42"
           Id="Package\Backup\Create Backup ReadOnly Folder"
           TopLeft="5.50000000000006,415.5" />
         <NodeLayout
-          Size="232,41.6"
+          Size="232,42"
           Id="Package\Backup\Create Backup ReadWrite Folder"
           TopLeft="294.5,415.5" />
         <NodeLayout
-          Size="188.8,41.6"
+          Size="189,42"
           Id="Package\Backup\CreateOldBackupFolder"
           TopLeft="316,619.5" />
         <NodeLayout
-          Size="188,41.6"
+          Size="188,42"
           Id="Package\Backup\DeleteOldBackupFolder"
           TopLeft="316.5,721.5" />
         <NodeLayout
-          Size="190.4,41.6"
+          Size="190,42"
           Id="Package\Backup\GetBackupFolderNames"
           TopLeft="315.5,313.5" />
         <NodeLayout
-          Size="176,41.6"
+          Size="176,42"
           Id="Package\Backup\Set filegroups readonly\CheckReferenceDate"
           TopLeft="12,5.5" />
         <NodeLayout
-          Size="188.8,41.6"
+          Size="189,42"
           Id="Package\Backup\Set filegroups readonly\SetFileGroupsReadOnly"
           TopLeft="5.50000000000001,107.5" />
         <EdgeLayout
@@ -1797,7 +1828,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="200,204.8"
+          PanelSize="200,205"
           Size="200,248"
           Id="Package\Backup\Set filegroups readonly"
           TopLeft="310.5,5.5" />
@@ -1960,16 +1991,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="532,819.2"
-          Size="532,862.4"
+          PanelSize="532,819"
+          Size="532,862"
           Id="Package\Backup"
           TopLeft="107,464.5" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="150,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
           TopLeft="20,107.5" />
         <NodeLayout
-          Size="179.2,41.6"
+          Size="179,42"
           Id="Package\Copy DWH metadata to Logs DB\Truncate Logs Tables"
           TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
@@ -1997,20 +2028,20 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="190.4,204.8"
-          Size="190.4,248"
+          PanelSize="190,205"
+          Size="190,248"
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="278,1386.5" />
         <NodeLayout
-          Size="176.8,41.6"
+          Size="177,42"
           Id="Package\DWH\Check DWH integrity"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="160.8,41.6"
+          Size="161,42"
           Id="Package\DWH\Optimize Indexes"
           TopLeft="13.5,107.5" />
         <NodeLayout
-          Size="156,41.6"
+          Size="156,42"
           Id="Package\DWH\Update statistics"
           TopLeft="16,209.5" />
         <EdgeLayout
@@ -2060,16 +2091,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="188,307.2"
-          Size="188,350.4"
+          PanelSize="188,307"
+          Size="188,350"
           Id="Package\DWH"
           TopLeft="279,54.5" />
         <NodeLayout
-          Size="193.6,41.6"
+          Size="194,42"
           Id="Package\MDS\Clean Up Staging Tables"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="184,41.6"
+          Size="184,42"
           Id="Package\MDS\Clean Up Transactions"
           TopLeft="10.5,107.5" />
         <EdgeLayout
@@ -2097,8 +2128,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="204.8,204.8"
-          Size="204.8,248"
+          PanelSize="205,205"
+          Size="205,248"
           Id="Package\MDS"
           TopLeft="13.5000000000001,105.5" />
         <EdgeLayout
@@ -2238,7 +2269,7 @@
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="141,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
@@ -2251,28 +2282,6 @@
           Size="171,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles"
           TopLeft="41.5,54.5" />
-        <EdgeLayout
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET]"
-          TopLeft="127,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
           Size="143,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage"
@@ -2296,7 +2305,33 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET]"
+          TopLeft="127,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

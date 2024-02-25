@@ -3,11 +3,11 @@
     , @IsMaitenance AS BIT
 AS BEGIN
 	DECLARE @EndMonthDate	        AS DATE;
-	DECLARE @Bondaries		        AS NVARCHAR(2000);
-    DECLARE @FileGroupNamesData     AS NVARCHAR(2000);
-    DECLARE @FileGroupNamesIndex    AS NVARCHAR(2000);
-	DECLARE @CreatePF		        AS NVARCHAR(4000);
-	DECLARE @CreatePS		        AS NVARCHAR(4000);
+	DECLARE @Bondaries		        AS NVARCHAR(MAX);
+    DECLARE @FileGroupNamesData     AS NVARCHAR(MAX);
+    DECLARE @FileGroupNamesIndex    AS NVARCHAR(MAX);
+	DECLARE @CreatePF		        AS NVARCHAR(MAX);
+	DECLARE @CreatePS		        AS NVARCHAR(MAX);
     DECLARE @YearNumber             AS INT;
 	
 -- Опеределение границ диапазона слияния секций.
@@ -21,8 +21,10 @@ AS BEGIN
         END
 	SET @YearNumber = YEAR ( @EndMonthDate )
 
-	SELECT  @Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONCAT ( N' CAST ( ''', CAST ( CONVERT ( DATE, [value], 23 ) AS NVARCHAR(10) ), N''' AS DATE )' )
-    FROM    [sys].[partition_range_values];
+	SELECT		@Bondaries = COALESCE ( @Bondaries + ',', '' ) + CONCAT ( N' CAST ( ''', CAST ( CONVERT ( DATE, [value], 23 ) AS NVARCHAR(10) ), N''' AS DATE )' )
+    FROM		sys.partition_range_values AS PRV
+	INNER JOIN	sys.partition_functions AS PS ON PS.[function_id] = PRV.[function_id]
+	WHERE		PS.[name] = N'PF_Order_Date';
 	
 -- Создание функции секционирования
 	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Load_Order] ( DATE ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
@@ -31,14 +33,11 @@ AS BEGIN
 -- Создание схемы секционирования
     SELECT		  @FileGroupNamesData = 
 					COALESCE ( @FileGroupNamesData + ',', '' )
-					+ CONCAT (
-								'[', 
-								CASE
+					+ QUOTENAME (  CASE
 										WHEN COALESCE ( FG.[is_read_only], FGP.[is_read_only] ) = CAST ( 1 AS BIT )
 										THEN CONCAT ( N'Order_', @YearNumber, N'_Data' )
 										ELSE COALESCE ( FG.[name], FGP.[name] )
-									END,
-								']'
+									END
 					)
 	
 	FROM		sys.tables AS T
@@ -66,14 +65,11 @@ AS BEGIN
     
     SELECT		  @FileGroupNamesIndex = 
 					COALESCE ( @FileGroupNamesIndex + ',', '' )
-					+ CONCAT (
-								'[', 
-								CASE
+					+ QUOTENAME (  CASE
 										WHEN COALESCE ( FG.[is_read_only], FGP.[is_read_only] ) = CAST ( 1 AS BIT )
 										THEN CONCAT ( N'Order_', @YearNumber, N'_Index' )
 										ELSE COALESCE ( FG.[name], FGP.[name] )
-									END,
-								']'
+									END
 					)
 	
 	FROM		sys.tables AS T

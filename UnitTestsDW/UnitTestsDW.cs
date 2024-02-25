@@ -37,30 +37,28 @@ namespace UnitTestsDW
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Reports_GetViewInfo_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ExpectedSchemaCondition ReportGetViewInfoexpectedSchema;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_CreateLoadTableOrderTest_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
-            this.Reports_GetViewInfoData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            Reports_GetViewInfo_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            ReportGetViewInfoexpectedSchema = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ExpectedSchemaCondition();
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition CreateLoadTableOrder_InconclusiveCondition;
+            this.Integration_CreateLoadTableOrderTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            Integration_CreateLoadTableOrderTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            CreateLoadTableOrder_InconclusiveCondition = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
             // 
-            // Reports_GetViewInfoData
+            // Integration_CreateLoadTableOrderTestData
             // 
-            this.Reports_GetViewInfoData.PosttestAction = null;
-            this.Reports_GetViewInfoData.PretestAction = null;
-            this.Reports_GetViewInfoData.TestAction = Reports_GetViewInfo_TestAction;
+            this.Integration_CreateLoadTableOrderTestData.PosttestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.PretestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.TestAction = Integration_CreateLoadTableOrderTest_TestAction;
             // 
-            // Reports_GetViewInfo_TestAction
+            // Integration_CreateLoadTableOrderTest_TestAction
             // 
-            Reports_GetViewInfo_TestAction.Conditions.Add(ReportGetViewInfoexpectedSchema);
-            resources.ApplyResources(Reports_GetViewInfo_TestAction, "Reports_GetViewInfo_TestAction");
+            Integration_CreateLoadTableOrderTest_TestAction.Conditions.Add(CreateLoadTableOrder_InconclusiveCondition);
+            resources.ApplyResources(Integration_CreateLoadTableOrderTest_TestAction, "Integration_CreateLoadTableOrderTest_TestAction");
             // 
-            // ReportGetViewInfoexpectedSchema
+            // CreateLoadTableOrder_InconclusiveCondition
             // 
-            ReportGetViewInfoexpectedSchema.Enabled = true;
-            ReportGetViewInfoexpectedSchema.Name = "ReportGetViewInfoexpectedSchema";
-            resources.ApplyResources(ReportGetViewInfoexpectedSchema, "ReportGetViewInfoexpectedSchema");
-            ReportGetViewInfoexpectedSchema.Verbose = false;
+            CreateLoadTableOrder_InconclusiveCondition.Enabled = true;
+            CreateLoadTableOrder_InconclusiveCondition.Name = "CreateLoadTableOrder_InconclusiveCondition";
         }
 
         #endregion
@@ -80,11 +78,10 @@ namespace UnitTestsDW
         //
         #endregion
 
-
         [TestMethod()]
-        public void Reports_GetViewInfo()
+        public void Integration_CreateLoadTableOrderTest()
         {
-            SqlDatabaseTestActions testActions = this.Reports_GetViewInfoData;
+            SqlDatabaseTestActions testActions = this.Integration_CreateLoadTableOrderTestData;
             // Выполнить скрипт перед тестом
             // 
             System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
@@ -104,6 +101,6 @@ namespace UnitTestsDW
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
-        private SqlDatabaseTestActions Reports_GetViewInfoData;
+        private SqlDatabaseTestActions Integration_CreateLoadTableOrderTestData;
     }
 }
