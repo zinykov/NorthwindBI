@@ -37,7 +37,9 @@ AS BEGIN
 		END
 	ELSE
 		BEGIN
-			RAISERROR ( 50001, 16, 1, @FileName )
+			DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50001, @FileName);
+			
+			THROW 50001, @Msg, 1;
 		END
 
 	DROP TABLE IF EXISTS #file_exist
