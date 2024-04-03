@@ -40,15 +40,12 @@ namespace UnitTestsDW
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_CreateLoadTableOrderTest_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitTestsDW));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition CreateLoadTableOrder_InconclusiveCondition;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Maintenance_InsertDatabaseFilesDataTest_TestAction;
             this.Integration_CreateLoadTableOrderTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.Maintenance_InsertDatabaseFilesDataTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Integration_CreateLoadTableOrderTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CreateLoadTableOrder_InconclusiveCondition = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.InconclusiveCondition();
-            // 
-            // Integration_CreateLoadTableOrderTestData
-            // 
-            this.Integration_CreateLoadTableOrderTestData.PosttestAction = null;
-            this.Integration_CreateLoadTableOrderTestData.PretestAction = null;
-            this.Integration_CreateLoadTableOrderTestData.TestAction = Integration_CreateLoadTableOrderTest_TestAction;
+            Maintenance_InsertDatabaseFilesDataTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             // 
             // Integration_CreateLoadTableOrderTest_TestAction
             // 
@@ -59,6 +56,22 @@ namespace UnitTestsDW
             // 
             CreateLoadTableOrder_InconclusiveCondition.Enabled = true;
             CreateLoadTableOrder_InconclusiveCondition.Name = "CreateLoadTableOrder_InconclusiveCondition";
+            // 
+            // Maintenance_InsertDatabaseFilesDataTest_TestAction
+            // 
+            resources.ApplyResources(Maintenance_InsertDatabaseFilesDataTest_TestAction, "Maintenance_InsertDatabaseFilesDataTest_TestAction");
+            // 
+            // Integration_CreateLoadTableOrderTestData
+            // 
+            this.Integration_CreateLoadTableOrderTestData.PosttestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.PretestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.TestAction = Integration_CreateLoadTableOrderTest_TestAction;
+            // 
+            // Maintenance_InsertDatabaseFilesDataTestData
+            // 
+            this.Maintenance_InsertDatabaseFilesDataTestData.PosttestAction = null;
+            this.Maintenance_InsertDatabaseFilesDataTestData.PretestAction = null;
+            this.Maintenance_InsertDatabaseFilesDataTestData.TestAction = Maintenance_InsertDatabaseFilesDataTest_TestAction;
         }
 
         #endregion
@@ -101,6 +114,31 @@ namespace UnitTestsDW
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod(), ExpectedSqlException(Severity = 16, MatchFirstError = false, State = 1)]
+        public void Maintenance_InsertDatabaseFilesDataTest()
+        {
+            SqlDatabaseTestActions testActions = this.Maintenance_InsertDatabaseFilesDataTestData;
+            // Execute the pre-test script
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Execute the test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Execute the post-test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
         private SqlDatabaseTestActions Integration_CreateLoadTableOrderTestData;
+        private SqlDatabaseTestActions Maintenance_InsertDatabaseFilesDataTestData;
     }
 }
