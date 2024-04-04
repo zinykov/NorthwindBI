@@ -45,9 +45,9 @@ AS BEGIN
     DECLARE @DayOfWeekNumber AS TINYINT     = DATEPART ( DW , @Date )
     DECLARE @StartOfWeek AS DATE            = DATEADD ( DAY, - @DayOfWeekNumber + 1, @Date )
     DECLARE @EndOfWeek AS DATE              = DATEADD ( DAY, 6, @StartOfWeek )
-    DECLARE @Holiday AS NVARCHAR(100)       = ( SELECT TOP(1) [Name] from [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
-    DECLARE @WorkDayType AS NVARCHAR(25)    = ( SELECT TOP(1) [DateType_Name] from [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
-    DECLARE @WorkDayHours AS TINYINT        = ( SELECT TOP(1) [WorkDayHours] from [$(MDSServerName)].[$(MDSDatabaseName)].[mdm].[MasterHolidays] WHERE [Date] = @Date )
+    DECLARE @Holiday AS NVARCHAR(100)       = ( SELECT TOP(1) [Holiday] FROM [Integration].[Holiday] WHERE [Date] = @Date )
+    DECLARE @WorkDayType AS NVARCHAR(25)    = ( SELECT TOP(1) [WorkDayType] FROM [Integration].[Holiday] WHERE [Date] = @Date )
+    DECLARE @WorkDayHours AS TINYINT        = ( SELECT TOP(1) [WorkDayHours] FROM [Integration].[Holiday] WHERE [Date] = @Date )
 
 	INSERT @returntable
 	        --Day
