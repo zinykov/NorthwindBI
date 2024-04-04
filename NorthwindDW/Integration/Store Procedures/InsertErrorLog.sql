@@ -9,25 +9,34 @@
 	, @UserName NVARCHAR(128)
 	, @LineageKey INT
 AS BEGIN
-	INSERT INTO [Integration].[ErrorLog] (
-		  [ErrorCode]
-		, [ErrorDescription]
-		, [ParametersValues]
-		, [MachineName]
-		, [PackageName]
-		, [SourceName]
-		, [StartTime]
-		, [UserName]
-		, [LineageKey]
-	) VALUES (
-		  @ErrorCode
-		, @ErrorDescription
-		, @ParametersValues
-		, @MachineName
-		, @PackageName
-		, @SourceName
-		, @StartTime
-		, @UserName
-		, @LineageKey
-	)
+    BEGIN TRY
+        BEGIN TRANSACTION
+			INSERT INTO [Integration].[ErrorLog] (
+				  [ErrorCode]
+				, [ErrorDescription]
+				, [ParametersValues]
+				, [MachineName]
+				, [PackageName]
+				, [SourceName]
+				, [StartTime]
+				, [UserName]
+				, [LineageKey]
+			) VALUES (
+				  @ErrorCode
+				, @ErrorDescription
+				, @ParametersValues
+				, @MachineName
+				, @PackageName
+				, @SourceName
+				, @StartTime
+				, @UserName
+				, @LineageKey
+			);
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		THROW 50002, @Msg, 1;
+    END CATCH
 END
