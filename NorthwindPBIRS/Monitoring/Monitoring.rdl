@@ -8,6 +8,16 @@
       <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>176421fa-bb17-417f-8579-e7b6d781779d</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="DQS">
+      <DataSourceReference>DQS</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>2618b1cf-613b-4e37-ba7b-45517148673b</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="MDS">
+      <DataSourceReference>MDS</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>1003f734-6ed3-4eb5-be89-753fa551f826</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Errorlog">
@@ -90,9 +100,54 @@
     </DataSet>
     <DataSet Name="DQSStatus">
       <Query>
-        <DataSourceName>NorthwindDW</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Reports.DQSStatus</CommandText>
+        <DataSourceName>DQS</DataSourceName>
+        <CommandText>SELECT		  [Table]			= 'Customer'
+			, [Record_Status]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[dbo].[NW_Customer]
+
+GROUP BY	[Record_Status]
+
+UNION ALL
+
+SELECT		  [Table]			= 'Employee'
+			, [Record_Status]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[dbo].[NW_Employee]
+
+GROUP BY	[Record_Status]
+
+UNION ALL
+
+SELECT		  [Table]			= 'Product'
+			, [Record_Status]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[dbo].[NW_Product]
+
+GROUP BY	[Record_Status]
+
+UNION ALL
+
+SELECT		  [Table]			= 'Category'
+			, [Record_Status]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[dbo].[NW_Category]
+
+GROUP BY	[Record_Status]
+	
+UNION ALL
+
+SELECT		  [Table]			= 'Holidays'
+			, [Record_Status]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[dbo].[Holidays]
+
+GROUP BY	[Record_Status]</CommandText>
       </Query>
       <Fields>
         <Field Name="Table">
@@ -111,9 +166,44 @@
     </DataSet>
     <DataSet Name="MDSStatus">
       <Query>
-        <DataSourceName>NorthwindDW</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Reports.MDSStatus</CommandText>
+        <DataSourceName>MDS</DataSourceName>
+        <CommandText>SELECT		  [Table]			= 'Customer'
+			, [ValidationStatus]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[mdm].[MasterCustomer]
+
+GROUP BY	[ValidationStatus]
+
+UNION ALL
+	
+SELECT		  [Table]			= 'Employee'
+			, [ValidationStatus]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[mdm].[MasterEmployee]
+
+GROUP BY	[ValidationStatus]
+
+UNION ALL
+	
+SELECT		  [Table]			= 'Holidays'
+			, [ValidationStatus]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[mdm].[MasterHolidays]
+
+GROUP BY	[ValidationStatus]
+
+UNION ALL
+	
+SELECT		  [Table]			= 'Product'
+			, [ValidationStatus]
+			, [RowCount]		= COUNT ( * )
+
+FROM		[mdm].[MasterProduct]
+
+GROUP BY	[ValidationStatus]</CommandText>
       </Query>
       <Fields>
         <Field Name="Table">
