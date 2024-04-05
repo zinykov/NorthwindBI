@@ -119,12 +119,14 @@
   </resheader>
   <data name="Integration_CreateLoadTableOrderTest_TestAction.SqlScript" xml:space="preserve">
     <value>-- модульный тест базы данных для Integration.CreateLoadTableOrder
-DECLARE @CutoffTime AS DATE, @IsMaitenance AS BIT;
+DECLARE @Result AS INT, @CutoffTime AS DATE, @IsMaitenance AS BIT;
 
 SELECT @CutoffTime = DATEFROMPARTS ( 1998, 3, 2 ),
        @IsMaitenance = 0;
 
-EXECUTE [Integration].[CreateLoadTableOrder] @CutoffTime, @IsMaitenance;</value>
+EXECUTE @Result = [Integration].[CreateLoadTableOrder] @CutoffTime, @IsMaitenance;
+
+SELECT @Result;</value>
   </data>
   <data name="Maintenance_InsertDatabaseFilesDataTest_TestAction.SqlScript" xml:space="preserve">
     <value>-- database unit test for Maintenance.InsertDatabaseFilesData
@@ -136,6 +138,17 @@ SET @FilePath = N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\1\
 SET @IsClustered = 0;
 
 EXECUTE [Maintenance].[InsertDatabaseFilesData] @CutoffTime, @FactTableName, @FilePath, @IsClustered;</value>
+  </data>
+  <data name="Maintenance_OptimizeOrdersPartitionsMonthlyTest_TestAction.SqlScript" xml:space="preserve">
+    <value>-- database unit test for Maintenance.OptimizeOrdersPartitionsMonthly
+DECLARE @Result AS INT, @CutoffTime AS DATE, @LoadDateInitialEnd AS DATE;
+
+SELECT @CutoffTime = DATEFROMPARTS(1998,3,15),
+       @LoadDateInitialEnd = DATEFROMPARTS(1998,01,01);
+
+EXECUTE @Result = [Maintenance].[OptimizeOrdersPartitionsMonthly] @CutoffTime, @LoadDateInitialEnd;
+
+SELECT @Result;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
