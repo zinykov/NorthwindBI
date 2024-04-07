@@ -2,7 +2,7 @@
 AS BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
-            DROP TABLE IF EXISTS [Integretion].[Holiday];
+            DROP TABLE IF EXISTS [Integration].[Holiday];
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
