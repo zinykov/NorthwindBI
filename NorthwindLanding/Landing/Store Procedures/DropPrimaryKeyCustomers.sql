@@ -1,13 +1,8 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashCustomers] AS
+﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyCustomers] AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
-			TRUNCATE TABLE [Hash].[Customers];
-
-			INSERT INTO [Hash].[Customers]
-			SELECT		  [CustomerID]
-						, [HashDiff]
-			FROM		[Landing].[Customers];
+			ALTER TABLE [Landing].[Customers] DROP CONSTRAINT [PK_Landing_Customers];
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH

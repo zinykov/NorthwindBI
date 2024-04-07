@@ -12,11 +12,20 @@
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="270"
-  DTS:VersionGUID="{DF1B52AD-86F2-42E6-8ABA-0D7AE0AE29C4}">
+  DTS:VersionBuild="308"
+  DTS:VersionGUID="{CE216D36-58A0-4E89-A3DA-5CF403DC80F6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5667D3CF-2AA5-4099-B544-97551D3B5EED}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EntityName">
+      <DTS:VariableValue
+        DTS:DataType="8">Customers</DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{AC93B553-1507-49F2-8B7C-E995D8057162}"
@@ -28,6 +37,24 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{D3FA4683-CFFC-4342-A866-CD8882942DE4}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDateIncrementalEnd">
+      <DTS:VariableValue
+        DTS:DataType="7">1/15/1998</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C6ABE905-D25D-4C20-B802-D70E7AA8C000}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDateInitialEnd">
+      <DTS:VariableValue
+        DTS:DataType="7">12/31/1997</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{51AE83DC-9B69-4C25-B9D4-64BA46033972}"
       DTS:EvaluateAsExpression="True"
       DTS:Expression="@[$Project::ExternalFilesPath]+&quot;logs\\&quot;"
@@ -35,7 +62,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="LogsPath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
+        DTS:DataType="8">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -195,7 +222,7 @@
       DTS:refId="Package\Logman Start"
       DTS:CreationName="Microsoft.ExecuteProcess"
       DTS:Disabled="True"
-      DTS:DTSID="{accbcf17-60bd-44f0-b336-e42dad92ee54}"
+      DTS:DTSID="{d643eee3-1d30-47ac-9388-f5e98fea2ec6}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Logman Start"
@@ -213,7 +240,7 @@
       DTS:refId="Package\Logman Stop"
       DTS:CreationName="Microsoft.ExecuteProcess"
       DTS:Disabled="True"
-      DTS:DTSID="{ebadb407-9bd5-4219-bc12-3d9c002f0599}"
+      DTS:DTSID="{ffbaef5d-f06c-46d5-a1c6-7b053a137d15}"
       DTS:ExecutableType="Microsoft.ExecuteProcess"
       DTS:LocaleID="-1"
       DTS:ObjectName="Logman Stop"
@@ -244,7 +271,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean up backups"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -262,7 +289,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean up logs"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -281,7 +308,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Maintence Subsystems"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -296,12 +323,36 @@
               SQLTask:AgentJobID="NorthwindBI.Maintence Subsystems" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Pre-test\PreTest"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{BF473DE8-3FCD-424D-BE66-E8A53BD7F7BE}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="PreTest"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>PreTest.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>LoadDateIncrementalEnd</ParameterName>
+                <BindedVariableOrParameterName>User::LoadDateIncrementalEnd</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LoadDateInitialEnd</ParameterName>
+                <BindedVariableOrParameterName>User::LoadDateInitialEnd</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
       </DTS:Executables>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Test"
       DTS:CreationName="STOCK:SEQUENCE"
-      DTS:DTSID="{D90864E1-C7B9-440F-85B2-838FC617D9D4}"
+      DTS:DTSID="{c6a0a61f-a6bc-4584-9466-0cf3bf825cb5}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
       DTS:ObjectName="Test">
@@ -313,7 +364,8 @@
           DTS:refId="Package\Test\Crash and Restore DWH"
           DTS:CreationName="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:Description="Задача &quot;Выполнение инструкции T-SQL&quot;"
-          DTS:DTSID="{AB7F1CA3-2B1E-4EF4-BF7F-59B09574EDE2}"
+          DTS:Disabled="True"
+          DTS:DTSID="{0067baf5-e56c-4f16-a793-3f81e848a911}"
           DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Crash and Restore DWH"
@@ -322,7 +374,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{FE074E8B-01EB-4612-9FDE-8732194F562A}"
-              SQLTask:SqlStatementSource="USE [master];&#xA;GO&#xA;ALTER DATABASE [NorthwindDW] SET SINGLE_USER WITH ROLLBACK IMMEDIATE&#xA;PRINT N'NorthwindDW setted in SINGLE_USER mode';&#xA;GO&#xA;&#xA;IF EXISTS ( SELECT 1 FROM [sys].[databases] WHERE [name] = N'NorthwindDW' )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;DROP DATABASE [NorthwindDW]&#xA;&#x9;&#x9;PRINT N'NorthwindDW dropped'&#xA;&#x9;END;&#xA;GO&#xA;&#xA;USE [NorthwindLogs];&#xA;GO&#xA;DECLARE @IsReadOnly AS BIT;&#xA;DECLARE @BackupFileName AS NVARCHAR(500);&#xA;DECLARE @SQL AS NVARCHAR(1000);&#xA;DECLARE @GroupName AS NVARCHAR(100);&#xA;&#xA;SET @BackupFileName = (&#xA;&#x9;SELECT&#x9;&#x9;TOP(1) [BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[BackupFileName] LIKE '%_FULL.bak'&#xA;&#x9;ORDER BY&#x9;[BackupFileName] DESC&#xA;)&#x9;&#xA;SET @SQL = CONCAT (&#xA;&#x9;  N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA;&#x9;, @BackupFileName&#xA;&#x9;, N''' WITH PARTIAL, NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;SET @BackupFileName = (&#xA;&#x9;SELECT&#x9;&#x9;TOP(1) [BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[BackupFileName] LIKE '%_DIFF.bak' &#xA;&#x9;ORDER BY&#x9;[BackupFileName] DESC&#xA;)&#xA;SET @SQL = CONCAT (&#xA;&#x9;  N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA;&#x9;, @BackupFileName&#xA;&#x9;, N''' WITH NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#xA;SET @SQL = N'USE [master]; RESTORE DATABASE [NorthwindDW] WITH RECOVERY;'&#xA;EXECUTE sp_executesql @SQL&#xA;&#xA;DECLARE RestoreDWH CURSOR FOR &#xA;&#x9;SELECT&#x9;&#x9;[BackupFileName]&#xA;&#x9;FROM&#x9;&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;WHERE&#x9;&#x9;[IsReadOnly] = 1&#xA;&#x9;ORDER BY&#x9;[BackupFileName] ASC&#xA;&#xA;OPEN RestoreDWH&#xA;&#x9;FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA;&#x9;WHILE @@FETCH_STATUS = 0&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#x9;SET @GroupName = (&#xA;&#x9;&#x9;&#x9;&#x9;SELECT&#x9;[GroupName]&#xA;&#x9;&#x9;&#x9;&#x9;FROM&#x9;[dbo].[DatabaseFiles]&#xA;&#x9;&#x9;&#x9;&#x9;WHERE&#x9;[BackupFileName] = @BackupFileName&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;&#x9;SET @SQL = CONCAT (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;N'USE [master]; RESTORE DATABASE [NorthwindDW] FILEGROUP = '''&#xA;&#x9;&#x9;&#x9;&#x9;, @GroupName&#xA;&#x9;&#x9;&#x9;&#x9;, N''' FROM DISK = '''&#xA;&#x9;&#x9;&#x9;&#x9;, @BackupFileName&#xA;&#x9;&#x9;&#x9;&#x9;, N''' WITH RECOVERY;'&#xA;&#x9;&#x9;&#x9;)&#xA;&#xA;&#x9;&#x9;&#x9;EXECUTE sp_executesql @SQL&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA;&#x9;&#x9;END&#xA;CLOSE RestoreDWH&#xA;DEALLOCATE RestoreDWH;&#xA;GO"
+              SQLTask:SqlStatementSource="USE [master];&#xA;GO&#xA;ALTER DATABASE [NorthwindDW] SET SINGLE_USER WITH ROLLBACK IMMEDIATE&#xA;PRINT N'NorthwindDW setted in SINGLE_USER mode';&#xA;GO&#xA;&#xA;IF EXISTS ( SELECT 1 FROM [sys].[databases] WHERE [name] = N'NorthwindDW' )&#xA; BEGIN&#xA;  DROP DATABASE [NorthwindDW]&#xA;  PRINT N'NorthwindDW dropped'&#xA; END;&#xA;GO&#xA;&#xA;USE [NorthwindLogs];&#xA;GO&#xA;DECLARE @IsReadOnly AS BIT;&#xA;DECLARE @BackupFileName AS NVARCHAR(500);&#xA;DECLARE @SQL AS NVARCHAR(1000);&#xA;DECLARE @GroupName AS NVARCHAR(100);&#xA;&#xA;SET @BackupFileName = (&#xA; SELECT  TOP(1) [BackupFileName]&#xA; FROM  [dbo].[DatabaseFiles]&#xA; WHERE  [BackupFileName] LIKE '%_FULL.bak'&#xA; ORDER BY [BackupFileName] DESC&#xA;) &#xA;SET @SQL = CONCAT (&#xA;   N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA; , @BackupFileName&#xA; , N''' WITH PARTIAL, NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;      &#xA;SET @BackupFileName = (&#xA; SELECT  TOP(1) [BackupFileName]&#xA; FROM  [dbo].[DatabaseFiles]&#xA; WHERE  [BackupFileName] LIKE '%_DIFF.bak' &#xA; ORDER BY [BackupFileName] DESC&#xA;)&#xA;SET @SQL = CONCAT (&#xA;   N'USE [master]; RESTORE DATABASE [NorthwindDW] READ_WRITE_FILEGROUPS FROM DISK = '''&#xA; , @BackupFileName&#xA; , N''' WITH NORECOVERY;'&#xA;)&#xA;&#xA;EXECUTE sp_executesql @SQL&#xA;   &#xA;SET @SQL = N'USE [master]; RESTORE DATABASE [NorthwindDW] WITH RECOVERY;'&#xA;EXECUTE sp_executesql @SQL&#xA;&#xA;DECLARE RestoreDWH CURSOR FOR &#xA; SELECT  [BackupFileName]&#xA; FROM  [dbo].[DatabaseFiles]&#xA; WHERE  [IsReadOnly] = 1&#xA; ORDER BY [BackupFileName] ASC&#xA;&#xA;OPEN RestoreDWH&#xA; FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA; WHILE @@FETCH_STATUS = 0&#xA;  BEGIN&#xA;   SET @GroupName = (&#xA;    SELECT [GroupName]&#xA;    FROM [dbo].[DatabaseFiles]&#xA;    WHERE [BackupFileName] = @BackupFileName&#xA;   )&#xA;&#xA;   SET @SQL = CONCAT (&#xA;     N'USE [master]; RESTORE DATABASE [NorthwindDW] FILEGROUP = '''&#xA;    , @GroupName&#xA;    , N''' FROM DISK = '''&#xA;    , @BackupFileName&#xA;    , N''' WITH RECOVERY;'&#xA;   )&#xA;&#xA;   EXECUTE sp_executesql @SQL&#xA;   &#xA;   FETCH NEXT FROM RestoreDWH INTO @BackupFileName&#xA;  END&#xA;CLOSE RestoreDWH&#xA;DEALLOCATE RestoreDWH;&#xA;GO"
               SQLTask:ServerVersion="9"
               SQLTask:ExtendedLogging="True"
               SQLTask:LocalConnectionForLogging=""
@@ -334,11 +386,11 @@
           DTS:refId="Package\Test\Incremental load immitation"
           DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
           DTS:CreationName="STOCK:FORLOOP"
-          DTS:DTSID="{890fd178-04d3-45e3-a155-568a8acc69ef}"
-          DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-5-9&quot;"
+          DTS:DTSID="{91bc0c26-1f57-4d61-b66f-0a8c8395b77d}"
+          DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-1-15&quot;"
           DTS:ExecutableType="STOCK:FORLOOP"
           DTS:FailPackageOnFailure="True"
-          DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-1-1&quot;"
+          DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1998-1-1&quot;"
           DTS:LocaleID="-1"
           DTS:MaxConcurrent="1"
           DTS:ObjectName="Incremental load immitation">
@@ -346,14 +398,14 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" + (DT_WSTR, 4) YEAR( @[$Project::LoadDateIncrementalEnd]  ) + "-" + (DT_WSTR, 2) MONTH( @[$Project::LoadDateIncrementalEnd]  ) + "-" + (DT_WSTR, 2) DAY( @[$Project::LoadDateIncrementalEnd]  ) + "\""</DTS:PropertyExpression>
+            DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" + (DT_WSTR, 4) YEAR( @[User::LoadDateIncrementalEnd] ) + "-" + (DT_WSTR, 2) MONTH( @[User::LoadDateIncrementalEnd] ) + "-" + (DT_WSTR, 2) DAY( @[User::LoadDateIncrementalEnd] ) + "\""</DTS:PropertyExpression>
           <DTS:PropertyExpression
-            DTS:Name="InitExpression">"@var_CutoffTime = (DT_DATE)\"" + (DT_WSTR, 4) YEAR( DATEADD( "dd", 1, @[$Project::LoadDateInitialEnd]  )  ) + "-" + (DT_WSTR, 2) MONTH( DATEADD( "dd", 1, @[$Project::LoadDateInitialEnd]  )  ) + "-" + (DT_WSTR, 2) DAY( DATEADD( "dd", 1, @[$Project::LoadDateInitialEnd]  )  ) + "\""</DTS:PropertyExpression>
+            DTS:Name="InitExpression">"@var_CutoffTime = (DT_DATE)\"" + (DT_WSTR, 4) YEAR( DATEADD( "dd", 1, @[User::LoadDateInitialEnd]   )  ) + "-" + (DT_WSTR, 2) MONTH( DATEADD( "dd", 1, @[User::LoadDateInitialEnd]  )  ) + "-" + (DT_WSTR, 2) DAY( DATEADD( "dd", 1, @[User::LoadDateInitialEnd]  )  ) + "\""</DTS:PropertyExpression>
           <DTS:Executables>
             <DTS:Executable
               DTS:refId="Package\Test\Incremental load immitation\Incremental load"
               DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:DTSID="{787b57ef-291a-4733-a1b4-aa12db663b2a}"
+              DTS:DTSID="{4d264142-23b8-4cb4-9790-37298c252431}"
               DTS:ExecutableType="Microsoft.ExecutePackageTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Incremental load"
@@ -378,7 +430,7 @@
           DTS:refId="Package\Test\Ingest data"
           DTS:CreationName="STOCK:SEQUENCE"
           DTS:Disabled="True"
-          DTS:DTSID="{1586f2a0-1f76-4a01-8238-6058cd29df4c}"
+          DTS:DTSID="{6bfb4787-13b0-42b5-854d-0153e1f6a624}"
           DTS:ExecutableType="STOCK:SEQUENCE"
           DTS:LocaleID="-1"
           DTS:ObjectName="Ingest data">
@@ -389,7 +441,7 @@
             <DTS:Executable
               DTS:refId="Package\Test\Ingest data\Northwind (упрощённая)"
               DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:DTSID="{dc312069-9b18-4851-8796-b2a93cc9d09f}"
+              DTS:DTSID="{bcecefc6-e96f-45e1-9276-b395c79660e6}"
               DTS:ExecutableType="Microsoft.ExecutePackageTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Northwind (упрощённая)"
@@ -407,7 +459,7 @@
             <DTS:Executable
               DTS:refId="Package\Test\Ingest data\xmlcalendar"
               DTS:CreationName="Microsoft.ExecutePackageTask"
-              DTS:DTSID="{39a15375-a503-4fbd-be50-18de05a71db7}"
+              DTS:DTSID="{b0a6c72e-c378-4525-8b43-52eb9c4ad620}"
               DTS:ExecutableType="Microsoft.ExecutePackageTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="xmlcalendar"
@@ -431,7 +483,7 @@
         <DTS:Executable
           DTS:refId="Package\Test\Initial load"
           DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:DTSID="{235aef1f-037b-4b3c-b734-02dda9b47aec}"
+          DTS:DTSID="{da917f15-c113-49bc-a556-9a17f9f40087}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Initial load"
@@ -445,7 +497,7 @@
               <PackageName>Initial Load.dtsx</PackageName>
               <ParameterAssignment>
                 <ParameterName>CutoffTime</ParameterName>
-                <BindedVariableOrParameterName>$Project::LoadDateInitialEnd</BindedVariableOrParameterName>
+                <BindedVariableOrParameterName>User::LoadDateInitialEnd</BindedVariableOrParameterName>
               </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
@@ -455,7 +507,7 @@
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{dd28ff58-fad6-44f6-be30-53f6d56a9b2d}"
+          DTS:DTSID="{cb102e11-bb3f-4a0c-a9a3-e33ff1b77dd6}"
           DTS:From="Package\Test\Initial load"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
@@ -463,7 +515,7 @@
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Ограничение]"
           DTS:CreationName=""
-          DTS:DTSID="{FBBB9FAD-A114-4370-B0A0-6901F1997068}"
+          DTS:DTSID="{fda0ce84-bc09-4bfa-9169-7778d023e835}"
           DTS:From="Package\Test\Incremental load immitation"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение"
@@ -471,7 +523,7 @@
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Test.PrecedenceConstraints[Ограничение 1]"
           DTS:CreationName=""
-          DTS:DTSID="{42B798C3-C42C-463B-9756-679A58E2F48A}"
+          DTS:DTSID="{6ca90a41-dd1b-4d53-81ed-756ca3daaaec}"
           DTS:From="Package\Test\Ingest data"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 1"
@@ -481,29 +533,28 @@
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3B477D3D-A61C-457A-8D80-B8C6CD90799E}"
+      DTS:From="Package\Logman Start"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Pre-test" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{AC092DAA-83A5-403A-9189-910A45F1FA26}"
+      DTS:DTSID="{18DFC05C-D558-4FBA-BA16-24209C64ED01}"
       DTS:From="Package\Test"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Logman Stop"
-      DTS:Value="2" />
+      DTS:To="Package\Logman Stop" />
     <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{FBC68301-F869-4812-9F0F-12F018E68D60}"
-      DTS:From="Package\Logman Start"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение"
-      DTS:To="Package\Pre-test" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
-      DTS:CreationName=""
-      DTS:DTSID="{D5743C86-9BE2-4045-887A-52E019661B72}"
+      DTS:DTSID="{B260893C-BE28-4CE6-B80F-9D9FAB7D433D}"
       DTS:From="Package\Pre-test"
       DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение 1"
+      DTS:ObjectName="Constraint 2"
       DTS:To="Package\Test" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
@@ -676,48 +727,52 @@
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="142.4,41.6"
+          Size="141.6,41.6"
           Id="Package\Logman Start"
-          TopLeft="264,54.5" />
+          TopLeft="348.3,54.3" />
         <NodeLayout
           Size="140.8,41.6"
           Id="Package\Logman Stop"
-          TopLeft="264.5,1081.5" />
+          TopLeft="348.7,1079.9" />
         <NodeLayout
           Size="161.6,41.6"
           Id="Package\Pre-test\Clean up backups"
-          TopLeft="5.50000000000006,5.49999999999989" />
+          TopLeft="5.49999999999996,5.49999999999995" />
         <NodeLayout
           Size="142.4,41.6"
           Id="Package\Pre-test\Clean up logs"
-          TopLeft="475.5,5.49999999999989" />
+          TopLeft="228.1,5.49999999999984" />
         <NodeLayout
           Size="185.6,41.6"
           Id="Package\Pre-test\Maintence Subsystems"
-          TopLeft="228.5,5.49999999999989" />
+          TopLeft="431.5,5.49999999999984" />
+        <NodeLayout
+          Size="113.6,41.6"
+          Id="Package\Pre-test\PreTest"
+          TopLeft="677.5,5.49999999999984" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="623.2,102.4"
-          Size="623.2,144.8"
+          PanelSize="796.8,102.4"
+          Size="796.8,145.6"
           Id="Package\Pre-test"
-          TopLeft="23.5,156.5" />
+          TopLeft="20.7,155.9" />
         <NodeLayout
           Size="192.8,41.6"
           Id="Package\Test\Crash and Restore DWH"
-          TopLeft="112,519.5" />
+          TopLeft="112.3,518.3" />
         <NodeLayout
           Size="158.4,41.6"
           Id="Package\Test\Incremental load immitation\Incremental load"
@@ -728,7 +783,7 @@
           PanelSize="168.8,103.2"
           Size="168.8,145.6"
           Id="Package\Test\Incremental load immitation"
-          TopLeft="124,313.5" />
+          TopLeft="124.3,312.7" />
         <NodeLayout
           Size="199.2,41.6"
           Id="Package\Test\Ingest data\Northwind (упрощённая)"
@@ -743,25 +798,25 @@
           PanelSize="406.4,103.2"
           Size="406.4,145.6"
           Id="Package\Test\Ingest data"
-          TopLeft="5.50000000000003,5.5" />
+          TopLeft="5.50000000000003,5.50000000000007" />
         <NodeLayout
           Size="128,41.6"
           Id="Package\Test\Initial load"
-          TopLeft="144.5,211.5" />
+          TopLeft="144.7,211.1" />
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Constraint]"
-          TopLeft="208.5,253.5">
+          TopLeft="208.7,252.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -772,7 +827,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Ограничение]"
-          TopLeft="208.5,459.5">
+          TopLeft="208.7,458.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -794,7 +849,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Test.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="208.5,151.5">
+          TopLeft="208.7,151.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -817,37 +872,35 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="416.8,616.8"
-          Size="416.8,660"
+          PanelSize="417.6,615.2"
+          Size="417.6,658.4"
           Id="Package\Test"
-          TopLeft="126.5,361.5" />
+          TopLeft="210.3,361.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="335,1021.5">
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="419.1,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-28.87931640625,20.54296875,57.7586328125,11.4140625"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="335,96.5">
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="419.1,1019.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -868,8 +921,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="335,301.5">
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="419.1,301.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
