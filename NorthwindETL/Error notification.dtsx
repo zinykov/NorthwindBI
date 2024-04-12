@@ -12,8 +12,8 @@
   DTS:ObjectName="Error notification"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="45"
-  DTS:VersionGUID="{C8D9BF28-AFCC-4975-9605-2C090340997D}">
+  DTS:VersionBuild="54"
+  DTS:VersionGUID="{D0B7D73D-9BBA-4705-8100-EAC12D772EA3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -53,6 +53,26 @@
       DTS:DataType="8"
       DTS:DTSID="{926959F4-E976-478F-AF20-B3474477054F}"
       DTS:ObjectName="ErrorDescription">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{CBE3EF2E-B779-417A-9D04-94FD7818B8A6}"
+      DTS:ObjectName="ExecutionInstanceGUID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{B85EEFF7-B2C2-4D6D-B863-FFCDE2F8C5A1}"
+      DTS:ObjectName="FailedConfigurations">
       <DTS:Property
         DTS:DataType="8"
         DTS:Name="ParameterValue"
@@ -100,6 +120,16 @@
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="8"
+      DTS:DTSID="{449A8551-D59F-4A89-9F95-2D053A90A780}"
+      DTS:ObjectName="SourceID">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
       DTS:DTSID="{D221A894-61E7-4104-876C-55E0CDAB6D52}"
       DTS:ObjectName="SourceName">
       <DTS:Property
@@ -130,14 +160,7 @@
   <DTS:Variables />
   <DTS:LoggingOptions
     DTS:FilterKind="0"
-    DTS:LoggingMode="1">
-    <DTS:SelectedLogProviders>
-      <DTS:SelectedLogProvider
-        DTS:InstanceID="{6D35DFBD-0D82-4C57-9388-D929790CA867}" />
-      <DTS:SelectedLogProvider
-        DTS:InstanceID="{0F41AE9A-7D6F-4548-9DAC-60A4D04E3330}" />
-    </DTS:SelectedLogProviders>
-  </DTS:LoggingOptions>
+    DTS:LoggingMode="1" />
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Error notification"
@@ -187,8 +210,8 @@
         DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[InsertErrorLog]&#xA;&#x9;  @ErrorCode = ?&#xA;&#x9;, @ErrorDescription = ?&#xA;&#x9;, @ParametersValues = ?&#xA;&#x9;, @MachineName = ?&#xA;&#x9;, @PackageName = ?&#xA;&#x9;, @SourceName = ?&#xA;&#x9;, @StartTime = ?&#xA;&#x9;, @UserName = ?&#xA;&#x9;, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
+          SQLTask:SqlStatementSource="[Integration].[InsertErrorLog]&#xA;&#x9;  @ErrorCode = ?&#xA;&#x9;, @ErrorDescription = ?&#xA;&#x9;, @ParametersValues = ?&#xA;&#x9;, @MachineName = ?&#xA;&#x9;, @PackageName = ?&#xA;&#x9;, @SourceName = ?&#xA;&#x9;, @StartTime = ?&#xA;&#x9;, @UserName = ?&#xA;&#x9;, @SourceID = ?&#xA;&#x9;, @ExecutionID = ?&#xA;&#x9;, @FailedConfigurations = ?&#xA;&#x9;, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="$Package::ErrorCode"
@@ -200,25 +223,31 @@
             SQLTask:DtsVariableName="$Package::ErrorDescription"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
+            SQLTask:ParameterSize="2048" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::ParametersValues"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="2048" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="3"
             SQLTask:DtsVariableName="$Package::MachineName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
+            SQLTask:ParameterSize="128" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="4"
             SQLTask:DtsVariableName="$Package::PackageName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
+            SQLTask:ParameterSize="1024" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="5"
             SQLTask:DtsVariableName="$Package::SourceName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
+            SQLTask:ParameterSize="1024" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="6"
             SQLTask:DtsVariableName="$Package::StartTime"
@@ -230,41 +259,53 @@
             SQLTask:DtsVariableName="$Package::UserName"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
+            SQLTask:ParameterSize="128" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="8"
+            SQLTask:DtsVariableName="$Package::SourceID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="9"
+            SQLTask:DtsVariableName="$Package::ExecutionInstanceGUID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="50" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="10"
+            SQLTask:DtsVariableName="$Package::FailedConfigurations"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="128" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="11"
             SQLTask:DtsVariableName="$Package::LineageKey"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="3"
-            SQLTask:ParameterSize="-1" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="2"
-            SQLTask:DtsVariableName="$Package::ParametersValues"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="146,42"
+          Size="145.6,41.6"
           Id="Package\Error notification"
           TopLeft="79.5,54.5" />
         <NodeLayout
-          Size="154,42"
+          Size="153.6,41.6"
           Id="Package\Insert Error Log"
           TopLeft="287.9285714529,53.7352941069223" />
       </GraphLayout>

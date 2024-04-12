@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Lineage]
+﻿CREATE TABLE [Integration].[Lineage]
 (
 	  [LineageKey]					INT				NOT NULL,
 	  [DataLoadStarted]				DATETIME2		NOT NULL,
@@ -10,6 +10,6 @@
 	
 	CONSTRAINT [PK_Integration_Lineage] PRIMARY KEY CLUSTERED ( [LineageKey] ASC )
 )
-    ON [PRIMARY]
+    ON [Integration_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[DatabaseFiles] (
+﻿CREATE TABLE [Integration].[DatabaseFiles] (
 	[DatabaseFileKey]					INT				NOT NULL,
 	[GroupName]							NVARCHAR(100)	NOT NULL,
 	[IsReadOnly]						BIT				NOT NULL,
@@ -8,6 +8,6 @@
 
 	CONSTRAINT [PK_Maintenance_DatabaseFiles] PRIMARY KEY CLUSTERED ( [DatabaseFileKey] ASC )
 )
-    ON [PRIMARY]
+    ON [Integration_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

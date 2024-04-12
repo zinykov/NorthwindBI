@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_DWH_Maintenance.xml"
+  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_DWH_Maintenance.xml"
   DTS:CreationDate="10/14/2022 12:07:28 AM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="262"
-  DTS:VersionGUID="{B168BBBD-A75A-40D4-875E-0E98E6AD1E76}">
+  DTS:VersionBuild="264"
+  DTS:VersionGUID="{61E355AB-CF9E-4B2F-B2F0-66BFE1B66223}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -28,7 +28,7 @@
         DTS:Name="ServerName">@[$Project::MDSServerName]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=SWIFT3;Integrated Security=True;Application Name=SSIS-DWH Maintenance-{AB6195A6-A122-4D9D-A5C7-C6F2631B21E0}SWIFT3;" />
+          DTS:ConnectionString="Data Source=N-MSC-478;Integrated Security=True;Application Name=SSIS-DWH Maintenance-{AB6195A6-A122-4D9D-A5C7-C6F2631B21E0}SWIFT3;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -95,7 +95,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BackupsReadOnlyPath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly</DTS:VariableValue>
+        DTS:DataType="8">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -106,7 +106,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BackupsReadWritePath">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\</DTS:VariableValue>
+        DTS:DataType="8">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -144,7 +144,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="OldBackupFolder">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\</DTS:VariableValue>
+        DTS:DataType="8">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -277,6 +277,7 @@
     <DTS:Executable
       DTS:refId="Package\Backup"
       DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Disabled="True"
       DTS:DTSID="{630C8DCE-364A-4AC7-8D40-9332D9FB6E0E}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -333,7 +334,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -352,7 +353,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -409,7 +410,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -463,7 +464,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables>
                 <DTS:Variable
                   DTS:CreationName=""
@@ -523,7 +524,7 @@
               DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
@@ -1463,6 +1464,7 @@
       DTS:refId="Package\DWH"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
       DTS:DTSID="{BDBCA51B-0E75-458A-AB32-E719D396BAF3}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1568,6 +1570,7 @@
     <DTS:Executable
       DTS:refId="Package\MDS"
       DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Disabled="True"
       DTS:DTSID="{EAC1C0D9-FC4F-4A10-A31E-93C0EAF06480}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1680,7 +1683,6 @@
         <DTS:Executable
           DTS:refId="Package.EventHandlers[OnError]\Error notification"
           DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:Description="Задача &quot;Выполнение пакета&quot;"
           DTS:DTSID="{D5400353-A3F8-4A84-BF7D-24C8304AA5F8}"
           DTS:ExecutableType="Microsoft.ExecutePackageTask"
           DTS:LocaleID="-1"
@@ -1717,7 +1719,7 @@
               </ParameterAssignment>
               <ParameterAssignment>
                 <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+                <BindedVariableOrParameterName>System::EventHandlerStartTime</BindedVariableOrParameterName>
               </ParameterAssignment>
               <ParameterAssignment>
                 <ParameterName>UserName</ParameterName>
@@ -1726,6 +1728,14 @@
               <ParameterAssignment>
                 <ParameterName>ParametersValues</ParameterName>
                 <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
               </ParameterAssignment>
             </ExecutePackageTask>
           </DTS:ObjectData>
@@ -1758,47 +1768,47 @@
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="140,42"
+          Size="140,41.6"
           Id="Package\Backup\Backup DWH"
           TopLeft="340.5,517.5" />
         <NodeLayout
-          Size="228,42"
+          Size="228,41.6"
           Id="Package\Backup\Create Backup ReadOnly Folder"
           TopLeft="5.50000000000006,415.5" />
         <NodeLayout
-          Size="232,42"
+          Size="232,41.6"
           Id="Package\Backup\Create Backup ReadWrite Folder"
           TopLeft="294.5,415.5" />
         <NodeLayout
-          Size="189,42"
+          Size="188.8,41.6"
           Id="Package\Backup\CreateOldBackupFolder"
           TopLeft="316,619.5" />
         <NodeLayout
-          Size="188,42"
+          Size="188,41.6"
           Id="Package\Backup\DeleteOldBackupFolder"
           TopLeft="316.5,721.5" />
         <NodeLayout
-          Size="190,42"
+          Size="190.4,41.6"
           Id="Package\Backup\GetBackupFolderNames"
           TopLeft="315.5,313.5" />
         <NodeLayout
-          Size="176,42"
+          Size="176,41.6"
           Id="Package\Backup\Set filegroups readonly\CheckReferenceDate"
           TopLeft="12,5.5" />
         <NodeLayout
-          Size="189,42"
+          Size="188.8,41.6"
           Id="Package\Backup\Set filegroups readonly\SetFileGroupsReadOnly"
           TopLeft="5.50000000000001,107.5" />
         <EdgeLayout
@@ -1828,7 +1838,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="200,205"
+          PanelSize="200,204.8"
           Size="200,248"
           Id="Package\Backup\Set filegroups readonly"
           TopLeft="310.5,5.5" />
@@ -1991,16 +2001,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="532,819"
-          Size="532,862"
+          PanelSize="532,819.2"
+          Size="532,862.4"
           Id="Package\Backup"
           TopLeft="107,464.5" />
         <NodeLayout
-          Size="150,42"
+          Size="150.4,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
           TopLeft="20,107.5" />
         <NodeLayout
-          Size="179,42"
+          Size="179.2,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Truncate Logs Tables"
           TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
@@ -2028,20 +2038,20 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="190,205"
-          Size="190,248"
+          PanelSize="190.4,204.8"
+          Size="190.4,248"
           Id="Package\Copy DWH metadata to Logs DB"
           TopLeft="278,1386.5" />
         <NodeLayout
-          Size="177,42"
+          Size="176.8,41.6"
           Id="Package\DWH\Check DWH integrity"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="161,42"
+          Size="160.8,41.6"
           Id="Package\DWH\Optimize Indexes"
           TopLeft="13.5,107.5" />
         <NodeLayout
-          Size="156,42"
+          Size="156,41.6"
           Id="Package\DWH\Update statistics"
           TopLeft="16,209.5" />
         <EdgeLayout
@@ -2091,16 +2101,16 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="188,307"
-          Size="188,350"
+          PanelSize="188,307.2"
+          Size="188,350.4"
           Id="Package\DWH"
           TopLeft="279,54.5" />
         <NodeLayout
-          Size="194,42"
+          Size="193.6,41.6"
           Id="Package\MDS\Clean Up Staging Tables"
           TopLeft="5.50000000000001,5.5" />
         <NodeLayout
-          Size="184,42"
+          Size="184,41.6"
           Id="Package\MDS\Clean Up Transactions"
           TopLeft="10.5,107.5" />
         <EdgeLayout
@@ -2128,8 +2138,8 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="205,205"
-          Size="205,248"
+          PanelSize="204.8,204.8"
+          Size="204.8,248"
           Id="Package\MDS"
           TopLeft="13.5000000000001,105.5" />
         <EdgeLayout

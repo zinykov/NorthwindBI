@@ -7,6 +7,9 @@
 	, @SourceName NVARCHAR(1024)
 	, @StartTime DATETIME2
 	, @UserName NVARCHAR(128)
+	, @SourceID NVARCHAR(100)
+	, @ExecutionID NVARCHAR(100)
+	, @FailedConfigurations NVARCHAR(128)
 	, @LineageKey INT
 AS BEGIN
     BEGIN TRY
@@ -20,6 +23,9 @@ AS BEGIN
 				, [SourceName]
 				, [StartTime]
 				, [UserName]
+				, [sourceid]
+				, [executionid]
+				, [FailedConfigurations]
 				, [LineageKey]
 			) VALUES (
 				  @ErrorCode
@@ -30,6 +36,9 @@ AS BEGIN
 				, @SourceName
 				, @StartTime
 				, @UserName
+				, CAST ( @SourceID AS UNIQUEIDENTIFIER )
+				, CAST ( @ExecutionID AS UNIQUEIDENTIFIER )
+				, @FailedConfigurations
 				, @LineageKey
 			);
         COMMIT TRANSACTION;

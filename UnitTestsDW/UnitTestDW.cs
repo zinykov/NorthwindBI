@@ -47,10 +47,15 @@ namespace UnitTestsDW
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Integration_SetCutoffTimeTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition IntegrationSetCutoffTimeReturnedValue;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition IntegtationSetCutoffTimeProcudureStatus;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Repors_CustomerSCD2Test_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerNameValue;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2RowCount;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerCityValue;
             this.Integration_CreateLoadTableOrderTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.Maintenance_InsertDatabaseFilesDataTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.Integration_SetCutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.Repors_CustomerSCD2TestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Integration_CreateLoadTableOrderTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             IntegrationCreateLoadTableOrderReturn0 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             Maintenance_InsertDatabaseFilesDataTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
@@ -60,6 +65,10 @@ namespace UnitTestsDW
             Integration_SetCutoffTimeTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             IntegrationSetCutoffTimeReturnedValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             IntegtationSetCutoffTimeProcudureStatus = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            Repors_CustomerSCD2Test_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            CustomerNameValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            CustomerSCD2RowCount = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CustomerCityValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // Integration_CreateLoadTableOrderTest_TestAction
             // 
@@ -106,30 +115,6 @@ namespace UnitTestsDW
             MaintenanceOptimizeOrdersPartitionsMonthlyReturn0.ResultSet = 1;
             MaintenanceOptimizeOrdersPartitionsMonthlyReturn0.RowNumber = 1;
             // 
-            // Integration_CreateLoadTableOrderTestData
-            // 
-            this.Integration_CreateLoadTableOrderTestData.PosttestAction = null;
-            this.Integration_CreateLoadTableOrderTestData.PretestAction = null;
-            this.Integration_CreateLoadTableOrderTestData.TestAction = Integration_CreateLoadTableOrderTest_TestAction;
-            // 
-            // Maintenance_InsertDatabaseFilesDataTestData
-            // 
-            this.Maintenance_InsertDatabaseFilesDataTestData.PosttestAction = null;
-            this.Maintenance_InsertDatabaseFilesDataTestData.PretestAction = null;
-            this.Maintenance_InsertDatabaseFilesDataTestData.TestAction = Maintenance_InsertDatabaseFilesDataTest_TestAction;
-            // 
-            // Maintenance_OptimizeOrdersPartitionsMonthlyTestData
-            // 
-            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.PosttestAction = null;
-            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.PretestAction = null;
-            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.TestAction = Maintenance_OptimizeOrdersPartitionsMonthlyTest_TestAction;
-            // 
-            // Integration_SetCutoffTimeTestData
-            // 
-            this.Integration_SetCutoffTimeTestData.PosttestAction = null;
-            this.Integration_SetCutoffTimeTestData.PretestAction = null;
-            this.Integration_SetCutoffTimeTestData.TestAction = Integration_SetCutoffTimeTest_TestAction;
-            // 
             // Integration_SetCutoffTimeTest_TestAction
             // 
             Integration_SetCutoffTimeTest_TestAction.Conditions.Add(IntegrationSetCutoffTimeReturnedValue);
@@ -155,6 +140,70 @@ namespace UnitTestsDW
             IntegtationSetCutoffTimeProcudureStatus.NullExpected = false;
             IntegtationSetCutoffTimeProcudureStatus.ResultSet = 2;
             IntegtationSetCutoffTimeProcudureStatus.RowNumber = 1;
+            // 
+            // Integration_CreateLoadTableOrderTestData
+            // 
+            this.Integration_CreateLoadTableOrderTestData.PosttestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.PretestAction = null;
+            this.Integration_CreateLoadTableOrderTestData.TestAction = Integration_CreateLoadTableOrderTest_TestAction;
+            // 
+            // Maintenance_InsertDatabaseFilesDataTestData
+            // 
+            this.Maintenance_InsertDatabaseFilesDataTestData.PosttestAction = null;
+            this.Maintenance_InsertDatabaseFilesDataTestData.PretestAction = null;
+            this.Maintenance_InsertDatabaseFilesDataTestData.TestAction = Maintenance_InsertDatabaseFilesDataTest_TestAction;
+            // 
+            // Maintenance_OptimizeOrdersPartitionsMonthlyTestData
+            // 
+            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.PosttestAction = null;
+            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.PretestAction = null;
+            this.Maintenance_OptimizeOrdersPartitionsMonthlyTestData.TestAction = Maintenance_OptimizeOrdersPartitionsMonthlyTest_TestAction;
+            // 
+            // Integration_SetCutoffTimeTestData
+            // 
+            this.Integration_SetCutoffTimeTestData.PosttestAction = null;
+            this.Integration_SetCutoffTimeTestData.PretestAction = null;
+            this.Integration_SetCutoffTimeTestData.TestAction = Integration_SetCutoffTimeTest_TestAction;
+            // 
+            // Repors_CustomerSCD2TestData
+            // 
+            this.Repors_CustomerSCD2TestData.PosttestAction = null;
+            this.Repors_CustomerSCD2TestData.PretestAction = null;
+            this.Repors_CustomerSCD2TestData.TestAction = Repors_CustomerSCD2Test_TestAction;
+            // 
+            // Repors_CustomerSCD2Test_TestAction
+            // 
+            Repors_CustomerSCD2Test_TestAction.Conditions.Add(CustomerSCD2RowCount);
+            Repors_CustomerSCD2Test_TestAction.Conditions.Add(CustomerNameValue);
+            Repors_CustomerSCD2Test_TestAction.Conditions.Add(CustomerCityValue);
+            resources.ApplyResources(Repors_CustomerSCD2Test_TestAction, "Repors_CustomerSCD2Test_TestAction");
+            // 
+            // CustomerNameValue
+            // 
+            CustomerNameValue.ColumnNumber = 3;
+            CustomerNameValue.Enabled = true;
+            CustomerNameValue.ExpectedValue = "1234";
+            CustomerNameValue.Name = "CustomerNameValue";
+            CustomerNameValue.NullExpected = false;
+            CustomerNameValue.ResultSet = 1;
+            CustomerNameValue.RowNumber = 1;
+            // 
+            // CustomerSCD2RowCount
+            // 
+            CustomerSCD2RowCount.Enabled = true;
+            CustomerSCD2RowCount.Name = "CustomerSCD2RowCount";
+            CustomerSCD2RowCount.ResultSet = 1;
+            CustomerSCD2RowCount.RowCount = 2;
+            // 
+            // CustomerCityValue
+            // 
+            CustomerCityValue.ColumnNumber = 2;
+            CustomerCityValue.Enabled = true;
+            CustomerCityValue.ExpectedValue = "Moscow";
+            CustomerCityValue.Name = "CustomerCityValue";
+            CustomerCityValue.NullExpected = false;
+            CustomerCityValue.ResultSet = 1;
+            CustomerCityValue.RowNumber = 7;
         }
 
         #endregion
@@ -266,6 +315,39 @@ namespace UnitTestsDW
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void Repors_CustomerSCD2Test()
+        {
+            SqlDatabaseTestActions testActions = this.Repors_CustomerSCD2TestData;
+            // Execute the pre-test script
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Execute the test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Execute the post-test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+        
+        public static void ETLTests(DateTime CutoffTime)
+        {
+            UnitTestDW unitTestDW = new UnitTestDW();
+
+            if (CutoffTime > DateTime.Parse("1998-1-3"))
+            {
+                unitTestDW.Repors_CustomerSCD2Test();
+            }
+        }
 
 
 
@@ -274,5 +356,6 @@ namespace UnitTestsDW
         private SqlDatabaseTestActions Maintenance_InsertDatabaseFilesDataTestData;
         private SqlDatabaseTestActions Maintenance_OptimizeOrdersPartitionsMonthlyTestData;
         private SqlDatabaseTestActions Integration_SetCutoffTimeTestData;
+        private SqlDatabaseTestActions Repors_CustomerSCD2TestData;
     }
 }
