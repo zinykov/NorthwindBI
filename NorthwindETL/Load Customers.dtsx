@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="274"
-  DTS:VersionGUID="{84CFA6FC-3F41-4022-A8F0-68AB4C1D49F3}">
+  DTS:VersionBuild="278"
+  DTS:VersionGUID="{5675D4D6-1486-4A3C-AE85-9930B1F5370B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -239,20 +239,10 @@
       DTS:CreationName=""
       DTS:DataType="7"
       DTS:DTSID="{FA55F3EC-FF56-4E7C-950D-18758870043B}"
-      DTS:ObjectName="CuttoffTime">
+      DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
         DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
-    </DTS:PackageParameter>
-    <DTS:PackageParameter
-      DTS:CreationName=""
-      DTS:DataType="8"
-      DTS:DTSID="{5E534C21-C250-413B-A8A6-8DC32AC021C0}"
-      DTS:ObjectName="ExecutionId">
-      <DTS:Property
-        DTS:DataType="8"
-        DTS:Name="ParameterValue"
-        xml:space="preserve"></DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -295,21 +285,13 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{972889F2-2D63-496D-8AF1-1357745A217C}"
-      DTS:IncludeInDebugDump="6789"
+      DTS:DTSID="{71ACFC2A-AE12-48AA-8FF4-004998BD31D0}"
+      DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="RowSet">
+      DTS:ObjectName="ParametersValues">
       <DTS:VariableValue
-        DTS:DataSubType="ManagedSerializable"
-        DTS:DataType="13">
-        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-          <SOAP-ENV:Body>
-            <xsd:anyType
-              id="ref-1"></xsd:anyType>
-          </SOAP-ENV:Body>
-        </SOAP-ENV:Envelope>
-      </DTS:VariableValue>
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -501,7 +483,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Add unknown customer"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5263,7 +5245,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5285,7 +5267,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate DQS Staging"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5302,7 +5284,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update Hash Table"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5319,7 +5301,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update master Customer data"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5355,7 +5337,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Validate Model"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5470,6 +5452,22 @@ WHERE	[LastChgDateTime] &gt; ?
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E9937A05-639A-4A40-920E-9862D8D3DDF1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="THROW;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:DTSID="{e27f8210-e1d6-416f-b85a-4c4479ce8c50}"
@@ -5510,7 +5508,7 @@ WHERE	[LastChgDateTime] &gt; ?
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set load compilation info"
-      DTS:ThreadHint="3">
+      DTS:ThreadHint="4">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -5571,7 +5569,126 @@ WHERE	[LastChgDateTime] &gt; ?
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
       DTS:To="Package\Set load compilation info" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{7317114D-7B53-46DF-A4FB-BFDD8C08959E}"
+      DTS:From="Package\Drop Primary Key"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Execute SQL Task" />
   </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{C877CF12-D106-4CB9-99A1-9B21DA23BA4D}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{C56F1384-CC50-48D7-9773-3AE5CC01ABE9}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{41bdf397-53cf-484a-a021-3855480b4e29}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{a00d6ae8-094d-4296-808f-a42a69482abd}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameters values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nAreThereAnyChangesInCustomers = &quot; + (DT_WSTR, 5) @[User::AreThereAnyChangesInCustomers] + &quot;\r\nMDS_VersionName = &quot; + @[User::MDS_VersionName] + &quot;\r\nModelName = &quot; + @[User::ModelName] + &quot;\r\nStartLoad = &quot; + (DT_WSTR, 50) @[User::StartLoad]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{ef6d7423-07f7-459e-b791-7e4998795537}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -5922,6 +6039,10 @@ WHERE	[LastChgDateTime] &gt; ?
           Id="Package\Drop Primary Key"
           TopLeft="690.3,971.1" />
         <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Execute SQL Task"
+          TopLeft="489.714291261167,1027.87059386577" />
+        <NodeLayout
           Size="152.8,41.6"
           Id="Package\Get LineAgeKey"
           TopLeft="694.3,54.3" />
@@ -6022,6 +6143,30 @@ WHERE	[LastChgDateTime] &gt; ?
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="799.233333333333,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,773.6"
+              Start="0,0"
+              End="0,766.1">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,766.1" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,375.05,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="770.7,1012.7">
           <EdgeLayout.Curve>
@@ -6044,27 +6189,37 @@ WHERE	[LastChgDateTime] &gt; ?
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="799.233333333333,197.5">
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="690.3,991.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,773.6"
+              EndConnector="-38.1857087388329,56.7705938657676"
               Start="0,0"
-              End="0,766.1">
+              End="-30.6857087388329,56.7705938657676">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,766.1" />
+                    End="-15.0928543694164,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15.0928543694164,0"
+                    Point2="-19.0928543694164,0"
+                    Point3="-19.0928543694164,4" />
+                  <mssgle:LineSegment
+                    End="-19.0928543694164,52.7705938657676" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.0928543694164,52.7705938657676"
+                    Point2="-19.0928543694164,56.7705938657676"
+                    Point3="-23.0928543694164,56.7705938657676" />
+                  <mssgle:LineSegment
+                    End="-30.6857087388329,56.7705938657676" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8,375.05,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -6531,5 +6686,43 @@ WHERE	[LastChgDateTime] &gt; ?
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="73.6,161.6" />
+        <NodeLayout
+          Size="184,41.6"
+          Id="Package.EventHandlers[OnError]\Get parameters values"
+          TopLeft="60,60" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="152,101.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

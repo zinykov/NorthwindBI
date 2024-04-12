@@ -36,8 +36,8 @@ AS BEGIN
 				, @SourceName
 				, @StartTime
 				, @UserName
-				, CAST ( @SourceID AS UNIQUEIDENTIFIER )
-				, CAST ( @ExecutionID AS UNIQUEIDENTIFIER )
+				, @SourceID
+				, @ExecutionID
 				, @FailedConfigurations
 				, @LineageKey
 			);

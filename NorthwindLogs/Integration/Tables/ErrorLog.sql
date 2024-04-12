@@ -9,8 +9,8 @@
 	  [SourceName]					NVARCHAR(1024)			NOT NULL,
 	  [StartTime]					DATETIME2				NOT NULL,
 	  [UserName]					NVARCHAR(128)			NOT NULL,
-	  [sourceid]					UNIQUEIDENTIFIER		NOT NULL,
-	  [executionid]					UNIQUEIDENTIFIER		NOT NULL,
+	  [sourceid]					NVARCHAR(100)			NOT NULL,
+	  [executionid]					NVARCHAR(100)			NOT NULL,
 	  [FailedConfigurations]		NVARCHAR(128)			NOT NULL,
 	  [LineageKey]					INT						NOT NULL,
 	

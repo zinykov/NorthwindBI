@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="264"
-  DTS:VersionGUID="{61E355AB-CF9E-4B2F-B2F0-66BFE1B66223}">
+  DTS:VersionBuild="267"
+  DTS:VersionGUID="{6272C923-3126-49CF-90BA-38D67B82F108}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1078,7 +1078,7 @@
                     <property
                       dataType="System.String"
                       description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowset">[dbo].[DatabaseFiles]</property>
+                      name="OpenRowset">[Integration].[DatabaseFiles]</property>
                     <property
                       dataType="System.String"
                       description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
@@ -1248,7 +1248,7 @@
                     <property
                       dataType="System.String"
                       description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                      name="OpenRowset">[dbo].[Lineage]</property>
+                      name="OpenRowset">[Integration].[Lineage]</property>
                     <property
                       dataType="System.String"
                       description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
@@ -1445,7 +1445,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
-              SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[DatabaseFiles];&#xA;TRUNCATE TABLE [dbo].[Lineage];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [Integration].[DatabaseFiles];&#xA;TRUNCATE TABLE [Integration].[Lineage];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1478,7 +1478,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceCheckIntegrityTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Check DWH integrity"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1507,7 +1507,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize Indexes"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1528,7 +1528,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceUpdateStatisticsTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1586,7 +1586,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean Up Staging Tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1607,7 +1607,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Clean Up Transactions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -1659,114 +1659,6 @@
       DTS:ObjectName="Ограничение 2"
       DTS:To="Package\Backup" />
   </DTS:PrecedenceConstraints>
-  <DTS:EventHandlers>
-    <DTS:EventHandler
-      DTS:refId="Package.EventHandlers[OnError]"
-      DTS:CreationName="OnError"
-      DTS:DTSID="{C62E8251-7347-439A-A257-EF8FAE726EC4}"
-      DTS:EventID="0"
-      DTS:EventName="OnError"
-      DTS:LocaleID="-1">
-      <DTS:Variables>
-        <DTS:Variable
-          DTS:CreationName=""
-          DTS:Description="Свойство распространения события"
-          DTS:DTSID="{AD7E28B1-9EE5-4EBC-BBA9-07E6F84B285C}"
-          DTS:IncludeInDebugDump="6789"
-          DTS:Namespace="System"
-          DTS:ObjectName="Propagate">
-          <DTS:VariableValue
-            DTS:DataType="11">-1</DTS:VariableValue>
-        </DTS:Variable>
-      </DTS:Variables>
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package.EventHandlers[OnError]\Error notification"
-          DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:DTSID="{D5400353-A3F8-4A84-BF7D-24C8304AA5F8}"
-          DTS:ExecutableType="Microsoft.ExecutePackageTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Error notification"
-          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <ExecutePackageTask>
-              <UseProjectReference>True</UseProjectReference>
-              <PackageName>Error notification.dtsx</PackageName>
-              <ParameterAssignment>
-                <ParameterName>ErrorCode</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorDescription</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>LineageKey</ParameterName>
-                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>MachineName</ParameterName>
-                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>PackageName</ParameterName>
-                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceName</ParameterName>
-                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::EventHandlerStartTime</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>UserName</ParameterName>
-                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ParametersValues</ParameterName>
-                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ExecutionInstanceGUID</ParameterName>
-                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceID</ParameterName>
-                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
-              </ParameterAssignment>
-            </ExecutePackageTask>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:CreationName="Microsoft.ExpressionTask"
-          DTS:Description="Задача выражения"
-          DTS:DTSID="{330F9D6A-E828-42A8-90EA-CD3B4664FB15}"
-          DTS:ExecutableType="Microsoft.ExpressionTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Get parameters values">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <ExpressionTask
-              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nBackupFolderName = &quot; + @[User::BackupFolderName] + &quot;\r\nBackupOldFolderName = &quot; + @[User::BackupOldFolderName] + &quot;\r\nBackupsReadWritePath = &quot; + @[User::BackupsReadWritePath] + &quot;\r\nIsSetFilegroupReadonly = &quot; + (DT_WSTR, 5)  @[User::IsSetFilegroupReadonly] + &quot;\r\nIsStartOptimization = &quot; + (DT_WSTR, 5)  @[User::IsStartOptimization] + &quot;\r\nOldBackupFolder = &quot; + @[User::OldBackupFolder]" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
-      <DTS:PrecedenceConstraints>
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          DTS:CreationName=""
-          DTS:DTSID="{6957355C-1063-4E4C-829A-2EAE31B525D7}"
-          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package.EventHandlers[OnError]\Error notification" />
-      </DTS:PrecedenceConstraints>
-    </DTS:EventHandler>
-  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -2235,65 +2127,25 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
-  <DtsEventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="156.8,41.6"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="68.5,136.5" />
-        <NodeLayout
-          Size="184.8,41.6"
-          Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="54.5,34.5" />
-        <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          TopLeft="147,76.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </DtsEventHandler>
   <TaskHost
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="141,42"
+          Size="140.8,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
           TopLeft="274.5,156.5" />
         <NodeLayout
-          Size="169,42"
+          Size="168.8,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles"
           TopLeft="42.5,156.5" />
         <NodeLayout
-          Size="171,42"
+          Size="171.2,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles"
           TopLeft="41.5,54.5" />
         <NodeLayout
-          Size="143,42"
+          Size="143.2,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage"
           TopLeft="273.5,54.5" />
         <EdgeLayout
@@ -2315,9 +2167,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2339,9 +2189,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
