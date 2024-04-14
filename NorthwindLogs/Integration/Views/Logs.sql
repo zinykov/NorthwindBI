@@ -1,31 +1,27 @@
 ﻿CREATE VIEW [Integration].[Logs] AS
 	SELECT		  SL.[Id]
-				, SL.[event]
 				, SL.[computer]
 				, SL.[operator]
+				, EL.[PackageName]
+				, SL.[event]
 				, SL.[source]
+				, EL.[StartTime] AS [ErrorStartTime]
 				, SL.[starttime]
 				, SL.[endtime]
 				, SL.[datacode]
 				, SL.[databytes]
 				, SL.[message]
+				, EL.[LogKey]
+				, EL.[ParametersValues]
+				, EL.[FailedConfigurations]
 				, LA.[LineageKey]
 				, LA.[DataLoadStarted]
 				, LA.[TableName]
 				, LA.[DataLoadCompleted]
 				, LA.[WasSuccessful]
 				, LA.[CutoffTime]
-				, EL.[LogKey]
-				, EL.[ErrorCode]
-				, EL.[ErrorDescription]
-				, EL.[ParametersValues]
-				, EL.[MachineName]
-				, EL.[PackageName]
-				, EL.[SourceName]
-				, EL.[StartTime] AS [ErrorStartTime]
-				, EL.[UserName]
-				, EL.[FailedConfigurations]
 	FROM		[dbo].[sysssislog] AS SL
-	LEFT JOIN	[Integration].[Lineage] AS LA ON LA.[executionid] = CAST ( SL.[executionid] AS NVARCHAR(50) )
-	LEFT JOIN	[Integration].[ErrorLog] AS EL ON EL.[executionid] = CAST ( SL.[executionid] AS NVARCHAR(50) )
-				AND EL.[sourceid] = CAST ( SL.[sourceid] AS NVARCHAR(50) );
+	LEFT JOIN	[Integration].[Lineage] AS LA ON LA.[executionid] = CONCAT ( N'{', CAST ( SL.[executionid] AS NVARCHAR(50) ), N'}' )
+	LEFT JOIN	[Integration].[ErrorLog] AS EL ON EL.[executionid] = CONCAT ( N'{', CAST ( SL.[executionid] AS NVARCHAR(50) ), N'}' )
+				AND EL.[sourceid] = CONCAT ( N'{', CAST ( SL.[sourceid] AS NVARCHAR(50) ), N'}' );
+GO

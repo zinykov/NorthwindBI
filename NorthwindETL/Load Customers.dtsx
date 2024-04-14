@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Customers"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="285"
-  DTS:VersionGUID="{CB0912CA-E2A7-4E01-9F84-ACC21628C474}">
+  DTS:VersionBuild="287"
+  DTS:VersionGUID="{5227EC7C-74D9-4C55-B0DE-6E777A83632F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -481,7 +481,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Add unknown customer"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -3015,7 +3015,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Get MDS Version Name"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5243,7 +5243,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Set StartLoad Date"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5265,7 +5265,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate DQS Staging"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5282,7 +5282,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update Hash Table"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5452,25 +5452,6 @@ WHERE	[LastChgDateTime] &gt; ?
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Execute SQL Task"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:Disabled="True"
-      DTS:DTSID="{E9937A05-639A-4A40-920E-9862D8D3DDF1}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Execute SQL Task"
-      DTS:ThreadHint="3">
-      <DTS:Variables />
-      <DTS:LoggingOptions
-        DTS:FilterKind="0" />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="THROW;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:DTSID="{e27f8210-e1d6-416f-b85a-4c4479ce8c50}"
@@ -5511,7 +5492,7 @@ WHERE	[LastChgDateTime] &gt; ?
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set load compilation info"
-      DTS:ThreadHint="4">
+      DTS:ThreadHint="3">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -5572,14 +5553,6 @@ WHERE	[LastChgDateTime] &gt; ?
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
       DTS:To="Package\Set load compilation info" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
-      DTS:CreationName=""
-      DTS:DTSID="{7317114D-7B53-46DF-A4FB-BFDD8C08959E}"
-      DTS:From="Package\Drop Primary Key"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 5"
-      DTS:To="Package\Execute SQL Task" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
@@ -6042,10 +6015,6 @@ WHERE	[LastChgDateTime] &gt; ?
           Id="Package\Drop Primary Key"
           TopLeft="690.3,971.1" />
         <NodeLayout
-          Size="162,42"
-          Id="Package\Execute SQL Task"
-          TopLeft="489.714291261167,1027.87059386577" />
-        <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
           TopLeft="694.3,54.3" />
@@ -6183,40 +6152,6 @@ WHERE	[LastChgDateTime] &gt; ?
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="690.3,991.9">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-38.1857087388329,56.7705938657676"
-              Start="0,0"
-              End="-30.6857087388329,56.7705938657676">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="-15.0928543694164,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-15.0928543694164,0"
-                    Point2="-19.0928543694164,0"
-                    Point3="-19.0928543694164,4" />
-                  <mssgle:LineSegment
-                    End="-19.0928543694164,52.7705938657676" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-19.0928543694164,52.7705938657676"
-                    Point2="-19.0928543694164,56.7705938657676"
-                    Point3="-23.0928543694164,56.7705938657676" />
-                  <mssgle:LineSegment
-                    End="-30.6857087388329,56.7705938657676" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
