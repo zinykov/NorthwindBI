@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_Incremental_Load.xml"
+  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Incremental_Load.xml"
   DTS:CreationDate="3/6/2022 10:28:24 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{BD379C6C-2E4A-4D53-A286-4A15504BF83D}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="160"
-  DTS:VersionGUID="{86C9046D-1608-4403-B5F7-B4B4FC0FE595}">
+  DTS:VersionBuild="161"
+  DTS:VersionGUID="{BB41D46E-1EEA-4B29-A127-23BE6D7E62A1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -30,7 +30,7 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
     <DTS:LogProvider
-      DTS:ConfigString="NorthwindETL.log"
+      DTS:ConfigString="TextLog"
       DTS:CreationName="Microsoft.LogProviderTextFile"
       DTS:Description="Записывает элементы журнала для событий в CSV-файл"
       DTS:DTSID="{496494F4-7A7C-45C1-A4F2-4D18F95BA9BA}"
@@ -57,7 +57,8 @@
       DTS:DTSID="{BB65CEF0-711F-4321-9DFA-A77DD09C639C}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="CutoffTime">
+      DTS:ObjectName="CutoffTime"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
@@ -66,7 +67,8 @@
       DTS:DTSID="{7BA0858A-EECB-4405-BB72-6BD3318F52ED}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="LineageKey">
+      DTS:ObjectName="LineageKey"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
@@ -75,7 +77,8 @@
       DTS:DTSID="{AA4EAA08-FA1F-4A83-BB92-E16B6BF6F5D5}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="ParametersValues">
+      DTS:ObjectName="ParametersValues"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8"
         xml:space="preserve"></DTS:VariableValue>
@@ -86,7 +89,7 @@
     DTS:LoggingMode="1">
     <DTS:Property
       DTS:DataType="8"
-      DTS:Name="EventFilter">5,7,OnError,12,OnTaskFailed,22,OnVariableValueChanged,9,OnWarning,12,DiagnosticEx</DTS:Property>
+      DTS:Name="EventFilter">3,7,OnError,22,OnVariableValueChanged,12,DiagnosticEx</DTS:Property>
     <DTS:Property
       DTS:EventName="Diagnostic"
       DTS:Name="ColumnFilter">
@@ -455,6 +458,8 @@
       DTS:ObjectName="Set CutoffTime"
       DTS:ThreadHint="0">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -479,7 +484,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -710,69 +715,69 @@
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="238.4,41.6"
+          Size="238,42"
           Id="Package\DQS status subscription activation"
           TopLeft="309.5,519.9" />
         <NodeLayout
-          Size="165.6,41.6"
+          Size="166,42"
           Id="Package\DWH Maintenance"
           TopLeft="92.9000000000001,775.1" />
         <NodeLayout
-          Size="153.6,41.6"
+          Size="154,42"
           Id="Package\Load Dimensions\Load Customers"
           TopLeft="5.49999999999996,5.49999999999995" />
         <NodeLayout
-          Size="179.2,41.6"
+          Size="179,42"
           Id="Package\Load Dimensions\Load Date Dimension"
           TopLeft="219.7,5.49999999999984" />
         <NodeLayout
-          Size="153.6,41.6"
+          Size="154,42"
           Id="Package\Load Dimensions\Load Employees"
           TopLeft="459.5,5.49999999999984" />
         <NodeLayout
-          Size="144.8,41.6"
+          Size="145,42"
           Id="Package\Load Dimensions\Load Products"
           TopLeft="673.9,5.49999999999984" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="824,102.4"
-          Size="824,145.6"
+          PanelSize="824,103"
+          Size="824,146"
           Id="Package\Load Dimensions"
           TopLeft="16.7,262.3" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Load facts\Load Orders"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="150.4,102.4"
-          Size="147.2,145.6"
+          PanelSize="150,103"
+          Size="147,146"
           Id="Package\Load facts"
           TopLeft="102.1,467.9" />
         <NodeLayout
-          Size="141.6,41.6"
+          Size="142,42"
           Id="Package\Load Landing"
           TopLeft="357.9,160.7" />
         <NodeLayout
-          Size="148.8,41.6"
+          Size="149,42"
           Id="Package\Set CutoffTime"
           TopLeft="354.3,59.1" />
         <NodeLayout
-          Size="157.6,41.6"
+          Size="158,42"
           Id="Package\Truncate landing"
           TopLeft="96.9000000000001,673.5" />
         <EdgeLayout

@@ -7,22 +7,45 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{C1C4F31D-0005-4665-8475-4140DF91275F}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="336"
-  DTS:VersionGUID="{4F2ECB49-973C-49F8-9FD5-957195943598}">
+  DTS:VersionBuild="338"
+  DTS:VersionGUID="{2AC5B572-2FDD-41CA-9E95-C8426F5CF097}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="Logs"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Записывает элементы журнала для событий в базу данных SQL Server"
+      DTS:DTSID="{A8C9FA55-1950-4680-A77F-EF2C9A9DDC3C}"
+      DTS:ObjectName="Регистратор служб SSIS для SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+    <DTS:LogProvider
+      DTS:ConfigString="TextLog"
+      DTS:CreationName="Microsoft.LogProviderTextFile"
+      DTS:Description="Записывает элементы журнала для событий в CSV-файл"
+      DTS:DTSID="{BFF4DA41-DFA1-4FFE-A121-0B451FAC975D}"
+      DTS:ObjectName="Регистратор служб SSIS для текстовых файлов">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{5667D3CF-2AA5-4099-B544-97551D3B5EED}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="EntityName">
+      DTS:ObjectName="EntityName"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8">Customers</DTS:VariableValue>
     </DTS:Variable>
@@ -31,7 +54,8 @@
       DTS:DTSID="{AC93B553-1507-49F2-8B7C-E995D8057162}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="LineageKey">
+      DTS:ObjectName="LineageKey"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
@@ -40,7 +64,8 @@
       DTS:DTSID="{D3FA4683-CFFC-4342-A866-CD8882942DE4}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="LoadDateIncrementalEnd">
+      DTS:ObjectName="LoadDateIncrementalEnd"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="7">1/4/1998</DTS:VariableValue>
     </DTS:Variable>
@@ -49,7 +74,8 @@
       DTS:DTSID="{C6ABE905-D25D-4C20-B802-D70E7AA8C000}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="LoadDateInitialEnd">
+      DTS:ObjectName="LoadDateInitialEnd"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="7">12/31/1997</DTS:VariableValue>
     </DTS:Variable>
@@ -60,16 +86,18 @@
       DTS:Expression="@[$Project::ExternalFilesPath]+&quot;logs\\&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="LogsPath">
+      DTS:ObjectName="LogsPath"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
+        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{9110E562-F1D2-4851-8C3F-556B8FCBE5B1}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="ParametersValues">
+      DTS:ObjectName="ParametersValues"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8"
         xml:space="preserve"></DTS:VariableValue>
@@ -79,17 +107,18 @@
       DTS:DTSID="{824AB4AA-0B41-42C0-BBDC-805A2A0430CF}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="var_CutoffTime">
+      DTS:ObjectName="var_CutoffTime"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
     DTS:FilterKind="0"
-    DTS:LoggingMode="2">
+    DTS:LoggingMode="1">
     <DTS:Property
       DTS:DataType="8"
-      DTS:Name="EventFilter">5,7,OnError,12,OnTaskFailed,22,OnVariableValueChanged,9,OnWarning,12,DiagnosticEx</DTS:Property>
+      DTS:Name="EventFilter">3,7,OnError,22,OnVariableValueChanged,12,DiagnosticEx</DTS:Property>
     <DTS:Property
       DTS:EventName="Diagnostic"
       DTS:Name="ColumnFilter">
@@ -216,6 +245,12 @@
       <DTS:Property
         DTS:Name="DataBytes">-1</DTS:Property>
     </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{A8C9FA55-1950-4680-A77F-EF2C9A9DDC3C}" />
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{BFF4DA41-DFA1-4FFE-A121-0B451FAC975D}" />
+    </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
   <DTS:Executables>
     <DTS:Executable
@@ -263,6 +298,8 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Pre-test">
       <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\Pre-test\Clean up backups"
@@ -332,6 +369,8 @@
           DTS:ObjectName="PreTest"
           DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <ExecutePackageTask>
               <UseProjectReference>True</UseProjectReference>
@@ -371,6 +410,8 @@
           DTS:ObjectName="Crash and Restore DWH"
           DTS:ThreadHint="0">
           <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{FE074E8B-01EB-4612-9FDE-8732194F562A}"
@@ -411,6 +452,8 @@
               DTS:ObjectName="Check conditions"
               DTS:ThreadHint="0">
               <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
               <DTS:ObjectData>
                 <ScriptProject
                   Name="ST_99f07f52cdfd4df58e8f5fd1c5ea0892"
@@ -418,6 +461,36 @@
                   VSTAMinorVersion="0"
                   Language="CSharp"
                   ReadOnlyVariables="User::var_CutoffTime">
+                  <ProjectItem
+                    Name="Properties\AssemblyInfo.cs"
+                    Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_99f07f52cdfd4df58e8f5fd1c5ea0892")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_99f07f52cdfd4df58e8f5fd1c5ea0892")]
+[assembly: AssemblyCopyright("Copyright @  2024")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
                   <ProjectItem
                     Name="Properties\Resources.resx"
                     Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -537,35 +610,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
-                  <ProjectItem
-                    Name="Properties\Settings.Designer.cs"
-                    Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties.Settings.get_Default():ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties.Sett" +
-    "ings")]
-
-namespace ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
                   <ProjectItem
                     Name="ST_99f07f52cdfd4df58e8f5fd1c5ea0892.csproj"
                     Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -804,35 +848,34 @@ namespace ST_99f07f52cdfd4df58e8f5fd1c5ea0892
   </msb:ItemGroup>
 </c:Project>]]></ProjectItem>
                   <ProjectItem
-                    Name="Properties\AssemblyInfo.cs"
-                    Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
+                    Name="Properties\Settings.Designer.cs"
+                    Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
 
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_99f07f52cdfd4df58e8f5fd1c5ea0892")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_99f07f52cdfd4df58e8f5fd1c5ea0892")]
-[assembly: AssemblyCopyright("Copyright @  2024")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties.Settings.get_Default():ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties.Sett" +
+    "ings")]
 
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+namespace ST_99f07f52cdfd4df58e8f5fd1c5ea0892.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
                   <ProjectItem
                     Name="Properties\Settings.settings"
                     Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
@@ -1188,58 +1231,58 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       DTS:To="Package\Test" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="141.6,41.6"
+          Size="142,42"
           Id="Package\Logman Start"
           TopLeft="348.3,54.3" />
         <NodeLayout
-          Size="140.8,41.6"
+          Size="141,42"
           Id="Package\Logman Stop"
           TopLeft="348.7,1181.5" />
         <NodeLayout
-          Size="161.6,41.6"
+          Size="162,42"
           Id="Package\Pre-test\Clean up backups"
           TopLeft="5.49999999999996,5.49999999999995" />
         <NodeLayout
-          Size="142.4,41.6"
+          Size="142,42"
           Id="Package\Pre-test\Clean up logs"
           TopLeft="228.1,5.49999999999984" />
         <NodeLayout
-          Size="185.6,41.6"
+          Size="186,42"
           Id="Package\Pre-test\Maintence Subsystems"
           TopLeft="431.5,5.49999999999984" />
         <NodeLayout
-          Size="113.6,41.6"
+          Size="114,42"
           Id="Package\Pre-test\PreTest"
           TopLeft="677.5,5.49999999999984" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="796.8,102.4"
-          Size="796.8,145.6"
+          PanelSize="797,103"
+          Size="797,146"
           Id="Package\Pre-test"
           TopLeft="20.7,155.9" />
         <NodeLayout
-          Size="192.8,41.6"
+          Size="193,42"
           Id="Package\Test\Crash and Restore DWH"
           TopLeft="112.3,619.9" />
         <NodeLayout
-          Size="157.6,41.6"
+          Size="158,42"
           Id="Package\Test\Incremental load immitation\Check conditions"
           TopLeft="5.90000000000002,107.1" />
         <NodeLayout
-          Size="158.4,41.6"
+          Size="158,42"
           Id="Package\Test\Incremental load immitation\Incremental load"
           TopLeft="5.50000000000001,5.49999999999995" />
         <EdgeLayout
@@ -1267,27 +1310,27 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="169.6,204"
-          Size="169.6,247.2"
+          PanelSize="170,204"
+          Size="170,247"
           Id="Package\Test\Incremental load immitation"
           TopLeft="123.9,312.7" />
         <NodeLayout
-          Size="199.2,41.6"
+          Size="199,42"
           Id="Package\Test\Ingest data\Northwind (упрощённая)"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Test\Ingest data\xmlcalendar"
           TopLeft="265,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="406.4,103.2"
-          Size="406.4,145.6"
+          PanelSize="406,103"
+          Size="406,146"
           Id="Package\Test\Ingest data"
           TopLeft="5.5,5.49999999999996" />
         <NodeLayout
-          Size="128,41.6"
+          Size="128,42"
           Id="Package\Test\Initial load"
           TopLeft="144.7,211.1" />
         <EdgeLayout
@@ -1359,8 +1402,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="417.6,716.8"
-          Size="417.6,760"
+          PanelSize="418,717"
+          Size="418,760"
           Id="Package\Test"
           TopLeft="210.3,361.5" />
         <EdgeLayout

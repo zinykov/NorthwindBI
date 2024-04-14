@@ -148,12 +148,16 @@ namespace NorthwindDWTest
         {
             System.Diagnostics.Trace.WriteLine("Started ETLTests Method...");
             NorthwindDWTest northwindDWTest = new NorthwindDWTest();
+            northwindDWTest.InitializeComponent();
+            northwindDWTest.InitializeTest();
 
             if (CutoffTime == DateTime.Parse("1998-1-3"))
             {
                 System.Diagnostics.Trace.WriteLine("Started Customer SCD2 test...");
                 northwindDWTest.CustomerSCD2Test();
             }
+
+            northwindDWTest.CleanupTest();
         }
     }
 }

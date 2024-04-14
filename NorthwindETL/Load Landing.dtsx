@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
+  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
   DTS:CreationDate="3/13/2023 12:30:23 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{E770FC48-D433-4DAD-97AC-9395B8912632}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Landing"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="35"
-  DTS:VersionGUID="{98776FB9-7835-4D25-A1DC-2166AE1B4D63}">
+  DTS:VersionBuild="40"
+  DTS:VersionGUID="{48CB13C8-2106-4AD8-A0B5-C7C4947CE52A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -28,7 +28,7 @@
         DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 4) DATEPART( "Month", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 4) DATEPART( "Day", @[$Package::CutoffTime] ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
+          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -44,7 +44,7 @@
       </DTS:ObjectData>
     </DTS:LogProvider>
     <DTS:LogProvider
-      DTS:ConfigString="NorthwindETL.log"
+      DTS:ConfigString="TextLog"
       DTS:CreationName="Microsoft.LogProviderTextFile"
       DTS:Description="Записывает элементы журнала для событий в CSV-файл"
       DTS:DTSID="{96C5619C-D1FC-4FC0-88E4-95E32ACC2721}"
@@ -71,23 +71,84 @@
       DTS:DTSID="{98C8D2DD-ED14-4FDE-95D8-7EF641AFC40B}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="FileName">
+      DTS:ObjectName="FileName"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8">Customers</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{40A40534-DAEE-4F36-9D90-F762D9BC0D0F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::XMLCalendarFolder] + &quot;ru\\2020\\calendar.xml&quot;"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="xmlPath">
+      DTS:ObjectName="xmlPath"
+      DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\ZinukovD\source\repos\xmlcalendar\ru\2020\calendar.xml</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\xmlcalendar\ru\2020\calendar.xml</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
     DTS:FilterKind="0"
     DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">3,7,OnError,22,OnVariableValueChanged,12,DiagnosticEx</DTS:Property>
+    <DTS:Property
+      DTS:EventName="DiagnosticEx"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnVariableValueChanged"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
     <DTS:SelectedLogProviders>
       <DTS:SelectedLogProvider
         DTS:InstanceID="{4183DE23-EAFC-4244-B3CA-6908833CC0CA}" />
@@ -114,7 +175,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
+              Folder="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -149,7 +210,7 @@
               BulkInsertTask:DestinationConnectionName="{1F691923-3F2A-4F37-8981-112139599AFC}"
               BulkInsertTask:DestinationTableName="[Landing].[Customers]"
               BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+              BulkInsertTask:FormatFile="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -174,11 +235,11 @@
         DTS:DTSID="{7ad033fe-9e84-43f7-86ec-bfdc1bd359ea}"
         DTS:ObjectName="{A3F1A0C7-7482-4811-AAEE-D1176128133E}">
         <DTS:PropertyExpression
-          DTS:Name="Directory">@[$Project::XMLCalendarFolder] +"\\ru"</DTS:PropertyExpression>
+          DTS:Name="Directory">@[$Project::XMLCalendarFolder] +"ru"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\ZinukovD\source\repos\xmlcalendar\ru" />
+              Folder="C:\SSIS\xmlcalendar\ru" />
             <FEFEProperty
               FileSpec="calendar.xml" />
             <FEFEProperty
@@ -203,6 +264,8 @@
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="[Calendar xml file].[XMLSchemaDefinition]">@[$Project::XMLCalendarFolder] + "calendar.xsd"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <pipeline
               version="1">
@@ -342,7 +405,7 @@
                       dataType="System.String"
                       description="Определение схемы XML, используемое адаптером источника XML-данных."
                       expressionType="Notify"
-                      name="XMLSchemaDefinition">C:\Users\ZinukovD\source\repos\xmlcalendar\calendar.xsd</property>
+                      name="XMLSchemaDefinition">C:\SSIS\xmlcalendar\calendar.xsd</property>
                     <property
                       dataType="System.Boolean"
                       description="Указывает, использовать ли встроенную схему."
@@ -367,7 +430,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[id]"
                           dataType="ui2"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].ExternalColumns[id]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[id]"
@@ -376,7 +439,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[title]"
                           dataType="wstr"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].ExternalColumns[title]"
                           length="255"
@@ -386,7 +449,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[holidays_Id]"
                           dataType="ui8"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].ExternalColumns[holidays_Id]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[holidays_Id]"
@@ -499,7 +562,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holidays].Columns[holidays_Id]"
                           dataType="ui8"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holidays].ExternalColumns[holidays_Id]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holidays].Columns[holidays_Id]"
@@ -571,7 +634,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[d]"
                           dataType="wstr"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[d]"
                           length="255"
@@ -581,7 +644,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[t]"
                           dataType="ui2"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[t]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[t]"
@@ -590,7 +653,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]"
                           dataType="ui2"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[h]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]"
@@ -599,7 +662,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[f]"
                           dataType="wstr"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[f]"
                           length="255"
@@ -609,7 +672,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[days_Id]"
                           dataType="ui8"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[days_Id]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[days_Id]"
@@ -763,7 +826,7 @@
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[days].Columns[days_Id]"
                           dataType="ui8"
-                          errorOrTruncationOperation="Conversion"
+                          errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[days].ExternalColumns[days_Id]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[days].Columns[days_Id]"
@@ -1439,45 +1502,45 @@
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{B3D75418-9772-4F2E-8E7D-0D1AD6E4A59B}"
-          DTS:ObjectName="{B3D75418-9772-4F2E-8E7D-0D1AD6E4A59B}"
+          DTS:DTSID="{FC72CBDD-C980-4329-A2E2-8951D3F46253}"
+          DTS:ObjectName="{FC72CBDD-C980-4329-A2E2-8951D3F46253}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::xmlPath" />
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
   </DTS:Executables>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="169.6,41.6"
+          Size="170,42"
           Id="Package\For each fmt\Bulk Insert Landing"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="180.8,102.4"
-          Size="180.8,145.6"
+          PanelSize="181,103"
+          Size="181,146"
           Id="Package\For each fmt"
           TopLeft="16.7,54.3" />
         <NodeLayout
-          Size="153.6,41.6"
+          Size="154,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
           TopLeft="5.5,5.49999999999995" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="164.8,102.4"
-          Size="164.8,145.6"
+          PanelSize="165,103"
+          Size="165,146"
           Id="Package\xmlcalendar foreach loop"
           TopLeft="257.7,54.3" />
       </GraphLayout>
@@ -1543,7 +1606,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1577,7 +1642,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1599,7 +1666,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1621,7 +1690,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
