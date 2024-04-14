@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="271"
-  DTS:VersionGUID="{A2C90401-37C8-4CF7-A1D3-DD4ABD30F010}">
+  DTS:VersionBuild="276"
+  DTS:VersionGUID="{E7FEA93E-77C0-4CBF-8B38-545419E9CBF2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -183,7 +183,7 @@
     DTS:LoggingMode="1">
     <DTS:Property
       DTS:DataType="8"
-      DTS:Name="EventFilter">3,7,OnError,22,OnVariableValueChanged,12,DiagnosticEx</DTS:Property>
+      DTS:Name="EventFilter">2,7,OnError,12,DiagnosticEx</DTS:Property>
     <DTS:Property
       DTS:EventName="DiagnosticEx"
       DTS:Name="ColumnFilter">
@@ -346,7 +346,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -365,7 +365,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -422,7 +422,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -476,7 +476,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables>
                 <DTS:Variable
                   DTS:CreationName=""
@@ -536,7 +536,7 @@
               DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1494,7 +1494,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceCheckIntegrityTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Check DWH integrity"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1523,7 +1523,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Optimize Indexes"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1546,7 +1546,7 @@
           DTS:ExecutableType="Microsoft.DbMaintenanceUpdateStatisticsTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update statistics"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1656,6 +1656,29 @@
           DTS:To="Package\MDS\Clean Up Transactions" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\MDS_MDS_Log_Maintenance"
+      DTS:CreationName="Microsoft.DbMaintenanceExecuteAgentJobTask"
+      DTS:Disabled="True"
+      DTS:DTSID="{F108F822-C46C-455C-AC6C-133159409F35}"
+      DTS:ExecutableType="Microsoft.DbMaintenanceExecuteAgentJobTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MDS_MDS_Log_Maintenance"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{AB6195A6-A122-4D9D-A5C7-C6F2631B21E0}"
+          SQLTask:ServerVersion="9"
+          SQLTask:ExtendedLogging="True"
+          SQLTask:LocalConnectionForLogging=""
+          SQLTask:TaskName=""
+          SQLTask:IgnoreDatabasesInNotOnlineState="False"
+          SQLTask:AgentJobID="MDS_MDS_Log_Maintenance" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -1681,6 +1704,14 @@
       DTS:From="Package\DWH"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 2"
+      DTS:To="Package\Backup" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{06478C41-A042-4609-ABB8-A53EDA0A84FD}"
+      DTS:From="Package\MDS_MDS_Log_Maintenance"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 3"
       DTS:To="Package\Backup" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
@@ -1920,7 +1951,7 @@
           PanelSize="532,819"
           Size="532,862"
           Id="Package\Backup"
-          TopLeft="107,464.5" />
+          TopLeft="57.5000000000001,464.5" />
         <NodeLayout
           Size="150,42"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
@@ -1957,7 +1988,7 @@
           PanelSize="190,205"
           Size="190,248"
           Id="Package\Copy DWH metadata to Logs DB"
-          TopLeft="278,1386.5" />
+          TopLeft="228.5,1386.5" />
         <NodeLayout
           Size="177,42"
           Id="Package\DWH\Check DWH integrity"
@@ -2020,7 +2051,7 @@
           PanelSize="188,307"
           Size="188,350"
           Id="Package\DWH"
-          TopLeft="279,54.5" />
+          TopLeft="13.5,54.5" />
         <NodeLayout
           Size="194,42"
           Id="Package\MDS\Clean Up Staging Tables"
@@ -2048,42 +2079,36 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
-          IsExpanded="True"
+          IsExpanded="False"
           PanelSize="205,205"
-          Size="205,248"
+          Size="123,43"
           Id="Package\MDS"
-          TopLeft="13.5000000000001,105.5" />
+          TopLeft="262,208" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\MDS_MDS_Log_Maintenance"
+          TopLeft="445.5,208.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="116,353.5">
+          TopLeft="323.5,251">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="169.666666666667,111"
+              EndConnector="0,213.5"
               Start="0,0"
-              End="169.666666666667,103.5">
+              End="0,206">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,62.400299850075" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,62.400299850075"
-                    Point2="0,66.400299850075"
-                    Point3="4,66.400299850075" />
-                  <mssgle:LineSegment
-                    End="165.666666666667,66.400299850075" />
-                  <mssgle:CubicBezierSegment
-                    Point1="165.666666666667,66.400299850075"
-                    Point2="169.666666666667,66.400299850075"
-                    Point3="169.666666666667,70.400299850075" />
-                  <mssgle:LineSegment
-                    End="169.666666666667,103.5" />
+                    End="0,206" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2094,7 +2119,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="373,1326.5">
+          TopLeft="323.5,1326.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2116,30 +2141,64 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="373,404.5">
+          TopLeft="107.5,404.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="87.3333333333334,60"
+              EndConnector="85.0000000000001,60"
               Start="0,0"
-              End="87.3333333333334,52.5">
+              End="85.0000000000001,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.8920539730135" />
+                    End="0,35.8004987531172" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.8920539730135"
-                    Point2="0,35.8920539730135"
-                    Point3="4,35.8920539730135" />
+                    Point1="0,35.8004987531172"
+                    Point2="0,39.8004987531172"
+                    Point3="4,39.8004987531172" />
                   <mssgle:LineSegment
-                    End="83.3333333333334,35.8920539730135" />
+                    End="81.0000000000001,39.8004987531172" />
                   <mssgle:CubicBezierSegment
-                    Point1="83.3333333333334,35.8920539730135"
-                    Point2="87.3333333333334,35.8920539730135"
-                    Point3="87.3333333333334,39.8920539730135" />
+                    Point1="81.0000000000001,39.8004987531172"
+                    Point2="85.0000000000001,39.8004987531172"
+                    Point3="85.0000000000001,43.8004987531172" />
                   <mssgle:LineSegment
-                    End="87.3333333333334,52.5" />
+                    End="85.0000000000001,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="553.5,250.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-98.9999999999999,214"
+              Start="0,0"
+              End="-98.9999999999999,206.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,137.955112219451" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,137.955112219451"
+                    Point2="0,141.955112219451"
+                    Point3="-4,141.955112219451" />
+                  <mssgle:LineSegment
+                    End="-94.9999999999999,141.955112219451" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-94.9999999999999,141.955112219451"
+                    Point2="-98.9999999999999,141.955112219451"
+                    Point3="-98.9999999999999,145.955112219451" />
+                  <mssgle:LineSegment
+                    End="-98.9999999999999,206.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2155,7 +2214,7 @@
     design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="140.8,41.6"
           Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
@@ -2191,7 +2250,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2213,7 +2274,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
