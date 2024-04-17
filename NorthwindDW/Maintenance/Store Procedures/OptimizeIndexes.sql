@@ -65,44 +65,16 @@ AS BEGIN
 								IF @PartitionScheme IS NOT NULL
 									SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REORGANIZE PARTITION = ', @PartitionNumber, ';' )
 								ELSE SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REORGANIZE;' )
-						
-								BEGIN TRY
-									EXECUTE sp_executesql @stmt = @SQLstatment						
-								END TRY
-						
-								BEGIN CATCH
-									EXECUTE [Integration].[InsertErrorLog]
-												@ErrorCode		= 100
-											, @ErrorDescription = @SQLstatment
-											, @MachineName		= @@SERVERNAME
-											, @PackageName		= N'SP [Integration].[ManageIndexes]'
-											, @SourceName		= N'SP [Integration].[ManageIndexes]'
-											, @StartTime		= @StartTime
-											, @UserName			= @UserName
-											, @LineageKey		= -1
-								END CATCH
+								
+								EXECUTE sp_executesql @stmt = @SQLstatment
 							END
 						ELSE IF @AvgFragmentation > 30
 							BEGIN
 								IF @PartitionScheme IS NOT NULL
 									SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REBUILD PARTITION = ', @PartitionNumber, ' WITH ( DATA_COMPRESSION = ', @DataCompression, ' );' )
 								ELSE SET @SQLstatment = CONCAT ( 'ALTER INDEX [', @Index, '] ON ', @ObjectName, ' REBUILD WITH ( DATA_COMPRESSION = ', @DataCompression, ' );' )
-						
-								BEGIN TRY
-									EXECUTE sp_executesql @stmt = @SQLstatment
-								END TRY
-						
-								BEGIN CATCH
-									EXECUTE [Integration].[InsertErrorLog]
-												@ErrorCode		= 100
-											, @ErrorDescription = @SQLstatment
-											, @MachineName		= @@SERVERNAME
-											, @PackageName		= N'SP [Integration].[ManageIndexes]'
-											, @SourceName		= N'SP [Integration].[ManageIndexes]'
-											, @StartTime		= @StartTime
-											, @UserName			= @UserName
-											, @LineageKey		= -1
-								END CATCH
+								
+								EXECUTE sp_executesql @stmt = @SQLstatment
 							END
 
 						FETCH NEXT FROM OptimizeIndexes INTO 
