@@ -10,18 +10,12 @@ AS BEGIN
 				SET [HashDiff] =  HASHBYTES ( 
 									  N'MD5'
 									, CONCAT (
-										  ISNULL ( [CompanyName], N'' )
-										, N'#'
-										, ISNULL ( [ContactName], N'' )
-										, N'#'
-										, ISNULL ( [ContactTitle], N'' )
-										, N'#'
-										, ISNULL ( [City], N'' )
-										, N'#'
-										, ISNULL ( [Country], N'' )
-										, N'#'
-										, ISNULL ( [Phone], N'' )
-										, N'#'
+										  ISNULL ( [CompanyName], N'' ), N'#'
+										, ISNULL ( [ContactName], N'' ), N'#'
+										, ISNULL ( [ContactTitle], N'' ), N'#'
+										, ISNULL ( [City], N'' ), N'#'
+										, ISNULL ( [Country], N'' ), N'#'
+										, ISNULL ( [Phone], N'' ), N'#'
 										, ISNULL ( [Fax], N'' )
 									)
 								);

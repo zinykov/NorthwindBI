@@ -7,7 +7,7 @@
     [TitleOfCourtesy]   NVARCHAR(10)    NULL,
     [City]              NVARCHAR(25)    NULL,
     [Country]           NVARCHAR(25)    NULL,
-    [CheckSum]          INT             NULL
+    [HashDiff]          VARBINARY(MAX)  NULL
 )
     ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;

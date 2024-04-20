@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashCustomers] AS
-BEGIN
+﻿CREATE PROCEDURE [Hash].[UpdateHashCustomers]
+AS BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			TRUNCATE TABLE [Hash].[Customers];
