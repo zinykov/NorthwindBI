@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[AddUnknownProduct]
-    @LineageKey AS INT
+      @StartDate AS DATE
+    , @LineageKey AS INT
 AS BEGIN
     BEGIN TRY
         BEGIN TRANSACTION

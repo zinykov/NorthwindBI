@@ -1,13 +1,8 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashCategories]
-AS BEGIN
+﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyCategories] AS
+BEGIN
 	BEGIN TRY
-		BEGIN TRANSACTION	
-			TRUNCATE TABLE [Hash].[Categories];
-
-			INSERT INTO [Hash].[Categories]
-			SELECT		  [CategoryID]
-						, [HashDiff]
-	FROM		[Landing].[Categories];
+		BEGIN TRANSACTION
+			ALTER TABLE [Landing].[Categories] DROP CONSTRAINT [PK_Landing_Categories];
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH

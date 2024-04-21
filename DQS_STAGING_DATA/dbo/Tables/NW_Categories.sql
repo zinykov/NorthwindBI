@@ -11,6 +11,6 @@
     [CategoryName_Status]     NVARCHAR (MAX) NULL,
     [Record Status]           NVARCHAR (MAX) NULL,
     [Appended data]           NVARCHAR (MAX) NULL,
-    [Appended data_schema]    NVARCHAR (MAX) NULL
+    [Appended data schema]    NVARCHAR (MAX) NULL
 );
 
