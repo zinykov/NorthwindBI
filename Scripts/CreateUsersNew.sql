@@ -1,17 +1,4 @@
-﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar DQSDatabaseName DQS_STAGING_DATA
---:setvar DQSServerName SWIFT3
---:setvar DWHDatabaseName NorthwindDW
---:setvar DWHServerName SWIFT3
---:setvar MDSDatabaseName MDS
---:setvar MDSServerName SWIFT3
---:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName SWIFT3
---:setvar SSISFolderName NorthwindETL
---:setvar SSISProjectName NorthwindETL
---:setvar SSISServerName SWIFT3
-
-USE [$(DWHDatabaseName)]
+﻿USE [$(DWHDatabaseName)]
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\PBIRSexec' )

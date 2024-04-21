@@ -1,28 +1,4 @@
-﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar BackupFilesPath "C:\SSIS\NorthwindBI\Backups\"
---:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
---:setvar DQSDatabaseName DQS_STAGING_DATA
---:setvar DQSServerName SWIFT3
---:setvar DWHDatabaseName NorthwindDW
---:setvar DWHServerName SWIFT3
---:setvar LoadDateIncrementalEnd 1998-05-06
---:setvar LoadDateInitialEnd 1997-12-31
---:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
---:setvar LogsDatabaseName Logs
---:setvar LogsServerName SWIFT3
---:setvar MDSDatabaseName MDS
---:setvar MDSServerName SWIFT3
---:setvar RetrainWeeks 3
---:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName Release
---:setvar SSISFolderName NorthwindBI
---:setvar SSISProjectName NorthwindETL
---:setvar SSISServerName SWIFT3
---:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
---:setvar LandingDatabaseName Landing
---:setvar LandingServerName SWIFT3
-
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
+﻿IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
 	DECLARE @folder_id BIGINT
 	EXECUTE	[catalog].[create_folder]
@@ -297,46 +273,6 @@ BEGIN
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'Int16'
-END;
-GO
-
-DECLARE @var datetime = N'$(LoadDateIncrementalEnd)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'LoadDateIncrementalEnd'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'LoadDateIncrementalEnd'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'DateTime'
-END;
-GO
-
-DECLARE @var datetime = N'$(LoadDateInitialEnd)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'LoadDateInitialEnd'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'LoadDateInitialEnd'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'DateTime'
 END;
 GO
 

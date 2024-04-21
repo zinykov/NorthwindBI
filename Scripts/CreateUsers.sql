@@ -1,25 +1,4 @@
-﻿--:setvar AzAgentGroup VSTS_AgentService_G39071
---:setvar BackupFilesPath "C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup"
---:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
---:setvar DQSDatabaseName DQS_STAGING_DATA
---:setvar DQSServerName SWIFT3
---:setvar DWHDatabaseName NorthwindDW
---:setvar DWHServerName SWIFT3
---:setvar ExternalFilesPath "C:\Users\zinyk\source\repos\Northwind_BI_Solution\"
---:setvar LogsDatabaseName NorthwindLogs
---:setvar LogsServerName SWIFT3
---:setvar MDSDatabaseName MDS
---:setvar MDSServerName SWIFT3
---:setvar RetrainWeeks 3
---:setvar SSISDatabaseName SISSDB
---:setvar SSISEnvironmentName Release
---:setvar SSISFolderName NorthwindBI
---:setvar SSISProjectName NorthwindETL
---:setvar SSISServerName SWIFT3
---:setvar LandingDatabaseName NorthwindLanding
---:setvar LandingServerName SWIFT3
-
-USE [$(DWHDatabaseName)]
+﻿USE [$(DWHDatabaseName)]
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\RDLexec' )
@@ -45,25 +24,25 @@ GO
 GRANT EXECUTE ON SCHEMA::[Reports] TO [$(DWHServerName)\RDLexec]
 GO
 
-USE [$(DQSDatabaseName)]
+USE [$(DQS_STAGING_DATA_DatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQSServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQS_STAGING_DATA_ServerName)\RDLexec' )
 	BEGIN
-		CREATE USER [$(DQSServerName)\RDLexec] FOR LOGIN [$(DQSServerName)\RDLexec]
+		CREATE USER [$(DQS_STAGING_DATA_ServerName)\RDLexec] FOR LOGIN [$(DQS_STAGING_DATA_ServerName)\RDLexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\RDLexec]
+ALTER ROLE [db_datareader] ADD MEMBER [$(DQS_STAGING_DATA_ServerName)\RDLexec]
 GO
 
 USE [$(LogsDatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LogsServerName)\RDLexec' )
 	BEGIN
-		CREATE USER [$(DWHServerName)\RDLexec] FOR LOGIN [$(DWHServerName)\RDLexec]
+		CREATE USER [$(LogsServerName)\RDLexec] FOR LOGIN [$(LogsServerName)\RDLexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
