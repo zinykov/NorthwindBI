@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[NW_Employee] (
+﻿CREATE TABLE [dbo].[NW_Employees] (
     [EmployeeID_Source]          INT            NULL,
     [EmployeeID_Output]          INT            NULL,
     [EmployeeID_Reason]          NVARCHAR (MAX) NULL,
@@ -34,8 +34,8 @@
     [Country_Reason]             NVARCHAR (MAX) NULL,
     [Country_Confidence]         NVARCHAR (MAX) NULL,
     [Country_Status]             NVARCHAR (MAX) NULL,
-    [Record_Status]              NVARCHAR (MAX) NULL,
-    [Appended_data]              NVARCHAR (MAX) NULL,
-    [Appended_data_schema]       NVARCHAR (MAX) NULL
+    [Record Status]              NVARCHAR (MAX) NULL,
+    [Appended data]              NVARCHAR (MAX) NULL,
+    [Appended data schema]       NVARCHAR (MAX) NULL
 );
 

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[NW_Category] (
+﻿CREATE TABLE [dbo].[NW_Categories] (
     [CategoryID_Source]       INT            NULL,
     [CategoryID_Output]       INT            NULL,
     [CategoryID_Reason]       NVARCHAR (MAX) NULL,
@@ -9,8 +9,8 @@
     [CategoryName_Reason]     NVARCHAR (MAX) NULL,
     [CategoryName_Confidence] NVARCHAR (MAX) NULL,
     [CategoryName_Status]     NVARCHAR (MAX) NULL,
-    [Record_Status]           NVARCHAR (MAX) NULL,
-    [Appended_data]           NVARCHAR (MAX) NULL,
-    [Appended_data_schema]    NVARCHAR (MAX) NULL
+    [Record Status]           NVARCHAR (MAX) NULL,
+    [Appended data]           NVARCHAR (MAX) NULL,
+    [Appended data_schema]    NVARCHAR (MAX) NULL
 );
 

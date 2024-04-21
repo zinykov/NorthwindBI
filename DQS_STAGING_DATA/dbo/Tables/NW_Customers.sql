@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[NW_Customer] (
+﻿CREATE TABLE [dbo].[NW_Customers] (
     [CustomerID_Source]       NCHAR (5)      NULL,
     [CustomerID_Output]       NVARCHAR (MAX) NULL,
     [CustomerID_Reason]       NVARCHAR (MAX) NULL,
@@ -39,8 +39,8 @@
     [Fax_Reason]              NVARCHAR (MAX) NULL,
     [Fax_Confidence]          NVARCHAR (MAX) NULL,
     [Fax_Status]              NVARCHAR (MAX) NULL,
-    [Record_Status]           NVARCHAR (MAX) NULL,
-    [Appended_data]           NVARCHAR (MAX) NULL,
-    [Appended_data_schema]    NVARCHAR (MAX) NULL
+    [Record Status]           NVARCHAR (MAX) NULL,
+    [Appended data]           NVARCHAR (MAX) NULL,
+    [Appended data schema]    NVARCHAR (MAX) NULL
 );
 
