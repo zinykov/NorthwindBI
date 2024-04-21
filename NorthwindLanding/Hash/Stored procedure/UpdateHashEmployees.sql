@@ -5,7 +5,7 @@ AS BEGIN
 			TRUNCATE TABLE [Hash].[Employees];
 
 			INSERT INTO [Hash].[Employees]
-			SELECT		  [CustomerID]
+			SELECT		  [EmployeeID]
 						, [HashDiff]
 			FROM		[Landing].[Employees];
         COMMIT TRANSACTION;

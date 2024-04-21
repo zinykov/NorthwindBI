@@ -12,8 +12,8 @@
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="357"
-  DTS:VersionGUID="{C5096CE0-9188-4AA9-997F-EE52FE8FE39E}">
+  DTS:VersionBuild="362"
+  DTS:VersionGUID="{06A584FB-1C5D-40FD-A9F5-1D096EF6EC9B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -322,7 +322,7 @@
       DTS:ExecutableType="Microsoft.FileSystemTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear TestData files"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -370,7 +370,7 @@
           DTS:ExecutableType="Microsoft.BulkInsertTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Bulk Insert Landing"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -443,7 +443,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Categories"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="5">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -462,7 +462,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Customers"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -481,7 +481,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Employees"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -500,7 +500,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Order Details"
-          DTS:ThreadHint="3">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -519,7 +519,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Orders"
-          DTS:ThreadHint="4">
+          DTS:ThreadHint="3">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -538,7 +538,7 @@
           DTS:ExecutableType="Microsoft.ExecuteProcess"
           DTS:LocaleID="-1"
           DTS:ObjectName="Incremental load Products"
-          DTS:ThreadHint="5">
+          DTS:ThreadHint="4">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -557,14 +557,20 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Pre-test Employee SCD2"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
-              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 2 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Employees]&#xA;&#x9;&#x9;&#x9;SET [Title] = REVERSE ( [Title] ), [City] = N'Moscow', [Country] = N'Russia'&#xA;&#x9;&#x9;&#x9;WHERE [EmployeeID] = 2;&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 2 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Employees]&#xA;&#x9;&#x9;&#x9;SET [City] = N'Moscow', [Country] = N'Russia'&#xA;&#x9;&#x9;&#x9;WHERE [EmployeeID] = 2;&#xA;&#x9;END&#xA;IF ( ? = DATEFROMPARTS ( 1998, 1, 3 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Employees]&#xA;&#x9;&#x9;&#x9;SET [City] = N'Tacoma', [Country] = N'USA'&#xA;&#x9;&#x9;&#x9;WHERE [EmployeeID] = 2;&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
                 SQLTask:DtsVariableName="User::var_CutoffTime"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
@@ -579,7 +585,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Prepare Data for SCD2test"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -748,34 +754,38 @@
           Id="Package\Incremental load immitation\Incremental load Customers"
           TopLeft="5.5,209.5" />
         <NodeLayout
-          Size="211,42"
+          Size="212,42"
           Id="Package\Incremental load immitation\Incremental load Employees"
           TopLeft="1363.5,209.5" />
         <NodeLayout
-          Size="223,42"
+          Size="224,42"
           Id="Package\Incremental load immitation\Incremental load Order Details"
           TopLeft="1088.5,107.5" />
         <NodeLayout
-          Size="211,42"
+          Size="193,42"
           Id="Package\Incremental load immitation\Incremental load Orders"
           TopLeft="816.5,107.5" />
         <NodeLayout
-          Size="211,42"
+          Size="202,42"
           Id="Package\Incremental load immitation\Incremental load Products"
           TopLeft="544.5,107.5" />
         <NodeLayout
-          Size="202,42"
+          Size="203,42"
           Id="Package\Incremental load immitation\Prepare Data for SCD2test"
           TopLeft="10,107.5" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Incremental load immitation\Pre-test Employee SCD2"
+          TopLeft="1372.5,107.5" />
         <EdgeLayout
           Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
           TopLeft="852.714285714286,47.4999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-741.714285714286,60"
+              EndConnector="-741.214285714286,60.0000000000001"
               Start="0,0"
-              End="-741.714285714286,52.5">
+              End="-741.214285714286,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -786,13 +796,13 @@
                     Point2="0,14.3379978471475"
                     Point3="-4,14.3379978471475" />
                   <mssgle:LineSegment
-                    End="-737.714285714286,14.3379978471475" />
+                    End="-737.214285714286,14.3379978471475" />
                   <mssgle:CubicBezierSegment
-                    Point1="-737.714285714286,14.3379978471475"
-                    Point2="-741.714285714286,14.3379978471475"
-                    Point3="-741.714285714286,18.3379978471475" />
+                    Point1="-737.214285714286,14.3379978471475"
+                    Point2="-741.214285714286,14.3379978471475"
+                    Point3="-741.214285714286,18.3379978471475" />
                   <mssgle:LineSegment
-                    End="-741.714285714286,52.5" />
+                    End="-741.214285714286,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -807,26 +817,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-502.428571428571,60"
+              EndConnector="-502.428571428571,60.0000000000001"
               Start="0,0"
-              End="-502.428571428571,52.5">
+              End="-502.428571428571,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,18.2261798753339" />
+                    End="0,18.226179875334" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,18.2261798753339"
-                    Point2="0,22.2261798753339"
-                    Point3="-4,22.2261798753339" />
+                    Point1="0,18.226179875334"
+                    Point2="0,22.226179875334"
+                    Point3="-4,22.226179875334" />
                   <mssgle:LineSegment
-                    End="-498.428571428571,22.2261798753339" />
+                    End="-498.428571428571,22.226179875334" />
                   <mssgle:CubicBezierSegment
-                    Point1="-498.428571428571,22.2261798753339"
-                    Point2="-502.428571428571,22.2261798753339"
-                    Point3="-502.428571428571,26.2261798753339" />
+                    Point1="-498.428571428571,22.226179875334"
+                    Point2="-502.428571428571,22.226179875334"
+                    Point3="-502.428571428571,26.226179875334" />
                   <mssgle:LineSegment
-                    End="-502.428571428571,52.5" />
+                    End="-502.428571428571,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -841,26 +851,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-258.142857142857,60"
+              EndConnector="-262.642857142857,60.0000000000001"
               Start="0,0"
-              End="-258.142857142857,52.5">
+              End="-262.642857142857,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.7904328018223" />
+                    End="0,23.7904328018224" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.7904328018223"
-                    Point2="0,27.7904328018223"
-                    Point3="-4,27.7904328018223" />
+                    Point1="0,23.7904328018224"
+                    Point2="0,27.7904328018224"
+                    Point3="-4,27.7904328018224" />
                   <mssgle:LineSegment
-                    End="-254.142857142857,27.7904328018223" />
+                    End="-258.642857142857,27.7904328018224" />
                   <mssgle:CubicBezierSegment
-                    Point1="-254.142857142857,27.7904328018223"
-                    Point2="-258.142857142857,27.7904328018223"
-                    Point3="-258.142857142857,31.7904328018223" />
+                    Point1="-258.642857142857,27.7904328018224"
+                    Point2="-262.642857142857,27.7904328018224"
+                    Point3="-262.642857142857,31.7904328018224" />
                   <mssgle:LineSegment
-                    End="-258.142857142857,52.5" />
+                    End="-262.642857142857,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -875,26 +885,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-13.8571428571429,60"
+              EndConnector="-22.8571428571429,60.0000000000001"
               Start="0,0"
-              End="-13.8571428571429,52.5">
+              End="-22.8571428571429,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.7904328018223" />
+                    End="0,23.7904328018224" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.7904328018223"
-                    Point2="0,27.7904328018223"
-                    Point3="-4,27.7904328018223" />
+                    Point1="0,23.7904328018224"
+                    Point2="0,27.7904328018224"
+                    Point3="-4,27.7904328018224" />
                   <mssgle:LineSegment
-                    End="-9.85714285714289,27.7904328018223" />
+                    End="-18.8571428571429,27.7904328018224" />
                   <mssgle:CubicBezierSegment
-                    Point1="-9.85714285714289,27.7904328018223"
-                    Point2="-13.8571428571429,27.7904328018223"
-                    Point3="-13.8571428571429,31.7904328018223" />
+                    Point1="-18.8571428571429,27.7904328018224"
+                    Point2="-22.8571428571429,27.7904328018224"
+                    Point3="-22.8571428571429,31.7904328018224" />
                   <mssgle:LineSegment
-                    End="-13.8571428571429,52.5" />
+                    End="-22.8571428571429,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -905,30 +915,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 5]"
-          TopLeft="963.571428571428,47.4999999999999">
+          TopLeft="963.571428571429,47.4999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="236.428571428572,59.9999999999999"
+              EndConnector="236.928571428571,60.0000000000001"
               Start="0,0"
-              End="236.428571428572,52.4999999999999">
+              End="236.928571428571,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,18.2261798753339" />
+                    End="0,18.226179875334" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,18.2261798753339"
-                    Point2="0,22.2261798753339"
-                    Point3="4,22.2261798753339" />
+                    Point1="0,18.226179875334"
+                    Point2="0,22.226179875334"
+                    Point3="4,22.226179875334" />
                   <mssgle:LineSegment
-                    End="232.428571428572,22.2261798753339" />
+                    End="232.928571428571,22.226179875334" />
                   <mssgle:CubicBezierSegment
-                    Point1="232.428571428572,22.2261798753339"
-                    Point2="236.428571428572,22.2261798753339"
-                    Point3="236.428571428572,26.2261798753339" />
+                    Point1="232.928571428571,22.226179875334"
+                    Point2="236.928571428571,22.226179875334"
+                    Point3="236.928571428571,26.226179875334" />
                   <mssgle:LineSegment
-                    End="236.428571428572,52.4999999999999" />
+                    End="236.928571428571,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -939,7 +949,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 6]"
-          TopLeft="111,149.5">
+          TopLeft="111.25,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -959,13 +969,9 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="193,42"
-          Id="Package\Incremental load immitation\Pre-test Employee SCD2"
-          TopLeft="1372.5,107.5" />
         <EdgeLayout
           Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение]"
-          TopLeft="1469,149.5">
+          TopLeft="1469.25,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -991,26 +997,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="477.714285714286,59.9999999999999"
+              EndConnector="477.714285714286,60.0000000000001"
               Start="0,0"
-              End="477.714285714286,52.4999999999999">
+              End="477.714285714286,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,10.3379978471474" />
+                    End="0,10.3379978471475" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,10.3379978471474"
-                    Point2="0,14.3379978471474"
-                    Point3="4,14.3379978471474" />
+                    Point1="0,10.3379978471475"
+                    Point2="0,14.3379978471475"
+                    Point3="4,14.3379978471475" />
                   <mssgle:LineSegment
-                    End="473.714285714286,14.3379978471474" />
+                    End="473.714285714286,14.3379978471475" />
                   <mssgle:CubicBezierSegment
-                    Point1="473.714285714286,14.3379978471474"
-                    Point2="477.714285714286,14.3379978471474"
-                    Point3="477.714285714286,18.3379978471474" />
+                    Point1="473.714285714286,14.3379978471475"
+                    Point2="477.714285714286,14.3379978471475"
+                    Point3="477.714285714286,18.3379978471475" />
                   <mssgle:LineSegment
-                    End="477.714285714286,52.4999999999999" />
+                    End="477.714285714286,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
