@@ -4,7 +4,7 @@ BEGIN
 
 	INSERT INTO [Hash].[Holidays]
 	SELECT		  [Date]
-				, [CheckSum]
+				, [HashDiff]
 	FROM		[Landing].[Holidays];
 	
 	ALTER TABLE [Landing].[Holidays] DROP CONSTRAINT [PK_Landing_Holidays];

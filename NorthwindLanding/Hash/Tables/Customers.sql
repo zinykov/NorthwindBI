@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Hash].[Customers]
 (
     [CustomerID]        NCHAR(5)        NOT NULL,
-    [HashDiff]          VARBINARY(MAX)  NOT NULL,
+    [HashDiff]          VARBINARY(100)  NOT NULL,
 
     CONSTRAINT [PK_Hash_Customers] PRIMARY KEY CLUSTERED ( [CustomerID] ASC )
 )

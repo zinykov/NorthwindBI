@@ -7,16 +7,19 @@ AS BEGIN
 				PRIMARY KEY CLUSTERED ( [EmployeeID] ASC );
 
 				UPDATE [Landing].[Employees]
-				SET [HashDiff] =  HASHBYTES ( 
-									  N'MD5'
-									, CONCAT (
-										  ISNULL ( [LastName], N'' ), N'#'
-										, ISNULL ( [FirstName], N'' ), N'#'
-										, ISNULL ( [Title], N'' ), N'#'
-										, ISNULL ( [TitleOfCourtesy], N'' ), N'#'
-										, ISNULL ( [City], N'' ), N'#'
-										, ISNULL ( [Country], N'' )
+				SET [HashDiff] = CAST (
+									 HASHBYTES ( 
+										  N'MD5'
+										, CONCAT (
+											  ISNULL ( [LastName], N'' ), N'#'
+											, ISNULL ( [FirstName], N'' ), N'#'
+											, ISNULL ( [Title], N'' ), N'#'
+											, ISNULL ( [TitleOfCourtesy], N'' ), N'#'
+											, ISNULL ( [City], N'' ), N'#'
+											, ISNULL ( [Country], N'' )
+										)
 									)
+								AS VARBINARY(100)
 								);
 
 				SET @AreThereAnyChangesInEmployees = ( SELECT COUNT(*) FROM [Landing].[ChangedEmployees] )

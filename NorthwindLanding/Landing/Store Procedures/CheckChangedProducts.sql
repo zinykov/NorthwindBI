@@ -7,12 +7,15 @@ AS BEGIN
 				PRIMARY KEY CLUSTERED ( [ProductID] ASC );
 
 				UPDATE [Landing].[Products]
-				SET [HashDiff] =  HASHBYTES ( 
-									  N'MD5'
-									, CONCAT (
-										  ISNULL ( [ProductName], N'' ), N'#'
-										, ISNULL ( [CategoryID], 0 )
+				SET [HashDiff] = CAST (
+									 HASHBYTES ( 
+										  N'MD5'
+										, CONCAT (
+											  ISNULL ( [ProductName], N'' ), N'#'
+											, ISNULL ( [CategoryID], 0 )
+										)
 									)
+									AS VARBINARY(100)
 								);
 
 				SET @AreThereAnyChangesInProducts = ( SELECT COUNT(*) FROM [Landing].[ChangedProducts] )

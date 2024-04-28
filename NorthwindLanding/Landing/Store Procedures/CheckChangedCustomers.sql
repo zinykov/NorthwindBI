@@ -7,17 +7,20 @@ AS BEGIN
 				PRIMARY KEY CLUSTERED ( [CustomerID] ASC );
 
 				UPDATE [Landing].[Customers]
-				SET [HashDiff] =  HASHBYTES ( 
-									  N'MD5'
-									, CONCAT (
-										  ISNULL ( [CompanyName], N'' ), N'#'
-										, ISNULL ( [ContactName], N'' ), N'#'
-										, ISNULL ( [ContactTitle], N'' ), N'#'
-										, ISNULL ( [City], N'' ), N'#'
-										, ISNULL ( [Country], N'' ), N'#'
-										, ISNULL ( [Phone], N'' ), N'#'
-										, ISNULL ( [Fax], N'' )
+				SET [HashDiff] = CAST (
+									 HASHBYTES ( 
+										  N'MD5'
+										, CONCAT (
+											  ISNULL ( [CompanyName], N'' ), N'#'
+											, ISNULL ( [ContactName], N'' ), N'#'
+											, ISNULL ( [ContactTitle], N'' ), N'#'
+											, ISNULL ( [City], N'' ), N'#'
+											, ISNULL ( [Country], N'' ), N'#'
+											, ISNULL ( [Phone], N'' ), N'#'
+											, ISNULL ( [Fax], N'' )
+										)
 									)
+									AS VARBINARY(100)
 								);
 
 				SET @AreThereAnyChangesInCustomers = ( SELECT COUNT(*) FROM [Landing].[ChangedCustomers] )

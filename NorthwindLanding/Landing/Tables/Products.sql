@@ -5,7 +5,7 @@
     [SupplierID]  INT               NULL,
     [CategoryID]  INT               NULL,
     [UnitPrice]   MONEY             NULL,
-    [HashDiff]    VARBINARY(MAX)    NULL
+    [HashDiff]    VARBINARY(100)    NULL
 )
     ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;

@@ -8,7 +8,7 @@
     [Country]           NVARCHAR(15)    NULL,
     [Phone]             NVARCHAR(24)    NULL,
     [Fax]               NVARCHAR(24)    NULL,
-    [HashDiff]          VARBINARY(MAX)  NULL
+    [HashDiff]          VARBINARY(100)  NULL
 )
     ON [Landing_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;

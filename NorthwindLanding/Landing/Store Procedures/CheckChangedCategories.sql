@@ -7,9 +7,12 @@ AS BEGIN
 				PRIMARY KEY CLUSTERED ( [CategoryID] ASC );
 
 				UPDATE [Landing].[Categories]
-				SET [HashDiff] =  HASHBYTES ( 
-									  N'MD5'
-									, ISNULL ( [CategoryName], N'' )
+				SET [HashDiff] = CAST (
+									HASHBYTES ( 
+										  N'MD5'
+										, ISNULL ( [CategoryName], N'' )
+									)
+									AS VARBINARY(100)
 								);
 
 				SET @AreThereAnyChangesInCategories = ( SELECT COUNT(*) FROM [Landing].[ChangedCategories] )

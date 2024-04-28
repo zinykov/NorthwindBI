@@ -65,8 +65,8 @@ BEGIN
 END
 USE [NorthwindDW];
 
-DECLARE @BackupsReadOnlyPath AS NVARCHAR(1000) = N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly';
-DECLARE @BackupsReadWritePath AS NVARCHAR(1000) = N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\';
+DECLARE @BackupsReadOnlyPath AS NVARCHAR(1000) = N'C:\SSIS\NorthwindBI\Backup\NorthwindDW\ReadOnly';
+DECLARE @BackupsReadWritePath AS NVARCHAR(1000) = N'C:\SSIS\NorthwindBI\Backup\NorthwindDW\';
 
 EXECUTE [Maintenance].[BackupDatabase]
 	  @CutoffTime

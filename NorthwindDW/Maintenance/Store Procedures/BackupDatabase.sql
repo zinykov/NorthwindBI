@@ -22,7 +22,7 @@ AS BEGIN
 					BEGIN
 						SET @BackupFileName = CONCAT (
 							  @BackupsReadOnlyPath
-							, N'\$(DatabaseName)_backup_read_only_filegroup_'
+							, N'$(DatabaseName)_backup_read_only_filegroup_'
 							, @GroupName
 							, N'.bak'
 						)
@@ -48,7 +48,7 @@ AS BEGIN
 				BEGIN
 					SET @BackupFileName = CONCAT (
 						  @BackupsReadWritePath
-						, N'\$(DatabaseName)_backup_read_write_filegroups_'
+						, N'$(DatabaseName)_backup_read_write_filegroups_'
 						, FORMAT ( @CutoffTime, 'yyyyMMdd' )
 						, N'_FULL.bak'
 					)
@@ -68,7 +68,7 @@ AS BEGIN
 				BEGIN
 					SET @BackupFileName = CONCAT (
 						  @BackupsReadWritePath
-						, N'\$(DatabaseName)_backup_read_write_filegroups_'
+						, N'$(DatabaseName)_backup_read_write_filegroups_'
 						, FORMAT ( @CutoffTime, 'yyyyMMdd' )
 						, N'_DIFF.bak'
 					)
