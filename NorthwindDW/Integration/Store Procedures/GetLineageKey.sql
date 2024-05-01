@@ -3,8 +3,8 @@
     @CutoffTime AS DATETIME2(7),
     @executionid AS NVARCHAR (50)
 AS BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
             SET NOCOUNT ON;
             SET XACT_ABORT ON;
 
@@ -29,11 +29,11 @@ AS BEGIN
                     , @CutoffTime
                     , @executionid
                 );
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END;

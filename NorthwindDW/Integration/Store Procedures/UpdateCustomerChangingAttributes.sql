@@ -7,16 +7,16 @@
 	, @Phone AS NVARCHAR(30)
 	, @Fax AS NVARCHAR(30)
 AS BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
 			UPDATE [Dimension].[Customer]
 			SET [Customer] = @Customer, [ContactName] = @ContactName, [ContactTitle] = @ContactTitle, [Phone] = @Phone, [Fax] = @Fax, [LineageKey] = @LineageKey
 			WHERE	[CustomerAlterKey] = @CustomerAlterKey;
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

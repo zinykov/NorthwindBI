@@ -5,8 +5,8 @@
     , @IsSetFilegroupReadonly AS BIT OUTPUT
     , @LoadDateInitialEnd AS DATE
 AS BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
 	        DECLARE @ReferenceDate AS DATE;
             DECLARE @MonthNumber AS TINYINT;
             DECLARE @IsMissingStartOptimization AS BIT = 0;
@@ -63,11 +63,11 @@ AS BEGIN
                 BEGIN
                     SET @IsSetFilegroupReadonly = 0
                 END;
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

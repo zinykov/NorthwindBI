@@ -2,8 +2,8 @@
 	  @Partition_number AS INT
 AS BEGIN
 -- ШАГ 4. Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
 			ALTER TABLE [Integration].[Order] SWITCH PARTITION @Partition_number TO [Fact].[Order] PARTITION @Partition_number
 -- ШАГ 5. Применение предложения MERGE для записей, обновлённых задним числом
 --		  Если первичный ключ не совпадает, то создаются новая строка, если совпадает, то обновноляется совпавшая
@@ -58,11 +58,11 @@ AS BEGIN
 						, SRC.[SalesAmountWithDiscount]
 						, SRC.[LineageKey]
 					);
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

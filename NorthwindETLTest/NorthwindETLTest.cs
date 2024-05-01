@@ -126,7 +126,7 @@ namespace NorthwindDWTest
             // 
             CustomerSCD2Stage1CustomerKey.ColumnNumber = 1;
             CustomerSCD2Stage1CustomerKey.Enabled = true;
-            CustomerSCD2Stage1CustomerKey.ExpectedValue = "89";
+            CustomerSCD2Stage1CustomerKey.ExpectedValue = "92";
             CustomerSCD2Stage1CustomerKey.Name = "CustomerSCD2Stage1CustomerKey";
             CustomerSCD2Stage1CustomerKey.NullExpected = false;
             CustomerSCD2Stage1CustomerKey.ResultSet = 1;
@@ -167,7 +167,7 @@ namespace NorthwindDWTest
             CustomerSCD2Stage1CountRowsInDimension.Enabled = true;
             CustomerSCD2Stage1CountRowsInDimension.Name = "CustomerSCD2Stage1CountRowsInDimension";
             CustomerSCD2Stage1CountRowsInDimension.ResultSet = 2;
-            CustomerSCD2Stage1CountRowsInDimension.RowCount = 90;
+            CustomerSCD2Stage1CountRowsInDimension.RowCount = 93;
             // 
             // CustomerSCD2Stage1StartDate
             // 

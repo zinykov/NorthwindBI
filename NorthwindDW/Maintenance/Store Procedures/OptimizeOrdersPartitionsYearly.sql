@@ -40,8 +40,8 @@ AS BEGIN
 
     IF @IsStartOptimization = 0 RETURN 0;
     
-    BEGIN TRY
-        --BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
         -- Опеределение границ диапазона слияния секций.
             SET @EndYearDate = EOMONTH ( @CutoffTime, -1 )
 	        SET @StartYearDate = ( SELECT [StartOfYear] FROM [Dimension].[Date] AS D WHERE [DateKey] = @EndYearDate )
@@ -130,11 +130,11 @@ AS BEGIN
     
 	                EXECUTE sp_executesql @SQL
                 END;
-        --COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        --ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

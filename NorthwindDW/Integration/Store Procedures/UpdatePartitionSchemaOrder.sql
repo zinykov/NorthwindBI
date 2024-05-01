@@ -2,8 +2,8 @@
 	    @CutoffTime AS DATE
 	  , @Partition_number AS INT OUTPUT
 AS BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
 			-- Объявление переменных
 				DECLARE		@PartitionParameter AS DATE
 				DECLARE		@NewPartitionParameter AS DATE
@@ -37,11 +37,11 @@ AS BEGIN
 
 			-- Переменной @Partition_number присваивается номер предпоследней секции
 				SET @Partition_number = $PARTITION.[PF_Order_Date] ( @PartitionParameter );
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

@@ -1,11 +1,18 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashHolidays] AS
-BEGIN
-	TRUNCATE TABLE [Hash].[Holidays];
+﻿CREATE PROCEDURE [Hash].[UpdateHashHolidays]
+AS BEGIN
+	--BEGIN TRY
+	--	BEGIN TRANSACTION
+			TRUNCATE TABLE [Hash].[Holidays];
 
-	INSERT INTO [Hash].[Holidays]
-	SELECT		  [Date]
-				, [HashDiff]
-	FROM		[Landing].[Holidays];
-	
-	ALTER TABLE [Landing].[Holidays] DROP CONSTRAINT [PK_Landing_Holidays];
+			INSERT INTO [Hash].[Holidays]
+			SELECT		  [Date]
+						, [HashDiff]
+			FROM		[Landing].[Holidays];
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

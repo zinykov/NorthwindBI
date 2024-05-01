@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Employees"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="340"
-  DTS:VersionGUID="{A59D73BD-4056-40A9-A475-D175F9553F1F}">
+  DTS:VersionBuild="341"
+  DTS:VersionGUID="{97BA917C-2E4C-4E2D-A02F-CBBB8A3D80F2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2877,7 +2877,7 @@
               DTS:refId="Package\DQS -&gt; MDS\Employees.PrecedenceConstraints[Constraint 1]"
               DTS:CreationName=""
               DTS:DTSID="{A4388B4D-0765-4609-B2D2-20448531451E}"
-              DTS:EvalOp="1"
+              DTS:EvalOp="3"
               DTS:Expression="@[User::AreThereAnyChangesInSourceTable1]"
               DTS:From="Package\DQS -&gt; MDS\Employees\Check changes"
               DTS:LogicalAnd="True"
@@ -2887,7 +2887,7 @@
               DTS:refId="Package\DQS -&gt; MDS\Employees.PrecedenceConstraints[Ограничение]"
               DTS:CreationName=""
               DTS:DTSID="{057A37E8-6426-469B-A09D-337CB58AE6BC}"
-              DTS:EvalOp="1"
+              DTS:EvalOp="3"
               DTS:Expression="! @[User::AreThereAnyChangesInSourceTable1]"
               DTS:From="Package\DQS -&gt; MDS\Employees\Check changes"
               DTS:ObjectName="Ограничение"
@@ -2985,7 +2985,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH add unknown member"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -3017,7 +3017,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH get start load date"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4947,7 +4947,7 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4975,7 +4975,7 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load enity Employee"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5011,7 +5011,7 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5123,7 +5123,7 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
       DTS:DTSID="{46F11C90-ED12-4494-8055-1DDEBE24F1E7}"
-      DTS:EvalOp="1"
+      DTS:EvalOp="3"
       DTS:Expression="@[User::AreThereAnyChanges]"
       DTS:From="Package\DQS -&gt; MDS"
       DTS:LogicalAnd="True"
@@ -5133,7 +5133,7 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
       DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
       DTS:CreationName=""
       DTS:DTSID="{4082973C-1D82-4211-B829-AA0357ABEB5F}"
-      DTS:EvalOp="1"
+      DTS:EvalOp="3"
       DTS:Expression="! @[User::AreThereAnyChanges]"
       DTS:From="Package\DQS -&gt; MDS"
       DTS:ObjectName="Ограничение 3"
@@ -5936,19 +5936,6 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\DQS -&gt; MDS\Employees\Workflow with changed\DQS cleansing\Source landing">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">View</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\DQS -&gt; MDS\Employees\Workflow with changed\DQS cleansing\Destination DQS staging">
     <Properties>
       <Property>
@@ -5958,6 +5945,19 @@ WHERE        (LastChgDateTime &gt; ?) AND (ValidationStatus = N'Validation Succe
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DQS -&gt; MDS\Employees\Workflow with changed\DQS cleansing\Source landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

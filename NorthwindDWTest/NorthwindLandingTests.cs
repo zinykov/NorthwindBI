@@ -40,20 +40,17 @@ namespace NorthwindDWTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Landing_CheckChangedHolidaysTest_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindLandingTests));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition LandingCheckChangedHolidaysReturnValues;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition LandingCheckChangedHolidaysDateCount;
             this.Landing_CheckChangedHolidaysTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Landing_CheckChangedHolidaysTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             LandingCheckChangedHolidaysReturnValues = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            LandingCheckChangedHolidaysDateCount = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // Landing_CheckChangedHolidaysTest_TestAction
             // 
+            Landing_CheckChangedHolidaysTest_TestAction.Conditions.Add(LandingCheckChangedHolidaysDateCount);
             Landing_CheckChangedHolidaysTest_TestAction.Conditions.Add(LandingCheckChangedHolidaysReturnValues);
             resources.ApplyResources(Landing_CheckChangedHolidaysTest_TestAction, "Landing_CheckChangedHolidaysTest_TestAction");
-            // 
-            // Landing_CheckChangedHolidaysTestData
-            // 
-            this.Landing_CheckChangedHolidaysTestData.PosttestAction = null;
-            this.Landing_CheckChangedHolidaysTestData.PretestAction = null;
-            this.Landing_CheckChangedHolidaysTestData.TestAction = Landing_CheckChangedHolidaysTest_TestAction;
             // 
             // LandingCheckChangedHolidaysReturnValues
             // 
@@ -64,6 +61,22 @@ namespace NorthwindDWTest
             LandingCheckChangedHolidaysReturnValues.NullExpected = false;
             LandingCheckChangedHolidaysReturnValues.ResultSet = 1;
             LandingCheckChangedHolidaysReturnValues.RowNumber = 1;
+            // 
+            // Landing_CheckChangedHolidaysTestData
+            // 
+            this.Landing_CheckChangedHolidaysTestData.PosttestAction = null;
+            this.Landing_CheckChangedHolidaysTestData.PretestAction = null;
+            this.Landing_CheckChangedHolidaysTestData.TestAction = Landing_CheckChangedHolidaysTest_TestAction;
+            // 
+            // LandingCheckChangedHolidaysDateCount
+            // 
+            LandingCheckChangedHolidaysDateCount.ColumnNumber = 2;
+            LandingCheckChangedHolidaysDateCount.Enabled = true;
+            LandingCheckChangedHolidaysDateCount.ExpectedValue = "1";
+            LandingCheckChangedHolidaysDateCount.Name = "LandingCheckChangedHolidaysDateCount";
+            LandingCheckChangedHolidaysDateCount.NullExpected = false;
+            LandingCheckChangedHolidaysDateCount.ResultSet = 2;
+            LandingCheckChangedHolidaysDateCount.RowNumber = 1;
         }
 
         #endregion

@@ -4,8 +4,8 @@
 	, @BackupFolderName AS NVARCHAR(10) OUTPUT
 	, @BackupOldFolderName AS NVARCHAR(10) OUTPUT
 AS BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION
+    --BEGIN TRY
+    --    BEGIN TRANSACTION
 			DECLARE @date AS DATE;
 	
 			IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [DateKey] = @CutoffTime ) < 6 )
@@ -27,11 +27,11 @@ AS BEGIN
 	
 			SET @BackupOldFolderName = FORMAT ( DATEADD ( DAY, @RetrainWeeks * -7, @date ), 'yyyy-MM-dd' )
 			SET @BackupFolderName = FORMAT ( @date, 'yyyy-MM-dd' );
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		THROW 50002, @Msg, 1;
-    END CATCH
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END
