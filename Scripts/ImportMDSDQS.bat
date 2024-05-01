@@ -1,8 +1,8 @@
 cd "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Binn"
-dqsinstaller -importkbs "C:\Users\zinyk\OneDrive\DisasterRecovery\DQS\DQSBackup.dqsb"
+dqsinstaller -importkbs "C:\Users\zinyk\OneDrive\DisasterRecovery\DQS\DQSBackup.dqsb" -collation "Cyrillic_General_CI_AS_KS_WS"
 
 cd  "C:\Program Files\Microsoft SQL Server\150\Master Data Services\Configuration"
-MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\CustomerNW.pkg" -model CustomerNW -service MDS
-MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\EmployeeNW.pkg" -model EmployeeNW -service MDS
-MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\Holidays.pkg" -model Holidays -service MDS
-MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\ProductNW.pkg" -model ProductNW -service MDS
+MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\CustomerNW.pkg" -model CustomerNW -service MDS1
+MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\EmployeeNW.pkg" -model EmployeeNW -service MDS1
+MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\Holidays.pkg" -model Holidays -service MDS1
+MDSModelDeploy deploynew -package "C:\Users\zinyk\OneDrive\DisasterRecovery\MDS\ProductNW.pkg" -model ProductNW -service MDS1

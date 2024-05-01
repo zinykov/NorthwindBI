@@ -11,8 +11,7 @@ AS BEGIN
 									 HASHBYTES ( 
 										  N'MD5'
 										, CONCAT (
-											  ISNULL ( [Date], N'' ), N'#'
-											, ISNULL ( [DateType], N'' ), N'#'
+											  ISNULL ( [DateType], N'' ), N'#'
 											, ISNULL ( [HolidayName], N'' )
 										)
 									)

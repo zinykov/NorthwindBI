@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="42"
-  DTS:VersionGUID="{5D2308DB-21F6-4D39-8F83-9D8F2D06FA1E}">
+  DTS:VersionBuild="53"
+  DTS:VersionGUID="{B635893E-99B9-45F5-9844-853E8EA0D507}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,7 +25,7 @@
       DTS:DTSID="{42C67801-3491-4DDD-B243-56A08FD42181}"
       DTS:ObjectName="*.dat">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 4) DATEPART( "Month", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 4) DATEPART( "Day", @[$Package::CutoffTime] ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
@@ -68,6 +68,15 @@
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{6FE45D29-6028-4261-B34A-3240054197B9}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CutoffTime">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{98C8D2DD-ED14-4FDE-95D8-7EF641AFC40B}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
@@ -84,7 +93,8 @@
       DTS:ObjectName="xmlPath"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\ZinukovD\xmlcalendar\ru\2020\calendar.xml</DTS:VariableValue>
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -160,13 +170,13 @@
     <DTS:Executable
       DTS:refId="Package\For each fmt"
       DTS:CreationName="STOCK:FOREACHLOOP"
-      DTS:DTSID="{fa184d5b-7f3b-4914-86a4-e8820a534484}"
+      DTS:DTSID="{ff840e3d-5263-4e29-8f79-3d7be4fea4d7}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
       DTS:ObjectName="For each fmt">
       <DTS:ForEachEnumerator
         DTS:CreationName="Microsoft.ForEachFileEnumerator"
-        DTS:DTSID="{468d6b91-7bbe-424a-8e12-d3727d734c43}"
+        DTS:DTSID="{255d413b-c7e0-45e2-9d4b-e49868da2578}"
         DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
         <DTS:PropertyExpression
           DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\"</DTS:PropertyExpression>
@@ -190,11 +200,11 @@
         <DTS:Executable
           DTS:refId="Package\For each fmt\Bulk Insert Landing"
           DTS:CreationName="Microsoft.BulkInsertTask"
-          DTS:DTSID="{4D9C0A49-A890-4814-9DFA-9F673ED84B5F}"
+          DTS:DTSID="{9ab2eeae-0101-48a2-a7ea-55be1a7cddb4}"
           DTS:ExecutableType="Microsoft.BulkInsertTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Bulk Insert Landing"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -215,30 +225,44 @@
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{1760002F-651D-4E73-9198-F38238399598}"
+          DTS:DTSID="{cecf2e8c-1108-421c-8f48-ca197e5e89ac}"
           DTS:ObjectName="{1760002F-651D-4E73-9198-F38238399598}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Set xmlPath Variable"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Disabled="True"
+      DTS:DTSID="{b453f2ea-6da1-48d2-b3a9-0c641f9a99e6}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set xmlPath Variable"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::xmlPath] = @[$Project::XMLCalendarFolder] +&quot;ru\\2020\\calendar.xml&quot;" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\xmlcalendar foreach loop"
       DTS:CreationName="STOCK:FOREACHLOOP"
-      DTS:DelayValidation="True"
-      DTS:DTSID="{9f28b9e9-831f-43fc-a039-cbe35154a42c}"
+      DTS:DTSID="{06c10e47-9265-4a45-9c2b-05278cc198ef}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
       DTS:ObjectName="xmlcalendar foreach loop">
       <DTS:ForEachEnumerator
         DTS:CreationName="Microsoft.ForEachFileEnumerator"
-        DTS:DTSID="{7ad033fe-9e84-43f7-86ec-bfdc1bd359ea}"
+        DTS:DTSID="{261964c1-304c-400a-bc5d-c32be51b5bf2}"
         DTS:ObjectName="{A3F1A0C7-7482-4811-AAEE-D1176128133E}">
         <DTS:PropertyExpression
           DTS:Name="Directory">@[$Project::XMLCalendarFolder] +"ru"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\SSIS\xmlcalendar\ru" />
+              Folder="C:\Users\zinyk\source\repos\xmlcalendar\ru" />
             <FEFEProperty
               FileSpec="calendar.xml" />
             <FEFEProperty
@@ -255,7 +279,8 @@
         <DTS:Executable
           DTS:refId="Package\xmlcalendar foreach loop\Load to Landing"
           DTS:CreationName="Microsoft.Pipeline"
-          DTS:DTSID="{d625fb38-3438-421e-8ded-ded2ee24677b}"
+          DTS:DelayValidation="True"
+          DTS:DTSID="{a310dcbf-6147-4062-9833-a8823f0fb981}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="Load to Landing"
@@ -264,7 +289,7 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="[Calendar xml file].[XMLSchemaDefinition]">@[$Project::XMLCalendarFolder] + "calendar.xsd"</DTS:PropertyExpression>
+            DTS:Name="[Calendar xml file].[XMLSchemaDefinition]">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\xmlcalendar.xsd"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <pipeline
               version="1">
@@ -283,13 +308,13 @@
                       <inputColumns>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Inputs[Вход производного столбца].Columns[d]"
-                          cachedDataType="wstr"
-                          cachedLength="255"
+                          cachedDataType="decimal"
                           cachedName="d"
+                          cachedScale="10"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]" />
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Inputs[Вход производного столбца].Columns[t]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="t"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]" />
                       </inputColumns>
@@ -317,13 +342,13 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">(DT_DATE)([SUBSTRING](@[User::xmlPath],[FINDSTRING](@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + #{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]})</property>
+                              name="Expression">(DT_DATE)([SUBSTRING](@[User::xmlPath],[FINDSTRING](@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + (DT_WSTR,5)#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]})</property>
                             <property
                               containsID="true"
                               dataType="System.String"
                               description="Понятное выражение производного столбца"
                               expressionType="Notify"
-                              name="FriendlyExpression">(DT_DATE)(SUBSTRING(@[User::xmlPath],FINDSTRING(@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + d)</property>
+                              name="FriendlyExpression">(DT_DATE)(SUBSTRING(@[User::xmlPath],FINDSTRING(@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + (DT_WSTR,5)d)</property>
                           </properties>
                         </outputColumn>
                         <outputColumn
@@ -404,7 +429,7 @@
                       dataType="System.String"
                       description="Определение схемы XML, используемое адаптером источника XML-данных."
                       expressionType="Notify"
-                      name="XMLSchemaDefinition">C:\SSIS\xmlcalendar\calendar.xsd</property>
+                      name="XMLSchemaDefinition">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\xmlcalendar.xsd</property>
                     <property
                       dataType="System.Boolean"
                       description="Указывает, использовать ли встроенную схему."
@@ -428,7 +453,7 @@
                       <outputColumns>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[id]"
-                          dataType="ui2"
+                          dataType="ui1"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].ExternalColumns[id]"
@@ -459,12 +484,12 @@
                         isUsed="True">
                         <externalMetadataColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].ExternalColumns[id]"
-                          dataType="ui2"
+                          dataType="ui1"
                           name="id">
                           <properties>
                             <property
                               dataType="System.String"
-                              name="CLRType">System.UInt16</property>
+                              name="CLRType">System.Byte</property>
                           </properties>
                         </externalMetadataColumn>
                         <externalMetadataColumn
@@ -632,17 +657,17 @@
                       <outputColumns>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[d]"
-                          dataType="wstr"
+                          dataType="decimal"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[d]"
-                          length="255"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[d]"
                           name="d"
+                          scale="10"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[t]"
-                          dataType="ui2"
+                          dataType="ui1"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[t]"
@@ -651,22 +676,12 @@
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]"
-                          dataType="ui2"
+                          dataType="ui1"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[h]"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]"
                           name="h"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[f]"
-                          dataType="wstr"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[f]"
-                          length="255"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[f]"
-                          name="f"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[days_Id]"
@@ -682,44 +697,33 @@
                         isUsed="True">
                         <externalMetadataColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[d]"
-                          dataType="wstr"
-                          length="255"
-                          name="d">
+                          dataType="decimal"
+                          name="d"
+                          scale="10">
                           <properties>
                             <property
                               dataType="System.String"
-                              name="CLRType">System.String</property>
+                              name="CLRType">System.Decimal</property>
                           </properties>
                         </externalMetadataColumn>
                         <externalMetadataColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[t]"
-                          dataType="ui2"
+                          dataType="ui1"
                           name="t">
                           <properties>
                             <property
                               dataType="System.String"
-                              name="CLRType">System.UInt16</property>
+                              name="CLRType">System.Byte</property>
                           </properties>
                         </externalMetadataColumn>
                         <externalMetadataColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[h]"
-                          dataType="ui2"
+                          dataType="ui1"
                           name="h">
                           <properties>
                             <property
                               dataType="System.String"
-                              name="CLRType">System.UInt16</property>
-                          </properties>
-                        </externalMetadataColumn>
-                        <externalMetadataColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].ExternalColumns[f]"
-                          dataType="wstr"
-                          length="255"
-                          name="f">
-                          <properties>
-                            <property
-                              dataType="System.String"
-                              name="CLRType">System.String</property>
+                              name="CLRType">System.Byte</property>
                           </properties>
                         </externalMetadataColumn>
                         <externalMetadataColumn
@@ -764,12 +768,6 @@
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].Columns[h]"
                           name="h" />
                         <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].Columns[f]"
-                          dataType="nText"
-                          externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].ExternalColumns[f]"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].Columns[f]"
-                          name="f" />
-                        <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].Columns[days_Id]"
                           dataType="nText"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].ExternalColumns[days_Id]"
@@ -802,10 +800,6 @@
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].ExternalColumns[h]"
                           dataType="nText"
                           name="h" />
-                        <externalMetadataColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].ExternalColumns[f]"
-                          dataType="nText"
-                          name="f" />
                         <externalMetadataColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[Вывод ошибок day].ExternalColumns[days_Id]"
                           dataType="nText"
@@ -1057,19 +1051,19 @@
                       <inputColumns>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[h]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="h"
                           cachedSortKeyPosition="1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[h]" />
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[d]"
-                          cachedDataType="wstr"
-                          cachedLength="255"
+                          cachedDataType="decimal"
                           cachedName="d"
+                          cachedScale="10"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[d]" />
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[t]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="t"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[t]" />
                       </inputColumns>
@@ -1082,7 +1076,7 @@
                       <inputColumns>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием].Columns[id]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="id"
                           cachedSortKeyPosition="1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Выход сортировки].Columns[id]" />
@@ -1103,10 +1097,10 @@
                       <outputColumns>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="decimal"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]"
-                          name="d">
+                          name="d"
+                          scale="10">
                           <properties>
                             <property
                               containsID="true"
@@ -1117,7 +1111,7 @@
                         </outputColumn>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]"
-                          dataType="ui2"
+                          dataType="ui1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]"
                           name="t">
                           <properties>
@@ -1171,9 +1165,9 @@
                       <inputColumns>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Inputs[Вход сортировки].Columns[d]"
-                          cachedDataType="wstr"
-                          cachedLength="255"
+                          cachedDataType="decimal"
                           cachedName="d"
+                          cachedScale="10"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[d]">
                           <properties>
                             <property
@@ -1188,7 +1182,7 @@
                         </inputColumn>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Inputs[Вход сортировки].Columns[t]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="t"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[t]">
                           <properties>
@@ -1204,7 +1198,7 @@
                         </inputColumn>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Inputs[Вход сортировки].Columns[h]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="h"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]">
                           <properties>
@@ -1216,23 +1210,6 @@
                               dataType="System.Int32"
                               description="Указывает порядок сортировки столбца."
                               name="NewSortKeyPosition">1</property>
-                          </properties>
-                        </inputColumn>
-                        <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Inputs[Вход сортировки].Columns[f]"
-                          cachedDataType="wstr"
-                          cachedLength="255"
-                          cachedName="f"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[f]">
-                          <properties>
-                            <property
-                              dataType="System.Int32"
-                              description="Задает параметры сравнения символьных данных."
-                              name="NewComparisonFlags">0</property>
-                            <property
-                              dataType="System.Int32"
-                              description="Указывает порядок сортировки столбца."
-                              name="NewSortKeyPosition">0</property>
                           </properties>
                         </inputColumn>
                         <inputColumn
@@ -1263,10 +1240,10 @@
                       <outputColumns>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[d]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="decimal"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[d]"
-                          name="d">
+                          name="d"
+                          scale="10">
                           <properties>
                             <property
                               containsID="true"
@@ -1277,7 +1254,7 @@
                         </outputColumn>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[t]"
-                          dataType="ui2"
+                          dataType="ui1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[t]"
                           name="t">
                           <properties>
@@ -1290,7 +1267,7 @@
                         </outputColumn>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[h]"
-                          dataType="ui2"
+                          dataType="ui1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[h]"
                           name="h"
                           sortKeyPosition="1">
@@ -1300,20 +1277,6 @@
                               dataType="System.Int32"
                               description="Указывает идентификатор журнала обращений и преобразований входного столбца, связанного с этим выходным столбцом."
                               name="SortColumnId">#{Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[h]}</property>
-                          </properties>
-                        </outputColumn>
-                        <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[f]"
-                          dataType="wstr"
-                          length="255"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Выход сортировки].Columns[f]"
-                          name="f">
-                          <properties>
-                            <property
-                              containsID="true"
-                              dataType="System.Int32"
-                              description="Указывает идентификатор журнала обращений и преобразований входного столбца, связанного с этим выходным столбцом."
-                              name="SortColumnId">#{Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[day].Columns[f]}</property>
                           </properties>
                         </outputColumn>
                         <outputColumn
@@ -1358,7 +1321,7 @@
                       <inputColumns>
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Inputs[Вход сортировки].Columns[id]"
-                          cachedDataType="ui2"
+                          cachedDataType="ui1"
                           cachedName="id"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday].Columns[id]">
                           <properties>
@@ -1417,7 +1380,7 @@
                       <outputColumns>
                         <outputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Выход сортировки].Columns[id]"
-                          dataType="ui2"
+                          dataType="ui1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Выход сортировки].Columns[id]"
                           name="id"
                           sortKeyPosition="1">
@@ -1501,13 +1464,23 @@
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{FC72CBDD-C980-4329-A2E2-8951D3F46253}"
-          DTS:ObjectName="{FC72CBDD-C980-4329-A2E2-8951D3F46253}"
+          DTS:DTSID="{0422218a-f826-43c5-8849-1999bc30e068}"
+          DTS:ObjectName="{5CAD5D78-7CE7-4A55-8DC3-A037B5BF4283}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::xmlPath" />
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{80fad2dc-c2fd-4a0c-a459-7344ac702b63}"
+      DTS:From="Package\Set xmlPath Variable"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\xmlcalendar foreach loop" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
 <!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
@@ -1519,29 +1492,55 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="169.6,41.6"
+          Size="173,42"
           Id="Package\For each fmt\Bulk Insert Landing"
-          TopLeft="5.5,5.49999999999995" />
+          TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="180.8,103.2"
-          Size="180.8,145.6"
+          PanelSize="184,103"
+          Size="184,146"
           Id="Package\For each fmt"
-          TopLeft="16.7,54.3" />
+          TopLeft="25,114" />
         <NodeLayout
-          Size="153.6,41.6"
+          Size="182,42"
+          Id="Package\Set xmlPath Variable"
+          TopLeft="263,12" />
+        <NodeLayout
+          Size="158,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
-          TopLeft="5.5,5.49999999999995" />
+          TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="164.8,103.2"
-          Size="164.8,145.6"
+          PanelSize="169,103"
+          Size="169,146"
           Id="Package\xmlcalendar foreach loop"
-          TopLeft="257.7,54.3" />
+          TopLeft="269.5,114" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="354,54">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -1551,32 +1550,32 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="156.8,41.6"
+          Size="161,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file"
-          TopLeft="214,54.5" />
+          TopLeft="199,52.5" />
         <NodeLayout
-          Size="116,41.6"
+          Size="118,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Landing"
-          TopLeft="235,462.5" />
+          TopLeft="220.5,460.5" />
         <NodeLayout
-          Size="124,41.6"
+          Size="127,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Sort Days"
-          TopLeft="231,156.5" />
+          TopLeft="216,154.5" />
         <NodeLayout
-          Size="182.4,41.6"
+          Size="182,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id"
-          TopLeft="202,258.5" />
+          TopLeft="188.5,256.5" />
         <NodeLayout
-          Size="280.8,41.6"
+          Size="287,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes"
-          TopLeft="152.5,360.5" />
+          TopLeft="136,358.5" />
         <NodeLayout
-          Size="140.8,41.6"
+          Size="144,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays"
-          TopLeft="29.5,156.5" />
+          TopLeft="11.5,154.5" />
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Выход сортировки1]"
-          TopLeft="293,198.5">
+          TopLeft="279.5,196.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1610,13 +1609,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Выход сортировки]"
-          TopLeft="100,198.5">
+          TopLeft="83.5,196.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="164,60"
+              EndConnector="167,60"
               Start="0,0"
-              End="164,52.5">
+              End="167,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -1627,13 +1626,13 @@
                     Point2="0,35.6862745098039"
                     Point3="4,35.6862745098039" />
                   <mssgle:LineSegment
-                    End="160,35.6862745098039" />
+                    End="163,35.6862745098039" />
                   <mssgle:CubicBezierSegment
-                    Point1="160,35.6862745098039"
-                    Point2="164,35.6862745098039"
-                    Point3="164,39.6862745098039" />
+                    Point1="163,35.6862745098039"
+                    Point2="167,35.6862745098039"
+                    Point3="167,39.6862745098039" />
                   <mssgle:LineSegment
-                    End="164,52.5" />
+                    End="167,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1644,7 +1643,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Выход соединения слиянием]"
-          TopLeft="293,300.5">
+          TopLeft="279.5,298.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1666,7 +1665,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Выход производного столбца]"
-          TopLeft="293,402.5">
+          TopLeft="279.5,400.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1688,91 +1687,78 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[holiday]"
-          TopLeft="267.6,96.1">
+          TopLeft="254,94.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-167.7,60.4"
+              EndConnector="-170.5,60"
               Start="0,0"
-              End="-167.7,52.9">
+              End="-170.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.5260606060606" />
+                    End="0,20.3542435424354" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.5260606060606"
-                    Point2="0,24.5260606060606"
-                    Point3="-4,24.5260606060606" />
+                    Point1="0,20.3542435424354"
+                    Point2="0,24.3542435424354"
+                    Point3="-4,24.3542435424354" />
                   <mssgle:LineSegment
-                    End="-163.7,24.5260606060606" />
+                    End="-166.5,24.3542435424354" />
                   <mssgle:CubicBezierSegment
-                    Point1="-163.7,24.5260606060606"
-                    Point2="-167.7,24.5260606060606"
-                    Point3="-167.7,28.5260606060606" />
+                    Point1="-166.5,24.3542435424354"
+                    Point2="-170.5,24.3542435424354"
+                    Point3="-170.5,28.3542435424354" />
                   <mssgle:LineSegment
-                    End="-167.7,52.9" />
+                    End="-170.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-100.1785546875,29.5260606060606,32.657109375,11.609375"
+              BoundingBox="-101.5785546875,29.3542435424354,32.657109375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[day]"
-          TopLeft="317.2,96.1">
+          TopLeft="305,94.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-24.2,60.4"
+              EndConnector="-25.5,60"
               Start="0,0"
-              End="-24.2,52.9">
+              End="-25.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.5260606060606" />
+                    End="0,20.3542435424354" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.5260606060606"
-                    Point2="0,24.5260606060606"
-                    Point3="-4,24.5260606060606" />
+                    Point1="0,20.3542435424354"
+                    Point2="0,24.3542435424354"
+                    Point3="-4,24.3542435424354" />
                   <mssgle:LineSegment
-                    End="-20.2,24.5260606060606" />
+                    End="-21.5,24.3542435424354" />
                   <mssgle:CubicBezierSegment
-                    Point1="-20.2,24.5260606060606"
-                    Point2="-24.2,24.5260606060606"
-                    Point3="-24.2,28.5260606060606" />
+                    Point1="-21.5,24.3542435424354"
+                    Point2="-25.5,24.3542435424354"
+                    Point3="-25.5,28.3542435424354" />
                   <mssgle:LineSegment
-                    End="-24.2,52.9" />
+                    End="-25.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-20.82154296875,29.5260606060606,17.4430859375,11.609375"
+              BoundingBox="-21.47154296875,29.3542435424354,17.4430859375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\xmlcalendar foreach loop\Load to Landing\Landing">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
