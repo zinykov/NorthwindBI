@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="263"
-  DTS:VersionGUID="{A2B765D3-1E2F-40C7-B8CE-22BCF9A39521}">
+  DTS:VersionBuild="266"
+  DTS:VersionGUID="{E02F7922-1775-4388-9DB6-B02CE632221A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -80,6 +80,15 @@
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="3">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0BA11DBA-8464-4EA4-9CB9-4167B6591525}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDateInitialEnd">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -274,7 +283,7 @@
           </ParameterAssignment>
           <ParameterAssignment>
             <ParameterName>LoadDateInitialEnd</ParameterName>
-            <BindedVariableOrParameterName>$Package::LoadDateInitialEnd</BindedVariableOrParameterName>
+            <BindedVariableOrParameterName>User::LoadDateInitialEnd</BindedVariableOrParameterName>
           </ParameterAssignment>
         </ExecutePackageTask>
       </DTS:ObjectData>
@@ -450,11 +459,25 @@
       DTS:ExecutableType="Microsoft.ExpressionTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set CutoffTime"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime] == (DT_DATE) &quot;1899-12-30&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set LoadDateInitialEnd"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:DTSID="{6E5CE917-244D-419B-A232-D513BA0499CE}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set LoadDateInitialEnd"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime] == (DT_DATE) &quot;1899-12-30&quot; ?  GETDATE() : @[$Package::CutoffTime] )" />
+          Expression="@[User::LoadDateInitialEnd] = ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1899-12-30&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -464,7 +487,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -523,6 +546,14 @@
       DTS:From="Package\Set CutoffTime"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
+      DTS:To="Package\Load Landing" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9D6EEA16-5E75-438E-AF41-CF45FE9B855B}"
+      DTS:From="Package\Set LoadDateInitialEnd"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
       DTS:To="Package\Load Landing" />
   </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
@@ -675,7 +706,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="814,103"
+          PanelSize="814,102"
           Size="814,146"
           Id="Package\Load Dimensions"
           TopLeft="11.5000000000001,258.5" />
@@ -686,7 +717,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="151,103"
+          PanelSize="151,102"
           Size="151,146"
           Id="Package\Load facts"
           TopLeft="343,464.5" />
@@ -697,7 +728,7 @@
         <NodeLayout
           Size="152,42"
           Id="Package\Set CutoffTime"
-          TopLeft="342.5,54.5" />
+          TopLeft="109.5,54.5" />
         <NodeLayout
           Size="161,42"
           Id="Package\Truncate landing"
@@ -838,18 +869,68 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="418.5,96.5">
+          TopLeft="185.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="210,60"
               Start="0,0"
-              End="0,52.5">
+              End="210,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,31.609756097561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.609756097561"
+                    Point2="0,35.609756097561"
+                    Point3="4,35.609756097561" />
+                  <mssgle:LineSegment
+                    End="206,35.609756097561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="206,35.609756097561"
+                    Point2="210,35.609756097561"
+                    Point3="210,39.609756097561" />
+                  <mssgle:LineSegment
+                    End="210,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Set LoadDateInitialEnd"
+          TopLeft="322.5,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="418.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="23.0000000000001,60"
+              Start="0,0"
+              End="23.0000000000001,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.609756097561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.609756097561"
+                    Point2="0,35.609756097561"
+                    Point3="4,35.609756097561" />
+                  <mssgle:LineSegment
+                    End="19.0000000000001,35.609756097561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19.0000000000001,35.609756097561"
+                    Point2="23.0000000000001,35.609756097561"
+                    Point3="23.0000000000001,39.609756097561" />
+                  <mssgle:LineSegment
+                    End="23.0000000000001,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
