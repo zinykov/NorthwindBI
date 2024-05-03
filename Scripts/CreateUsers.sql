@@ -1,53 +1,49 @@
 ﻿USE [$(DWHDatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(DWHServerName)\RDLexec] FOR LOGIN [$(DWHServerName)\RDLexec]
+		CREATE USER [$(DWHServerName)\PBIRSexec] FOR LOGIN [$(DWHServerName)\PBIRSexec]
 			WITH DEFAULT_SCHEMA=[Reports]
 	END
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\UserBI' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\DataAnalyst' )
 	BEGIN
-		CREATE USER [$(DWHServerName)\UserBI] FOR LOGIN [$(DWHServerName)\UserBI]
+		CREATE USER [$(DWHServerName)\DataAnalyst] FOR LOGIN [$(DWHServerName)\DataAnalyst]
 			WITH DEFAULT_SCHEMA=[Reports]
 	END
 GO
 
-ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\RDLexec]
+ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\PBIRSexec]
+GO
+ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\DataAnalyst]
 GO
 
-ALTER ROLE [UserBI] ADD MEMBER [$(DWHServerName)\UserBI]
+USE [$(DQSDatabaseName)]
 GO
 
-GRANT EXECUTE ON SCHEMA::[Reports] TO [$(DWHServerName)\RDLexec]
-GO
-
-USE [$(DQS_STAGING_DATA_DatabaseName)]
-GO
-
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQS_STAGING_DATA_ServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQSServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(DQS_STAGING_DATA_ServerName)\RDLexec] FOR LOGIN [$(DQS_STAGING_DATA_ServerName)\RDLexec]
+		CREATE USER [$(DQSServerName)\PBIRSexec] FOR LOGIN [$(DQSServerName)\PBIRSexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-ALTER ROLE [db_datareader] ADD MEMBER [$(DQS_STAGING_DATA_ServerName)\RDLexec]
+ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\PBIRSexec]
 GO
 
-USE [$(LogsDatabaseName)]
+USE [Logs]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LogsServerName)\RDLexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(LogsServerName)\RDLexec] FOR LOGIN [$(LogsServerName)\RDLexec]
+		CREATE USER [$(DWHServerName)\PBIRSexec] FOR LOGIN [$(DWHServerName)\PBIRSexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-ALTER ROLE [db_datareader] ADD MEMBER [$(DWHServerName)\RDLexec]
+ALTER ROLE [db_datareader] ADD MEMBER [$(DWHServerName)\PBIRSexec]
 GO
 
 USE [$(MDSDatabaseName)]
@@ -60,31 +56,8 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\
 	END
 GO
 
-ALTER ROLE [$(AzAgentGroup)] ADD MEMBER [$(MDSServerName)\$(AzAgentGroup)]
+GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\RDLexec' )
-	BEGIN
-		CREATE USER [$(MDSServerName)\RDLexec] FOR LOGIN [$(MDSServerName)\RDLexec]
-			WITH DEFAULT_SCHEMA=[mdm]
-	END
-GO
-
-ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\RDLexec]
-GO
-
-USE [$(LandingDatabaseName)]
-GO
-
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LandingServerName)\$(AzAgentGroup)' )
-	BEGIN
-		CREATE USER [$(LandingServerName)\$(AzAgentGroup)] FOR LOGIN [$(LandingServerName)\$(AzAgentGroup)]
-			WITH DEFAULT_SCHEMA=[dbo]
-	END
-GO
-
-ALTER ROLE [db_datareader] ADD MEMBER [$(LandingServerName)\$(AzAgentGroup)]
-GO
-
-ALTER ROLE [db_datawriter] ADD MEMBER [$(LandingServerName)\$(AzAgentGroup)]
+GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
 GO
