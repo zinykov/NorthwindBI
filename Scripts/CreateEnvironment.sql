@@ -56,6 +56,46 @@ BEGIN
 END;
 GO
 
+DECLARE @var sql_variant = N'$(DQS_STAGING_DATA_ServerName)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DQS_STAGING_DATA_ServerName'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'DQS_STAGING_DATA_ServerName'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
+DECLARE @var sql_variant = N'$(DQS_STAGING_DATA_DatabaseName)'
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(SSISEnvironmentName)'
+	WHERE		EV.[name] = N'DQS_STAGING_DATA_DatabaseName'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'DQS_STAGING_DATA_DatabaseName'
+			, @sensitive=False
+			, @description=N''
+			, @environment_name=N'$(SSISEnvironmentName)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'String'
+END;
+GO
+
 DECLARE @var sql_variant = N'$(DQSServerName)'
 IF NOT EXISTS (
 	SELECT 1
@@ -67,26 +107,6 @@ IF NOT EXISTS (
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQSServerName'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'String'
-END;
-GO
-
-DECLARE @var sql_variant = N'$(DQSDatabaseName)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'DQSDatabaseName'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'DQSDatabaseName'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'

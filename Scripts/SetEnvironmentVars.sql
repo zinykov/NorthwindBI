@@ -39,12 +39,22 @@ GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
-		, @parameter_name = N'DQSDatabaseName'
+		, @parameter_name = N'DQS_STAGING_DATA_DatabaseName'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
 		, @project_name = N'$(SSISProjectName)'
 		, @value_type = R
-		, @parameter_value = N'DQSDatabaseName'
+		, @parameter_value = N'DQS_STAGING_DATA_DatabaseName'
+GO
+
+EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
+		  @object_type = 20
+		, @parameter_name = N'DQS_STAGING_DATA_ServerName'
+		, @object_name = N'$(SSISProjectName)'
+		, @folder_name = N'$(SSISFolderName)'
+		, @project_name = N'$(SSISProjectName)'
+		, @value_type = R
+		, @parameter_value = N'DQS_STAGING_DATA_ServerName'
 GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
