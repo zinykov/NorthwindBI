@@ -9,16 +9,6 @@ GO
 
 EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
 		  @object_type = 20
-		, @parameter_name = N'CM.OLTP_ADO_NET.Password'
-		, @object_name = N'$(SSISProjectName)'
-		, @folder_name = N'$(SSISFolderName)'
-		, @project_name = N'$(SSISProjectName)'
-		, @value_type = R
-		, @parameter_value = N'OLTPNorthwidPassword'
-GO
-
-EXECUTE	[SSISDB].[catalog].[set_object_parameter_value]
-		  @object_type = 20
 		, @parameter_name = N'DBFilesPath'
 		, @object_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
