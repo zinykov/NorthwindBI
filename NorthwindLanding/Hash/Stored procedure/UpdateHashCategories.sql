@@ -1,11 +1,18 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashCategories] AS
-BEGIN	
-	TRUNCATE TABLE [Hash].[Categories];
+﻿CREATE PROCEDURE [Hash].[UpdateHashCategories]
+AS BEGIN
+	--BEGIN TRY
+	--	BEGIN TRANSACTION	
+			TRUNCATE TABLE [Hash].[Categories];
 
-	INSERT INTO [Hash].[Categories]
-	SELECT		  [CategoryID]
-				, [CheckSum]
-	FROM		[Landing].[Categories];
-	
-	ALTER TABLE [Landing].[Categories] DROP CONSTRAINT [PK_Landing_Categories];
+			INSERT INTO [Hash].[Categories]
+			SELECT		  [CategoryID]
+						, [HashDiff]
+			FROM		[Landing].[Categories];
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END

@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [Hash].[Employees]
 (
     [EmployeeID]        INT             NOT NULL,
-    [CheckSum]          INT             NOT NULL,
+    [HashDiff]          VARBINARY(100)  NOT NULL,
 
     CONSTRAINT [PK_Hash_Employees] PRIMARY KEY CLUSTERED ( [EmployeeID] ASC )
 )
-    ON [Landing_FG]
+    ON [Hash_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

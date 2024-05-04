@@ -1,0 +1,1270 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/6/2022 10:28:24 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SWIFT3"
+  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:DTSID="{48352258-3B9D-46B7-A752-D2E5E3CC1334}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Incremental load Test"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="394"
+  DTS:VersionGUID="{6BBC4D9F-9892-43E5-BD93-902C211E25A6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[*.dat]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{FE6C386D-AC55-4CDB-89DD-58547414D0D3}"
+      DTS:ObjectName="*.dat">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\OriginalData\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Customers.dat" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="Logs"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Записывает элементы журнала для событий в базу данных SQL Server"
+      DTS:DTSID="{C9C6F3E5-8D75-4270-9D70-BFDDF1491516}"
+      DTS:ObjectName="Регистратор служб SSIS для SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{12835A07-18EE-4903-9C21-ACA774598C71}"
+      DTS:ObjectName="LoadDateIncrementalEnd">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">2/15/1998</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{70D0E605-FD2F-4AD3-8A6C-392D52177367}"
+      DTS:ObjectName="LoadDateInitialEnd">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A221D2DB-7EB8-44A0-9F0E-3E23D326E5E5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileName"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">Customers</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{20D0E609-0C7A-4A16-AD73-6CB6837077D9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::ExternalFilesPath] + &quot;IngestData\\TestData\\&quot; + (DT_WSTR, 4) DATEPART( &quot;Year&quot;, @[User::var_CutoffTime]   )  + &quot;-&quot; + (DT_WSTR, 4) DATEPART( &quot;Month&quot;, @[User::var_CutoffTime]  )  + &quot;-&quot; + (DT_WSTR, 4) DATEPART( &quot;Day&quot;, @[User::var_CutoffTime] )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="IncrementalFolderPath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{572BD699-35AE-4102-8460-1306157223CA}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::ExternalFilesPath] + &quot;IngestData\\TestData\\&quot; + (DT_WSTR, 4) DATEPART( &quot;Year&quot;, @[User::LoadDateInitialEnd] )  + &quot;-&quot; + (DT_WSTR, 4) DATEPART( &quot;Month&quot;, @[User::LoadDateInitialEnd] )  + &quot;-&quot; + (DT_WSTR, 4) DATEPART( &quot;Day&quot;, @[User::LoadDateInitialEnd] )"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="InitialFolderPath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1997-12-31</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FC09B165-B054-4122-B398-8FC7F7D1511A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D5096334-D742-4882-9295-929D135D8A33}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::LoadDateIncrementalEnd]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDateIncrementalEnd"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="7">2/15/1998</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E816D120-C062-4015-B3AA-07C1C19C4F33}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Package::LoadDateInitialEnd]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadDateInitialEnd"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="7">12/31/1997</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C486A9DF-0791-4CCC-AFC9-5C88DFB082E0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::ExternalFilesPath]+&quot;logs\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LogsPath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0534063D-92DF-45C5-88BA-BAFB2FF22EDB}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::ExternalFilesPath] + &quot;IngestData\\TestData\\&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TestDataFolderPath"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{102818F2-3C22-43F0-91C1-581E827537EC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="var_CutoffTime"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">2,7,OnError,12,DiagnosticEx</DTS:Property>
+    <DTS:Property
+      DTS:EventName="Diagnostic"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="DiagnosticEx"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnInformation"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnTaskFailed"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnVariableValueChanged"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnWarning"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{C9C6F3E5-8D75-4270-9D70-BFDDF1491516}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Clear TestData files"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:DTSID="{39F63F86-D598-40D4-939D-B2A1C5ABB8E3}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clear TestData files"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="DeleteDirectoryContent"
+          TaskSourcePath="User::TestDataFolderPath"
+          TaskIsSourceVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\For each fmt"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DTSID="{92189a08-499c-44c5-b836-a7345aacf223}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="For each fmt">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{4a7abce7-e69a-461c-82ab-3650b36913b0}"
+        DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\"</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
+            <FEFEProperty
+              FileSpec="*.fmt" />
+            <FEFEProperty
+              FileNameRetrievalType="2" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\For each fmt\Bulk Insert Landing"
+          DTS:CreationName="Microsoft.BulkInsertTask"
+          DTS:DTSID="{36ff18f2-d0d9-49aa-8dd4-e5fc89afc15a}"
+          DTS:ExecutableType="Microsoft.BulkInsertTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Bulk Insert Landing"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="DestinationTableName">"[Landing].["+ @[User::FileName] + "]"</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\"+ @[User::FileName]+".fmt"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <BulkInsertTask:BulkInsertTaskData
+              BulkInsertTask:SourceConnectionName="{FE6C386D-AC55-4CDB-89DD-58547414D0D3}"
+              BulkInsertTask:DestinationConnectionName="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              BulkInsertTask:DestinationTableName="[Landing].[Customers]"
+              BulkInsertTask:UseFormatFile="True"
+              BulkInsertTask:FormatFile="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{08B497AC-4133-4F38-8973-141CB1AA0FA7}"
+          DTS:ObjectName="{08B497AC-4133-4F38-8973-141CB1AA0FA7}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FileName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Incremental load immitation"
+      DTS:AssignExpression="@var_CutoffTime = DATEADD(&quot;day&quot;, 1, @var_CutoffTime)"
+      DTS:CreationName="STOCK:FORLOOP"
+      DTS:DTSID="{f0051934-882f-45a4-9b63-d39f78e2f59a}"
+      DTS:EvalExpression="@var_CutoffTime &lt;= (DT_DATE)&quot;1998-2-15&quot;"
+      DTS:ExecutableType="STOCK:FORLOOP"
+      DTS:FailPackageOnFailure="True"
+      DTS:InitExpression="@var_CutoffTime = (DT_DATE)&quot;1997-12-31&quot;"
+      DTS:LocaleID="-1"
+      DTS:MaxConcurrent="1"
+      DTS:ObjectName="Incremental load immitation">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:PropertyExpression
+        DTS:Name="EvalExpression">"@var_CutoffTime &lt;= (DT_DATE)\"" + (DT_WSTR, 4) YEAR( @[User::LoadDateIncrementalEnd] ) + "-" + (DT_WSTR, 2) MONTH( @[User::LoadDateIncrementalEnd] ) + "-" + (DT_WSTR, 2) DAY( @[User::LoadDateIncrementalEnd] ) + "\""</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="InitExpression">"@var_CutoffTime = (DT_DATE)\"" + (DT_WSTR, 4) YEAR( @[$Package::LoadDateInitialEnd] ) + "-" + (DT_WSTR, 2) MONTH( @[$Package::LoadDateInitialEnd] ) + "-" + (DT_WSTR, 2) DAY( @[$Package::LoadDateInitialEnd] ) + "\""</DTS:PropertyExpression>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\CategoriesSCD1PreTest"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{04111F86-84FD-4615-BC0B-DD295395AC14}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="CategoriesSCD1PreTest"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 3 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Categories]&#xA;&#x9;&#x9;&#x9;SET [CategoryName] = REVERSE ( [CategoryName] )&#xA;&#x9;&#x9;&#x9;WHERE [CategoryID] = 2;&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DTSID="{352DE15B-60EA-4261-9B5A-157B59EE0A91}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Incremental Folder"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::IncrementalFolderPath"
+              TaskIsSourceVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\CustomerSCD2PreTest"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{036DC872-A16E-401D-B7F7-35436A37B14F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="CustomerSCD2PreTest"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 3 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Customers]&#xA;&#x9;&#x9;&#x9;SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE ( [CompanyName] )&#xA;&#x9;&#x9;&#x9;WHERE [CustomerID] = N'FRANK';&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\EmployeeSCD2PreTest"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{B70BD57D-1B3C-4136-84AC-C5AB23836693}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="EmployeeSCD2PreTest"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 2 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Employees]&#xA;&#x9;&#x9;&#x9;SET [City] = N'Moscow', [Country] = N'Russia'&#xA;&#x9;&#x9;&#x9;WHERE [EmployeeID] = 2;&#xA;&#x9;END&#xA;IF ( ? = DATEFROMPARTS ( 1998, 1, 3 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Employees]&#xA;&#x9;&#x9;&#x9;SET [City] = N'Tacoma', [Country] = N'USA'&#xA;&#x9;&#x9;&#x9;WHERE [EmployeeID] = 2;&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Categories"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{1d2b0107-a06c-4b81-ad26-8d84e091afa1}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Categories"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT [CategoryID], [CategoryName], [Description] FROM [Landing].[Categories]\" queryout \"" + @[User::IncrementalFolderPath] + "\\Categories.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT [CategoryID], [CategoryName], [Description] FROM [Landing].[Categories]&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Categories.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Customers"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{caeb9d39-4c50-49e6-8555-f12054c221aa}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Customers"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT DISTINCT C.[CustomerID], [CompanyName], [ContactName], [ContactTitle], [City], [Country], [Phone], [Fax] FROM [Landing].[Customers] AS C INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " )\" queryout \"" + @[User::IncrementalFolderPath] + "\\Customers.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT DISTINCT C.[CustomerID], [CompanyName], [ContactName], [ContactTitle], [City], [Country], [Phone], [Fax] FROM [Landing].[Customers] AS C INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Employees"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{afc8b269-a427-43c1-86b4-e33a686d2de3}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Employees"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT DISTINCT E.[EmployeeID], [LastName], [FirstName], [Title], [TitleOfCourtesy], [City], [Country] FROM [Landing].[Employees] AS E INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " )\" queryout \"" + @[User::IncrementalFolderPath] + "\\Employees.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT DISTINCT E.[EmployeeID], [LastName], [FirstName], [Title], [TitleOfCourtesy], [City], [Country] FROM [Landing].[Employees] AS E INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Employees.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Order Details"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{567453e5-286f-4b1e-b953-7a9996de0785}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Order Details"
+          DTS:ThreadHint="4">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT OD.[OrderID], [ProductID], [UnitPrice], [Quantity], [Discount] FROM [Landing].[Order Details] AS OD INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " )\" queryout \"" + @[User::IncrementalFolderPath] + "\\Order Details.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT OD.[OrderID], [ProductID], [UnitPrice], [Quantity], [Discount] FROM [Landing].[Order Details] AS OD INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Order Details.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Orders"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{90354003-cb1a-4922-aef6-37a18bb14d7d}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Orders"
+          DTS:ThreadHint="5">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT [OrderID], [CustomerID], [EmployeeID], [OrderDate], [RequiredDate], CASE WHEN [ShippedDate] &gt; DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " ) THEN NULL ELSE [ShippedDate] END AS [ShippedDate], [ShipCity], [ShipCountry] FROM [Landing].[Orders] WHERE [OrderDate] &lt;= DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " )\" queryout \"" + @[User::IncrementalFolderPath] + "\\Orders.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT [OrderID], [CustomerID], [EmployeeID], [OrderDate], [RequiredDate], CASE WHEN [ShippedDate] &gt; DATEFROMPARTS ( 1899, 12, 30 ) THEN NULL ELSE [ShippedDate] END AS [ShippedDate], [ShipCity], [ShipCountry] FROM [Landing].[Orders] WHERE [OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Orders.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\Incremental load Products"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{ecaa676c-d12d-4cb4-8472-8a5f35a64137}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Incremental load Products"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"\"SELECT DISTINCT P.[ProductID], [ProductName], [SupplierID], [CategoryID], P.[UnitPrice] FROM [Landing].[Products] AS P INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID] INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( " + (DT_WSTR, 4) DATEPART( "Year", @[User::var_CutoffTime]   )  + ", " + (DT_WSTR, 2) DATEPART( "Month", @[User::var_CutoffTime]  )  + ", " + (DT_WSTR, 2) DATEPART( "Day", @[User::var_CutoffTime] ) + " )\" queryout \"" + @[User::IncrementalFolderPath] + "\\Products.dat\" -S \"" + @[$Project::LandingServerName] + "\" -d \"" + @[$Project::LandingDatabaseName] + "\" -x -c -T"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
+              Arguments="&quot;SELECT DISTINCT P.[ProductID], [ProductName], [SupplierID], [CategoryID], P.[UnitPrice] FROM [Landing].[Products] AS P INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID] INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Products.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Incremental load immitation\ProductsSCD1PreTest"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{1dacafa3-92d9-44af-8430-54d9db696ba5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ProductsSCD1PreTest"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+              SQLTask:SqlStatementSource="IF ( ? = DATEFROMPARTS ( 1998, 1, 2 ) )&#xA;&#x9;BEGIN&#xA;&#x9;&#x9;UPDATE [Landing].[Products]&#xA;&#x9;&#x9;&#x9;SET [ProductName] = REVERSE ( [ProductName] ), [CategoryID] = 2&#xA;&#x9;&#x9;&#x9;WHERE [ProductID] = 2;&#xA;&#x9;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::var_CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{686DEA4F-37EC-4DC4-9E29-5E6C997BBEEA}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Incremental load immitation\CustomerSCD2PreTest" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{F1535C94-92E9-4808-BA05-97FF1906D114}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Incremental load immitation\Incremental load Orders" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{F7BB3AF6-DFA3-4B66-BD8F-4B234F297EC6}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\Incremental load immitation\Incremental load Order Details" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{46AA42A1-6305-4A1C-8C19-8FAB76FC649F}"
+          DTS:From="Package\Incremental load immitation\CustomerSCD2PreTest"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\Incremental load immitation\Incremental load Customers" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{1928F2FA-075F-4A47-A441-B6801B0D74E9}"
+          DTS:From="Package\Incremental load immitation\EmployeeSCD2PreTest"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Incremental load immitation\Incremental load Employees" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{5A3B9D3C-0D0C-4692-89C2-B03C1CF6CB66}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1"
+          DTS:To="Package\Incremental load immitation\EmployeeSCD2PreTest" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{87D7E7AF-E09B-477D-96C6-F5C5A6AEB348}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 2"
+          DTS:To="Package\Incremental load immitation\CategoriesSCD1PreTest" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{4CC4D1E1-5A70-4EBA-A205-0B334DE09E46}"
+          DTS:From="Package\Incremental load immitation\CategoriesSCD1PreTest"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 3"
+          DTS:To="Package\Incremental load immitation\Incremental load Categories" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{040855B0-6337-46D4-9E7B-0BFBC5BF0F12}"
+          DTS:From="Package\Incremental load immitation\Create Incremental Folder"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 4"
+          DTS:To="Package\Incremental load immitation\ProductsSCD1PreTest" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{6181C616-733B-413E-AE7F-D5593E4DF5F4}"
+          DTS:From="Package\Incremental load immitation\ProductsSCD1PreTest"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 5"
+          DTS:To="Package\Incremental load immitation\Incremental load Products" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate landing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{adb9c7eb-8573-4b36-bfb7-34dc82b8a89e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate landing"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+          SQLTask:SqlStatementSource="EXECUTE [Landing].[TruncateLanding];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3EE2DF49-E40D-44D5-B688-493F49AE42A5}"
+      DTS:From="Package\Clear TestData files"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Incremental load immitation" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E272909B-A54B-4CA8-B8D5-D1BCB6BFC345}"
+      DTS:From="Package\For each fmt"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Incremental load immitation" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{54B5B966-2495-4B49-9653-5D17B16760CE}"
+      DTS:From="Package\Incremental load immitation"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Truncate landing" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Clear TestData files"
+          TopLeft="465.5,106.5" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\For each fmt\Bulk Insert Landing"
+          TopLeft="5.5,5.5" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="184,103"
+          Size="184,146"
+          Id="Package\For each fmt"
+          TopLeft="702.5,54.5" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Incremental load immitation\CategoriesSCD1PreTest"
+          TopLeft="1075.5,107.1" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Incremental load immitation\Create Incremental Folder"
+          TopLeft="812.9,5.49999999999995" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Incremental load immitation\CustomerSCD2PreTest"
+          TopLeft="15.9,107.1" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Incremental load immitation\EmployeeSCD2PreTest"
+          TopLeft="818.5,107.1" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Incremental load immitation\Incremental load Categories"
+          TopLeft="1067.5,208.7" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Incremental load immitation\Incremental load Customers"
+          TopLeft="5.5,208.7" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Incremental load immitation\Incremental load Employees"
+          TopLeft="789.7,208.7" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Incremental load immitation\Incremental load Order Details"
+          TopLeft="529.5,107.1" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Incremental load immitation\Incremental load Orders"
+          TopLeft="272.1,107.1" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Incremental load immitation\Incremental load Products"
+          TopLeft="1343.9,208.7" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Incremental load immitation\ProductsSCD1PreTest"
+          TopLeft="1336.3,107.1" />
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint]"
+          TopLeft="845.357142857143,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-731.857142857143,60.0000000000001"
+              Start="0,0"
+              End="-731.857142857143,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.3133137337253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.3133137337253"
+                    Point2="0,14.3133137337253"
+                    Point3="-4,14.3133137337253" />
+                  <mssgle:LineSegment
+                    End="-727.857142857143,14.3133137337253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-727.857142857143,14.3133137337253"
+                    Point2="-731.857142857143,14.3133137337253"
+                    Point3="-731.857142857143,18.3133137337253" />
+                  <mssgle:LineSegment
+                    End="-731.857142857143,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 4]"
+          TopLeft="873.814285714286,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-503.314285714286,60.0000000000001"
+              Start="0,0"
+              End="-503.314285714286,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2160472386246" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.2160472386246"
+                    Point2="0,22.2160472386246"
+                    Point3="-4,22.2160472386246" />
+                  <mssgle:LineSegment
+                    End="-499.314285714286,22.2160472386246" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-499.314285714286,22.2160472386246"
+                    Point2="-503.314285714286,22.2160472386246"
+                    Point3="-503.314285714286,26.2160472386246" />
+                  <mssgle:LineSegment
+                    End="-503.314285714286,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 5]"
+          TopLeft="902.271428571428,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-258.771428571429,60.0000000000001"
+              Start="0,0"
+              End="-258.771428571429,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.787977494818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.787977494818"
+                    Point2="0,27.787977494818"
+                    Point3="-4,27.787977494818" />
+                  <mssgle:LineSegment
+                    End="-254.771428571429,27.787977494818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-254.771428571429,27.787977494818"
+                    Point2="-258.771428571429,27.787977494818"
+                    Point3="-258.771428571429,31.787977494818" />
+                  <mssgle:LineSegment
+                    End="-258.771428571429,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Constraint 6]"
+          TopLeft="82.3,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31.2,60.0000000000001"
+              Start="0,0"
+              End="31.2,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2926829268293" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2926829268293"
+                    Point2="0,24.2926829268293"
+                    Point3="4,24.2926829268293" />
+                  <mssgle:LineSegment
+                    End="27.2,24.2926829268293" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27.2,24.2926829268293"
+                    Point2="31.2,24.2926829268293"
+                    Point3="31.2,28.2926829268293" />
+                  <mssgle:LineSegment
+                    End="31.2,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение]"
+          TopLeft="916.5,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-18,60.0000000000001"
+              Start="0,0"
+              End="-18,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.0000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.0000000000001"
+                    Point2="0,30.0000000000001"
+                    Point3="-4,30.0000000000001" />
+                  <mssgle:LineSegment
+                    End="-14,30.0000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-14,30.0000000000001"
+                    Point2="-18,30.0000000000001"
+                    Point3="-18,34.0000000000001" />
+                  <mssgle:LineSegment
+                    End="-18,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="930.728571428571,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-14.2285714285714,60.0000000000001"
+              Start="0,0"
+              End="-14.2285714285714,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.787977494818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.787977494818"
+                    Point2="0,27.787977494818"
+                    Point3="-4,27.787977494818" />
+                  <mssgle:LineSegment
+                    End="-10.2285714285714,27.787977494818" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-10.2285714285714,27.787977494818"
+                    Point2="-14.2285714285714,27.787977494818"
+                    Point3="-14.2285714285714,31.787977494818" />
+                  <mssgle:LineSegment
+                    End="-14.2285714285714,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="959.185714285714,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="216.314285714286,60"
+              Start="0,0"
+              End="216.314285714286,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2160472386246" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.2160472386246"
+                    Point2="0,22.2160472386246"
+                    Point3="4,22.2160472386246" />
+                  <mssgle:LineSegment
+                    End="212.314285714286,22.2160472386246" />
+                  <mssgle:CubicBezierSegment
+                    Point1="212.314285714286,22.2160472386246"
+                    Point2="216.314285714286,22.2160472386246"
+                    Point3="216.314285714286,26.2160472386246" />
+                  <mssgle:LineSegment
+                    End="216.314285714286,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="1175.5,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.0000000000001"
+              Start="0,0"
+              End="0,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="987.642857142857,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="443.857142857143,60"
+              Start="0,0"
+              End="443.857142857143,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.3133137337253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.3133137337253"
+                    Point2="0,14.3133137337253"
+                    Point3="4,14.3133137337253" />
+                  <mssgle:LineSegment
+                    End="439.857142857143,14.3133137337253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="439.857142857143,14.3133137337253"
+                    Point2="443.857142857143,14.3133137337253"
+                    Point3="443.857142857143,18.3133137337253" />
+                  <mssgle:LineSegment
+                    End="443.857142857143,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incremental load immitation.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="1431.5,148.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="16,60.0000000000001"
+              Start="0,0"
+              End="16,52.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.0000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.0000000000001"
+                    Point2="0,30.0000000000001"
+                    Point3="4,30.0000000000001" />
+                  <mssgle:LineSegment
+                    End="12,30.0000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12,30.0000000000001"
+                    Point2="16,30.0000000000001"
+                    Point3="16,34.0000000000001" />
+                  <mssgle:LineSegment
+                    End="16,52.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="1557,306"
+          Size="1557,349"
+          Id="Package\Incremental load immitation"
+          TopLeft="16.5,260.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Truncate landing"
+          TopLeft="714,669.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="553.5,148.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-16.6666666666667,112"
+              Start="0,0"
+              End="-16.6666666666667,104.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.1310150134736" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,63.1310150134736"
+                    Point2="0,67.1310150134736"
+                    Point3="-4,67.1310150134736" />
+                  <mssgle:LineSegment
+                    End="-12.6666666666667,67.1310150134736" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-12.6666666666667,67.1310150134736"
+                    Point2="-16.6666666666667,67.1310150134736"
+                    Point3="-16.6666666666667,71.1310150134736" />
+                  <mssgle:LineSegment
+                    End="-16.6666666666667,104.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="794.5,200.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="258.666666666667,60"
+              Start="0,0"
+              End="258.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.963043757218" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.963043757218"
+                    Point2="0,35.963043757218"
+                    Point3="4,35.963043757218" />
+                  <mssgle:LineSegment
+                    End="254.666666666667,35.963043757218" />
+                  <mssgle:CubicBezierSegment
+                    Point1="254.666666666667,35.963043757218"
+                    Point2="258.666666666667,35.963043757218"
+                    Point3="258.666666666667,39.963043757218" />
+                  <mssgle:LineSegment
+                    End="258.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="794.75,609.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

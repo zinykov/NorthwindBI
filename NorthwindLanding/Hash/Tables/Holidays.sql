@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [Hash].[Holidays]
 (
 	[Date]			DATE			NOT NULL,
-    [CheckSum]      INT             NOT NULL,
+    [HashDiff]      VARBINARY(100)  NOT NULL
 
     CONSTRAINT [PK_Hash_Holidays] PRIMARY KEY CLUSTERED ( [Date] ASC )
 )
-    ON [Landing_FG]
+    ON [Hash_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

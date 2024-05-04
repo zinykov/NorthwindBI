@@ -3,23 +3,35 @@
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="NorthwindDW">
-      <DataSourceReference>NorthwindDW</DataSourceReference>
-      <rd:SecurityType>Integrated</rd:SecurityType>
-      <rd:DataSourceID>176421fa-bb17-417f-8579-e7b6d781779d</rd:DataSourceID>
+    <DataSource Name="Logs">
+      <DataSourceReference>Logs</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>06764e9f-2545-460a-8db9-637aabcdab37</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="SSISlog">
       <Query>
-        <DataSourceName>NorthwindDW</DataSourceName>
+        <DataSourceName>Logs</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@period">
-            <Value>=Parameters!period.Value</Value>
+            <Value>1</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Reports.ssislog</CommandText>
+        <CommandText>DECLARE @starttime AS DATETIME = DATEADD ( DAY, -1 * @period, GETDATE () )
+
+	SELECT		  [event]
+				, [source]
+				, [executionid]
+				, [starttime]
+				, [endtime]
+				, [datacode]
+				, [message]
+	
+	FROM		[dbo].[sysssislog]
+
+	WHERE		[starttime] &gt;= @starttime
+				AND [event] &lt;&gt; N'DiagnosticEx'</CommandText>
       </Query>
       <Fields>
         <Field Name="event">

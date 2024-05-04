@@ -6,6 +6,6 @@
 
     CONSTRAINT [PK_Hash_Order_Details] PRIMARY KEY CLUSTERED ( [OrderID] ASC, [ProductID] ASC )
 )
-    ON [Landing_FG]
+    ON [Hash_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [Hash].[Products]
 (
-    [ProductID]   INT           NOT NULL,
-    [CheckSum]    INT           NOT NULL,
+    [ProductID]   INT               NOT NULL,
+    [HashDiff]    VARBINARY(100)    NOT NULL,
 
     CONSTRAINT [PK_Hash_Products] PRIMARY KEY CLUSTERED ( [ProductID] ASC )
 )
-    ON [Landing_FG]
+    ON [Hash_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
 GO

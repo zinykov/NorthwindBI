@@ -1,11 +1,18 @@
-﻿CREATE PROCEDURE [Hash].[UpdateHashProducts] AS
-BEGIN
-	TRUNCATE TABLE [Hash].[Products];
+﻿CREATE PROCEDURE [Hash].[UpdateHashProducts]
+AS BEGIN
+	--BEGIN TRY
+	--	BEGIN TRANSACTION	
+			TRUNCATE TABLE [Hash].[Products];
 
-	INSERT INTO [Hash].[Products]
-	SELECT		  [ProductID]
-				, [CheckSum]
-	FROM		[Landing].[Products];
-	
-	ALTER TABLE [Landing].[Products] DROP CONSTRAINT [PK_Landing_Products];
+			INSERT INTO [Hash].[Products]
+			SELECT		  [ProductID]
+						, [HashDiff]
+			FROM		[Landing].[Products];
+  --      COMMIT TRANSACTION;
+  --  END TRY
+  --  BEGIN CATCH
+  --      ROLLBACK TRANSACTION;
+  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
+		--THROW 50002, @Msg, 1;
+  --  END CATCH
 END
