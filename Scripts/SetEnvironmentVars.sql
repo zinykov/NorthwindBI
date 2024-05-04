@@ -1,4 +1,8 @@
-﻿DECLARE @reference_id AS BIGINT
+﻿--:setvar SSISProjectName NorthwindETL
+--:setvar SSISFolderName NorthwindBI
+--:setvar SSISEnvironmentName Release
+
+DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
 		  @environment_name = N'$(SSISEnvironmentName)'
 		, @reference_id = @reference_id OUTPUT

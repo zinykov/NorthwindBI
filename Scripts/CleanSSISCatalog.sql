@@ -1,3 +1,7 @@
+--:setvar SSISProjectName NorthwindETL
+--:setvar SSISFolderName NorthwindBI
+--:setvar SSISEnvironmentName Release
+
 EXECUTE [catalog].[delete_project] @project_name=N'$(SSISProjectName)', @folder_name=N'$(SSISFolderName)';
 GO
 

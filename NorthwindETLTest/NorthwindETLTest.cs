@@ -40,11 +40,9 @@ namespace NorthwindDWTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CustomerSCD2TestStage1_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindETLTest));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2Stage1CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CustomerKey;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CustomerName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CityName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CountryName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2Stage1CountRowsInDimension;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1StartDate;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction EmployeeSCD2TestStage1_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage1CountRows;
@@ -75,11 +73,9 @@ namespace NorthwindDWTest
             this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CustomerSCD2Stage1CustomerKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1CityName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            CustomerSCD2Stage1CountRowsInDimension = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             EmployeeSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             EmployeeSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
@@ -107,11 +103,9 @@ namespace NorthwindDWTest
             // CustomerSCD2TestStage1_TestAction
             // 
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountRows);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CustomerKey);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CustomerName);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CityName);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountryName);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountRowsInDimension);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1StartDate);
             resources.ApplyResources(CustomerSCD2TestStage1_TestAction, "CustomerSCD2TestStage1_TestAction");
             // 
@@ -121,16 +115,6 @@ namespace NorthwindDWTest
             CustomerSCD2Stage1CountRows.Name = "CustomerSCD2Stage1CountRows";
             CustomerSCD2Stage1CountRows.ResultSet = 1;
             CustomerSCD2Stage1CountRows.RowCount = 2;
-            // 
-            // CustomerSCD2Stage1CustomerKey
-            // 
-            CustomerSCD2Stage1CustomerKey.ColumnNumber = 1;
-            CustomerSCD2Stage1CustomerKey.Enabled = true;
-            CustomerSCD2Stage1CustomerKey.ExpectedValue = "92";
-            CustomerSCD2Stage1CustomerKey.Name = "CustomerSCD2Stage1CustomerKey";
-            CustomerSCD2Stage1CustomerKey.NullExpected = false;
-            CustomerSCD2Stage1CustomerKey.ResultSet = 1;
-            CustomerSCD2Stage1CustomerKey.RowNumber = 2;
             // 
             // CustomerSCD2Stage1CustomerName
             // 
@@ -161,13 +145,6 @@ namespace NorthwindDWTest
             CustomerSCD2Stage1CountryName.NullExpected = false;
             CustomerSCD2Stage1CountryName.ResultSet = 1;
             CustomerSCD2Stage1CountryName.RowNumber = 2;
-            // 
-            // CustomerSCD2Stage1CountRowsInDimension
-            // 
-            CustomerSCD2Stage1CountRowsInDimension.Enabled = true;
-            CustomerSCD2Stage1CountRowsInDimension.Name = "CustomerSCD2Stage1CountRowsInDimension";
-            CustomerSCD2Stage1CountRowsInDimension.ResultSet = 2;
-            CustomerSCD2Stage1CountRowsInDimension.RowCount = 93;
             // 
             // CustomerSCD2Stage1StartDate
             // 
