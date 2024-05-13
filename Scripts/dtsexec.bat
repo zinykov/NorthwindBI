@@ -1,0 +1,1 @@
+dtexec /ISServer "\SSISDB\$(SSISFolderName)\$(SSISProjectName)\Test.dtsx" /Server "$(SSISServerName)" /Env %referenceid% /Parameter "$Package::CutoffTime(DateTime)";"1997-12-31 0:00:00" /Parameter "$Package::LoadDateInitialEnd(DateTime)";"1998-01-03 0:00:00"
