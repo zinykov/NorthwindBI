@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace NorthwindETLTest
 {
@@ -60,39 +58,33 @@ namespace NorthwindETLTest
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void NorthwindETLtest()
         {
-            //
-            // TODO: добавьте здесь логику теста
-            //
+            DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
+            DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
             string ProgramFiles = Environment.GetEnvironmentVariable("ProgramFiles");
-            DateTime varLoadDateInitialEnd = new DateTime(1997,12,31,0,0,0);
-            DateTime varLoadDateIncrementalEnd = new DateTime(1998,1,3,0,0,0);
-            string SSISFolderName = "";
-            string SSISProjectName = "";
-            string SSISServerName = "";
+            string SSISFolderName = "NorthwindBI";
+            string SSISProjectName = "NorthwindETL";
+            string SSISServerName = "SWIFT3";
             string referenceid = String.Empty;
-            string CutoffTime = string.Format("{0}", varLoadDateInitialEnd);
-            string LoadDateInitialEnd = string.Format("{0}", varLoadDateInitialEnd);
 
-            SqlConnection SSISDB = new SqlConnection("Data Source=SWIFT3;Initial Catalog=SSISDB;Persist Security Info=True;Integrated Security=SSPI");
-            SSISDB.Open();
-
-            SqlCommand sqlQuery = new SqlCommand("SELECT [reference_id] FROM [catalog].[environment_references] WHERE [environment_name] = N'Release'", SSISDB);
-            using (SqlDataReader reader = sqlQuery.ExecuteReader())
+            SqlConnection SSISConnection = new SqlConnection("Data Source=SWIFT3;Initial Catalog=SSISDB;Persist Security Info=True;Integrated Security=SSPI");
+            SSISConnection.Open();
+            SqlCommand getReferenceQuery = new SqlCommand("SELECT [reference_id] FROM [catalog].[environment_references] WHERE [environment_name] = N'Release'", SSISConnection);
+            using (SqlDataReader reader = getReferenceQuery.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    referenceid = String.Format("{0}", reader["reference_id"]);
+                    referenceid = (string)reader["reference_id"];
                 }
             }
+            SSISConnection.Close();
 
-            SSISDB.Close();
-
-            if (!string.IsNullOrEmpty(referenceid)) {
+            if (!string.IsNullOrEmpty(referenceid))
+            {
                 System.Diagnostics.Process dtexec = new System.Diagnostics.Process();
                 dtexec.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\150\\DTS\\Binn\\DTExec.exe";
-                dtexec.StartInfo.Arguments = $"/ISServer \"\\SSISDB\\{SSISFolderName}\\{SSISProjectName}\\Initial load.dtsx\" /Server \"{SSISServerName}\" /EnvReference {referenceid} /Parameter \"$Package::CutoffTime(DateTime)\";\"{CutoffTime}\" /Parameter \"$Package::LoadDateInitialEnd(DateTime)\";\"{LoadDateInitialEnd}\"";
+                dtexec.StartInfo.Arguments = $"/ISServer \"\\SSISDB\\{SSISFolderName}\\{SSISProjectName}\\Initial load.dtsx\" /Server \"{SSISServerName}\" /EnvReference {referenceid} /Parameter \"$Package::CutoffTime(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$Package::LoadDateInitialEnd(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$ServerOption::SYNCHRONIZED(Boolean)\";True";
                 dtexec.StartInfo.UseShellExecute = false;
                 dtexec.StartInfo.RedirectStandardOutput = true;
                 dtexec.StartInfo.RedirectStandardError = true;
