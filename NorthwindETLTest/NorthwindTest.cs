@@ -84,7 +84,7 @@ namespace NorthwindETLTest
             {
                 System.Diagnostics.Process dtexec = new System.Diagnostics.Process();
                 dtexec.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe";
-                dtexec.StartInfo.Arguments = $"/ISServer \"\\SSISDB\\{SSISFolderName}\\{SSISProjectName}\\Initial load.dtsx\" /Server \"{SSISServerName}\" /EnvReference {referenceid} /Parameter \"$Package::CutoffTime(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$Package::LoadDateInitialEnd(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$ServerOption::SYNCHRONIZED(Boolean)\";True";
+                dtexec.StartInfo.Arguments = $"/ISServer \"\\SSISDB\\{SSISFolderName}\\{SSISProjectName}\\Initial Load.dtsx\" /Server \"{SSISServerName}\" /EnvReference {referenceid} /Parameter \"$Package::CutoffTime(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$Package::LoadDateInitialEnd(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$ServerOption::SYNCHRONIZED(Boolean)\";True";
                 dtexec.StartInfo.UseShellExecute = false;
                 dtexec.StartInfo.RedirectStandardOutput = true;
                 dtexec.StartInfo.RedirectStandardError = true;
