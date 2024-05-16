@@ -1,6 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.SqlServer.Management.IntegrationServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+//using Microsoft.SqlServer.Management.IntegrationServices;
 
 namespace NorthwindETLTest
 {
@@ -58,50 +61,45 @@ namespace NorthwindETLTest
         #endregion
 
         [TestMethod]
-        public void NorthwindETLtest()
+        public void NorthwindETLTest()
         {
+            //Initializing Variables
             DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
             DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
-            string ProgramFiles = Environment.GetEnvironmentVariable("ProgramFiles");
             string SSISFolderName = "NorthwindBI";
             string SSISProjectName = "NorthwindETL";
-            string SSISServerName = "N-MSC-478";
-            string referenceid = String.Empty;
+            string SSISServerName = "SWIFT3";
+            Int64 executionid = -1;
 
-            SqlConnection SSISConnection = new SqlConnection($"Data Source={SSISServerName};Initial Catalog=SSISDB;Persist Security Info=True;Integrated Security=SSPI");
-            SSISConnection.Open();
-            SqlCommand getReferenceQuery = new SqlCommand("SELECT [reference_id] FROM [catalog].[environment_references] WHERE [environment_name] = N'Release'", SSISConnection);
-            using (SqlDataReader reader = getReferenceQuery.ExecuteReader())
+            //Initial load
+            ProjectInfo NorthwindETL = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs["SSISDB"].Folders[SSISFolderName].Projects[SSISProjectName];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
+            PackageInfo InitialLoad = NorthwindETL.Packages["Initial Load.dtsx"];
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "CutoffTime",
+                    ParameterValue = LoadDateInitialEnd
+                });
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "LoadDateInitialEnd",
+                    ParameterValue = LoadDateInitialEnd
+                });
+            try
             {
-                if (reader.Read())
-                {
-                    referenceid = String.Format("{0}", reader["reference_id"]);
-                }
+                executionid = InitialLoad.Execute(false, referenceid, setValueParameters);
+                Console.WriteLine($"Execution ID {executionid.ToString()}");
             }
-            SSISConnection.Close();
-
-            if (!string.IsNullOrEmpty(referenceid))
+            catch (Exception e)
             {
-                System.Diagnostics.Process dtexec = new System.Diagnostics.Process();
-                dtexec.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe";
-                dtexec.StartInfo.Arguments = $"/ISServer \"\\SSISDB\\{SSISFolderName}\\{SSISProjectName}\\Initial Load.dtsx\" /Server \"{SSISServerName}\" /EnvReference {referenceid} /Parameter \"$Package::CutoffTime(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$Package::LoadDateInitialEnd(DateTime)\";\"{string.Format("{0:yyyy-MM-dd H:mm:ss}", LoadDateInitialEnd)}\" /Parameter \"$ServerOption::SYNCHRONIZED(Boolean)\";True";
-                dtexec.StartInfo.UseShellExecute = false;
-                dtexec.StartInfo.RedirectStandardOutput = true;
-                dtexec.StartInfo.RedirectStandardError = true;
-                dtexec.Start();
-
-                string StandartOutput = dtexec.StandardOutput.ReadToEnd();
-
-                if (StandartOutput.Contains("Package execution on IS Server failed."))
-                {
-                    Assert.Fail($"\"Initial load.dtsx\" execution failed. dtexec output:\n\r\t{StandartOutput}");
-                }
-                else
-                {
-                    Console.WriteLine($"\"Initial load.dtsx\" execution successed. dtexec output:\n\r\t{StandartOutput}");
-                };
-
+                Assert.Fail($"Failed launch SSIS package {InitialLoad.Name} with error: \"{e.Message}\"");
             }
+            //}
         }
     }
 }
