@@ -27,6 +27,7 @@ namespace NorthwindETLTest
         private static Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISCatalogName];
         private static ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
         private static EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
+        private static NorthwindETLDataTest.NorthwindETLDataTest DataTest = new NorthwindETLDataTest.NorthwindETLDataTest();
 
         public NorthwindETLTest()
         {
@@ -75,57 +76,60 @@ namespace NorthwindETLTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            Int64 executionid = -1;
+            //Int64 executionid = -1;
 
-            PackageInfo IncrementalLoad = NorthwindETL.Packages["PreTest.dtsx"];
-            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 30,
-                    ParameterName = "LoadDateIncrementalEnd",
-                    ParameterValue = LoadDateIncrementalEnd
-                });
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 30,
-                    ParameterName = "LoadDateInitialEnd",
-                    ParameterValue = LoadDateInitialEnd
-                });
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 50,
-                    ParameterName = "SYNCHRONIZED",
-                    ParameterValue = true
-                });
+            //PackageInfo IncrementalLoad = NorthwindETL.Packages["PreTest.dtsx"];
+            //var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
+            //setValueParameters.Add(
+            //    new PackageInfo.ExecutionValueParameterSet
+            //    {
+            //        ObjectType = 30,
+            //        ParameterName = "LoadDateIncrementalEnd",
+            //        ParameterValue = LoadDateIncrementalEnd
+            //    });
+            //setValueParameters.Add(
+            //    new PackageInfo.ExecutionValueParameterSet
+            //    {
+            //        ObjectType = 30,
+            //        ParameterName = "LoadDateInitialEnd",
+            //        ParameterValue = LoadDateInitialEnd
+            //    });
+            //setValueParameters.Add(
+            //    new PackageInfo.ExecutionValueParameterSet
+            //    {
+            //        ObjectType = 50,
+            //        ParameterName = "SYNCHRONIZED",
+            //        ParameterValue = true
+            //    });
 
-            try
-            {
-                executionid = IncrementalLoad.Execute(false, referenceid, setValueParameters);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail($"Failed launch SSIS package {IncrementalLoad.Name} with error: \"{e.Message}\"");
-            }
+            //try
+            //{
+            //    executionid = IncrementalLoad.Execute(false, referenceid, setValueParameters);
+            //}
+            //catch (Exception e)
+            //{
+            //    Assert.Fail($"Failed launch SSIS package {IncrementalLoad.Name} with error: \"{e.Message}\"");
+            //}
 
-            System.Diagnostics.Trace.WriteLine($"{IncrementalLoad.Name} execution ID {executionid.ToString()}");
-            string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
+            //System.Diagnostics.Trace.WriteLine($"{IncrementalLoad.Name} execution ID {executionid.ToString()}");
+            //string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
 
-            if (catalogExecutions == "Failed")
-            {
-                Assert.Fail($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
-            }
-            else
-            {
-                System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
-            }
+            //if (catalogExecutions == "Failed")
+            //{
+            //    Assert.Fail($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
+            //}
+            //else
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
+            //}
+
+            // Выполнение тех же задач средствами C# напрямую
         }
 
         [TestMethod]
         public void NorthwindTest()
         {
+            DataTest.TestInitialize();
             this.ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
             DateTime CutoffTime = LoadDateInitialEnd.AddDays(1);
@@ -133,11 +137,13 @@ namespace NorthwindETLTest
             while (CutoffTime <= LoadDateIncrementalEnd)
             {
                 this.ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
-            }
 
-            //NorthwindETLDataTest.NorthwindETLDataTest test = new NorthwindETLDataTest.NorthwindETLDataTest();
-            //test.TestInitialize();
-            //test.CustomerSCD2TestStage1();
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { DataTest.EmployeeSCD2TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { DataTest.ProductSCD1TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.EmployeeSCD2TestStage2(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.CustomerSCD2TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.ProductSCD1TestStage2(); }
+            }
         }
 
         private void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
@@ -189,5 +195,11 @@ namespace NorthwindETLTest
                 System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
             }
         }
+
+        //[TestMethod]
+        //public void DropAndRecoveryTest()
+        //{
+        //    //new SqlConnection()
+        //}
     }
 }
