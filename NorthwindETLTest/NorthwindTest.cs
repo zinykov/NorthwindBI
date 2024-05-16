@@ -68,7 +68,7 @@ namespace NorthwindETLTest
             DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
             string SSISFolderName = "NorthwindBI";
             string SSISProjectName = "NorthwindETL";
-            string SSISServerName = "SWIFT3";
+            string SSISServerName = Environment.MachineName;
             Int64 executionid = -1;
 
             //Initial load
@@ -99,7 +99,6 @@ namespace NorthwindETLTest
             {
                 Assert.Fail($"Failed launch SSIS package {InitialLoad.Name} with error: \"{e.Message}\"");
             }
-            //}
         }
     }
 }
