@@ -74,7 +74,7 @@ namespace NorthwindETLTest
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISCatalogName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
-            
+
             //Initial load
             PackageInfo InitialLoad = NorthwindETL.Packages["Initial Load.dtsx"];
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
@@ -92,6 +92,13 @@ namespace NorthwindETLTest
                     ParameterName = "LoadDateInitialEnd",
                     ParameterValue = LoadDateInitialEnd
                 });
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 50,
+                    ParameterName = "SYNCHRONIZED",
+                    ParameterValue = true
+                });
             try
             {
                 executionid = InitialLoad.Execute(false, referenceid, setValueParameters);
@@ -102,7 +109,7 @@ namespace NorthwindETLTest
             }
             Console.WriteLine($"{InitialLoad.Name} execution ID {executionid.ToString()}");
             string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
-
+            if (catalogExecutions == "Failed") { Assert.Fail($"Executing SSIS package {InitialLoad.Name} status - {catalogExecutions}"); }
         }
     }
 }
