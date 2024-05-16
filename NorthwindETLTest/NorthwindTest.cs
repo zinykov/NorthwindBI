@@ -66,14 +66,16 @@ namespace NorthwindETLTest
             //Initializing Variables
             DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
             DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
+            string SSISServerName = Environment.MachineName;
+            string SSISCatalogName = "SSISDB";
             string SSISFolderName = "NorthwindBI";
             string SSISProjectName = "NorthwindETL";
-            string SSISServerName = Environment.MachineName;
             Int64 executionid = -1;
-
-            //Initial load
-            ProjectInfo NorthwindETL = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs["SSISDB"].Folders[SSISFolderName].Projects[SSISProjectName];
+            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISCatalogName];
+            ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
+            
+            //Initial load
             PackageInfo InitialLoad = NorthwindETL.Packages["Initial Load.dtsx"];
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
@@ -93,12 +95,14 @@ namespace NorthwindETLTest
             try
             {
                 executionid = InitialLoad.Execute(false, referenceid, setValueParameters);
-                Console.WriteLine($"Execution ID {executionid.ToString()}");
             }
             catch (Exception e)
             {
                 Assert.Fail($"Failed launch SSIS package {InitialLoad.Name} with error: \"{e.Message}\"");
             }
+            Console.WriteLine($"{InitialLoad.Name} execution ID {executionid.ToString()}");
+            string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
+
         }
     }
 }
