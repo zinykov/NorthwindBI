@@ -27,7 +27,7 @@ namespace NorthwindETLTest
         private static Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISCatalogName];
         private static ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
         private static EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
-        private static NorthwindETLDataTest.NorthwindETLDataTest DataTest = new NorthwindETLDataTest.NorthwindETLDataTest();
+        private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
 
         public NorthwindETLTest()
         {
@@ -76,6 +76,20 @@ namespace NorthwindETLTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
+            DQS_STAGING_DATATest.DQS_STAGING_DATATests DQS = new DQS_STAGING_DATATest.DQS_STAGING_DATATests();
+            DQS.TestInitialize();
+
+            NorthwindLandingTest.NorthwindLandingTests Landing = new NorthwindLandingTest.NorthwindLandingTests();
+            Landing.TestInitialize();
+
+            NorthwindLogsTest.NorthwindLogsTests Logs = new NorthwindLogsTest.NorthwindLogsTests();
+            Logs.TestInitialize();
+
+            NorthwindDWTest.NorthwindDWTests DWH = new NorthwindDWTest.NorthwindDWTests();
+            DWH.TestInitialize();
+
+            ETLTest.TestInitialize();
+
             //Int64 executionid = -1;
 
             //PackageInfo IncrementalLoad = NorthwindETL.Packages["PreTest.dtsx"];
@@ -129,7 +143,6 @@ namespace NorthwindETLTest
         [TestMethod]
         public void NorthwindTest()
         {
-            DataTest.TestInitialize();
             this.ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
             DateTime CutoffTime = LoadDateInitialEnd.AddDays(1);
@@ -138,11 +151,11 @@ namespace NorthwindETLTest
             {
                 this.ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
 
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { DataTest.EmployeeSCD2TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { DataTest.ProductSCD1TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.EmployeeSCD2TestStage2(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.CustomerSCD2TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { DataTest.ProductSCD1TestStage2(); }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { ETLTest.EmployeeSCD2TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { ETLTest.ProductSCD1TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.EmployeeSCD2TestStage2(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.CustomerSCD2TestStage1(); }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.ProductSCD1TestStage2(); }
             }
         }
 
@@ -195,11 +208,5 @@ namespace NorthwindETLTest
                 System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
             }
         }
-
-        //[TestMethod]
-        //public void DropAndRecoveryTest()
-        //{
-        //    //new SqlConnection()
-        //}
     }
 }

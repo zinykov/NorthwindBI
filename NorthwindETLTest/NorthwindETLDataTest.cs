@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 
-namespace NorthwindETLDataTest
+namespace NorthwindETLTest
 {
     [TestClass()]
     public class NorthwindETLDataTest : SqlDatabaseTestClass

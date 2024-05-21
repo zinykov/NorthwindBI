@@ -12,8 +12,8 @@
   DTS:ObjectName="Incremental load Test"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="395"
-  DTS:VersionGUID="{A1F32DFC-B1FC-4B36-B4D1-570D591C797E}">
+  DTS:VersionBuild="396"
+  DTS:VersionGUID="{CE4D610D-FE68-4FEB-A3A9-7A20442F60CB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -26,7 +26,7 @@
         DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\OriginalData\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Customers.dat" />
+          DTS:ConnectionString="C:\SSIS\NorthwindBI\IngestData\OriginalData\Customers.dat" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -83,7 +83,7 @@
       DTS:ObjectName="IncrementalFolderPath"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -95,7 +95,7 @@
       DTS:ObjectName="InitialFolderPath"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1997-12-31</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\IngestData\TestData\1997-12-31</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -141,7 +141,7 @@
       DTS:ObjectName="LogsPath"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\logs\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -153,7 +153,7 @@
       DTS:ObjectName="TestDataFolderPath"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
-        DTS:DataType="8">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\</DTS:VariableValue>
+        DTS:DataType="8">C:\SSIS\NorthwindBI\IngestData\TestData\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -311,7 +311,7 @@
       DTS:ExecutableType="Microsoft.FileSystemTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear TestData files"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -338,7 +338,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
+              Folder="C:\SSIS\NorthwindBI\IngestData\FormatFiles\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -359,7 +359,7 @@
           DTS:ExecutableType="Microsoft.BulkInsertTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Bulk Insert Landing"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -373,7 +373,7 @@
               BulkInsertTask:DestinationConnectionName="{1F691923-3F2A-4F37-8981-112139599AFC}"
               BulkInsertTask:DestinationTableName="[Landing].[Customers]"
               BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+              BulkInsertTask:FormatFile="C:\SSIS\NorthwindBI\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -515,7 +515,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT [CategoryID], [CategoryName], [Description] FROM [Landing].[Categories]&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Categories.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT [CategoryID], [CategoryName], [Description] FROM [Landing].[Categories]&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Categories.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -534,7 +534,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT DISTINCT C.[CustomerID], [CompanyName], [ContactName], [ContactTitle], [City], [Country], [Phone], [Fax] FROM [Landing].[Customers] AS C INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT DISTINCT C.[CustomerID], [CompanyName], [ContactName], [ContactTitle], [City], [Country], [Phone], [Fax] FROM [Landing].[Customers] AS C INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Customers.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -553,7 +553,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT DISTINCT E.[EmployeeID], [LastName], [FirstName], [Title], [TitleOfCourtesy], [City], [Country] FROM [Landing].[Employees] AS E INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Employees.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT DISTINCT E.[EmployeeID], [LastName], [FirstName], [Title], [TitleOfCourtesy], [City], [Country] FROM [Landing].[Employees] AS E INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Employees.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -572,7 +572,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT OD.[OrderID], [ProductID], [UnitPrice], [Quantity], [Discount] FROM [Landing].[Order Details] AS OD INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Order Details.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT OD.[OrderID], [ProductID], [UnitPrice], [Quantity], [Discount] FROM [Landing].[Order Details] AS OD INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Order Details.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -591,7 +591,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT [OrderID], [CustomerID], [EmployeeID], [OrderDate], [RequiredDate], CASE WHEN [ShippedDate] &gt; DATEFROMPARTS ( 1899, 12, 30 ) THEN NULL ELSE [ShippedDate] END AS [ShippedDate], [ShipCity], [ShipCountry] FROM [Landing].[Orders] WHERE [OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Orders.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT [OrderID], [CustomerID], [EmployeeID], [OrderDate], [RequiredDate], CASE WHEN [ShippedDate] &gt; DATEFROMPARTS ( 1899, 12, 30 ) THEN NULL ELSE [ShippedDate] END AS [ShippedDate], [ShipCity], [ShipCountry] FROM [Landing].[Orders] WHERE [OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Orders.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -610,7 +610,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%ProgramFiles%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;SELECT DISTINCT P.[ProductID], [ProductName], [SupplierID], [CategoryID], P.[UnitPrice] FROM [Landing].[Products] AS P INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID] INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Products.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
+              Arguments="&quot;SELECT DISTINCT P.[ProductID], [ProductName], [SupplierID], [CategoryID], P.[UnitPrice] FROM [Landing].[Products] AS P INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID] INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID] AND O.[OrderDate] &lt;= DATEFROMPARTS ( 1899, 12, 30 )&quot; queryout &quot;C:\SSIS\NorthwindBI\IngestData\TestData\1899-12-30\Products.dat&quot; -S &quot;SWIFT3&quot; -d &quot;NorthwindLanding&quot; -x -c -T" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable

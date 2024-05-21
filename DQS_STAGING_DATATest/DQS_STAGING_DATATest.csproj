@@ -9,11 +9,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6B4E170E-A23A-4141-9504-65F31B17DB72}</ProjectGuid>
+    <ProjectGuid>{C5EA20C3-DDF4-4CFC-9ED3-64B797FCD23A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NorthwindETLTest</RootNamespace>
-    <AssemblyName>NorthwindETLTest</AssemblyName>
+    <RootNamespace>DQS_STAGING_DATATest</RootNamespace>
+    <AssemblyName>DQS_STAGING_DATATest</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -40,29 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Management.IntegrationServices\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Management.IntegrationServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Management.Sdk.Sfc\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Smo\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Smo.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
   </ItemGroup>
@@ -79,21 +57,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="NorthwindETLDataTest.cs">
+    <Compile Include="DQS_STAGING_DATATests.cs">
       <SubType>Designer</SubType>
     </Compile>
     <Compile Include="SqlDatabaseSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NorthwindETLTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NorthwindETLDataTest.resx">
-      <DependentUpon>NorthwindETLDataTest.cs</DependentUpon>
+    <EmbeddedResource Include="DQS_STAGING_DATATests.resx">
+      <DependentUpon>DQS_STAGING_DATATests.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup Condition="$(VisualStudioVersion) == '16.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
@@ -107,24 +85,6 @@
       <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DQS_STAGING_DATATest\DQS_STAGING_DATATest.csproj">
-      <Project>{c5ea20c3-ddf4-4cfc-9ed3-64b797fcd23a}</Project>
-      <Name>DQS_STAGING_DATATest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindDWTest\NorthwindDWTest.csproj">
-      <Project>{be67e96a-f803-46d5-8a16-bab1916546f8}</Project>
-      <Name>NorthwindDWTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindLandingTest\NorthwindLandingTest.csproj">
-      <Project>{86a15cd4-e1f0-419d-ac86-648b0e48682f}</Project>
-      <Name>NorthwindLandingTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindLogsTest\NorthwindLogsTest.csproj">
-      <Project>{09195d0c-8706-4ba8-9813-533709f0fcb0}</Project>
-      <Name>NorthwindLogsTest</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -151,10 +111,6 @@
   </PropertyGroup>
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
