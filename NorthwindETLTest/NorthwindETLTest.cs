@@ -76,18 +76,19 @@ namespace NorthwindETLTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            DQS_STAGING_DATATest.DQS_STAGING_DATATests DQS = new DQS_STAGING_DATATest.DQS_STAGING_DATATests();
-            DQS.TestInitialize();
+            //DQS_STAGING_DATATest.DQS_STAGING_DATATests DQS = new DQS_STAGING_DATATest.DQS_STAGING_DATATests();
+            //DQS.TestInitialize();
 
-            NorthwindLandingTest.NorthwindLandingTests Landing = new NorthwindLandingTest.NorthwindLandingTests();
-            Landing.TestInitialize();
+            //NorthwindLandingTest.NorthwindLandingTests Landing = new NorthwindLandingTest.NorthwindLandingTests();
+            //Landing.TestInitialize();
 
-            NorthwindLogsTest.NorthwindLogsTests Logs = new NorthwindLogsTest.NorthwindLogsTests();
-            Logs.TestInitialize();
+            //NorthwindLogsTest.NorthwindLogsTests Logs = new NorthwindLogsTest.NorthwindLogsTests();
+            //Logs.TestInitialize();
 
-            NorthwindDWTest.NorthwindDWTests DWH = new NorthwindDWTest.NorthwindDWTests();
-            DWH.TestInitialize();
+            //NorthwindDWTest.NorthwindDWTests DWH = new NorthwindDWTest.NorthwindDWTests();
+            //DWH.TestInitialize();
 
+            System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
             //Int64 executionid = -1;
@@ -143,26 +144,48 @@ namespace NorthwindETLTest
         [TestMethod]
         public void NorthwindTest()
         {
+            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
             this.ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
             DateTime CutoffTime = LoadDateInitialEnd.AddDays(1);
 
             while (CutoffTime <= LoadDateIncrementalEnd)
             {
+                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with Cutofftime = {CutoffTime.ToShortDateString()}...");
                 this.ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
 
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { ETLTest.EmployeeSCD2TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0)) { ETLTest.ProductSCD1TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.EmployeeSCD2TestStage2(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.CustomerSCD2TestStage1(); }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0)) { ETLTest.ProductSCD1TestStage2(); }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
+                    ETLTest.EmployeeSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
+                    ETLTest.ProductSCD1TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
+                    ETLTest.EmployeeSCD2TestStage2();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
+                    ETLTest.CustomerSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
+                    ETLTest.ProductSCD1TestStage2();
+                }
             }
         }
 
         private void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
         {
             Int64 executionid = -1;
-            
+
             PackageInfo IncrementalLoad = NorthwindETL.Packages[PackageName];
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
