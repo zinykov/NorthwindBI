@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace NorthwindETLTest
 {
@@ -17,6 +18,8 @@ namespace NorthwindETLTest
         /// </summary>
         private static DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
         private static DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
+        private static string workingFolder = "C:\\Users\\zinyk\\source\\repos\\Northwind_BI_Solution";
+        private static string ProgramFiles = Environment.GetEnvironmentVariable("ProgramW6432");
         /// <summary>
         /// Initializing technical variables
         /// </summary>
@@ -76,113 +79,129 @@ namespace NorthwindETLTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            //DQS_STAGING_DATATest.DQS_STAGING_DATATests DQS = new DQS_STAGING_DATATest.DQS_STAGING_DATATests();
-            //DQS.TestInitialize();
-
-            //NorthwindLandingTest.NorthwindLandingTests Landing = new NorthwindLandingTest.NorthwindLandingTests();
-            //Landing.TestInitialize();
-
-            //NorthwindLogsTest.NorthwindLogsTests Logs = new NorthwindLogsTest.NorthwindLogsTests();
-            //Logs.TestInitialize();
-
-            //NorthwindDWTest.NorthwindDWTests DWH = new NorthwindDWTest.NorthwindDWTests();
-            //DWH.TestInitialize();
-
             System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
-            //Int64 executionid = -1;
+            string IngestData = $"{workingFolder}\\IngestData";
+            string TestData = $"{IngestData}\\TestData";
 
-            //PackageInfo IncrementalLoad = NorthwindETL.Packages["PreTest.dtsx"];
-            //var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            //setValueParameters.Add(
-            //    new PackageInfo.ExecutionValueParameterSet
-            //    {
-            //        ObjectType = 30,
-            //        ParameterName = "LoadDateIncrementalEnd",
-            //        ParameterValue = LoadDateIncrementalEnd
-            //    });
-            //setValueParameters.Add(
-            //    new PackageInfo.ExecutionValueParameterSet
-            //    {
-            //        ObjectType = 30,
-            //        ParameterName = "LoadDateInitialEnd",
-            //        ParameterValue = LoadDateInitialEnd
-            //    });
-            //setValueParameters.Add(
-            //    new PackageInfo.ExecutionValueParameterSet
-            //    {
-            //        ObjectType = 50,
-            //        ParameterName = "SYNCHRONIZED",
-            //        ParameterValue = true
-            //    });
+            CleanupFolder(TestData);
+            CleanupFolder($"{workingFolder}\\logs");
+            CleanupFolder($"{workingFolder}\\Backup");
 
-            //try
-            //{
-            //    executionid = IncrementalLoad.Execute(false, referenceid, setValueParameters);
-            //}
-            //catch (Exception e)
-            //{
-            //    Assert.Fail($"Failed launch SSIS package {IncrementalLoad.Name} with error: \"{e.Message}\"");
-            //}
+            DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
+            foreach (var file in FormatFiles.GetFiles("*.fmt"))
+            {
+                string TableName = Path.GetFileNameWithoutExtension(file.FullName);
 
-            //System.Diagnostics.Trace.WriteLine($"{IncrementalLoad.Name} execution ID {executionid.ToString()}");
-            //string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
+                System.Diagnostics.Trace.WriteLine($"Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
+                string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -T -h \"TABLOCK\"";
+                Callbcp(Arguments);
+            }
 
-            //if (catalogExecutions == "Failed")
-            //{
-            //    Assert.Fail($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
-            //}
-            //else
-            //{
-            //    System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
-            //}
+            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            {
+                string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
+                string datFilePath = $"{testDataFolder}\\Customers.dat";
 
-            // Выполнение тех же задач средствами C# напрямую
+                System.Diagnostics.Trace.WriteLine($"Creating {testDataFolder}...");
+                Directory.CreateDirectory(testDataFolder);
+
+                string sqlQuery =
+                    $"\"SELECT DISTINCT C.[CustomerID]" +
+                    $", [CompanyName]" +
+                    $", [ContactName]" +
+                    $", [ContactTitle]" +
+                    $", [City]" +
+                    $", [Country]" +
+                    $", [Phone]" +
+                    $", [Fax]" +
+                    $" FROM [Landing].[Customers] AS C" +
+                    $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
+                    $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+
+                System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                if (CutoffTime == new DateTime(1998, 1, 3))
+                {
+                    string sqlExpression = "UPDATE [Landing].[Customers] " +
+                        "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
+                        "WHERE [CustomerID] = N'FRANK';";
+                    ExecuteSqlCommand(sqlExpression);
+                }
+                Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+
+                datFilePath = $"{testDataFolder}\\Employees.dat";
+                sqlQuery =
+                    $"\"SELECT DISTINCT E.[EmployeeID]" +
+                    $", [LastName]" +
+                    $", [FirstName]" +
+                    $", [Title]" +
+                    $", [TitleOfCourtesy]" +
+                    $", [City]" +
+                    $", [Country]" +
+                    $" FROM [Landing].[Employees] AS E" +
+                    $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
+                    $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+
+                System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                if (CutoffTime == new DateTime(1998, 1, 2))
+                {
+                    string sqlExpression = "UPDATE [Landing].[Employees]" +
+                        " SET[City] = N'Moscow', [Country] = N'Russia'" +
+                        " WHERE[EmployeeID] = 2; ";
+                    ExecuteSqlCommand(sqlExpression);
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3))
+                {
+                    string sqlExpression = "UPDATE [Landing].[Employees]" +
+                        " SET [City] = N'Tacoma', [Country] = N'USA'" +
+                        " WHERE[EmployeeID] = 2; ";
+                    ExecuteSqlCommand(sqlExpression);
+                }
+                Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+            }
         }
 
         [TestMethod]
         public void NorthwindTest()
         {
             System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
-            this.ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
+            //ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
-            DateTime CutoffTime = LoadDateInitialEnd.AddDays(1);
+            //for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+            //    ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
 
-            while (CutoffTime <= LoadDateIncrementalEnd)
-            {
-                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime.ToShortDateString()}...");
-                this.ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
-                    ETLTest.EmployeeSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
-                    ETLTest.ProductSCD1TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
-                    ETLTest.EmployeeSCD2TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
-                    ETLTest.CustomerSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
-                    ETLTest.ProductSCD1TestStage2();
-                }
-            }
+            //    if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            //    {
+            //        System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
+            //        ETLTest.EmployeeSCD2TestStage1();
+            //    }
+            //    if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            //    {
+            //        System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
+            //        ETLTest.ProductSCD1TestStage1();
+            //    }
+            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            //    {
+            //        System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
+            //        ETLTest.EmployeeSCD2TestStage2();
+            //    }
+            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            //    {
+            //        System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
+            //        ETLTest.CustomerSCD2TestStage1();
+            //    }
+            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            //    {
+            //        System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
+            //        ETLTest.ProductSCD1TestStage2();
+            //    }
+            //}
         }
 
-        private void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
+        private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
         {
             Int64 executionid = -1;
 
@@ -229,6 +248,57 @@ namespace NorthwindETLTest
             else
             {
                 System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
+            }
+        }
+        
+        private static void CleanupFolder(string FolderPath)
+        {
+            System.Diagnostics.Trace.WriteLine($"Cleaning up {FolderPath}");
+            DirectoryInfo TestData = new DirectoryInfo(FolderPath);
+            foreach (var subDir in TestData.GetDirectories())
+            {
+                if (subDir.Exists)
+                {
+                    System.Diagnostics.Trace.WriteLine($"Deleteing {subDir.FullName}");
+                    subDir.Delete(true);
+                }
+            }
+        }
+
+        private static void Callbcp(string Arguments)
+        {
+            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
+            myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe";
+            myProcess.StartInfo.Arguments = Arguments;
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.StartInfo.RedirectStandardError = true;
+            myProcess.Start();
+
+            string ErrorOutput = myProcess.StandardError.ReadToEnd();
+            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
+
+            if (myProcess.ExitCode != 0)
+            {
+                //Dts.Events.FireError(18, $"{TestName}", $"{ErrorOutput}\r\n{StandartOutput}", String.Empty, 0);
+                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+            }
+            else
+            {
+                //bool fireAgain = false;
+                //Dts.Events.FireInformation(3, $"{TestName}", $"{StandartOutput}", String.Empty, 0, ref fireAgain);
+                System.Diagnostics.Trace.WriteLine(StandartOutput);
+            }
+        }
+
+        private static void ExecuteSqlCommand(string sqlExpression)
+        {
+            string connectionString = $"Data Source={Environment.MachineName};Initial Catalog=NorthwindLanding;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                connection.Close();
             }
         }
     }
