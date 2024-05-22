@@ -151,7 +151,7 @@ namespace NorthwindETLTest
 
             while (CutoffTime <= LoadDateIncrementalEnd)
             {
-                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with Cutofftime = {CutoffTime.ToShortDateString()}...");
+                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime.ToShortDateString()}...");
                 this.ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
