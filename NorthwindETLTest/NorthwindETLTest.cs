@@ -210,7 +210,7 @@ namespace NorthwindETLTest
             ETLTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor");
-            logman("start");
+            Logman("start");
 
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
@@ -221,7 +221,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
             System.Diagnostics.Trace.WriteLine($"Finished perfomance monitor");
-            logman("start");
+            Logman("start");
 
             CleanupFolder($"{workingFolder}\\IngestData\\TestData");
             CleanupFolder($"{workingFolder}\\Backup");
@@ -368,7 +368,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void logman(string Action)
+        private static void Logman(string Action)
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = "logman";
