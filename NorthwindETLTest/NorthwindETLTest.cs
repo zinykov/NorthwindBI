@@ -79,8 +79,7 @@ namespace NorthwindETLTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
-            ETLTest.TestInitialize();
+            System.Diagnostics.Trace.WriteLine("Started test initialize...");
 
             string IngestData = $"{workingFolder}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
@@ -104,7 +103,7 @@ namespace NorthwindETLTest
                 string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
                 string datFilePath = $"{testDataFolder}\\Customers.dat";
 
-                System.Diagnostics.Trace.WriteLine($"Creating {testDataFolder}...");
+                System.Diagnostics.Trace.WriteLine($"Creating {testDataFolder}");
                 Directory.CreateDirectory(testDataFolder);
 
                 string sqlQuery =
@@ -160,12 +159,18 @@ namespace NorthwindETLTest
                 }
                 Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
             }
+
+            System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
+            ETLTest.TestInitialize();
+
+            System.Diagnostics.Trace.WriteLine("Finished test initialize...");
         }
 
         [TestMethod]
         public void NorthwindTest()
         {
-            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
+            System.Diagnostics.Trace.WriteLine("Started test...");
+            //System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
             //ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
             //for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
@@ -199,6 +204,7 @@ namespace NorthwindETLTest
             //        ETLTest.ProductSCD1TestStage2();
             //    }
             //}
+            System.Diagnostics.Trace.WriteLine("Finished test...");
         }
 
         private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
@@ -259,7 +265,6 @@ namespace NorthwindETLTest
             {
                 if (subDir.Exists)
                 {
-                    System.Diagnostics.Trace.WriteLine($"Deleteing {subDir.FullName}");
                     subDir.Delete(true);
                 }
             }
@@ -283,12 +288,12 @@ namespace NorthwindETLTest
                 //Dts.Events.FireError(18, $"{TestName}", $"{ErrorOutput}\r\n{StandartOutput}", String.Empty, 0);
                 System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
             }
-            else
-            {
-                //bool fireAgain = false;
-                //Dts.Events.FireInformation(3, $"{TestName}", $"{StandartOutput}", String.Empty, 0, ref fireAgain);
-                System.Diagnostics.Trace.WriteLine(StandartOutput);
-            }
+            //else
+            //{
+            //    //bool fireAgain = false;
+            //    //Dts.Events.FireInformation(3, $"{TestName}", $"{StandartOutput}", String.Empty, 0, ref fireAgain);
+            //    System.Diagnostics.Trace.WriteLine(StandartOutput);
+            //}
         }
 
         private static void ExecuteSqlCommand(string sqlExpression)
