@@ -7,29 +7,14 @@ using System.IO;
 
 namespace NorthwindETLTest
 {
-    /// <summary>
-    /// Тестирование работы ETL и правильности данных в рамках CD
-    /// </summary>
     [TestClass]
     public class NorthwindETLTest
     {
-        /// <summary>
-        /// Initializing variables
-        /// </summary>
         private static DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
         private static DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
-        private static string workingFolder = "C:\\Users\\zinyk\\source\\repos\\Northwind_BI_Solution";
+        private static string workingFolder = "C:\\Users\\ZinukovD\\source\\repos\\Northwind_BI_Solution";
+
         private static string ProgramFiles = Environment.GetEnvironmentVariable("ProgramW6432");
-        /// <summary>
-        /// Initializing technical variables
-        /// </summary>
-        private static string SSISServerName = Environment.MachineName;
-        private static string SSISCatalogName = "SSISDB";
-        private static string SSISFolderName = "NorthwindBI";
-        private static string SSISProjectName = "NorthwindETL";
-        private static Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISCatalogName];
-        private static ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
-        private static EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
         private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
 
         public NorthwindETLTest()
@@ -39,45 +24,10 @@ namespace NorthwindETLTest
             //
         }
 
-        private TestContext testContextInstance;
+        public TestContext TestContext { get; set; }
 
-        /// <summary>
-        ///Получает или устанавливает контекст теста, в котором предоставляются
-        ///сведения о текущем тестовом запуске и обеспечивается его функциональность.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Дополнительные атрибуты тестирования
-        //
-        // При написании тестов можно использовать следующие дополнительные атрибуты:
-        //
-        // ClassCleanup используется для выполнения кода после завершения работы всех тестов в классе
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // TestInitialize используется для выполнения кода перед запуском каждого теста 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // TestCleanup используется для выполнения кода после завершения каждого теста
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-        // ClassInitialize используется для выполнения кода до запуска первого теста в классе
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
+        [TestInitialize()]
+        public void TestInitialize()
         {
             System.Diagnostics.Trace.WriteLine("Started test initialize...");
 
@@ -166,49 +116,57 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Finished test initialize...");
         }
 
+        [TestCleanup()]
+        public void TestCleanup() { }
+
         [TestMethod]
         public void NorthwindTest()
         {
             System.Diagnostics.Trace.WriteLine("Started test...");
-            //System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
-            //ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
-            //for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
-            //{
-            //    System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
-            //    ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
+            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
+            ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
 
-            //    if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-            //    {
-            //        System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
-            //        ETLTest.EmployeeSCD2TestStage1();
-            //    }
-            //    if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-            //    {
-            //        System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
-            //        ETLTest.ProductSCD1TestStage1();
-            //    }
-            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-            //    {
-            //        System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
-            //        ETLTest.EmployeeSCD2TestStage2();
-            //    }
-            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-            //    {
-            //        System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
-            //        ETLTest.CustomerSCD2TestStage1();
-            //    }
-            //    if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-            //    {
-            //        System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
-            //        ETLTest.ProductSCD1TestStage2();
-            //    }
-            //}
+            for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            {
+                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
+
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
+                    ETLTest.EmployeeSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
+                    ETLTest.ProductSCD1TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
+                    ETLTest.EmployeeSCD2TestStage2();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
+                    ETLTest.CustomerSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
+                    ETLTest.ProductSCD1TestStage2();
+                }
+            }
+
             System.Diagnostics.Trace.WriteLine("Finished test...");
         }
 
         private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
         {
+            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs["SSISDB"];
+            ProjectInfo NorthwindETL = SSISDB.Folders["NorthwindBI"].Projects["NorthwindETL"];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
             Int64 executionid = -1;
 
             PackageInfo IncrementalLoad = NorthwindETL.Packages[PackageName];
@@ -234,6 +192,13 @@ namespace NorthwindETLTest
                     ParameterName = "SYNCHRONIZED",
                     ParameterValue = true
                 });
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 20,
+                    ParameterName = "Reporting",
+                    ParameterValue = "E"
+                });
 
             try
             {
@@ -256,7 +221,7 @@ namespace NorthwindETLTest
                 System.Diagnostics.Trace.WriteLine($"Executing SSIS package {IncrementalLoad.Name} status - {catalogExecutions}");
             }
         }
-        
+
         private static void CleanupFolder(string FolderPath)
         {
             System.Diagnostics.Trace.WriteLine($"Cleaning up {FolderPath}");
