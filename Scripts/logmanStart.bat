@@ -1,1 +1,0 @@
-logman start -name "SQL Server"
