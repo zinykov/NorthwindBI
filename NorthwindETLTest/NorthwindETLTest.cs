@@ -53,6 +53,8 @@ namespace NorthwindETLTest
                 Callbcp(Arguments);
             }
 
+            string sqlExpression;
+
             //iterate dates between start(initial) and end(incremental) dates
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
@@ -81,7 +83,7 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
                     {
-                        string sqlExpression = "UPDATE [Landing].[Customers] " +
+                        sqlExpression = "UPDATE [Landing].[Customers] " +
                             "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
                             "WHERE [CustomerID] = N'FRANK';";
                         ExecuteSqlCommand(sqlExpression);
@@ -107,14 +109,14 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
                     {
-                        string sqlExpression = "UPDATE [Landing].[Employees]" +
+                        sqlExpression = "UPDATE [Landing].[Employees]" +
                             " SET[City] = N'Moscow', [Country] = N'Russia'" +
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
                     }
                     if (CutoffTime == new DateTime(1998, 1, 3))
                     {
-                        string sqlExpression = "UPDATE [Landing].[Employees]" +
+                        sqlExpression = "UPDATE [Landing].[Employees]" +
                             " SET [City] = N'Tacoma', [Country] = N'USA'" +
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
@@ -139,7 +141,7 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
                     {
-                        string sqlExpression =
+                        sqlExpression =
                             "UPDATE [Landing].[Products]" +
                             " SET [ProductName] = REVERSE( [ProductName] ), [CategoryID] = 2" +
                             " WHERE[ProductID] = 2;";
@@ -160,7 +162,7 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
                     {
-                        string sqlExpression =
+                        sqlExpression =
                             "UPDATE [Landing].[Categories]" +
                             " SET [CategoryName] = REVERSE( [CategoryName] )" +
                             " WHERE[CategoryID] = 2;";
@@ -206,11 +208,15 @@ namespace NorthwindETLTest
                 }
             }
 
+            //Cleaning up NorthwindLanding
+            sqlExpression = "EXECUTE [Landing].[TruncateLanding];";
+            ExecuteSqlCommand(sqlExpression);
+
             System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor");
-            //Logman("start");
+            Logman("start");
 
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
@@ -221,7 +227,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
             System.Diagnostics.Trace.WriteLine($"Finished perfomance monitor");
-            //Logman("stop");
+            Logman("stop");
 
             CleanupFolder($"{workingFolder}\\IngestData\\TestData");
             CleanupFolder($"{workingFolder}\\Backup");
@@ -295,24 +301,25 @@ namespace NorthwindETLTest
                     ParameterName = "LoadDateInitialEnd",
                     ParameterValue = LoadDateInitialEnd
                 });
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 50,
-                    ParameterName = "SYNCHRONIZED",
-                    ParameterValue = true
-                });
 
             try
             {
                 executionid = package.Execute(false, referenceid, setValueParameters);
+                System.Diagnostics.Trace.WriteLine($"{package.Name} execution ID {executionid.ToString()}");
+
+                ExecutionOperation operation = SSISDB.Executions[executionid];
+
+                while (!operation.Completed)
+                {
+                    operation.Refresh();
+                    System.Threading.Thread.Sleep(500);
+                }
             }
             catch (Exception e)
             {
                 Assert.Fail($"Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
             }
 
-            System.Diagnostics.Trace.WriteLine($"{package.Name} execution ID {executionid.ToString()}");
             string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
 
             if (catalogExecutions == "Failed")
