@@ -66,7 +66,7 @@ namespace NorthwindETLTest
                 {
                     datFilePath = $"{testDataFolder}\\Customers.dat";
                     sqlQuery =
-                        $"\"SELECT DISTINCT C.[CustomerID]" +
+                        $"SELECT DISTINCT C.[CustomerID]" +
                         $", [CompanyName]" +
                         $", [ContactName]" +
                         $", [ContactTitle]" +
@@ -76,7 +76,7 @@ namespace NorthwindETLTest
                         $", [Fax]" +
                         $" FROM [Landing].[Customers] AS C" +
                         $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
@@ -86,14 +86,14 @@ namespace NorthwindETLTest
                             "WHERE [CustomerID] = N'FRANK';";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Employees test data
                 {
                     datFilePath = $"{testDataFolder}\\Employees.dat";
                     sqlQuery =
-                        $"\"SELECT DISTINCT E.[EmployeeID]" +
+                        $"SELECT DISTINCT E.[EmployeeID]" +
                         $", [LastName]" +
                         $", [FirstName]" +
                         $", [Title]" +
@@ -102,7 +102,7 @@ namespace NorthwindETLTest
                         $", [Country]" +
                         $" FROM [Landing].[Employees] AS E" +
                         $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
@@ -119,14 +119,14 @@ namespace NorthwindETLTest
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Products test data
                 {
                     datFilePath = $"{testDataFolder}\\Products.dat";
                     sqlQuery =
-                        $"\"SELECT DISTINCT P.[ProductID]" +
+                        $"SELECT DISTINCT P.[ProductID]" +
                         $", [ProductName]" +
                         $", [SupplierID]" +
                         $", [CategoryID]" +
@@ -134,7 +134,7 @@ namespace NorthwindETLTest
                         $" FROM[Landing].[Products] AS P" +
                         $" INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID]" +
                         $" INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
@@ -145,17 +145,17 @@ namespace NorthwindETLTest
                             " WHERE[ProductID] = 2;";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Categories test data
                 {
                     datFilePath = $"{testDataFolder}\\Categories.dat";
                     sqlQuery =
-                        $"\"SELECT [CategoryID]" +
+                        $"SELECT [CategoryID]" +
                         $", [CategoryName]" +
                         $", [Description]" +
-                        $" FROM [Landing].[Categories]\"";
+                        $" FROM [Landing].[Categories]";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
@@ -166,14 +166,14 @@ namespace NorthwindETLTest
                             " WHERE[CategoryID] = 2;";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Orders test data
                 {
                     datFilePath = $"{testDataFolder}\\Orders.dat";
                     sqlQuery =
-                        $"\"SELECT [OrderID]" +
+                        $"SELECT [OrderID]" +
                         $", [CustomerID]" +
                         $", [EmployeeID]" +
                         $", [OrderDate]" +
@@ -182,27 +182,27 @@ namespace NorthwindETLTest
                         $", [ShipCity]" +
                         $", [ShipCountry]" +
                         $" FROM [Landing].[Orders]" +
-                        $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+                        $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Order Details test data
                 {
                     datFilePath = $"{testDataFolder}\\Order Details.dat";
                     sqlQuery =
-                        $"\"SELECT OD.[OrderID]" +
+                        $"SELECT OD.[OrderID]" +
                         $", [ProductID]" +
                         $", [UnitPrice]" +
                         $", [Quantity]" +
                         $", [Discount]" +
                         $" FROM [Landing].[Order Details] AS OD" +
                         $" INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})\"";
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
-                    Callbcp($"{sqlQuery} queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
             }
 
@@ -210,7 +210,7 @@ namespace NorthwindETLTest
             ETLTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor");
-            Logman("start");
+            //Logman("start");
 
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
@@ -221,7 +221,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
             System.Diagnostics.Trace.WriteLine($"Finished perfomance monitor");
-            Logman("start");
+            //Logman("stop");
 
             CleanupFolder($"{workingFolder}\\IngestData\\TestData");
             CleanupFolder($"{workingFolder}\\Backup");
@@ -334,6 +334,13 @@ namespace NorthwindETLTest
                 if (subDir.Exists)
                 {
                     subDir.Delete(true);
+                }
+            }
+            foreach (var file in TestData.GetFiles())
+            {
+                if (file.Exists)
+                {
+                    file.Delete();
                 }
             }
         }
