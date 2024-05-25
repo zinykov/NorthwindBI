@@ -10,36 +10,49 @@ namespace NorthwindETLTest
     [TestClass]
     public class NorthwindETLTest
     {
-        private static DateTime LoadDateInitialEnd = new DateTime(1997, 12, 31, 0, 0, 0);
-        private static DateTime LoadDateIncrementalEnd = new DateTime(1998, 1, 3, 0, 0, 0);
-        private static string workingFolder = $"{Environment.GetEnvironmentVariable("USERPROFILE")}\\source\\repos\\Northwind_BI_Solution";
+        private static DateTime LoadDateInitialEnd;
+        private static DateTime LoadDateIncrementalEnd;
+        private static string workingFolder;
 
-        private static string ProgramFiles = Environment.GetEnvironmentVariable("ProgramW6432");
+        private static string ProgramFiles;
         private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
 
-        public NorthwindETLTest()
-        {
-            //
-            // TODO: добавьте здесь логику конструктора
-            //
-        }
+        private TestContext testContextInstance;
 
-        public TestContext TestContext { get; set; }
+        /// <summary>
+        ///Получает или устанавливает контекст теста, в котором предоставляются
+        ///сведения о текущем тестовом запуске и обеспечивается его функциональность.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
             System.Diagnostics.Trace.WriteLine("Started test initialize...");
 
+            System.Diagnostics.Trace.WriteLine("Setting test context...");
+            LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
+            LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
+            workingFolder = (string)testContextInstance.Properties["workingFolder"];
+            ProgramFiles = (string)testContextInstance.Properties["ProgramFiles"];
+
             string IngestData = $"{workingFolder}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
 
-            Directory.CreateDirectory($"{workingFolder}\\logs");
             Directory.CreateDirectory($"{workingFolder}\\Backup");
 
             //Cleaning up folders
             CleanupFolder(TestData);
-            CleanupFolder($"{workingFolder}\\logs");
             CleanupFolder($"{workingFolder}\\Backup");
 
             //load data into landing zone
@@ -209,14 +222,17 @@ namespace NorthwindETLTest
             }
 
             //Cleaning up NorthwindLanding
-            sqlExpression = "EXECUTE [Landing].[TruncateLanding];";
+            sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
             ExecuteSqlCommand(sqlExpression);
 
             System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
-            System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor");
+            System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
             Logman("start");
+
+            //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
+
 
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
@@ -226,7 +242,9 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
-            System.Diagnostics.Trace.WriteLine($"Finished perfomance monitor");
+            //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
+
+            System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
             Logman("stop");
 
             CleanupFolder($"{workingFolder}\\IngestData\\TestData");
@@ -378,6 +396,7 @@ namespace NorthwindETLTest
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
+                command.ExecuteNonQuery();
                 connection.Close();
             }
         }
@@ -386,7 +405,7 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = "logman";
-            myProcess.StartInfo.Arguments = $"{Action} start -name \"SQL\"";
+            myProcess.StartInfo.Arguments = $"{Action} -name \"SQL\"";
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.RedirectStandardOutput = true;
             myProcess.StartInfo.RedirectStandardError = true;
