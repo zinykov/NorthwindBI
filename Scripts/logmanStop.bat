@@ -1,1 +1,0 @@
-logman stop -name "SQL Server"

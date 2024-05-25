@@ -1,528 +1,423 @@
-﻿using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
-using Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions;
+﻿using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Data.SqlClient;
+using System.IO;
 
-namespace NorthwindDWTest
+namespace NorthwindETLTest
 {
-    [TestClass()]
-    public class NorthwindETLTest : SqlDatabaseTestClass
+    [TestClass]
+    public class NorthwindETLTest
     {
+        private static DateTime LoadDateInitialEnd;
+        private static DateTime LoadDateIncrementalEnd;
+        private static string workingFolder;
 
-        public NorthwindETLTest()
+        private static string ProgramFiles;
+        private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
+
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Получает или устанавливает контекст теста, в котором предоставляются
+        ///сведения о текущем тестовом запуске и обеспечивается его функциональность.
+        ///</summary>
+        public TestContext TestContext
         {
-            InitializeComponent();
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
         }
 
         [TestInitialize()]
         public void TestInitialize()
         {
-            base.InitializeTest();
+            System.Diagnostics.Trace.WriteLine("Started test initialize...");
+
+            System.Diagnostics.Trace.WriteLine("Setting test context...");
+            LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
+            LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
+            workingFolder = (string)testContextInstance.Properties["workingFolder"];
+            ProgramFiles = (string)testContextInstance.Properties["ProgramFiles"];
+
+            string IngestData = $"{workingFolder}\\IngestData";
+            string TestData = $"{IngestData}\\TestData";
+
+            Directory.CreateDirectory($"{workingFolder}\\Backup");
+
+            //Cleaning up folders
+            CleanupFolder(TestData);
+            CleanupFolder($"{workingFolder}\\Backup");
+
+            //load data into landing zone
+            DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
+            foreach (var file in FormatFiles.GetFiles("*.fmt"))
+            {
+                string TableName = Path.GetFileNameWithoutExtension(file.FullName);
+
+                System.Diagnostics.Trace.WriteLine($"Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
+                string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -T -h \"TABLOCK\"";
+                Callbcp(Arguments);
+            }
+
+            string sqlExpression;
+
+            //iterate dates between start(initial) and end(incremental) dates
+            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            {
+                string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
+                string datFilePath;
+                string sqlQuery;
+                System.Diagnostics.Trace.WriteLine($"Creating {testDataFolder}");
+                Directory.CreateDirectory(testDataFolder);
+
+                // Prepare Customers test data
+                {
+                    datFilePath = $"{testDataFolder}\\Customers.dat";
+                    sqlQuery =
+                        $"SELECT DISTINCT C.[CustomerID]" +
+                        $", [CompanyName]" +
+                        $", [ContactName]" +
+                        $", [ContactTitle]" +
+                        $", [City]" +
+                        $", [Country]" +
+                        $", [Phone]" +
+                        $", [Fax]" +
+                        $" FROM [Landing].[Customers] AS C" +
+                        $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    {
+                        sqlExpression = "UPDATE [Landing].[Customers] " +
+                            "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
+                            "WHERE [CustomerID] = N'FRANK';";
+                        ExecuteSqlCommand(sqlExpression);
+                    }
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+
+                // Prepare Employees test data
+                {
+                    datFilePath = $"{testDataFolder}\\Employees.dat";
+                    sqlQuery =
+                        $"SELECT DISTINCT E.[EmployeeID]" +
+                        $", [LastName]" +
+                        $", [FirstName]" +
+                        $", [Title]" +
+                        $", [TitleOfCourtesy]" +
+                        $", [City]" +
+                        $", [Country]" +
+                        $" FROM [Landing].[Employees] AS E" +
+                        $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    if (CutoffTime == new DateTime(1998, 1, 2))
+                    {
+                        sqlExpression = "UPDATE [Landing].[Employees]" +
+                            " SET[City] = N'Moscow', [Country] = N'Russia'" +
+                            " WHERE[EmployeeID] = 2; ";
+                        ExecuteSqlCommand(sqlExpression);
+                    }
+                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    {
+                        sqlExpression = "UPDATE [Landing].[Employees]" +
+                            " SET [City] = N'Tacoma', [Country] = N'USA'" +
+                            " WHERE[EmployeeID] = 2; ";
+                        ExecuteSqlCommand(sqlExpression);
+                    }
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+
+                // Prepare Products test data
+                {
+                    datFilePath = $"{testDataFolder}\\Products.dat";
+                    sqlQuery =
+                        $"SELECT DISTINCT P.[ProductID]" +
+                        $", [ProductName]" +
+                        $", [SupplierID]" +
+                        $", [CategoryID]" +
+                        $", P.[UnitPrice]" +
+                        $" FROM[Landing].[Products] AS P" +
+                        $" INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID]" +
+                        $" INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID]" +
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    if (CutoffTime == new DateTime(1998, 1, 2))
+                    {
+                        sqlExpression =
+                            "UPDATE [Landing].[Products]" +
+                            " SET [ProductName] = REVERSE( [ProductName] ), [CategoryID] = 2" +
+                            " WHERE[ProductID] = 2;";
+                        ExecuteSqlCommand(sqlExpression);
+                    }
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+
+                // Prepare Categories test data
+                {
+                    datFilePath = $"{testDataFolder}\\Categories.dat";
+                    sqlQuery =
+                        $"SELECT [CategoryID]" +
+                        $", [CategoryName]" +
+                        $", [Description]" +
+                        $" FROM [Landing].[Categories]";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    {
+                        sqlExpression =
+                            "UPDATE [Landing].[Categories]" +
+                            " SET [CategoryName] = REVERSE( [CategoryName] )" +
+                            " WHERE[CategoryID] = 2;";
+                        ExecuteSqlCommand(sqlExpression);
+                    }
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+
+                // Prepare Orders test data
+                {
+                    datFilePath = $"{testDataFolder}\\Orders.dat";
+                    sqlQuery =
+                        $"SELECT [OrderID]" +
+                        $", [CustomerID]" +
+                        $", [EmployeeID]" +
+                        $", [OrderDate]" +
+                        $", [RequiredDate]" +
+                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS(1899, 12, 30) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
+                        $", [ShipCity]" +
+                        $", [ShipCountry]" +
+                        $" FROM [Landing].[Orders]" +
+                        $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+
+                // Prepare Order Details test data
+                {
+                    datFilePath = $"{testDataFolder}\\Order Details.dat";
+                    sqlQuery =
+                        $"SELECT OD.[OrderID]" +
+                        $", [ProductID]" +
+                        $", [UnitPrice]" +
+                        $", [Quantity]" +
+                        $", [Discount]" +
+                        $" FROM [Landing].[Order Details] AS OD" +
+                        $" INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID]" +
+                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                }
+            }
+
+            //Cleaning up NorthwindLanding
+            sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
+            ExecuteSqlCommand(sqlExpression);
+
+            System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
+            ETLTest.TestInitialize();
+
+            System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
+            Logman("start");
+
+            //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
+
+
+            System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
+
         [TestCleanup()]
         public void TestCleanup()
         {
-            base.CleanupTest();
+            System.Diagnostics.Trace.WriteLine("Started test cleanup...");
+
+            //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
+
+            System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
+            Logman("stop");
+
+            CleanupFolder($"{workingFolder}\\IngestData\\TestData");
+            CleanupFolder($"{workingFolder}\\Backup");
+
+            System.Diagnostics.Trace.WriteLine("Finished test cleanup");
         }
 
-        #region Designer support code
-
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        [TestMethod]
+        public void NorthwindTest()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CustomerSCD2TestStage1_TestAction;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindETLTest));
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2Stage1CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CustomerName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CityName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CountryName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1StartDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction EmployeeSCD2TestStage1_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage1CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage1EmployeeKey;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage1CityName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage1CountryName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage1CountRowsInDimension;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmpoloyeeSCD2Stage1StartDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction EmployeeSCD2TestStage2_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage2CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2EmployeeKey;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2CityName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2CountryName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage2CountRowsInDimension;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2StartDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage2_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage2CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountChangedRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountLineageValues;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage1_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage1CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1ProductName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1CategoryName;
-            this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            CustomerSCD2Stage1CityName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            CustomerSCD2Stage1CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            CustomerSCD2Stage1StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            EmployeeSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            EmployeeSCD2Stage1EmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage1CityName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage1CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage1CountRowsInDimension = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            EmpoloyeeSCD2Stage1StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            EmployeeSCD2Stage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            EmployeeSCD2Stage2EmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage2CityName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage2CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmployeeSCD2Stage2CountRowsInDimension = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            EmployeeSCD2Stage2StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            ProductSCD1TestStage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            ProductSCD1TestStage2CountChangedRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage2CountLineageValues = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            ProductSCD1TestStage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            ProductSCD1TestStage1ProductName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage1CategoryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            // 
-            // CustomerSCD2TestStage1_TestAction
-            // 
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountRows);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CustomerName);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CityName);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountryName);
-            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1StartDate);
-            resources.ApplyResources(CustomerSCD2TestStage1_TestAction, "CustomerSCD2TestStage1_TestAction");
-            // 
-            // CustomerSCD2Stage1CountRows
-            // 
-            CustomerSCD2Stage1CountRows.Enabled = true;
-            CustomerSCD2Stage1CountRows.Name = "CustomerSCD2Stage1CountRows";
-            CustomerSCD2Stage1CountRows.ResultSet = 1;
-            CustomerSCD2Stage1CountRows.RowCount = 2;
-            // 
-            // CustomerSCD2Stage1CustomerName
-            // 
-            CustomerSCD2Stage1CustomerName.ColumnNumber = 3;
-            CustomerSCD2Stage1CustomerName.Enabled = true;
-            CustomerSCD2Stage1CustomerName.ExpectedValue = "Dnasrevneknarf";
-            CustomerSCD2Stage1CustomerName.Name = "CustomerSCD2Stage1CustomerName";
-            CustomerSCD2Stage1CustomerName.NullExpected = false;
-            CustomerSCD2Stage1CustomerName.ResultSet = 1;
-            CustomerSCD2Stage1CustomerName.RowNumber = 1;
-            // 
-            // CustomerSCD2Stage1CityName
-            // 
-            CustomerSCD2Stage1CityName.ColumnNumber = 7;
-            CustomerSCD2Stage1CityName.Enabled = true;
-            CustomerSCD2Stage1CityName.ExpectedValue = "Moscow";
-            CustomerSCD2Stage1CityName.Name = "CustomerSCD2Stage1CityName";
-            CustomerSCD2Stage1CityName.NullExpected = false;
-            CustomerSCD2Stage1CityName.ResultSet = 1;
-            CustomerSCD2Stage1CityName.RowNumber = 2;
-            // 
-            // CustomerSCD2Stage1CountryName
-            // 
-            CustomerSCD2Stage1CountryName.ColumnNumber = 6;
-            CustomerSCD2Stage1CountryName.Enabled = true;
-            CustomerSCD2Stage1CountryName.ExpectedValue = "Russia";
-            CustomerSCD2Stage1CountryName.Name = "CustomerSCD2Stage1CountryName";
-            CustomerSCD2Stage1CountryName.NullExpected = false;
-            CustomerSCD2Stage1CountryName.ResultSet = 1;
-            CustomerSCD2Stage1CountryName.RowNumber = 2;
-            // 
-            // CustomerSCD2Stage1StartDate
-            // 
-            CustomerSCD2Stage1StartDate.ColumnNumber = 10;
-            CustomerSCD2Stage1StartDate.Enabled = true;
-            CustomerSCD2Stage1StartDate.ExpectedValue = "1998-1-2";
-            CustomerSCD2Stage1StartDate.Name = "CustomerSCD2Stage1StartDate";
-            CustomerSCD2Stage1StartDate.NullExpected = false;
-            CustomerSCD2Stage1StartDate.ResultSet = 1;
-            CustomerSCD2Stage1StartDate.RowNumber = 2;
-            // 
-            // EmployeeSCD2TestStage1_TestAction
-            // 
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CountRows);
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1EmployeeKey);
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CityName);
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CountryName);
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CountRowsInDimension);
-            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmpoloyeeSCD2Stage1StartDate);
-            resources.ApplyResources(EmployeeSCD2TestStage1_TestAction, "EmployeeSCD2TestStage1_TestAction");
-            // 
-            // EmployeeSCD2Stage1CountRows
-            // 
-            EmployeeSCD2Stage1CountRows.Enabled = true;
-            EmployeeSCD2Stage1CountRows.Name = "EmployeeSCD2Stage1CountRows";
-            EmployeeSCD2Stage1CountRows.ResultSet = 1;
-            EmployeeSCD2Stage1CountRows.RowCount = 2;
-            // 
-            // EmployeeSCD2Stage1EmployeeKey
-            // 
-            EmployeeSCD2Stage1EmployeeKey.ColumnNumber = 1;
-            EmployeeSCD2Stage1EmployeeKey.Enabled = true;
-            EmployeeSCD2Stage1EmployeeKey.ExpectedValue = "10";
-            EmployeeSCD2Stage1EmployeeKey.Name = "EmployeeSCD2Stage1EmployeeKey";
-            EmployeeSCD2Stage1EmployeeKey.NullExpected = false;
-            EmployeeSCD2Stage1EmployeeKey.ResultSet = 1;
-            EmployeeSCD2Stage1EmployeeKey.RowNumber = 2;
-            // 
-            // EmployeeSCD2Stage1CityName
-            // 
-            EmployeeSCD2Stage1CityName.ColumnNumber = 6;
-            EmployeeSCD2Stage1CityName.Enabled = true;
-            EmployeeSCD2Stage1CityName.ExpectedValue = "Moscow";
-            EmployeeSCD2Stage1CityName.Name = "EmployeeSCD2Stage1CityName";
-            EmployeeSCD2Stage1CityName.NullExpected = false;
-            EmployeeSCD2Stage1CityName.ResultSet = 1;
-            EmployeeSCD2Stage1CityName.RowNumber = 2;
-            // 
-            // EmployeeSCD2Stage1CountryName
-            // 
-            EmployeeSCD2Stage1CountryName.ColumnNumber = 7;
-            EmployeeSCD2Stage1CountryName.Enabled = true;
-            EmployeeSCD2Stage1CountryName.ExpectedValue = "Russia";
-            EmployeeSCD2Stage1CountryName.Name = "EmployeeSCD2Stage1CountryName";
-            EmployeeSCD2Stage1CountryName.NullExpected = false;
-            EmployeeSCD2Stage1CountryName.ResultSet = 1;
-            EmployeeSCD2Stage1CountryName.RowNumber = 2;
-            // 
-            // EmployeeSCD2Stage1CountRowsInDimension
-            // 
-            EmployeeSCD2Stage1CountRowsInDimension.Enabled = true;
-            EmployeeSCD2Stage1CountRowsInDimension.Name = "EmployeeSCD2Stage1CountRowsInDimension";
-            EmployeeSCD2Stage1CountRowsInDimension.ResultSet = 2;
-            EmployeeSCD2Stage1CountRowsInDimension.RowCount = 11;
-            // 
-            // EmpoloyeeSCD2Stage1StartDate
-            // 
-            EmpoloyeeSCD2Stage1StartDate.ColumnNumber = 8;
-            EmpoloyeeSCD2Stage1StartDate.Enabled = true;
-            EmpoloyeeSCD2Stage1StartDate.ExpectedValue = "1998-1-1";
-            EmpoloyeeSCD2Stage1StartDate.Name = "EmpoloyeeSCD2Stage1StartDate";
-            EmpoloyeeSCD2Stage1StartDate.NullExpected = false;
-            EmpoloyeeSCD2Stage1StartDate.ResultSet = 1;
-            EmpoloyeeSCD2Stage1StartDate.RowNumber = 2;
-            // 
-            // EmployeeSCD2TestStage2_TestAction
-            // 
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CountRows);
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2EmployeeKey);
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CityName);
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CountryName);
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CountRowsInDimension);
-            EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2StartDate);
-            resources.ApplyResources(EmployeeSCD2TestStage2_TestAction, "EmployeeSCD2TestStage2_TestAction");
-            // 
-            // EmployeeSCD2Stage2CountRows
-            // 
-            EmployeeSCD2Stage2CountRows.Enabled = true;
-            EmployeeSCD2Stage2CountRows.Name = "EmployeeSCD2Stage2CountRows";
-            EmployeeSCD2Stage2CountRows.ResultSet = 1;
-            EmployeeSCD2Stage2CountRows.RowCount = 3;
-            // 
-            // EmployeeSCD2Stage2EmployeeKey
-            // 
-            EmployeeSCD2Stage2EmployeeKey.ColumnNumber = 1;
-            EmployeeSCD2Stage2EmployeeKey.Enabled = true;
-            EmployeeSCD2Stage2EmployeeKey.ExpectedValue = "11";
-            EmployeeSCD2Stage2EmployeeKey.Name = "EmployeeSCD2Stage2EmployeeKey";
-            EmployeeSCD2Stage2EmployeeKey.NullExpected = false;
-            EmployeeSCD2Stage2EmployeeKey.ResultSet = 1;
-            EmployeeSCD2Stage2EmployeeKey.RowNumber = 3;
-            // 
-            // EmployeeSCD2Stage2CityName
-            // 
-            EmployeeSCD2Stage2CityName.ColumnNumber = 6;
-            EmployeeSCD2Stage2CityName.Enabled = true;
-            EmployeeSCD2Stage2CityName.ExpectedValue = "Tacoma";
-            EmployeeSCD2Stage2CityName.Name = "EmployeeSCD2Stage2CityName";
-            EmployeeSCD2Stage2CityName.NullExpected = false;
-            EmployeeSCD2Stage2CityName.ResultSet = 1;
-            EmployeeSCD2Stage2CityName.RowNumber = 3;
-            // 
-            // EmployeeSCD2Stage2CountryName
-            // 
-            EmployeeSCD2Stage2CountryName.ColumnNumber = 7;
-            EmployeeSCD2Stage2CountryName.Enabled = true;
-            EmployeeSCD2Stage2CountryName.ExpectedValue = "USA";
-            EmployeeSCD2Stage2CountryName.Name = "EmployeeSCD2Stage2CountryName";
-            EmployeeSCD2Stage2CountryName.NullExpected = false;
-            EmployeeSCD2Stage2CountryName.ResultSet = 1;
-            EmployeeSCD2Stage2CountryName.RowNumber = 3;
-            // 
-            // EmployeeSCD2Stage2CountRowsInDimension
-            // 
-            EmployeeSCD2Stage2CountRowsInDimension.Enabled = true;
-            EmployeeSCD2Stage2CountRowsInDimension.Name = "EmployeeSCD2Stage2CountRowsInDimension";
-            EmployeeSCD2Stage2CountRowsInDimension.ResultSet = 2;
-            EmployeeSCD2Stage2CountRowsInDimension.RowCount = 12;
-            // 
-            // EmployeeSCD2Stage2StartDate
-            // 
-            EmployeeSCD2Stage2StartDate.ColumnNumber = 8;
-            EmployeeSCD2Stage2StartDate.Enabled = true;
-            EmployeeSCD2Stage2StartDate.ExpectedValue = "1998-1-2";
-            EmployeeSCD2Stage2StartDate.Name = "EmployeeSCD2Stage2StartDate";
-            EmployeeSCD2Stage2StartDate.NullExpected = false;
-            EmployeeSCD2Stage2StartDate.ResultSet = 1;
-            EmployeeSCD2Stage2StartDate.RowNumber = 3;
-            // 
-            // ProductSCD1TestStage2_TestAction
-            // 
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountRows);
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountChangedRows);
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountLineageValues);
-            resources.ApplyResources(ProductSCD1TestStage2_TestAction, "ProductSCD1TestStage2_TestAction");
-            // 
-            // ProductSCD1TestStage2CountRows
-            // 
-            ProductSCD1TestStage2CountRows.Enabled = true;
-            ProductSCD1TestStage2CountRows.Name = "ProductSCD1TestStage2CountRows";
-            ProductSCD1TestStage2CountRows.ResultSet = 1;
-            ProductSCD1TestStage2CountRows.RowCount = 1;
-            // 
-            // ProductSCD1TestStage2CountChangedRows
-            // 
-            ProductSCD1TestStage2CountChangedRows.ColumnNumber = 1;
-            ProductSCD1TestStage2CountChangedRows.Enabled = true;
-            ProductSCD1TestStage2CountChangedRows.ExpectedValue = "13";
-            ProductSCD1TestStage2CountChangedRows.Name = "ProductSCD1TestStage2CountChangedRows";
-            ProductSCD1TestStage2CountChangedRows.NullExpected = false;
-            ProductSCD1TestStage2CountChangedRows.ResultSet = 1;
-            ProductSCD1TestStage2CountChangedRows.RowNumber = 1;
-            // 
-            // ProductSCD1TestStage2CountLineageValues
-            // 
-            ProductSCD1TestStage2CountLineageValues.ColumnNumber = 2;
-            ProductSCD1TestStage2CountLineageValues.Enabled = true;
-            ProductSCD1TestStage2CountLineageValues.ExpectedValue = "1";
-            ProductSCD1TestStage2CountLineageValues.Name = "ProductSCD1TestStage2CountLineageValues";
-            ProductSCD1TestStage2CountLineageValues.NullExpected = false;
-            ProductSCD1TestStage2CountLineageValues.ResultSet = 1;
-            ProductSCD1TestStage2CountLineageValues.RowNumber = 1;
-            // 
-            // ProductSCD1TestStage1_TestAction
-            // 
-            ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1CountRows);
-            ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1ProductName);
-            ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1CategoryName);
-            resources.ApplyResources(ProductSCD1TestStage1_TestAction, "ProductSCD1TestStage1_TestAction");
-            // 
-            // ProductSCD1TestStage1CountRows
-            // 
-            ProductSCD1TestStage1CountRows.Enabled = true;
-            ProductSCD1TestStage1CountRows.Name = "ProductSCD1TestStage1CountRows";
-            ProductSCD1TestStage1CountRows.ResultSet = 1;
-            ProductSCD1TestStage1CountRows.RowCount = 1;
-            // 
-            // ProductSCD1TestStage1ProductName
-            // 
-            ProductSCD1TestStage1ProductName.ColumnNumber = 3;
-            ProductSCD1TestStage1ProductName.Enabled = true;
-            ProductSCD1TestStage1ProductName.ExpectedValue = "Gnahc";
-            ProductSCD1TestStage1ProductName.Name = "ProductSCD1TestStage1ProductName";
-            ProductSCD1TestStage1ProductName.NullExpected = false;
-            ProductSCD1TestStage1ProductName.ResultSet = 1;
-            ProductSCD1TestStage1ProductName.RowNumber = 1;
-            // 
-            // ProductSCD1TestStage1CategoryName
-            // 
-            ProductSCD1TestStage1CategoryName.ColumnNumber = 4;
-            ProductSCD1TestStage1CategoryName.Enabled = true;
-            ProductSCD1TestStage1CategoryName.ExpectedValue = "Condiments";
-            ProductSCD1TestStage1CategoryName.Name = "ProductSCD1TestStage1CategoryName";
-            ProductSCD1TestStage1CategoryName.NullExpected = false;
-            ProductSCD1TestStage1CategoryName.ResultSet = 1;
-            ProductSCD1TestStage1CategoryName.RowNumber = 1;
-            // 
-            // CustomerSCD2TestStage1Data
-            // 
-            this.CustomerSCD2TestStage1Data.PosttestAction = null;
-            this.CustomerSCD2TestStage1Data.PretestAction = null;
-            this.CustomerSCD2TestStage1Data.TestAction = CustomerSCD2TestStage1_TestAction;
-            // 
-            // EmployeeSCD2TestStage1Data
-            // 
-            this.EmployeeSCD2TestStage1Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage1Data.PretestAction = null;
-            this.EmployeeSCD2TestStage1Data.TestAction = EmployeeSCD2TestStage1_TestAction;
-            // 
-            // EmployeeSCD2TestStage2Data
-            // 
-            this.EmployeeSCD2TestStage2Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage2Data.PretestAction = null;
-            this.EmployeeSCD2TestStage2Data.TestAction = EmployeeSCD2TestStage2_TestAction;
-            // 
-            // ProductSCD1TestStage2Data
-            // 
-            this.ProductSCD1TestStage2Data.PosttestAction = null;
-            this.ProductSCD1TestStage2Data.PretestAction = null;
-            this.ProductSCD1TestStage2Data.TestAction = ProductSCD1TestStage2_TestAction;
-            // 
-            // ProductSCD1TestStage1Data
-            // 
-            this.ProductSCD1TestStage1Data.PosttestAction = null;
-            this.ProductSCD1TestStage1Data.PretestAction = null;
-            this.ProductSCD1TestStage1Data.TestAction = ProductSCD1TestStage1_TestAction;
+            System.Diagnostics.Trace.WriteLine("Started test...");
+
+            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
+            ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
+
+            for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            {
+                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
+
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
+                    ETLTest.EmployeeSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
+                    ETLTest.ProductSCD1TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
+                    ETLTest.EmployeeSCD2TestStage2();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
+                    ETLTest.CustomerSCD2TestStage1();
+                }
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
+                    ETLTest.ProductSCD1TestStage2();
+                }
+            }
+
+            System.Diagnostics.Trace.WriteLine("Finished test");
         }
 
-        #endregion
-
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        #endregion
-
-        [TestMethod()]
-        public void CustomerSCD2TestStage1()
+        private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
         {
-            SqlDatabaseTestActions testActions = this.CustomerSCD2TestStage1Data;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs["SSISDB"];
+            ProjectInfo NorthwindETL = SSISDB.Folders["NorthwindBI"].Projects["NorthwindETL"];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
+            Int64 executionid = -1;
+
+            PackageInfo package = NorthwindETL.Packages[PackageName];
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "CutoffTime",
+                    ParameterValue = CutoffTime
+                });
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "LoadDateInitialEnd",
+                    ParameterValue = LoadDateInitialEnd
+                });
+
             try
             {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+                executionid = package.Execute(false, referenceid, setValueParameters);
+                System.Diagnostics.Trace.WriteLine($"{package.Name} execution ID {executionid.ToString()}");
+
+                ExecutionOperation operation = SSISDB.Executions[executionid];
+
+                while (!operation.Completed)
+                {
+                    operation.Refresh();
+                    System.Threading.Thread.Sleep(500);
+                }
             }
-            finally
+            catch (Exception e)
             {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+                Assert.Fail($"Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
             }
-        }
-        [TestMethod()]
-        public void EmployeeSCD2TestStage1()
-        {
-            SqlDatabaseTestActions testActions = this.EmployeeSCD2TestStage1Data;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
+
+            string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
+
+            if (catalogExecutions == "Failed")
             {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+                Assert.Fail($"Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
-            finally
+            else
             {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-        [TestMethod()]
-        public void EmployeeSCD2TestStage2()
-        {
-            SqlDatabaseTestActions testActions = this.EmployeeSCD2TestStage2Data;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-        [TestMethod()]
-        public void ProductSCD1TestStage2()
-        {
-            SqlDatabaseTestActions testActions = this.ProductSCD1TestStage2Data;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-        [TestMethod()]
-        public void ProductSCD1TestStage1()
-        {
-            SqlDatabaseTestActions testActions = this.ProductSCD1TestStage1Data;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+                System.Diagnostics.Trace.WriteLine($"Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
         }
 
+        private static void CleanupFolder(string FolderPath)
+        {
+            System.Diagnostics.Trace.WriteLine($"Cleaning up {FolderPath}");
+            DirectoryInfo TestData = new DirectoryInfo(FolderPath);
+            foreach (var subDir in TestData.GetDirectories())
+            {
+                if (subDir.Exists)
+                {
+                    subDir.Delete(true);
+                }
+            }
+            foreach (var file in TestData.GetFiles())
+            {
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+            }
+        }
 
+        private static void Callbcp(string Arguments)
+        {
+            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
+            myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe";
+            myProcess.StartInfo.Arguments = Arguments;
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.StartInfo.RedirectStandardError = true;
+            myProcess.Start();
 
+            string ErrorOutput = myProcess.StandardError.ReadToEnd();
+            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
 
-        private SqlDatabaseTestActions CustomerSCD2TestStage1Data;
-        private SqlDatabaseTestActions EmployeeSCD2TestStage1Data;
-        private SqlDatabaseTestActions EmployeeSCD2TestStage2Data;
-        private SqlDatabaseTestActions ProductSCD1TestStage2Data;
-        private SqlDatabaseTestActions ProductSCD1TestStage1Data;
+            if (myProcess.ExitCode != 0)
+            {
+                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+            }
+        }
+
+        private static void ExecuteSqlCommand(string sqlExpression)
+        {
+            string connectionString = $"Data Source={Environment.MachineName};Initial Catalog=NorthwindLanding;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+        private static void Logman(string Action)
+        {
+            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
+            myProcess.StartInfo.FileName = "logman";
+            myProcess.StartInfo.Arguments = $"{Action} -name \"SQL\"";
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.StartInfo.RedirectStandardError = true;
+            myProcess.Start();
+
+            string ErrorOutput = myProcess.StandardError.ReadToEnd();
+            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
+
+            if (myProcess.ExitCode != 0)
+            {
+                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+            }
+        }
     }
 }

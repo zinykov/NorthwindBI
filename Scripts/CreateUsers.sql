@@ -20,17 +20,17 @@ GO
 ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\DataAnalyst]
 GO
 
-USE [$(DQSDatabaseName)]
+USE [$(DQS_STAGING_DATA_DatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQSServerName)\PBIRSexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DQS_STAGING_DATA_ServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(DQSServerName)\PBIRSexec] FOR LOGIN [$(DQSServerName)\PBIRSexec]
+		CREATE USER [$(DQS_STAGING_DATA_ServerName)\PBIRSexec] FOR LOGIN [$(DQS_STAGING_DATA_ServerName)\PBIRSexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-ALTER ROLE [db_datareader] ADD MEMBER [$(DQSServerName)\PBIRSexec]
+ALTER ROLE [db_datareader] ADD MEMBER [$(DQS_STAGING_DATA_ServerName)\PBIRSexec]
 GO
 
 USE [Logs]
