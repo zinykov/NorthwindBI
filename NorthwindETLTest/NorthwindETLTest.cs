@@ -193,7 +193,7 @@ namespace NorthwindETLTest
                         $", [EmployeeID]" +
                         $", [OrderDate]" +
                         $", [RequiredDate]" +
-                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS(1899, 12, 30) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
+                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day}) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
                         $", [ShipCity]" +
                         $", [ShipCountry]" +
                         $" FROM [Landing].[Orders]" +
