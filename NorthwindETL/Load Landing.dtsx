@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="55"
-  DTS:VersionGUID="{AC3D2326-9868-429E-B581-5F310FEE20E8}">
+  DTS:VersionBuild="56"
+  DTS:VersionGUID="{C81A7493-5588-45BC-BB06-FC39AD0E8486}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,7 +25,7 @@
       DTS:DTSID="{42C67801-3491-4DDD-B243-56A08FD42181}"
       DTS:ObjectName="*.dat">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] )  + "-" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
