@@ -193,7 +193,7 @@ namespace NorthwindETLTest
                         $", [EmployeeID]" +
                         $", [OrderDate]" +
                         $", [RequiredDate]" +
-                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS(1899, 12, 30) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
+                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day}) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
                         $", [ShipCity]" +
                         $", [ShipCountry]" +
                         $" FROM [Landing].[Orders]" +
@@ -228,8 +228,8 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
-            System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
-            Logman("start");
+            //System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
+            //Logman("start");
 
             //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
 
@@ -237,21 +237,21 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
 
-        [TestCleanup()]
-        public void TestCleanup()
-        {
-            System.Diagnostics.Trace.WriteLine("Started test cleanup...");
+        //[TestCleanup()]
+        //public void TestCleanup()
+        //{
+        //    System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
-            //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
+        //    //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
 
-            System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
-            Logman("stop");
+        //    //System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
+        //    //Logman("stop");
 
-            CleanupFolder($"{workingFolder}\\IngestData\\TestData");
-            CleanupFolder($"{workingFolder}\\Backup");
+        //    CleanupFolder($"{workingFolder}\\IngestData\\TestData");
+        //    CleanupFolder($"{workingFolder}\\Backup");
 
-            System.Diagnostics.Trace.WriteLine("Finished test cleanup");
-        }
+        //    System.Diagnostics.Trace.WriteLine("Finished test cleanup");
+        //}
 
         [TestMethod]
         public void NorthwindTest()
