@@ -258,13 +258,10 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("Started test...");
 
-            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
-            ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
-
-            for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
-                ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
+                System.Diagnostics.Trace.WriteLine($"Executing ETL.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                ExecuteLoadPackage("ETL.dtsx", CutoffTime);
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
