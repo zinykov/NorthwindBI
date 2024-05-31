@@ -24,10 +24,6 @@ namespace NorthwindETLTest
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Получает или устанавливает контекст теста, в котором предоставляются
-        ///сведения о текущем тестовом запуске и обеспечивается его функциональность.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -45,7 +41,7 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
 
-            System.Diagnostics.Trace.WriteLine("Setting test context...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
             LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
             LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
             workingFolder = (string)testContextInstance.Properties["workingFolder"];
@@ -63,16 +59,16 @@ namespace NorthwindETLTest
 
             //Preparing SSIS environment
             if (SSISEnvironmentName == "Debug") {
-                System.Diagnostics.Trace.WriteLine("Preparing SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
-                System.Diagnostics.Trace.WriteLine("Deleteing debug environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing debug environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
                     $" @environment_name = N'Debug';");
 
-                System.Diagnostics.Trace.WriteLine("Creating SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
@@ -99,7 +95,7 @@ namespace NorthwindETLTest
                     $" LandingServerName=\"{Environment.MachineName}\""
                 );
                 
-                 System.Diagnostics.Trace.WriteLine("Setting SSIS environment...");
+                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
@@ -115,7 +111,7 @@ namespace NorthwindETLTest
             {
                 string TableName = Path.GetFileNameWithoutExtension(file.FullName);
 
-                System.Diagnostics.Trace.WriteLine($"Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
                 string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -T -h \"TABLOCK\"";
                 Callbcp(Arguments);
             }
@@ -128,7 +124,7 @@ namespace NorthwindETLTest
                 string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
                 string datFilePath;
                 string sqlQuery;
-                System.Diagnostics.Trace.WriteLine($"Creating {testDataFolder}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {testDataFolder}");
                 Directory.CreateDirectory(testDataFolder);
 
                 // Prepare Customers test data
@@ -147,7 +143,7 @@ namespace NorthwindETLTest
                         $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
                     {
                         sqlExpression = "UPDATE [Landing].[Customers] " +
@@ -173,7 +169,7 @@ namespace NorthwindETLTest
                         $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
                     {
                         sqlExpression = "UPDATE [Landing].[Employees]" +
@@ -205,7 +201,7 @@ namespace NorthwindETLTest
                         $" INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID]" +
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 2))
                     {
                         sqlExpression =
@@ -226,7 +222,7 @@ namespace NorthwindETLTest
                         $", [Description]" +
                         $" FROM [Landing].[Categories]";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     if (CutoffTime == new DateTime(1998, 1, 3))
                     {
                         sqlExpression =
@@ -253,7 +249,7 @@ namespace NorthwindETLTest
                         $" FROM [Landing].[Orders]" +
                         $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
@@ -270,7 +266,7 @@ namespace NorthwindETLTest
                         $" INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID]" +
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
-                    System.Diagnostics.Trace.WriteLine($"Coping data to {datFilePath}...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
                     Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
             }
@@ -279,7 +275,7 @@ namespace NorthwindETLTest
             sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
             ExecuteSqlCommand(sqlExpression);
 
-            System.Diagnostics.Trace.WriteLine($"Initializing NorthwindETLDataTests...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindETLDataTests...");
             ETLTest.TestInitialize();
 
             //System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
@@ -296,9 +292,9 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
-            //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
+            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stoped SQL profiler");
 
-            //System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
+            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stoped perfomance monitor");
             //Logman("stop");
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
@@ -318,32 +314,32 @@ namespace NorthwindETLTest
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
                 ExecuteLoadPackage(PackageName, CutoffTime);
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1 test...");
                     ETLTest.EmployeeSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1 test...");
                     ETLTest.ProductSCD1TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"Executing EmployeeSCD2TestStage2 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2 test...");
                     ETLTest.EmployeeSCD2TestStage2();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"Executing CustomerSCD2TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1 test...");
                     ETLTest.CustomerSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"Executing ProductSCD1TestStage2 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2 test...");
                     ETLTest.ProductSCD1TestStage2();
                 }
             }
@@ -378,7 +374,7 @@ namespace NorthwindETLTest
             try
             {
                 executionid = package.Execute(false, referenceid, setValueParameters);
-                System.Diagnostics.Trace.WriteLine($"{package.Name} execution ID {executionid.ToString()}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
 
                 ExecutionOperation operation = SSISDB.Executions[executionid];
 
@@ -390,24 +386,24 @@ namespace NorthwindETLTest
             }
             catch (Exception e)
             {
-                Assert.Fail($"Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
             }
 
             string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
 
             if (catalogExecutions == "Failed")
             {
-                Assert.Fail($"Executing SSIS package {package.Name} status - {catalogExecutions}");
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
             else
             {
-                System.Diagnostics.Trace.WriteLine($"Executing SSIS package {package.Name} status - {catalogExecutions}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
         }
 
         private static void CleanupFolder(string FolderPath)
         {
-            System.Diagnostics.Trace.WriteLine($"Cleaning up {FolderPath}");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath}");
             DirectoryInfo TestData = new DirectoryInfo(FolderPath);
             foreach (var subDir in TestData.GetDirectories())
             {
@@ -440,7 +436,7 @@ namespace NorthwindETLTest
 
             if (myProcess.ExitCode != 0)
             {
-                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
         }
 
@@ -459,7 +455,7 @@ namespace NorthwindETLTest
 
             if (myProcess.ExitCode != 0)
             {
-                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
         }
 
@@ -490,7 +486,7 @@ namespace NorthwindETLTest
 
             if (myProcess.ExitCode != 0)
             {
-                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
         }
     }
