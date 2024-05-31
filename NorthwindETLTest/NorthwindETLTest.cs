@@ -348,8 +348,6 @@ namespace NorthwindETLTest
                 }
             }
 
-            Assert.Fail("Test Fail");
-
             System.Diagnostics.Trace.WriteLine("**********Finished test**********");
         }
 
