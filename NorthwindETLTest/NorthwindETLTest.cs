@@ -61,14 +61,18 @@ namespace NorthwindETLTest
             CleanupFolder(TestData);
             CleanupFolder($"{workingFolder}\\Backup");
 
+            //Preparing SSIS environment
             if (SSISEnvironmentName == "Debug") {
                 System.Diagnostics.Trace.WriteLine("Preparing SSIS environment...");
+
+                System.Diagnostics.Trace.WriteLine("Deleteing debug environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" -i \"{workingFolder}\\Scripts\\CleanSSISCatalog.sql\"" +
-                    $" -v SSISFolderName=\"{SSISFolderName}\"" +
-                    $" SSISProjectName=\"{SSISProjectName}\"" +
-                    $" SSISEnvironmentName=\"{SSISEnvironmentName}\"");
+                    $" -Q \"EXECUTE [catalog].[delete_environment]" +
+                    $" @folder_name = N'{SSISFolderName}'," +
+                    $" @environment_name = N'Debug';");
+
+                System.Diagnostics.Trace.WriteLine("Creating SSIS environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
@@ -79,7 +83,7 @@ namespace NorthwindETLTest
                     $" DQSServerName=\"{Environment.MachineName}\"" +
                     $" DWHDatabaseName=\"NorthwindDW\"" +
                     $" DWHServerName=\"{Environment.MachineName}\"" +
-                    $" ExternalFilesPath=\"{workingFolder}\"" +
+                    $" ExternalFilesPath=\"{workingFolder}\\\"" +
                     $" LogsDatabaseName=\"NorthwindLogs\"" +
                     $" LogsServerName=\"{Environment.MachineName}\"" +
                     $" MDSDatabaseName=\"MDS\"" +
@@ -90,10 +94,12 @@ namespace NorthwindETLTest
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
-                    $" XMLCalendarFolder=\"C:\\Users\\zinyk\\source\\repos\\XMLCalendar\"" +
+                    $" XMLCalendarFolder=\"C:\\Users\\zinyk\\source\\repos\\XMLCalendar\\\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\""
                 );
+                
+                 System.Diagnostics.Trace.WriteLine("Setting SSIS environment...");
                 CallSQLCMD($"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
@@ -341,6 +347,8 @@ namespace NorthwindETLTest
                     ETLTest.ProductSCD1TestStage2();
                 }
             }
+
+            Assert.Fail("Test Fail");
 
             System.Diagnostics.Trace.WriteLine("**********Finished test**********");
         }
