@@ -237,34 +237,35 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("Finished test initialize");
         }
 
-        //[TestCleanup()]
-        //public void TestCleanup()
-        //{
-        //    System.Diagnostics.Trace.WriteLine("Started test cleanup...");
+        [TestCleanup()]
+        public void TestCleanup()
+        {
+            System.Diagnostics.Trace.WriteLine("Started test cleanup...");
 
-        //    //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
+            //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
 
-        //    //System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
-        //    //Logman("stop");
+            //System.Diagnostics.Trace.WriteLine($"Stoped perfomance monitor");
+            //Logman("stop");
 
-        //    CleanupFolder($"{workingFolder}\\IngestData\\TestData");
-        //    CleanupFolder($"{workingFolder}\\Backup");
-
-        //    System.Diagnostics.Trace.WriteLine("Finished test cleanup");
-        //}
+            if ((int)testContextInstance.CurrentTestOutcome == 2)
+            {
+                CleanupFolder($"{workingFolder}\\IngestData\\TestData");
+                CleanupFolder($"{workingFolder}\\Backup");
+            }
+            System.Diagnostics.Trace.WriteLine("Finished test cleanup");
+        }
 
         [TestMethod]
         public void NorthwindTest()
         {
             System.Diagnostics.Trace.WriteLine("Started test...");
 
-            System.Diagnostics.Trace.WriteLine($"Executing Initial load.dtsx...");
-            ExecuteLoadPackage("Initial Load.dtsx", LoadDateInitialEnd);
+            string PackageName = "Transform and load.dtsx";
 
-            for (DateTime CutoffTime = LoadDateInitialEnd.AddDays(1); CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"Initializing Incremental Load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
-                ExecuteLoadPackage("Incremental Load.dtsx", CutoffTime);
+                System.Diagnostics.Trace.WriteLine($"Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                ExecuteLoadPackage(PackageName, CutoffTime);
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
