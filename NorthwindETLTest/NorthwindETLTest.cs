@@ -13,9 +13,14 @@ namespace NorthwindETLTest
         private static DateTime LoadDateInitialEnd;
         private static DateTime LoadDateIncrementalEnd;
         private static string workingFolder;
+        private static string SSISEnvironmentName;
 
         private static string ProgramFiles;
         private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
+        private static string SSISServerName = Environment.MachineName;
+        private static string SSISDatabaseName = "SSISDB";
+        private static string SSISFolderName = "NorthwindBI";
+        private static string SSISProjectName = "NorthwindETL";
 
         private TestContext testContextInstance;
 
@@ -38,13 +43,14 @@ namespace NorthwindETLTest
         [TestInitialize()]
         public void TestInitialize()
         {
-            System.Diagnostics.Trace.WriteLine("Started test initialize...");
+            System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
 
             System.Diagnostics.Trace.WriteLine("Setting test context...");
             LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
             LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
             workingFolder = (string)testContextInstance.Properties["workingFolder"];
             ProgramFiles = (string)testContextInstance.Properties["ProgramFiles"];
+            SSISEnvironmentName = (string)testContextInstance.Properties["SSISEnvironmentName"];
 
             string IngestData = $"{workingFolder}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
@@ -54,6 +60,48 @@ namespace NorthwindETLTest
             //Cleaning up folders
             CleanupFolder(TestData);
             CleanupFolder($"{workingFolder}\\Backup");
+
+            if (SSISEnvironmentName == "Debug") {
+                System.Diagnostics.Trace.WriteLine("Preparing SSIS environment...");
+                CallSQLCMD($"-S {SSISServerName}" +
+                    $" -d {SSISDatabaseName}" +
+                    $" -i \"{workingFolder}\\Scripts\\CleanSSISCatalog.sql\"" +
+                    $" -v SSISFolderName=\"{SSISFolderName}\"" +
+                    $" SSISProjectName=\"{SSISProjectName}\"" +
+                    $" SSISEnvironmentName=\"{SSISEnvironmentName}\"");
+                CallSQLCMD($"-S {SSISServerName}" +
+                    $" -d {SSISDatabaseName}" +
+                    $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
+                    $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
+                    $" DBFilesPath=\"C:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\DATA\\\"" +
+                    $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
+                    $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
+                    $" DQSServerName=\"{Environment.MachineName}\"" +
+                    $" DWHDatabaseName=\"NorthwindDW\"" +
+                    $" DWHServerName=\"{Environment.MachineName}\"" +
+                    $" ExternalFilesPath=\"{workingFolder}\"" +
+                    $" LogsDatabaseName=\"NorthwindLogs\"" +
+                    $" LogsServerName=\"{Environment.MachineName}\"" +
+                    $" MDSDatabaseName=\"MDS\"" +
+                    $" MDSServerName=\"{Environment.MachineName}\"" +
+                    $" RetrainWeeks=\"3\"" +
+                    $" SSISDatabaseName=\"{SSISDatabaseName}\"" +
+                    $" SSISEnvironmentName=\"{SSISEnvironmentName}\"" +
+                    $" SSISFolderName=\"{SSISFolderName}\"" +
+                    $" SSISProjectName=\"{SSISProjectName}\"" +
+                    $" SSISServerName=\"{SSISServerName}\"" +
+                    $" XMLCalendarFolder=\"C:\\Users\\zinyk\\source\\repos\\XMLCalendar\"" +
+                    $" LandingDatabaseName=\"NorthwindLanding\"" +
+                    $" LandingServerName=\"{Environment.MachineName}\""
+                );
+                CallSQLCMD($"-S {SSISServerName}" +
+                    $" -d {SSISDatabaseName}" +
+                    $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
+                    $" -v  SSISEnvironmentName=\"{SSISEnvironmentName}\"" +
+                    $" SSISFolderName=\"{SSISFolderName}\"" +
+                    $" SSISProjectName=\"{SSISProjectName}\""
+                );
+            }
 
             //load data into landing zone
             DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
@@ -234,13 +282,13 @@ namespace NorthwindETLTest
             //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
 
 
-            System.Diagnostics.Trace.WriteLine("Finished test initialize");
+            System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
         }
 
         [TestCleanup()]
         public void TestCleanup()
         {
-            System.Diagnostics.Trace.WriteLine("Started test cleanup...");
+            System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
             //System.Diagnostics.Trace.WriteLine($"Stoped SQL profiler");
 
@@ -252,13 +300,13 @@ namespace NorthwindETLTest
                 CleanupFolder($"{workingFolder}\\IngestData\\TestData");
                 CleanupFolder($"{workingFolder}\\Backup");
             }
-            System.Diagnostics.Trace.WriteLine("Finished test cleanup");
+            System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
         }
 
         [TestMethod]
         public void NorthwindTest()
         {
-            System.Diagnostics.Trace.WriteLine("Started test...");
+            System.Diagnostics.Trace.WriteLine("**********Started test**********");
 
             string PackageName = "Transform and load.dtsx";
 
@@ -294,14 +342,14 @@ namespace NorthwindETLTest
                 }
             }
 
-            System.Diagnostics.Trace.WriteLine("Finished test");
+            System.Diagnostics.Trace.WriteLine("**********Finished test**********");
         }
 
         private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
         {
-            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs["SSISDB"];
-            ProjectInfo NorthwindETL = SSISDB.Folders["NorthwindBI"].Projects["NorthwindETL"];
-            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key("Release", ".")];
+            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
+            ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(SSISEnvironmentName, ".")];
             Int64 executionid = -1;
 
             PackageInfo package = NorthwindETL.Packages[PackageName];
@@ -375,6 +423,25 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe";
+            myProcess.StartInfo.Arguments = Arguments;
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.StartInfo.RedirectStandardError = true;
+            myProcess.Start();
+
+            string ErrorOutput = myProcess.StandardError.ReadToEnd();
+            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
+
+            if (myProcess.ExitCode != 0)
+            {
+                System.Diagnostics.Trace.WriteLine($"{ErrorOutput}\r\n{StandartOutput}");
+            }
+        }
+
+        private static void CallSQLCMD(string Arguments)
+        {
+            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
+            myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE";
             myProcess.StartInfo.Arguments = Arguments;
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.RedirectStandardOutput = true;
