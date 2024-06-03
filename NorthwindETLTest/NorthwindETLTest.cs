@@ -58,18 +58,21 @@ namespace NorthwindETLTest
             CleanupFolder($"{workingFolder}\\Backup");
 
             //Preparing SSIS environment
-            if (SSISEnvironmentName == "Debug") {
+            if (SSISEnvironmentName == "Debug")
+            {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing debug environment...");
-                CallSQLCMD($"-S {SSISServerName}" +
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
                     $" @environment_name = N'Debug';");
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
-                CallSQLCMD($"-S {SSISServerName}" +
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
                     $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
@@ -94,9 +97,10 @@ namespace NorthwindETLTest
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\""
                 );
-                
-                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
-                CallSQLCMD($"-S {SSISServerName}" +
+
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
                     $" -v  SSISEnvironmentName=\"{SSISEnvironmentName}\"" +
@@ -113,7 +117,7 @@ namespace NorthwindETLTest
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
                 string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -T -h \"TABLOCK\"";
-                Callbcp(Arguments);
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", Arguments);
             }
 
             string sqlExpression;
@@ -151,7 +155,8 @@ namespace NorthwindETLTest
                             "WHERE [CustomerID] = N'FRANK';";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", 
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Employees test data
@@ -184,7 +189,8 @@ namespace NorthwindETLTest
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", 
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Products test data
@@ -210,7 +216,8 @@ namespace NorthwindETLTest
                             " WHERE[ProductID] = 2;";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Categories test data
@@ -231,7 +238,8 @@ namespace NorthwindETLTest
                             " WHERE[CategoryID] = 2;";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Orders test data
@@ -250,7 +258,8 @@ namespace NorthwindETLTest
                         $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
                 // Prepare Order Details test data
@@ -267,7 +276,8 @@ namespace NorthwindETLTest
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    Callbcp($"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
             }
 
@@ -421,10 +431,10 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void Callbcp(string Arguments)
+        private static void CallProcess(string FileName, string Arguments)
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
-            myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe";
+            myProcess.StartInfo.FileName = FileName;
             myProcess.StartInfo.Arguments = Arguments;
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.RedirectStandardOutput = true;
@@ -436,26 +446,7 @@ namespace NorthwindETLTest
 
             if (myProcess.ExitCode != 0)
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
-            }
-        }
-
-        private static void CallSQLCMD(string Arguments)
-        {
-            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
-            myProcess.StartInfo.FileName = $"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE";
-            myProcess.StartInfo.Arguments = Arguments;
-            myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.RedirectStandardOutput = true;
-            myProcess.StartInfo.RedirectStandardError = true;
-            myProcess.Start();
-
-            string ErrorOutput = myProcess.StandardError.ReadToEnd();
-            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
-
-            if (myProcess.ExitCode != 0)
-            {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
         }
 
