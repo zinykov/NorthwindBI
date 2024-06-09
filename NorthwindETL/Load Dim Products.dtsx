@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Products.xml"
+  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Dim_Products.xml"
   DTS:CreationDate="3/8/2022 7:53:48 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
   DTS:CreatorName="SWIFT3\zinyk"
-  DTS:DTSID="{019C78F9-0489-479D-A9A0-156742EDD29D}"
+  DTS:DTSID="{D2AB669A-5F27-4AEE-9AB8-5F71ED8DD6E1}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="16.0.5467.0"
   DTS:LocaleID="1049"
-  DTS:ObjectName="Load Products"
+  DTS:ObjectName="Load Dim Products"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="356"
-  DTS:VersionGUID="{4C01FFC2-7C5F-4237-8ECE-B9E73E506D29}">
+  DTS:VersionBuild="367"
+  DTS:VersionGUID="{6C28CE92-1DB4-4367-AC57-77A37C370CA1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -544,7 +544,7 @@
                                   dataType="wstr"
                                   errorOrTruncationOperation="Вычисление"
                                   errorRowDisposition="FailComponent"
-                                  length="48"
+                                  length="50"
                                   lineageId="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]"
                                   name="BatchTag"
                                   truncationRowDisposition="FailComponent">
@@ -553,13 +553,13 @@
                                       containsID="true"
                                       dataType="System.String"
                                       description="Выражение производного столбца"
-                                      name="Expression">@[System::ExecutionInstanceGUID] + @[User::SourceTableName]</property>
+                                      name="Expression">(DT_WSTR,50)(@[User::SourceTableName] + @[System::ExecutionInstanceGUID])</property>
                                     <property
                                       containsID="true"
                                       dataType="System.String"
                                       description="Понятное выражение производного столбца"
                                       expressionType="Notify"
-                                      name="FriendlyExpression">@[System::ExecutionInstanceGUID] + @[User::SourceTableName]</property>
+                                      name="FriendlyExpression">(DT_WSTR,50)(@[User::SourceTableName] + @[System::ExecutionInstanceGUID])</property>
                                   </properties>
                                 </outputColumn>
                               </outputColumns>
@@ -920,7 +920,7 @@
                                 <inputColumn
                                   refId="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[BatchTag]"
                                   cachedDataType="wstr"
-                                  cachedLength="48"
+                                  cachedLength="50"
                                   cachedName="BatchTag"
                                   externalMetadataColumnId="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BatchTag]"
                                   lineageId="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]" />
@@ -1679,7 +1679,7 @@
                                   dataType="wstr"
                                   errorOrTruncationOperation="Вычисление"
                                   errorRowDisposition="FailComponent"
-                                  length="38"
+                                  length="50"
                                   lineageId="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]"
                                   name="BatchTag"
                                   truncationRowDisposition="FailComponent">
@@ -1688,13 +1688,13 @@
                                       containsID="true"
                                       dataType="System.String"
                                       description="Выражение производного столбца"
-                                      name="Expression">@[System::ExecutionInstanceGUID]</property>
+                                      name="Expression">(DT_WSTR,50)(@[User::SourceTableName] + @[System::ExecutionInstanceGUID])</property>
                                     <property
                                       containsID="true"
                                       dataType="System.String"
                                       description="Понятное выражение производного столбца"
                                       expressionType="Notify"
-                                      name="FriendlyExpression">@[System::ExecutionInstanceGUID]</property>
+                                      name="FriendlyExpression">(DT_WSTR,50)(@[User::SourceTableName] + @[System::ExecutionInstanceGUID])</property>
                                   </properties>
                                 </outputColumn>
                               </outputColumns>
@@ -2108,7 +2108,7 @@
                                 <inputColumn
                                   refId="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[BatchTag]"
                                   cachedDataType="wstr"
-                                  cachedLength="38"
+                                  cachedLength="50"
                                   cachedName="BatchTag"
                                   externalMetadataColumnId="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BatchTag]"
                                   lineageId="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[BatchTag]" />
@@ -4064,26 +4064,28 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\MDS -&gt; DWH\MDS load entity Category"
+          DTS:refId="Package\MDS -&gt; DWH\MDS load entity Categories"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:DTSID="{9fc141c0-5cc9-425a-ae92-b7efc6444876}"
+          DTS:DTSID="{92034a34-d1fd-4c89-a7b3-41ecc3cb23e3}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="MDS load entity Category"
+          DTS:ObjectName="MDS load entity Categories"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
+            DTS:Name="Name">"MDS load entity "+ @[User::SourceTableName1]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
             DTS:Name="SqlStatementSource">"EXECUTE [stg].[udp_NW_"+ @[User::SourceTableName1] +"_Leaf]
    @VersionName = ?
  , @LogFlag = 0
- , @BatchTag = N'"+ @[System::ExecutionInstanceGUID] + @[User::SourceTableName1] +"'
+ , @BatchTag = N'"+ LEFT ( @[User::SourceTableName1] + @[System::ExecutionInstanceGUID], 50 ) +"'
  , @UserName = ?"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Categories_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'{BCA42898-556A-480D-A606-95491B011850}Categories'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Categories_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Categories{4F6D709A-3686-4EE7-A444-1732E5A8B7B1}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -4100,26 +4102,28 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\MDS -&gt; DWH\MDS load entity Product"
+          DTS:refId="Package\MDS -&gt; DWH\MDS load entity Products"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:DTSID="{076eabbd-9516-46df-af4b-42f415f35035}"
+          DTS:DTSID="{25a1b4c3-a3e6-460a-b8e9-1d2add1a7f08}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="MDS load entity Product"
+          DTS:ObjectName="MDS load entity Products"
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
+            DTS:Name="Name">"MDS load entity "+ @[User::SourceTableName2]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
             DTS:Name="SqlStatementSource">"EXECUTE [stg].[udp_NW_"+ @[User::SourceTableName2] +"_Leaf]
    @VersionName = ?
  , @LogFlag = 0
- , @BatchTag = N'"+ @[System::ExecutionInstanceGUID] + @[User::SourceTableName2] +"'
+ , @BatchTag = N'"+ LEFT ( @[User::SourceTableName2] + @[System::ExecutionInstanceGUID], 50 ) +"'
  , @UserName = ?"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Products_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'{BCA42898-556A-480D-A606-95491B011850}Products'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Products_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Products{4F6D709A-3686-4EE7-A444-1732E5A8B7B1}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -4194,27 +4198,27 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение]"
           DTS:CreationName=""
-          DTS:DTSID="{43522F32-D9F8-4267-9A6B-5799E9CF9A8E}"
-          DTS:From="Package\MDS -&gt; DWH\MDS load entity Category"
+          DTS:DTSID="{DA7C1C09-5CE0-4EFC-9D5C-1C3DFF9E2161}"
+          DTS:From="Package\MDS -&gt; DWH\MDS get version name"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение"
-          DTS:To="Package\MDS -&gt; DWH\MDS load entity Product" />
+          DTS:To="Package\MDS -&gt; DWH\MDS load entity Categories" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
           DTS:CreationName=""
-          DTS:DTSID="{81434ADB-2426-4847-8FD8-9C3AF9394665}"
-          DTS:From="Package\MDS -&gt; DWH\MDS load entity Product"
+          DTS:DTSID="{BE488289-DEA1-4BAC-A0C9-4DE776901783}"
+          DTS:From="Package\MDS -&gt; DWH\MDS load entity Categories"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 1"
-          DTS:To="Package\MDS -&gt; DWH\MDS validate model" />
+          DTS:To="Package\MDS -&gt; DWH\MDS load entity Products" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
           DTS:CreationName=""
-          DTS:DTSID="{0B2C81D4-4FB0-416D-B6BC-6CEEE04329BA}"
-          DTS:From="Package\MDS -&gt; DWH\MDS get version name"
+          DTS:DTSID="{1246C072-75D4-436F-8B87-A51AF54C858B}"
+          DTS:From="Package\MDS -&gt; DWH\MDS load entity Products"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 2"
-          DTS:To="Package\MDS -&gt; DWH\MDS load entity Category" />
+          DTS:To="Package\MDS -&gt; DWH\MDS validate model" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -4412,39 +4416,39 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="155.2,41.6"
+          Size="155,42"
           Id="Package\DQS -&gt; MDS\Categories\Check changes"
-          TopLeft="269.3,5.49999999999995" />
+          TopLeft="281,5.5" />
         <NodeLayout
-          Size="163.2,41.6"
+          Size="163,42"
           Id="Package\DQS -&gt; MDS\Categories\Drop primary key"
-          TopLeft="265.3,515.9" />
+          TopLeft="277,517.5" />
         <NodeLayout
-          Size="269.6,41.6"
+          Size="281,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table"
-          TopLeft="5.5,107.1" />
+          TopLeft="5.5,107.5" />
         <NodeLayout
-          Size="208,41.6"
+          Size="208,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\Landing update hash table"
-          TopLeft="36.3,208.7" />
+          TopLeft="42,209.5" />
         <NodeLayout
-          Size="214.4,41.6"
+          Size="214,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\Truncate DQS staging table"
-          TopLeft="33.1,5.50000000000007" />
+          TopLeft="39,5.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed.PrecedenceConstraints[Constraint]"
-          TopLeft="140.3,47.1000000000001">
+          TopLeft="146,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4455,18 +4459,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed.PrecedenceConstraints[Constraint 3]"
-          TopLeft="140.3,148.7">
+          TopLeft="146,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4478,96 +4482,96 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="280.8,305.6"
-          Size="280.8,348.8"
+          PanelSize="292,307"
+          Size="292,350"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed"
-          TopLeft="5.50000000000006,107.1" />
+          TopLeft="5.50000000000003,107.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories.PrecedenceConstraints[Constraint 1]"
-          TopLeft="322.366666666667,47.1">
+          TopLeft="334,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-176.466666666667,60"
+              EndConnector="-182.5,60"
               Start="0,0"
-              End="-176.466666666667,52.5">
+              End="-182.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.3673469387755" />
+                    End="0,20.367816091954" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.3673469387755"
-                    Point2="0,24.3673469387755"
-                    Point3="-4,24.3673469387755" />
+                    Point1="0,20.367816091954"
+                    Point2="0,24.367816091954"
+                    Point3="-4,24.367816091954" />
                   <mssgle:LineSegment
-                    End="-172.466666666667,24.3673469387755" />
+                    End="-178.5,24.367816091954" />
                   <mssgle:CubicBezierSegment
-                    Point1="-172.466666666667,24.3673469387755"
-                    Point2="-176.466666666667,24.3673469387755"
-                    Point3="-176.466666666667,28.3673469387755" />
+                    Point1="-178.5,24.367816091954"
+                    Point2="-182.5,24.367816091954"
+                    Point3="-182.5,28.367816091954" />
                   <mssgle:LineSegment
-                    End="-176.466666666667,52.5" />
+                    End="-182.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-96.2333333333333,29.3673469387755,16,16"
+              BoundingBox="-99.25,29.367816091954,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories.PrecedenceConstraints[Ограничение]"
-          TopLeft="372.1,47.1">
+          TopLeft="383.666666666667,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,468.8"
+              EndConnector="0,470"
               Start="0,0"
-              End="0,461.3">
+              End="0,462.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,461.3" />
+                    End="0,462.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-8,222.65,16,16"
+              BoundingBox="-8,223.25,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="145.9,455.9">
+          TopLeft="151.5,457.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="175.133333333333,60.0000000000001"
+              EndConnector="181.166666666667,60"
               Start="0,0"
-              End="175.133333333333,52.5000000000001">
+              End="181.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6504854368933" />
+                    End="0,31.6500607533414" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6504854368933"
-                    Point2="0,35.6504854368933"
-                    Point3="4,35.6504854368933" />
+                    Point1="0,31.6500607533414"
+                    Point2="0,35.6500607533414"
+                    Point3="4,35.6500607533414" />
                   <mssgle:LineSegment
-                    End="171.133333333333,35.6504854368933" />
+                    End="177.166666666667,35.6500607533414" />
                   <mssgle:CubicBezierSegment
-                    Point1="171.133333333333,35.6504854368933"
-                    Point2="175.133333333333,35.6504854368933"
-                    Point3="175.133333333333,39.6504854368933" />
+                    Point1="177.166666666667,35.6500607533414"
+                    Point2="181.166666666667,35.6500607533414"
+                    Point3="181.166666666667,39.6500607533414" />
                   <mssgle:LineSegment
-                    End="175.133333333333,52.5000000000001" />
+                    End="181.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4579,44 +4583,44 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="434.4,612.8"
-          Size="434.4,656"
+          PanelSize="446,615"
+          Size="446,658"
           Id="Package\DQS -&gt; MDS\Categories"
-          TopLeft="5.50000000000006,5.50000000000011" />
+          TopLeft="5.5,5.50000000000011" />
         <NodeLayout
-          Size="155.2,41.6"
+          Size="155,42"
           Id="Package\DQS -&gt; MDS\Products\Check changes"
-          TopLeft="269.3,5.49999999999995" />
+          TopLeft="281,5.5" />
         <NodeLayout
-          Size="163.2,41.6"
+          Size="163,42"
           Id="Package\DQS -&gt; MDS\Products\Drop primary key"
-          TopLeft="265.3,515.9" />
+          TopLeft="277,517.5" />
         <NodeLayout
-          Size="269.6,41.6"
+          Size="281,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table"
-          TopLeft="5.5,107.1" />
+          TopLeft="5.5,107.5" />
         <NodeLayout
-          Size="208,41.6"
+          Size="208,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\Landing update hash table"
-          TopLeft="36.3,208.7" />
+          TopLeft="42,209.5" />
         <NodeLayout
-          Size="214.4,41.6"
+          Size="214,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\Truncate DQS staging table"
-          TopLeft="33.1,5.50000000000007" />
+          TopLeft="39,5.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed.PrecedenceConstraints[Constraint]"
-          TopLeft="140.3,47.1000000000001">
+          TopLeft="146,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4627,18 +4631,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed.PrecedenceConstraints[Constraint 3]"
-          TopLeft="140.3,148.7">
+          TopLeft="146,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4650,96 +4654,96 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="280.8,305.6"
-          Size="280.8,348.8"
+          PanelSize="292,307"
+          Size="292,350"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed"
-          TopLeft="5.50000000000006,107.1" />
+          TopLeft="5.50000000000003,107.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products.PrecedenceConstraints[Constraint 1]"
-          TopLeft="322.366666666667,47.1">
+          TopLeft="334,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-176.466666666667,60"
+              EndConnector="-182.5,60"
               Start="0,0"
-              End="-176.466666666667,52.5">
+              End="-182.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.3673469387755" />
+                    End="0,20.367816091954" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.3673469387755"
-                    Point2="0,24.3673469387755"
-                    Point3="-4,24.3673469387755" />
+                    Point1="0,20.367816091954"
+                    Point2="0,24.367816091954"
+                    Point3="-4,24.367816091954" />
                   <mssgle:LineSegment
-                    End="-172.466666666667,24.3673469387755" />
+                    End="-178.5,24.367816091954" />
                   <mssgle:CubicBezierSegment
-                    Point1="-172.466666666667,24.3673469387755"
-                    Point2="-176.466666666667,24.3673469387755"
-                    Point3="-176.466666666667,28.3673469387755" />
+                    Point1="-178.5,24.367816091954"
+                    Point2="-182.5,24.367816091954"
+                    Point3="-182.5,28.367816091954" />
                   <mssgle:LineSegment
-                    End="-176.466666666667,52.5" />
+                    End="-182.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-96.2333333333333,29.3673469387755,16,16"
+              BoundingBox="-99.25,29.367816091954,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products.PrecedenceConstraints[Ограничение]"
-          TopLeft="372.1,47.1">
+          TopLeft="383.666666666667,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,468.8"
+              EndConnector="0,470"
               Start="0,0"
-              End="0,461.3">
+              End="0,462.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,461.3" />
+                    End="0,462.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-8,222.65,16,16"
+              BoundingBox="-8,223.25,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="145.9,455.9">
+          TopLeft="151.5,457.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="175.133333333333,60.0000000000001"
+              EndConnector="181.166666666667,60"
               Start="0,0"
-              End="175.133333333333,52.5000000000001">
+              End="181.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6504854368933" />
+                    End="0,31.6500607533414" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6504854368933"
-                    Point2="0,35.6504854368933"
-                    Point3="4,35.6504854368933" />
+                    Point1="0,31.6500607533414"
+                    Point2="0,35.6500607533414"
+                    Point3="4,35.6500607533414" />
                   <mssgle:LineSegment
-                    End="171.133333333333,35.6504854368933" />
+                    End="177.166666666667,35.6500607533414" />
                   <mssgle:CubicBezierSegment
-                    Point1="171.133333333333,35.6504854368933"
-                    Point2="175.133333333333,35.6504854368933"
-                    Point3="175.133333333333,39.6504854368933" />
+                    Point1="177.166666666667,35.6500607533414"
+                    Point2="181.166666666667,35.6500607533414"
+                    Point3="181.166666666667,39.6500607533414" />
                   <mssgle:LineSegment
-                    End="175.133333333333,52.5000000000001" />
+                    End="181.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4751,40 +4755,40 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="434.4,612.8"
-          Size="434.4,656"
+          PanelSize="446,615"
+          Size="446,658"
           Id="Package\DQS -&gt; MDS\Products"
-          TopLeft="500.5,5.5" />
+          TopLeft="512.5,5.5" />
         <NodeLayout
-          Size="248.8,41.6"
+          Size="249,42"
           Id="Package\DQS -&gt; MDS\Set AreThereAnyChanges variable"
-          TopLeft="593.3,721.5" />
+          TopLeft="611,723.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS.PrecedenceConstraints[Ограничение]"
-          TopLeft="717.7,661.5">
+          TopLeft="735.5,663.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="40.1333333333333,60.0000000000001"
+              EndConnector="40.1666666666666,60"
               Start="0,0"
-              End="40.1333333333333,52.5000000000001">
+              End="40.1666666666666,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7699680511183" />
+                    End="0,31.7701516360734" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7699680511183"
-                    Point2="0,35.7699680511183"
-                    Point3="4,35.7699680511183" />
+                    Point1="0,31.7701516360734"
+                    Point2="0,35.7701516360734"
+                    Point3="4,35.7701516360734" />
                   <mssgle:LineSegment
-                    End="36.1333333333333,35.7699680511183" />
+                    End="36.1666666666666,35.7701516360734" />
                   <mssgle:CubicBezierSegment
-                    Point1="36.1333333333333,35.7699680511183"
-                    Point2="40.1333333333333,35.7699680511183"
-                    Point3="40.1333333333333,39.7699680511183" />
+                    Point1="36.1666666666666,35.7701516360734"
+                    Point2="40.1666666666666,35.7701516360734"
+                    Point3="40.1666666666666,39.7701516360734" />
                   <mssgle:LineSegment
-                    End="40.1333333333333,52.5000000000001" />
+                    End="40.1666666666666,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4795,30 +4799,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="222.7,661.5">
+          TopLeft="228.5,663.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="454.866666666667,60"
+              EndConnector="466.833333333333,59.9999999999999"
               Start="0,0"
-              End="454.866666666667,52.5">
+              End="466.833333333333,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7699680511182" />
+                    End="0,31.7701516360733" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7699680511182"
-                    Point2="0,35.7699680511182"
-                    Point3="4,35.7699680511182" />
+                    Point1="0,31.7701516360733"
+                    Point2="0,35.7701516360733"
+                    Point3="4,35.7701516360733" />
                   <mssgle:LineSegment
-                    End="450.866666666667,35.7699680511182" />
+                    End="462.833333333333,35.7701516360733" />
                   <mssgle:CubicBezierSegment
-                    Point1="450.866666666667,35.7699680511182"
-                    Point2="454.866666666667,35.7699680511182"
-                    Point3="454.866666666667,39.7699680511182" />
+                    Point1="462.833333333333,35.7701516360733"
+                    Point2="466.833333333333,35.7701516360733"
+                    Point3="466.833333333333,39.7701516360733" />
                   <mssgle:LineSegment
-                    End="454.866666666667,52.5" />
+                    End="466.833333333333,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4830,41 +4834,45 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="940.8,818.4"
-          Size="940.8,861.6"
+          PanelSize="964,821"
+          Size="964,864"
           Id="Package\DQS -&gt; MDS"
-          TopLeft="82.3000000000001,155.033333326446" />
+          TopLeft="72,156.5" />
         <NodeLayout
-          Size="154.4,41.6"
+          Size="159,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="475.5,54.3000000000002" />
+          TopLeft="474.5,54.5" />
         <NodeLayout
-          Size="216.8,41.6"
+          Size="217,42"
           Id="Package\MDS -&gt; DWH\DWH add unknown member"
-          TopLeft="5.5,310.3" />
+          TopLeft="5.50000000000006,311.5" />
         <NodeLayout
-          Size="196,41.6"
+          Size="196,42"
           Id="Package\MDS -&gt; DWH\DWH get start load date"
-          TopLeft="15.9,208.7" />
+          TopLeft="9,209.5" />
         <NodeLayout
-          Size="128.8,41.6"
+          Size="129,42"
           Id="Package\MDS -&gt; DWH\DWH load"
-          TopLeft="304.5,411.9" />
+          TopLeft="307.5,413.5" />
         <NodeLayout
-          Size="191.2,41.6"
+          Size="191,42"
           Id="Package\MDS -&gt; DWH\MDS get version name"
-          TopLeft="273.3,5.49999999999995" />
+          TopLeft="276.5,5.5" />
         <NodeLayout
-          Size="196.8,41.6"
-          Id="Package\MDS -&gt; DWH\MDS load entity Category"
-          TopLeft="270.5,107.1" />
+          Size="213,42"
+          Id="Package\MDS -&gt; DWH\MDS load entity Categories"
+          TopLeft="265.5,107.5" />
         <NodeLayout
-          Size="171.2,41.6"
+          Size="213,42"
+          Id="Package\MDS -&gt; DWH\MDS load entity Products"
+          TopLeft="265.5,209.5" />
+        <NodeLayout
+          Size="177,42"
           Id="Package\MDS -&gt; DWH\MDS validate model"
-          TopLeft="283.3,310.3" />
+          TopLeft="283.5,311.5" />
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 1 2]"
-          TopLeft="113.9,250.3">
+          TopLeft="110.5,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4886,30 +4894,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="113.9,351.9">
+          TopLeft="114,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="234.866666666667,60"
+              EndConnector="237.833333333333,60"
               Start="0,0"
-              End="234.866666666667,52.5">
+              End="237.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.558282208589" />
+                    End="0,31.5589586523737" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.558282208589"
-                    Point2="0,35.558282208589"
-                    Point3="4,35.558282208589" />
+                    Point1="0,31.5589586523737"
+                    Point2="0,35.5589586523737"
+                    Point3="4,35.5589586523737" />
                   <mssgle:LineSegment
-                    End="230.866666666667,35.558282208589" />
+                    End="233.833333333333,35.5589586523737" />
                   <mssgle:CubicBezierSegment
-                    Point1="230.866666666667,35.558282208589"
-                    Point2="234.866666666667,35.558282208589"
-                    Point3="234.866666666667,39.558282208589" />
+                    Point1="233.833333333333,35.5589586523737"
+                    Point2="237.833333333333,35.5589586523737"
+                    Point3="237.833333333333,39.5589586523737" />
                   <mssgle:LineSegment
-                    End="234.866666666667,52.5" />
+                    End="237.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4920,30 +4928,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 5]"
-          TopLeft="368.9,351.9">
+          TopLeft="372,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="20.1333333333332,60"
+              EndConnector="20.1666666666667,60"
               Start="0,0"
-              End="20.1333333333332,52.5">
+              End="20.1666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5582822085889" />
+                    End="0,31.5589586523737" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.5582822085889"
-                    Point2="0,35.5582822085889"
-                    Point3="4,35.5582822085889" />
+                    Point1="0,31.5589586523737"
+                    Point2="0,35.5589586523737"
+                    Point3="4,35.5589586523737" />
                   <mssgle:LineSegment
-                    End="16.1333333333332,35.5582822085889" />
+                    End="16.1666666666667,35.5589586523737" />
                   <mssgle:CubicBezierSegment
-                    Point1="16.1333333333332,35.5582822085889"
-                    Point2="20.1333333333332,35.5582822085889"
-                    Point3="20.1333333333332,39.5582822085889" />
+                    Point1="16.1666666666667,35.5589586523737"
+                    Point2="20.1666666666667,35.5589586523737"
+                    Point3="20.1666666666667,39.5589586523737" />
                   <mssgle:LineSegment
-                    End="20.1333333333332,52.5" />
+                    End="20.1666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4952,46 +4960,20 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="368.9,47.1">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
-              Start="0,0"
-              End="0,52.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.4999999999999" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="190.4,41.6"
-          Id="Package\MDS -&gt; DWH\MDS load entity Product"
-          TopLeft="273.7,208.7" />
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="368.9,148.7">
+          TopLeft="372,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5002,7 +4984,29 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="368.9,250.3">
+          TopLeft="372,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="372,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5025,28 +5029,28 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="472.8,508.8"
-          Size="472.8,552"
+          PanelSize="484,511"
+          Size="484,554"
           Id="Package\MDS -&gt; DWH"
-          TopLeft="13.5000000000002,1077.5" />
+          TopLeft="13.5000000000001,1080.5" />
         <NodeLayout
-          Size="192,41.6"
+          Size="199,42"
           Id="Package\Set load compilation info"
-          TopLeft="456.7,1689.5" />
+          TopLeft="454.5,1694.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="552.7,95.9000000000002">
+          TopLeft="554,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.1333333264456"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,51.6333333264456">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,51.6333333264456" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5057,30 +5061,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="249.9,1629.5">
+          TopLeft="255.5,1634.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="272.133333333333,60"
+              EndConnector="266.666666666667,60"
               Start="0,0"
-              End="272.133333333333,52.5">
+              End="266.666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.702479338843" />
+                    End="0,31.7128614157528" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.702479338843"
-                    Point2="0,35.702479338843"
-                    Point3="4,35.702479338843" />
+                    Point1="0,31.7128614157528"
+                    Point2="0,35.7128614157528"
+                    Point3="4,35.7128614157528" />
                   <mssgle:LineSegment
-                    End="268.133333333333,35.702479338843" />
+                    End="262.666666666667,35.7128614157528" />
                   <mssgle:CubicBezierSegment
-                    Point1="268.133333333333,35.702479338843"
-                    Point2="272.133333333333,35.702479338843"
-                    Point3="272.133333333333,39.702479338843" />
+                    Point1="262.666666666667,35.7128614157528"
+                    Point2="266.666666666667,35.7128614157528"
+                    Point3="266.666666666667,39.7128614157528" />
                   <mssgle:LineSegment
-                    End="272.133333333333,52.5" />
+                    End="266.666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5091,73 +5095,73 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="397.233333333333,1016.63333332645">
+          TopLeft="394.666666666667,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-147.333333333333,60.8666666735542"
+              EndConnector="-139.166666666667,60"
               Start="0,0"
-              End="-147.333333333333,53.3666666735542">
+              End="-139.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.4086700650144" />
+                    End="0,20.059652029826" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.4086700650144"
-                    Point2="0,24.4086700650144"
-                    Point3="-4,24.4086700650144" />
+                    Point1="0,20.059652029826"
+                    Point2="0,24.059652029826"
+                    Point3="-4,24.059652029826" />
                   <mssgle:LineSegment
-                    End="-143.333333333333,24.4086700650144" />
+                    End="-135.166666666667,24.059652029826" />
                   <mssgle:CubicBezierSegment
-                    Point1="-143.333333333333,24.4086700650144"
-                    Point2="-147.333333333333,24.4086700650144"
-                    Point3="-147.333333333333,28.4086700650144" />
+                    Point1="-135.166666666667,24.059652029826"
+                    Point2="-139.166666666667,24.059652029826"
+                    Point3="-139.166666666667,28.059652029826" />
                   <mssgle:LineSegment
-                    End="-147.333333333333,53.3666666735542" />
+                    End="-139.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-81.6666666666666,29.4086700650144,16,16"
+              BoundingBox="-77.5833333333333,29.059652029826,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="708.166666666667,1016.63333332645">
+          TopLeft="713.333333333333,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-124.8,672.866666673554"
+              EndConnector="-127.5,674"
               Start="0,0"
-              End="-124.8,665.366666673554">
+              End="-127.5,666.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,329.678577930492" />
+                    End="0,330.344434029316" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,329.678577930492"
-                    Point2="0,333.678577930492"
-                    Point3="-4,333.678577930492" />
+                    Point1="0,330.344434029316"
+                    Point2="0,334.344434029316"
+                    Point3="-4,334.344434029316" />
                   <mssgle:LineSegment
-                    End="-120.8,333.678577930492" />
+                    End="-123.5,334.344434029316" />
                   <mssgle:CubicBezierSegment
-                    Point1="-120.8,333.678577930492"
-                    Point2="-124.8,333.678577930492"
-                    Point3="-124.8,337.678577930492" />
+                    Point1="-123.5,334.344434029316"
+                    Point2="-127.5,334.344434029316"
+                    Point3="-127.5,338.344434029316" />
                   <mssgle:LineSegment
-                    End="-124.8,665.366666673554" />
+                    End="-127.5,666.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-70.4,338.678577930492,16,16"
+              BoundingBox="-71.7499999999999,339.344434029316,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -5210,55 +5214,55 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="148,41.6"
+          Size="152,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Source landing"
-          TopLeft="337.1,54.3" />
+          TopLeft="340,54.5" />
         <NodeLayout
-          Size="192.8,41.6"
+          Size="200,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging"
-          TopLeft="314.7,460.7" />
+          TopLeft="316,462.5" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="155,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\DQS Cleansing"
-          TopLeft="335.9,155.9" />
+          TopLeft="338.5,156.5" />
         <NodeLayout
-          Size="271.2,41.6"
+          Size="283,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes"
-          TopLeft="275.5,359.1" />
+          TopLeft="274.5,360.5" />
         <NodeLayout
-          Size="119.2,41.6"
+          Size="123,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Multicast"
-          TopLeft="351.5,257.5" />
+          TopLeft="354.5,258.5" />
         <NodeLayout
-          Size="192,41.6"
+          Size="199,42"
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Destination DQS staging"
-          TopLeft="23.1000000000001,359.1" />
+          TopLeft="14.5000000000001,360.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Многоадресная рассылка Выход 1]"
-          TopLeft="392.566666666667,299.1">
+          TopLeft="396.833333333333,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-273.466666666667,60"
+              EndConnector="-282.833333333333,60"
               Start="0,0"
-              End="-273.466666666667,52.5">
+              End="-282.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.476821192053" />
+                    End="0,20.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.476821192053"
-                    Point2="0,24.476821192053"
-                    Point3="-4,24.476821192053" />
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
                   <mssgle:LineSegment
-                    End="-269.466666666667,24.476821192053" />
+                    End="-278.833333333333,24.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="-269.466666666667,24.476821192053"
-                    Point2="-273.466666666667,24.476821192053"
-                    Point3="-273.466666666667,28.476821192053" />
+                    Point1="-278.833333333333,24.46227929374"
+                    Point2="-282.833333333333,24.46227929374"
+                    Point3="-282.833333333333,28.46227929374" />
                   <mssgle:LineSegment
-                    End="-273.466666666667,52.5" />
+                    End="-282.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5269,7 +5273,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход производного столбца]"
-          TopLeft="411.1,400.7">
+          TopLeft="416,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5291,30 +5295,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход многоадресной рассылки 1]"
-          TopLeft="429.633333333333,299.1">
+          TopLeft="435.166666666667,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-18.5333333333332,60"
+              EndConnector="-19.1666666666666,60"
               Start="0,0"
-              End="-18.5333333333332,52.5">
+              End="-19.1666666666666,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.476821192053" />
+                    End="0,20.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.476821192053"
-                    Point2="0,24.476821192053"
-                    Point3="-4,24.476821192053" />
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
                   <mssgle:LineSegment
-                    End="-14.5333333333332,24.476821192053" />
+                    End="-15.1666666666666,24.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="-14.5333333333332,24.476821192053"
-                    Point2="-18.5333333333332,24.476821192053"
-                    Point3="-18.5333333333332,28.476821192053" />
+                    Point1="-15.1666666666666,24.46227929374"
+                    Point2="-19.1666666666666,24.46227929374"
+                    Point3="-19.1666666666666,28.46227929374" />
                   <mssgle:LineSegment
-                    End="-18.5333333333332,52.5" />
+                    End="-19.1666666666666,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5325,18 +5329,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="411.1,95.8999999999999">
+          TopLeft="416,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5347,18 +5351,18 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Вывод очистки DQS]"
-          TopLeft="411.1,197.5">
+          TopLeft="416,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5413,70 +5417,68 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="150.4,41.6"
+          Size="155,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\DQS Cleansing"
-          TopLeft="324.7,155.9" />
+          TopLeft="335.5,156.5" />
         <NodeLayout
-          Size="148,41.6"
+          Size="152,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Source landing"
-          TopLeft="325.9,54.3" />
+          TopLeft="337,54.5" />
         <NodeLayout
-          Size="271.2,41.6"
+          Size="283,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes"
-          TopLeft="264.3,359.1" />
+          TopLeft="271.5,360.5" />
         <NodeLayout
-          Size="119.2,41.6"
+          Size="123,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Multicast"
-          TopLeft="340.3,257.5" />
+          TopLeft="351.5,258.5" />
         <NodeLayout
-          Size="192.8,41.6"
+          Size="200,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging"
-          TopLeft="303.5,460.7" />
+          TopLeft="313,462.5" />
         <NodeLayout
-          Size="192,41.6"
+          Size="199,42"
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination DQS staging"
-          TopLeft="11.9000000000001,359.1" />
+          TopLeft="11.5000000000001,360.5" />
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Многоадресная рассылка Выход 1]"
-          TopLeft="381.366666666667,299.1">
+          TopLeft="393.833333333333,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-273.466666666667,60"
+              EndConnector="-282.833333333333,60"
               Start="0,0"
-              End="-273.466666666667,52.5">
+              End="-282.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.476821192053" />
+                    End="0,20.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.476821192053"
-                    Point2="0,24.476821192053"
-                    Point3="-4,24.476821192053" />
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
                   <mssgle:LineSegment
-                    End="-269.466666666667,24.476821192053" />
+                    End="-278.833333333333,24.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="-269.466666666667,24.476821192053"
-                    Point2="-273.466666666667,24.476821192053"
-                    Point3="-273.466666666667,28.476821192053" />
+                    Point1="-278.833333333333,24.46227929374"
+                    Point2="-282.833333333333,24.46227929374"
+                    Point3="-282.833333333333,28.46227929374" />
                   <mssgle:LineSegment
-                    End="-273.466666666667,52.5" />
+                    End="-282.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход производного столбца]"
-          TopLeft="399.9,400.7">
+          TopLeft="413,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5493,93 +5495,85 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход многоадресной рассылки 1]"
-          TopLeft="418.433333333333,299.1">
+          TopLeft="432.166666666667,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-18.5333333333332,60"
+              EndConnector="-19.1666666666666,60"
               Start="0,0"
-              End="-18.5333333333332,52.5">
+              End="-19.1666666666666,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.476821192053" />
+                    End="0,20.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.476821192053"
-                    Point2="0,24.476821192053"
-                    Point3="-4,24.476821192053" />
+                    Point1="0,20.46227929374"
+                    Point2="0,24.46227929374"
+                    Point3="-4,24.46227929374" />
                   <mssgle:LineSegment
-                    End="-14.5333333333332,24.476821192053" />
+                    End="-15.1666666666666,24.46227929374" />
                   <mssgle:CubicBezierSegment
-                    Point1="-14.5333333333332,24.476821192053"
-                    Point2="-18.5333333333332,24.476821192053"
-                    Point3="-18.5333333333332,28.476821192053" />
+                    Point1="-15.1666666666666,24.46227929374"
+                    Point2="-19.1666666666666,24.46227929374"
+                    Point3="-19.1666666666666,28.46227929374" />
                   <mssgle:LineSegment
-                    End="-18.5333333333332,52.5" />
+                    End="-19.1666666666666,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="399.9,95.8999999999999">
+          TopLeft="413,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Вывод очистки DQS]"
-          TopLeft="399.9,197.5">
+          TopLeft="413,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.9999999999999"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.4999999999999">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.4999999999999" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
