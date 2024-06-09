@@ -289,7 +289,7 @@ namespace NorthwindETLTest
             ETLTest.TestInitialize();
 
             //System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
-            //Logman("start");
+            //CallProcess("logman", "start -name \"SQL\"");
 
             //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
 
@@ -304,8 +304,8 @@ namespace NorthwindETLTest
 
             //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stoped SQL profiler");
 
-            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stoped perfomance monitor");
-            //Logman("stop");
+            //System.Diagnostics.Trace.WriteLine($"Stop perfomance monitor");
+            //CallProcess("logman", "stop -name \"SQL\"");
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
@@ -459,25 +459,6 @@ namespace NorthwindETLTest
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
-            }
-        }
-
-        private static void Logman(string Action)
-        {
-            System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
-            myProcess.StartInfo.FileName = "logman";
-            myProcess.StartInfo.Arguments = $"{Action} -name \"SQL\"";
-            myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.RedirectStandardOutput = true;
-            myProcess.StartInfo.RedirectStandardError = true;
-            myProcess.Start();
-
-            string ErrorOutput = myProcess.StandardError.ReadToEnd();
-            string StandartOutput = myProcess.StandardOutput.ReadToEnd();
-
-            if (myProcess.ExitCode != 0)
-            {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
         }
     }
