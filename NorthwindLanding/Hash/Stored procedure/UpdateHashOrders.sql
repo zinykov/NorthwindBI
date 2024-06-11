@@ -6,17 +6,12 @@ AS BEGIN
 
 	INSERT INTO [Hash].[Orders]
 	SELECT		  [OrderID]
-				, [CheckSum]
+				, [HashDiff]
 	FROM		[Landing].[Orders]
-	WHERE		[ShippedDate] <= @CutoffTime;
 
 	INSERT INTO [Hash].[Order Details]
 	SELECT		  [OrderID]
 				, [ProductID]
-				, [CheckSum]
+				, [HashDiff]
 	FROM		[Landing].[Order Details]
-	WHERE		[OrderID] IN ( SELECT [OrderID] FROM [Hash].[Orders] );
-
-	ALTER TABLE [Landing].[Order Details] DROP CONSTRAINT [PK_Landing_Order_Details];
-	ALTER TABLE [Landing].[Orders] DROP CONSTRAINT [PK_Landing_Orders];
 END

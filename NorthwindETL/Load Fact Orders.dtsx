@@ -14,10 +14,32 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="318"
-  DTS:VersionGUID="{054EA13F-0416-44B6-A654-49A55763D2D5}">
+  DTS:VersionBuild="333"
+  DTS:VersionGUID="{DA3DB58C-CB02-48CA-82EC-BE9DC02D55FA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Order Details.dat]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{42E00E52-3287-444A-B1CC-FD5265E10DFE}"
+      DTS:ObjectName="Order Details.dat">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Order Details.dat" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Orders.dat]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{2B5D1260-5C19-4F1B-B21A-4043D23E4F44}"
+      DTS:ObjectName="Orders.dat">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Orders.dat" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:LogProviders>
     <DTS:LogProvider
       DTS:ConfigString="Logs"
@@ -48,7 +70,16 @@
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{B49D4C95-3120-4C97-A565-7A1A1444E7F3}"
+      DTS:ObjectName="LoadDateInitialEnd">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -76,19 +107,28 @@
       DTS:DTSID="{E1074027-4E79-4C85-8479-38B27B515EF1}"
       DTS:IncludeInDebugDump="6789"
       DTS:Namespace="User"
-      DTS:ObjectName="Partition_number"
+      DTS:ObjectName="PartitionNumber"
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{C59B22A8-C379-41CD-882C-C2918BDECEBF}"
+      DTS:DTSID="{E65FFC89-A3CF-412D-8A29-30EE3B7559C1}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="SourceTableName1">
       <DTS:VariableValue
         DTS:DataType="8">Orders</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C49C0D74-0261-4655-BC9F-DEEEA3FAEEA0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceTableName2">
+      <DTS:VariableValue
+        DTS:DataType="8">Order Details</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -297,13 +337,13 @@
           DTS:DTSID="{5915054B-E027-45F5-BDEB-AE92EBAFEF5E}"
           DTS:IncludeInDebugDump="6789"
           DTS:Namespace="User"
-          DTS:ObjectName="AreThereAnyChangesInSourceTable1">
+          DTS:ObjectName="AreThereAnyChangesInSourceTable">
           <DTS:VariableValue
             DTS:DataType="11">0</DTS:VariableValue>
         </DTS:Variable>
         <DTS:Variable
           DTS:CreationName=""
-          DTS:DTSID="{3589678C-3BB2-44FB-A96D-F289A9917842}"
+          DTS:DTSID="{911F2941-DEF6-47A4-AB6C-F674A97EFA43}"
           DTS:EvaluateAsExpression="True"
           DTS:Expression="@[User::SourceTableName1]"
           DTS:IncludeInDebugDump="2345"
@@ -334,7 +374,7 @@
               SQLTask:SqlStatementSource="EXECUTE [Landing].[CheckChangedOrders]&#xA;&#x9;@AreThereAnyChangesInOrders = ? OUTPUT;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="User::AreThereAnyChangesInSourceTable1"
+                SQLTask:DtsVariableName="User::AreThereAnyChangesInSourceTable"
                 SQLTask:ParameterDirection="Output"
                 SQLTask:DataType="11"
                 SQLTask:ParameterSize="-1" />
@@ -418,6 +458,10 @@
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[CreateLoadTable"+ @[User::FactTableName] +"]
+      @CutoffTime = ?
+    , @IsMaitenance = 0;"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -432,6 +476,23 @@
               </DTS:ObjectData>
             </DTS:Executable>
             <DTS:Executable
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:DTSID="{b838863a-a724-4929-9a1b-346c7f4e35fc}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Create Load Table Constraints"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[CreateLoadTableConstraints"+ @[User::FactTableName] +"];"</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+                  SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableConstraintsOrder];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table"
               DTS:CreationName="Microsoft.ExecuteSQLTask"
               DTS:DTSID="{b5a17ea0-7b96-41fb-bf86-c8eef0271d08}"
@@ -442,6 +503,8 @@
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[DropLoadTable"+ @[User::FactTableName] +"];"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -465,79 +528,6 @@
                 <pipeline
                   version="1">
                   <components>
-                    <component
-                      refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date"
-                      componentClassID="Microsoft.DerivedColumn"
-                      contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                      description="Создает новые значения столбцов путем применения выражений к входным столбцам преобразования. Создает новые столбцы или перезаписывает существующие. Пример: объединение значений столбцов &quot;first name&quot; и &quot;last name&quot; и создание столбца &quot;full name&quot;."
-                      name="Add Load Date"
-                      usesDispositions="true">
-                      <inputs>
-                        <input
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]"
-                          description="Ввод преобразования &quot;Производный столбец&quot;"
-                          name="Вход производного столбца">
-                          <externalMetadataColumns />
-                        </input>
-                      </inputs>
-                      <outputs>
-                        <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Выход производного столбца]"
-                          description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
-                          exclusionGroup="1"
-                          name="Выход производного столбца"
-                          synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]">
-                          <outputColumns>
-                            <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
-                              dataType="dbTimeStamp2"
-                              errorOrTruncationOperation="Вычисление"
-                              errorRowDisposition="FailComponent"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Выход производного столбца].Columns[LoadDate]"
-                              name="LoadDate"
-                              truncationRowDisposition="FailComponent">
-                              <properties>
-                                <property
-                                  containsID="true"
-                                  dataType="System.String"
-                                  description="Выражение производного столбца"
-                                  name="Expression">(DT_DBTIMESTAMP2,0)@[User::StartLoad]</property>
-                                <property
-                                  containsID="true"
-                                  dataType="System.String"
-                                  description="Понятное выражение производного столбца"
-                                  expressionType="Notify"
-                                  name="FriendlyExpression">(DT_DBTIMESTAMP2,0)@[User::StartLoad]</property>
-                              </properties>
-                            </outputColumn>
-                          </outputColumns>
-                          <externalMetadataColumns />
-                        </output>
-                        <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца]"
-                          description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
-                          exclusionGroup="1"
-                          isErrorOut="true"
-                          name="Вывод ошибок производного столбца"
-                          synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]">
-                          <outputColumns>
-                            <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
-                              dataType="i4"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
-                              name="ErrorCode"
-                              specialFlags="1" />
-                            <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
-                              dataType="i4"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
-                              name="ErrorColumn"
-                              specialFlags="2" />
-                          </outputColumns>
-                          <externalMetadataColumns />
-                        </output>
-                      </outputs>
-                    </component>
                     <component
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Calculate measures &amp; replace NULLs"
                       componentClassID="Microsoft.DerivedColumn"
@@ -1880,16 +1870,11 @@ where [refTable].[ProductAlterKey] = ?</property>
                       startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                     <path
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
-                      endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Inputs[Вход производного столбца]"
+                      endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Выход источника &quot;OLE DB&quot;"
                       startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Extract data.Outputs[Выход источника &quot;OLE DB&quot;]" />
                     <path
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход производного столбца]"
-                      endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
-                      name="Выход производного столбца"
-                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date.Outputs[Выход производного столбца]" />
-                    <path
-                      refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход производного столбца1]"
                       endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       name="Выход производного столбца"
                       startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Calculate measures &amp; replace NULLs.Outputs[Выход производного столбца]" />
@@ -1936,13 +1921,16 @@ where [refTable].[ProductAlterKey] = ?</property>
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[SwitchPartition"+ @[User::FactTableName] +"]
+   @Partition_number = ?"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-                  SQLTask:SqlStatementSource="EXECUTE [Integration].[SwitchPartitionOrders]&#xA;   @Partition_number = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  SQLTask:SqlStatementSource="EXECUTE [Integration].[SwitchPartitionOrder]&#xA;   @Partition_number = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="0"
-                    SQLTask:DtsVariableName="User::Partition_number"
+                    SQLTask:DtsVariableName="User::PartitionNumber"
                     SQLTask:ParameterDirection="Input"
                     SQLTask:DataType="3"
                     SQLTask:ParameterSize="-1" />
@@ -1960,6 +1948,10 @@ where [refTable].[ProductAlterKey] = ?</property>
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[UpdatePartitionSchema"+ @[User::FactTableName] +"]
+     @CutoffTime = ?
+   , @Partition_number = ? OUTPUT"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -1972,7 +1964,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                     SQLTask:ParameterSize="-1" />
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="1"
-                    SQLTask:DtsVariableName="User::Partition_number"
+                    SQLTask:DtsVariableName="User::PartitionNumber"
                     SQLTask:ParameterDirection="Output"
                     SQLTask:DataType="3"
                     SQLTask:ParameterSize="-1" />
@@ -1981,14 +1973,6 @@ where [refTable].[ProductAlterKey] = ?</property>
             </DTS:Executable>
           </DTS:Executables>
           <DTS:PrecedenceConstraints>
-            <DTS:PrecedenceConstraint
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint]"
-              DTS:CreationName=""
-              DTS:DTSID="{46a7a2f5-ec4f-4fe6-9a63-8128ead9ff3b}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
-              DTS:LogicalAnd="True"
-              DTS:ObjectName="Constraint"
-              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition" />
             <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 1]"
               DTS:CreationName=""
@@ -2006,14 +1990,6 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:ObjectName="Constraint 3"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table" />
             <DTS:PrecedenceConstraint
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 4]"
-              DTS:CreationName=""
-              DTS:DTSID="{768c87a3-ef97-47e4-83be-b98d2a65d20f}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
-              DTS:LogicalAnd="True"
-              DTS:ObjectName="Constraint 4"
-              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table" />
-            <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
               DTS:CreationName=""
               DTS:DTSID="{77706bed-1826-4477-82d3-1e4640e9bccf}"
@@ -2029,6 +2005,30 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:LogicalAnd="True"
               DTS:ObjectName="Ограничение"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
+              DTS:CreationName=""
+              DTS:DTSID="{DA759509-1AE3-4946-A3EA-49578B847857}"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Ограничение 1"
+              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
+              DTS:CreationName=""
+              DTS:DTSID="{18D5743C-C995-4083-A6FD-493AAFD721CB}"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Ограничение 3"
+              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 4]"
+              DTS:CreationName=""
+              DTS:DTSID="{F9697A35-5B59-4DA0-9050-C372692E42D1}"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Ограничение 4"
+              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition" />
           </DTS:PrecedenceConstraints>
         </DTS:Executable>
       </DTS:Executables>
@@ -2038,7 +2038,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:CreationName=""
           DTS:DTSID="{1BDCABE0-9200-4EA5-941D-90C7278E1E04}"
           DTS:EvalOp="3"
-          DTS:Expression="@[User::AreThereAnyChangesInSourceTable1]"
+          DTS:Expression="@[User::AreThereAnyChangesInSourceTable]"
           DTS:From="Package\Landing -&gt; DWH\Check changes"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение"
@@ -2048,7 +2048,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:CreationName=""
           DTS:DTSID="{9BBC88E0-85D8-465D-93C3-BF70424790FB}"
           DTS:EvalOp="3"
-          DTS:Expression="! @[User::AreThereAnyChangesInSourceTable1]"
+          DTS:Expression="! @[User::AreThereAnyChangesInSourceTable]"
           DTS:From="Package\Landing -&gt; DWH\Check changes"
           DTS:ObjectName="Ограничение 1"
           DTS:To="Package\Landing -&gt; DWH\Drop primary key" />
@@ -2083,10 +2083,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"EXECUTE [Maintenance].[Optimize"+ @[User::FactTableName] +"PartitionsMonthly]
+	  @CutoffTime = ?
+	, @LoadDateInitialEnd = ?"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrderPartitionsMonthly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -2095,7 +2099,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                 SQLTask:ParameterSize="-1" />
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
+                SQLTask:DtsVariableName="$Package::LoadDateInitialEnd"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2113,10 +2117,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"EXECUTE [Maintenance].[Optimize"+ @[User::FactTableName] +"PartitionsYearly]
+	  @CutoffTime = ?
+	, @LoadDateInitialEnd = ?"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrdersPartitionsYearly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[OptimizeOrderPartitionsYearly]&#xA;&#x9;  @CutoffTime = ?&#xA;&#x9;, @LoadDateInitialEnd = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -2125,7 +2133,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                 SQLTask:ParameterSize="-1" />
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="$Project::LoadDateInitialEnd"
+                SQLTask:DtsVariableName="$Package::LoadDateInitialEnd"
                 SQLTask:ParameterDirection="Input"
                 SQLTask:DataType="7"
                 SQLTask:ParameterSize="-1" />
@@ -2195,6 +2203,127 @@ where [refTable].[ProductAlterKey] = ?</property>
       DTS:ObjectName="Ограничение 1"
       DTS:To="Package\Optimaze Partitions" />
   </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{807F2B7F-5827-42B2-B522-630874398887}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{0D91436F-FE94-408F-B52C-3894940ADFC2}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="ParametersValues">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{6F1344CD-DCB8-4372-8216-85F7D72D6548}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{5fb85c41-fcb7-40f7-bf64-f2b7f581c646}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{f877e456-ae5e-478c-a324-fec1079fa3c5}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameters values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{a88864ee-732b-487b-9721-b1ccb992fb15}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
 <!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
@@ -2210,7 +2339,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="159,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="226,54.5" />
+          TopLeft="240,54.5" />
         <NodeLayout
           Size="213,42"
           Id="Package\Optimaze Partitions\Optimize Partitions Monthly"
@@ -2247,14 +2376,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           PanelSize="224,204"
           Size="224,248"
           Id="Package\Optimaze Partitions"
-          TopLeft="193.5,1178.5" />
+          TopLeft="207.5,1282.5" />
         <NodeLayout
           Size="199,42"
           Id="Package\Set load compilation info"
-          TopLeft="206,1486.5" />
+          TopLeft="220,1590.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="305.5,1426.5">
+          TopLeft="319.5,1530.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2281,11 +2410,11 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="170,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
-          TopLeft="21,209.5" />
+          TopLeft="21.0000000000001,209.5" />
         <NodeLayout
           Size="161,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table"
-          TopLeft="257.5,515.5" />
+          TopLeft="257.5,617.5" />
         <NodeLayout
           Size="151,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
@@ -2297,33 +2426,11 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="155,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
-          TopLeft="260.5,413.5" />
+          TopLeft="260.5,515.5" />
         <NodeLayout
           Size="201,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema"
-          TopLeft="5.5,107.5" />
-        <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint]"
-          TopLeft="338,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="5.50000000000006,107.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 1]"
           TopLeft="338,251.5">
@@ -2381,42 +2488,8 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 4]"
-          TopLeft="106,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="208.166666666667,60"
-              Start="0,0"
-              End="208.166666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.6225425950197" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.6225425950197"
-                    Point2="0,35.6225425950197"
-                    Point3="4,35.6225425950197" />
-                  <mssgle:LineSegment
-                    End="204.166666666667,35.6225425950197" />
-                  <mssgle:CubicBezierSegment
-                    Point1="204.166666666667,35.6225425950197"
-                    Point2="208.166666666667,35.6225425950197"
-                    Point3="208.166666666667,39.6225425950197" />
-                  <mssgle:LineSegment
-                    End="208.166666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
-          TopLeft="338,455.5">
+          TopLeft="338,557.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2458,107 +2531,80 @@ where [refTable].[ProductAlterKey] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="430,612"
-          Size="430,656"
-          Id="Package\Landing -&gt; DWH\Workflow with changed"
-          TopLeft="5.50000000000006,107.5" />
         <NodeLayout
-          Size="155,42"
-          Id="Package\Landing -&gt; DWH\Check changes"
-          TopLeft="419,5.5" />
-        <NodeLayout
-          Size="163,42"
-          Id="Package\Landing -&gt; DWH\Drop primary key"
-          TopLeft="415,822.5" />
+          Size="229,42"
+          Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
+          TopLeft="223.5,413.5" />
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="472,47.5">
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="338,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-251.5,60"
+              EndConnector="0,60"
               Start="0,0"
-              End="-251.5,52.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.367816091954" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.367816091954"
-                    Point2="0,24.367816091954"
-                    Point3="-4,24.367816091954" />
-                  <mssgle:LineSegment
-                    End="-247.5,24.367816091954" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-247.5,24.367816091954"
-                    Point2="-251.5,24.367816091954"
-                    Point3="-251.5,28.367816091954" />
-                  <mssgle:LineSegment
-                    End="-251.5,52.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-133.75,29.367816091954,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="521.666666666667,47.5">
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="338,455.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,775"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,767.5">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,767.5" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8,375.75,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="220.5,763.5">
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="106,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="250.166666666667,59"
+              EndConnector="208.166666666667,60"
               Start="0,0"
-              End="250.166666666667,51.5">
+              End="208.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.0558930741191" />
+                    End="0,31.6225425950197" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.0558930741191"
-                    Point2="0,35.0558930741191"
-                    Point3="4,35.0558930741191" />
+                    Point1="0,31.6225425950197"
+                    Point2="0,35.6225425950197"
+                    Point3="4,35.6225425950197" />
                   <mssgle:LineSegment
-                    End="246.166666666667,35.0558930741191" />
+                    End="204.166666666667,35.6225425950197" />
                   <mssgle:CubicBezierSegment
-                    Point1="246.166666666667,35.0558930741191"
-                    Point2="250.166666666667,35.0558930741191"
-                    Point3="250.166666666667,39.0558930741191" />
+                    Point1="204.166666666667,35.6225425950197"
+                    Point2="208.166666666667,35.6225425950197"
+                    Point3="208.166666666667,39.6225425950197" />
                   <mssgle:LineSegment
-                    End="250.166666666667,51.5" />
+                    End="208.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2570,13 +2616,122 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="584,920"
-          Size="584,962"
+          PanelSize="458,714"
+          Size="458,758"
+          Id="Package\Landing -&gt; DWH\Workflow with changed"
+          TopLeft="5.50000000000011,107.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Landing -&gt; DWH\Check changes"
+          TopLeft="447,5.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Landing -&gt; DWH\Drop primary key"
+          TopLeft="443,925.5" />
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение]"
+          TopLeft="500,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-265.5,60"
+              Start="0,0"
+              End="-265.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.367816091954"
+                    Point2="0,24.367816091954"
+                    Point3="-4,24.367816091954" />
+                  <mssgle:LineSegment
+                    End="-261.5,24.367816091954" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-261.5,24.367816091954"
+                    Point2="-265.5,24.367816091954"
+                    Point3="-265.5,28.367816091954" />
+                  <mssgle:LineSegment
+                    End="-265.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-140.75,29.367816091954,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="549.666666666667,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,878"
+              Start="0,0"
+              End="0,870.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,870.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,427.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="234.5,865.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="264.166666666667,60"
+              Start="0,0"
+              End="264.166666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6500607533414" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6500607533414"
+                    Point2="0,35.6500607533414"
+                    Point3="4,35.6500607533414" />
+                  <mssgle:LineSegment
+                    End="260.166666666667,35.6500607533414" />
+                  <mssgle:CubicBezierSegment
+                    Point1="260.166666666667,35.6500607533414"
+                    Point2="264.166666666667,35.6500607533414"
+                    Point3="264.166666666667,39.6500607533414" />
+                  <mssgle:LineSegment
+                    End="264.166666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="612,1022"
+          Size="612,1066"
           Id="Package\Landing -&gt; DWH"
           TopLeft="13.5000000000001,156.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="305.5,96.5">
+          TopLeft="319.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2598,7 +2753,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="305.5,1118.5">
+          TopLeft="319.5,1222.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2629,154 +2784,175 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="166,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table"
-          TopLeft="101.5,663.9" />
+          TopLeft="61.5000000000001,564.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey"
-          TopLeft="92.3000000000001,359.1" />
+          TopLeft="51.5,258.5" />
         <NodeLayout
           Size="175,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey"
-          TopLeft="97.1000000000001,460.7" />
+          TopLeft="57.0000000000001,360.5" />
         <NodeLayout
           Size="262,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Calculate measures &amp; replace NULLs"
-          TopLeft="56.7000000000001,562.3" />
+          TopLeft="13.5000000000001,462.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey"
-          TopLeft="92.7000000000001,257.5" />
+          TopLeft="52,156.5" />
         <NodeLayout
           Size="138,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Extract data"
-          TopLeft="113.9,54.3" />
-        <NodeLayout
-          Size="152,42"
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Add Load Date"
-          TopLeft="107.5,155.9" />
-        <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход производного столбца1]"
-          TopLeft="186.1,604.3">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.6"
-              Start="0,0"
-              End="0,52.1">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.1" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="75.5,54.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход производного столбца]"
-          TopLeft="184.35,197.9">
+          TopLeft="144.5,504.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.6"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.1">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.1" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="183.2,96.3">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,59.6"
-              Start="0,0"
-              End="0,52.1">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.1" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
-          TopLeft="186.15,502.7">
+          TopLeft="144.5,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.6"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.1">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.1" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.05,269.3797265625,12"
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
-          TopLeft="184.95,401.1">
+          TopLeft="144.5,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,59.6"
+              EndConnector="0,60"
               Start="0,0"
-              End="0,52.1">
+              End="0,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.1" />
+                    End="0,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.05,269.3797265625,12"
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-          TopLeft="185.25,299.5">
+          TopLeft="144.5,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="144.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="159,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="73.6,161.6" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package.EventHandlers[OnError]\Get parameters values"
+          TopLeft="60,60" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="154.05,102">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2793,13 +2969,11 @@ where [refTable].[ProductAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.05,269.3797265625,12"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
-  </TaskHost>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

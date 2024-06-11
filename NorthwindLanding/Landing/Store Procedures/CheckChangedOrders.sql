@@ -2,7 +2,15 @@
 	@AreThereAnyChangesInOrders AS BIT OUTPUT
 AS BEGIN
 	ALTER TABLE [Landing].[Orders] ADD CONSTRAINT [PK_Landing_Orders] PRIMARY KEY CLUSTERED ( [OrderID] ASC )
+		WITH ( DATA_COMPRESSION = PAGE )
+		ON [Landing_FG]
 	ALTER TABLE [Landing].[Order Details] ADD CONSTRAINT [PK_Landing_Order_Details] PRIMARY KEY CLUSTERED ( [OrderID] ASC, [ProductID] ASC )
+		WITH ( DATA_COMPRESSION = PAGE )
+		ON [Landing_FG]
+	
+	CREATE NONCLUSTERED INDEX [IX_Landing_Orders_Order_Date] ON [Landing].[Orders] ( [OrderDate] )
+		WITH ( DATA_COMPRESSION = PAGE )
+		ON [Landing_FG]
 
 	UPDATE [Landing].[Orders]
 		SET [HashDiff] = CAST (

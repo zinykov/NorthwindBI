@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[SwitchPartitionOrders]
+﻿CREATE PROCEDURE [Integration].[SwitchPartitionOrder]
 	  @Partition_number AS INT
 AS BEGIN
 	PRINT ( N'Применение предложения SWITCH PARTITION для добавления новых записей за последний временной промежуток' )
