@@ -9,13 +9,13 @@ AS BEGIN
 				UPDATE [Landing].[Holidays]
 				SET [HashDiff] = CAST (
 									 HASHBYTES ( 
-										  N'MD5'
+										  N'SHA2_512'
 										, CONCAT (
 											  ISNULL ( [DateType], N'' ), N'#'
 											, ISNULL ( [HolidayName], N'' )
 										)
 									)
-									AS VARBINARY(100)
+									AS VARBINARY(64)
 								);
 
 				SET @AreThereAnyChangesInHolidays = ( SELECT COUNT(*) FROM [Landing].[ChangedHolidays] )

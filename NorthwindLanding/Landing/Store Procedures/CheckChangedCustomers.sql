@@ -9,7 +9,7 @@ AS BEGIN
 				UPDATE [Landing].[Customers]
 				SET [HashDiff] = CAST (
 									 HASHBYTES ( 
-										  N'MD5'
+										  N'SHA2_512'
 										, CONCAT (
 											  ISNULL ( [CompanyName], N'' ), N'#'
 											, ISNULL ( [ContactName], N'' ), N'#'
@@ -20,7 +20,7 @@ AS BEGIN
 											, ISNULL ( [Fax], N'' )
 										)
 									)
-									AS VARBINARY(100)
+									AS VARBINARY(64)
 								);
 
 				SET @AreThereAnyChangesInCustomers = ( SELECT COUNT(*) FROM [Landing].[ChangedCustomers] )

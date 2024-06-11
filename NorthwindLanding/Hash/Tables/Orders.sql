@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Hash].[Orders]
 (
-    [OrderID]      INT           NOT NULL,
-    [CheckSum]     INT           NOT NULL,
+    [OrderID]      INT              NOT NULL,
+    [HashDiff]     VARBINARY(64)    NOT NULL,
 
     CONSTRAINT [PK_Hash_Orders] PRIMARY KEY CLUSTERED ( [OrderID] ASC )
 )

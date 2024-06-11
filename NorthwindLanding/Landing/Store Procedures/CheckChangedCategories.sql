@@ -9,10 +9,10 @@ AS BEGIN
 				UPDATE [Landing].[Categories]
 				SET [HashDiff] = CAST (
 									HASHBYTES ( 
-										  N'MD5'
+										  N'SHA2_512'
 										, ISNULL ( [CategoryName], N'' )
 									)
-									AS VARBINARY(100)
+									AS VARBINARY(64)
 								);
 
 				SET @AreThereAnyChangesInCategories = ( SELECT COUNT(*) FROM [Landing].[ChangedCategories] )

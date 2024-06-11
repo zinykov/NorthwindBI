@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [Hash].[Categories]
 (
     [CategoryID]        INT             NOT NULL,
-    [HashDiff]          VARBINARY(100)  NOT NULL,
+    [HashDiff]          VARBINARY(64)   NOT NULL,
 
     CONSTRAINT [PK_Hash_Categories] PRIMARY KEY CLUSTERED ( [CategoryID] ASC )
 )

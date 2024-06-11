@@ -9,7 +9,7 @@ AS BEGIN
 				UPDATE [Landing].[Employees]
 				SET [HashDiff] = CAST (
 									 HASHBYTES ( 
-										  N'MD5'
+										  N'SHA2_512'
 										, CONCAT (
 											  ISNULL ( [LastName], N'' ), N'#'
 											, ISNULL ( [FirstName], N'' ), N'#'
@@ -19,7 +19,7 @@ AS BEGIN
 											, ISNULL ( [Country], N'' )
 										)
 									)
-								AS VARBINARY(100)
+								AS VARBINARY(64)
 								);
 
 				SET @AreThereAnyChangesInEmployees = ( SELECT COUNT(*) FROM [Landing].[ChangedEmployees] )
