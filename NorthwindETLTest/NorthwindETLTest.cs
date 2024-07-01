@@ -352,6 +352,8 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2 test...");
                     ETLTest.ProductSCD1TestStage2();
                 }
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest test...");
+                ETLTest.OrderShippingDateTest();
             }
 
             System.Diagnostics.Trace.WriteLine("**********Finished test**********");
