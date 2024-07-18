@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="335"
-  DTS:VersionGUID="{7F8761E8-EFB4-4FDF-9FF9-BFEAD9525630}">
+  DTS:VersionBuild="336"
+  DTS:VersionGUID="{08E43B4E-0370-4EF7-BABC-9ABA944F8C65}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -378,7 +378,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Drop primary key"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -472,7 +472,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Create Load Table Constraints"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:PropertyExpression
                 DTS:Name="SqlStatementSource">"EXECUTE [Integration].[CreateLoadTableConstraints"+ @[User::FactTableName] +"];"</DTS:PropertyExpression>
@@ -489,7 +489,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Drop Load Table"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1873,13 +1873,32 @@ where [refTable].[ProductAlterKey] = ?</property>
               </DTS:ObjectData>
             </DTS:Executable>
             <DTS:Executable
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:DTSID="{3f21f29a-296f-468a-a57c-5f4193064357}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Landing update hash table"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Hash].[UpdateHash"+ @[User::SourceTableName] +"];"</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+                  SQLTask:SqlStatementSource="EXECUTE [Hash].[UpdateHashOrders];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
               DTS:CreationName="Microsoft.ExecuteSQLTask"
               DTS:DTSID="{e38de449-0838-4e0e-a636-a429d3a3f26b}"
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Switch Partition"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1983,6 +2002,14 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:LogicalAnd="True"
               DTS:ObjectName="Ограничение 4"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 5]"
+              DTS:CreationName=""
+              DTS:DTSID="{C08798CF-E809-4617-97E7-612BD4C3247E}"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Ограничение 5"
+              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table" />
           </DTS:PrecedenceConstraints>
         </DTS:Executable>
       </DTS:Executables>
@@ -2293,23 +2320,23 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="159,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="131,54.5" />
+          TopLeft="265.5,54.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Landing -&gt; DWH\Check changes"
-          TopLeft="229,5.5" />
+          TopLeft="498.5,5.5" />
         <NodeLayout
           Size="163,42"
           Id="Package\Landing -&gt; DWH\Drop primary key"
-          TopLeft="225,925.5" />
+          TopLeft="494.5,925.5" />
         <NodeLayout
           Size="161,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Filegroup"
-          TopLeft="39.5,5.5" />
+          TopLeft="318.5,5.5" />
         <NodeLayout
           Size="170,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
-          TopLeft="35,209.5" />
+          TopLeft="314,209.5" />
         <NodeLayout
           Size="229,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
@@ -2321,7 +2348,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="151,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
-          TopLeft="44.5,311.5" />
+          TopLeft="323.5,311.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
@@ -2329,7 +2356,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="201,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema"
-          TopLeft="19.5,107.5" />
+          TopLeft="298.5,107.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
           TopLeft="120,557.5">
@@ -2354,7 +2381,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение]"
-          TopLeft="120,47.5">
+          TopLeft="399,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2376,7 +2403,29 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="120,251.5">
+          TopLeft="399,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="399,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2398,18 +2447,30 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="120,353.5">
+          TopLeft="375.166666666667,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-255.166666666667,60"
               Start="0,0"
-              End="0,52.5">
+              End="-255.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,20.3774574049803" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3774574049803"
+                    Point2="0,24.3774574049803"
+                    Point3="-4,24.3774574049803" />
+                  <mssgle:LineSegment
+                    End="-251.166666666667,24.3774574049803" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-251.166666666667,24.3774574049803"
+                    Point2="-255.166666666667,24.3774574049803"
+                    Point3="-255.166666666667,28.3774574049803" />
+                  <mssgle:LineSegment
+                    End="-255.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2440,20 +2501,36 @@ where [refTable].[ProductAlterKey] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table"
+          TopLeft="295,413.5" />
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="120,149.5">
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="422.833333333333,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-23.8333333333333,60"
               Start="0,0"
-              End="0,52.5">
+              End="-23.8333333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,20.3774574049803" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3774574049803"
+                    Point2="0,24.3774574049803"
+                    Point3="-4,24.3774574049803" />
+                  <mssgle:LineSegment
+                    End="-19.8333333333333,24.3774574049803" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.8333333333333,24.3774574049803"
+                    Point2="-23.8333333333333,24.3774574049803"
+                    Point3="-23.8333333333333,28.3774574049803" />
+                  <mssgle:LineSegment
+                    End="-23.8333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2465,19 +2542,19 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="240,714"
-          Size="240,758"
+          PanelSize="509,714"
+          Size="509,758"
           Id="Package\Landing -&gt; DWH\Workflow with changed"
           TopLeft="5.50000000000011,107.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="282,47.5">
+          TopLeft="551.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-156.5,60"
+              EndConnector="-291.5,60"
               Start="0,0"
-              End="-156.5,52.5">
+              End="-291.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2488,26 +2565,26 @@ where [refTable].[ProductAlterKey] = ?</property>
                     Point2="0,24.367816091954"
                     Point3="-4,24.367816091954" />
                   <mssgle:LineSegment
-                    End="-152.5,24.367816091954" />
+                    End="-287.5,24.367816091954" />
                   <mssgle:CubicBezierSegment
-                    Point1="-152.5,24.367816091954"
-                    Point2="-156.5,24.367816091954"
-                    Point3="-156.5,28.367816091954" />
+                    Point1="-287.5,24.367816091954"
+                    Point2="-291.5,24.367816091954"
+                    Point3="-291.5,28.367816091954" />
                   <mssgle:LineSegment
-                    End="-156.5,52.5" />
+                    End="-291.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-86.25,29.367816091954,16,16"
+              BoundingBox="-153.75,29.367816091954,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="331.666666666667,47.5">
+          TopLeft="601.166666666667,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2531,13 +2608,13 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="125.5,865.5">
+          TopLeft="260,865.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="155.166666666667,60"
+              EndConnector="290.166666666667,60"
               Start="0,0"
-              End="155.166666666667,52.5">
+              End="290.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2548,13 +2625,13 @@ where [refTable].[ProductAlterKey] = ?</property>
                     Point2="0,35.6500607533414"
                     Point3="4,35.6500607533414" />
                   <mssgle:LineSegment
-                    End="151.166666666667,35.6500607533414" />
+                    End="286.166666666667,35.6500607533414" />
                   <mssgle:CubicBezierSegment
-                    Point1="151.166666666667,35.6500607533414"
-                    Point2="155.166666666667,35.6500607533414"
-                    Point3="155.166666666667,39.6500607533414" />
+                    Point1="286.166666666667,35.6500607533414"
+                    Point2="290.166666666667,35.6500607533414"
+                    Point3="290.166666666667,39.6500607533414" />
                   <mssgle:LineSegment
-                    End="155.166666666667,52.5" />
+                    End="290.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2566,8 +2643,8 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="394,1022"
-          Size="394,1066"
+          PanelSize="663,1022"
+          Size="663,1066"
           Id="Package\Landing -&gt; DWH"
           TopLeft="13.5000000000001,156.5" />
         <NodeLayout
@@ -2606,14 +2683,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           PanelSize="224,204"
           Size="224,248"
           Id="Package\Optimaze Partitions"
-          TopLeft="98.5000000000002,1282.5" />
+          TopLeft="233,1282.5" />
         <NodeLayout
           Size="199,42"
           Id="Package\Set load compilation info"
-          TopLeft="111,1590.5" />
+          TopLeft="245.5,1590.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="210.5,1530.5">
+          TopLeft="345,1530.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2635,7 +2712,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="210.5,96.5">
+          TopLeft="345,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2657,7 +2734,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="210.5,1222.5">
+          TopLeft="345,1222.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2684,7 +2761,7 @@ where [refTable].[ProductAlterKey] = ?</property>
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="159,42"
           Id="Package.EventHandlers[OnError]\Error notification"
@@ -2712,7 +2789,9 @@ where [refTable].[ProductAlterKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

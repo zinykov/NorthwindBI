@@ -327,6 +327,12 @@ namespace NorthwindETLTest
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
                 ExecuteLoadPackage(PackageName, CutoffTime);
 
+                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CountRowsInDWH test...");
+                    ETLTest.CountRowsInDWH();
+                }
+
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1 test...");
@@ -352,6 +358,7 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2 test...");
                     ETLTest.ProductSCD1TestStage2();
                 }
+
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest test...");
                 ETLTest.OrderShippingDateTest();
             }

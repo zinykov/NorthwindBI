@@ -13,7 +13,9 @@ AS BEGIN
 							)
 						)
 						AS VARBINARY(64)
-					);
+					)
+	
+	CREATE INDEX [IX_Landing_Products_HashDiff] ON [Landing].[Products] ( [HashDiff] ASC )
 
 	SET @AreThereAnyChangesInProducts = ( SELECT COUNT(*) FROM [Landing].[ChangedProducts] )
 END

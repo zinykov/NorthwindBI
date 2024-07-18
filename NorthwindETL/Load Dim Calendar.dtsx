@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Calendar"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="381"
-  DTS:VersionGUID="{BE4C4980-135B-4A91-8717-823F3F2EE712}">
+  DTS:VersionBuild="385"
+  DTS:VersionGUID="{FFD65FA8-2A3B-4969-8842-F333EA9801D3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -630,13 +630,13 @@
                                   </properties>
                                 </outputColumn>
                                 <outputColumn
-                                  refId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]"
+                                  refId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Name]"
                                   dataType="wstr"
                                   errorOrTruncationOperation="Вычисление"
                                   errorRowDisposition="FailComponent"
                                   length="250"
-                                  lineageId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]"
-                                  name="HolidayName"
+                                  lineageId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Name]"
+                                  name="Name"
                                   truncationRowDisposition="FailComponent">
                                   <properties>
                                     <property
@@ -1087,12 +1087,12 @@
                                   externalMetadataColumnId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DateType]"
                                   lineageId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing.Outputs[Вывод очистки DQS].Columns[DateType_Вывод]" />
                                 <inputColumn
-                                  refId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[HolidayName]"
+                                  refId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Name]"
                                   cachedDataType="wstr"
                                   cachedLength="250"
-                                  cachedName="HolidayName"
+                                  cachedName="Name"
                                   externalMetadataColumnId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
-                                  lineageId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[HolidayName]" />
+                                  lineageId="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes.Outputs[Выход производного столбца].Columns[Name]" />
                               </inputColumns>
                               <externalMetadataColumns
                                 isUsed="True">
@@ -1188,13 +1188,13 @@
                             <property
                               dataType="System.Int64"
                               name="KnowledgebaseName"
-                              typeConverter="NOTBROWSABLE">1000006</property>
+                              typeConverter="NOTBROWSABLE">1000005</property>
                             <property
                               dataType="System.String"
                               name="UserComponentTypeName">Microsoft.DataCorrectionComponent</property>
                             <property
                               dataType="System.String"
-                              name="PackageName">Load Calendar</property>
+                              name="PackageName">Load Dim Calendar</property>
                             <property
                               dataType="System.String"
                               name="TaskId">{DFE75D75-8552-4587-916B-F620BB2EAE54}</property>
@@ -1856,21 +1856,21 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\MDS -&gt; DWH\Get Shipped Date"
+          DTS:refId="Package\MDS -&gt; DWH\Get start and end years"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:DTSID="{c6ac6b80-1d1f-40cf-8293-d1fbc27602f7}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Get Shipped Date"
+          DTS:ObjectName="Get start and end years"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="3">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
-              SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [ShippedDate] ) )&#xA;   , [EndDate]   = YEAR ( MAX ( [ShippedDate] ) ) + 1&#xA;&#xA;FROM  [landing].[Orders]"
+              SQLTask:SqlStatementSource="SELECT    [StartDate]  = YEAR ( MIN ( [OrderDate] ) )&#xA;&#x9;&#x9;, [EndDate]   = YEAR ( MAX ( [OrderDate] ) ) + 1&#xA;&#xA;FROM  [Landing].[Orders]"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="StartDate"
@@ -2452,7 +2452,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2480,7 +2480,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Holidays"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2495,7 +2495,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{4C19D45E-51DA-4B95-AD6B-524BC28F6AD2}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{994FA539-1C21-440B-B197-3C7DF24CEC5F}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -2518,7 +2518,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2560,14 +2560,6 @@
           DTS:ObjectName="Constraint 2 1"
           DTS:To="Package\MDS -&gt; DWH\Load hash table" />
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 3]"
-          DTS:CreationName=""
-          DTS:DTSID="{49805680-0568-4b51-ab98-a231b7942cac}"
-          DTS:From="Package\MDS -&gt; DWH\Load hash table"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 3"
-          DTS:To="Package\MDS -&gt; DWH\Load Date Dimension" />
-        <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 4]"
           DTS:CreationName=""
           DTS:DTSID="{3d026277-5095-4a75-8a07-663c86e58b1c}"
@@ -2603,10 +2595,18 @@
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 3]"
           DTS:CreationName=""
           DTS:DTSID="{062CCF87-2BD3-4E35-BF6E-91ADC8E9D3FD}"
-          DTS:From="Package\MDS -&gt; DWH\Get Shipped Date"
+          DTS:From="Package\MDS -&gt; DWH\Get start and end years"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 3"
           DTS:To="Package\MDS -&gt; DWH\Load Date Dimension" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{76BB0807-0552-4C83-87A6-C094B8FD1DAB}"
+          DTS:From="Package\MDS -&gt; DWH\Load hash table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 4"
+          DTS:To="Package\MDS -&gt; DWH\Add unknown date" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -2616,7 +2616,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set load compilation info"
-      DTS:ThreadHint="4">
+      DTS:ThreadHint="3">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -2803,6 +2803,10 @@
     <LayoutInfo>
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Get LineAgeKey"
+          TopLeft="445,54.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Check changes"
@@ -3004,76 +3008,72 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="457,821"
+          PanelSize="457,820"
           Size="457,864"
           Id="Package\Landing -&gt; DQS -&gt; MDS"
-          TopLeft="484,156.5" />
-        <NodeLayout
-          Size="159,42"
-          Id="Package\Get LineAgeKey"
-          TopLeft="633,54.5" />
+          TopLeft="296,156.5" />
         <NodeLayout
           Size="170,42"
           Id="Package\MDS -&gt; DWH\Add unknown date"
-          TopLeft="5.5,311.5" />
+          TopLeft="259,413.5" />
         <NodeLayout
           Size="163,42"
           Id="Package\MDS -&gt; DWH\Create load table"
-          TopLeft="229,209.5" />
+          TopLeft="31.5000000000001,209.5" />
         <NodeLayout
           Size="161,42"
           Id="Package\MDS -&gt; DWH\Drop Load Table"
-          TopLeft="239,515.5" />
+          TopLeft="263.5,617.5" />
         <NodeLayout
-          Size="166,42"
-          Id="Package\MDS -&gt; DWH\Get Shipped Date"
-          TopLeft="236.5,311.5" />
+          Size="193,42"
+          Id="Package\MDS -&gt; DWH\Get start and end years"
+          TopLeft="5.50000000000009,413.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\MDS -&gt; DWH\Load Date Dimension"
-          TopLeft="227,413.5" />
+          TopLeft="251.5,515.5" />
         <NodeLayout
           Size="157,42"
           Id="Package\MDS -&gt; DWH\Load hash table"
-          TopLeft="463,311.5" />
+          TopLeft="265.5,311.5" />
         <NodeLayout
           Size="191,42"
           Id="Package\MDS -&gt; DWH\MDS get version name"
-          TopLeft="446,5.5" />
+          TopLeft="248.5,5.5" />
         <NodeLayout
           Size="202,42"
           Id="Package\MDS -&gt; DWH\MDS load entity Holidays"
-          TopLeft="440.5,107.5" />
+          TopLeft="243,107.5" />
         <NodeLayout
           Size="177,42"
           Id="Package\MDS -&gt; DWH\MDS validate model"
-          TopLeft="453,209.5" />
+          TopLeft="255.5,209.5" />
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="90.5,353.5">
+          TopLeft="344,455.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="184.75,60"
+              EndConnector="29.5000000000001,60"
               Start="0,0"
-              End="184.75,52.5">
+              End="29.5000000000001,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.4316163410302" />
+                    End="0,31.6913183279743" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,35.4316163410302"
-                    Point2="0,39.4316163410302"
-                    Point3="4,39.4316163410302" />
+                    Point1="0,31.6913183279743"
+                    Point2="0,35.6913183279743"
+                    Point3="4,35.6913183279743" />
                   <mssgle:LineSegment
-                    End="180.75,39.4316163410302" />
+                    End="25.5000000000001,35.6913183279743" />
                   <mssgle:CubicBezierSegment
-                    Point1="180.75,39.4316163410302"
-                    Point2="184.75,39.4316163410302"
-                    Point3="184.75,43.4316163410302" />
+                    Point1="25.5000000000001,35.6913183279743"
+                    Point2="29.5000000000001,35.6913183279743"
+                    Point3="29.5000000000001,39.6913183279743" />
                   <mssgle:LineSegment
-                    End="184.75,52.5" />
+                    End="29.5000000000001,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3084,7 +3084,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2 1]"
-          TopLeft="310.5,251.5">
+          TopLeft="113,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3095,17 +3095,17 @@
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6368221941993" />
+                    End="0,31.6368221941992" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6368221941993"
-                    Point2="0,35.6368221941993"
-                    Point3="4,35.6368221941993" />
+                    Point1="0,31.6368221941992"
+                    Point2="0,35.6368221941992"
+                    Point3="4,35.6368221941992" />
                   <mssgle:LineSegment
-                    End="202.166666666667,35.6368221941993" />
+                    End="202.166666666667,35.6368221941992" />
                   <mssgle:CubicBezierSegment
-                    Point1="202.166666666667,35.6368221941993"
-                    Point2="206.166666666667,35.6368221941993"
-                    Point3="206.166666666667,39.6368221941993" />
+                    Point1="202.166666666667,35.6368221941992"
+                    Point2="206.166666666667,35.6368221941992"
+                    Point3="206.166666666667,39.6368221941992" />
                   <mssgle:LineSegment
                     End="206.166666666667,52.5" />
                 </mssgle:SegmentCollection>
@@ -3117,42 +3117,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 3]"
-          TopLeft="541.5,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-177.75,60"
-              Start="0,0"
-              End="-177.75,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,35.4316163410302" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,35.4316163410302"
-                    Point2="0,39.4316163410302"
-                    Point3="-4,39.4316163410302" />
-                  <mssgle:LineSegment
-                    End="-173.75,39.4316163410302" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-173.75,39.4316163410302"
-                    Point2="-177.75,39.4316163410302"
-                    Point3="-177.75,43.4316163410302" />
-                  <mssgle:LineSegment
-                    End="-177.75,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 4]"
-          TopLeft="319.5,455.5">
+          TopLeft="344,557.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3174,7 +3140,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="541.5,47.5">
+          TopLeft="344,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3196,30 +3162,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="541.5,251.5">
+          TopLeft="344,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="24.8333333333334,60"
+              EndConnector="24.8333333333333,60"
               Start="0,0"
-              End="24.8333333333334,52.5">
+              End="24.8333333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6368221941993" />
+                    End="0,31.6368221941992" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6368221941993"
-                    Point2="0,35.6368221941993"
-                    Point3="4,35.6368221941993" />
+                    Point1="0,31.6368221941992"
+                    Point2="0,35.6368221941992"
+                    Point3="4,35.6368221941992" />
                   <mssgle:LineSegment
-                    End="20.8333333333334,35.6368221941993" />
+                    End="20.8333333333333,35.6368221941992" />
                   <mssgle:CubicBezierSegment
-                    Point1="20.8333333333334,35.6368221941993"
-                    Point2="24.8333333333334,35.6368221941993"
-                    Point3="24.8333333333334,39.6368221941993" />
+                    Point1="20.8333333333333,35.6368221941992"
+                    Point2="24.8333333333333,35.6368221941992"
+                    Point3="24.8333333333333,39.6368221941992" />
                   <mssgle:LineSegment
-                    End="24.8333333333334,52.5" />
+                    End="24.8333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3230,7 +3196,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="541.5,149.5">
+          TopLeft="344,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3252,7 +3218,41 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="319.5,353.5">
+          TopLeft="102,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="212.5,60"
+              Start="0,0"
+              End="212.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6913183279743" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6913183279743"
+                    Point2="0,35.6913183279743"
+                    Point3="4,35.6913183279743" />
+                  <mssgle:LineSegment
+                    End="208.5,35.6913183279743" />
+                  <mssgle:CubicBezierSegment
+                    Point1="208.5,35.6913183279743"
+                    Point2="212.5,35.6913183279743"
+                    Point3="212.5,39.6913183279743" />
+                  <mssgle:LineSegment
+                    End="212.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="344,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3275,17 +3275,17 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="648,613"
-          Size="648,656"
+          PanelSize="450,714"
+          Size="450,758"
           Id="Package\MDS -&gt; DWH"
-          TopLeft="13.5000000000001,1080.5" />
+          TopLeft="13.5000000000002,1080.5" />
         <NodeLayout
           Size="199,42"
           Id="Package\Set load compilation info"
-          TopLeft="613,1796.5" />
+          TopLeft="425,1898.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="712.5,96.5">
+          TopLeft="524.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3307,30 +3307,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="337.5,1736.5">
+          TopLeft="238.5,1838.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="343.166666666667,60"
+              EndConnector="254.166666666667,60"
               Start="0,0"
-              End="343.166666666667,52.5">
+              End="254.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7128614157528" />
+                    End="0,31.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7128614157528"
-                    Point2="0,35.7128614157528"
-                    Point3="4,35.7128614157528" />
+                    Point1="0,31.7128614157527"
+                    Point2="0,35.7128614157527"
+                    Point3="4,35.7128614157527" />
                   <mssgle:LineSegment
-                    End="339.166666666667,35.7128614157528" />
+                    End="250.166666666667,35.7128614157527" />
                   <mssgle:CubicBezierSegment
-                    Point1="339.166666666667,35.7128614157528"
-                    Point2="343.166666666667,35.7128614157528"
-                    Point3="343.166666666667,39.7128614157528" />
+                    Point1="250.166666666667,35.7128614157527"
+                    Point2="254.166666666667,35.7128614157527"
+                    Point3="254.166666666667,39.7128614157527" />
                   <mssgle:LineSegment
-                    End="343.166666666667,52.5" />
+                    End="254.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3341,13 +3341,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="637.666666666667,1020.5">
+          TopLeft="449.666666666667,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-300.166666666667,60"
+              EndConnector="-211.166666666667,60"
               Start="0,0"
-              End="-300.166666666667,52.5">
+              End="-211.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -3358,56 +3358,56 @@
                     Point2="0,24.1255996511121"
                     Point3="-4,24.1255996511121" />
                   <mssgle:LineSegment
-                    End="-296.166666666667,24.1255996511121" />
+                    End="-207.166666666667,24.1255996511121" />
                   <mssgle:CubicBezierSegment
-                    Point1="-296.166666666667,24.1255996511121"
-                    Point2="-300.166666666667,24.1255996511121"
-                    Point3="-300.166666666667,28.1255996511121" />
+                    Point1="-207.166666666667,24.1255996511121"
+                    Point2="-211.166666666667,24.1255996511121"
+                    Point3="-211.166666666667,28.1255996511121" />
                   <mssgle:LineSegment
-                    End="-300.166666666667,52.5" />
+                    End="-211.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-158.083333333333,29.1255996511121,16,16"
+              BoundingBox="-113.583333333333,29.1255996511121,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="787.333333333333,1020.5">
+          TopLeft="599.333333333333,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-42.9999999999999,776"
+              EndConnector="-42.9999999999999,878"
               Start="0,0"
-              End="-42.9999999999999,768.5">
+              End="-42.9999999999999,870.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,381.829841201019" />
+                    End="0,432.544588369194" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,381.829841201019"
-                    Point2="0,385.829841201019"
-                    Point3="-4,385.829841201019" />
+                    Point1="0,432.544588369194"
+                    Point2="0,436.544588369194"
+                    Point3="-4,436.544588369194" />
                   <mssgle:LineSegment
-                    End="-38.9999999999999,385.829841201019" />
+                    End="-38.9999999999999,436.544588369194" />
                   <mssgle:CubicBezierSegment
-                    Point1="-38.9999999999999,385.829841201019"
-                    Point2="-42.9999999999999,385.829841201019"
-                    Point3="-42.9999999999999,389.829841201019" />
+                    Point1="-38.9999999999999,436.544588369194"
+                    Point2="-42.9999999999999,436.544588369194"
+                    Point3="-42.9999999999999,440.544588369194" />
                   <mssgle:LineSegment
-                    End="-42.9999999999999,768.5" />
+                    End="-42.9999999999999,870.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-29.4999999999999,390.829841201019,16,16"
+              BoundingBox="-29.4999999999999,441.544588369194,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3458,7 +3458,7 @@
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="152,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing"
@@ -3502,9 +3502,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3538,9 +3536,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3562,9 +3558,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3598,9 +3592,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3622,9 +3614,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3673,7 +3663,7 @@
     design-time-name="Package\MDS -&gt; DWH\Load hash table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="141,42"
           Id="Package\MDS -&gt; DWH\Load hash table\Source MDS"
@@ -3705,9 +3695,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3729,9 +3717,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

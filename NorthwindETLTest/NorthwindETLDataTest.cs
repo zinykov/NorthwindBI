@@ -68,12 +68,19 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1CategoryName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction OrderShippingDateTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition OrderShippingDateTest;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CountRowsInDWH_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimDate;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimEmployee;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimCustomer;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimProduct;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInFactOrder;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.OrderShippingDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -104,6 +111,12 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CategoryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             OrderShippingDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             OrderShippingDateTest = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition();
+            CountRowsInDWH_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            CountRowsInDimDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimEmployee = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimCustomer = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimProduct = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInFactOrder = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -357,6 +370,61 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CategoryName.ResultSet = 1;
             ProductSCD1TestStage1CategoryName.RowNumber = 1;
             // 
+            // OrderShippingDateTest_TestAction
+            // 
+            OrderShippingDateTest_TestAction.Conditions.Add(OrderShippingDateTest);
+            resources.ApplyResources(OrderShippingDateTest_TestAction, "OrderShippingDateTest_TestAction");
+            // 
+            // OrderShippingDateTest
+            // 
+            OrderShippingDateTest.Enabled = true;
+            OrderShippingDateTest.Name = "OrderShippingDateTest";
+            OrderShippingDateTest.ResultSet = 1;
+            // 
+            // CountRowsInDWH_TestAction
+            // 
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimDate);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimEmployee);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimCustomer);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimProduct);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInFactOrder);
+            resources.ApplyResources(CountRowsInDWH_TestAction, "CountRowsInDWH_TestAction");
+            // 
+            // CountRowsInDimDate
+            // 
+            CountRowsInDimDate.Enabled = true;
+            CountRowsInDimDate.Name = "CountRowsInDimDate";
+            CountRowsInDimDate.ResultSet = 1;
+            CountRowsInDimDate.RowCount = 1097;
+            // 
+            // CountRowsInDimEmployee
+            // 
+            CountRowsInDimEmployee.Enabled = true;
+            CountRowsInDimEmployee.Name = "CountRowsInDimEmployee";
+            CountRowsInDimEmployee.ResultSet = 2;
+            CountRowsInDimEmployee.RowCount = 10;
+            // 
+            // CountRowsInDimCustomer
+            // 
+            CountRowsInDimCustomer.Enabled = true;
+            CountRowsInDimCustomer.Name = "CountRowsInDimCustomer";
+            CountRowsInDimCustomer.ResultSet = 3;
+            CountRowsInDimCustomer.RowCount = 89;
+            // 
+            // CountRowsInDimProduct
+            // 
+            CountRowsInDimProduct.Enabled = true;
+            CountRowsInDimProduct.Name = "CountRowsInDimProduct";
+            CountRowsInDimProduct.ResultSet = 4;
+            CountRowsInDimProduct.RowCount = 78;
+            // 
+            // CountRowsInFactOrder
+            // 
+            CountRowsInFactOrder.Enabled = true;
+            CountRowsInFactOrder.Name = "CountRowsInFactOrder";
+            CountRowsInFactOrder.ResultSet = 5;
+            CountRowsInFactOrder.RowCount = 1464;
+            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -393,16 +461,11 @@ namespace NorthwindETLTest
             this.OrderShippingDateTestData.PretestAction = null;
             this.OrderShippingDateTestData.TestAction = OrderShippingDateTest_TestAction;
             // 
-            // OrderShippingDateTest_TestAction
+            // CountRowsInDWHData
             // 
-            OrderShippingDateTest_TestAction.Conditions.Add(OrderShippingDateTest);
-            resources.ApplyResources(OrderShippingDateTest_TestAction, "OrderShippingDateTest_TestAction");
-            // 
-            // OrderShippingDateTest
-            // 
-            OrderShippingDateTest.Enabled = true;
-            OrderShippingDateTest.Name = "OrderShippingDateTest";
-            OrderShippingDateTest.ResultSet = 1;
+            this.CountRowsInDWHData.PosttestAction = null;
+            this.CountRowsInDWHData.PretestAction = null;
+            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
         }
 
         #endregion
@@ -560,6 +623,30 @@ namespace NorthwindETLTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void CountRowsInDWH()
+        {
+            SqlDatabaseTestActions testActions = this.CountRowsInDWHData;
+            // Выполнить скрипт перед тестом
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Выполнить скрипт теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Выполнить скрипт после теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
 
 
 
@@ -571,5 +658,6 @@ namespace NorthwindETLTest
         private SqlDatabaseTestActions ProductSCD1TestStage2Data;
         private SqlDatabaseTestActions ProductSCD1TestStage1Data;
         private SqlDatabaseTestActions OrderShippingDateTestData;
+        private SqlDatabaseTestActions CountRowsInDWHData;
     }
 }

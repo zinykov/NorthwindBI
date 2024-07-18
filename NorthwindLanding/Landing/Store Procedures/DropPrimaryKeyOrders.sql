@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyOrders]
 AS BEGIN
-	ALTER TABLE [Landing].[Orders] DROP CONSTRAINT [PK_Landing_Orders]
-	ALTER TABLE [Landing].[Order Details] DROP CONSTRAINT [PK_Landing_Order_Details]
+	DROP INDEX IF EXISTS [IX_Landing_Orders_HashDiff] ON [Landing].[Orders]
+	ALTER TABLE [Landing].[Orders] DROP CONSTRAINT IF EXISTS [PK_Landing_Orders]
+
+	DROP INDEX IF EXISTS [IX_Landing_Order_Details_HashDiff] ON [Landing].[Order Details]
+	ALTER TABLE [Landing].[Order Details] DROP CONSTRAINT IF EXISTS [PK_Landing_Order_Details]
 END

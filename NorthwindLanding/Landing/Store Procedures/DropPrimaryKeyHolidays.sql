@@ -1,13 +1,5 @@
 ﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyHolidays] AS
 BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION
-			ALTER TABLE [Landing].[Holidays] DROP CONSTRAINT [PK_Landing_Holidays];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	DROP INDEX IF EXISTS [IX_Landing_Holidays_HashDiff] ON [Landing].[Holidays]
+	ALTER TABLE [Landing].[Holidays] DROP CONSTRAINT IF EXISTS [PK_Landing_Holidays]
 END

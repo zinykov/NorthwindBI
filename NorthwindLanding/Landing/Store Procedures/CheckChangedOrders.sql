@@ -35,6 +35,9 @@ AS BEGIN
 							)
 							AS VARBINARY(64)
 						)
+	
+	CREATE INDEX [IX_Landing_Orders_HashDiff] ON [Landing].[Orders] ( [HashDiff] ASC )
+	CREATE INDEX [IX_Landing_Order_Details_HashDiff] ON [Landing].[Order Details] ( [HashDiff] ASC )
 
 	SET @AreThereAnyChangesInOrders = ( SELECT COUNT(*) FROM [Landing].[ChangedOrders] )
 END
