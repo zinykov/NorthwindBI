@@ -1,18 +1,15 @@
 ﻿CREATE PROCEDURE [Hash].[UpdateHashCustomers]
 AS BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION
-			TRUNCATE TABLE [Hash].[Customers];
+	DROP INDEX IF EXISTS [IX_Hash_Customers_HashDiff] ON [Hash].[Customers]
+	ALTER TABLE [Hash].[Customers] DROP CONSTRAINT IF EXISTS [PK_Hash_Customers]
 
-			INSERT INTO [Hash].[Customers]
-			SELECT		  [CustomerID]
-						, [HashDiff]
-			FROM		[Landing].[Customers];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	TRUNCATE TABLE [Hash].[Customers]
+
+	INSERT INTO [Hash].[Customers]
+	SELECT		  [CustomerID]
+				, [HashDiff]
+	FROM		[Landing].[Customers]
+
+	ALTER TABLE [Hash].[Customers] ADD CONSTRAINT [PK_Hash_Customers] PRIMARY KEY CLUSTERED ( [CustomerID] ASC )
+	CREATE INDEX [IX_Hash_Customers_HashDiff] ON [Hash].[Customers] ( [HashDiff] ASC )
 END

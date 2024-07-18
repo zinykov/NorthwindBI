@@ -1,18 +1,15 @@
 ﻿CREATE PROCEDURE [Hash].[UpdateHashCategories]
 AS BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION	
-			TRUNCATE TABLE [Hash].[Categories];
+	DROP INDEX IF EXISTS [IX_Hash_Categories_HashDiff] ON [Hash].[Categories]
+	ALTER TABLE [Hash].[Categories] DROP CONSTRAINT IF EXISTS [PK_Hash_Categories]
 
-			INSERT INTO [Hash].[Categories]
-			SELECT		  [CategoryID]
-						, [HashDiff]
-			FROM		[Landing].[Categories];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	TRUNCATE TABLE [Hash].[Categories]
+
+	INSERT INTO [Hash].[Categories]
+	SELECT		  [CategoryID]
+				, [HashDiff]
+	FROM		[Landing].[Categories]
+
+	ALTER TABLE [Hash].[Categories] ADD CONSTRAINT [PK_Hash_Categories] PRIMARY KEY CLUSTERED ( [CategoryID] ASC )
+	CREATE INDEX [IX_Hash_Categories_HashDiff] ON [Hash].[Categories] ( [HashDiff] ASC )
 END

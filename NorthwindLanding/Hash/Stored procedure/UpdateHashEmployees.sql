@@ -1,18 +1,15 @@
 ﻿CREATE PROCEDURE [Hash].[UpdateHashEmployees]
 AS BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION
-			TRUNCATE TABLE [Hash].[Employees];
+	DROP INDEX IF EXISTS [IX_Hash_Employees_HashDiff] ON [Hash].[Employees]
+	ALTER TABLE [Hash].[Employees] DROP CONSTRAINT IF EXISTS [PK_Hash_Employees]
 
-			INSERT INTO [Hash].[Employees]
-			SELECT		  [EmployeeID]
-						, [HashDiff]
-			FROM		[Landing].[Employees];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	TRUNCATE TABLE [Hash].[Employees]
+
+	INSERT INTO [Hash].[Employees]
+	SELECT		  [EmployeeID]
+				, [HashDiff]
+	FROM		[Landing].[Employees]
+
+	ALTER TABLE [Hash].[Employees] ADD CONSTRAINT [PK_Hash_Employees] PRIMARY KEY CLUSTERED ( [EmployeeID] ASC )
+	CREATE INDEX [IX_Hash_Employees_HashDiff] ON [Hash].[Employees] ( [HashDiff] ASC )
 END

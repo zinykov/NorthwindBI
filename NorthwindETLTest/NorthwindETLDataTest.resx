@@ -198,6 +198,42 @@ you expect.
 
 SELECT * FROM [Dimension].[Product] WHERE [ProductAlterKey] = 2;</value>
   </data>
+  <data name="OrderShippingDateTest_TestAction.SqlScript" xml:space="preserve">
+    <value>/*
+Добавьте здесь инструкции SQL, применяемые к объекту базы данных, 
+который должен быть протестирован.
+
+Для тестирования хранимой процедуры вызовите ее здесь путем добавления 
+инструкции EXEC, которая имеет соответствующие параметры.
+
+В нижней области можно добавить условия теста, позволяющие проверить, 
+согласуются ли результаты инструкций SQL с 
+ожидаемыми.
+*/
+
+SELECT		 MAX ( [OrderDateKey] ), MAX ( [ShippedDateKey] )
+FROM		[Fact].[Order]
+HAVING		MAX ( [OrderDateKey] ) &lt; MAX ( [ShippedDateKey] )</value>
+  </data>
+  <data name="CountRowsInDWH_TestAction.SqlScript" xml:space="preserve">
+    <value>/*
+Add SQL statements here to exercise the database object 
+that you want to test.
+
+To test a stored procedure, invoke it here by adding 
+an EXEC statement that has appropriate parameters.
+
+In the lower pane, you can add test conditions that verify 
+whether the results of your SQL statements match what 
+you expect.
+*/
+
+SELECT 1 FROM [Dimension].[Date];
+SELECT 1 FROM [Dimension].[Employee];
+SELECT 1 FROM [Dimension].[Customer];
+SELECT 1 FROM [Dimension].[Product];
+SELECT 1 FROM [Fact].[Order];</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

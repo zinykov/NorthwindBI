@@ -1,18 +1,15 @@
 ﻿CREATE PROCEDURE [Hash].[UpdateHashProducts]
 AS BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION	
-			TRUNCATE TABLE [Hash].[Products];
+	DROP INDEX IF EXISTS [IX_Hash_Products_HashDiff] ON [Hash].[Products]
+	ALTER TABLE [Hash].[Products] DROP CONSTRAINT IF EXISTS [PK_Hash_Products]
 
-			INSERT INTO [Hash].[Products]
-			SELECT		  [ProductID]
-						, [HashDiff]
-			FROM		[Landing].[Products];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	TRUNCATE TABLE [Hash].[Products]
+
+	INSERT INTO [Hash].[Products]
+	SELECT		  [ProductID]
+				, [HashDiff]
+	FROM		[Landing].[Products]
+
+	ALTER TABLE [Hash].[Products] ADD CONSTRAINT [PK_Hash_Products] PRIMARY KEY CLUSTERED ( [ProductID] ASC )
+	CREATE INDEX [IX_Hash_Products_HashDiff] ON [Hash].[Products] ( [HashDiff] ASC )
 END
