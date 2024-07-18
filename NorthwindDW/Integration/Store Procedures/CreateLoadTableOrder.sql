@@ -10,7 +10,7 @@ AS BEGIN
 	DECLARE @CreatePS		        AS NVARCHAR(MAX);
     DECLARE @YearNumber             AS INT;
 	
--- Опеределение границ диапазона слияния секций.
+	PRINT ( N'Опеределение границ диапазона слияния секций.' )
     IF ( @IsMaitenance = 1 )
         BEGIN
             SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
@@ -26,20 +26,12 @@ AS BEGIN
 	INNER JOIN	sys.partition_functions AS PS ON PS.[function_id] = PRV.[function_id]
 	WHERE		PS.[name] = N'PF_Order_Date';
 	
--- Создание функции секционирования
+	PRINT ( N'Создание функции секционирования' )
 	SET @CreatePF = CONCAT ( N'CREATE PARTITION FUNCTION [PF_Load_Order] ( DATE ) AS RANGE RIGHT FOR VALUES ( ', @Bondaries, ' )' )
-    --BEGIN TRY
-    --    BEGIN TRANSACTION
-			EXECUTE sp_executesql @CreatePF;
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	
+	EXECUTE sp_executesql @CreatePF;
 
--- Создание схемы секционирования
+	PRINT ( N'Создание схемы секционирования' )
     SELECT		  @FileGroupNamesData = 
 					COALESCE ( @FileGroupNamesData + ',', '' )
 					+ QUOTENAME (  CASE
@@ -70,16 +62,8 @@ AS BEGIN
 	ORDER BY	  P.[partition_number]
 
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Data] AS PARTITION [PF_Load_Order] TO ( ', @FileGroupNamesData, N' )' );
-    --BEGIN TRY
-    --    BEGIN TRANSACTION
-            EXECUTE sp_executesql @CreatePS;
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      SET @Msg = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	
+	EXECUTE sp_executesql @CreatePS;
     
     SELECT		  @FileGroupNamesIndex = 
 					COALESCE ( @FileGroupNamesIndex + ',', '' )
@@ -111,76 +95,23 @@ AS BEGIN
 	ORDER BY	  P.[partition_number]
 
     SET @CreatePS = CONCAT ( N'CREATE PARTITION SCHEME [PS_Load_Order_Index] AS PARTITION [PF_Load_Order] TO ( ', @FileGroupNamesIndex, N' )' );
-    --BEGIN TRY
-    --    BEGIN TRANSACTION
-            EXECUTE sp_executesql @CreatePS;
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      SET @Msg = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	EXECUTE sp_executesql @CreatePS;
 
--- Создание копии таблицы фактов
-    --BEGIN TRY
-    --    BEGIN TRANSACTION
-	        CREATE TABLE [Integration].[Order] (
-	            [OrderKey]                      INT             NOT NULL,
-                [ProductKey]                    INT             NOT NULL,
-                [CustomerKey]                   INT             NULL, 
-                [EmployeeKey]                   INT             NULL,
-                [OrderDateKey]                  DATE			NULL, 
-                [RequiredDateKey]               DATE			NULL, 
-                [ShippedDateKey]                DATE			NULL, 
-                [UnitPrice]                     MONEY           NULL,
-                [Quantity]                      INT             NULL,
-                [Discount]                      MONEY           NULL,
-                [SalesAmount]                   MONEY           NULL,
-                [SalesAmountWithDiscount]       MONEY           NULL,
-                [LineageKey]                    INT             NULL,
-
-                CONSTRAINT [FK_Integration_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
-                CONSTRAINT [FK_Integration_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),
-                CONSTRAINT [FK_Integration_Order_Product_Key_Dimension_Product] FOREIGN KEY ( [ProductKey] ) REFERENCES [Dimension].[Product] ( [ProductKey] ),
-                CONSTRAINT [FK_Integration_Order_Order_Date_Key_Dimension_Date] FOREIGN KEY ( [OrderDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
-                CONSTRAINT [FK_Integration_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
-                CONSTRAINT [FK_Integration_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
-                CONSTRAINT [FK_Integration_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
-            )
-            ON [PS_Load_Order_Data] ( [ShippedDateKey] );
-
-            CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
-                ON [PS_Load_Order_Data] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Order_Date_Key] ON [Integration].[Order] ( [OrderDateKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Required_Date_Key] ON [Integration].[Order] ( [RequiredDateKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Shipped_Date_Key] ON [Integration].[Order] ( [ShippedDateKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Cusotmer_Key] ON [Integration].[Order] ( [CustomerKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Employee_Key] ON [Integration].[Order] ( [EmployeeKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-
-            CREATE NONCLUSTERED INDEX [IX_Integration_Order_Product_Key] ON [Integration].[Order] ( [ProductKey] )
-                WITH ( DATA_COMPRESSION = PAGE )
-                ON [PS_Load_Order_Index] ( [ShippedDateKey] );
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      SET @Msg = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	PRINT ( N'Создание копии таблицы фактов' )
+	CREATE TABLE [Integration].[Order] (
+	    [OrderKey]                      INT             NOT NULL,
+        [ProductKey]                    INT             NOT NULL,
+        [CustomerKey]                   INT             NULL, 
+        [EmployeeKey]                   INT             NULL,
+        [OrderDateKey]                  DATE			NULL, 
+        [RequiredDateKey]               DATE			NULL, 
+        [ShippedDateKey]                DATE			NULL, 
+        [UnitPrice]                     MONEY           NULL,
+        [Quantity]                      INT             NULL,
+        [Discount]                      MONEY           NULL,
+        [SalesAmount]                   MONEY           NULL,
+        [SalesAmountWithDiscount]       MONEY           NULL,
+        [LineageKey]                    INT             NULL
+    )
+    ON [PS_Load_Order_Data] ( [OrderDateKey] );
 END

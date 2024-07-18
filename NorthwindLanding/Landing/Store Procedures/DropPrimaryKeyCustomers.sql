@@ -1,13 +1,5 @@
 ﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyCustomers] AS
 BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION
-			ALTER TABLE [Landing].[Customers] DROP CONSTRAINT [PK_Landing_Customers];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	DROP INDEX IF EXISTS [IX_Landing_Customers_HashDiff] ON [Landing].[Customers]
+	ALTER TABLE [Landing].[Customers] DROP CONSTRAINT IF EXISTS [PK_Landing_Customers]
 END

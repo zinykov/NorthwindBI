@@ -1,13 +1,5 @@
 ﻿CREATE PROCEDURE [Landing].[DropPrimaryKeyCategories] AS
 BEGIN
-	--BEGIN TRY
-	--	BEGIN TRANSACTION
-			ALTER TABLE [Landing].[Categories] DROP CONSTRAINT [PK_Landing_Categories];
-  --      COMMIT TRANSACTION;
-  --  END TRY
-  --  BEGIN CATCH
-  --      ROLLBACK TRANSACTION;
-  --      DECLARE @Msg AS NVARCHAR(2048) = FORMATMESSAGE(50002, ERROR_NUMBER(), ERROR_LINE(), ERROR_MESSAGE());
-		--THROW 50002, @Msg, 1;
-  --  END CATCH
+	DROP INDEX IF EXISTS [IX_Landing_Categories_HashDiff] ON [Landing].[Categories]
+	ALTER TABLE [Landing].[Categories] DROP CONSTRAINT IF EXISTS [PK_Landing_Categories]
 END
