@@ -33,17 +33,17 @@ GO
 ALTER ROLE [db_datareader] ADD MEMBER [$(DQS_STAGING_DATA_ServerName)\PBIRSexec]
 GO
 
-USE [Logs]
+USE [$(LogsDatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\PBIRSexec' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LogsServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(DWHServerName)\PBIRSexec] FOR LOGIN [$(DWHServerName)\PBIRSexec]
+		CREATE USER [$(LogsServerName)\PBIRSexec] FOR LOGIN [$(LogsServerName)\PBIRSexec]
 			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-ALTER ROLE [db_datareader] ADD MEMBER [$(DWHServerName)\PBIRSexec]
+ALTER ROLE [db_datareader] ADD MEMBER [$(LogsServerName)\PBIRSexec]
 GO
 
 USE [$(MDSDatabaseName)]
@@ -60,4 +60,17 @@ GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
 GO
 
 GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
+GO
+
+USE [$(LandingDatabaseName)]
+GO
+
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(LandingServerName)\PBIRSexec' )
+	BEGIN
+		CREATE USER [$(LandingServerName)\PBIRSexec] FOR LOGIN [$(LandingServerName)\PBIRSexec]
+			WITH DEFAULT_SCHEMA=[dbo]
+	END
+GO
+
+ALTER ROLE [db_datareader] ADD MEMBER [$(LandingServerName)\PBIRSexec]
 GO
