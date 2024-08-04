@@ -1,4 +1,4 @@
-﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\VariableGroup.sql
+﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 USE [$(DWHDatabaseName)]
 GO
@@ -15,6 +15,9 @@ IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\
 		CREATE USER [$(DWHServerName)\DataAnalyst] FOR LOGIN [$(DWHServerName)\DataAnalyst]
 			WITH DEFAULT_SCHEMA=[Reports]
 	END
+GO
+
+GRANT SELECT ON sys.sql_expression_dependencies TO [dwh_user];
 GO
 
 ALTER ROLE [dwh_user] ADD MEMBER [$(DWHServerName)\PBIRSexec]
