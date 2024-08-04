@@ -1,5 +1,4 @@
---:setvar SSISProjectName NorthwindETL
---:setvar SSISFolderName NorthwindBI
+--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 EXECUTE [catalog].[delete_project] @project_name=N'$(SSISProjectName)', @folder_name=N'$(SSISFolderName)';
 GO

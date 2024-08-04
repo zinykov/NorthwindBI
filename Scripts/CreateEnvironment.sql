@@ -1,21 +1,4 @@
-﻿--:setvar SSISFolderName NorthwindBI
---:setvar SSISEnvironmentName Release
---:setvar DWHServerName SWIFT3
---:setvar DWHDatabaseName NorthwindDW
---:setvar DQS_STAGING_DATA_ServerName SWIFT3
---:setvar DQS_STAGING_DATA_DatabaseName DQS_STAGING_DATA
---:setvar DQSServerName SWIFT3
---:setvar MDSServerName SWIFT3
---:setvar MDSDatabaseName MDS
---:setvar DBFilesPath "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\"
---:setvar BackupFilesPath "C:\SSIS\NorthwindBI\Backups\"
---:setvar ExternalFilesPath "C:\SSIS\NorthwindBI\"
---:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
---:setvar LogsServerName SWIFT3
---:setvar LogsDatabaseName NorthwindLogs
---:setvar RetrainWeeks 3
---:setvar LandingServerName SWIFT3
---:setvar LandingDatabaseName NorthwindLanding
+﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN

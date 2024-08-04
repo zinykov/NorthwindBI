@@ -18,13 +18,28 @@
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>1003f734-6ed3-4eb5-be89-753fa551f826</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="Logs">
+      <DataSourceReference>Logs</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>9e915ef9-7241-4206-a837-de935562c73c</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Errorlog">
       <Query>
-        <DataSourceName>NorthwindDW</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Reports.ErrorLog</CommandText>
+        <DataSourceName>Logs</DataSourceName>
+        <CommandText>SELECT		  [LogKey]
+			, [ErrorCode]
+			, [ErrorDescription]
+			, [ParametersValues]
+			, [MachineName]
+			, [PackageName]
+			, [SourceName]
+			, [StartTime]
+			, [UserName]
+			, [LineageKey]
+
+FROM		[Integration].[ErrorLog]</CommandText>
       </Query>
       <Fields>
         <Field Name="LogKey">
@@ -102,52 +117,52 @@
       <Query>
         <DataSourceName>DQS</DataSourceName>
         <CommandText>SELECT		  [Table]			= 'Customer'
-			, [Record_Status]
+			, [Record Status]
 			, [RowCount]		= COUNT ( * )
 
-FROM		[dbo].[NW_Customer]
+FROM		[dbo].[NW_Customers]
 
-GROUP BY	[Record_Status]
+GROUP BY	[Record Status]
 
 UNION ALL
 
 SELECT		  [Table]			= 'Employee'
-			, [Record_Status]
+			, [Record Status]
 			, [RowCount]		= COUNT ( * )
 
-FROM		[dbo].[NW_Employee]
+FROM		[dbo].[NW_Employees]
 
-GROUP BY	[Record_Status]
+GROUP BY	[Record Status]
 
 UNION ALL
 
 SELECT		  [Table]			= 'Product'
-			, [Record_Status]
+			, [Record Status]
 			, [RowCount]		= COUNT ( * )
 
-FROM		[dbo].[NW_Product]
+FROM		[dbo].[NW_Products]
 
-GROUP BY	[Record_Status]
+GROUP BY	[Record Status]
 
 UNION ALL
 
 SELECT		  [Table]			= 'Category'
-			, [Record_Status]
+			, [Record Status]
 			, [RowCount]		= COUNT ( * )
 
-FROM		[dbo].[NW_Category]
+FROM		[dbo].[NW_Categories]
 
-GROUP BY	[Record_Status]
+GROUP BY	[Record Status]
 	
 UNION ALL
 
 SELECT		  [Table]			= 'Holidays'
-			, [Record_Status]
+			, [Record Status]
 			, [RowCount]		= COUNT ( * )
 
 FROM		[dbo].[Holidays]
 
-GROUP BY	[Record_Status]</CommandText>
+GROUP BY	[Record Status]</CommandText>
       </Query>
       <Fields>
         <Field Name="Table">
@@ -155,7 +170,7 @@ GROUP BY	[Record_Status]</CommandText>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="RecordStatus">
-          <DataField>Record_Status</DataField>
+          <DataField>Record Status</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="RowCount">

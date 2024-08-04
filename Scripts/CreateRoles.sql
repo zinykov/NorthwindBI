@@ -1,22 +1,6 @@
-﻿USE [$(MDSDatabaseName)]
-GO
+﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
-IF NOT EXISTS (
-				SELECT      1
-				FROM        [sys].[database_role_members] AS DBRM
-				INNER JOIN  [sys].[database_principals] AS R
-							ON DBRM.[role_principal_id] = R.[principal_id]
-				WHERE       R.[name] = '$(AzAgentGroup)'
-)
-	BEGIN
-		CREATE ROLE [$(AzAgentGroup)] AUTHORIZATION [dbo]
-	END
-GO
-
-GRANT SELECT ON SCHEMA::[stg] TO [$(AzAgentGroup)]
-GO
-
-GRANT EXECUTE ON SCHEMA::[stg] TO [$(AzAgentGroup)]
+USE [$(MDSDatabaseName)]
 GO
 
 IF NOT EXISTS (

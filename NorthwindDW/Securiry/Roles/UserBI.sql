@@ -1,5 +1,0 @@
-﻿CREATE ROLE [UserBI] AUTHORIZATION [dbo];
-GO
-
-GRANT SELECT ON SCHEMA::[Reports] TO [UserBI];
-GO
