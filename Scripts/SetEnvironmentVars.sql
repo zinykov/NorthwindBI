@@ -1,6 +1,4 @@
-﻿--:setvar SSISProjectName NorthwindETL
---:setvar SSISFolderName NorthwindBI
---:setvar SSISEnvironmentName Release
+﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]

@@ -1,4 +1,6 @@
-﻿USE [$(DWHDatabaseName)]
+﻿--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\VariableGroup.sql
+
+USE [$(DWHDatabaseName)]
 GO
 
 IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(DWHServerName)\PBIRSexec' )
@@ -49,17 +51,14 @@ GO
 USE [$(MDSDatabaseName)]
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\$(AzAgentGroup)' )
+IF NOT EXISTS ( SELECT 1 FROM [sys].[sysusers] WHERE [name] = '$(MDSServerName)\PBIRSexec' )
 	BEGIN
-		CREATE USER [$(MDSServerName)\$(AzAgentGroup)] FOR LOGIN [$(MDSServerName)\$(AzAgentGroup)]
-			WITH DEFAULT_SCHEMA=[stg]
+		CREATE USER [$(MDSServerName)\PBIRSexec] FOR LOGIN [$(MDSServerName)\PBIRSexec]
+			WITH DEFAULT_SCHEMA=[dbo]
 	END
 GO
 
-GRANT SELECT ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
-GO
-
-GRANT EXECUTE ON SCHEMA::[stg] TO [$(MDSServerName)\$(AzAgentGroup)]
+ALTER ROLE [RDLexec] ADD MEMBER [$(MDSServerName)\PBIRSexec];
 GO
 
 USE [$(LandingDatabaseName)]
