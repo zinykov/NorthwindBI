@@ -76,7 +76,7 @@ namespace NorthwindETLTest
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
                     $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
-                    $" DBFilesPath=\"C:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\DATA\\\"" +
+                    $" DBFilesPath=\"C:\\Program Files\\Microsoft SQL Server\\MSSQL16.MSSQLSERVER\\MSSQL\\DATA\\\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
                     $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
                     $" DQSServerName=\"{Environment.MachineName}\"" +
@@ -155,7 +155,7 @@ namespace NorthwindETLTest
                             "WHERE [CustomerID] = N'FRANK';";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", 
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                         $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
@@ -189,7 +189,7 @@ namespace NorthwindETLTest
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", 
+                    CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                         $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
                 }
 
