@@ -74,6 +74,9 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage2CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountChangedRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountLineageValues;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CutoffTimeTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMinValue;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMaxValue;
             this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -81,6 +84,7 @@ namespace NorthwindETLTest
             this.OrderShippingDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.CutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CountRowsInDWH_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CountRowsInDimDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CountRowsInDimEmployee = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
@@ -117,12 +121,9 @@ namespace NorthwindETLTest
             ProductSCD1TestStage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             ProductSCD1TestStage2CountChangedRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             ProductSCD1TestStage2CountLineageValues = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            // 
-            // CountRowsInDWHData
-            // 
-            this.CountRowsInDWHData.PosttestAction = null;
-            this.CountRowsInDWHData.PretestAction = null;
-            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
+            CutoffTimeTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            CutoffTimeTestMinValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            CutoffTimeTestMaxValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // CountRowsInDWH_TestAction
             // 
@@ -167,12 +168,6 @@ namespace NorthwindETLTest
             CountRowsInFactOrder.Name = "CountRowsInFactOrder";
             CountRowsInFactOrder.ResultSet = 5;
             CountRowsInFactOrder.RowCount = 1464;
-            // 
-            // CustomerSCD2TestStage1Data
-            // 
-            this.CustomerSCD2TestStage1Data.PosttestAction = null;
-            this.CustomerSCD2TestStage1Data.PretestAction = null;
-            this.CustomerSCD2TestStage1Data.TestAction = CustomerSCD2TestStage1_TestAction;
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -229,12 +224,6 @@ namespace NorthwindETLTest
             CustomerSCD2Stage1StartDate.NullExpected = false;
             CustomerSCD2Stage1StartDate.ResultSet = 1;
             CustomerSCD2Stage1StartDate.RowNumber = 2;
-            // 
-            // EmployeeSCD2TestStage1Data
-            // 
-            this.EmployeeSCD2TestStage1Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage1Data.PretestAction = null;
-            this.EmployeeSCD2TestStage1Data.TestAction = EmployeeSCD2TestStage1_TestAction;
             // 
             // EmployeeSCD2TestStage1_TestAction
             // 
@@ -300,12 +289,6 @@ namespace NorthwindETLTest
             EmpoloyeeSCD2Stage1StartDate.ResultSet = 1;
             EmpoloyeeSCD2Stage1StartDate.RowNumber = 2;
             // 
-            // EmployeeSCD2TestStage2Data
-            // 
-            this.EmployeeSCD2TestStage2Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage2Data.PretestAction = null;
-            this.EmployeeSCD2TestStage2Data.TestAction = EmployeeSCD2TestStage2_TestAction;
-            // 
             // EmployeeSCD2TestStage2_TestAction
             // 
             EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CountRows);
@@ -370,12 +353,6 @@ namespace NorthwindETLTest
             EmployeeSCD2Stage2StartDate.ResultSet = 1;
             EmployeeSCD2Stage2StartDate.RowNumber = 3;
             // 
-            // OrderShippingDateTestData
-            // 
-            this.OrderShippingDateTestData.PosttestAction = null;
-            this.OrderShippingDateTestData.PretestAction = null;
-            this.OrderShippingDateTestData.TestAction = OrderShippingDateTest_TestAction;
-            // 
             // OrderShippingDateTest_TestAction
             // 
             OrderShippingDateTest_TestAction.Conditions.Add(OrderShippingDateTest);
@@ -386,12 +363,6 @@ namespace NorthwindETLTest
             OrderShippingDateTest.Enabled = true;
             OrderShippingDateTest.Name = "OrderShippingDateTest";
             OrderShippingDateTest.ResultSet = 1;
-            // 
-            // ProductSCD1TestStage1Data
-            // 
-            this.ProductSCD1TestStage1Data.PosttestAction = null;
-            this.ProductSCD1TestStage1Data.PretestAction = null;
-            this.ProductSCD1TestStage1Data.TestAction = ProductSCD1TestStage1_TestAction;
             // 
             // ProductSCD1TestStage1_TestAction
             // 
@@ -427,12 +398,6 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CategoryName.ResultSet = 1;
             ProductSCD1TestStage1CategoryName.RowNumber = 1;
             // 
-            // ProductSCD1TestStage2Data
-            // 
-            this.ProductSCD1TestStage2Data.PosttestAction = null;
-            this.ProductSCD1TestStage2Data.PretestAction = null;
-            this.ProductSCD1TestStage2Data.TestAction = ProductSCD1TestStage2_TestAction;
-            // 
             // ProductSCD1TestStage2_TestAction
             // 
             ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountRows);
@@ -466,6 +431,80 @@ namespace NorthwindETLTest
             ProductSCD1TestStage2CountLineageValues.NullExpected = false;
             ProductSCD1TestStage2CountLineageValues.ResultSet = 1;
             ProductSCD1TestStage2CountLineageValues.RowNumber = 1;
+            // 
+            // CountRowsInDWHData
+            // 
+            this.CountRowsInDWHData.PosttestAction = null;
+            this.CountRowsInDWHData.PretestAction = null;
+            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
+            // 
+            // CustomerSCD2TestStage1Data
+            // 
+            this.CustomerSCD2TestStage1Data.PosttestAction = null;
+            this.CustomerSCD2TestStage1Data.PretestAction = null;
+            this.CustomerSCD2TestStage1Data.TestAction = CustomerSCD2TestStage1_TestAction;
+            // 
+            // EmployeeSCD2TestStage1Data
+            // 
+            this.EmployeeSCD2TestStage1Data.PosttestAction = null;
+            this.EmployeeSCD2TestStage1Data.PretestAction = null;
+            this.EmployeeSCD2TestStage1Data.TestAction = EmployeeSCD2TestStage1_TestAction;
+            // 
+            // EmployeeSCD2TestStage2Data
+            // 
+            this.EmployeeSCD2TestStage2Data.PosttestAction = null;
+            this.EmployeeSCD2TestStage2Data.PretestAction = null;
+            this.EmployeeSCD2TestStage2Data.TestAction = EmployeeSCD2TestStage2_TestAction;
+            // 
+            // OrderShippingDateTestData
+            // 
+            this.OrderShippingDateTestData.PosttestAction = null;
+            this.OrderShippingDateTestData.PretestAction = null;
+            this.OrderShippingDateTestData.TestAction = OrderShippingDateTest_TestAction;
+            // 
+            // ProductSCD1TestStage1Data
+            // 
+            this.ProductSCD1TestStage1Data.PosttestAction = null;
+            this.ProductSCD1TestStage1Data.PretestAction = null;
+            this.ProductSCD1TestStage1Data.TestAction = ProductSCD1TestStage1_TestAction;
+            // 
+            // ProductSCD1TestStage2Data
+            // 
+            this.ProductSCD1TestStage2Data.PosttestAction = null;
+            this.ProductSCD1TestStage2Data.PretestAction = null;
+            this.ProductSCD1TestStage2Data.TestAction = ProductSCD1TestStage2_TestAction;
+            // 
+            // CutoffTimeTestData
+            // 
+            this.CutoffTimeTestData.PosttestAction = null;
+            this.CutoffTimeTestData.PretestAction = null;
+            this.CutoffTimeTestData.TestAction = CutoffTimeTest_TestAction;
+            // 
+            // CutoffTimeTest_TestAction
+            // 
+            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMinValue);
+            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMaxValue);
+            resources.ApplyResources(CutoffTimeTest_TestAction, "CutoffTimeTest_TestAction");
+            // 
+            // CutoffTimeTestMinValue
+            // 
+            CutoffTimeTestMinValue.ColumnNumber = 1;
+            CutoffTimeTestMinValue.Enabled = true;
+            CutoffTimeTestMinValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMinValue.Name = "CutoffTimeTestMinValue";
+            CutoffTimeTestMinValue.NullExpected = false;
+            CutoffTimeTestMinValue.ResultSet = 1;
+            CutoffTimeTestMinValue.RowNumber = 1;
+            // 
+            // CutoffTimeTestMaxValue
+            // 
+            CutoffTimeTestMaxValue.ColumnNumber = 1;
+            CutoffTimeTestMaxValue.Enabled = true;
+            CutoffTimeTestMaxValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMaxValue.Name = "CutoffTimeTestMaxValue";
+            CutoffTimeTestMaxValue.NullExpected = false;
+            CutoffTimeTestMaxValue.ResultSet = 1;
+            CutoffTimeTestMaxValue.RowNumber = 1;
         }
 
         #endregion
@@ -646,6 +685,30 @@ namespace NorthwindETLTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void CutoffTimeTest()
+        {
+            SqlDatabaseTestActions testActions = this.CutoffTimeTestData;
+            // Выполнить скрипт перед тестом
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Выполнить скрипт теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Выполнить скрипт после теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
 
 
 
@@ -659,5 +722,6 @@ namespace NorthwindETLTest
         private SqlDatabaseTestActions OrderShippingDateTestData;
         private SqlDatabaseTestActions ProductSCD1TestStage1Data;
         private SqlDatabaseTestActions ProductSCD1TestStage2Data;
+        private SqlDatabaseTestActions CutoffTimeTestData;
     }
 }
