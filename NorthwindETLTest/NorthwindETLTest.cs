@@ -333,6 +333,12 @@ namespace NorthwindETLTest
                     ETLTest.CountRowsInDWH();
                 }
 
+                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest test...");
+                    ETLTest.CutoffTimeTest();
+                }
+
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1 test...");
