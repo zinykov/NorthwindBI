@@ -28,7 +28,7 @@ AS BEGIN
 				AND DDS.[destination_id] = P.[partition_number]
 	LEFT JOIN	sys.filegroups AS FG ON FG.[data_space_id] = I.[data_space_id]
 	LEFT JOIN	sys.filegroups AS FGP ON FGP.[data_space_id] = DDS.[data_space_id]
-	INNER JOIN	sys.dm_db_index_physical_stats ( DB_ID(), NULL, NULL , NULL, N'LIMITED' ) DMV ON DMV.[object_id] = I.[object_id]
+	INNER JOIN	sys.dm_db_index_physical_stats ( DB_ID(), NULL, NULL , NULL, N'LIMITED' ) AS DMV ON DMV.[object_id] = I.[object_id]
 				AND DMV.[index_id] = I.[index_id]
 				AND DMV.[partition_number]  = P.[partition_number]
 	

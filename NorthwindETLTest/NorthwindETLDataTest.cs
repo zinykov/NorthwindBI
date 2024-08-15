@@ -37,8 +37,14 @@ namespace NorthwindETLTest
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CustomerSCD2TestStage1_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CountRowsInDWH_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindETLDataTest));
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimDate;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimEmployee;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimCustomer;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimProduct;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInFactOrder;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CustomerSCD2TestStage1_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2Stage1CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CustomerName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CityName;
@@ -58,29 +64,29 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2CountryName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage2CountRowsInDimension;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2StartDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage2_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage2CountRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountChangedRows;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountLineageValues;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction OrderShippingDateTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition OrderShippingDateTest;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage1_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage1CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1ProductName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1CategoryName;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction OrderShippingDateTest_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition OrderShippingDateTest;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CountRowsInDWH_TestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimEmployee;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimCustomer;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimProduct;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInFactOrder;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage2_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage2CountRows;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountChangedRows;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountLineageValues;
+            this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.OrderShippingDateTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            CountRowsInDWH_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            CountRowsInDimDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimEmployee = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimCustomer = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInDimProduct = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CountRowsInFactOrder = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -101,22 +107,72 @@ namespace NorthwindETLTest
             EmployeeSCD2Stage2CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             EmployeeSCD2Stage2CountRowsInDimension = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             EmployeeSCD2Stage2StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            ProductSCD1TestStage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            ProductSCD1TestStage2CountChangedRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage2CountLineageValues = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            OrderShippingDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            OrderShippingDateTest = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition();
             ProductSCD1TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             ProductSCD1TestStage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             ProductSCD1TestStage1ProductName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             ProductSCD1TestStage1CategoryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            OrderShippingDateTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            OrderShippingDateTest = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.EmptyResultSetCondition();
-            CountRowsInDWH_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            CountRowsInDimDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimEmployee = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimCustomer = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimProduct = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInFactOrder = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            ProductSCD1TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            ProductSCD1TestStage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            ProductSCD1TestStage2CountChangedRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            ProductSCD1TestStage2CountLineageValues = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            // 
+            // CountRowsInDWHData
+            // 
+            this.CountRowsInDWHData.PosttestAction = null;
+            this.CountRowsInDWHData.PretestAction = null;
+            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
+            // 
+            // CountRowsInDWH_TestAction
+            // 
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimDate);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimEmployee);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimCustomer);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimProduct);
+            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInFactOrder);
+            resources.ApplyResources(CountRowsInDWH_TestAction, "CountRowsInDWH_TestAction");
+            // 
+            // CountRowsInDimDate
+            // 
+            CountRowsInDimDate.Enabled = true;
+            CountRowsInDimDate.Name = "CountRowsInDimDate";
+            CountRowsInDimDate.ResultSet = 1;
+            CountRowsInDimDate.RowCount = 1097;
+            // 
+            // CountRowsInDimEmployee
+            // 
+            CountRowsInDimEmployee.Enabled = true;
+            CountRowsInDimEmployee.Name = "CountRowsInDimEmployee";
+            CountRowsInDimEmployee.ResultSet = 2;
+            CountRowsInDimEmployee.RowCount = 10;
+            // 
+            // CountRowsInDimCustomer
+            // 
+            CountRowsInDimCustomer.Enabled = true;
+            CountRowsInDimCustomer.Name = "CountRowsInDimCustomer";
+            CountRowsInDimCustomer.ResultSet = 3;
+            CountRowsInDimCustomer.RowCount = 89;
+            // 
+            // CountRowsInDimProduct
+            // 
+            CountRowsInDimProduct.Enabled = true;
+            CountRowsInDimProduct.Name = "CountRowsInDimProduct";
+            CountRowsInDimProduct.ResultSet = 4;
+            CountRowsInDimProduct.RowCount = 78;
+            // 
+            // CountRowsInFactOrder
+            // 
+            CountRowsInFactOrder.Enabled = true;
+            CountRowsInFactOrder.Name = "CountRowsInFactOrder";
+            CountRowsInFactOrder.ResultSet = 5;
+            CountRowsInFactOrder.RowCount = 1464;
+            // 
+            // CustomerSCD2TestStage1Data
+            // 
+            this.CustomerSCD2TestStage1Data.PosttestAction = null;
+            this.CustomerSCD2TestStage1Data.PretestAction = null;
+            this.CustomerSCD2TestStage1Data.TestAction = CustomerSCD2TestStage1_TestAction;
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -173,6 +229,12 @@ namespace NorthwindETLTest
             CustomerSCD2Stage1StartDate.NullExpected = false;
             CustomerSCD2Stage1StartDate.ResultSet = 1;
             CustomerSCD2Stage1StartDate.RowNumber = 2;
+            // 
+            // EmployeeSCD2TestStage1Data
+            // 
+            this.EmployeeSCD2TestStage1Data.PosttestAction = null;
+            this.EmployeeSCD2TestStage1Data.PretestAction = null;
+            this.EmployeeSCD2TestStage1Data.TestAction = EmployeeSCD2TestStage1_TestAction;
             // 
             // EmployeeSCD2TestStage1_TestAction
             // 
@@ -238,6 +300,12 @@ namespace NorthwindETLTest
             EmpoloyeeSCD2Stage1StartDate.ResultSet = 1;
             EmpoloyeeSCD2Stage1StartDate.RowNumber = 2;
             // 
+            // EmployeeSCD2TestStage2Data
+            // 
+            this.EmployeeSCD2TestStage2Data.PosttestAction = null;
+            this.EmployeeSCD2TestStage2Data.PretestAction = null;
+            this.EmployeeSCD2TestStage2Data.TestAction = EmployeeSCD2TestStage2_TestAction;
+            // 
             // EmployeeSCD2TestStage2_TestAction
             // 
             EmployeeSCD2TestStage2_TestAction.Conditions.Add(EmployeeSCD2Stage2CountRows);
@@ -302,39 +370,28 @@ namespace NorthwindETLTest
             EmployeeSCD2Stage2StartDate.ResultSet = 1;
             EmployeeSCD2Stage2StartDate.RowNumber = 3;
             // 
-            // ProductSCD1TestStage2_TestAction
+            // OrderShippingDateTestData
             // 
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountRows);
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountChangedRows);
-            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountLineageValues);
-            resources.ApplyResources(ProductSCD1TestStage2_TestAction, "ProductSCD1TestStage2_TestAction");
+            this.OrderShippingDateTestData.PosttestAction = null;
+            this.OrderShippingDateTestData.PretestAction = null;
+            this.OrderShippingDateTestData.TestAction = OrderShippingDateTest_TestAction;
             // 
-            // ProductSCD1TestStage2CountRows
+            // OrderShippingDateTest_TestAction
             // 
-            ProductSCD1TestStage2CountRows.Enabled = true;
-            ProductSCD1TestStage2CountRows.Name = "ProductSCD1TestStage2CountRows";
-            ProductSCD1TestStage2CountRows.ResultSet = 1;
-            ProductSCD1TestStage2CountRows.RowCount = 1;
+            OrderShippingDateTest_TestAction.Conditions.Add(OrderShippingDateTest);
+            resources.ApplyResources(OrderShippingDateTest_TestAction, "OrderShippingDateTest_TestAction");
             // 
-            // ProductSCD1TestStage2CountChangedRows
+            // OrderShippingDateTest
             // 
-            ProductSCD1TestStage2CountChangedRows.ColumnNumber = 1;
-            ProductSCD1TestStage2CountChangedRows.Enabled = true;
-            ProductSCD1TestStage2CountChangedRows.ExpectedValue = "13";
-            ProductSCD1TestStage2CountChangedRows.Name = "ProductSCD1TestStage2CountChangedRows";
-            ProductSCD1TestStage2CountChangedRows.NullExpected = false;
-            ProductSCD1TestStage2CountChangedRows.ResultSet = 1;
-            ProductSCD1TestStage2CountChangedRows.RowNumber = 1;
+            OrderShippingDateTest.Enabled = true;
+            OrderShippingDateTest.Name = "OrderShippingDateTest";
+            OrderShippingDateTest.ResultSet = 1;
             // 
-            // ProductSCD1TestStage2CountLineageValues
+            // ProductSCD1TestStage1Data
             // 
-            ProductSCD1TestStage2CountLineageValues.ColumnNumber = 2;
-            ProductSCD1TestStage2CountLineageValues.Enabled = true;
-            ProductSCD1TestStage2CountLineageValues.ExpectedValue = "1";
-            ProductSCD1TestStage2CountLineageValues.Name = "ProductSCD1TestStage2CountLineageValues";
-            ProductSCD1TestStage2CountLineageValues.NullExpected = false;
-            ProductSCD1TestStage2CountLineageValues.ResultSet = 1;
-            ProductSCD1TestStage2CountLineageValues.RowNumber = 1;
+            this.ProductSCD1TestStage1Data.PosttestAction = null;
+            this.ProductSCD1TestStage1Data.PretestAction = null;
+            this.ProductSCD1TestStage1Data.TestAction = ProductSCD1TestStage1_TestAction;
             // 
             // ProductSCD1TestStage1_TestAction
             // 
@@ -370,102 +427,45 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CategoryName.ResultSet = 1;
             ProductSCD1TestStage1CategoryName.RowNumber = 1;
             // 
-            // OrderShippingDateTest_TestAction
-            // 
-            OrderShippingDateTest_TestAction.Conditions.Add(OrderShippingDateTest);
-            resources.ApplyResources(OrderShippingDateTest_TestAction, "OrderShippingDateTest_TestAction");
-            // 
-            // OrderShippingDateTest
-            // 
-            OrderShippingDateTest.Enabled = true;
-            OrderShippingDateTest.Name = "OrderShippingDateTest";
-            OrderShippingDateTest.ResultSet = 1;
-            // 
-            // CountRowsInDWH_TestAction
-            // 
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimDate);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimEmployee);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimCustomer);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimProduct);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInFactOrder);
-            resources.ApplyResources(CountRowsInDWH_TestAction, "CountRowsInDWH_TestAction");
-            // 
-            // CountRowsInDimDate
-            // 
-            CountRowsInDimDate.Enabled = true;
-            CountRowsInDimDate.Name = "CountRowsInDimDate";
-            CountRowsInDimDate.ResultSet = 1;
-            CountRowsInDimDate.RowCount = 1097;
-            // 
-            // CountRowsInDimEmployee
-            // 
-            CountRowsInDimEmployee.Enabled = true;
-            CountRowsInDimEmployee.Name = "CountRowsInDimEmployee";
-            CountRowsInDimEmployee.ResultSet = 2;
-            CountRowsInDimEmployee.RowCount = 10;
-            // 
-            // CountRowsInDimCustomer
-            // 
-            CountRowsInDimCustomer.Enabled = true;
-            CountRowsInDimCustomer.Name = "CountRowsInDimCustomer";
-            CountRowsInDimCustomer.ResultSet = 3;
-            CountRowsInDimCustomer.RowCount = 89;
-            // 
-            // CountRowsInDimProduct
-            // 
-            CountRowsInDimProduct.Enabled = true;
-            CountRowsInDimProduct.Name = "CountRowsInDimProduct";
-            CountRowsInDimProduct.ResultSet = 4;
-            CountRowsInDimProduct.RowCount = 78;
-            // 
-            // CountRowsInFactOrder
-            // 
-            CountRowsInFactOrder.Enabled = true;
-            CountRowsInFactOrder.Name = "CountRowsInFactOrder";
-            CountRowsInFactOrder.ResultSet = 5;
-            CountRowsInFactOrder.RowCount = 1464;
-            // 
-            // CustomerSCD2TestStage1Data
-            // 
-            this.CustomerSCD2TestStage1Data.PosttestAction = null;
-            this.CustomerSCD2TestStage1Data.PretestAction = null;
-            this.CustomerSCD2TestStage1Data.TestAction = CustomerSCD2TestStage1_TestAction;
-            // 
-            // EmployeeSCD2TestStage1Data
-            // 
-            this.EmployeeSCD2TestStage1Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage1Data.PretestAction = null;
-            this.EmployeeSCD2TestStage1Data.TestAction = EmployeeSCD2TestStage1_TestAction;
-            // 
-            // EmployeeSCD2TestStage2Data
-            // 
-            this.EmployeeSCD2TestStage2Data.PosttestAction = null;
-            this.EmployeeSCD2TestStage2Data.PretestAction = null;
-            this.EmployeeSCD2TestStage2Data.TestAction = EmployeeSCD2TestStage2_TestAction;
-            // 
             // ProductSCD1TestStage2Data
             // 
             this.ProductSCD1TestStage2Data.PosttestAction = null;
             this.ProductSCD1TestStage2Data.PretestAction = null;
             this.ProductSCD1TestStage2Data.TestAction = ProductSCD1TestStage2_TestAction;
             // 
-            // ProductSCD1TestStage1Data
+            // ProductSCD1TestStage2_TestAction
             // 
-            this.ProductSCD1TestStage1Data.PosttestAction = null;
-            this.ProductSCD1TestStage1Data.PretestAction = null;
-            this.ProductSCD1TestStage1Data.TestAction = ProductSCD1TestStage1_TestAction;
+            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountRows);
+            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountChangedRows);
+            ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountLineageValues);
+            resources.ApplyResources(ProductSCD1TestStage2_TestAction, "ProductSCD1TestStage2_TestAction");
             // 
-            // OrderShippingDateTestData
+            // ProductSCD1TestStage2CountRows
             // 
-            this.OrderShippingDateTestData.PosttestAction = null;
-            this.OrderShippingDateTestData.PretestAction = null;
-            this.OrderShippingDateTestData.TestAction = OrderShippingDateTest_TestAction;
+            ProductSCD1TestStage2CountRows.Enabled = true;
+            ProductSCD1TestStage2CountRows.Name = "ProductSCD1TestStage2CountRows";
+            ProductSCD1TestStage2CountRows.ResultSet = 1;
+            ProductSCD1TestStage2CountRows.RowCount = 1;
             // 
-            // CountRowsInDWHData
+            // ProductSCD1TestStage2CountChangedRows
             // 
-            this.CountRowsInDWHData.PosttestAction = null;
-            this.CountRowsInDWHData.PretestAction = null;
-            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
+            ProductSCD1TestStage2CountChangedRows.ColumnNumber = 1;
+            ProductSCD1TestStage2CountChangedRows.Enabled = true;
+            ProductSCD1TestStage2CountChangedRows.ExpectedValue = "13";
+            ProductSCD1TestStage2CountChangedRows.Name = "ProductSCD1TestStage2CountChangedRows";
+            ProductSCD1TestStage2CountChangedRows.NullExpected = false;
+            ProductSCD1TestStage2CountChangedRows.ResultSet = 1;
+            ProductSCD1TestStage2CountChangedRows.RowNumber = 1;
+            // 
+            // ProductSCD1TestStage2CountLineageValues
+            // 
+            ProductSCD1TestStage2CountLineageValues.ColumnNumber = 2;
+            ProductSCD1TestStage2CountLineageValues.Enabled = true;
+            ProductSCD1TestStage2CountLineageValues.ExpectedValue = "1";
+            ProductSCD1TestStage2CountLineageValues.Name = "ProductSCD1TestStage2CountLineageValues";
+            ProductSCD1TestStage2CountLineageValues.NullExpected = false;
+            ProductSCD1TestStage2CountLineageValues.ResultSet = 1;
+            ProductSCD1TestStage2CountLineageValues.RowNumber = 1;
         }
 
         #endregion
@@ -485,6 +485,29 @@ namespace NorthwindETLTest
         //
         #endregion
 
+        [TestMethod()]
+        public void CountRowsInDWH()
+        {
+            SqlDatabaseTestActions testActions = this.CountRowsInDWHData;
+            // Execute the pre-test script
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Execute the test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Execute the post-test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
         [TestMethod()]
         public void CustomerSCD2TestStage1()
         {
@@ -555,9 +578,9 @@ namespace NorthwindETLTest
             }
         }
         [TestMethod()]
-        public void ProductSCD1TestStage2()
+        public void OrderShippingDateTest()
         {
-            SqlDatabaseTestActions testActions = this.ProductSCD1TestStage2Data;
+            SqlDatabaseTestActions testActions = this.OrderShippingDateTestData;
             // Execute the pre-test script
             // 
             System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
@@ -601,48 +624,25 @@ namespace NorthwindETLTest
             }
         }
         [TestMethod()]
-        public void OrderShippingDateTest()
+        public void ProductSCD1TestStage2()
         {
-            SqlDatabaseTestActions testActions = this.OrderShippingDateTestData;
-            // Выполнить скрипт перед тестом
+            SqlDatabaseTestActions testActions = this.ProductSCD1TestStage2Data;
+            // Execute the pre-test script
             // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
             SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
             try
             {
-                // Выполнить скрипт теста
+                // Execute the test script
                 // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
                 SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
             }
             finally
             {
-                // Выполнить скрипт после теста
+                // Execute the post-test script
                 // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
-        [TestMethod()]
-        public void CountRowsInDWH()
-        {
-            SqlDatabaseTestActions testActions = this.CountRowsInDWHData;
-            // Выполнить скрипт перед тестом
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Выполнить скрипт теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Выполнить скрипт после теста
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
@@ -652,12 +652,12 @@ namespace NorthwindETLTest
 
 
 
+        private SqlDatabaseTestActions CountRowsInDWHData;
         private SqlDatabaseTestActions CustomerSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage2Data;
-        private SqlDatabaseTestActions ProductSCD1TestStage2Data;
-        private SqlDatabaseTestActions ProductSCD1TestStage1Data;
         private SqlDatabaseTestActions OrderShippingDateTestData;
-        private SqlDatabaseTestActions CountRowsInDWHData;
+        private SqlDatabaseTestActions ProductSCD1TestStage1Data;
+        private SqlDatabaseTestActions ProductSCD1TestStage2Data;
     }
 }
