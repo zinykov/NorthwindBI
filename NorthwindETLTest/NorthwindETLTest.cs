@@ -58,40 +58,41 @@ namespace NorthwindETLTest
             CleanupFolder(TestData);
             CleanupFolder($"{workingFolder}\\Backup");
 
-            //Creating logins
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
-            CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
-                $"-S {Environment.MachineName}" +
-                $" -d master" +
-                $" -i \"{workingFolder}\\Scripts\\CreateLogins.sql\"" +
-                $" -v DWHServerName=\"{Environment.MachineName}\""
-            );
+            //Creating logins, roles, users
+            if (SSISEnvironmentName == "Debug")
+            {
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {Environment.MachineName}" +
+                    $" -d master" +
+                    $" -i \"{workingFolder}\\Scripts\\CreateLogins.sql\"" +
+                    $" -v DWHServerName=\"{Environment.MachineName}\""
+                );
 
-            //Creating roles
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases roles...");
-            CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
-                $"-S {Environment.MachineName}" +
-                $" -d MDS" +
-                $" -i \"{workingFolder}\\Scripts\\CreateRoles.sql\"" +
-                $" -v MDSDatabaseName=\"MDS\""
-            );
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases roles...");
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {Environment.MachineName}" +
+                    $" -d MDS" +
+                    $" -i \"{workingFolder}\\Scripts\\CreateRoles.sql\"" +
+                    $" -v MDSDatabaseName=\"MDS\""
+                );
 
-            //Creating users
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
-            CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
-                $"-S {Environment.MachineName}" +
-                $" -i \"{workingFolder}\\Scripts\\CreateUsers.sql\"" +
-                $" -v DWHDatabaseName=\"NorthwindDW\"" +
-                $" DWHServerName=\"{Environment.MachineName}\"" +
-                $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
-                $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
-                $" LogsDatabaseName=\"NorthwindLogs\"" +
-                $" LogsServerName=\"{Environment.MachineName}\"" +
-                $" MDSDatabaseName=\"MDS\"" +
-                $" MDSServerName=\"{Environment.MachineName}\"" +
-                $" LandingDatabaseName=\"NorthwindLanding\"" +
-                $" LandingServerName=\"{Environment.MachineName}\""
-            );
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
+                CallProcess($"{ProgramFiles}\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {Environment.MachineName}" +
+                    $" -i \"{workingFolder}\\Scripts\\CreateUsers.sql\"" +
+                    $" -v DWHDatabaseName=\"NorthwindDW\"" +
+                    $" DWHServerName=\"{Environment.MachineName}\"" +
+                    $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
+                    $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
+                    $" LogsDatabaseName=\"NorthwindLogs\"" +
+                    $" LogsServerName=\"{Environment.MachineName}\"" +
+                    $" MDSDatabaseName=\"MDS\"" +
+                    $" MDSServerName=\"{Environment.MachineName}\"" +
+                    $" LandingDatabaseName=\"NorthwindLanding\"" +
+                    $" LandingServerName=\"{Environment.MachineName}\""
+                );
+            }
 
             //Preparing SSIS environment
             if (SSISEnvironmentName == "Debug")
