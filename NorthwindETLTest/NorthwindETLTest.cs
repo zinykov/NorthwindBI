@@ -1,5 +1,4 @@
 ﻿using Microsoft.SqlServer.Management.IntegrationServices;
-using Microsoft.SqlServer.Management.Smo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.ObjectModel;
@@ -42,12 +41,15 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
 
+
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
             LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
             LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
-            workingFolder = (string)testContextInstance.Properties["workingFolder"];
             ProgramFiles = (string)testContextInstance.Properties["ProgramFiles"];
             SSISEnvironmentName = (string)testContextInstance.Properties["SSISEnvironmentName"];
+            string DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
+            string reposFolder = (string)testContextInstance.Properties["reposFolder"];
+            workingFolder = $"{reposFolder}Northwind_BI_Solution";
 
             string IngestData = $"{workingFolder}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
@@ -113,7 +115,7 @@ namespace NorthwindETLTest
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
                     $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
-                    $" DBFilesPath=\"C:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\DATA\\\"" +
+                    $" DBFilesPath=\"{DBFilesPath}\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
                     $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
                     $" DQSServerName=\"{Environment.MachineName}\"" +
@@ -130,7 +132,7 @@ namespace NorthwindETLTest
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
-                    $" XMLCalendarFolder=\"C:\\Users\\zinyk\\source\\repos\\XMLCalendar\\\"" +
+                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\\\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\""
                 );
