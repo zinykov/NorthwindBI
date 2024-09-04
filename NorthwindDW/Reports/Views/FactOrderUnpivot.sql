@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[OrderUnpivot]
+﻿CREATE VIEW [Reports].[FactOrderUnpivot]
 	WITH SCHEMABINDING
 AS 
 	SELECT		  [OrderKey]
