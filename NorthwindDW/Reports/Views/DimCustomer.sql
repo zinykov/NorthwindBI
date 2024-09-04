@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[Customer]
+﻿CREATE VIEW [Reports].[DimCustomer]
 	WITH SCHEMABINDING
 AS
 	SELECT		  [CustomerKey]
