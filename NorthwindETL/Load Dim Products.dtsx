@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Products"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="382"
-  DTS:VersionGUID="{BC0AAF02-BB58-4CC3-A570-955A4988A7BC}">
+  DTS:VersionBuild="401"
+  DTS:VersionGUID="{8FC97E9E-C5C8-42C1-9B1F-CEEAFF4A4CD1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2954,33 +2954,50 @@
               version="1">
               <components>
                 <component
-                  refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey"
+                  refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Производный столбец;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;0"
-                  name="Add LineageKey"
+                  name="Add LineageKey and concat AllAtributes"
                   usesDispositions="true">
                   <inputs>
                     <input
-                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Inputs[Вход производного столбца]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца]"
                       description="Ввод преобразования &quot;Производный столбец&quot;"
                       name="Вход производного столбца">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца].Columns[MasterProductAllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="MasterProductAllAttributes"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MasterProductAllAttributes]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца].Columns[DQSProductAllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="DQSProductAllAttributes"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSProductAllAttributes]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца].Columns[DQSCategoryAllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="DQSCategoryAllAttributes"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCategoryAllAttributes]" />
+                      </inputColumns>
                       <externalMetadataColumns />
                     </input>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца]"
                       description="Выход по умолчанию преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       name="Выход производного столбца"
-                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[LineageKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Вычисление"
                           errorRowDisposition="FailComponent"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[LineageKey]"
                           name="LineageKey"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -2997,27 +3014,49 @@
                               name="FriendlyExpression">@[User::LineageKey]</property>
                           </properties>
                         </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[AllAttributes]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Вычисление"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[AllAttributes]"
+                          name="AllAttributes"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Выражение производного столбца"
+                              name="Expression">(DT_NTEXT)"{\"MDS\":{\"mdm.masterProduct\":" + #{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[MasterProductAllAttributes]} + (DT_NTEXT)"},\"DQS\":[{\"dbo.NW_Products\":" + #{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DQSProductAllAttributes]} + (DT_NTEXT)"},{\"dbo.NW_Categories\":" + #{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DQSCategoryAllAttributes]} + (DT_NTEXT)"}]}"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Понятное выражение производного столбца"
+                              expressionType="Notify"
+                              name="FriendlyExpression">(DT_NTEXT)"{\"MDS\":{\"mdm.masterProduct\":" + MasterProductAllAttributes + (DT_NTEXT)"},\"DQS\":[{\"dbo.NW_Products\":" + DQSProductAllAttributes + (DT_NTEXT)"},{\"dbo.NW_Categories\":" + DQSCategoryAllAttributes + (DT_NTEXT)"}]}"</property>
+                          </properties>
+                        </outputColumn>
                       </outputColumns>
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Вывод ошибок производного столбца]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Вывод ошибок производного столбца]"
                       description="Вывод ошибок преобразования &quot;Производный столбец&quot;"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок производного столбца"
-                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Inputs[Вход производного столбца]">
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Вывод ошибок производного столбца].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Вывод ошибок производного столбца].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -3054,6 +3093,12 @@
                           cachedLength="250"
                           cachedName="Category_Name"
                           lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Name]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Inputs[Входные данные преобразования данных].Columns[Category_Code]"
+                          cachedDataType="wstr"
+                          cachedLength="250"
+                          cachedName="Category_Code"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Code]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
@@ -3121,6 +3166,26 @@
                               dataType="System.Int32"
                               description="Указывает входной столбец, служащий источником данных для преобразования."
                               name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[Category_Name]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[CategoryAlterKey]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[CategoryAlterKey]"
+                          name="CategoryAlterKey"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Указывает входной столбец, служащий источником данных для преобразования."
+                              name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[Category_Code]}</property>
                             <property
                               dataType="System.Boolean"
                               description="Указывает, используются ли в столбце более производительные, не зависящие от локалей процедуры синтаксического анализа."
@@ -3350,7 +3415,7 @@
                           cachedDataType="i4"
                           cachedName="LineageKey"
                           externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[LineageKey]" />
                         <inputColumn
                           refId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Category]"
                           cachedDataType="wstr"
@@ -3358,6 +3423,12 @@
                           cachedName="Category"
                           externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Category]"
                           lineageId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[Category]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[AllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="AllAttributes"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[AllAttributes]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[AllAttributes]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -3383,6 +3454,10 @@
                           refId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                           dataType="i4"
                           name="LineageKey" />
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[AllAttributes]"
+                          dataType="nText"
+                          name="AllAttributes" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -3404,6 +3479,348 @@
                           refId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\MDS -&gt; DWH\DWH load\Insert New Products.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+                  name="Lookup DQS_STAGING NW_Categories"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	  [CategoryID_Output]
+		, [AllAttributes] = (
+			SELECT	*
+			FROM	[dbo].[NW_Categories] AS subquery
+			WHERE	subquery.[CategoryID_Output] = NWP.[CategoryID_Output]
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		)
+FROM	[dbo].[NW_Categories] AS NWP</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT	  [CategoryID_Output]
+		, [AllAttributes] = (
+			SELECT	*
+			FROM	[dbo].[NW_Categories] AS subquery
+			WHERE	subquery.[CategoryID_Output] = NWP.[CategoryID_Output]
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		)
+FROM	[dbo].[NW_Categories] AS NWP) [refTable]
+where [refTable].[CategoryID_Output] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип кэша таблицы уточняющих запросов."
+                      name="CacheType"
+                      typeConverter="CacheType">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CategoryID_Output" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AllAttributes" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                      name="ParameterMap">#{Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[CategoryAlterKey]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Connections[OleDbConnection]"
+                      connectionManagerID="{6904C058-BEE4-4249-9768-273BC2D6430D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DQS_STAGING]"
+                      description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CategoryAlterKey]"
+                          cachedDataType="i4"
+                          cachedName="CategoryAlterKey"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[CategoryAlterKey]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">CategoryID_Output</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      errorOrTruncationOperation="Уточняющий запрос"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCategoryAllAttributes]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Копировать столбец"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCategoryAllAttributes]"
+                          name="DQSCategoryAllAttributes"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn">AllAttributes</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                      exclusionGroup="1"
+                      name="Выход несовпадающих строк уточняющего запроса"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
+                  name="Lookup DQS_STAGING NW_Products"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	  [ProductID_Output]
+		, [AllAttributes] = (
+			SELECT	*
+			FROM	[dbo].[NW_Products] AS subquery
+			WHERE	subquery.[ProductID_Output] = NWP.[ProductID_Output]
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		)
+FROM	[dbo].[NW_Products] AS NWP</property>
+                    <property
+                      dataType="System.String"
+                      description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (SELECT	  [ProductID_Output]
+		, [AllAttributes] = (
+			SELECT	*
+			FROM	[dbo].[NW_Products] AS subquery
+			WHERE	subquery.[ProductID_Output] = NWP.[ProductID_Output]
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		)
+FROM	[dbo].[NW_Products] AS NWP) [refTable]
+where [refTable].[ProductID_Output] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип соединения, используемого для доступа к эталонному набору данных."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает тип кэша таблицы уточняющих запросов."
+                      name="CacheType"
+                      typeConverter="CacheType">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает, как преобразование &quot;Уточняющий запрос&quot; обрабатывает строки без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает долю кэша (в процентах), выделенную для строк без совпадающих элементов в эталонном наборе данных."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Максимальный объем памяти для кэша ссылок на 32-разрядной платформе."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Максимальный объем памяти для кэша ссылок на 64-разрядной платформе."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает, следует ли ссылаться на метаданные в формате XML."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProductID_Output" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AllAttributes" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Задает список идентификаторов журнала обращений и преобразований, сопоставляемый с параметрами, которые использует инструкция SQL в свойстве SQLCommand. Элементы списка разделяются точками с запятой."
+                      name="ParameterMap">#{Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[ProductAlterKey]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Определяет, должны ли повторяющиеся ключи в ссылочных данных обрабатываться как ошибки при использовании режима полного кэширования."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Connections[OleDbConnection]"
+                      connectionManagerID="{6904C058-BEE4-4249-9768-273BC2D6430D}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DQS_STAGING]"
+                      description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[ProductAlterKey]"
+                          cachedDataType="i4"
+                          cachedName="ProductAlterKey"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[ProductAlterKey]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, который соединен с данным столбцом."
+                              name="JoinToReferenceColumn">ProductID_Output</property>
+                            <property
+                              dataType="System.Null"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      errorOrTruncationOperation="Уточняющий запрос"
+                      errorRowDisposition="IgnoreFailure"
+                      exclusionGroup="1"
+                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSProductAllAttributes]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Копировать столбец"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSProductAllAttributes]"
+                          name="DQSProductAllAttributes"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Указывает в ссылочной таблице столбец, из которого копируется данный столбец."
+                              name="CopyFromReferenceColumn">AllAttributes</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
+                      exclusionGroup="1"
+                      name="Выход несовпадающих строк уточняющего запроса"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -3607,8 +4024,17 @@ where [refTable].[ProductAlterKey] = ?</property>
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	[Code], [Name], [Category_Name]
-FROM	[mdm].[MasterProduct]
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT	  [Code]
+		, [Name]
+		, [Category_Name]
+		, [Category_Code]
+		, [MasterProductAllAttributes] = (
+			SELECT	*
+			FROM	[mdm].[MasterProduct] AS subquery
+			WHERE	subquery.[Code] = MP.[Code]
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		)
+FROM	[mdm].[MasterProduct] as MP
 WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'</property>
                     <property
                       dataType="System.String"
@@ -3675,6 +4101,25 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Name]"
                           name="Category_Name"
                           truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Category_Code]"
+                          length="250"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Category_Code]"
+                          name="Category_Code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MasterProductAllAttributes]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MasterProductAllAttributes]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MasterProductAllAttributes]"
+                          name="MasterProductAllAttributes"
+                          truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -3693,6 +4138,15 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           dataType="wstr"
                           length="250"
                           name="Category_Name" />
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Category_Code]"
+                          dataType="wstr"
+                          length="250"
+                          name="Category_Code" />
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MasterProductAllAttributes]"
+                          dataType="nText"
+                          name="MasterProductAllAttributes" />
                       </externalMetadataColumns>
                     </output>
                     <output
@@ -3718,6 +4172,17 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           length="250"
                           lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Code]"
                           name="Code" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Category_Code]"
+                          dataType="wstr"
+                          length="250"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Category_Code]"
+                          name="Category_Code" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MasterProductAllAttributes]"
+                          dataType="nText"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MasterProductAllAttributes]"
+                          name="MasterProductAllAttributes" />
                         <outputColumn
                           refId="Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
                           dataType="wstr"
@@ -3795,7 +4260,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           cachedDataType="i4"
                           cachedName="LineageKey"
                           externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].ExternalColumns[LineageKey]"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[LineageKey]" />
                         <inputColumn
                           refId="Package\MDS -&gt; DWH\DWH load\No Change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;].Columns[DWProduct]"
                           cachedDataType="wstr"
@@ -3865,6 +4330,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                       UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[UpdateProductChangingAttributes]
 	  @Product = ?
 	, @Category = ?
+	, @AllAttributes = ?
 	, @LineageKey = ?
 	, @ProductAlterKey = ?</property>
                     <property
@@ -3900,7 +4366,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           cachedDataType="i4"
                           cachedName="LineageKey"
                           externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[@LineageKey]"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[LineageKey]" />
                         <inputColumn
                           refId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].Columns[ProductAlterKey]"
                           cachedDataType="i4"
@@ -3914,6 +4380,12 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                           cachedName="Category"
                           externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[@Category]"
                           lineageId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных].Columns[Category]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].Columns[AllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="AllAttributes"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[@AllAttributes]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца].Columns[AllAttributes]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
@@ -3961,6 +4433,17 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                               dataType="System.Int32"
                               description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
                               name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Update Products.Inputs[Вход команды OLE DB].ExternalColumns[@AllAttributes]"
+                          dataType="nText"
+                          name="@AllAttributes">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Сведения о параметрах. Соответствуют значениям DBPARAMFLAGSENUM OLE DB."
+                              name="DBParamInfoFlags">193</property>
                           </properties>
                         </externalMetadataColumn>
                       </externalMetadataColumns>
@@ -4016,6 +4499,16 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                   name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
                   startId="Package\MDS -&gt; DWH\DWH load\Lookup DWH.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
                 <path
+                  refId="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  startId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                <path
+                  refId="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Inputs[Вход производного столбца]"
+                  name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                  startId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
                   endId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Inputs[Входные данные преобразования данных]"
                   name="Выход источника &quot;OLE DB&quot;"
@@ -4029,10 +4522,10 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
                   endId="Package\MDS -&gt; DWH\DWH load\Lookup DWH.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Выход производного столбца"
-                  startId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Outputs[Выход производного столбца]" />
+                  startId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes.Outputs[Выход производного столбца]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
-                  endId="Package\MDS -&gt; DWH\DWH load\Add LineageKey.Inputs[Вход производного столбца]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                   name="Выходные данные преобразования данных"
                   startId="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes.Outputs[Выходные данные преобразования данных]" />
               </paths>
@@ -4089,7 +4582,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Categories_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Categories{51DFAB6F-E496-4549-AD09-ADA375AD0053}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Categories_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Categories{F14F3DAB-9D70-494B-A8CC-BB6639015580}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -4127,7 +4620,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Products_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Products{51DFAB6F-E496-4549-AD09-ADA375AD0053}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Products_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Products{F14F3DAB-9D70-494B-A8CC-BB6639015580}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -4490,7 +4983,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="281,306"
+          PanelSize="281,307"
           Size="281,350"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed"
           TopLeft="5.50000000000003,107.5" />
@@ -4591,7 +5084,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="434,614"
+          PanelSize="434,615"
           Size="434,658"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Categories"
           TopLeft="5.5,5.50000000000011" />
@@ -4662,7 +5155,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="281,306"
+          PanelSize="281,307"
           Size="281,350"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed"
           TopLeft="5.50000000000003,107.5" />
@@ -4763,7 +5256,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="434,614"
+          PanelSize="434,615"
           Size="434,658"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products"
           TopLeft="500.5,5.5" />
@@ -4842,7 +5335,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="940,820"
+          PanelSize="940,821"
           Size="940,864"
           Id="Package\Landing -&gt; DQS -&gt; MDS"
           TopLeft="78,156.5" />
@@ -5033,7 +5526,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="473,510"
+          PanelSize="473,511"
           Size="473,554"
           Id="Package\MDS -&gt; DWH"
           TopLeft="13.5000000000001,1080.5" />
@@ -5226,6 +5719,10 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging"
           TopLeft="308,462.5" />
         <NodeLayout
+          Size="147,42"
+          Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing"
+          TopLeft="331.5,156.5" />
+        <NodeLayout
           Size="273,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\Add MDS Columns and change datatypes"
           TopLeft="268.5,360.5" />
@@ -5327,10 +5824,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="147,42"
-          Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing"
-          TopLeft="331.5,156.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DQS -&gt; MDS\Categories\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="405,96.5">
@@ -5421,7 +5914,7 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="149,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Source landing"
@@ -5438,6 +5931,10 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           Size="194,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination MDS staging"
           TopLeft="305,462.5" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing"
+          TopLeft="328.5,156.5" />
         <NodeLayout
           Size="193,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\Destination DQS staging"
@@ -5473,7 +5970,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5495,7 +5994,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5529,13 +6030,11 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="147,42"
-          Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table\DQS cleansing"
-          TopLeft="328.5,156.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DQS -&gt; MDS\Products\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="402,96.5">
@@ -5555,7 +6054,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -5577,7 +6078,9 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -5626,42 +6129,50 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
     design-time-name="Package\MDS -&gt; DWH\DWH load">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="131,42"
-          Id="Package\MDS -&gt; DWH\DWH load\No Change"
-          TopLeft="77.5000000000001,564.5" />
-        <NodeLayout
-          Size="194,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Find Changing attributes"
-          TopLeft="251,462.5" />
-        <NodeLayout
-          Size="232,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes"
-          TopLeft="232,156.5" />
-        <NodeLayout
-          Size="175,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Insert New Products"
-          TopLeft="15.5,462.5" />
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\MDS -&gt; DWH\DWH load\Update Products"
-          TopLeft="269.5,564.5" />
+          TopLeft="239,768.5" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Add LineageKey"
-          TopLeft="271,258.5" />
+          Size="262,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories"
+          TopLeft="226.5,360.5" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products"
+          TopLeft="231,258.5" />
         <NodeLayout
           Size="135,42"
           Id="Package\MDS -&gt; DWH\DWH load\MDS source"
-          TopLeft="280.5,54.5" />
+          TopLeft="290,54.5" />
+        <NodeLayout
+          Size="194,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Find Changing attributes"
+          TopLeft="15.5000000000001,666.5" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\MDS -&gt; DWH\DWH load\No Change"
+          TopLeft="47.0000000000001,768.5" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Insert New Products"
+          TopLeft="270,666.5" />
+        <NodeLayout
+          Size="266,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Add LineageKey and concat AllAtributes"
+          TopLeft="224.5,462.5" />
         <NodeLayout
           Size="140,42"
           Id="Package\MDS -&gt; DWH\DWH load\Lookup DWH"
-          TopLeft="278,360.5" />
+          TopLeft="287.5,564.5" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Change Code &amp; Name datatypes"
+          TopLeft="241.5,156.5" />
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
-          TopLeft="348,198.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="357.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5682,8 +6193,8 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
-          TopLeft="348,300.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
+          TopLeft="357.5,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5700,12 +6211,38 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход несовпадающих строк уточняющего запроса]"
-          TopLeft="326,402.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
+          TopLeft="357.5,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          TopLeft="335.5,606.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5735,13 +6272,85 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-231.098359375,29.406779661017,239.19671875,11.2822265625"
+              BoundingBox="-246.18986328125,29.406779661017,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="348,96.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[NoChange]"
+          TopLeft="81.5000000000001,708.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31,60"
+              Start="0,0"
+              End="31,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2944785276074" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2944785276074"
+                    Point2="0,24.2944785276074"
+                    Point3="4,24.2944785276074" />
+                  <mssgle:LineSegment
+                    End="27,24.2944785276074" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27,24.2944785276074"
+                    Point2="31,24.2944785276074"
+                    Point3="31,28.2944785276074" />
+                  <mssgle:LineSegment
+                    End="31,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-7.65634765624998,29.2944785276074,46.3126953125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Changing attributes]"
+          TopLeft="143.5,708.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="174,60"
+              Start="0,0"
+              End="174,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2944785276074" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2944785276074"
+                    Point2="0,24.2944785276074"
+                    Point3="4,24.2944785276074" />
+                  <mssgle:LineSegment
+                    End="170,24.2944785276074" />
+                  <mssgle:CubicBezierSegment
+                    Point1="170,24.2944785276074"
+                    Point2="174,24.2944785276074"
+                    Point3="174,28.2944785276074" />
+                  <mssgle:LineSegment
+                    End="174,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="43.01990234375,29.2944785276074,87.9601953125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
+          TopLeft="357.5,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5762,8 +6371,30 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-          TopLeft="370,402.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
+          TopLeft="357.5,504.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход несовпадающих строк уточняющего запроса]"
+          TopLeft="379.5,606.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5793,85 +6424,67 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-145.68986328125,29.406779661017,269.3797265625,12"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[NoChange]"
-          TopLeft="317,504.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-174,60"
-              Start="0,0"
-              End="-174,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.2944785276074" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.2944785276074"
-                    Point2="0,24.2944785276074"
-                    Point3="-4,24.2944785276074" />
-                  <mssgle:LineSegment
-                    End="-170,24.2944785276074" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-170,24.2944785276074"
-                    Point2="-174,24.2944785276074"
-                    Point3="-174,28.2944785276074" />
-                  <mssgle:LineSegment
-                    End="-174,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-110.15634765625,29.2944785276074,46.3126953125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Changing attributes]"
-          TopLeft="379,504.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-31,60"
-              Start="0,0"
-              End="-31,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.2944785276074" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.2944785276074"
-                    Point2="0,24.2944785276074"
-                    Point3="-4,24.2944785276074" />
-                  <mssgle:LineSegment
-                    End="-27,24.2944785276074" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-27,24.2944785276074"
-                    Point2="-31,24.2944785276074"
-                    Point3="-31,28.2944785276074" />
-                  <mssgle:LineSegment
-                    End="-31,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-59.48009765625,29.2944785276074,87.9601953125,11.6630859375"
+              BoundingBox="-130.598359375,29.406779661017,239.19671875,11.2822265625"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Categories">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Products">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS -&gt; DWH\DWH load\MDS source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\MDS -&gt; DWH\DWH load\Insert New Products">
     <Properties>
@@ -5882,14 +6495,6 @@ WHERE	[LastChgDateTime] &gt; ? AND [ValidationStatus] = N'Validation Succeeded'<
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\MDS -&gt; DWH\DWH load\MDS source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
