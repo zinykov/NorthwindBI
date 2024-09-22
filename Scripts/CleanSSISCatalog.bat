@@ -1,1 +1,0 @@
-sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CleanSSISCatalog.sql" -v SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISEnvironmentName="$(SSISEnvironmentName)"

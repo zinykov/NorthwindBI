@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[Order]
+﻿CREATE VIEW [Reports].[FactOrder]
 	WITH SCHEMABINDING
 AS
 	SELECT		  [OrderKey]

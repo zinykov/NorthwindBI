@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[Date]
+﻿CREATE VIEW [Reports].[DimDate]
     WITH SCHEMABINDING
 AS
 	SELECT		  [DateKey]

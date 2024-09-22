@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[Product]
+﻿CREATE VIEW [Reports].[DimProduct]
 	WITH SCHEMABINDING
 AS
 	SELECT		  [ProductKey]

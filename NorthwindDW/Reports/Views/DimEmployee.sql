@@ -1,4 +1,4 @@
-﻿CREATE VIEW [Reports].[Employee]
+﻿CREATE VIEW [Reports].[DimEmployee]
 	WITH SCHEMABINDING
 AS
 	SELECT		  [EmployeeKey]
