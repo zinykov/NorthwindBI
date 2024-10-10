@@ -509,9 +509,9 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void ExecuteSqlCommand(string sqlExpression)
+        private static void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
         {
-            string connectionString = $"Data Source={Environment.MachineName};Initial Catalog=NorthwindLanding;Integrated Security=True";
+            string connectionString = $"Data Source={Environment.MachineName};Initial Catalog={InitialCatalog};Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

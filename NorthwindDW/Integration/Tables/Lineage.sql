@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Integration].[Lineage]
 (
-	  [LineageKey]					INT				CONSTRAINT [SQ_Lineage_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[LineageKey] ) NOT NULL,
+	  [LineageKey]					BIGINT			CONSTRAINT [SQ_Lineage_Key] DEFAULT ( NEXT VALUE FOR [Integration].[LineageKey] ) NOT NULL,
 	  [DataLoadStarted]				DATETIME2		NOT NULL,
 	  [TableName]					SYSNAME			NOT NULL,
 	  [DataLoadCompleted]			DATETIME2		NULL,

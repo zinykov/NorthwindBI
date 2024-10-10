@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [Fact].[Order]
 (
 	[OrderKey]                      INT             NOT NULL,
-    [ProductKey]                    INT             NOT NULL,
-    [CustomerKey]                   INT             NULL, 
-    [EmployeeKey]                   INT             NULL,
+    [ProductKey]                    BIGINT          NOT NULL,
+    [CustomerKey]                   BIGINT          NULL, 
+    [EmployeeKey]                   BIGINT          NULL,
     [OrderDateKey]                  DATE            NULL, 
     [RequiredDateKey]               DATE            NULL, 
     [ShippedDateKey]                DATE            NULL, 
@@ -12,7 +12,7 @@
     [Discount]                      MONEY           NULL,
     [SalesAmount]                   MONEY           NULL,
     [SalesAmountWithDiscount]       MONEY           NULL,
-    [LineageKey]                    INT             NULL,
+    [LineageKey]                    BIGINT          NULL,
 
     CONSTRAINT [FK_Fact_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] ),
     CONSTRAINT [FK_Fact_Order_Employee_Key_Dimension_Employee] FOREIGN KEY ( [EmployeeKey] ) REFERENCES [Dimension].[Employee] ( [EmployeeKey] ),

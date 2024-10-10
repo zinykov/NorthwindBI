@@ -1,0 +1,4 @@
+﻿CREATE SEQUENCE [Dimension].[EmployeeKey]
+		AS BIGINT
+		START WITH 1
+		INCREMENT BY 1
