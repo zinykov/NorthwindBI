@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[AddUnknownProduct]
       @StartDate AS DATE
-    , @LineageKey AS INT
+    , @LineageKey AS BIGINT
 AS BEGIN
     IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Product] WHERE [ProductKey] = -1 )
     INSERT INTO [Dimension].[Product] (
@@ -11,7 +11,7 @@ AS BEGIN
         , [AllAttributes]
         , [LineageKey]
     ) VALUES (
-            -1
+          -1
         , -1
         , N'N/A'
         , N'N/A'

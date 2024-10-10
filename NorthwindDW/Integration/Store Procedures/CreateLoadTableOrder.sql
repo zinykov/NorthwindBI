@@ -100,9 +100,9 @@ AS BEGIN
 	PRINT ( N'Создание копии таблицы фактов' )
 	CREATE TABLE [Integration].[Order] (
 	    [OrderKey]                      INT             NOT NULL,
-        [ProductKey]                    INT             NOT NULL,
-        [CustomerKey]                   INT             NULL, 
-        [EmployeeKey]                   INT             NULL,
+        [ProductKey]                    BIGINT          NOT NULL,
+        [CustomerKey]                   BIGINT          NULL, 
+        [EmployeeKey]                   BIGINT          NULL,
         [OrderDateKey]                  DATE			NULL, 
         [RequiredDateKey]               DATE			NULL, 
         [ShippedDateKey]                DATE			NULL, 
@@ -111,7 +111,7 @@ AS BEGIN
         [Discount]                      MONEY           NULL,
         [SalesAmount]                   MONEY           NULL,
         [SalesAmountWithDiscount]       MONEY           NULL,
-        [LineageKey]                    INT             NULL
+        [LineageKey]                    BIGINT          NULL
     )
     ON [PS_Load_Order_Data] ( [OrderDateKey] );
 END

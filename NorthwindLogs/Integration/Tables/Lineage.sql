@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Integration].[Lineage]
 (
-	  [LineageKey]					INT				NOT NULL,
+	  [LineageKey]					BIGINT			NOT NULL,
 	  [DataLoadStarted]				DATETIME2		NOT NULL,
 	  [TableName]					SYSNAME			NOT NULL,
 	  [DataLoadCompleted]			DATETIME2		NULL,
