@@ -82,6 +82,8 @@
     <Folder Include="Maintenance\Tables" />
     <Folder Include="Storage\Partition functions" />
     <Folder Include="Storage\Partition schemas" />
+    <Folder Include="Dimension\Sequences" />
+    <Folder Include="Integration\Sequences" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Fact\Tables\Order.sql" />
@@ -165,6 +167,11 @@
     <Build Include="Integration\Store Procedures\CreateLoadTableConstraintsOrder.sql" />
     <Build Include="Reports\Stored procedures\SalesReportForEmployee.sql" />
     <Build Include="Storage\Filegroups\JSON_FG.sql" />
+    <Build Include="Dimension\Sequences\CustomerKey.sql" />
+    <Build Include="Dimension\Sequences\EmployeeKey.sql" />
+    <Build Include="Dimension\Sequences\ProductKey.sql" />
+    <Build Include="Integration\Sequences\LineageKey.sql" />
+    <Build Include="Integration\Store Procedures\CreateLoadTableConstraintsHoliday.sql" />
   </ItemGroup>
   <Import Condition="'$(NetCoreBuild)' == 'true'" Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
@@ -174,39 +181,9 @@
     <PostDeploy Include="Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="DQSDatabaseName">
-      <DefaultValue>DQS_STAGING_DATA</DefaultValue>
-      <Value>$(SqlCmdVar__8)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="DQSServerName">
-      <DefaultValue>SWIFT3</DefaultValue>
-      <Value>$(SqlCmdVar__9)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="DomainName">
-      <DefaultValue>SWIFT3</DefaultValue>
-      <Value>$(SqlCmdVar__7)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="LogsDatabaseName">
-      <DefaultValue>NorthwindLogs</DefaultValue>
-      <Value>$(SqlCmdVar__12)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="LogsServerName">
-      <DefaultValue>SWIFT3</DefaultValue>
-      <Value>$(SqlCmdVar__13)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="MDSServerName">
-      <DefaultValue>SWIFT3</DefaultValue>
-      <Value>$(SqlCmdVar__2)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="MDSDatabaseName">
-      <DefaultValue>MDS</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Scripts\ResourceGovernor.sql" />
-    <None Include="SWIFT3NorthwindDW.publish.xml" />
     <None Include="Scripts\ErrorMessages.sql" />
+    <None Include="SWIFT3NorthwindDW.publish.xml" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

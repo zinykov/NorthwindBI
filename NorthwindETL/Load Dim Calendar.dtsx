@@ -1808,7 +1808,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Add unknown date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1825,7 +1825,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create load table"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1833,6 +1833,21 @@
             <SQLTask:SqlTaskData
               SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
               SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableHoliday];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MDS -&gt; DWH\Create load table constraints"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{0EBFECCC-732B-43E7-B0F4-43F4DB04505C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create load table constraints"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableConstraintsHoliday];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -1860,7 +1875,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="Get start and end years"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -1910,14 +1925,14 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\MDS -&gt; DWH\Load hash table"
+          DTS:refId="Package\MDS -&gt; DWH\Load temp table"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:DelayValidation="True"
           DTS:Description="Data Flow Task"
           DTS:DTSID="{138eba5a-b888-4ad5-99d5-8d5ba6a60c40}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Load hash table"
+          DTS:ObjectName="Load temp table"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
           <DTS:Variables />
           <DTS:LoggingOptions
@@ -1927,7 +1942,7 @@
               version="1">
               <components>
                 <component
-                  refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion"
+                  refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion"
                   componentClassID="Microsoft.DataConvert"
                   contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
                   description="Data Conversion"
@@ -1935,39 +1950,39 @@
                   usesDispositions="true">
                   <inputs>
                     <input
-                      refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input]"
                       name="Data Conversion Input">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input].Columns[DateType_Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input].Columns[DateType_Name]"
                           cachedDataType="wstr"
                           cachedLength="250"
                           cachedName="DateType_Name"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]" />
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]" />
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input].Columns[Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input].Columns[Name]"
                           cachedDataType="wstr"
                           cachedLength="250"
                           cachedName="Name"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]" />
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output]"
                       exclusionGroup="1"
                       name="Data Conversion Output"
-                      synchronousInputId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input]">
+                      synchronousInputId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]"
                           dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           length="25"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]"
                           name="WorkDayType"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1975,7 +1990,7 @@
                               containsID="true"
                               dataType="System.Int32"
                               description="Specifies the input column used as the source of data for the conversion."
-                              name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]}</property>
+                              name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]}</property>
                             <property
                               dataType="System.Boolean"
                               description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -1983,12 +1998,12 @@
                           </properties>
                         </outputColumn>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]"
                           dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           length="100"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]"
                           name="Holiday"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -1996,7 +2011,7 @@
                               containsID="true"
                               dataType="System.Int32"
                               description="Specifies the input column used as the source of data for the conversion."
-                              name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]}</property>
+                              name="SourceInputColumnLineageID">#{Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]}</property>
                             <property
                               dataType="System.Boolean"
                               description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -2007,22 +2022,22 @@
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Error Output]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Error Output]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Data Conversion Error Output"
-                      synchronousInputId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input]">
+                      synchronousInputId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -2031,7 +2046,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table"
+                  refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
                   name="Destination temp table"
@@ -2087,7 +2102,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Connections[OleDbConnection]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Connections[OleDbConnection]"
                       connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
                       connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                       description="The OLE DB runtime connection used to access the database."
@@ -2095,59 +2110,59 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input]"
                       errorOrTruncationOperation="Insert"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="OLE DB Destination Input">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].Columns[Date]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].Columns[Date]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="Date"
                           cachedScale="3"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]" />
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]" />
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].Columns[WorkDayHours]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].Columns[WorkDayHours]"
                           cachedDataType="numeric"
                           cachedName="WorkDayHours"
                           cachedPrecision="38"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayHours]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]" />
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayHours]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]" />
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].Columns[WorkDayType]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].Columns[WorkDayType]"
                           cachedDataType="wstr"
                           cachedLength="25"
                           cachedName="WorkDayType"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayType]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]" />
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayType]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[WorkDayType]" />
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].Columns[Holiday]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].Columns[Holiday]"
                           cachedDataType="wstr"
                           cachedLength="100"
                           cachedName="Holiday"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Holiday]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]" />
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Holiday]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output].Columns[Holiday]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
                           dataType="dbDate"
                           name="Date" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Holiday]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[Holiday]"
                           dataType="wstr"
                           length="100"
                           name="Holiday" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayType]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayType]"
                           dataType="wstr"
                           length="25"
                           name="WorkDayType" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayHours]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input].ExternalColumns[WorkDayHours]"
                           dataType="ui1"
                           name="WorkDayHours" />
                       </externalMetadataColumns>
@@ -2155,22 +2170,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Outputs[OLE DB Destination Error Output]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Outputs[OLE DB Destination Error Output]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="OLE DB Destination Error Output"
-                      synchronousInputId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input]">
+                      synchronousInputId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -2179,7 +2194,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\MDS -&gt; DWH\Load hash table\Source MDS"
+                  refId="Package\MDS -&gt; DWH\Load temp table\Source MDS"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
                   name="Source MDS"
@@ -2227,7 +2242,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Connections[OleDbConnection]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Connections[OleDbConnection]"
                       connectionManagerID="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}:external"
                       connectionManagerRefId="Project.ConnectionManagers[MDS]"
                       description="The OLE DB runtime connection used to access the database."
@@ -2235,46 +2250,46 @@
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output]"
                       name="OLE DB Source Output">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]"
                           dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Name]"
                           length="250"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Name]"
                           name="Name"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]"
                           dataType="dbTimeStamp2"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Date]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[Date]"
                           name="Date"
                           scale="3"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]"
                           dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Name]"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Name]"
                           length="250"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[DateType_Name]"
                           name="DateType_Name"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[WorkDayHours]"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[WorkDayHours]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].Columns[WorkDayHours]"
                           name="WorkDayHours"
                           precision="38"
                           truncationRowDisposition="FailComponent" />
@@ -2282,143 +2297,143 @@
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ID]"
                           dataType="i4"
                           name="ID" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[MUID]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[MUID]"
                           dataType="guid"
                           name="MUID" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionName]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionName]"
                           dataType="wstr"
                           length="50"
                           name="VersionName" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionNumber]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionNumber]"
                           dataType="i4"
                           name="VersionNumber" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Version_ID]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Version_ID]"
                           dataType="i4"
                           name="Version_ID" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionFlag]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[VersionFlag]"
                           dataType="wstr"
                           length="50"
                           name="VersionFlag" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Name]"
                           dataType="wstr"
                           length="250"
                           name="Name" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Code]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Code]"
                           dataType="wstr"
                           length="250"
                           name="Code" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ChangeTrackingMask]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ChangeTrackingMask]"
                           dataType="i4"
                           name="ChangeTrackingMask" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[Date]"
                           dataType="dbTimeStamp2"
                           name="Date"
                           scale="3" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Code]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Code]"
                           dataType="wstr"
                           length="250"
                           name="DateType_Code" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_Name]"
                           dataType="wstr"
                           length="250"
                           name="DateType_Name" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_ID]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[DateType_ID]"
                           dataType="i4"
                           name="DateType_ID" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[WorkDayHours]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[WorkDayHours]"
                           dataType="numeric"
                           name="WorkDayHours"
                           precision="38" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterDateTime]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterDateTime]"
                           dataType="dbTimeStamp2"
                           name="EnterDateTime"
                           scale="3" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterUserName]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterUserName]"
                           dataType="wstr"
                           length="100"
                           name="EnterUserName" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterVersionNumber]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[EnterVersionNumber]"
                           dataType="i4"
                           name="EnterVersionNumber" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgDateTime]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgDateTime]"
                           dataType="dbTimeStamp2"
                           name="LastChgDateTime"
                           scale="3" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgUserName]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgUserName]"
                           dataType="wstr"
                           length="100"
                           name="LastChgUserName" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgVersionNumber]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[LastChgVersionNumber]"
                           dataType="i4"
                           name="LastChgVersionNumber" />
                         <externalMetadataColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ValidationStatus]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output].ExternalColumns[ValidationStatus]"
                           dataType="wstr"
                           length="250"
                           name="ValidationStatus" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output]"
+                      refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output]"
                       isErrorOut="true"
                       name="OLE DB Source Error Output">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Name]"
                           dataType="wstr"
                           length="250"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Name]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Name]"
                           name="Name" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Date]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Date]"
                           dataType="dbTimeStamp2"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Date]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[Date]"
                           name="Date"
                           scale="3" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[DateType_Name]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[DateType_Name]"
                           dataType="wstr"
                           length="250"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[DateType_Name]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[DateType_Name]"
                           name="DateType_Name" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[WorkDayHours]"
+                          refId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[WorkDayHours]"
                           dataType="numeric"
-                          lineageId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Error Output].Columns[WorkDayHours]"
+                          lineageId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Error Output].Columns[WorkDayHours]"
                           name="WorkDayHours"
                           precision="38" />
                       </outputColumns>
@@ -2429,15 +2444,15 @@
               </components>
               <paths>
                 <path
-                  refId="Package\MDS -&gt; DWH\Load hash table.Paths[Data Conversion Output]"
-                  endId="Package\MDS -&gt; DWH\Load hash table\Destination temp table.Inputs[OLE DB Destination Input]"
+                  refId="Package\MDS -&gt; DWH\Load temp table.Paths[Data Conversion Output]"
+                  endId="Package\MDS -&gt; DWH\Load temp table\Destination temp table.Inputs[OLE DB Destination Input]"
                   name="Data Conversion Output"
-                  startId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Outputs[Data Conversion Output]" />
+                  startId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Outputs[Data Conversion Output]" />
                 <path
-                  refId="Package\MDS -&gt; DWH\Load hash table.Paths[OLE DB Source Output]"
-                  endId="Package\MDS -&gt; DWH\Load hash table\Data Conversion.Inputs[Data Conversion Input]"
+                  refId="Package\MDS -&gt; DWH\Load temp table.Paths[OLE DB Source Output]"
+                  endId="Package\MDS -&gt; DWH\Load temp table\Data Conversion.Inputs[Data Conversion Input]"
                   name="OLE DB Source Output"
-                  startId="Package\MDS -&gt; DWH\Load hash table\Source MDS.Outputs[OLE DB Source Output]" />
+                  startId="Package\MDS -&gt; DWH\Load temp table\Source MDS.Outputs[OLE DB Source Output]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -2492,7 +2507,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{351B3040-573E-49CB-9E54-3BC1ACC78024}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{864A55E5-1006-4CC0-A82B-BE17617777AB}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -2549,13 +2564,29 @@
           DTS:ObjectName="Constraint"
           DTS:To="Package\MDS -&gt; DWH\Load Date Dimension" />
         <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{BD0C61A1-D8CA-4D53-B306-75022243E58A}"
+          DTS:From="Package\MDS -&gt; DWH\Load temp table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\MDS -&gt; DWH\Create load table constraints" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{186A9DA9-A848-469E-8502-6F9C848376B8}"
+          DTS:From="Package\MDS -&gt; DWH\Create load table constraints"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\MDS -&gt; DWH\Add unknown date" />
+        <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2 1]"
           DTS:CreationName=""
           DTS:DTSID="{0725c7b4-505b-4d35-9bc3-48fa4061b324}"
           DTS:From="Package\MDS -&gt; DWH\Create load table"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 2 1"
-          DTS:To="Package\MDS -&gt; DWH\Load hash table" />
+          DTS:To="Package\MDS -&gt; DWH\Load temp table" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 4]"
           DTS:CreationName=""
@@ -2579,7 +2610,7 @@
           DTS:From="Package\MDS -&gt; DWH\MDS validate model"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 1"
-          DTS:To="Package\MDS -&gt; DWH\Load hash table" />
+          DTS:To="Package\MDS -&gt; DWH\Load temp table" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
           DTS:CreationName=""
@@ -2596,14 +2627,6 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 3"
           DTS:To="Package\MDS -&gt; DWH\Load Date Dimension" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 4]"
-          DTS:CreationName=""
-          DTS:DTSID="{76BB0807-0552-4C83-87A6-C094B8FD1DAB}"
-          DTS:From="Package\MDS -&gt; DWH\Load hash table"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Ограничение 4"
-          DTS:To="Package\MDS -&gt; DWH\Add unknown date" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -2789,12 +2812,12 @@
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -2803,7 +2826,7 @@
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="441.5,54.5" />
+          TopLeft="450,54.5" />
         <NodeLayout
           Size="149,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Check changes"
@@ -3008,31 +3031,35 @@
           PanelSize="445,821"
           Size="445,864"
           Id="Package\Landing -&gt; DQS -&gt; MDS"
-          TopLeft="295.5,156.5" />
+          TopLeft="304,156.5" />
         <NodeLayout
           Size="167,42"
           Id="Package\MDS -&gt; DWH\Add unknown date"
-          TopLeft="256,413.5" />
+          TopLeft="256,515.5" />
         <NodeLayout
           Size="159,42"
           Id="Package\MDS -&gt; DWH\Create load table"
           TopLeft="34.0000000000001,209.5" />
         <NodeLayout
+          Size="214,42"
+          Id="Package\MDS -&gt; DWH\Create load table constraints"
+          TopLeft="232.5,413.5" />
+        <NodeLayout
           Size="157,42"
           Id="Package\MDS -&gt; DWH\Drop Load Table"
-          TopLeft="261,617.5" />
+          TopLeft="261,719.5" />
         <NodeLayout
           Size="190,42"
           Id="Package\MDS -&gt; DWH\Get start and end years"
-          TopLeft="5.50000000000009,413.5" />
+          TopLeft="5.50000000000009,515.5" />
         <NodeLayout
           Size="179,42"
           Id="Package\MDS -&gt; DWH\Load Date Dimension"
-          TopLeft="250,515.5" />
+          TopLeft="250,617.5" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\MDS -&gt; DWH\Load hash table"
-          TopLeft="262.5,311.5" />
+          Size="155,42"
+          Id="Package\MDS -&gt; DWH\Load temp table"
+          TopLeft="264,311.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\MDS -&gt; DWH\MDS get version name"
@@ -3047,7 +3074,7 @@
           TopLeft="253.5,209.5" />
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint]"
-          TopLeft="339.5,455.5">
+          TopLeft="339.5,557.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3080,31 +3107,75 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 1]"
+          TopLeft="340.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2]"
+          TopLeft="339.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2 1]"
           TopLeft="113.5,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="201.666666666667,60"
+              EndConnector="203.5,60"
               Start="0,0"
-              End="201.666666666667,52.5">
+              End="203.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6298200514139" />
+                    End="0,31.632183908046" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6298200514139"
-                    Point2="0,35.6298200514139"
-                    Point3="4,35.6298200514139" />
+                    Point1="0,31.632183908046"
+                    Point2="0,35.632183908046"
+                    Point3="4,35.632183908046" />
                   <mssgle:LineSegment
-                    End="197.666666666667,35.6298200514139" />
+                    End="199.5,35.632183908046" />
                   <mssgle:CubicBezierSegment
-                    Point1="197.666666666667,35.6298200514139"
-                    Point2="201.666666666667,35.6298200514139"
-                    Point3="201.666666666667,39.6298200514139" />
+                    Point1="199.5,35.632183908046"
+                    Point2="203.5,35.632183908046"
+                    Point3="203.5,39.632183908046" />
                   <mssgle:LineSegment
-                    End="201.666666666667,52.5" />
+                    End="203.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3115,7 +3186,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 4]"
-          TopLeft="339.5,557.5">
+          TopLeft="339.5,659.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3163,26 +3234,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="24.3333333333333,60"
+              EndConnector="26.5,60"
               Start="0,0"
-              End="24.3333333333333,52.5">
+              End="26.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.6298200514139" />
+                    End="0,31.632183908046" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.6298200514139"
-                    Point2="0,35.6298200514139"
-                    Point3="4,35.6298200514139" />
+                    Point1="0,31.632183908046"
+                    Point2="0,35.632183908046"
+                    Point3="4,35.632183908046" />
                   <mssgle:LineSegment
-                    End="20.3333333333333,35.6298200514139" />
+                    End="22.5,35.632183908046" />
                   <mssgle:CubicBezierSegment
-                    Point1="20.3333333333333,35.6298200514139"
-                    Point2="24.3333333333333,35.6298200514139"
-                    Point3="24.3333333333333,39.6298200514139" />
+                    Point1="22.5,35.632183908046"
+                    Point2="26.5,35.632183908046"
+                    Point3="26.5,39.632183908046" />
                   <mssgle:LineSegment
-                    End="24.3333333333333,52.5" />
+                    End="26.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3215,7 +3286,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="100.5,455.5">
+          TopLeft="100.5,557.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3247,42 +3318,20 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 4]"
-          TopLeft="339.5,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="443,715"
-          Size="443,758"
+          PanelSize="452,817"
+          Size="452,860"
           Id="Package\MDS -&gt; DWH"
           TopLeft="13.5000000000002,1080.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="420.5,1898.5" />
+          TopLeft="429,2000.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="518,96.5">
+          TopLeft="526.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3304,13 +3353,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="235,1838.5">
+          TopLeft="239.5,1940.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="251.833333333333,60"
+              EndConnector="255.833333333333,60"
               Start="0,0"
-              End="251.833333333333,52.5">
+              End="255.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -3321,13 +3370,13 @@
                     Point2="0,35.707019328586"
                     Point3="4,35.707019328586" />
                   <mssgle:LineSegment
-                    End="247.833333333333,35.707019328586" />
+                    End="251.833333333333,35.707019328586" />
                   <mssgle:CubicBezierSegment
-                    Point1="247.833333333333,35.707019328586"
-                    Point2="251.833333333333,35.707019328586"
-                    Point3="251.833333333333,39.707019328586" />
+                    Point1="251.833333333333,35.707019328586"
+                    Point2="255.833333333333,35.707019328586"
+                    Point3="255.833333333333,39.707019328586" />
                   <mssgle:LineSegment
-                    End="251.833333333333,52.5" />
+                    End="255.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3338,13 +3387,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="445.166666666667,1020.5">
+          TopLeft="453.666666666667,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-210.166666666667,60"
+              EndConnector="-214.166666666667,60"
               Start="0,0"
-              End="-210.166666666667,52.5">
+              End="-214.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -3355,56 +3404,56 @@
                     Point2="0,24.1289744738021"
                     Point3="-4,24.1289744738021" />
                   <mssgle:LineSegment
-                    End="-206.166666666667,24.1289744738021" />
+                    End="-210.166666666667,24.1289744738021" />
                   <mssgle:CubicBezierSegment
-                    Point1="-206.166666666667,24.1289744738021"
-                    Point2="-210.166666666667,24.1289744738021"
-                    Point3="-210.166666666667,28.1289744738021" />
+                    Point1="-210.166666666667,24.1289744738021"
+                    Point2="-214.166666666667,24.1289744738021"
+                    Point3="-214.166666666667,28.1289744738021" />
                   <mssgle:LineSegment
-                    End="-210.166666666667,52.5" />
+                    End="-214.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-113.083333333333,29.1289744738021,16,16"
+              BoundingBox="-115.083333333333,29.1289744738021,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="590.833333333333,1020.5">
+          TopLeft="599.333333333333,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-41.6666666666665,878"
+              EndConnector="-41.6666666666666,980"
               Start="0,0"
-              End="-41.6666666666665,870.5">
+              End="-41.6666666666666,972.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,432.507239793311" />
+                    End="0,483.217648060871" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,432.507239793311"
-                    Point2="0,436.507239793311"
-                    Point3="-4,436.507239793311" />
+                    Point1="0,483.217648060871"
+                    Point2="0,487.217648060871"
+                    Point3="-4,487.217648060871" />
                   <mssgle:LineSegment
-                    End="-37.6666666666665,436.507239793311" />
+                    End="-37.6666666666666,487.217648060871" />
                   <mssgle:CubicBezierSegment
-                    Point1="-37.6666666666665,436.507239793311"
-                    Point2="-41.6666666666665,436.507239793311"
-                    Point3="-41.6666666666665,440.507239793311" />
+                    Point1="-37.6666666666666,487.217648060871"
+                    Point2="-41.6666666666666,487.217648060871"
+                    Point3="-41.6666666666666,491.217648060871" />
                   <mssgle:LineSegment
-                    End="-41.6666666666665,870.5" />
+                    End="-41.6666666666666,972.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-28.8333333333333,441.507239793311,16,16"
+              BoundingBox="-28.8333333333333,492.217648060871,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3653,24 +3702,24 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\MDS -&gt; DWH\Load hash table">
+    design-time-name="Package\MDS -&gt; DWH\Load temp table">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="136,42"
-          Id="Package\MDS -&gt; DWH\Load hash table\Source MDS"
+          Id="Package\MDS -&gt; DWH\Load temp table\Source MDS"
           TopLeft="48.5,54.5" />
         <NodeLayout
           Size="186,42"
-          Id="Package\MDS -&gt; DWH\Load hash table\Destination temp table"
+          Id="Package\MDS -&gt; DWH\Load temp table\Destination temp table"
           TopLeft="23.5,258.5" />
         <NodeLayout
           Size="156,42"
-          Id="Package\MDS -&gt; DWH\Load hash table\Data Conversion"
+          Id="Package\MDS -&gt; DWH\Load temp table\Data Conversion"
           TopLeft="38.5,156.5" />
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\Load hash table.Paths[OLE DB Source Output]"
+          Id="Package\MDS -&gt; DWH\Load temp table.Paths[OLE DB Source Output]"
           TopLeft="116.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -3692,7 +3741,7 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\Load hash table.Paths[Data Conversion Output]"
+          Id="Package\MDS -&gt; DWH\Load temp table.Paths[Data Conversion Output]"
           TopLeft="116.5,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -3717,7 +3766,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\MDS -&gt; DWH\Load hash table\Destination temp table">
+    design-time-name="Package\MDS -&gt; DWH\Load temp table\Destination temp table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

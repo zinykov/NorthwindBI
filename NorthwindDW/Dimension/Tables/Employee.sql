@@ -1,16 +1,16 @@
 ﻿CREATE TABLE [Dimension].[Employee]
 (
-    [EmployeeKey]           INT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[EmployeeKey] )     NOT NULL,
-    [EmployeeAlterKey]      INT                               NOT NULL,
-    [Employee]              NVARCHAR(35)                      NOT NULL,
-    [Title]                 NVARCHAR(30)                      NULL,
-    [TitleOfCourtesy]       NVARCHAR(10)                      NULL,
-    [City]                  NVARCHAR(25)                      NULL,
-    [Country]               NVARCHAR(25)                      NULL,
-    [StartDate]             DATETIME2                         NOT NULL,
-    [EndDate]               DATETIME2                         NULL,
-    [Current]               BIT                               NOT NULL,
-    [LineageKey]            INT                               NOT NULL,
+    [EmployeeKey]           BIGINT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Dimension].[EmployeeKey] )     NOT NULL,
+    [EmployeeAlterKey]      INT              NOT NULL,
+    [Employee]              NVARCHAR(35)     NOT NULL,
+    [Title]                 NVARCHAR(30)     NULL,
+    [TitleOfCourtesy]       NVARCHAR(10)     NULL,
+    [City]                  NVARCHAR(25)     NULL,
+    [Country]               NVARCHAR(25)     NULL,
+    [StartDate]             DATETIME2        NOT NULL,
+    [EndDate]               DATETIME2        NULL,
+    [Current]               BIT              NOT NULL,
+    [LineageKey]            BIGINT           NOT NULL,
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC ),
 
