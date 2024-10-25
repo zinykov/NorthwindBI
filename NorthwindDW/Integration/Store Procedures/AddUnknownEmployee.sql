@@ -11,6 +11,7 @@ AS BEGIN
         , [TitleOfCourtesy]
         , [City]
         , [Country]
+        , [AllAttributies]
         , [StartDate]
         , [EndDate]
         , [Current]
@@ -18,11 +19,12 @@ AS BEGIN
     ) VALUES (
           -1
         , -1
-        , 'N/A'
+        , N'N/A'
         , NULL
         , NULL
         , NULL
         , NULL
+        , N'{}'
         , @StartDate
         , NULL
         , 1
