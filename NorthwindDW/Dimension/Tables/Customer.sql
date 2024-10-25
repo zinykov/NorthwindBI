@@ -9,6 +9,7 @@
     [City]                  NVARCHAR(25)       NULL,
     [Phone]                 NVARCHAR(30)       NULL, 
     [Fax]                   NVARCHAR(30)       NULL,
+    [AllAttributes]         NVARCHAR(MAX)      NOT NULL,
     [StartDate]             DATETIME2          NOT NULL,
     [EndDate]               DATETIME2          NULL,
     [Current]               BIT                NOT NULL,
