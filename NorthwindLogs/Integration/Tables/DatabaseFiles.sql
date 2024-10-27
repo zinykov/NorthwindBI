@@ -5,8 +5,9 @@
 	[Name]								NVARCHAR(100)	NOT NULL,
 	[FileName]							NVARCHAR(500)	NOT NULL,
 	[BackupFileName]					NVARCHAR(500)	NULL,
+	[CutoffTime]						DATE			NULL,
 
-	CONSTRAINT [PK_Maintenance_DatabaseFiles] PRIMARY KEY CLUSTERED ( [DatabaseFileKey] ASC )
+	CONSTRAINT [PK_Integration_DatabaseFiles] PRIMARY KEY CLUSTERED ( [DatabaseFileKey] ASC )
 )
     ON [Integration_FG]
     WITH ( DATA_COMPRESSION = PAGE ) ;
