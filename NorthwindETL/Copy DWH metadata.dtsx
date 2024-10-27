@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="288"
-  DTS:VersionGUID="{46EBA64E-C11D-4885-8911-53FDA66D153C}">
+  DTS:VersionBuild="290"
+  DTS:VersionGUID="{BAAC31A2-3699-4D0A-ACF7-220C77AFA53D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -296,6 +296,7 @@
     <DTS:Executable
       DTS:refId="Package\Backup"
       DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Disabled="True"
       DTS:DTSID="{630C8DCE-364A-4AC7-8D40-9332D9FB6E0E}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -354,7 +355,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadOnly Folder"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -373,7 +374,7 @@
           DTS:ExecutableType="Microsoft.FileSystemTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Backup ReadWrite Folder"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -430,7 +431,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="GetBackupFolderNames"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -484,7 +485,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="CheckReferenceDate"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables>
                 <DTS:Variable
                   DTS:CreationName=""
@@ -544,7 +545,7 @@
               DTS:ExecutableType="Microsoft.DbMaintenanceTSQLExecuteTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="SetFileGroupsReadOnly"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -626,18 +627,18 @@
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Copy DWH metadata to Logs DB"
+      DTS:refId="Package\Copy DWH metadata"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:DTSID="{BEB4C3F3-302B-4977-8F2F-013DD44740D0}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Copy DWH metadata to Logs DB">
+      DTS:ObjectName="Copy DWH metadata">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Copy DWH metadata to Logs DB\Copy metadata"
+          DTS:refId="Package\Copy DWH metadata\Copy metadata"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:DTSID="{EDE097DF-805E-4F3E-A711-A198C8687484}"
           DTS:ExecutableType="Microsoft.Pipeline"
@@ -652,213 +653,223 @@
               version="1">
               <components>
                 <component
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles"
-                  componentClassID="Microsoft.ManagedComponentHost"
-                  contactInfo="Потребляет данные из SQL Server, OLE DB, ODBC или Oracle с помощью соответствующего поставщика данных .NET. Используйте инструкцию Transact-SQL для определения результирующего набора. Пример: извлечение данных из SQL Server с помощью поставщика данных .NET Framework для SQL Server.Корпорация Майкрософт (Microsoft Corporation). Microsoft SQL Server © Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support4"
+                  refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   name="DWH DatabaseFiles"
                   usesDispositions="true"
-                  version="4">
+                  version="7">
                   <properties>
                     <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
                       dataType="System.String"
-                      description="Задает инструкцию SQL, используемую компонентом для извлечения данных."
-                      expressionType="Notify"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Maintenance].[DatabaseFiles]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
                     <property
                       dataType="System.Int32"
-                      description="Время ожидания команды, в секундах. Значение 0 означает неограниченное время ожидания."
-                      name="CommandTimeout">30</property>
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
                     <property
                       dataType="System.Boolean"
-                      description="Указывает, будут ли внешние столбцы с типом, отличным от строкового, в выходных столбцах неявно преобразовываться в строки."
-                      name="AllowImplicitStringConversion">true</property>
-                    <property
-                      dataType="System.String"
-                      description="Имя таблицы базы данных-источника."
-                      expressionType="Notify"
-                      name="TableOrViewName"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"Maintenance"."DatabaseFiles"</property>
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
                     <property
                       dataType="System.Int32"
-                      description="Укажите режим получения данных о внешних столбцах"
+                      description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">0</property>
+                      typeConverter="AccessMode">0</property>
                     <property
                       dataType="System.String"
-                      name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Connections[IDbConnection]"
-                      connectionManagerID="{EEF7B69D-5582-443F-9879-F2A3F89FA203}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_ADO_NET]"
-                      description="Диспетчер управляемых соединений"
-                      name="IDbConnection" />
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET]"
-                      name="Вывод источника ADO NET">
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[DatabaseFileKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
                           dataType="i4"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[DatabaseFileKey]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[DatabaseFileKey]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
                           name="DatabaseFileKey"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[GroupName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[GroupName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[GroupName]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[GroupName]"
                           length="100"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[GroupName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[GroupName]"
                           name="GroupName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[IsReadOnly]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IsReadOnly]"
                           dataType="bool"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[IsReadOnly]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[IsReadOnly]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IsReadOnly]"
                           name="IsReadOnly"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[Name]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[Name]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
                           length="100"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[Name]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]"
                           name="Name"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[FileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FileName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[FileName]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FileName]"
                           length="500"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[FileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FileName]"
                           name="FileName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[BackupFileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[BackupFileName]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
                           length="500"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[BackupFileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           name="BackupFileName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           dataType="dbDate"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[CutoffTime]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[CutoffTime]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           name="CutoffTime"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[DatabaseFileKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
                           dataType="i4"
                           name="DatabaseFileKey" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[GroupName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[GroupName]"
                           dataType="wstr"
                           length="100"
                           name="GroupName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[IsReadOnly]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
                           dataType="bool"
                           name="IsReadOnly" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[Name]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[Name]"
                           dataType="wstr"
                           length="100"
                           name="Name" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[FileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[FileName]"
                           dataType="wstr"
                           length="500"
                           name="FileName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[BackupFileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
                           dataType="wstr"
                           length="500"
                           name="BackupFileName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].ExternalColumns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
                           dataType="dbDate"
                           name="CutoffTime" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET]"
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
-                      name="Вывод ошибок источника ADO NET">
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[DatabaseFileKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[DatabaseFileKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
                           name="DatabaseFileKey" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[GroupName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[GroupName]"
                           dataType="wstr"
                           length="100"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[GroupName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[GroupName]"
                           name="GroupName" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[IsReadOnly]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IsReadOnly]"
                           dataType="bool"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[IsReadOnly]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IsReadOnly]"
                           name="IsReadOnly" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[Name]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
                           dataType="wstr"
                           length="100"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[Name]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[Name]"
                           name="Name" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[FileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FileName]"
                           dataType="wstr"
                           length="500"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[FileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[FileName]"
                           name="FileName" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[BackupFileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           dataType="wstr"
                           length="500"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[BackupFileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[BackupFileName]"
                           name="BackupFileName" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           dataType="dbDate"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           name="CutoffTime" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorCode]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorCode]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorColumn]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorColumn]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -867,217 +878,226 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage"
-                  componentClassID="Microsoft.ManagedComponentHost"
-                  contactInfo="Потребляет данные из SQL Server, OLE DB, ODBC или Oracle с помощью соответствующего поставщика данных .NET. Используйте инструкцию Transact-SQL для определения результирующего набора. Пример: извлечение данных из SQL Server с помощью поставщика данных .NET Framework для SQL Server.Корпорация Майкрософт (Microsoft Corporation). Microsoft SQL Server © Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support4"
-                  description="Потребляет данные из SQL Server, OLE DB, ODBC или Oracle с помощью соответствующего поставщика данных .NET. Используйте инструкцию Transact-SQL для определения результирующего набора. Пример: извлечение данных из SQL Server с помощью поставщика данных .NET Framework для SQL Server."
+                  refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
                   name="DWH Lineage"
                   usesDispositions="true"
-                  version="4">
+                  version="7">
                   <properties>
                     <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
                       dataType="System.String"
-                      description="Задает инструкцию SQL, используемую компонентом для извлечения данных."
-                      expressionType="Notify"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">[Integration].[Lineage]</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
                     <property
                       dataType="System.Int32"
-                      description="Время ожидания команды, в секундах. Значение 0 означает неограниченное время ожидания."
-                      name="CommandTimeout">30</property>
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
                     <property
                       dataType="System.Boolean"
-                      description="Указывает, будут ли внешние столбцы с типом, отличным от строкового, в выходных столбцах неявно преобразовываться в строки."
-                      name="AllowImplicitStringConversion">true</property>
-                    <property
-                      dataType="System.String"
-                      description="Имя таблицы базы данных-источника."
-                      expressionType="Notify"
-                      name="TableOrViewName"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"Integration"."Lineage"</property>
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
                     <property
                       dataType="System.Int32"
-                      description="Укажите режим получения данных о внешних столбцах"
+                      description="Указывает используемый режим доступа к базе данных."
                       name="AccessMode"
-                      typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">0</property>
+                      typeConverter="AccessMode">0</property>
                     <property
                       dataType="System.String"
-                      name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Connections[IDbConnection]"
-                      connectionManagerID="{EEF7B69D-5582-443F-9879-F2A3F89FA203}:external"
-                      connectionManagerRefId="Project.ConnectionManagers[DWH_ADO_NET]"
-                      description="Диспетчер управляемых соединений"
-                      name="IDbConnection" />
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
                   </connections>
                   <outputs>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET]"
-                      name="Вывод источника ADO NET">
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[LineageKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
                           dataType="i8"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[LineageKey]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[LineageKey]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
                           name="LineageKey"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadStarted]"
-                          dataType="dbTimeStamp2"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[DataLoadStarted]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadStarted]"
-                          name="DataLoadStarted"
-                          scale="7"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[TableName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[TableName]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
                           length="128"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[TableName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
                           name="TableName"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadCompleted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           dataType="dbTimeStamp2"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[DataLoadCompleted]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadCompleted]"
-                          name="DataLoadCompleted"
-                          scale="7"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[WasSuccessful]"
-                          dataType="bool"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[WasSuccessful]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[WasSuccessful]"
-                          name="WasSuccessful"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[CutoffTime]"
-                          dataType="dbTimeStamp2"
-                          errorOrTruncationOperation="Преобразование"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[CutoffTime]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[CutoffTime]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           name="CutoffTime"
                           scale="7"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[ExecutionId]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                          name="DataLoadStarted"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                          name="DataLoadCompleted"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                          dataType="bool"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                          name="WasSuccessful"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
                           dataType="wstr"
                           errorOrTruncationOperation="Преобразование"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[ExecutionId]"
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
                           length="50"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[ExecutionId]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
                           name="ExecutionId"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[LineageKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                           dataType="i8"
                           name="LineageKey" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[DataLoadStarted]"
-                          dataType="dbTimeStamp2"
-                          name="DataLoadStarted"
-                          scale="7" />
-                        <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[TableName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
                           dataType="wstr"
                           length="128"
                           name="TableName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[DataLoadCompleted]"
-                          dataType="dbTimeStamp2"
-                          name="DataLoadCompleted"
-                          scale="7" />
-                        <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[WasSuccessful]"
-                          dataType="bool"
-                          name="WasSuccessful" />
-                        <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
                           dataType="dbTimeStamp2"
                           name="CutoffTime"
                           scale="7" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].ExternalColumns[ExecutionId]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                          dataType="dbTimeStamp2"
+                          name="DataLoadStarted"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                          dataType="dbTimeStamp2"
+                          name="DataLoadCompleted"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                          dataType="bool"
+                          name="WasSuccessful" />
+                        <externalMetadataColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
                           dataType="wstr"
                           length="50"
                           name="ExecutionId" />
                       </externalMetadataColumns>
                     </output>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET]"
+                      refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
                       isErrorOut="true"
-                      name="Вывод ошибок источника ADO NET">
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[LineageKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
                           dataType="i8"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[LineageKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
                           name="LineageKey" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[DataLoadStarted]"
-                          dataType="dbTimeStamp2"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[DataLoadStarted]"
-                          name="DataLoadStarted"
-                          scale="7" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[TableName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
                           dataType="wstr"
                           length="128"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[TableName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
                           name="TableName" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[DataLoadCompleted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           dataType="dbTimeStamp2"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[DataLoadCompleted]"
-                          name="DataLoadCompleted"
-                          scale="7" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[WasSuccessful]"
-                          dataType="bool"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[WasSuccessful]"
-                          name="WasSuccessful" />
-                        <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[CutoffTime]"
-                          dataType="dbTimeStamp2"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
                           name="CutoffTime"
                           scale="7" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ExecutionId]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                          name="DataLoadStarted"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                          name="DataLoadCompleted"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                          dataType="bool"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                          name="WasSuccessful" />
+                        <outputColumn
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
                           dataType="wstr"
                           length="50"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ExecutionId]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
                           name="ExecutionId" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorCode]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorCode]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorColumn]"
+                          refId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника ADO NET].Columns[ErrorColumn]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1086,7 +1106,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles"
+                  refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   name="Logs DatabaseFiles"
@@ -1142,7 +1162,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Connections[OleDbConnection]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Connections[OleDbConnection]"
                       connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
                       connectionManagerRefId="Project.ConnectionManagers[Logs]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1150,80 +1170,80 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DatabaseFileKey]"
                           cachedDataType="i4"
                           cachedName="DatabaseFileKey"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[DatabaseFileKey]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DatabaseFileKey]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[GroupName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[GroupName]"
                           cachedDataType="wstr"
                           cachedLength="100"
                           cachedName="GroupName"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[GroupName]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[GroupName]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[GroupName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[GroupName]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[IsReadOnly]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[IsReadOnly]"
                           cachedDataType="bool"
                           cachedName="IsReadOnly"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[IsReadOnly]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IsReadOnly]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Name]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[Name]"
                           cachedDataType="wstr"
                           cachedLength="100"
                           cachedName="Name"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[Name]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[Name]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[FileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[FileName]"
                           cachedDataType="wstr"
                           cachedLength="500"
                           cachedName="FileName"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FileName]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[FileName]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[FileName]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[BackupFileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[BackupFileName]"
                           cachedDataType="wstr"
                           cachedLength="500"
                           cachedName="BackupFileName"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET].Columns[BackupFileName]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BackupFileName]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DatabaseFileKey]"
                           dataType="i4"
                           name="DatabaseFileKey" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[GroupName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[GroupName]"
                           dataType="wstr"
                           length="100"
                           name="GroupName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[IsReadOnly]"
                           dataType="bool"
                           name="IsReadOnly" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[Name]"
                           dataType="wstr"
                           length="100"
                           name="Name" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[FileName]"
                           dataType="wstr"
                           length="500"
                           name="FileName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[BackupFileName]"
                           dataType="wstr"
                           length="500"
                           name="BackupFileName" />
@@ -1232,22 +1252,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1256,7 +1276,7 @@
                   </outputs>
                 </component>
                 <component
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
+                  refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage"
                   componentClassID="Microsoft.OLEDBDestination"
                   contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
                   name="Logs Lineage"
@@ -1312,7 +1332,7 @@
                   </properties>
                   <connections>
                     <connection
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Connections[OleDbConnection]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Connections[OleDbConnection]"
                       connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
                       connectionManagerRefId="Project.ConnectionManagers[Logs]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
@@ -1320,92 +1340,92 @@
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]"
                       errorOrTruncationOperation="Вставить"
                       errorRowDisposition="FailComponent"
                       hasSideEffects="true"
                       name="Вход назначения &quot;OLE DB&quot;">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
                           cachedDataType="i8"
                           cachedName="LineageKey"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[LineageKey]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="DataLoadStarted"
                           cachedScale="7"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadStarted]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
                           cachedDataType="wstr"
                           cachedLength="128"
                           cachedName="TableName"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[TableName]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="DataLoadCompleted"
                           cachedScale="7"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[DataLoadCompleted]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
                           cachedDataType="bool"
                           cachedName="WasSuccessful"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[WasSuccessful]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
                           cachedDataType="dbTimeStamp2"
                           cachedName="CutoffTime"
                           cachedScale="7"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[CutoffTime]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]" />
                         <inputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
                           cachedDataType="wstr"
                           cachedLength="50"
                           cachedName="ExecutionId"
-                          externalMetadataColumnId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET].Columns[ExecutionId]" />
+                          externalMetadataColumnId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
                           dataType="i8"
                           name="LineageKey" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
                           dataType="dbTimeStamp2"
                           name="DataLoadStarted"
                           scale="7" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
                           dataType="wstr"
                           length="128"
                           name="TableName" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
                           dataType="dbTimeStamp2"
                           name="DataLoadCompleted"
                           scale="7" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
                           dataType="bool"
                           name="WasSuccessful" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
                           dataType="dbTimeStamp2"
                           name="CutoffTime"
                           scale="7" />
                         <externalMetadataColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
                           dataType="wstr"
                           length="50"
                           name="ExecutionId" />
@@ -1414,22 +1434,22 @@
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                      refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
                       exclusionGroup="1"
                       isErrorOut="true"
                       name="Вывод ошибок назначения &quot;OLE DB&quot;"
-                      synchronousInputId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                      synchronousInputId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          refId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -1440,21 +1460,21 @@
               </components>
               <paths>
                 <path
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET]"
-                  endId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                  name="Вывод источника ADO NET"
-                  startId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles.Outputs[Вывод источника ADO NET]" />
+                  refId="Package\Copy DWH metadata\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles.Outputs[Выход источника &quot;OLE DB&quot;]" />
                 <path
-                  refId="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET1]"
-                  endId="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]"
-                  name="Вывод источника ADO NET"
-                  startId="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage.Outputs[Вывод источника ADO NET]" />
+                  refId="Package\Copy DWH metadata\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;1]"
+                  endId="Package\Copy DWH metadata\Copy metadata\Logs Lineage.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Copy DWH metadata\Copy metadata\DWH Lineage.Outputs[Выход источника &quot;OLE DB&quot;]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Copy DWH metadata to Logs DB\Truncate Logs Tables"
+          DTS:refId="Package\Copy DWH metadata\Truncate Logs Tables"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:DTSID="{BF6B1625-ED40-4CA4-B5B1-0DDC6C0F90BD}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
@@ -1473,19 +1493,20 @@
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\Copy DWH metadata to Logs DB.PrecedenceConstraints[Constraint 4]"
+          DTS:refId="Package\Copy DWH metadata.PrecedenceConstraints[Constraint 4]"
           DTS:CreationName=""
           DTS:DTSID="{D8D64A65-55E2-44BA-A5B2-4A77A8BDC12A}"
-          DTS:From="Package\Copy DWH metadata to Logs DB\Truncate Logs Tables"
+          DTS:From="Package\Copy DWH metadata\Truncate Logs Tables"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 4"
-          DTS:To="Package\Copy DWH metadata to Logs DB\Copy metadata" />
+          DTS:To="Package\Copy DWH metadata\Copy metadata" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\DWH"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Контейнер последовательности"
+      DTS:Disabled="True"
       DTS:DTSID="{BDBCA51B-0E75-458A-AB32-E719D396BAF3}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
@@ -1603,7 +1624,7 @@
       DTS:From="Package\Backup"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 1"
-      DTS:To="Package\Copy DWH metadata to Logs DB" />
+      DTS:To="Package\Copy DWH metadata" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
@@ -1853,14 +1874,14 @@
           TopLeft="13.5000000000002,464.5" />
         <NodeLayout
           Size="150.4,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata"
+          Id="Package\Copy DWH metadata\Copy metadata"
           TopLeft="20.5,107.5" />
         <NodeLayout
           Size="180,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Truncate Logs Tables"
+          Id="Package\Copy DWH metadata\Truncate Logs Tables"
           TopLeft="5.50000000000001,5.5" />
         <EdgeLayout
-          Id="Package\Copy DWH metadata to Logs DB.PrecedenceConstraints[Constraint 4]"
+          Id="Package\Copy DWH metadata.PrecedenceConstraints[Constraint 4]"
           TopLeft="95.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1886,7 +1907,7 @@
           IsExpanded="True"
           PanelSize="191.2,204.8"
           Size="191.2,248"
-          Id="Package\Copy DWH metadata to Logs DB"
+          Id="Package\Copy DWH metadata"
           TopLeft="184,1386.5" />
         <NodeLayout
           Size="176.8,41.6"
@@ -1999,40 +2020,36 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata">
+    design-time-name="Package\Copy DWH metadata\Copy metadata">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="140.8,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage"
-          TopLeft="274.5,156.5" />
+          Size="140,41.6"
+          Id="Package\Copy DWH metadata\Copy metadata\Logs Lineage"
+          TopLeft="249.7,156.7" />
         <NodeLayout
-          Size="168.8,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles"
-          TopLeft="42.5,156.5" />
+          Size="168,41.6"
+          Id="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles"
+          TopLeft="18.7,156.7" />
         <NodeLayout
-          Size="171.2,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles"
-          TopLeft="41.5,54.5" />
-        <NodeLayout
-          Size="143.2,41.6"
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage"
-          TopLeft="273.5,54.5" />
+          Size="170.4,41.6"
+          Id="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles"
+          TopLeft="17.5,55.1" />
         <EdgeLayout
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET1]"
-          TopLeft="345,96.5">
+          Id="Package\Copy DWH metadata\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="102.7,96.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2041,20 +2058,24 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="142.4,41.6"
+          Id="Package\Copy DWH metadata\Copy metadata\DWH Lineage"
+          TopLeft="248.5,55.1" />
         <EdgeLayout
-          Id="Package\Copy DWH metadata to Logs DB\Copy metadata.Paths[Вывод источника ADO NET]"
-          TopLeft="127,96.5">
+          Id="Package\Copy DWH metadata\Copy metadata.Paths[Выход источника &quot;OLE DB&quot;1]"
+          TopLeft="319.7,96.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2067,7 +2088,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs Lineage">
+    design-time-name="Package\Copy DWH metadata\Copy metadata\Logs Lineage">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2080,7 +2101,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\Logs DatabaseFiles">
+    design-time-name="Package\Copy DWH metadata\Copy metadata\Logs DatabaseFiles">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2093,18 +2114,28 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH DatabaseFiles">
+    design-time-name="Package\Copy DWH metadata\Copy metadata\DWH Lineage">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Copy DWH metadata to Logs DB\Copy metadata\DWH Lineage">
+    design-time-name="Package\Copy DWH metadata\Copy metadata\DWH DatabaseFiles">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
