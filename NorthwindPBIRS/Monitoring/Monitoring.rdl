@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.11.35208.52</am:Version>
+      <am:Version>17.11.35327.3</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-08-15T20:07:23.0887420Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-10-27T17:08:48.1922412Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -97,9 +97,14 @@ FROM		[Integration].[ErrorLog]</CommandText>
     </DataSet>
     <DataSet Name="LoadDuration">
       <Query>
-        <DataSourceName>DWH</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Reports.LoadDuration</CommandText>
+        <DataSourceName>Logs</DataSourceName>
+        <CommandText>SELECT		  [Date]		= CONVERT ( date, [CutoffTime], 102 )
+		, [ExecutionId]
+		, [DataLoadStarted]
+		, [TableName]
+		, [Duration]	= DATEDIFF ( MILLISECOND, [DataLoadStarted], [DataLoadCompleted] )
+FROM		[Integration].[Lineage]
+ORDER BY	[LineageKey] DESC</CommandText>
       </Query>
       <Fields>
         <Field Name="Date">
