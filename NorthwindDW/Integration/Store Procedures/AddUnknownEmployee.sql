@@ -11,7 +11,7 @@ AS BEGIN
         , [TitleOfCourtesy]
         , [City]
         , [Country]
-        , [AllAttributies]
+        , [AllAttributes]
         , [StartDate]
         , [EndDate]
         , [Current]

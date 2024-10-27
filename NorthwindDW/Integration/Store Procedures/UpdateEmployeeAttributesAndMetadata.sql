@@ -4,14 +4,14 @@
 	, @Employee AS NVARCHAR(30)
 	, @Title AS NVARCHAR(30)
 	, @TitleOfCourtesy AS NVARCHAR(10)
-	, @AllAttributies AS NVARCHAR(MAX)
+	, @AllAttributes AS NVARCHAR(MAX)
 	, @EndDate AS DATE
 AS BEGIN
 	UPDATE	[Dimension].[Employee]
 	SET		  [Employee] = @Employee
 			, [TitleOfCourtesy] = @TitleOfCourtesy
 			, [Title] = @Title
-			, [AllAttributies] = @AllAttributies
+			, [AllAttributes] = @AllAttributes
 			, [LineageKey] = @LineageKey
 	WHERE	[EmployeeAlterKey] = @EmployeeAlterKey;
 

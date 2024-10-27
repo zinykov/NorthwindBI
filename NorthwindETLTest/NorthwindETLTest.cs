@@ -350,11 +350,11 @@ namespace NorthwindETLTest
                 CleanupFolder($"{workingFolder}\\IngestData\\TestData");
                 CleanupFolder($"{workingFolder}\\Backup");
             }
-            if (SSISEnvironmentName == "Debug")
-            {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
-                System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
-            }
+            //if (SSISEnvironmentName == "Debug")
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
+            //    System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
+            //}
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
         }

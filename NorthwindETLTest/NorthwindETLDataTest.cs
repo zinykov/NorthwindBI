@@ -71,6 +71,9 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CutoffTimeTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMinValue;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMaxValue;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1JSON_value;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmpoloyeeSCD2JSON_value;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1JSON_value;
             this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -118,6 +121,9 @@ namespace NorthwindETLTest
             CutoffTimeTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CutoffTimeTestMinValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CutoffTimeTestMaxValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            CustomerSCD2Stage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            EmpoloyeeSCD2JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            ProductSCD1TestStage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // CountRowsInDWH_TestAction
             // 
@@ -170,6 +176,7 @@ namespace NorthwindETLTest
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CityName);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1CountryName);
             CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1StartDate);
+            CustomerSCD2TestStage1_TestAction.Conditions.Add(CustomerSCD2Stage1JSON_value);
             resources.ApplyResources(CustomerSCD2TestStage1_TestAction, "CustomerSCD2TestStage1_TestAction");
             // 
             // CustomerSCD2Stage1CountRows
@@ -211,7 +218,7 @@ namespace NorthwindETLTest
             // 
             // CustomerSCD2Stage1StartDate
             // 
-            CustomerSCD2Stage1StartDate.ColumnNumber = 10;
+            CustomerSCD2Stage1StartDate.ColumnNumber = 11;
             CustomerSCD2Stage1StartDate.Enabled = true;
             CustomerSCD2Stage1StartDate.ExpectedValue = "1998-1-2";
             CustomerSCD2Stage1StartDate.Name = "CustomerSCD2Stage1StartDate";
@@ -227,6 +234,7 @@ namespace NorthwindETLTest
             EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CountryName);
             EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmployeeSCD2Stage1CountRowsInDimension);
             EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmpoloyeeSCD2Stage1StartDate);
+            EmployeeSCD2TestStage1_TestAction.Conditions.Add(EmpoloyeeSCD2JSON_value);
             resources.ApplyResources(EmployeeSCD2TestStage1_TestAction, "EmployeeSCD2TestStage1_TestAction");
             // 
             // EmployeeSCD2Stage1CountRows
@@ -275,7 +283,7 @@ namespace NorthwindETLTest
             // 
             // EmpoloyeeSCD2Stage1StartDate
             // 
-            EmpoloyeeSCD2Stage1StartDate.ColumnNumber = 8;
+            EmpoloyeeSCD2Stage1StartDate.ColumnNumber = 9;
             EmpoloyeeSCD2Stage1StartDate.Enabled = true;
             EmpoloyeeSCD2Stage1StartDate.ExpectedValue = "1998-1-1";
             EmpoloyeeSCD2Stage1StartDate.Name = "EmpoloyeeSCD2Stage1StartDate";
@@ -339,7 +347,7 @@ namespace NorthwindETLTest
             // 
             // EmployeeSCD2Stage2StartDate
             // 
-            EmployeeSCD2Stage2StartDate.ColumnNumber = 8;
+            EmployeeSCD2Stage2StartDate.ColumnNumber = 9;
             EmployeeSCD2Stage2StartDate.Enabled = true;
             EmployeeSCD2Stage2StartDate.ExpectedValue = "1998-1-2";
             EmployeeSCD2Stage2StartDate.Name = "EmployeeSCD2Stage2StartDate";
@@ -363,6 +371,7 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1CountRows);
             ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1ProductName);
             ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1CategoryName);
+            ProductSCD1TestStage1_TestAction.Conditions.Add(ProductSCD1TestStage1JSON_value);
             resources.ApplyResources(ProductSCD1TestStage1_TestAction, "ProductSCD1TestStage1_TestAction");
             // 
             // ProductSCD1TestStage1CountRows
@@ -426,6 +435,32 @@ namespace NorthwindETLTest
             ProductSCD1TestStage2CountLineageValues.ResultSet = 1;
             ProductSCD1TestStage2CountLineageValues.RowNumber = 1;
             // 
+            // CutoffTimeTest_TestAction
+            // 
+            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMinValue);
+            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMaxValue);
+            resources.ApplyResources(CutoffTimeTest_TestAction, "CutoffTimeTest_TestAction");
+            // 
+            // CutoffTimeTestMinValue
+            // 
+            CutoffTimeTestMinValue.ColumnNumber = 1;
+            CutoffTimeTestMinValue.Enabled = true;
+            CutoffTimeTestMinValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMinValue.Name = "CutoffTimeTestMinValue";
+            CutoffTimeTestMinValue.NullExpected = false;
+            CutoffTimeTestMinValue.ResultSet = 1;
+            CutoffTimeTestMinValue.RowNumber = 1;
+            // 
+            // CutoffTimeTestMaxValue
+            // 
+            CutoffTimeTestMaxValue.ColumnNumber = 1;
+            CutoffTimeTestMaxValue.Enabled = true;
+            CutoffTimeTestMaxValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMaxValue.Name = "CutoffTimeTestMaxValue";
+            CutoffTimeTestMaxValue.NullExpected = false;
+            CutoffTimeTestMaxValue.ResultSet = 1;
+            CutoffTimeTestMaxValue.RowNumber = 1;
+            // 
             // CountRowsInDWHData
             // 
             this.CountRowsInDWHData.PosttestAction = null;
@@ -474,31 +509,35 @@ namespace NorthwindETLTest
             this.CutoffTimeTestData.PretestAction = null;
             this.CutoffTimeTestData.TestAction = CutoffTimeTest_TestAction;
             // 
-            // CutoffTimeTest_TestAction
+            // CustomerSCD2Stage1JSON_value
             // 
-            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMinValue);
-            CutoffTimeTest_TestAction.Conditions.Add(CutoffTimeTestMaxValue);
-            resources.ApplyResources(CutoffTimeTest_TestAction, "CutoffTimeTest_TestAction");
+            CustomerSCD2Stage1JSON_value.ColumnNumber = 1;
+            CustomerSCD2Stage1JSON_value.Enabled = true;
+            CustomerSCD2Stage1JSON_value.ExpectedValue = "SSIS";
+            CustomerSCD2Stage1JSON_value.Name = "CustomerSCD2Stage1JSON_value";
+            CustomerSCD2Stage1JSON_value.NullExpected = false;
+            CustomerSCD2Stage1JSON_value.ResultSet = 3;
+            CustomerSCD2Stage1JSON_value.RowNumber = 2;
             // 
-            // CutoffTimeTestMinValue
+            // EmpoloyeeSCD2JSON_value
             // 
-            CutoffTimeTestMinValue.ColumnNumber = 1;
-            CutoffTimeTestMinValue.Enabled = true;
-            CutoffTimeTestMinValue.ExpectedValue = "1997-12-31";
-            CutoffTimeTestMinValue.Name = "CutoffTimeTestMinValue";
-            CutoffTimeTestMinValue.NullExpected = false;
-            CutoffTimeTestMinValue.ResultSet = 1;
-            CutoffTimeTestMinValue.RowNumber = 1;
+            EmpoloyeeSCD2JSON_value.ColumnNumber = 1;
+            EmpoloyeeSCD2JSON_value.Enabled = true;
+            EmpoloyeeSCD2JSON_value.ExpectedValue = "SSIS";
+            EmpoloyeeSCD2JSON_value.Name = "EmpoloyeeSCD2JSON_value";
+            EmpoloyeeSCD2JSON_value.NullExpected = false;
+            EmpoloyeeSCD2JSON_value.ResultSet = 3;
+            EmpoloyeeSCD2JSON_value.RowNumber = 2;
             // 
-            // CutoffTimeTestMaxValue
+            // ProductSCD1TestStage1JSON_value
             // 
-            CutoffTimeTestMaxValue.ColumnNumber = 1;
-            CutoffTimeTestMaxValue.Enabled = true;
-            CutoffTimeTestMaxValue.ExpectedValue = "1997-12-31";
-            CutoffTimeTestMaxValue.Name = "CutoffTimeTestMaxValue";
-            CutoffTimeTestMaxValue.NullExpected = false;
-            CutoffTimeTestMaxValue.ResultSet = 1;
-            CutoffTimeTestMaxValue.RowNumber = 1;
+            ProductSCD1TestStage1JSON_value.ColumnNumber = 1;
+            ProductSCD1TestStage1JSON_value.Enabled = true;
+            ProductSCD1TestStage1JSON_value.ExpectedValue = "SSIS";
+            ProductSCD1TestStage1JSON_value.Name = "ProductSCD1TestStage1JSON_value";
+            ProductSCD1TestStage1JSON_value.NullExpected = false;
+            ProductSCD1TestStage1JSON_value.ResultSet = 2;
+            ProductSCD1TestStage1JSON_value.RowNumber = 2;
         }
 
         #endregion
