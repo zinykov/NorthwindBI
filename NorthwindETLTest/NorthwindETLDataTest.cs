@@ -31,19 +31,14 @@ namespace NorthwindETLTest
         /// </summary>
         private void InitializeComponent()
         {
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CountRowsInDWH_TestAction;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindETLDataTest));
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimDate;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimEmployee;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimCustomer;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInDimProduct;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CountRowsInFactOrder;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CustomerSCD2TestStage1_TestAction;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NorthwindETLDataTest));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition CustomerSCD2Stage1CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CustomerName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CityName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1CountryName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1StartDate;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1JSON_value;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction EmployeeSCD2TestStage1_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage1CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage1EmployeeKey;
@@ -51,6 +46,7 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage1CountryName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage1CountRowsInDimension;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmpoloyeeSCD2Stage1StartDate;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmpoloyeeSCD2JSON_value;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction EmployeeSCD2TestStage2_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition EmployeeSCD2Stage2CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmployeeSCD2Stage2EmployeeKey;
@@ -64,6 +60,7 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage1CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1ProductName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1CategoryName;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1JSON_value;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction ProductSCD1TestStage2_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition ProductSCD1TestStage2CountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage2CountChangedRows;
@@ -71,10 +68,6 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CutoffTimeTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMinValue;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMaxValue;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CustomerSCD2Stage1JSON_value;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition EmpoloyeeSCD2JSON_value;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition ProductSCD1TestStage1JSON_value;
-            this.CountRowsInDWHData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -82,18 +75,13 @@ namespace NorthwindETLTest
             this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
-            CountRowsInDWH_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            CountRowsInDimDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimEmployee = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimCustomer = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInDimProduct = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
-            CountRowsInFactOrder = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1CityName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CustomerSCD2Stage1StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            CustomerSCD2Stage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             EmployeeSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             EmployeeSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             EmployeeSCD2Stage1EmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -101,6 +89,7 @@ namespace NorthwindETLTest
             EmployeeSCD2Stage1CountryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             EmployeeSCD2Stage1CountRowsInDimension = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             EmpoloyeeSCD2Stage1StartDate = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            EmpoloyeeSCD2JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             EmployeeSCD2TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             EmployeeSCD2Stage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             EmployeeSCD2Stage2EmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -114,6 +103,7 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             ProductSCD1TestStage1ProductName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             ProductSCD1TestStage1CategoryName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            ProductSCD1TestStage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             ProductSCD1TestStage2_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             ProductSCD1TestStage2CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             ProductSCD1TestStage2CountChangedRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -121,53 +111,6 @@ namespace NorthwindETLTest
             CutoffTimeTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CutoffTimeTestMinValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CutoffTimeTestMaxValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            CustomerSCD2Stage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            EmpoloyeeSCD2JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            ProductSCD1TestStage1JSON_value = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            // 
-            // CountRowsInDWH_TestAction
-            // 
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimDate);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimEmployee);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimCustomer);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInDimProduct);
-            CountRowsInDWH_TestAction.Conditions.Add(CountRowsInFactOrder);
-            resources.ApplyResources(CountRowsInDWH_TestAction, "CountRowsInDWH_TestAction");
-            // 
-            // CountRowsInDimDate
-            // 
-            CountRowsInDimDate.Enabled = true;
-            CountRowsInDimDate.Name = "CountRowsInDimDate";
-            CountRowsInDimDate.ResultSet = 1;
-            CountRowsInDimDate.RowCount = 1097;
-            // 
-            // CountRowsInDimEmployee
-            // 
-            CountRowsInDimEmployee.Enabled = true;
-            CountRowsInDimEmployee.Name = "CountRowsInDimEmployee";
-            CountRowsInDimEmployee.ResultSet = 2;
-            CountRowsInDimEmployee.RowCount = 10;
-            // 
-            // CountRowsInDimCustomer
-            // 
-            CountRowsInDimCustomer.Enabled = true;
-            CountRowsInDimCustomer.Name = "CountRowsInDimCustomer";
-            CountRowsInDimCustomer.ResultSet = 3;
-            CountRowsInDimCustomer.RowCount = 89;
-            // 
-            // CountRowsInDimProduct
-            // 
-            CountRowsInDimProduct.Enabled = true;
-            CountRowsInDimProduct.Name = "CountRowsInDimProduct";
-            CountRowsInDimProduct.ResultSet = 4;
-            CountRowsInDimProduct.RowCount = 78;
-            // 
-            // CountRowsInFactOrder
-            // 
-            CountRowsInFactOrder.Enabled = true;
-            CountRowsInFactOrder.Name = "CountRowsInFactOrder";
-            CountRowsInFactOrder.ResultSet = 5;
-            CountRowsInFactOrder.RowCount = 1464;
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -225,6 +168,16 @@ namespace NorthwindETLTest
             CustomerSCD2Stage1StartDate.NullExpected = false;
             CustomerSCD2Stage1StartDate.ResultSet = 1;
             CustomerSCD2Stage1StartDate.RowNumber = 2;
+            // 
+            // CustomerSCD2Stage1JSON_value
+            // 
+            CustomerSCD2Stage1JSON_value.ColumnNumber = 1;
+            CustomerSCD2Stage1JSON_value.Enabled = true;
+            CustomerSCD2Stage1JSON_value.ExpectedValue = "SSIS";
+            CustomerSCD2Stage1JSON_value.Name = "CustomerSCD2Stage1JSON_value";
+            CustomerSCD2Stage1JSON_value.NullExpected = false;
+            CustomerSCD2Stage1JSON_value.ResultSet = 3;
+            CustomerSCD2Stage1JSON_value.RowNumber = 2;
             // 
             // EmployeeSCD2TestStage1_TestAction
             // 
@@ -290,6 +243,16 @@ namespace NorthwindETLTest
             EmpoloyeeSCD2Stage1StartDate.NullExpected = false;
             EmpoloyeeSCD2Stage1StartDate.ResultSet = 1;
             EmpoloyeeSCD2Stage1StartDate.RowNumber = 2;
+            // 
+            // EmpoloyeeSCD2JSON_value
+            // 
+            EmpoloyeeSCD2JSON_value.ColumnNumber = 1;
+            EmpoloyeeSCD2JSON_value.Enabled = true;
+            EmpoloyeeSCD2JSON_value.ExpectedValue = "SSIS";
+            EmpoloyeeSCD2JSON_value.Name = "EmpoloyeeSCD2JSON_value";
+            EmpoloyeeSCD2JSON_value.NullExpected = false;
+            EmpoloyeeSCD2JSON_value.ResultSet = 3;
+            EmpoloyeeSCD2JSON_value.RowNumber = 2;
             // 
             // EmployeeSCD2TestStage2_TestAction
             // 
@@ -401,6 +364,16 @@ namespace NorthwindETLTest
             ProductSCD1TestStage1CategoryName.ResultSet = 1;
             ProductSCD1TestStage1CategoryName.RowNumber = 1;
             // 
+            // ProductSCD1TestStage1JSON_value
+            // 
+            ProductSCD1TestStage1JSON_value.ColumnNumber = 1;
+            ProductSCD1TestStage1JSON_value.Enabled = true;
+            ProductSCD1TestStage1JSON_value.ExpectedValue = "SSIS";
+            ProductSCD1TestStage1JSON_value.Name = "ProductSCD1TestStage1JSON_value";
+            ProductSCD1TestStage1JSON_value.NullExpected = false;
+            ProductSCD1TestStage1JSON_value.ResultSet = 2;
+            ProductSCD1TestStage1JSON_value.RowNumber = 2;
+            // 
             // ProductSCD1TestStage2_TestAction
             // 
             ProductSCD1TestStage2_TestAction.Conditions.Add(ProductSCD1TestStage2CountRows);
@@ -461,12 +434,6 @@ namespace NorthwindETLTest
             CutoffTimeTestMaxValue.ResultSet = 1;
             CutoffTimeTestMaxValue.RowNumber = 1;
             // 
-            // CountRowsInDWHData
-            // 
-            this.CountRowsInDWHData.PosttestAction = null;
-            this.CountRowsInDWHData.PretestAction = null;
-            this.CountRowsInDWHData.TestAction = CountRowsInDWH_TestAction;
-            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -508,36 +475,6 @@ namespace NorthwindETLTest
             this.CutoffTimeTestData.PosttestAction = null;
             this.CutoffTimeTestData.PretestAction = null;
             this.CutoffTimeTestData.TestAction = CutoffTimeTest_TestAction;
-            // 
-            // CustomerSCD2Stage1JSON_value
-            // 
-            CustomerSCD2Stage1JSON_value.ColumnNumber = 1;
-            CustomerSCD2Stage1JSON_value.Enabled = true;
-            CustomerSCD2Stage1JSON_value.ExpectedValue = "SSIS";
-            CustomerSCD2Stage1JSON_value.Name = "CustomerSCD2Stage1JSON_value";
-            CustomerSCD2Stage1JSON_value.NullExpected = false;
-            CustomerSCD2Stage1JSON_value.ResultSet = 3;
-            CustomerSCD2Stage1JSON_value.RowNumber = 2;
-            // 
-            // EmpoloyeeSCD2JSON_value
-            // 
-            EmpoloyeeSCD2JSON_value.ColumnNumber = 1;
-            EmpoloyeeSCD2JSON_value.Enabled = true;
-            EmpoloyeeSCD2JSON_value.ExpectedValue = "SSIS";
-            EmpoloyeeSCD2JSON_value.Name = "EmpoloyeeSCD2JSON_value";
-            EmpoloyeeSCD2JSON_value.NullExpected = false;
-            EmpoloyeeSCD2JSON_value.ResultSet = 3;
-            EmpoloyeeSCD2JSON_value.RowNumber = 2;
-            // 
-            // ProductSCD1TestStage1JSON_value
-            // 
-            ProductSCD1TestStage1JSON_value.ColumnNumber = 1;
-            ProductSCD1TestStage1JSON_value.Enabled = true;
-            ProductSCD1TestStage1JSON_value.ExpectedValue = "SSIS";
-            ProductSCD1TestStage1JSON_value.Name = "ProductSCD1TestStage1JSON_value";
-            ProductSCD1TestStage1JSON_value.NullExpected = false;
-            ProductSCD1TestStage1JSON_value.ResultSet = 2;
-            ProductSCD1TestStage1JSON_value.RowNumber = 2;
         }
 
         #endregion
@@ -556,30 +493,6 @@ namespace NorthwindETLTest
         // public static void MyClassCleanup() { }
         //
         #endregion
-
-        [TestMethod()]
-        public void CountRowsInDWH()
-        {
-            SqlDatabaseTestActions testActions = this.CountRowsInDWHData;
-            // Execute the pre-test script
-            // 
-            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
-            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
-            try
-            {
-                // Execute the test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
-                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
-            }
-            finally
-            {
-                // Execute the post-test script
-                // 
-                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
-                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
-            }
-        }
         [TestMethod()]
         public void CustomerSCD2TestStage1()
         {
@@ -747,8 +660,6 @@ namespace NorthwindETLTest
 
 
 
-
-        private SqlDatabaseTestActions CountRowsInDWHData;
         private SqlDatabaseTestActions CustomerSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage2Data;

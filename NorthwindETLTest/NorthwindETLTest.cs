@@ -373,12 +373,6 @@ namespace NorthwindETLTest
 
                 if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CountRowsInDWH test...");
-                    ETLTest.CountRowsInDWH();
-                }
-
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
-                {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest test...");
                     ETLTest.CutoffTimeTest();
                 }
