@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Customers"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="375"
-  DTS:VersionGUID="{1E78599D-E64F-4E26-BF25-7BAC3FE07A82}">
+  DTS:VersionBuild="376"
+  DTS:VersionGUID="{DA1E909D-FAFA-4BD4-A909-76EA5CC3FC51}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -24,7 +24,7 @@
       DTS:DTSID="{F5C222DB-1095-4454-9505-A48691B7BCA3}"
       DTS:ObjectName="Flat File No Change">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] +"NoChange\\"+ @[User::DimensionName] +".csv"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] +"\\NoChange\\"+ @[User::DimensionName] +".csv"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -464,7 +464,7 @@
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
   <DTS:PropertyExpression
-    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"\\logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
@@ -2681,7 +2681,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH add unknown member"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2713,7 +2713,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH get start load date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5248,7 +5248,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5276,7 +5276,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Customers"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5291,7 +5291,7 @@ WHERE	[LastChgDateTime] &gt; ?
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{4F669DC0-484C-4A98-9831-C35C18A9386F}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{2883C233-D69C-4763-B33C-580DE03DA700}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -5314,7 +5314,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5967,7 +5967,7 @@ WHERE	[LastChgDateTime] &gt; ?
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="164,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table\MDS staging table"
@@ -6023,7 +6023,9 @@ WHERE	[LastChgDateTime] &gt; ?
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6045,7 +6047,9 @@ WHERE	[LastChgDateTime] &gt; ?
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6067,7 +6071,9 @@ WHERE	[LastChgDateTime] &gt; ?
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6089,7 +6095,9 @@ WHERE	[LastChgDateTime] &gt; ?
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6123,7 +6131,9 @@ WHERE	[LastChgDateTime] &gt; ?
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -6178,13 +6188,13 @@ WHERE	[LastChgDateTime] &gt; ?
           Id="Package\MDS -&gt; DWH\DWH load\Update changing attributes and metadata"
           TopLeft="216.5,666.5" />
         <NodeLayout
-          Size="138,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Update rows"
-          TopLeft="552,666.5" />
-        <NodeLayout
           Size="135,42"
           Id="Package\MDS -&gt; DWH\DWH load\MDS source"
           TopLeft="286.5,54.5" />
+        <NodeLayout
+          Size="138,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Update rows"
+          TopLeft="552,666.5" />
         <NodeLayout
           Size="174,42"
           Id="Package\MDS -&gt; DWH\DWH load\Insert updated rows"
@@ -6217,6 +6227,126 @@ WHERE	[LastChgDateTime] &gt; ?
           Size="181,42"
           Id="Package\MDS -&gt; DWH\DWH load\Insert new customers"
           TopLeft="15.5,564.5" />
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
+          TopLeft="354,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
+          TopLeft="354,402.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход команды OLE DB]"
+          TopLeft="354,708.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="354,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+          TopLeft="354,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[NoChange]"
           TopLeft="307.75,606.5">
@@ -6382,118 +6512,6 @@ WHERE	[LastChgDateTime] &gt; ?
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="67.58490234375,25.5451448040886,85.5801953125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
-          TopLeft="354,198.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
-          TopLeft="354,402.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход команды OLE DB]"
-          TopLeft="354,708.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="354,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-          TopLeft="354,300.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>

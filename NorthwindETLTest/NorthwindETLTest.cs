@@ -113,14 +113,13 @@ namespace NorthwindETLTest
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
-                    $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
-                    $" DBFilesPath=\"{SQLServerFiles}\\{DBFilesPath}\"" +
+                    $" -v DBFilesPath=\"{SQLServerFiles}\\{DBFilesPath}\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
                     $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
                     $" DQSServerName=\"{Environment.MachineName}\"" +
                     $" DWHDatabaseName=\"NorthwindDW\"" +
                     $" DWHServerName=\"{Environment.MachineName}\"" +
-                    $" ExternalFilesPath=\"{workingFolder}\\\"" +
+                    $" ExternalFilesPath=\"{workingFolder}\"" +
                     $" LogsDatabaseName=\"NorthwindLogs\"" +
                     $" LogsServerName=\"{Environment.MachineName}\"" +
                     $" MDSDatabaseName=\"MDS\"" +
@@ -131,7 +130,7 @@ namespace NorthwindETLTest
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
-                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\\\"" +
+                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\"" +
                     $" CutoffTime=\"1997-12-31\"" +

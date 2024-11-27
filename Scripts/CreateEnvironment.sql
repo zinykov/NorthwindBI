@@ -1,4 +1,4 @@
-﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v BackupFilesPath="$(BackupFilesPath)" DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
+﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
 --:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
@@ -170,26 +170,6 @@ IF NOT EXISTS (
 BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DBFilesPath'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'String'
-END;
-GO
-
-DECLARE @var sql_variant = N'$(BackupFilesPath)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
-	WHERE		EV.[name] = N'BackupFilesPath'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'BackupFilesPath'
 			, @sensitive=False
 			, @description=N''
 			, @environment_name=N'$(SSISEnvironmentName)'

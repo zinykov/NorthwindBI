@@ -17,7 +17,7 @@ AS BEGIN
 		SET @GroupName = CONCAT ( @FactTableName, N'_', @Year, '_Index' )
 
 	SET @Name = CONCAT ( @GroupName, N'_', LEFT ( CONVERT ( NVARCHAR(36), NEWID () ), 8 ) )
-	SET @FileName = CONCAT ( @FilePath, '$(DatabaseName)', '_', @Name, '.ndf' )
+	SET @FileName = CONCAT ( @FilePath, '\$(DatabaseName)', '_', @Name, '.ndf' )
 
 	DROP TABLE IF EXISTS #file_exist
 	

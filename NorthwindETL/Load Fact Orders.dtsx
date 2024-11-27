@@ -14,32 +14,10 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="341"
-  DTS:VersionGUID="{1F93CFE2-F292-450A-8D42-85A7FF3C5171}">
+  DTS:VersionBuild="342"
+  DTS:VersionGUID="{E42615CF-AD19-4AA3-ACB5-466F4B871814}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Order Details.dat]"
-      DTS:CreationName="FILE"
-      DTS:DTSID="{42E00E52-3287-444A-B1CC-FD5265E10DFE}"
-      DTS:ObjectName="Order Details.dat">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Order Details.dat" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Orders.dat]"
-      DTS:CreationName="FILE"
-      DTS:DTSID="{2B5D1260-5C19-4F1B-B21A-4043D23E4F44}"
-      DTS:ObjectName="Orders.dat">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\OriginalData\Orders.dat" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-  </DTS:ConnectionManagers>
   <DTS:LogProviders>
     <DTS:LogProvider
       DTS:ConfigString="Logs"
@@ -271,7 +249,7 @@
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
   <DTS:PropertyExpression
-    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"\\logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
@@ -489,7 +467,7 @@
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Drop Load Table"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1879,7 +1857,7 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Landing update hash table"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
