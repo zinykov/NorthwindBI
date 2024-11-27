@@ -13,6 +13,7 @@ AS BEGIN
         , [City]
         , [Phone]
         , [Fax]
+        , [AllAttributes]
         , [StartDate]
         , [EndDate]
         , [Current]
@@ -27,6 +28,7 @@ AS BEGIN
         , NULL
         , NULL
         , NULL
+        , N'{}'
         , @StartDate
         , NULL
         , 1

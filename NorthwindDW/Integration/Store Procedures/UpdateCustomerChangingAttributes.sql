@@ -6,8 +6,15 @@
 	, @ContactTitle AS NVARCHAR(50)
 	, @Phone AS NVARCHAR(30)
 	, @Fax AS NVARCHAR(30)
+	, @AllAttributes AS NVARCHAR(MAX)
 AS BEGIN
-	UPDATE [Dimension].[Customer]
-	SET [Customer] = @Customer, [ContactName] = @ContactName, [ContactTitle] = @ContactTitle, [Phone] = @Phone, [Fax] = @Fax, [LineageKey] = @LineageKey
+	UPDATE	[Dimension].[Customer]
+	SET		  [Customer] = @Customer
+			, [ContactName] = @ContactName
+			, [ContactTitle] = @ContactTitle
+			, [Phone] = @Phone
+			, [Fax] = @Fax
+			, [AllAttributes] = @AllAttributes
+			, [LineageKey] = @LineageKey
 	WHERE	[CustomerAlterKey] = @CustomerAlterKey;
 END

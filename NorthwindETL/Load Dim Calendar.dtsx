@@ -8,91 +8,15 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{C4E8CFA9-5E69-4161-9D2E-28D17F9691DF}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5556.0"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Dim Calendar"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="398"
-  DTS:VersionGUID="{1C15B653-FE88-4E4E-BDED-38A5ECED7C3F}">
+  DTS:VersionBuild="400"
+  DTS:VersionGUID="{2C5A2941-E884-484B-A7CF-C3775965BD9A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Flat File No Change]"
-      DTS:CreationName="FLATFILE"
-      DTS:DTSID="{C4F9F5E7-11C9-42C3-A7AA-1BB46469EF3D}"
-      DTS:ObjectName="Flat File No Change">
-      <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath]+"NoChange\\Product.csv"</DTS:PropertyExpression>
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:Format="Delimited"
-          DTS:LocaleID="1049"
-          DTS:HeaderRowDelimiter="_x000D__x000A_"
-          DTS:ColumnNamesInFirstDataRow="True"
-          DTS:RowDelimiter=""
-          DTS:TextQualifier="_x003C_none_x003E_"
-          DTS:CodePage="1251"
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\NoChange\Product.csv">
-          <DTS:FlatFileColumns>
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="3"
-              DTS:TextQualified="True"
-              DTS:ObjectName="ProductAlterKey"
-              DTS:DTSID="{BC03399C-22CC-4FC4-AC0F-B6F575D2C0CB}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="40"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Product"
-              DTS:DTSID="{2C8D9BA3-F75F-41EC-A9B3-58278CEAAEDA}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="15"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Category"
-              DTS:DTSID="{5089F5EF-D8A4-40AA-BB1F-3DB476736529}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="3"
-              DTS:TextQualified="True"
-              DTS:ObjectName="LineageKey"
-              DTS:DTSID="{0C258017-9CCF-407A-B103-98C3AE9F7F49}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="DWProduct"
-              DTS:DTSID="{BEB8F42C-504D-49C5-814D-6DFD0DE25D97}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x000D__x000A_"
-              DTS:MaximumWidth="50"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="DWCategory"
-              DTS:DTSID="{3180DDE4-A083-47D5-A3DD-960C4E6B298D}"
-              DTS:CreationName="" />
-          </DTS:FlatFileColumns>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-  </DTS:ConnectionManagers>
   <DTS:LogProviders>
     <DTS:LogProvider
       DTS:ConfigString="Logs"
@@ -346,7 +270,7 @@
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
   <DTS:PropertyExpression
-    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"\\logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\Get LineAgeKey"
@@ -1825,7 +1749,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create load table"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2464,7 +2388,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2492,7 +2416,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Holidays"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2507,7 +2431,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{864A55E5-1006-4CC0-A82B-BE17617777AB}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{F945D78B-201F-4645-ABDA-42ECE27D2EEB}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -2530,7 +2454,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2690,134 +2614,13 @@
       DTS:ObjectName="Ограничение 3"
       DTS:To="Package\Set load compilation info" />
   </DTS:PrecedenceConstraints>
-  <DTS:EventHandlers>
-    <DTS:EventHandler
-      DTS:refId="Package.EventHandlers[OnError]"
-      DTS:CreationName="OnError"
-      DTS:DTSID="{947FD11D-4087-47D2-A02E-5D9367B2059D}"
-      DTS:EventID="0"
-      DTS:EventName="OnError"
-      DTS:LocaleID="-1">
-      <DTS:Variables>
-        <DTS:Variable
-          DTS:CreationName=""
-          DTS:DTSID="{A0C2C1D7-CE95-4769-ACA5-5C633C7065D0}"
-          DTS:IncludeInDebugDump="2345"
-          DTS:Namespace="User"
-          DTS:ObjectName="ParametersValues">
-          <DTS:VariableValue
-            DTS:DataType="8"
-            xml:space="preserve"></DTS:VariableValue>
-        </DTS:Variable>
-        <DTS:Variable
-          DTS:CreationName=""
-          DTS:Description="The propagate property of the event"
-          DTS:DTSID="{8CFA5337-37E8-45B8-870F-0C5B796924AA}"
-          DTS:IncludeInDebugDump="6789"
-          DTS:Namespace="System"
-          DTS:ObjectName="Propagate">
-          <DTS:VariableValue
-            DTS:DataType="11">-1</DTS:VariableValue>
-        </DTS:Variable>
-      </DTS:Variables>
-      <DTS:Executables>
-        <DTS:Executable
-          DTS:refId="Package.EventHandlers[OnError]\Error notification"
-          DTS:CreationName="Microsoft.ExecutePackageTask"
-          DTS:DTSID="{5D43FBF9-DAD3-4D60-A79C-7A4EED753EB5}"
-          DTS:ExecutableType="Microsoft.ExecutePackageTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Error notification"
-          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <ExecutePackageTask>
-              <UseProjectReference>True</UseProjectReference>
-              <PackageName>Error notification.dtsx</PackageName>
-              <ParameterAssignment>
-                <ParameterName>ErrorCode</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ErrorDescription</ParameterName>
-                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>LineageKey</ParameterName>
-                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>MachineName</ParameterName>
-                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>PackageName</ParameterName>
-                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceName</ParameterName>
-                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>StartTime</ParameterName>
-                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>UserName</ParameterName>
-                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ParametersValues</ParameterName>
-                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>ExecutionInstanceGUID</ParameterName>
-                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>FailedConfigurations</ParameterName>
-                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
-              </ParameterAssignment>
-              <ParameterAssignment>
-                <ParameterName>SourceID</ParameterName>
-                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
-              </ParameterAssignment>
-            </ExecutePackageTask>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
-          DTS:refId="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:CreationName="Microsoft.ExpressionTask"
-          DTS:DTSID="{57E59E5C-4E72-49C2-9320-D07DC6AC103A}"
-          DTS:ExecutableType="Microsoft.ExpressionTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Get parameters values">
-          <DTS:Variables />
-          <DTS:ObjectData>
-            <ExpressionTask
-              Expression="@[User::ParametersValues]=&quot;CutoffTime = &quot; +  (DT_WSTR, 20) @[$Package::CutoffTime] + &quot;\r\nLineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nAreThereAnyChanges = &quot; + (DT_WSTR, 5) @[User::AreThereAnyChanges] + &quot;\r\nMDS_VersionName = &quot; + @[User::MDS_VersionName] + &quot;\r\nModelName = &quot; + @[User::ModelName] + &quot;\r\nStartDate = &quot; + (DT_WSTR, 50) @[User::StartDate] + &quot;\r\nStartDate = &quot; + (DT_WSTR, 50) @[User::EndDate]" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-      </DTS:Executables>
-      <DTS:PrecedenceConstraints>
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          DTS:CreationName=""
-          DTS:DTSID="{55465078-69F7-485B-A2F3-9B4B0120E632}"
-          DTS:From="Package.EventHandlers[OnError]\Get parameters values"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint"
-          DTS:To="Package.EventHandlers[OnError]\Error notification" />
-      </DTS:PrecedenceConstraints>
-    </DTS:EventHandler>
-  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -3460,47 +3263,11 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
-  <DtsEventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="NaN,NaN"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="NaN,NaN" />
-        <NodeLayout
-          Size="NaN,NaN"
-          Id="Package.EventHandlers[OnError]\Get parameters values"
-          TopLeft="NaN,NaN" />
-        <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
-          TopLeft="NaN,NaN">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="{assembly:Null}"
-              Start="0,0"
-              End="0,0">
-              <mssgle:Curve.Segments>
-                <assembly:Null />
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </DtsEventHandler>
   <TaskHost
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="151,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table\Source Landing"
@@ -3544,7 +3311,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3578,7 +3347,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3600,7 +3371,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3634,7 +3407,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3656,7 +3431,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3705,7 +3482,7 @@
     design-time-name="Package\MDS -&gt; DWH\Load temp table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="136,42"
           Id="Package\MDS -&gt; DWH\Load temp table\Source MDS"
@@ -3737,7 +3514,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3759,7 +3538,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

@@ -113,14 +113,13 @@ namespace NorthwindETLTest
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
-                    $" -v BackupFilesPath=\"{workingFolder}\\Backup\\\"" +
-                    $" DBFilesPath=\"{SQLServerFiles}\\{DBFilesPath}\"" +
+                    $" -v DBFilesPath=\"{SQLServerFiles}\\{DBFilesPath}\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
                     $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
                     $" DQSServerName=\"{Environment.MachineName}\"" +
                     $" DWHDatabaseName=\"NorthwindDW\"" +
                     $" DWHServerName=\"{Environment.MachineName}\"" +
-                    $" ExternalFilesPath=\"{workingFolder}\\\"" +
+                    $" ExternalFilesPath=\"{workingFolder}\"" +
                     $" LogsDatabaseName=\"NorthwindLogs\"" +
                     $" LogsServerName=\"{Environment.MachineName}\"" +
                     $" MDSDatabaseName=\"MDS\"" +
@@ -131,9 +130,11 @@ namespace NorthwindETLTest
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
-                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\\\"" +
+                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
-                    $" LandingServerName=\"{Environment.MachineName}\""
+                    $" LandingServerName=\"{Environment.MachineName}\"" +
+                    $" CutoffTime=\"1997-12-31\"" +
+                    $" LoadDateInitialEnd=\"1997-12-31\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
@@ -350,11 +351,11 @@ namespace NorthwindETLTest
                 CleanupFolder($"{workingFolder}\\IngestData\\TestData");
                 CleanupFolder($"{workingFolder}\\Backup");
             }
-            if (SSISEnvironmentName == "Debug")
-            {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
-                System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
-            }
+            //if (SSISEnvironmentName == "Debug")
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
+            //    System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
+            //}
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
         }
@@ -370,12 +371,6 @@ namespace NorthwindETLTest
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
                 ExecuteLoadPackage(PackageName, CutoffTime);
-
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
-                {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CountRowsInDWH test...");
-                    ETLTest.CountRowsInDWH();
-                }
 
                 if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
                 {

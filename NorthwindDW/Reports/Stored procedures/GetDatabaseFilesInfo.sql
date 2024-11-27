@@ -7,6 +7,7 @@ AS BEGIN
 			, [Name]
 			, [FileName]
 			, [BackupFileName]
+			, [CutoffTime]
 	
 	FROM [Maintenance].[DatabaseFiles]
 END
