@@ -117,25 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CountRowsInDWH_TestAction.SqlScript" xml:space="preserve">
-    <value>/*
-Add SQL statements here to exercise the database object 
-that you want to test.
-
-To test a stored procedure, invoke it here by adding 
-an EXEC statement that has appropriate parameters.
-
-In the lower pane, you can add test conditions that verify 
-whether the results of your SQL statements match what 
-you expect.
-*/
-
-SELECT 1 FROM [Dimension].[Date];
-SELECT 1 FROM [Dimension].[Employee];
-SELECT 1 FROM [Dimension].[Customer];
-SELECT 1 FROM [Dimension].[Product];
-SELECT 1 FROM [Fact].[Order];</value>
-  </data>
   <data name="CustomerSCD2TestStage1_TestAction.SqlScript" xml:space="preserve">
     <value>/*
 Add SQL statements here to exercise the database object 
@@ -151,7 +132,9 @@ you expect.
 
 SELECT * FROM [Dimension].[Customer] WHERE [CustomerAlterKey] = N'FRANK' ORDER BY [CustomerKey] ASC;
 
-SELECT * FROM [Dimension].[Customer];</value>
+SELECT * FROM [Dimension].[Customer];
+
+SELECT JSON_VALUE ( [AllAttributes], N'$.MDS[0].mdm_masterCustomer.VersionFlag' ) FROM [Dimension].[Customer];</value>
   </data>
   <data name="EmployeeSCD2TestStage1_TestAction.SqlScript" xml:space="preserve">
     <value>/*
@@ -168,7 +151,9 @@ you expect.
 
 SELECT * FROM [Dimension].[Employee] WHERE [EmployeeALterKey] = 2;
 
-SELECT * FROM [Dimension].[Employee];</value>
+SELECT * FROM [Dimension].[Employee];
+
+SELECT JSON_VALUE ( [AllAttributes], N'$.MDS[0].mdm_masterEmployee.VersionFlag' ) FROM [Dimension].[Employee];</value>
   </data>
   <data name="EmployeeSCD2TestStage2_TestAction.SqlScript" xml:space="preserve">
     <value>/*
@@ -217,7 +202,9 @@ whether the results of your SQL statements match what
 you expect.
 */
 
-SELECT * FROM [Dimension].[Product] WHERE [ProductAlterKey] = 2;</value>
+SELECT * FROM [Dimension].[Product] WHERE [ProductAlterKey] = 2;
+
+SELECT JSON_VALUE ( [AllAttributes], N'$.MDS[0].mdm_masterProduct.VersionFlag' ) FROM [Dimension].[Product];</value>
   </data>
   <data name="ProductSCD1TestStage2_TestAction.SqlScript" xml:space="preserve">
     <value>/*

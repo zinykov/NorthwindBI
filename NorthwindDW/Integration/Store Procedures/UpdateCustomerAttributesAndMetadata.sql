@@ -6,13 +6,23 @@
 	, @ContactTitle AS NVARCHAR(50)
 	, @Phone AS NVARCHAR(30)
 	, @Fax AS NVARCHAR(30)
+	, @AllAttributes AS NVARCHAR(MAX)
 	, @EndDate AS DATE
 AS BEGIN
-	UPDATE [Dimension].[Customer]
-	SET [Customer] = @Customer, [ContactName] = @ContactName, [ContactTitle] = @ContactTitle, [Phone] = @Phone, [Fax] = @Fax, [LineageKey] = @LineageKey
+	UPDATE	[Dimension].[Customer]
+	SET		  [Customer] = @Customer
+			, [ContactName] = @ContactName
+			, [ContactTitle] = @ContactTitle
+			, [Phone] = @Phone
+			, [Fax] = @Fax
+			, [AllAttributes] = @AllAttributes
+			, [LineageKey] = @LineageKey
 	WHERE	[CustomerAlterKey] = @CustomerAlterKey;
 
-	UPDATE [Dimension].[Customer]
-	SET [EndDate] = @EndDate, [Current] = 0, [LineageKey] = @LineageKey
-	WHERE	[Current] = 1 AND [CustomerAlterKey] = @CustomerAlterKey;
+	UPDATE	[Dimension].[Customer]
+	SET		  [EndDate] = @EndDate
+			, [Current] = 0
+			, [LineageKey] = @LineageKey
+	WHERE	[Current] = 1
+			AND [CustomerAlterKey] = @CustomerAlterKey;
 END

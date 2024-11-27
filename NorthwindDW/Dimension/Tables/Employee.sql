@@ -7,6 +7,7 @@
     [TitleOfCourtesy]       NVARCHAR(10)     NULL,
     [City]                  NVARCHAR(25)     NULL,
     [Country]               NVARCHAR(25)     NULL,
+    [AllAttributes]         NVARCHAR(MAX)    NOT NULL,
     [StartDate]             DATETIME2        NOT NULL,
     [EndDate]               DATETIME2        NULL,
     [Current]               BIT              NOT NULL,

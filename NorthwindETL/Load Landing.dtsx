@@ -8,14 +8,14 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{E770FC48-D433-4DAD-97AC-9395B8912632}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5556.0"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Landing"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="57"
-  DTS:VersionGUID="{7CE3EA3B-8626-432C-8CE4-46C28ED2944E}">
+  DTS:VersionBuild="62"
+  DTS:VersionGUID="{B975D7F9-B167-44E2-9FED-8B35A6C89F63}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,7 +25,7 @@
       DTS:DTSID="{42C67801-3491-4DDD-B243-56A08FD42181}"
       DTS:ObjectName="*.dat">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "\\IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
@@ -165,7 +165,7 @@
     </DTS:SelectedLogProviders>
   </DTS:LoggingOptions>
   <DTS:PropertyExpression
-    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
+    DTS:Name="CheckpointFileName">@[$Project::ExternalFilesPath]+"\\logs\\CP_"+ REPLACE( @[System::PackageName] , " ", "_" ) +".xml"</DTS:PropertyExpression>
   <DTS:Executables>
     <DTS:Executable
       DTS:refId="Package\For each fmt"
@@ -179,7 +179,7 @@
         DTS:DTSID="{255d413b-c7e0-45e2-9d4b-e49868da2578}"
         DTS:ObjectName="{F9A2E93B-B6CD-4E54-A166-3767C8D37D49}">
         <DTS:PropertyExpression
-          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\"</DTS:PropertyExpression>
+          DTS:Name="Directory">@[$Project::ExternalFilesPath] + "\\IngestData\\FormatFiles\\"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
@@ -211,7 +211,7 @@
           <DTS:PropertyExpression
             DTS:Name="DestinationTableName">"[Landing].["+ @[User::FileName] + "]"</DTS:PropertyExpression>
           <DTS:PropertyExpression
-            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\"+ @[User::FileName]+".fmt"</DTS:PropertyExpression>
+            DTS:Name="FormatFile">@[$Project::ExternalFilesPath] + "\\IngestData\\FormatFiles\\"+ @[User::FileName]+".fmt"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <BulkInsertTask:BulkInsertTaskData
               BulkInsertTask:SourceConnectionName="{42C67801-3491-4DDD-B243-56A08FD42181}"
@@ -225,8 +225,8 @@
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{cecf2e8c-1108-421c-8f48-ca197e5e89ac}"
-          DTS:ObjectName="{1760002F-651D-4E73-9198-F38238399598}"
+          DTS:DTSID="{B8220505-5D2C-4DEF-A52C-D9F21179830B}"
+          DTS:ObjectName="{B8220505-5D2C-4DEF-A52C-D9F21179830B}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
@@ -243,7 +243,7 @@
         DTS:DTSID="{261964c1-304c-400a-bc5d-c32be51b5bf2}"
         DTS:ObjectName="{A3F1A0C7-7482-4811-AAEE-D1176128133E}">
         <DTS:PropertyExpression
-          DTS:Name="Directory">@[$Project::XMLCalendarFolder] +"ru"</DTS:PropertyExpression>
+          DTS:Name="Directory">@[$Project::XMLCalendarFolder] +"\\ru"</DTS:PropertyExpression>
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
@@ -274,7 +274,7 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:PropertyExpression
-            DTS:Name="[Calendar xml file].[XMLSchemaDefinition]">@[$Project::ExternalFilesPath] + "IngestData\\FormatFiles\\xmlcalendar.xsd"</DTS:PropertyExpression>
+            DTS:Name="[Calendar xml file].[XMLSchemaDefinition]">@[$Project::ExternalFilesPath] + "\\IngestData\\FormatFiles\\xmlcalendar.xsd"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <pipeline
               version="1">
@@ -1471,12 +1471,12 @@
         <NodeLayout
           Size="170,42"
           Id="Package\For each fmt\Bulk Insert Landing"
-          TopLeft="5.5,5.5" />
+          TopLeft="11.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="181,102"
-          Size="181,146"
+          PanelSize="186,103"
+          Size="186,146"
           Id="Package\For each fmt"
           TopLeft="15.5,54.5" />
         <NodeLayout
@@ -1486,7 +1486,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="166,102"
+          PanelSize="166,103"
           Size="166,146"
           Id="Package\xmlcalendar foreach loop"
           TopLeft="257,54.5" />
