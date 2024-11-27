@@ -133,7 +133,9 @@ namespace NorthwindETLTest
                     $" SSISServerName=\"{SSISServerName}\"" +
                     $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\\\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
-                    $" LandingServerName=\"{Environment.MachineName}\""
+                    $" LandingServerName=\"{Environment.MachineName}\"" +
+                    $" CutoffTime=\"1997-12-31\"" +
+                    $" LoadDateInitialEnd=\"1997-12-31\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
