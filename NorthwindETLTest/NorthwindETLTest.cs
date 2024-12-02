@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.IO;
 
 namespace NorthwindETLTest
@@ -12,7 +13,8 @@ namespace NorthwindETLTest
     {
         private static DateTime LoadDateInitialEnd;
         private static DateTime LoadDateIncrementalEnd;
-        private static string workingFolder;
+        private static string ExternalFilesPath;
+        private static string XMLCalendarFolder;
         private static string BuildConfiguration;
 
         private static string SQLServerFiles;
@@ -47,26 +49,26 @@ namespace NorthwindETLTest
             SQLServerFiles = (string)testContextInstance.Properties["SQLServerFiles"];
             BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
             string DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
-            string reposFolder = (string)testContextInstance.Properties["reposFolder"];
-            workingFolder = $"{reposFolder}Northwind_BI_Solution";
+            ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
+            XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
 
-            string IngestData = $"{workingFolder}\\IngestData";
+            string IngestData = $"{ExternalFilesPath}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
 
-            Directory.CreateDirectory($"{workingFolder}\\Backup");
+            Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
 
             //Cleaning up folders
             CleanupFolder(TestData);
-            CleanupFolder($"{workingFolder}\\Backup");
+            CleanupFolder($"{ExternalFilesPath}\\Backup");
 
             //Creating logins, roles, users
-            if (BuildConfiguration == "Debug")
+            if (BuildConfiguration != "Release")
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {Environment.MachineName}" +
                     $" -d master" +
-                    $" -i \"{workingFolder}\\Scripts\\CreateLogins.sql\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\CreateLogins.sql\"" +
                     $" -v DWHServerName=\"{Environment.MachineName}\""
                 );
 
@@ -74,14 +76,14 @@ namespace NorthwindETLTest
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {Environment.MachineName}" +
                     $" -d MDS" +
-                    $" -i \"{workingFolder}\\Scripts\\CreateRoles.sql\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\CreateRoles.sql\"" +
                     $" -v MDSDatabaseName=\"MDS\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {Environment.MachineName}" +
-                    $" -i \"{workingFolder}\\Scripts\\CreateUsers.sql\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\CreateUsers.sql\"" +
                     $" -v DWHDatabaseName=\"NorthwindDW\"" +
                     $" DWHServerName=\"{Environment.MachineName}\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
@@ -96,30 +98,32 @@ namespace NorthwindETLTest
             }
 
             //Preparing SSIS environment
-            if (BuildConfiguration == "Debug")
+            if (BuildConfiguration != "Release")
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing debug environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing {BuildConfiguration} environment...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" -Q \"EXECUTE [catalog].[delete_environment]" +
-                    $" @folder_name = N'{SSISFolderName}'," +
-                    $" @environment_name = N'Debug';");
+                    $" - i \"{ExternalFilesPath}\\Scripts\\CleanSSISCatalog.sql\"" +
+                    $" - v SSISFolderName = \"{SSISFolderName}\"" +
+                    $" SSISProjectName = \"$(SSISProjectName)\"" +
+                    $" SSISEnvironmentName = \"$(SSISEnvironmentName)\""
+                );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" -i \"{workingFolder}\\Scripts\\CreateEnvironment.sql\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\CreateEnvironment.sql\"" +
                     $" -v DBFilesPath=\"{SQLServerFiles}\\{DBFilesPath}\"" +
                     $" DQS_STAGING_DATA_DatabaseName=\"DQS_STAGING_DATA\"" +
                     $" DQS_STAGING_DATA_ServerName=\"{Environment.MachineName}\"" +
                     $" DQSServerName=\"{Environment.MachineName}\"" +
                     $" DWHDatabaseName=\"NorthwindDW\"" +
                     $" DWHServerName=\"{Environment.MachineName}\"" +
-                    $" ExternalFilesPath=\"{workingFolder}\"" +
+                    $" ExternalFilesPath=\"{ExternalFilesPath}\"" +
                     $" LogsDatabaseName=\"NorthwindLogs\"" +
                     $" LogsServerName=\"{Environment.MachineName}\"" +
                     $" MDSDatabaseName=\"MDS\"" +
@@ -130,7 +134,7 @@ namespace NorthwindETLTest
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
-                    $" XMLCalendarFolder=\"{reposFolder}XMLCalendar\"" +
+                    $" XMLCalendarFolder=\"{XMLCalendarFolder}\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\"" +
                     $" CutoffTime=\"1997-12-31\"" +
@@ -141,7 +145,7 @@ namespace NorthwindETLTest
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\SetEnvironmentVars.sql\"" +
                     $" -v  BuildConfiguration=\"{BuildConfiguration}\"" +
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\""
@@ -348,8 +352,8 @@ namespace NorthwindETLTest
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
-                CleanupFolder($"{workingFolder}\\IngestData\\TestData");
-                CleanupFolder($"{workingFolder}\\Backup");
+                CleanupFolder($"{ExternalFilesPath}\\IngestData\\TestData");
+                CleanupFolder($"{ExternalFilesPath}\\Backup");
             }
             //if (BuildConfiguration == "Debug")
             //{
