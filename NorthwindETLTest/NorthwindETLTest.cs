@@ -107,10 +107,9 @@ namespace NorthwindETLTest
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" -i \"{ExternalFilesPath}\\Scripts\\CleanSSISCatalog.sql\"" +
-                    $" -v SSISFolderName = \"{SSISFolderName}\"" +
-                    $" SSISProjectName = \"{SSISProjectName}\""
-                );
+                    $" -Q \"EXECUTE [catalog].[delete_environment]" +
+                    $" @folder_name = N'{SSISFolderName}'," +
+                    $" @environment_name = N'{BuildConfiguration}';");
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
