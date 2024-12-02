@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.IO;
+using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 
 namespace NorthwindETLTest
 {
