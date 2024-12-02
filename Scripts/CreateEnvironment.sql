@@ -1,4 +1,4 @@
-﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
+﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" BuildConfiguration="$(BuildConfiguration)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
 --:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
@@ -10,10 +10,10 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS ( SELECT 1 FROM [catalog].[environments] WHERE [name] = N'$(SSISEnvironmentName)' )
+IF NOT EXISTS ( SELECT 1 FROM [catalog].[environments] WHERE [name] = N'$(BuildConfiguration)' )
 BEGIN
 	EXECUTE [catalog].[create_environment]
-		  @environment_name = N'$(SSISEnvironmentName)'
+		  @environment_name = N'$(BuildConfiguration)'
 		, @environment_description = N''
 		, @folder_name = N'$(SSISFolderName)'
 END;
@@ -24,7 +24,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DWHServerName'
 )
 BEGIN
@@ -32,7 +32,7 @@ BEGIN
 			  @variable_name=N'DWHServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -44,7 +44,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DWHDatabaseName'
 )
 BEGIN
@@ -52,7 +52,7 @@ BEGIN
 			  @variable_name=N'DWHDatabaseName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -64,7 +64,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DQS_STAGING_DATA_ServerName'
 )
 BEGIN
@@ -72,7 +72,7 @@ BEGIN
 			  @variable_name=N'DQS_STAGING_DATA_ServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -84,7 +84,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DQS_STAGING_DATA_DatabaseName'
 )
 BEGIN
@@ -92,7 +92,7 @@ BEGIN
 			  @variable_name=N'DQS_STAGING_DATA_DatabaseName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -104,7 +104,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DQSServerName'
 )
 BEGIN
@@ -112,7 +112,7 @@ BEGIN
 			  @variable_name=N'DQSServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -124,7 +124,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'MDSServerName'
 )
 BEGIN
@@ -132,7 +132,7 @@ BEGIN
 			  @variable_name=N'MDSServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -144,7 +144,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'MDSDatabaseName'
 )
 BEGIN
@@ -152,7 +152,7 @@ BEGIN
 			  @variable_name=N'MDSDatabaseName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -164,7 +164,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'DBFilesPath'
 )
 BEGIN
@@ -172,7 +172,7 @@ BEGIN
 			  @variable_name=N'DBFilesPath'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -184,7 +184,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'ExternalFilesPath'
 )
 BEGIN
@@ -192,7 +192,7 @@ BEGIN
 			  @variable_name=N'ExternalFilesPath'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -204,7 +204,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'XMLCalendarFolder'
 )
 BEGIN
@@ -212,7 +212,7 @@ BEGIN
 	  @variable_name=N'XMLCalendarFolder'
 	, @sensitive=False
 	, @description=N''
-	, @environment_name=N'$(SSISEnvironmentName)'
+	, @environment_name=N'$(BuildConfiguration)'
 	, @folder_name=N'$(SSISFolderName)'
 	, @value=@var
 	, @data_type=N'String'
@@ -224,7 +224,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'LogsServerName'
 )
 BEGIN
@@ -232,7 +232,7 @@ BEGIN
 			  @variable_name=N'LogsServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -244,7 +244,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'LogsDatabaseName'
 )
 BEGIN
@@ -252,7 +252,7 @@ BEGIN
 			  @variable_name=N'LogsDatabaseName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -264,7 +264,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'RetrainWeeks'
 )
 BEGIN
@@ -272,7 +272,7 @@ BEGIN
 			  @variable_name=N'RetrainWeeks'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'Int16'
@@ -284,7 +284,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'LandingServerName'
 )
 BEGIN
@@ -292,7 +292,7 @@ BEGIN
 			  @variable_name=N'LandingServerName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -304,7 +304,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'LandingDatabaseName'
 )
 BEGIN
@@ -312,7 +312,7 @@ BEGIN
 			  @variable_name=N'LandingDatabaseName'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
@@ -324,7 +324,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'CutoffTime'
 )
 BEGIN
@@ -332,7 +332,7 @@ BEGIN
 			  @variable_name=N'CutoffTime'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'DateTime'
@@ -344,7 +344,7 @@ IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
 	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(SSISEnvironmentName)'
+				AND E.[name] = N'$(BuildConfiguration)'
 	WHERE		EV.[name] = N'LoadDateInitialEnd'
 )
 BEGIN
@@ -352,7 +352,7 @@ BEGIN
 			  @variable_name=N'LoadDateInitialEnd'
 			, @sensitive=False
 			, @description=N''
-			, @environment_name=N'$(SSISEnvironmentName)'
+			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'DateTime'

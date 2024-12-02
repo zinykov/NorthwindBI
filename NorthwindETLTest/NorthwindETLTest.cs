@@ -13,7 +13,7 @@ namespace NorthwindETLTest
         private static DateTime LoadDateInitialEnd;
         private static DateTime LoadDateIncrementalEnd;
         private static string workingFolder;
-        private static string SSISEnvironmentName;
+        private static string BuildConfiguration;
 
         private static string SQLServerFiles;
         private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
@@ -45,7 +45,7 @@ namespace NorthwindETLTest
             LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
             LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
             SQLServerFiles = (string)testContextInstance.Properties["SQLServerFiles"];
-            SSISEnvironmentName = (string)testContextInstance.Properties["SSISEnvironmentName"];
+            BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
             string DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
             string reposFolder = (string)testContextInstance.Properties["reposFolder"];
             workingFolder = $"{reposFolder}Northwind_BI_Solution";
@@ -60,7 +60,7 @@ namespace NorthwindETLTest
             CleanupFolder($"{workingFolder}\\Backup");
 
             //Creating logins, roles, users
-            if (SSISEnvironmentName == "Debug")
+            if (BuildConfiguration == "Debug")
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
@@ -96,7 +96,7 @@ namespace NorthwindETLTest
             }
 
             //Preparing SSIS environment
-            if (SSISEnvironmentName == "Debug")
+            if (BuildConfiguration == "Debug")
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
@@ -126,7 +126,7 @@ namespace NorthwindETLTest
                     $" MDSServerName=\"{Environment.MachineName}\"" +
                     $" RetrainWeeks=\"3\"" +
                     $" SSISDatabaseName=\"{SSISDatabaseName}\"" +
-                    $" SSISEnvironmentName=\"{SSISEnvironmentName}\"" +
+                    $" BuildConfiguration=\"{BuildConfiguration}\"" +
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\"" +
                     $" SSISServerName=\"{SSISServerName}\"" +
@@ -142,7 +142,7 @@ namespace NorthwindETLTest
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{workingFolder}\\Scripts\\SetEnvironmentVars.sql\"" +
-                    $" -v  SSISEnvironmentName=\"{SSISEnvironmentName}\"" +
+                    $" -v  BuildConfiguration=\"{BuildConfiguration}\"" +
                     $" SSISFolderName=\"{SSISFolderName}\"" +
                     $" SSISProjectName=\"{SSISProjectName}\""
                 );
@@ -351,7 +351,7 @@ namespace NorthwindETLTest
                 CleanupFolder($"{workingFolder}\\IngestData\\TestData");
                 CleanupFolder($"{workingFolder}\\Backup");
             }
-            //if (SSISEnvironmentName == "Debug")
+            //if (BuildConfiguration == "Debug")
             //{
             //    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
             //    System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
@@ -415,7 +415,7 @@ namespace NorthwindETLTest
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
-            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(SSISEnvironmentName, ".")];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
             Int64 executionid = -1;
 
             PackageInfo package = NorthwindETL.Packages[PackageName];
