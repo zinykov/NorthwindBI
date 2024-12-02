@@ -108,8 +108,7 @@ namespace NorthwindETLTest
                     $" -d {SSISDatabaseName}" +
                     $" - i \"{ExternalFilesPath}\\Scripts\\CleanSSISCatalog.sql\"" +
                     $" - v SSISFolderName = \"{SSISFolderName}\"" +
-                    $" SSISProjectName = \"$(SSISProjectName)\"" +
-                    $" SSISEnvironmentName = \"$(SSISEnvironmentName)\""
+                    $" SSISProjectName = \"{SSISProjectName}\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
