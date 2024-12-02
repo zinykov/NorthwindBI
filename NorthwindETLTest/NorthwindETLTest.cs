@@ -19,7 +19,7 @@ namespace NorthwindETLTest
         private static string BuildConfiguration;
 
         private static string SQLServerFiles;
-        private static NorthwindETLDataTest ETLTest = new NorthwindETLDataTest();
+        private static NorthwindETLDataTest ETLDataTest = new NorthwindETLDataTest();
         private static string SSISServerName = Environment.MachineName;
         private static string SSISDatabaseName = "SSISDB";
         private static string SSISFolderName = "NorthwindBI";
@@ -107,8 +107,8 @@ namespace NorthwindETLTest
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
-                    $" - i \"{ExternalFilesPath}\\Scripts\\CleanSSISCatalog.sql\"" +
-                    $" - v SSISFolderName = \"{SSISFolderName}\"" +
+                    $" -i \"{ExternalFilesPath}\\Scripts\\CleanSSISCatalog.sql\"" +
+                    $" -v SSISFolderName = \"{SSISFolderName}\"" +
                     $" SSISProjectName = \"{SSISProjectName}\""
                 );
 
@@ -329,7 +329,7 @@ namespace NorthwindETLTest
             ExecuteSqlCommand(sqlExpression);
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindETLDataTests...");
-            ETLTest.TestInitialize();
+            ETLDataTest.TestInitialize();
 
             //System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
             //CallProcess("logman", "start -name \"SQL\"");
@@ -379,37 +379,37 @@ namespace NorthwindETLTest
                 if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest test...");
-                    ETLTest.CutoffTimeTest();
+                    ETLDataTest.CutoffTimeTest();
                 }
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1 test...");
-                    ETLTest.EmployeeSCD2TestStage1();
+                    ETLDataTest.EmployeeSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1 test...");
-                    ETLTest.ProductSCD1TestStage1();
+                    ETLDataTest.ProductSCD1TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2 test...");
-                    ETLTest.EmployeeSCD2TestStage2();
+                    ETLDataTest.EmployeeSCD2TestStage2();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1 test...");
-                    ETLTest.CustomerSCD2TestStage1();
+                    ETLDataTest.CustomerSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2 test...");
-                    ETLTest.ProductSCD1TestStage2();
+                    ETLDataTest.ProductSCD1TestStage2();
                 }
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest test...");
-                ETLTest.OrderShippingDateTest();
+                ETLDataTest.OrderShippingDateTest();
             }
 
             System.Diagnostics.Trace.WriteLine("**********Finished test**********");
