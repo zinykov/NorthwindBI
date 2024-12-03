@@ -1,9 +1,9 @@
-﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\SetEnvironmentVars.sql" -v  SSISEnvironmentName="$(SSISEnvironmentName)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)"
+﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\SetEnvironmentVars.sql" -v  BuildConfiguration="$(BuildConfiguration)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)"
 --:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
-		  @environment_name = N'$(SSISEnvironmentName)'
+		  @environment_name = N'$(BuildConfiguration)'
 		, @reference_id = @reference_id OUTPUT
 		, @project_name = N'$(SSISProjectName)'
 		, @folder_name = N'$(SSISFolderName)'
