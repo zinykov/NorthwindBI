@@ -507,7 +507,7 @@ namespace NorthwindETLTest
             myProcess.StartInfo.RedirectStandardError = true;
             if (AsAdmin)
             {
-                myProcess.StartInfo.Verb = "runas /user:Администратор";
+                myProcess.StartInfo.Verb = "runas";
             }
             myProcess.Start();
 
