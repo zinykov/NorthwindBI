@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.IO;
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
+using Microsoft.SqlServer.Management.Smo;
 
 namespace NorthwindETLTest
 {
@@ -343,6 +344,9 @@ namespace NorthwindETLTest
                 "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = START;"
                 , $"{Environment.MachineName}");
 
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
+            CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as");
+
             System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
         }
 
@@ -350,6 +354,9 @@ namespace NorthwindETLTest
         public void TestCleanup()
         {
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping logman...");
+            CallProcess($"C:\\Windows\\System32\\logman.exe", $"stop -n \"SQL Server\" -as");
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
             ExecuteSqlCommand(
