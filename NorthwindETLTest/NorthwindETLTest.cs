@@ -345,7 +345,7 @@ namespace NorthwindETLTest
                 , $"NorthwindLogs");
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
-            CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as");
+            CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as", true);
 
             System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
         }
@@ -356,7 +356,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping logman...");
-            CallProcess($"C:\\Windows\\System32\\logman.exe", $"stop -n \"SQL Server\" -as");
+            CallProcess($"C:\\Windows\\System32\\logman.exe", $"stop -n \"SQL Server\" -as", true);
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
             ExecuteSqlCommand(
@@ -497,7 +497,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void CallProcess(string FileName, string Arguments)
+        private static void CallProcess(string FileName, string Arguments, Boolean AsAdmin = false)
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = FileName;
@@ -505,6 +505,10 @@ namespace NorthwindETLTest
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.RedirectStandardOutput = true;
             myProcess.StartInfo.RedirectStandardError = true;
+            if (AsAdmin)
+            {
+                myProcess.StartInfo.Verb = "runas /user:Администратор";
+            }
             myProcess.Start();
 
             string ErrorOutput = myProcess.StandardError.ReadToEnd();
