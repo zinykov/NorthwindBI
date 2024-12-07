@@ -342,7 +342,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting Event session...");
             ExecuteSqlCommand(
                 "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = START;"
-                , $"{Environment.MachineName}");
+                , $"NorthwindLogs");
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
             CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as");
@@ -361,7 +361,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
             ExecuteSqlCommand(
                 "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = STOP;",
-                $"{Environment.MachineName}");
+                $"NorthwindLogs");
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
