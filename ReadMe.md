@@ -1,7 +1,10 @@
 [![Board Status](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/3660f141-eb17-455f-80e6-f5580788fd8b/_apis/work/boardbadge/f3221562-8345-4080-8a57-9776d148c41b?columnOptions=1)](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/_boards/board/t/3660f141-eb17-455f-80e6-f5580788fd8b/Stories/)
 
 
-[![Build status](https://dev.azure.com/zinykov/NorthwindBI/_apis/build/status/Pull%20request%20validation%20pipeline)](https://dev.azure.com/zinykov/NorthwindBI/_build/latest?definitionId=10)
+[![Build Validation status](https://dev.azure.com/zinykov/NorthwindBI/_apis/build/status/Pull%20request%20validation%20pipeline)](https://dev.azure.com/zinykov/NorthwindBI/_build/latest?definitionId=10)
+[![Databases Deployment status](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/11)](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/11)
+[![SSIS & functional ETL test status](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/12)](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/12)
+[![Reports status](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/13)](https://vsrm.dev.azure.com/zinykov/_apis/public/Release/badge/e6e8a805-df55-4da4-b1f8-d290e73529c6/5/13)
 
 # Key features #
 
