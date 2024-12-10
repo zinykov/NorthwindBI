@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.IO;
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
+using Microsoft.SqlServer.Management.Smo;
 
 namespace NorthwindETLTest
 {
@@ -330,11 +331,21 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindETLDataTests...");
             ETLDataTest.TestInitialize();
 
-            //System.Diagnostics.Trace.WriteLine($"Starting perfomance monitor...");
-            //CallProcess("logman", "start -name \"SQL\"");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                $"-S {Environment.MachineName}" +
+                $" -d master" +
+                $" -i \"{ExternalFilesPath}\\Scripts\\CreateEventSession.sql\"" +
+                $" -v ExternalFilesPath=\"{ExternalFilesPath}\""
+            );
 
-            //System.Diagnostics.Trace.WriteLine($"Starting SQL profiler...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting Event session...");
+            ExecuteSqlCommand(
+                "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = START;"
+                , $"NorthwindLogs");
 
+            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
+            //CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as", true);
 
             System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
         }
@@ -344,21 +355,19 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
-            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stoped SQL profiler");
+            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping logman...");
+            //CallProcess($"C:\\Windows\\System32\\logman.exe", $"stop -n \"SQL Server\" -as", true);
 
-            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stop perfomance monitor");
-            //CallProcess("logman", "stop -name \"SQL\"");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
+            ExecuteSqlCommand(
+                "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = STOP;",
+                $"NorthwindLogs");
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
                 CleanupFolder($"{ExternalFilesPath}\\IngestData\\TestData");
                 CleanupFolder($"{ExternalFilesPath}\\Backup");
             }
-            //if (BuildConfiguration == "Debug")
-            //{
-            //    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] open Monitoring report");
-            //    System.Diagnostics.Process.Start($"http://{Environment.MachineName}/Reports/report/Monitoring/Monitoring");
-            //}
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
         }

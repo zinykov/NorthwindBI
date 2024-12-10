@@ -27,8 +27,7 @@ AS BEGIN
 		, Parent_Directory_Exists	INT
 	)
 
-	INSERT INTO #file_exist
-	EXECUTE [master].[dbo].xp_fileexist @FileName
+	INSERT INTO #file_exist EXECUTE [master].[dbo].xp_fileexist @FileName
 
 	IF EXISTS ( SELECT 1 FROM #file_exist WHERE [Parent_Directory_Exists] = 1 )
 		BEGIN
