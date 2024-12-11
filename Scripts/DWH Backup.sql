@@ -78,8 +78,8 @@ EXECUTE [Maintenance].[GetBackupFolderNames]
   ,@BackupFolderName OUTPUT
   ,@BackupOldFolderName OUTPUT;
 
-DECLARE @BackupsReadOnlyPath nvarchar(1000) = N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly\';
-DECLARE @BackupsReadWritePath nvarchar(1000) = CONCAT ( N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\', @BackupFolderName, N'\' );
+DECLARE @BackupsReadOnlyPath nvarchar(1000) = N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly\';
+DECLARE @BackupsReadWritePath nvarchar(1000) = CONCAT ( N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\', @BackupFolderName, N'\' );
 
 EXECUTE [Maintenance].[BackupDatabase] 
    @CutoffTime
