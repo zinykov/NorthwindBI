@@ -22,7 +22,7 @@ AS
                 , [StartOfMonth]
                 , [EndOfMonth]
                 , [Week]
-                , [IOSWeekNumber]
+                , [ISOWeekNumber]
                 , [StartOfWeek]
                 , [EndOfWeek]
                 , [Holiday]

@@ -26,7 +26,7 @@
     [EndOfMonth]            DATE            NOT NULL,
     --Week
     [Week]                  NVARCHAR(50)    NOT NULL,
-    [IOSWeekNumber]         TINYINT         NOT NULL,
+    [ISOWeekNumber]         TINYINT         NOT NULL,
     [StartOfWeek]           DATE            NOT NULL,
     [EndOfWeek]             DATE            NOT NULL,
     --Holiday
