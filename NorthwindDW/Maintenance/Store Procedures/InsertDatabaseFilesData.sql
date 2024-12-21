@@ -3,13 +3,17 @@
 	, @FactTableName AS NVARCHAR(100)
 	, @FilePath AS VARCHAR(500)
 	, @IsClustered AS BIT
+	, @Year AS INT = 0
 AS BEGIN
 	DECLARE @GroupName AS NVARCHAR(100)
 	DECLARE @Name AS NVARCHAR(100)
 	DECLARE @FileName AS NVARCHAR(500)
-	DECLARE @Year AS INT
 
-	SET @Year = YEAR ( DATEADD ( DAY, 1, @CutoffTime ) )
+	IF ( @CutoffTime IS NULL )
+		SET @CutoffTime = GETDATE ()
+
+	IF ( @Year = 0 )
+		SET @Year = YEAR ( DATEADD ( DAY, 1, @CutoffTime ) )
 	
 	IF ( @IsClustered = 1 )
 		SET @GroupName = CONCAT ( @FactTableName, N'_', @Year, '_Data' )

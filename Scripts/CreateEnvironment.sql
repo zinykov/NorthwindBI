@@ -1,5 +1,5 @@
 ﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" BuildConfiguration="$(BuildConfiguration)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
---:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -31,7 +31,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DWHServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of Data Warehouse server'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -51,7 +51,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DWHDatabaseName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of Data Warehouse database'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -71,7 +71,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQS_STAGING_DATA_ServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of server with staging database where writing data after DQS cleansing'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -91,7 +91,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQS_STAGING_DATA_DatabaseName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of staging database where writing data after DQS cleansing'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -111,7 +111,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DQSServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of Data Quality Server'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -131,7 +131,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'MDSServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of server with database used for Master data services'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -151,7 +151,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'MDSDatabaseName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of database used for Master data services catalog'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -171,7 +171,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'DBFilesPath'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Default path for new database files which are created in fact load packages'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -191,7 +191,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'ExternalFilesPath'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'A file system location for saving data from data sources that don’t use SQL table as destination, logs files (SSIS log provider for Text files & Xevents trace files), CSV staging files, SQL scripts (needed for CI/CD), test results (needed for CI/CD)'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -211,7 +211,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 	  @variable_name=N'XMLCalendarFolder'
 	, @sensitive=False
-	, @description=N''
+	, @description=N'Path to local repository of xmlcalendar project'
 	, @environment_name=N'$(BuildConfiguration)'
 	, @folder_name=N'$(SSISFolderName)'
 	, @value=@var
@@ -231,7 +231,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LogsServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of server with database used for storing SSIS logs and Data Warehouse metadata'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -251,31 +251,11 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LogsDatabaseName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of database used for storing SSIS logs and Data Warehouse metadata'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
 			, @data_type=N'String'
-END;
-GO
-
-DECLARE @var smallint = N'$(RetrainWeeks)'
-IF NOT EXISTS (
-	SELECT 1
-	FROM		[catalog].[environment_variables] AS EV
-	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
-				AND E.[name] = N'$(BuildConfiguration)'
-	WHERE		EV.[name] = N'RetrainWeeks'
-)
-BEGIN
-	EXECUTE	[catalog].[create_environment_variable]
-			  @variable_name=N'RetrainWeeks'
-			, @sensitive=False
-			, @description=N''
-			, @environment_name=N'$(BuildConfiguration)'
-			, @folder_name=N'$(SSISFolderName)'
-			, @value=@var
-			, @data_type=N'Int16'
 END;
 GO
 
@@ -291,7 +271,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LandingServerName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of server used for raw data from data sources'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -311,7 +291,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LandingDatabaseName'
 			, @sensitive=False
-			, @description=N''
+			, @description=N'Name of database used for storing SSIS logs and Data Warehouse metadata'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -319,7 +299,10 @@ BEGIN
 END;
 GO
 
-DECLARE @var datetime = N'$(CutoffTime)'
+DECLARE @var datetime;
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(CutoffTime)';
+ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV
@@ -339,7 +322,10 @@ BEGIN
 END;
 GO
 
-DECLARE @var datetime = N'$(LoadDateInitialEnd)'
+DECLARE @var datetime;
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(LoadDateInitialEnd)';
+ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+
 IF NOT EXISTS (
 	SELECT 1
 	FROM		[catalog].[environment_variables] AS EV

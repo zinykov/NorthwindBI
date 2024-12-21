@@ -1,5 +1,5 @@
 ﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\SetEnvironmentVars.sql" -v  BuildConfiguration="$(BuildConfiguration)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)"
---:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 DECLARE @reference_id AS BIGINT
 EXECUTE	[SSISDB].[catalog].[create_environment_reference]
@@ -162,22 +162,12 @@ GO
 
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
       @object_type=30
-    , @parameter_name=N'CutoffTime'
-    , @object_name=N'Maintenance copy DatabaseFiles.dtsx'
+    , @parameter_name=N'XMLCalendarFolder'
+    , @object_name=N'Extract Xmlcalendar.dtsx'
     , @folder_name=N'$(SSISFolderName)'
     , @project_name=N'$(SSISProjectName)'
     , @value_type=R
-    , @parameter_value=N'CutoffTime'
-GO
-
-EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
-      @object_type=30
-    , @parameter_name=N'LoadDateInitialEnd'
-    , @object_name=N'Maintenance copy DatabaseFiles.dtsx'
-    , @folder_name=N'$(SSISFolderName)'
-    , @project_name=N'$(SSISProjectName)'
-    , @value_type=R
-    , @parameter_value=N'LoadDateInitialEnd'
+    , @parameter_value=N'XMLCalendarFolder'
 GO
 
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]

@@ -11,6 +11,5 @@ New-LocalUser -Name "PBIRSexec" -Description "PBIRS execution account" -Password
 # Realese pipeline
 New-LocalUser -Name "AzPipelineAgent" -Password $Password -Description "Realese pipeline" -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword
 New-LocalUser -Name "PBIRSrelease" -Password $Password -Description "Realese pipeline" -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword
-Add-LocalGroupMember -Group "Administrators" -Member "AzPipelineAgent"
 # Abstract data analyst account
 New-LocalUser -Name "DataAnalyst" -Password $Password -Description "Abstract data analyst account" -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword

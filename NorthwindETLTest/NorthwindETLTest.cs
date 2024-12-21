@@ -53,9 +53,14 @@ namespace NorthwindETLTest
             string DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
             ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
             XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
-
             string IngestData = $"{ExternalFilesPath}\\IngestData";
             string TestData = $"{IngestData}\\TestData";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Checking parameters...");
+            if (LoadDateInitialEnd > LoadDateIncrementalEnd)
+            {
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] LoadDateInitialEnd > LoadDateIncrementalEnd");
+            }
 
             Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
 

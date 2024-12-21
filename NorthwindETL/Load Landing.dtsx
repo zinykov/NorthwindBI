@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
+  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
   DTS:CreationDate="3/13/2023 12:30:23 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="62"
-  DTS:VersionGUID="{B975D7F9-B167-44E2-9FED-8B35A6C89F63}">
+  DTS:VersionBuild="64"
+  DTS:VersionGUID="{6E52083D-3FC3-4C27-83A5-C494310EE4E4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,10 +25,10 @@
       DTS:DTSID="{42C67801-3491-4DDD-B243-56A08FD42181}"
       DTS:ObjectName="*.dat">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "\\IngestData\\TestData\\" + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "\\IngestData\\" + ( @[$Package::Configuration] != "Release" ? "TestData\\" : "" ) + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
+          DTS:ConnectionString="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -55,6 +55,15 @@
     </DTS:LogProvider>
   </DTS:LogProviders>
   <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{4EC600D7-23D4-474A-AB08-00B2B2EFC237}"
+      DTS:ObjectName="Configuration">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Debug</DTS:Property>
+    </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="7"
@@ -183,7 +192,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
+              Folder="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -218,7 +227,7 @@
               BulkInsertTask:DestinationConnectionName="{1F691923-3F2A-4F37-8981-112139599AFC}"
               BulkInsertTask:DestinationTableName="[Landing].[Customers]"
               BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+              BulkInsertTask:FormatFile="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -247,7 +256,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\xmlcalendar\ru" />
+              Folder="C:\Users\ZinukovD\source\repos\xmlcalendar\ru" />
             <FEFEProperty
               FileSpec="calendar.xml" />
             <FEFEProperty
@@ -414,7 +423,7 @@
                       dataType="System.String"
                       description="Определение схемы XML, используемое адаптером источника XML-данных."
                       expressionType="Notify"
-                      name="XMLSchemaDefinition">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\xmlcalendar.xsd</property>
+                      name="XMLSchemaDefinition">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\xmlcalendar.xsd</property>
                     <property
                       dataType="System.Boolean"
                       description="Указывает, использовать ли встроенную схему."
@@ -1457,12 +1466,12 @@
     </DTS:Executable>
   </DTS:Executables>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>

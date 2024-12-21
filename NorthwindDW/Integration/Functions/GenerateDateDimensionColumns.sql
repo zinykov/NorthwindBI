@@ -27,7 +27,7 @@ RETURNS @returntable TABLE
     [EndOfMonth]            DATE            NOT NULL,
     --Week
     [Week]                  NVARCHAR(50)    NOT NULL,
-    [IOSWeekNumber]         TINYINT         NOT NULL,
+    [ISOWeekNumber]         TINYINT         NOT NULL,
     [StartOfWeek]           DATE            NOT NULL,
     [EndOfWeek]             DATE            NOT NULL,
     --Holiday
@@ -76,7 +76,7 @@ AS BEGIN
             , [EndOfMonth]          = EOMONTH ( @Date, 0 )
             --Week
             , [Week]                = CONCAT ( FORMAT ( @StartOfWeek, 'dd.MM.yyyy' ), ' - ',  FORMAT ( @EndOfWeek, 'dd.MM.yyyy' ) )
-            , [IOSWeekNumber]       = DATEPART ( ISOWK, @Date )
+            , [ISOWeekNumber]       = DATEPART ( ISOWK, @Date )
             , [StartOfWeek]         = @StartOfWeek
             , [EndOfWeek]           = @EndOfWeek
             --Holiday
