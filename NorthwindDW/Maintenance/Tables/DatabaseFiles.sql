@@ -4,6 +4,7 @@
 	[IsReadOnly]						BIT				NOT NULL,
 	[Name]								NVARCHAR(100)	NOT NULL,
 	[FileName]							NVARCHAR(500)	NOT NULL,
+	[TargetBackupFolder]				NVARCHAR(500)	NOT NULL,
 	[BackupFileName]					NVARCHAR(500)	NULL,
 	[CutoffTime]						DATE			NULL,
 

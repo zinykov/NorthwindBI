@@ -66,7 +66,7 @@ namespace NorthwindETLTest
 
             //Cleaning up folders
             CleanupFolder(TestData);
-            CleanupFolder($"{ExternalFilesPath}\\Backup");
+            //CleanupFolder($"{ExternalFilesPath}\\Backup");
 
             //Creating logins, roles, users
             if (BuildConfiguration != "Release")
@@ -371,7 +371,7 @@ namespace NorthwindETLTest
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
                 CleanupFolder($"{ExternalFilesPath}\\IngestData\\TestData");
-                CleanupFolder($"{ExternalFilesPath}\\Backup");
+                //CleanupFolder($"{ExternalFilesPath}\\Backup");
             }
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");

@@ -1,26 +1,31 @@
 USE [NorthwindDW];
 
-DECLARE @CutoffTime date = ( SELECT MAX ( [CutoffTime] ) FROM [Integration].[Lineage] );
-DECLARE @IsMonthlyOptimization bit = 0;
-DECLARE @IsStartOptimization bit;
-DECLARE @IsSetFilegroupReadonly bit;
-DECLARE @LoadDateInitialEnd date = DATEFROMPARTS ( 1997, 12, 31 );
+DECLARE @CutoffTime AS DATE = ( SELECT CAST ( MAX ( [CutoffTime] ) AS DATE ) FROM [Integration].[Lineage] );
+DECLARE @IsMonthlyOptimization AS BIT = 0;
+DECLARE @IsStartOptimization AS BIT;
+DECLARE @IsSetFilegroupReadonly AS BIT;
+DECLARE @LoadDateInitialEnd AS DATE = DATEFROMPARTS ( 1997, 12, 31 );
+DECLARE	@TargetBackupFolder AS NVARCHAR(500) = (
+	SELECT		TOP(1) [TargetBackupFolder]
+	FROM		[Maintenance].[DatabaseFiles]
+	WHERE		[IsReadOnly] = 1
+);
 
-EXECUTE [Maintenance].[CheckReferenceDate] 
-   @CutoffTime
-  ,@IsMonthlyOptimization
-  ,@IsStartOptimization OUTPUT
-  ,@IsSetFilegroupReadonly OUTPUT
-  ,@LoadDateInitialEnd;
+EXECUTE [Maintenance].[CheckReferenceDate]
+      @CutoffTime
+    , @IsMonthlyOptimization
+    , @IsStartOptimization OUTPUT
+    , @IsSetFilegroupReadonly OUTPUT
+    , @LoadDateInitialEnd;
 
 IF @IsSetFilegroupReadonly = 1
 BEGIN
 	USE [master];
-	--GO
+
 	ALTER DATABASE [NorthwindDW] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 
 	USE [NorthwindDW];
-	--GO
+
 	DECLARE @Year AS SMALLINT = CAST ( ( SELECT MAX ( YEAR ( [CutoffTime] ) ) FROM [Integration].[Lineage] ) - 2 AS NVARCHAR(4) );
 	DECLARE @FilegroupName AS NVARCHAR(100);
 	DECLARE @ReadOnly AS BIT;
@@ -30,7 +35,7 @@ BEGIN
 	DECLARE FactTables CURSOR FOR
 		SELECT		[groupname]
 		FROM		sys.sysfilegroups
-		WHERE		[groupname] LIKE CONCAT ( N'%_', @Year, N'_%' );
+		WHERE		[groupname] LIKE CONCAT ( N'%_', @Year, N'_%' )
 
 	OPEN FactTables
 		FETCH NEXT FROM FactTables INTO @FilegroupName
@@ -42,12 +47,13 @@ BEGIN
 						SET @SQL = CONCAT (
 								N'ALTER DATABASE [NorthwindDW] MODIFY FILEGROUP '
 							, QUOTENAME ( @FilegroupName )
-							, N' READONLY;'
+							, N' READONLY'
 						)
 						EXECUTE sp_executesql @SQL
 
 						UPDATE	[Maintenance].[DatabaseFiles]
-						SET		[IsReadOnly] = 1
+						SET		  [IsReadOnly] = 1
+								, [TargetBackupFolder] = CONCAT ( @TargetBackupFolder, N'ReadOnly\' )
 						WHERE	[GroupName] = @FilegroupName
 
 						SET @Print = CONCAT ( @FilegroupName, N' setted as Read_only filegroup' )
@@ -58,31 +64,13 @@ BEGIN
 			END
 	CLOSE FactTables
 	DEALLOCATE FactTables;
-	--GO
 
 	USE [master];
-	--GO
+
 	ALTER DATABASE [NorthwindDW] SET MULTI_USER;
-	--GO
-END;
+END
+USE [NorthwindDW];
 
-USE [NorthwindDW]
-
-DECLARE @RetrainWeeks tinyint = 3;
-DECLARE @BackupFolderName nvarchar(10);
-DECLARE @BackupOldFolderName nvarchar(10);
-
-EXECUTE [Maintenance].[GetBackupFolderNames] 
-   @CutoffTime
-  ,@RetrainWeeks
-  ,@BackupFolderName OUTPUT
-  ,@BackupOldFolderName OUTPUT;
-
-DECLARE @BackupsReadOnlyPath nvarchar(1000) = N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\ReadOnly\';
-DECLARE @BackupsReadWritePath nvarchar(1000) = CONCAT ( N'C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Backup\NorthwindDW\', @BackupFolderName, N'\' );
-
-EXECUTE [Maintenance].[BackupDatabase] 
-   @CutoffTime
-  ,@BackupsReadOnlyPath
-  ,@BackupsReadWritePath
-  ,@LoadDateInitialEnd;
+EXECUTE [Maintenance].[BackupDatabase]
+	  @CutoffTime
+	, @LoadDateInitialEnd;

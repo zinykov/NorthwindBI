@@ -24,11 +24,13 @@ BEGIN
 		, [IsReadOnly]
 		, [Name]
 		, [FileName]
+		, [TargetBackupFolder]
 	)
 		SELECT		  FG.[groupname]
 					, FG1.[is_read_only]
 					, F.[name]
 					, F.[filename]
+					, N'$(TargetBackupFolder)'
 		FROM		sys.sysfilegroups AS FG
 		INNER JOIN	sys.sysfiles AS F ON FG.[groupid] = F.[groupid]
 		INNER JOIN	sys.filegroups AS FG1 ON FG.[groupname] = FG1.[name];
