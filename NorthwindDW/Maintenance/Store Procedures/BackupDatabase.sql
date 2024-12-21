@@ -44,7 +44,7 @@ DEALLOCATE [BackupReadOnlyFilegroups]
 SET @TargetBackupFolder = (
 	SELECT		TOP(1) [TargetBackupFolder]
 	FROM		[Maintenance].[DatabaseFiles]
-	WHERE		[IsReadOnly] = 1
+	WHERE		[IsReadOnly] = 0
 )
 
 IF ( ( SELECT [DayOfWeekNumber] FROM [Dimension].[Date] WHERE [DateKey] = @CutoffTime ) = 6
