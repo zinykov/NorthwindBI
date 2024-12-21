@@ -9,8 +9,6 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
---:r .\Scripts\ResourceGovernor.sql
-:r .\Scripts\ErrorMessages.sql
 
 USE [$(DatabaseName)];
 GO
