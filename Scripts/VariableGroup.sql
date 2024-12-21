@@ -20,7 +20,4 @@
 :setvar SSISFolderName "NorthwindBI"
 :setvar SSISProjectName "NorthwindETL"
 :setvar SSISServerName "N-MSC-478"
-:setvar XMLCalendarFolder "C:\SSIS\xmlcalendar\"
-:setvar CutoffTime "1995-01-01"
-:setvar LoadDateInitialEnd "1995-01-01"
-:setvar BuildConfiguration "Debug"
+:setvar XMLCalendarFolder "C:\Users\zinyk\source\repos\xmlcalendar\"

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_Transform_and_load.xml"
+  DTS:CheckpointFileName="C:\SSIS\Northwind_BI_Solution\logs\CP_Transform_and_load.xml"
   DTS:CreationDate="3/6/2022 10:28:24 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="208"
-  DTS:VersionGUID="{CB683B13-3E11-4CEF-8C0C-10C7B15B8E81}">
+  DTS:VersionBuild="209"
+  DTS:VersionGUID="{8F428473-7087-4E79-9E32-B0CC53EF5101}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -41,6 +41,16 @@
     </DTS:LogProvider>
   </DTS:LogProviders>
   <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="Parameter for creating path to bat files in Load Landing.dtsx"
+      DTS:DTSID="{CE5483B5-D4DE-40AC-8079-15E9EDEFC93A}"
+      DTS:ObjectName="Configuration">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">Debug</DTS:Property>
+    </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="7"
@@ -422,7 +432,7 @@
           </ParameterAssignment>
           <ParameterAssignment>
             <ParameterName>Configuration</ParameterName>
-            <BindedVariableOrParameterName>$Project::Configuration</BindedVariableOrParameterName>
+            <BindedVariableOrParameterName>$Package::Configuration</BindedVariableOrParameterName>
           </ParameterAssignment>
         </ExecutePackageTask>
       </DTS:ObjectData>
@@ -438,7 +448,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
+          Expression="@[User::CutoffTime]  = ( @[$Package::Configuration] == &quot;Release&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -452,7 +462,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::LoadDateInitialEnd] = ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] )" />
+          Expression="@[User::LoadDateInitialEnd] = ( @[$Package::Configuration] == &quot;Release&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -524,12 +534,12 @@
       DTS:To="Package\Load Landing" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
