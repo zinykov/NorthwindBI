@@ -43,8 +43,10 @@ AS BEGIN
 
 -- Создание копии таблицы фактов
 	EXECUTE [Integration].[CreateLoadTableOrder]
-		    @CutoffTime = @CutoffTime
+		  @CutoffTime = @CutoffTime
 		, @IsMaitenance = 1;
+
+    EXECUTE [Integration].[CreateLoadTableConstraintsOrder];
 
     DECLARE OptimizePartitions SCROLL CURSOR FOR
         SELECT		  DISTINCT $PARTITION.[PF_Load_Order] ( CONVERT ( DATE, PRV.[value], 23 ) )

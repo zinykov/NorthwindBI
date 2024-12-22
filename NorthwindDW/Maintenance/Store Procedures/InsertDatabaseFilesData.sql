@@ -35,8 +35,8 @@ AS BEGIN
 
 	IF EXISTS ( SELECT 1 FROM #file_exist WHERE [Parent_Directory_Exists] = 1 )
 		BEGIN
-			INSERT INTO [Maintenance].[DatabaseFiles] ( [GroupName], [IsReadOnly], [Name], [FileName], [CutoffTime] )
-			VALUES ( @GroupName, 0, @Name, @FileName, @CutoffTime )
+			INSERT INTO [Maintenance].[DatabaseFiles] ( [GroupName], [IsReadOnly], [Name], [FileName], [CutoffTime], [TargetBackupFolder] )
+			VALUES ( @GroupName, 0, @Name, @FileName, @CutoffTime, N'$(TargetBackupFolder)' )
 		END
 	ELSE
 		BEGIN

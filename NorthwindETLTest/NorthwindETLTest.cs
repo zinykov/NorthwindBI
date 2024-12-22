@@ -382,60 +382,69 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test**********");
 
-            string PackageName = "Transform and load.dtsx";
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
+            ETLDataTest.UpdatePartitionSchema();
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing {PackageName} with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
-                ExecuteLoadPackage(PackageName, CutoffTime);
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                ExecuteTransformAndLoadDTSX(CutoffTime);
 
                 if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
                     ETLDataTest.CutoffTimeTest();
                 }
 
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
                     ETLDataTest.EmployeeSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
                     ETLDataTest.ProductSCD1TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
                     ETLDataTest.EmployeeSCD2TestStage2();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
                     ETLDataTest.CustomerSCD2TestStage1();
                 }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2 test...");
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
                     ETLDataTest.ProductSCD1TestStage2();
                 }
 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest test...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
                 ETLDataTest.OrderShippingDateTest();
+
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
+                CallProcess(
+                    "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
+                    "/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER SWIFT3  /CHECKPOINTING OFF  /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
+
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
+                ExecuteMaintenanceCopyDatabaseFilesDTSX();
             }
 
             System.Diagnostics.Trace.WriteLine("**********Finished test**********");
         }
 
-        private static void ExecuteLoadPackage(string PackageName, DateTime CutoffTime)
+        private static void ExecuteTransformAndLoadDTSX(DateTime CutoffTime)
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
             Int64 executionid = -1;
 
-            PackageInfo package = NorthwindETL.Packages[PackageName];
+            PackageInfo package = NorthwindETL.Packages["Transform and load.dtsx"];
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
                 new PackageInfo.ExecutionValueParameterSet
@@ -455,6 +464,45 @@ namespace NorthwindETLTest
             try
             {
                 executionid = package.Execute(false, referenceid, setValueParameters);
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
+
+                ExecutionOperation operation = SSISDB.Executions[executionid];
+
+                while (!operation.Completed)
+                {
+                    operation.Refresh();
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+            catch (Exception e)
+            {
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
+            }
+
+            string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
+
+            if (catalogExecutions == "Failed")
+            {
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
+            }
+            else
+            {
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
+            }
+        }
+
+        private static void ExecuteMaintenanceCopyDatabaseFilesDTSX()
+        {
+            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
+            ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
+            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
+            Int64 executionid = -1;
+
+            PackageInfo package = NorthwindETL.Packages["Maintenance copy DatabaseFiles.dtsx"];
+
+            try
+            {
+                executionid = package.Execute(false, referenceid);
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
 
                 ExecutionOperation operation = SSISDB.Executions[executionid];
