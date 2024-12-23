@@ -68,6 +68,9 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction CutoffTimeTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMinValue;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition CutoffTimeTestMaxValue;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction UpdatePartitionSchema_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition NumberPartitionBoundaries;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ChecksumCondition CheckHashBeforeLoad;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -75,6 +78,7 @@ namespace NorthwindETLTest
             this.ProductSCD1TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.UpdatePartitionSchemaData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -111,6 +115,9 @@ namespace NorthwindETLTest
             CutoffTimeTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CutoffTimeTestMinValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             CutoffTimeTestMaxValue = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            UpdatePartitionSchema_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            NumberPartitionBoundaries = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            CheckHashBeforeLoad = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ChecksumCondition();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -434,6 +441,25 @@ namespace NorthwindETLTest
             CutoffTimeTestMaxValue.ResultSet = 1;
             CutoffTimeTestMaxValue.RowNumber = 1;
             // 
+            // UpdatePartitionSchema_TestAction
+            // 
+            UpdatePartitionSchema_TestAction.Conditions.Add(NumberPartitionBoundaries);
+            UpdatePartitionSchema_TestAction.Conditions.Add(CheckHashBeforeLoad);
+            resources.ApplyResources(UpdatePartitionSchema_TestAction, "UpdatePartitionSchema_TestAction");
+            // 
+            // NumberPartitionBoundaries
+            // 
+            NumberPartitionBoundaries.Enabled = true;
+            NumberPartitionBoundaries.Name = "NumberPartitionBoundaries";
+            NumberPartitionBoundaries.ResultSet = 1;
+            NumberPartitionBoundaries.RowCount = 46;
+            // 
+            // CheckHashBeforeLoad
+            // 
+            CheckHashBeforeLoad.Checksum = "-551393516";
+            CheckHashBeforeLoad.Enabled = true;
+            CheckHashBeforeLoad.Name = "CheckHashBeforeLoad";
+            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -475,6 +501,12 @@ namespace NorthwindETLTest
             this.CutoffTimeTestData.PosttestAction = null;
             this.CutoffTimeTestData.PretestAction = null;
             this.CutoffTimeTestData.TestAction = CutoffTimeTest_TestAction;
+            // 
+            // UpdatePartitionSchemaData
+            // 
+            this.UpdatePartitionSchemaData.PosttestAction = null;
+            this.UpdatePartitionSchemaData.PretestAction = null;
+            this.UpdatePartitionSchemaData.TestAction = UpdatePartitionSchema_TestAction;
         }
 
         #endregion
@@ -654,6 +686,31 @@ namespace NorthwindETLTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void UpdatePartitionSchema()
+        {
+            SqlDatabaseTestActions testActions = this.UpdatePartitionSchemaData;
+            // Выполнить скрипт перед тестом
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Выполняется скрипт перед тестом…");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Выполнить скрипт теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Выполняется скрипт тест…");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Выполнить скрипт после теста
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Выполняется скрипт после теста…");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
+
 
 
 
@@ -667,5 +724,6 @@ namespace NorthwindETLTest
         private SqlDatabaseTestActions ProductSCD1TestStage1Data;
         private SqlDatabaseTestActions ProductSCD1TestStage2Data;
         private SqlDatabaseTestActions CutoffTimeTestData;
+        private SqlDatabaseTestActions UpdatePartitionSchemaData;
     }
 }

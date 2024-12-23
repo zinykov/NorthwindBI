@@ -49,6 +49,8 @@ AS BEGIN
 			  @CutoffTime = @CutoffTime
 			, @IsMaitenance = 1;
 
+    EXECUTE [Integration].[CreateLoadTableConstraintsOrder];
+
     DECLARE OptimizePartitions SCROLL CURSOR FOR
         SELECT		  DISTINCT $PARTITION.[PF_Load_Order] ( CONVERT ( DATE, PRV.[value], 23 ) )
                     , CONVERT ( DATE, PRV.[value], 23 )
