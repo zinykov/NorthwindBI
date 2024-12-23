@@ -5,11 +5,6 @@ DECLARE @IsMonthlyOptimization AS BIT = 0;
 DECLARE @IsStartOptimization AS BIT;
 DECLARE @IsSetFilegroupReadonly AS BIT;
 DECLARE @LoadDateInitialEnd AS DATE = DATEFROMPARTS ( 1997, 12, 31 );
-DECLARE	@TargetBackupFolder AS NVARCHAR(500) = (
-	SELECT		TOP(1) [TargetBackupFolder]
-	FROM		[Maintenance].[DatabaseFiles]
-	WHERE		[IsReadOnly] = 1
-);
 
 EXECUTE [Maintenance].[CheckReferenceDate]
       @CutoffTime
@@ -52,8 +47,8 @@ BEGIN
 						EXECUTE sp_executesql @SQL
 
 						UPDATE	[Maintenance].[DatabaseFiles]
-						SET		  [IsReadOnly] = 1
-								, [TargetBackupFolder] = CONCAT ( @TargetBackupFolder, N'ReadOnly\' )
+						SET		  [IsReadOnly] = 0
+								, [TargetBackupFolder] = CONCAT ( [TargetBackupFolder], N'ReadOnly\' )
 						WHERE	[GroupName] = @FilegroupName
 
 						SET @Print = CONCAT ( @FilegroupName, N' setted as Read_only filegroup' )
