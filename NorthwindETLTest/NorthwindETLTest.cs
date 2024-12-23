@@ -25,6 +25,7 @@ namespace NorthwindETLTest
         private static string SSISDatabaseName = "SSISDB";
         private static string SSISFolderName = "NorthwindBI";
         private static string SSISProjectName = "NorthwindETL";
+        private static string TestData;
 
         private TestContext testContextInstance;
 
@@ -54,7 +55,7 @@ namespace NorthwindETLTest
             ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
             XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
             string IngestData = $"{ExternalFilesPath}\\IngestData";
-            string TestData = $"{IngestData}\\TestData";
+            TestData = $"{IngestData}\\TestData";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Checking parameters...");
             if (LoadDateInitialEnd > LoadDateIncrementalEnd)
@@ -62,11 +63,11 @@ namespace NorthwindETLTest
                 Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] LoadDateInitialEnd > LoadDateIncrementalEnd");
             }
 
-            Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
-
-            //Cleaning up folders
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning TestData and Backup folders...");
             CleanupFolder(TestData);
-            //CleanupFolder($"{ExternalFilesPath}\\Backup");
+            Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
+            CleanupFolder($"{ExternalFilesPath}\\Backup");
+            Directory.CreateDirectory($"{ExternalFilesPath}\\Backup\\ReadOnly");
 
             //Creating logins, roles, users
             if (BuildConfiguration != "Release")
@@ -370,8 +371,8 @@ namespace NorthwindETLTest
 
             if ((int)testContextInstance.CurrentTestOutcome == 2)
             {
-                CleanupFolder($"{ExternalFilesPath}\\IngestData\\TestData");
-                //CleanupFolder($"{ExternalFilesPath}\\Backup");
+                CleanupFolder(TestData);
+                CleanupFolder($"{ExternalFilesPath}\\Backup");
             }
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
@@ -533,20 +534,27 @@ namespace NorthwindETLTest
         private static void CleanupFolder(string FolderPath)
         {
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath}");
-            DirectoryInfo TestData = new DirectoryInfo(FolderPath);
-            foreach (var subDir in TestData.GetDirectories())
+            try
             {
-                if (subDir.Exists)
+                DirectoryInfo TestData = new DirectoryInfo(FolderPath);
+                foreach (var subDir in TestData.GetDirectories())
                 {
-                    subDir.Delete(true);
+                    if (subDir.Exists)
+                    {
+                        subDir.Delete(true);
+                    }
+                }
+                foreach (var file in TestData.GetFiles())
+                {
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
                 }
             }
-            foreach (var file in TestData.GetFiles())
+            catch (Exception e)
             {
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath} failed with error: \"{e.ToString()}\"");
             }
         }
 
