@@ -44,7 +44,7 @@ AS BEGIN
 -- Создание копии таблицы фактов
 	EXECUTE [Integration].[CreateLoadTableOrder]
 		  @CutoffTime = @CutoffTime
-		, @IsMaitenance = 1;
+		, @IsMaintenance = 1;
 
     EXECUTE [Integration].[CreateLoadTableConstraintsOrder];
 
