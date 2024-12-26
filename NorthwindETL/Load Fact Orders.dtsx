@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="342"
-  DTS:VersionGUID="{E42615CF-AD19-4AA3-ACB5-466F4B871814}">
+  DTS:VersionBuild="344"
+  DTS:VersionGUID="{302BB263-7CE3-44F6-AADA-E520BD53B2D2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -350,6 +350,42 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
+          DTS:refId="Package\Landing -&gt; DWH\Create Filegroup"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{10a85a0a-83f5-4785-8706-bb155eb0d8fb}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Filegroup"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CreateFilegroup]&#xA;    @CutoffTime = ?&#xA;  , @FactTableName = ?&#xA;  , @FilePath = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::FactTableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="128" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="$Project::DBFilesPath"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="500" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
           DTS:refId="Package\Landing -&gt; DWH\Drop primary key"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:DTSID="{fa04995c-8e03-461e-b845-966f545b279b}"
@@ -369,6 +405,40 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
+          DTS:refId="Package\Landing -&gt; DWH\Update Partition Schema"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{1320dd77-41fb-46ec-a4d0-82189485cc1d}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Partition Schema"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"EXECUTE [Integration].[UpdatePartitionSchema"+ @[User::FactTableName] +"]
+     @CutoffTime = ?
+   , @Partition_number = ? OUTPUT"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[UpdatePartitionSchemaOrder]&#xA;     @CutoffTime = ?&#xA;   , @Partition_number = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Package::CutoffTime"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="7"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::PartitionNumber"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
           DTS:refId="Package\Landing -&gt; DWH\Workflow with changed"
           DTS:CreationName="STOCK:SEQUENCE"
           DTS:DTSID="{c0e6fe5e-473a-4b50-9d84-5362c0a9ff60}"
@@ -379,42 +449,6 @@
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
           <DTS:Executables>
-            <DTS:Executable
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Create Filegroup"
-              DTS:CreationName="Microsoft.ExecuteSQLTask"
-              DTS:DTSID="{5c927284-9d1a-4ab9-80d3-ff6145251869}"
-              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Create Filegroup"
-              DTS:ThreadHint="0">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:ObjectData>
-                <SQLTask:SqlTaskData
-                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-                  SQLTask:SqlStatementSource="EXECUTE [Maintenance].[CreateFilegroup]&#xA;    @CutoffTime = ?&#xA;  , @FactTableName = ?&#xA;  , @FilePath = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="0"
-                    SQLTask:DtsVariableName="$Package::CutoffTime"
-                    SQLTask:ParameterDirection="Input"
-                    SQLTask:DataType="7"
-                    SQLTask:ParameterSize="-1" />
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="1"
-                    SQLTask:DtsVariableName="User::FactTableName"
-                    SQLTask:ParameterDirection="Input"
-                    SQLTask:DataType="130"
-                    SQLTask:ParameterSize="128" />
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="2"
-                    SQLTask:DtsVariableName="$Project::DBFilesPath"
-                    SQLTask:ParameterDirection="Input"
-                    SQLTask:DataType="130"
-                    SQLTask:ParameterSize="500" />
-                </SQLTask:SqlTaskData>
-              </DTS:ObjectData>
-            </DTS:Executable>
             <DTS:Executable
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
               DTS:CreationName="Microsoft.ExecuteSQLTask"
@@ -429,11 +463,11 @@
               <DTS:PropertyExpression
                 DTS:Name="SqlStatementSource">"EXECUTE [Integration].[CreateLoadTable"+ @[User::FactTableName] +"]
       @CutoffTime = ?
-    , @IsMaitenance = 0;"</DTS:PropertyExpression>
+    , @IsMaintenance = 0;"</DTS:PropertyExpression>
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-                  SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableOrder]&#xA;      @CutoffTime = ?&#xA;    , @IsMaitenance = 0;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  SQLTask:SqlStatementSource="EXECUTE [Integration].[CreateLoadTableOrder]&#xA;      @CutoffTime = ?&#xA;    , @IsMaintenance = 0;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="0"
                     SQLTask:DtsVariableName="$Package::CutoffTime"
@@ -1896,40 +1930,6 @@ where [refTable].[ProductAlterKey] = ?</property>
                 </SQLTask:SqlTaskData>
               </DTS:ObjectData>
             </DTS:Executable>
-            <DTS:Executable
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema"
-              DTS:CreationName="Microsoft.ExecuteSQLTask"
-              DTS:DTSID="{49ecb3f5-8931-48cb-9b7d-209deb7dc5e2}"
-              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Update Partition Schema"
-              DTS:ThreadHint="0">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:PropertyExpression
-                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[UpdatePartitionSchema"+ @[User::FactTableName] +"]
-     @CutoffTime = ?
-   , @Partition_number = ? OUTPUT"</DTS:PropertyExpression>
-              <DTS:ObjectData>
-                <SQLTask:SqlTaskData
-                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-                  SQLTask:SqlStatementSource="EXECUTE [Integration].[UpdatePartitionSchemaOrder]&#xA;     @CutoffTime = ?&#xA;   , @Partition_number = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="0"
-                    SQLTask:DtsVariableName="$Package::CutoffTime"
-                    SQLTask:ParameterDirection="Input"
-                    SQLTask:DataType="7"
-                    SQLTask:ParameterSize="-1" />
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="1"
-                    SQLTask:DtsVariableName="User::PartitionNumber"
-                    SQLTask:ParameterDirection="Output"
-                    SQLTask:DataType="3"
-                    SQLTask:ParameterSize="-1" />
-                </SQLTask:SqlTaskData>
-              </DTS:ObjectData>
-            </DTS:Executable>
           </DTS:Executables>
           <DTS:PrecedenceConstraints>
             <DTS:PrecedenceConstraint
@@ -1941,14 +1941,6 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:ObjectName="Constraint 5"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table" />
             <DTS:PrecedenceConstraint
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение]"
-              DTS:CreationName=""
-              DTS:DTSID="{8c9c6588-707d-4314-befc-6e30209a4848}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Create Filegroup"
-              DTS:LogicalAnd="True"
-              DTS:ObjectName="Ограничение"
-              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema" />
-            <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
               DTS:CreationName=""
               DTS:DTSID="{DA759509-1AE3-4946-A3EA-49578B847857}"
@@ -1956,14 +1948,6 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:LogicalAnd="True"
               DTS:ObjectName="Ограничение 1"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table" />
-            <DTS:PrecedenceConstraint
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 2]"
-              DTS:CreationName=""
-              DTS:DTSID="{E98B8AA5-F615-47B0-A4EB-5B9FBBE9293B}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema"
-              DTS:LogicalAnd="True"
-              DTS:ObjectName="Ограничение 2"
-              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table" />
             <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
               DTS:CreationName=""
@@ -1993,6 +1977,14 @@ where [refTable].[ProductAlterKey] = ?</property>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
+          DTS:refId="Package\Landing -&gt; DWH.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{0D689BDD-FF39-4103-8CB9-E89D68E99D57}"
+          DTS:From="Package\Landing -&gt; DWH\Update Partition Schema"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Landing -&gt; DWH\Workflow with changed" />
+        <DTS:PrecedenceConstraint
           DTS:refId="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение]"
           DTS:CreationName=""
           DTS:DTSID="{1BDCABE0-9200-4EA5-941D-90C7278E1E04}"
@@ -2018,6 +2010,14 @@ where [refTable].[ProductAlterKey] = ?</property>
           DTS:From="Package\Landing -&gt; DWH\Workflow with changed"
           DTS:ObjectName="Ограничение 2"
           DTS:To="Package\Landing -&gt; DWH\Drop primary key" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{9dd160cb-691a-4887-a035-2c2cd8d77fda}"
+          DTS:From="Package\Landing -&gt; DWH\Create Filegroup"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 3"
+          DTS:To="Package\Landing -&gt; DWH\Update Partition Schema" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -2163,12 +2163,12 @@ where [refTable].[ProductAlterKey] = ?</property>
       DTS:To="Package\Optimaze Partitions" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -2181,46 +2181,38 @@ where [refTable].[ProductAlterKey] = ?</property>
         <NodeLayout
           Size="149,42"
           Id="Package\Landing -&gt; DWH\Check changes"
-          TopLeft="433.5,5.5" />
+          TopLeft="11.5,107.5" />
         <NodeLayout
           Size="161,42"
           Id="Package\Landing -&gt; DWH\Drop primary key"
-          TopLeft="427.5,925.5" />
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Create Filegroup"
-          TopLeft="247,5.5" />
+          TopLeft="5.50000000000011,823.5" />
         <NodeLayout
           Size="165,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table"
-          TopLeft="242.5,209.5" />
+          TopLeft="242.5,5.5" />
         <NodeLayout
           Size="221,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
-          TopLeft="214.5,413.5" />
+          TopLeft="214.5,209.5" />
         <NodeLayout
           Size="157,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table"
-          TopLeft="5.50000000000011,617.5" />
+          TopLeft="5.50000000000006,413.5" />
         <NodeLayout
           Size="147,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table"
-          TopLeft="251.5,311.5" />
+          TopLeft="251.5,107.5" />
         <NodeLayout
           Size="204,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table"
-          TopLeft="223,617.5" />
+          TopLeft="223,413.5" />
         <NodeLayout
           Size="152,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
-          TopLeft="249,515.5" />
-        <NodeLayout
-          Size="195,42"
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Update Partition Schema"
-          TopLeft="227.5,107.5" />
+          TopLeft="249,311.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
-          TopLeft="301,557.5">
+          TopLeft="301,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2253,7 +2245,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение]"
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
           TopLeft="325,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2275,29 +2267,7 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="325,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 2]"
+          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
           TopLeft="325,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -2319,30 +2289,8 @@ where [refTable].[ProductAlterKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="325,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 4]"
-          TopLeft="325,455.5">
+          TopLeft="325,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2364,7 +2312,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 5]"
-          TopLeft="349,557.5">
+          TopLeft="349,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2399,79 +2347,79 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="441,715"
-          Size="441,758"
+          PanelSize="441,510"
+          Size="441,554"
           Id="Package\Landing -&gt; DWH\Workflow with changed"
-          TopLeft="5.50000000000011,107.5" />
+          TopLeft="147.5,209.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="484.5,47.5">
+          TopLeft="109.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-258.5,60"
+              EndConnector="186.333333333333,60"
               Start="0,0"
-              End="-258.5,52.5">
+              End="186.333333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.3824701195219" />
+                    End="0,26.2619264752052" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.3824701195219"
-                    Point2="0,24.3824701195219"
-                    Point3="-4,24.3824701195219" />
+                    Point1="0,26.2619264752052"
+                    Point2="0,30.2619264752052"
+                    Point3="4,30.2619264752052" />
                   <mssgle:LineSegment
-                    End="-254.5,24.3824701195219" />
+                    End="182.333333333333,30.2619264752052" />
                   <mssgle:CubicBezierSegment
-                    Point1="-254.5,24.3824701195219"
-                    Point2="-258.5,24.3824701195219"
-                    Point3="-258.5,28.3824701195219" />
+                    Point1="182.333333333333,30.2619264752052"
+                    Point2="186.333333333333,30.2619264752052"
+                    Point3="186.333333333333,34.2619264752052" />
                   <mssgle:LineSegment
-                    End="-258.5,52.5" />
+                    End="186.333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-137.25,29.3824701195219,16,16"
+              BoundingBox="85.1666666666667,35.2619264752052,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="532.5,47.5">
+          TopLeft="61.5000000000001,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,878"
+              EndConnector="0,674"
               Start="0,0"
-              End="0,870.5">
+              End="0,666.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,870.5" />
+                    End="0,666.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-8,427.25,16,16"
+              BoundingBox="-8,325.25,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="226,865.5">
+          TopLeft="368,763.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="256.5,60"
+              EndConnector="-256.5,60"
               Start="0,0"
-              End="256.5,52.5">
+              End="-256.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2480,15 +2428,79 @@ where [refTable].[ProductAlterKey] = ?</property>
                   <mssgle:CubicBezierSegment
                     Point1="0,31.6457564575646"
                     Point2="0,35.6457564575646"
-                    Point3="4,35.6457564575646" />
+                    Point3="-4,35.6457564575646" />
                   <mssgle:LineSegment
-                    End="252.5,35.6457564575646" />
+                    End="-252.5,35.6457564575646" />
                   <mssgle:CubicBezierSegment
-                    Point1="252.5,35.6457564575646"
-                    Point2="256.5,35.6457564575646"
-                    Point3="256.5,39.6457564575646" />
+                    Point1="-252.5,35.6457564575646"
+                    Point2="-256.5,35.6457564575646"
+                    Point3="-256.5,39.6457564575646" />
                   <mssgle:LineSegment
-                    End="256.5,52.5" />
+                    End="-256.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Landing -&gt; DWH\Create Filegroup"
+          TopLeft="290,5.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Landing -&gt; DWH\Update Partition Schema"
+          TopLeft="270.5,107.5" />
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="368,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="368,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="72.1666666666667,60"
+              Start="0,0"
+              End="72.1666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.8698599186624" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.8698599186624"
+                    Point2="0,35.8698599186624"
+                    Point3="4,35.8698599186624" />
+                  <mssgle:LineSegment
+                    End="68.1666666666667,35.8698599186624" />
+                  <mssgle:CubicBezierSegment
+                    Point1="68.1666666666667,35.8698599186624"
+                    Point2="72.1666666666667,35.8698599186624"
+                    Point3="72.1666666666667,39.8698599186624" />
+                  <mssgle:LineSegment
+                    End="72.1666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2500,8 +2512,8 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="594,1023"
-          Size="594,1066"
+          PanelSize="594,920"
+          Size="594,964"
           Id="Package\Landing -&gt; DWH"
           TopLeft="13.5000000000001,156.5" />
         <NodeLayout
@@ -2537,17 +2549,17 @@ where [refTable].[ProductAlterKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="219,205"
+          PanelSize="219,204"
           Size="219,248"
           Id="Package\Optimaze Partitions"
-          TopLeft="201,1282.5" />
+          TopLeft="201,1180.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="213,1590.5" />
+          TopLeft="213,1488.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="310.5,1530.5">
+          TopLeft="310.5,1428.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2591,7 +2603,7 @@ where [refTable].[ProductAlterKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="310.5,1222.5">
+          TopLeft="310.5,1120.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

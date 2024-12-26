@@ -15,7 +15,6 @@
 :setvar MDSDatabaseName "MDS"
 :setvar MDSServerName "SWIFT3"
 :setvar PBIRSServerName "SWIFT3"
-:setvar RetrainWeeks "3"
 :setvar SSISDatabaseName "SSISDB"
 :setvar SSISFolderName "NorthwindBI"
 :setvar SSISProjectName "NorthwindETL"

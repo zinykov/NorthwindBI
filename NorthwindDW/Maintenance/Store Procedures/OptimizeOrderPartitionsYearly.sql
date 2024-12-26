@@ -47,7 +47,7 @@ AS BEGIN
 -- Создание временной таблицы
 		EXECUTE [Integration].[CreateLoadTableOrder]
 			  @CutoffTime = @CutoffTime
-			, @IsMaitenance = 1;
+			, @IsMaintenance = 1;
 
     EXECUTE [Integration].[CreateLoadTableConstraintsOrder];
 

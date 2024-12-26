@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [Integration].[CreateLoadTableOrder]
       @CutoffTime AS DATE
-    , @IsMaitenance AS BIT
+    , @IsMaintenance AS BIT
 AS BEGIN
 	DECLARE @EndMonthDate	        AS DATE;
 	DECLARE @Bondaries		        AS NVARCHAR(MAX);
@@ -11,7 +11,7 @@ AS BEGIN
     DECLARE @YearNumber             AS INT;
 	
 	PRINT ( N'Опеределение границ диапазона слияния секций.' )
-    IF ( @IsMaitenance = 1 )
+    IF ( @IsMaintenance = 1 )
         BEGIN
             SET @EndMonthDate = EOMONTH ( @CutoffTime, -1 )
         END
