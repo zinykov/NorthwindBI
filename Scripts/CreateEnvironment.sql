@@ -298,3 +298,49 @@ BEGIN
 			, @data_type=N'String'
 END;
 GO
+
+DECLARE @var datetime;
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(CutoffTime)';
+ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(BuildConfiguration)'
+	WHERE		EV.[name] = N'CutoffTime'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'CutoffTime'
+			, @sensitive=False
+			, @description=N'The cutoff date for the current incremental load. If the date specified is 1995-01-01, the default value (02:00:00 AM of the current date) is used.'
+			, @environment_name=N'$(BuildConfiguration)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'DateTime'
+END;
+GO
+
+DECLARE @var datetime;
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(LoadDateInitialEnd)';
+ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+
+IF NOT EXISTS (
+	SELECT 1
+	FROM		[catalog].[environment_variables] AS EV
+	INNER JOIN	[catalog].[environments] AS E ON E.[environment_id] = EV.[environment_id]
+				AND E.[name] = N'$(BuildConfiguration)'
+	WHERE		EV.[name] = N'LoadDateInitialEnd'
+)
+BEGIN
+	EXECUTE	[catalog].[create_environment_variable]
+			  @variable_name=N'LoadDateInitialEnd'
+			, @sensitive=False
+			, @description=N'Latest cutoff date for initial data load. The default value is 1995-01-01.'
+			, @environment_name=N'$(BuildConfiguration)'
+			, @folder_name=N'$(SSISFolderName)'
+			, @value=@var
+			, @data_type=N'DateTime'
+END;
+GO
