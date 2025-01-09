@@ -197,7 +197,7 @@ namespace NorthwindETLTest
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                     {
                         sqlExpression = "UPDATE [Landing].[Customers] " +
                             "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
@@ -224,14 +224,14 @@ namespace NorthwindETLTest
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 2))
+                    if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
                     {
                         sqlExpression = "UPDATE [Landing].[Employees]" +
                             " SET[City] = N'Moscow', [Country] = N'Russia'" +
                             " WHERE[EmployeeID] = 2; ";
                         ExecuteSqlCommand(sqlExpression);
                     }
-                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                     {
                         sqlExpression = "UPDATE [Landing].[Employees]" +
                             " SET [City] = N'Tacoma', [Country] = N'USA'" +
@@ -257,7 +257,7 @@ namespace NorthwindETLTest
                         $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 2))
+                    if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
                     {
                         sqlExpression =
                             "UPDATE [Landing].[Products]" +
@@ -279,7 +279,7 @@ namespace NorthwindETLTest
                         $" FROM [Landing].[Categories]";
 
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 3))
+                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                     {
                         sqlExpression =
                             "UPDATE [Landing].[Categories]" +
@@ -388,36 +388,36 @@ namespace NorthwindETLTest
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd}...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx with CutoffTime = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}...");
                 ExecuteTransformAndLoadDTSX(CutoffTime);
 
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+                if (CutoffTime == new DateTime(1997, 12, 31, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
                     ETLDataTest.CutoffTimeTest();
                 }
 
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
                     ETLDataTest.EmployeeSCD2TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
                     ETLDataTest.ProductSCD1TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
                     ETLDataTest.EmployeeSCD2TestStage2();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
                     ETLDataTest.CustomerSCD2TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
                     ETLDataTest.ProductSCD1TestStage2();

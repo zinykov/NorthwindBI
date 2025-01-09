@@ -314,7 +314,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'CutoffTime'
 			, @sensitive=False
-			, @description=N'The cutoff date for the current incremental load. If the date specified is 1995-01-01, the default value (02:00:00 AM of the current date) is used.'
+			, @description=N'The point in time up to which changes are loaded from data sources. If the date specified is 1995-01-01, the default value (01:00:00 AM of the current date) is used.'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -337,7 +337,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LoadDateInitialEnd'
 			, @sensitive=False
-			, @description=N'Latest cutoff date for initial data load. The default value is 1995-01-01.'
+			, @description=N'The point in time up to which changes are loaded from data sources on first load. The default value for Release environment is 1995-01-01.'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
