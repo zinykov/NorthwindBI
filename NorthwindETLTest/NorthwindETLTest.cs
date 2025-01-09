@@ -429,7 +429,7 @@ namespace NorthwindETLTest
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
                 CallProcess(
                     "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
-                    "/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER SWIFT3  /CHECKPOINTING OFF  /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
+                    $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {Environment.MachineName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
                 ExecuteMaintenanceCopyDatabaseFilesDTSX();
