@@ -170,7 +170,7 @@ namespace NorthwindETLTest
             // 
             CustomerSCD2Stage1StartDate.ColumnNumber = 11;
             CustomerSCD2Stage1StartDate.Enabled = true;
-            CustomerSCD2Stage1StartDate.ExpectedValue = "1998-1-2";
+            CustomerSCD2Stage1StartDate.ExpectedValue = "1998-01-02 01:00:00";
             CustomerSCD2Stage1StartDate.Name = "CustomerSCD2Stage1StartDate";
             CustomerSCD2Stage1StartDate.NullExpected = false;
             CustomerSCD2Stage1StartDate.ResultSet = 1;
@@ -245,7 +245,7 @@ namespace NorthwindETLTest
             // 
             EmpoloyeeSCD2Stage1StartDate.ColumnNumber = 9;
             EmpoloyeeSCD2Stage1StartDate.Enabled = true;
-            EmpoloyeeSCD2Stage1StartDate.ExpectedValue = "1998-1-1";
+            EmpoloyeeSCD2Stage1StartDate.ExpectedValue = "1998-01-01 01:00:00";
             EmpoloyeeSCD2Stage1StartDate.Name = "EmpoloyeeSCD2Stage1StartDate";
             EmpoloyeeSCD2Stage1StartDate.NullExpected = false;
             EmpoloyeeSCD2Stage1StartDate.ResultSet = 1;
@@ -319,7 +319,7 @@ namespace NorthwindETLTest
             // 
             EmployeeSCD2Stage2StartDate.ColumnNumber = 9;
             EmployeeSCD2Stage2StartDate.Enabled = true;
-            EmployeeSCD2Stage2StartDate.ExpectedValue = "1998-1-2";
+            EmployeeSCD2Stage2StartDate.ExpectedValue = "1998-01-02 01:00:00";
             EmployeeSCD2Stage2StartDate.Name = "EmployeeSCD2Stage2StartDate";
             EmployeeSCD2Stage2StartDate.NullExpected = false;
             EmployeeSCD2Stage2StartDate.ResultSet = 1;
@@ -425,7 +425,7 @@ namespace NorthwindETLTest
             // 
             CutoffTimeTestMinValue.ColumnNumber = 1;
             CutoffTimeTestMinValue.Enabled = true;
-            CutoffTimeTestMinValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMinValue.ExpectedValue = "1997-12-31 01:00:00";
             CutoffTimeTestMinValue.Name = "CutoffTimeTestMinValue";
             CutoffTimeTestMinValue.NullExpected = false;
             CutoffTimeTestMinValue.ResultSet = 1;
@@ -435,7 +435,7 @@ namespace NorthwindETLTest
             // 
             CutoffTimeTestMaxValue.ColumnNumber = 1;
             CutoffTimeTestMaxValue.Enabled = true;
-            CutoffTimeTestMaxValue.ExpectedValue = "1997-12-31";
+            CutoffTimeTestMaxValue.ExpectedValue = "1997-12-31 01:00:00";
             CutoffTimeTestMaxValue.Name = "CutoffTimeTestMaxValue";
             CutoffTimeTestMaxValue.NullExpected = false;
             CutoffTimeTestMaxValue.ResultSet = 1;
