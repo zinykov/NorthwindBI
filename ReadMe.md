@@ -1,8 +1,5 @@
 # Key features
 
-- Shorter project duration
-- Scalable
-- High performance
 - Audit and monitoring
 - Data cleaning and deduplication
 - Master data management

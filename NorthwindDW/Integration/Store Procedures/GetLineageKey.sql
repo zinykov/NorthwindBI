@@ -6,7 +6,7 @@ AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    DECLARE @DataLoadStartedWhen DATETIME2(7) = SYSDATETIME();
+    DECLARE @DataLoadStartedWhen AS DATETIME2(7) = SYSDATETIME();
 
     INSERT Integration.Lineage (
           [DataLoadStarted]
@@ -17,7 +17,7 @@ AS BEGIN
         , [ExecutionId]
     )
     OUTPUT
-        inserted.[LineageKey] as LineageKey
+        inserted.[LineageKey] AS [LineageKey]
     VALUES
         (
               @DataLoadStartedWhen
