@@ -1,5 +1,5 @@
 ﻿--sqlcmd -S $(DWHServerName) -d $(DWHDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateUsers.sql" -v DQS_STAGING_DATA_DatabaseName="$(DQS_STAGING_DATA_DatabaseName)" DQS_STAGING_DATA_ServerName="$(DQS_STAGING_DATA_ServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" AzAgentGroup="$(AzAgentGroup)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)"
---:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 USE [$(DWHDatabaseName)]
 GO

@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="219"
-  DTS:VersionGUID="{17C8AB54-D9EE-40F0-817D-56721FD2D42F}">
+  DTS:VersionBuild="222"
+  DTS:VersionGUID="{6111121D-B431-451C-B4DF-B6593B2E2C57}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -58,7 +58,7 @@
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
+        DTS:Name="ParameterValue">12/31/1997 1:00:00 AM</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -67,7 +67,7 @@
       DTS:ObjectName="LoadDateInitialEnd">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">1/1/1995</DTS:Property>
+        DTS:Name="ParameterValue">12/31/1997 1:00:00 AM</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -279,7 +279,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Get CutoffTime"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -464,11 +464,11 @@
       DTS:ExecutableType="Microsoft.ExpressionTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set CutoffTime"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime]  == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
+          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime]  == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+1, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -478,11 +478,11 @@
       DTS:ExecutableType="Microsoft.ExpressionTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set LoadDateInitialEnd"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::LoadDateInitialEnd] = ( @[User::LoadDateInitialEnd] != (DT_DATE) &quot;1899-12-30&quot; ? @[User::LoadDateInitialEnd] : ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+2, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] ) )" />
+          Expression="@[User::LoadDateInitialEnd] = ( @[User::LoadDateInitialEnd] != (DT_DATE) &quot;1899-12-30&quot; ? @[User::LoadDateInitialEnd] : ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+1, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] ) )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -562,12 +562,12 @@
       DTS:To="Package\Set LoadDateInitialEnd" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>

@@ -1,5 +1,5 @@
 ﻿--sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CreateEnvironment.sql" -v DBFilesPath="$(DBFilesPath)" DQSDatabaseName="$(DQSDatabaseName)" DQSServerName="$(DQSServerName)" DWHDatabaseName="$(DWHDatabaseName)" DWHServerName="$(DWHServerName)" ExternalFilesPath="$(ExternalFilesPath)" LogsDatabaseName="$(LogsDatabaseName)" LogsServerName="$(LogsServerName)" MDSDatabaseName="$(MDSDatabaseName)" MDSServerName="$(MDSServerName)" OLTPNorthwidPassword="$(OLTPNorthwidPassword)" RetrainWeeks="$(RetrainWeeks)" SSISDatabaseName="$(SSISDatabaseName)" BuildConfiguration="$(BuildConfiguration)" SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)" SSISServerName="$(SSISServerName)" XMLCalendarFolder="$(XMLCalendarFolder)" LandingDatabaseName="$(LandingDatabaseName)" LandingServerName="$(LandingServerName)" CutoffTime="$(CutoffTime)" LoadDateInitialEnd="$(LoadDateInitialEnd)"
---:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 IF NOT EXISTS ( SELECT 1 FROM [catalog].[folders] WHERE [name] = N'$(SSISFolderName)' )
 BEGIN
@@ -314,7 +314,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'CutoffTime'
 			, @sensitive=False
-			, @description=N'The cutoff date for the current incremental load. If the date specified is 1995-01-01, the default value (02:00:00 AM of the current date) is used.'
+			, @description=N'The point in time up to which changes are loaded from data sources. If the date specified is 1995-01-01, the default value (01:00:00 AM of the current date) is used.'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
@@ -337,7 +337,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'LoadDateInitialEnd'
 			, @sensitive=False
-			, @description=N'Latest cutoff date for initial data load. The default value is 1995-01-01.'
+			, @description=N'The point in time up to which changes are loaded from data sources on first load. The default value for Release environment is 1995-01-01.'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var
