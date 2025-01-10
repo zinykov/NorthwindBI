@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="52"
-  DTS:VersionGUID="{735ED75F-E212-41B3-B2C7-6DF1427311E9}">
+  DTS:VersionBuild="58"
+  DTS:VersionGUID="{B253B795-6F8F-457F-B81A-2320CC258F25}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -43,6 +43,16 @@
   <DTS:PackageParameters>
     <DTS:PackageParameter
       DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:Description="The point in time up to which changes are loaded from data sources. The default value for Release environment is 1995-01-01, SSIS will evaluate 12:00:00 AM of the current date for loading data."
+      DTS:DTSID="{B0181CC8-E33A-45BA-8A32-1E5A00A3AD4F}"
+      DTS:ObjectName="CutoffTime">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
       DTS:DataType="8"
       DTS:DTSID="{B32BA251-1E3D-42D1-840F-2242552F512E}"
       DTS:ObjectName="Login">
@@ -63,6 +73,15 @@
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{611F8DA2-057C-4231-958A-2DF8E00E4890}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CutoffTime">
+      <DTS:VariableValue
+        DTS:DataType="7">12:00:00 AM</DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{A89F0891-A5EF-4AD3-A8CC-809D1B3FB571}"
@@ -233,7 +252,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\Northwind_BI_SolutionIngestData\" />
+              Folder="C:\Users\ZinukovD\source\repos\Northwind_BI_SolutionIngestData\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -263,7 +282,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;[dbo].[]&quot; out &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\.dat&quot; -f &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
+              Arguments="&quot;[dbo].[]&quot; out &quot;C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\.dat&quot; -f &quot;C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -276,30 +295,81 @@
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set CutoffTime"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Disabled="True"
+      DTS:DTSID="{3115dee4-237c-460e-bc46-05239435b37b}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set CutoffTime"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime]  == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() ), GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{76F3B2C9-77C1-4F7F-BAEB-5DDF74DC3873}"
+      DTS:From="Package\Set CutoffTime"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\For each fmt" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="132,42"
           Id="Package\For each fmt\Ingest data"
-          TopLeft="5.5,5.49999999999995" />
+          TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="150,103"
+          PanelSize="150,102"
           Size="143,146"
           Id="Package\For each fmt"
-          TopLeft="67.1428582862933,37.470588760805" />
+          TopLeft="27.5,156.5" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Set CutoffTime"
+          TopLeft="24.5,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="99,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>

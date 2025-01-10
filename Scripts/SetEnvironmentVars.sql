@@ -172,6 +172,26 @@ GO
 
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
       @object_type = 30
+    , @parameter_name = N'CutoffTime'
+    , @object_name = N'Extract Northwind (упрощённая).dtsx'
+    , @folder_name = N'$(SSISFolderName)'
+    , @project_name = N'$(SSISProjectName)'
+    , @value_type = R
+    , @parameter_value = N'CutoffTime'
+GO
+
+EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
+      @object_type = 30
+    , @parameter_name = N'CutoffTime'
+    , @object_name = N'Extract Xmlcalendar.dtsx'
+    , @folder_name = N'$(SSISFolderName)'
+    , @project_name = N'$(SSISProjectName)'
+    , @value_type = R
+    , @parameter_value = N'CutoffTime'
+GO
+
+EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
+      @object_type = 30
     , @parameter_name = N'LoadDateInitialEnd'
     , @object_name = N'Transform and load.dtsx'
     , @folder_name = N'$(SSISFolderName)'
