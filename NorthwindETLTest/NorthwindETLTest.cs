@@ -77,7 +77,8 @@ namespace NorthwindETLTest
                     $"-S {Environment.MachineName}" +
                     $" -d master" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\CreateLogins.sql\"" +
-                    $" -v DWHServerName=\"{Environment.MachineName}\""
+                    $" -v DWHServerName=\"{Environment.MachineName}\"" +
+                    $" -j -r1 -e"
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases roles...");
@@ -85,7 +86,8 @@ namespace NorthwindETLTest
                     $"-S {Environment.MachineName}" +
                     $" -d MDS" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\CreateRoles.sql\"" +
-                    $" -v MDSDatabaseName=\"MDS\""
+                    $" -v MDSDatabaseName=\"MDS\"" +
+                    $" -j -r1 -e"
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
@@ -101,7 +103,8 @@ namespace NorthwindETLTest
                     $" MDSDatabaseName=\"MDS\"" +
                     $" MDSServerName=\"{Environment.MachineName}\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
-                    $" LandingServerName=\"{Environment.MachineName}\""
+                    $" LandingServerName=\"{Environment.MachineName}\"" +
+                    $" -j -r1 -e"
                 );
             }
 
@@ -110,15 +113,17 @@ namespace NorthwindETLTest
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing {BuildConfiguration} environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing {BuildConfiguration} SSIS environment...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
-                    $" @environment_name = N'{BuildConfiguration}';");
+                    $" @environment_name = N'{BuildConfiguration}';" +
+                    $" -j -r1 -e"
+                );
 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {BuildConfiguration} SSIS environment...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
@@ -144,17 +149,19 @@ namespace NorthwindETLTest
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\"" +
                     $" CutoffTime=\"1997-12-31\"" +
-                    $" LoadDateInitialEnd=\"1997-12-31\""
+                    $" LoadDateInitialEnd=\"1997-12-31\"" +
+                    $" -j -r1 -e"
                 );
 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Mapping {BuildConfiguration} SSIS environment with NorthwindETL project...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\SetEnvironmentVars.sql\"" +
                     $" -v  BuildConfiguration=\"{BuildConfiguration}\"" +
                     $" SSISFolderName=\"{SSISFolderName}\"" +
-                    $" SSISProjectName=\"{SSISProjectName}\""
+                    $" SSISProjectName=\"{SSISProjectName}\"" +
+                    $" -j -r1 -e"
                 );
             }
 
@@ -342,13 +349,14 @@ namespace NorthwindETLTest
                 $"-S {Environment.MachineName}" +
                 $" -d master" +
                 $" -i \"{ExternalFilesPath}\\Scripts\\CreateEventSession.sql\"" +
-                $" -v ExternalFilesPath=\"{ExternalFilesPath}\""
+                $" -v ExternalFilesPath=\"{ExternalFilesPath}\"" +
+                $" -j -r1 -e"
             );
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting Event session...");
             ExecuteSqlCommand(
-                "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = START;"
-                , $"NorthwindLogs");
+                "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = START;",
+                "NorthwindLogs");
 
             //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
             //CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as", true);

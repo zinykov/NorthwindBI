@@ -12,7 +12,7 @@ CREATE EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER
 					, [sqlserver].[server_principal_name]
 					, [sqlserver].[session_id]
 				)
-		WHERE	( [sqlserver].[like_i_sql_unicode_string] ( [sqlserver].[database_name], N'%Northwind%' ) )
+		WHERE	( [package0].[equal_boolean] ( [sqlserver].[is_system], (0) ) )
 	),
 	ADD EVENT [sqlserver].[sql_statement_completed] (
 		ACTION	(
@@ -23,7 +23,7 @@ CREATE EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER
 					, [sqlserver].[server_principal_name]
 					, [sqlserver].[session_id]
 				)
-		WHERE	( [sqlserver].[like_i_sql_unicode_string] ( [sqlserver].[database_name], N'%Northwind%' ) )
+		WHERE	( [package0].[equal_boolean] ( [sqlserver].[is_system], (0) ) )
 	),
 	ADD EVENT [sqlserver].[rpc_completed] (
 		SET		collect_data_stream = (1)
@@ -35,7 +35,7 @@ CREATE EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER
 					, [sqlserver].[server_principal_name]
 					, [sqlserver].[session_id]
 				)
-		WHERE	[sqlserver].[like_i_sql_unicode_string] ( [sqlserver].[database_name], N'%Northwind%' )
+		WHERE	( [package0].[equal_boolean] ( [sqlserver].[is_system], (0) ) )
 	)
 	ADD TARGET [package0].[event_file] ( SET filename = N'$(ExternalFilesPath)\logs\Monitor Data Warehouse Query Activity.xel' )
 	WITH	(
