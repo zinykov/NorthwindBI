@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Employees"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="365"
-  DTS:VersionGUID="{36ADAF63-8E50-4B73-864D-242085A6743C}">
+  DTS:VersionBuild="369"
+  DTS:VersionGUID="{B59FAF12-989B-4D1E-89D7-C01F2E1DB98A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -440,6 +440,472 @@
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
+      <DTS:EventHandlers>
+        <DTS:EventHandler
+          DTS:refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]"
+          DTS:CreationName="OnPostExecute"
+          DTS:DTSID="{324DCD87-94B1-4AF3-AF5A-A3B206A3F0BF}"
+          DTS:EventID="0"
+          DTS:EventName="OnPostExecute"
+          DTS:LocaleID="-1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:Description="Свойство распространения события"
+              DTS:DTSID="{6C919C08-A072-4A22-9C50-DFD316FF933E}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="System"
+              DTS:ObjectName="Propagate">
+              <DTS:VariableValue
+                DTS:DataType="11">-1</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DTSID="{69d0d4ad-3c97-4ad7-a285-a4aba4750305}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Copy lineage info from DW to Logs DB"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                      name="Destination Logs db"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowset">[Integration].[Lineage]</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="Команда SQL для выполнения."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                          name="DefaultCodePage">1251</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает используемый режим доступа к базе данных."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
+                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[Logs]"
+                          description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                          errorOrTruncationOperation="Вставить"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="Вход назначения &quot;OLE DB&quot;">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                              cachedDataType="i8"
+                              cachedName="LineageKey"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="DataLoadStarted"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                              cachedDataType="wstr"
+                              cachedLength="128"
+                              cachedName="TableName"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="DataLoadCompleted"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              cachedDataType="bool"
+                              cachedName="WasSuccessful"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="CutoffTime"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]" />
+                            <inputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              cachedDataType="wstr"
+                              cachedLength="50"
+                              cachedName="ExecutionId"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              dataType="i8"
+                              name="LineageKey" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              name="TableName" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              dataType="bool"
+                              name="WasSuccessful" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              name="CutoffTime"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              name="ExecutionId" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                          synchronousInputId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                      name="Source DW"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowset"></property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="Команда SQL для выполнения."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+		, [DataLoadStarted]
+		, [TableName]
+		, [DataLoadCompleted]
+		, [WasSuccessful]
+		, [CutoffTime]
+		, [ExecutionId]
+FROM	[Integration].[Lineage]
+WHERE   [LineageKey] = ?</property>
+                        <property
+                          dataType="System.String"
+                          description="Переменная, содержащая команду SQL для выполнения."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                          name="DefaultCodePage">1251</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает используемый режим доступа к базе данных."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="Сопоставления между параметрами в команде SQL и переменными."
+                          name="ParameterMapping">"Параметр0:Input",{AB84677B-2971-464B-BE63-535E0F6D21C9};</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                          description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]"
+                          name="Выход источника &quot;OLE DB&quot;">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              dataType="i8"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              name="LineageKey"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              name="DataLoadStarted"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              length="128"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                              name="TableName"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              name="DataLoadCompleted"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              dataType="bool"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              name="WasSuccessful"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              name="CutoffTime"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              length="50"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              name="ExecutionId"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              dataType="i8"
+                              name="LineageKey" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              name="TableName" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              dataType="bool"
+                              name="WasSuccessful" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              name="CutoffTime"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              name="ExecutionId" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                          isErrorOut="true"
+                          name="Вывод ошибок источника &quot;OLE DB&quot;">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              dataType="i8"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              name="LineageKey" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                              name="TableName" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              dataType="bool"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              name="WasSuccessful" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              name="CutoffTime"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              name="ExecutionId" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
+                      endId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;"
+                      startId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+        </DTS:EventHandler>
+      </DTS:EventHandlers>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -2478,7 +2944,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH add unknown member"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -2510,7 +2976,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH get start load date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4776,7 +5242,7 @@ WHERE	LastChgDateTime &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4804,7 +5270,7 @@ WHERE	LastChgDateTime &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Employees"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4819,7 +5285,7 @@ WHERE	LastChgDateTime &gt; ?
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Employees_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Employees{2B15A177-F380-44CA-93F0-F018210BFD99}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Employees_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Employees{E973F161-1AF5-436D-A866-B7DFE2F5B2DC}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -4842,7 +5308,7 @@ WHERE	LastChgDateTime &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -4920,6 +5386,528 @@ WHERE	LastChgDateTime &gt; ?
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
+      <DTS:EventHandlers>
+        <DTS:EventHandler
+          DTS:refId="Package\Set load compilation info.EventHandlers[OnPostExecute]"
+          DTS:CreationName="OnPostExecute"
+          DTS:DTSID="{C2B44037-EADC-49E2-8231-66210ADF6AD9}"
+          DTS:EventID="8388816"
+          DTS:EventName="OnPostExecute"
+          DTS:LocaleID="-1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:Description="Свойство распространения события"
+              DTS:DTSID="{FCE1C9C0-9F03-4247-8626-1AE6AADCA408}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="System"
+              DTS:ObjectName="Propagate">
+              <DTS:VariableValue
+                DTS:DataType="11">-1</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:DTSID="{8d76a0a0-26bd-4d9d-910a-3aa06e08ab59}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Delete lineage information from Logs db">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:EventHandlers>
+                <DTS:EventHandler
+                  DTS:refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db.EventHandlers[OnPostExecute]"
+                  DTS:CreationName="OnPostExecute"
+                  DTS:DTSID="{dd69e60e-b452-459e-ad98-0a15d5dcf5ea}"
+                  DTS:EventID="7340144"
+                  DTS:EventName="OnPostExecute"
+                  DTS:LocaleID="-1">
+                  <DTS:Variables>
+                    <DTS:Variable
+                      DTS:CreationName=""
+                      DTS:Description="Свойство распространения события"
+                      DTS:DTSID="{972d3f48-975b-4a4e-9ca3-e07346ff0f7d}"
+                      DTS:IncludeInDebugDump="6789"
+                      DTS:Namespace="System"
+                      DTS:ObjectName="Propagate">
+                      <DTS:VariableValue
+                        DTS:DataType="11">-1</DTS:VariableValue>
+                    </DTS:Variable>
+                  </DTS:Variables>
+                  <DTS:Executables />
+                </DTS:EventHandler>
+              </DTS:EventHandlers>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
+                  SQLTask:SqlStatementSource="DELETE FROM [Integration].[Lineage] WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::LineageKey"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="3"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DTSID="{2c853cde-50c2-4a89-aa26-cb414be6f2a2}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Update lineage info from DW to Logs DB"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                      name="Destination Logs db"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowset">[Integration].[Lineage]</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="Команда SQL для выполнения."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                          name="DefaultCodePage">1251</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает используемый режим доступа к базе данных."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
+                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[Logs]"
+                          description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                          errorOrTruncationOperation="Вставить"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="Вход назначения &quot;OLE DB&quot;">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                              cachedDataType="i8"
+                              cachedName="LineageKey"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="DataLoadStarted"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                              cachedDataType="wstr"
+                              cachedLength="128"
+                              cachedName="TableName"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="DataLoadCompleted"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              cachedDataType="bool"
+                              cachedName="WasSuccessful"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              cachedDataType="dbTimeStamp2"
+                              cachedName="CutoffTime"
+                              cachedScale="7"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]" />
+                            <inputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              cachedDataType="wstr"
+                              cachedLength="50"
+                              cachedName="ExecutionId"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              dataType="i8"
+                              name="LineageKey" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              name="TableName" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              dataType="bool"
+                              name="WasSuccessful" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              name="CutoffTime"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              name="ExecutionId" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                          synchronousInputId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+                      componentClassID="Microsoft.OLEDBSource"
+                      contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                      name="Source DW"
+                      usesDispositions="true"
+                      version="7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowset"></property>
+                        <property
+                          dataType="System.String"
+                          description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="Команда SQL для выполнения."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+		, [DataLoadStarted]
+		, [TableName]
+		, [DataLoadCompleted]
+		, [WasSuccessful]
+		, [CutoffTime]
+		, [ExecutionId]
+FROM	[Integration].[Lineage]
+WHERE   [LineageKey] = ?</property>
+                        <property
+                          dataType="System.String"
+                          description="Переменная, содержащая команду SQL для выполнения."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                          name="DefaultCodePage">1251</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Указывает используемый режим доступа к базе данных."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="Сопоставления между параметрами в команде SQL и переменными."
+                          name="ParameterMapping">"Параметр0:Input",{AB84677B-2971-464B-BE63-535E0F6D21C9};</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                          description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]"
+                          name="Выход источника &quot;OLE DB&quot;">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              dataType="i8"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              name="LineageKey"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              name="DataLoadStarted"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              length="128"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                              name="TableName"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              name="DataLoadCompleted"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              dataType="bool"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              name="WasSuccessful"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              name="CutoffTime"
+                              scale="7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Преобразование"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              length="50"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              name="ExecutionId"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                              dataType="i8"
+                              name="LineageKey" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              name="TableName" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                              dataType="bool"
+                              name="WasSuccessful" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              name="CutoffTime"
+                              scale="7" />
+                            <externalMetadataColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              name="ExecutionId" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                          isErrorOut="true"
+                          name="Вывод ошибок источника &quot;OLE DB&quot;">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              dataType="i8"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                              name="LineageKey" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                              name="DataLoadStarted"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                              dataType="wstr"
+                              length="128"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                              name="TableName" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                              name="DataLoadCompleted"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              dataType="bool"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                              name="WasSuccessful" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              dataType="dbTimeStamp2"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                              name="CutoffTime"
+                              scale="7" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              dataType="wstr"
+                              length="50"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                              name="ExecutionId" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
+                      endId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;"
+                      startId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+              DTS:CreationName=""
+              DTS:DTSID="{38aefacf-05ca-479b-8b5a-332d1461dea1}"
+              DTS:From="Package\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Ограничение"
+              DTS:To="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB" />
+          </DTS:PrecedenceConstraints>
+        </DTS:EventHandler>
+      </DTS:EventHandlers>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
@@ -5503,6 +6491,64 @@ WHERE	LastChgDateTime &gt; ?
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="260,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB"
+          TopLeft="60,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
+          TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
+        <EdgeLayout
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="107.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Employees\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
@@ -6112,6 +7158,92 @@ WHERE	LastChgDateTime &gt; ?
         <Name>OverwriteParamsSQLProp</Name>
         <Value
           type="q4:string">true</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <DtsEventHandler
+    design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="271,42"
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+          TopLeft="64.5,162" />
+        <EdgeLayout
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+          TopLeft="197.25,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+          TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
+        <EdgeLayout
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="107.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

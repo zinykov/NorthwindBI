@@ -314,7 +314,7 @@ BEGIN
 	EXECUTE	[catalog].[create_environment_variable]
 			  @variable_name=N'CutoffTime'
 			, @sensitive=False
-			, @description=N'The point in time up to which changes are loaded from data sources. If the date specified is 1995-01-01, the default value (01:00:00 AM of the current date) is used.'
+			, @description=N'The point in time up to which changes are loaded from data sources. If the date specified is 1995-01-01, the default value (00:00:00 AM of the current date) is used.'
 			, @environment_name=N'$(BuildConfiguration)'
 			, @folder_name=N'$(SSISFolderName)'
 			, @value=@var

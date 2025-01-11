@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\SSIS\Northwind_BI_Solution\logs\CP_Transform_and_load.xml"
+  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Transform_and_load.xml"
   DTS:CreationDate="3/6/2022 10:28:24 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="SWIFT3"
@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="222"
-  DTS:VersionGUID="{6111121D-B431-451C-B4DF-B6593B2E2C57}">
+  DTS:VersionBuild="226"
+  DTS:VersionGUID="{871A859B-135F-4C91-B183-25F424919873}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -54,20 +54,22 @@
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="7"
+      DTS:Description="The point in time up to which changes are loaded from data sources. The default value for Release environment is 1995-01-01, SSIS will evaluate 12:00:00 AM of the current date for loading data."
       DTS:DTSID="{88672D0B-3F14-4BA5-899A-D80C6246EEED}"
       DTS:ObjectName="CutoffTime">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12/31/1997 1:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
       DTS:DataType="7"
+      DTS:Description="The point in time up to which changes are loaded from data sources on first load. The default value for Release environment is 1995-01-01."
       DTS:DTSID="{97FC2717-5E27-43F7-A982-580175969664}"
       DTS:ObjectName="LoadDateInitialEnd">
       <DTS:Property
         DTS:DataType="7"
-        DTS:Name="ParameterValue">12/31/1997 1:00:00 AM</DTS:Property>
+        DTS:Name="ParameterValue">12/31/1997</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -468,7 +470,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime]  == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+1, GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
+          Expression="@[User::CutoffTime]  = ( @[$Package::CutoffTime]  == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() ), GETDATE() ) ) ) : @[$Package::CutoffTime] )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -482,7 +484,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <ExpressionTask
-          Expression="@[User::LoadDateInitialEnd] = ( @[User::LoadDateInitialEnd] != (DT_DATE) &quot;1899-12-30&quot; ? @[User::LoadDateInitialEnd] : ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() )+1, GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] ) )" />
+          Expression="@[User::LoadDateInitialEnd] = ( @[User::LoadDateInitialEnd] != (DT_DATE) &quot;1899-12-30&quot; ? @[User::LoadDateInitialEnd] : ( @[$Package::LoadDateInitialEnd] == (DT_DATE) &quot;1995-01-01&quot; ? DATEADD( &quot;second&quot;, -DATEPART( &quot;second&quot;, GETDATE() ), DATEADD( &quot;minute&quot;, -DATEPART( &quot;minute&quot;, GETDATE() ), DATEADD( &quot;hour&quot;, -DATEPART( &quot;hour&quot;, GETDATE() ), GETDATE() ) ) ) : @[$Package::LoadDateInitialEnd] ) )" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -492,7 +494,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate landing"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:LoggingOptions
         DTS:FilterKind="0" />
@@ -562,12 +564,12 @@
       DTS:To="Package\Set LoadDateInitialEnd" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
