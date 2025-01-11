@@ -77,8 +77,7 @@ namespace NorthwindETLTest
                     $"-S {Environment.MachineName}" +
                     $" -d master" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\CreateLogins.sql\"" +
-                    $" -v DWHServerName=\"{Environment.MachineName}\"" +
-                    $" -j -r1 -e"
+                    $" -v DWHServerName=\"{Environment.MachineName}\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases roles...");
@@ -86,8 +85,7 @@ namespace NorthwindETLTest
                     $"-S {Environment.MachineName}" +
                     $" -d MDS" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\CreateRoles.sql\"" +
-                    $" -v MDSDatabaseName=\"MDS\"" +
-                    $" -j -r1 -e"
+                    $" -v MDSDatabaseName=\"MDS\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
@@ -103,8 +101,7 @@ namespace NorthwindETLTest
                     $" MDSDatabaseName=\"MDS\"" +
                     $" MDSServerName=\"{Environment.MachineName}\"" +
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
-                    $" LandingServerName=\"{Environment.MachineName}\"" +
-                    $" -j -r1 -e"
+                    $" LandingServerName=\"{Environment.MachineName}\""
                 );
             }
 
@@ -119,8 +116,7 @@ namespace NorthwindETLTest
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
-                    $" @environment_name = N'{BuildConfiguration}';" +
-                    $" -j -r1 -e"
+                    $" @environment_name = N'{BuildConfiguration}'"
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {BuildConfiguration} SSIS environment...");
@@ -149,8 +145,7 @@ namespace NorthwindETLTest
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\"" +
                     $" CutoffTime=\"1997-12-31\"" +
-                    $" LoadDateInitialEnd=\"1997-12-31\"" +
-                    $" -j -r1 -e"
+                    $" LoadDateInitialEnd=\"1997-12-31\""
                 );
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Mapping {BuildConfiguration} SSIS environment with NorthwindETL project...");
@@ -160,8 +155,7 @@ namespace NorthwindETLTest
                     $" -i \"{ExternalFilesPath}\\Scripts\\SetEnvironmentVars.sql\"" +
                     $" -v  BuildConfiguration=\"{BuildConfiguration}\"" +
                     $" SSISFolderName=\"{SSISFolderName}\"" +
-                    $" SSISProjectName=\"{SSISProjectName}\"" +
-                    $" -j -r1 -e"
+                    $" SSISProjectName=\"{SSISProjectName}\""
                 );
             }
 
@@ -349,8 +343,7 @@ namespace NorthwindETLTest
                 $"-S {Environment.MachineName}" +
                 $" -d master" +
                 $" -i \"{ExternalFilesPath}\\Scripts\\CreateEventSession.sql\"" +
-                $" -v ExternalFilesPath=\"{ExternalFilesPath}\"" +
-                $" -j -r1 -e"
+                $" -v ExternalFilesPath=\"{ExternalFilesPath}\""
             );
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting Event session...");
@@ -435,7 +428,7 @@ namespace NorthwindETLTest
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
                 ETLDataTest.OrderShippingDateTest();
-                
+
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
                 CallProcess(
