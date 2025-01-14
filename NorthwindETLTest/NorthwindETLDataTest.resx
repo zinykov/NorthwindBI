@@ -244,7 +244,7 @@ SELECT MIN ( [CutoffTime] ), MAX ( [CutoffTime] ) FROM [Integration].[Lineage]</
 DECLARE @CutoffTime AS DATE;
 DECLARE @Partition_number AS INT;
 DECLARE @FactTableName AS NVARCHAR(100) = N'Order';
-DECLARE @FilePath AS NVARCHAR(500) = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA';
+DECLARE @FilePath AS NVARCHAR(500) = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA';
 
 SET @CutoffTime = DATEFROMPARTS ( 1997, 01, 31 );
 EXECUTE [Maintenance].[CreateFilegroup] @CutoffTime, @FactTableName, @FilePath;
@@ -431,45 +431,6 @@ WHERE		OBJECTPROPERTY ( P.[object_id], 'ISMSShipped') = 0
 	
 ORDER BY	PRV.[value];</value>
   </data>
-  <data name="PartitionsManagingTest_PosttestAction.SqlScript" xml:space="preserve">
-    <value>/*
-Add SQL statements here that you want to run after 
-the test script is run.
-
-In the lower pane, you can add test conditions that verify 
-whether the results of your SQL statements match what 
-you expect.
-*/
-
-DROP TABLE #Paritioninfo;</value>
-  </data>
-  <data name="PartitionsManagingTest_PretestAction.SqlScript" xml:space="preserve">
-    <value>/*
-Add SQL statements here that you want to run before
-the test script is run.
-
-In the lower pane, you can add test conditions that verify 
-whether the results of your SQL statements match what 
-you expect.
-*/
-
-CREATE TABLE #Paritioninfo (
-	  [Schema]						SYSNAME
-	, [Table]						SYSNAME
-	, [PartitionNumber]				INT
-	, [PartitionRange]				SQL_VARIANT
-	, [IndexID]						INT
-	, [IndexType]					NVARCHAR(60)
-	, [DataCompression]				NVARCHAR(60)
-	, [FileGroupName]				SYSNAME
-	, [IsFileGroupReadOnly]			BIT
-	, [#Rows]						BIGINT
-	, [AvgFragmentation]			FLOAT
-	, [FragmentCount]				BIGINT
-	, [AvgFragmentSizeInPages]		FLOAT
-	, [PageCount]					BIGINT
-);</value>
-  </data>
   <data name="PartitionsManagingTest_TestAction.SqlScript" xml:space="preserve">
     <value>/*
 Add SQL statements here to exercise the database object 
@@ -505,6 +466,45 @@ WHERE		[Schema] = N'Fact'
 			AND [Table] = N'Order'
 			AND [IndexID] = 1
 ORDER BY	[PartitionNumber] ASC;</value>
+  </data>
+  <data name="PartitionsManagingTest_PretestAction.SqlScript" xml:space="preserve">
+    <value>/*
+Add SQL statements here that you want to run before
+the test script is run.
+
+In the lower pane, you can add test conditions that verify 
+whether the results of your SQL statements match what 
+you expect.
+*/
+
+CREATE TABLE #Paritioninfo (
+	  [Schema]						SYSNAME
+	, [Table]						SYSNAME
+	, [PartitionNumber]				INT
+	, [PartitionRange]				SQL_VARIANT
+	, [IndexID]						INT
+	, [IndexType]					NVARCHAR(60)
+	, [DataCompression]				NVARCHAR(60)
+	, [FileGroupName]				SYSNAME
+	, [IsFileGroupReadOnly]			BIT
+	, [#Rows]						BIGINT
+	, [AvgFragmentation]			FLOAT
+	, [FragmentCount]				BIGINT
+	, [AvgFragmentSizeInPages]		FLOAT
+	, [PageCount]					BIGINT
+);</value>
+  </data>
+  <data name="PartitionsManagingTest_PosttestAction.SqlScript" xml:space="preserve">
+    <value>/*
+Add SQL statements here that you want to run after 
+the test script is run.
+
+In the lower pane, you can add test conditions that verify 
+whether the results of your SQL statements match what 
+you expect.
+*/
+
+DROP TABLE #Paritioninfo;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
