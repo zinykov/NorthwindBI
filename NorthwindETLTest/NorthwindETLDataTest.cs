@@ -71,6 +71,13 @@ namespace NorthwindETLTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction UpdatePartitionSchema_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition NumberPartitionBoundaries;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ChecksumCondition CheckHashBeforeLoad;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction PartitionsManagingTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition DataCommpression;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition IsFileGroupReadOnly;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition FileGroupName;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition PartitionRange;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction PartitionsManagingTest_PretestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction PartitionsManagingTest_PosttestAction;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -79,6 +86,7 @@ namespace NorthwindETLTest
             this.ProductSCD1TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.CutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.UpdatePartitionSchemaData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.PartitionsManagingTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -118,6 +126,13 @@ namespace NorthwindETLTest
             UpdatePartitionSchema_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             NumberPartitionBoundaries = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CheckHashBeforeLoad = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ChecksumCondition();
+            PartitionsManagingTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            DataCommpression = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            IsFileGroupReadOnly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            FileGroupName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            PartitionRange = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            PartitionsManagingTest_PretestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            PartitionsManagingTest_PosttestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -460,6 +475,62 @@ namespace NorthwindETLTest
             CheckHashBeforeLoad.Enabled = true;
             CheckHashBeforeLoad.Name = "CheckHashBeforeLoad";
             // 
+            // PartitionsManagingTest_TestAction
+            // 
+            PartitionsManagingTest_TestAction.Conditions.Add(DataCommpression);
+            PartitionsManagingTest_TestAction.Conditions.Add(IsFileGroupReadOnly);
+            PartitionsManagingTest_TestAction.Conditions.Add(FileGroupName);
+            PartitionsManagingTest_TestAction.Conditions.Add(PartitionRange);
+            resources.ApplyResources(PartitionsManagingTest_TestAction, "PartitionsManagingTest_TestAction");
+            // 
+            // DataCommpression
+            // 
+            DataCommpression.ColumnNumber = 7;
+            DataCommpression.Enabled = true;
+            DataCommpression.ExpectedValue = "COLUMNSTORE_ARCHIVE";
+            DataCommpression.Name = "DataCommpression";
+            DataCommpression.NullExpected = false;
+            DataCommpression.ResultSet = 1;
+            DataCommpression.RowNumber = 3;
+            // 
+            // IsFileGroupReadOnly
+            // 
+            IsFileGroupReadOnly.ColumnNumber = 9;
+            IsFileGroupReadOnly.Enabled = true;
+            IsFileGroupReadOnly.ExpectedValue = "1";
+            IsFileGroupReadOnly.Name = "IsFileGroupReadOnly";
+            IsFileGroupReadOnly.NullExpected = false;
+            IsFileGroupReadOnly.ResultSet = 1;
+            IsFileGroupReadOnly.RowNumber = 3;
+            // 
+            // FileGroupName
+            // 
+            FileGroupName.ColumnNumber = 8;
+            FileGroupName.Enabled = true;
+            FileGroupName.ExpectedValue = "Order_1996_Data";
+            FileGroupName.Name = "FileGroupName";
+            FileGroupName.NullExpected = false;
+            FileGroupName.ResultSet = 1;
+            FileGroupName.RowNumber = 3;
+            // 
+            // PartitionRange
+            // 
+            PartitionRange.ColumnNumber = 4;
+            PartitionRange.Enabled = true;
+            PartitionRange.ExpectedValue = "1998-01-01 00:00:00.000";
+            PartitionRange.Name = "PartitionRange";
+            PartitionRange.NullExpected = false;
+            PartitionRange.ResultSet = 1;
+            PartitionRange.RowNumber = 5;
+            // 
+            // PartitionsManagingTest_PretestAction
+            // 
+            resources.ApplyResources(PartitionsManagingTest_PretestAction, "PartitionsManagingTest_PretestAction");
+            // 
+            // PartitionsManagingTest_PosttestAction
+            // 
+            resources.ApplyResources(PartitionsManagingTest_PosttestAction, "PartitionsManagingTest_PosttestAction");
+            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -507,6 +578,12 @@ namespace NorthwindETLTest
             this.UpdatePartitionSchemaData.PosttestAction = null;
             this.UpdatePartitionSchemaData.PretestAction = null;
             this.UpdatePartitionSchemaData.TestAction = UpdatePartitionSchema_TestAction;
+            // 
+            // PartitionsManagingTestData
+            // 
+            this.PartitionsManagingTestData.PosttestAction = PartitionsManagingTest_PosttestAction;
+            this.PartitionsManagingTestData.PretestAction = PartitionsManagingTest_PretestAction;
+            this.PartitionsManagingTestData.TestAction = PartitionsManagingTest_TestAction;
         }
 
         #endregion
@@ -709,6 +786,30 @@ namespace NorthwindETLTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void PartitionsManagingTest()
+        {
+            SqlDatabaseTestActions testActions = this.PartitionsManagingTestData;
+            // Execute the pre-test script
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Execute the test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Execute the post-test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
 
 
 
@@ -725,5 +826,6 @@ namespace NorthwindETLTest
         private SqlDatabaseTestActions ProductSCD1TestStage2Data;
         private SqlDatabaseTestActions CutoffTimeTestData;
         private SqlDatabaseTestActions UpdatePartitionSchemaData;
+        private SqlDatabaseTestActions PartitionsManagingTestData;
     }
 }

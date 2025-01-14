@@ -425,6 +425,11 @@ namespace NorthwindETLTest
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
                     ETLDataTest.ProductSCD1TestStage2();
                 }
+                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
+                    ETLDataTest.PartitionsManagingTest();
+                }
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
                 ETLDataTest.OrderShippingDateTest();
