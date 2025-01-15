@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="58"
-  DTS:VersionGUID="{B253B795-6F8F-457F-B81A-2320CC258F25}">
+  DTS:VersionBuild="63"
+  DTS:VersionGUID="{B4AF0BD0-6E59-45A9-9296-AAA0EBC8CEB4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -89,6 +89,25 @@
       DTS:Namespace="User"
       DTS:ObjectName="FileName"
       DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9E5E4CEB-0296-4063-A6CD-0E630C9A4CFA}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="3">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{958C3C19-DF97-45CE-8441-62D80E6FEC66}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ParametersValues">
       <DTS:VariableValue
         DTS:DataType="8"
         xml:space="preserve"></DTS:VariableValue>
@@ -252,7 +271,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\ZinukovD\source\repos\Northwind_BI_SolutionIngestData\" />
+              Folder="C:\Users\zinyk\source\repos\Northwind_BI_SolutionIngestData\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -282,7 +301,7 @@
           <DTS:ObjectData>
             <ExecuteProcessData
               Executable="%PROGRAMFILES%\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\bcp.exe"
-              Arguments="&quot;[dbo].[]&quot; out &quot;C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\.dat&quot; -f &quot;C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
+              Arguments="&quot;[dbo].[]&quot; out &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\.dat&quot; -f &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\.fmt&quot; -S &quot;SQL.Samorodov.su&quot; -d &quot;Northwind (упрощённая)&quot; -U &quot;&quot; -P &quot;&quot;" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -321,6 +340,119 @@
       DTS:ObjectName="Ограничение"
       DTS:To="Package\For each fmt" />
   </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{317C541E-2394-4CE7-A04F-4F0370E32126}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{4E142134-6F5A-4E98-9FB2-AA0506FA87A3}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{9d1f7b58-1027-47cf-bc99-769d4c51fb31}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{d2c7a84d-0a1e-477d-bb3f-695cd85c3cfa}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameter values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues] = &quot;Project::DBFilesPath = &quot; + @[$Project::DBFilesPath] + &quot;\r\nProject::DQS_STAGING_DATA_DatabaseName = &quot; + @[$Project::DQS_STAGING_DATA_DatabaseName] + &quot;\r\nProject::DQS_STAGING_DATA_ServerName = &quot; + @[$Project::DQS_STAGING_DATA_ServerName] + &quot;\r\nProject::DQSServerName = &quot; + @[$Project::DQSServerName] + &quot;\r\nProject::DWHDatabaseName = &quot; + @[$Project::DWHDatabaseName] + &quot;\r\nProject::DWHServerName = &quot; + @[$Project::DWHServerName] + &quot;\r\nProject::ExternalFilesPath = &quot; + @[$Project::ExternalFilesPath] + &quot;\r\nProject::LandingDatabaseName = &quot; + @[$Project::LandingDatabaseName] + &quot;\r\nProject::LandingServerName = &quot; + @[$Project::LandingServerName] + &quot;\r\nProject::LogsDatabaseName = &quot; + @[$Project::LogsDatabaseName] + &quot;\r\nProject::LogsServerName = &quot; + @[$Project::LogsServerName] + &quot;\r\nProject::MDSDatabaseName = &quot; + @[$Project::MDSDatabaseName] + &quot;\r\nProject::MDSServerName = &quot; + @[$Project::MDSServerName] + &quot;\r\nProject::XMLCalendarFolder = &quot; + @[$Project::XMLCalendarFolder] + &quot;\r\nPackage::CutoffTime = &quot; + (DT_WSTR, 4) YEAR(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) MONTH(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) DAY(@[$Package::CutoffTime]) + &quot;\r\nUser::CutoffTime = &quot; + (DT_WSTR, 4) YEAR(@[User::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) MONTH(@[User::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) DAY(@[User::CutoffTime]) + &quot;\r\nUser::FileName = &quot; + @[User::FileName]+ &quot;\r\nUser::LineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{6b9b5e9d-0d3c-4de8-ae9c-a9f860d47c35}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
 <!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
@@ -340,7 +472,7 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="150,102"
+          PanelSize="150,103"
           Size="143,146"
           Id="Package\For each fmt"
           TopLeft="27.5,156.5" />
@@ -373,5 +505,43 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="27,158.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="15.5,56.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="105.5,98.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

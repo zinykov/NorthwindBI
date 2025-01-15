@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Calendar"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="416"
-  DTS:VersionGUID="{56CA2752-DBBA-4E54-88E5-3E46E4AB1881}">
+  DTS:VersionBuild="427"
+  DTS:VersionGUID="{ADA6F370-6984-4F29-9ADB-AF07E302C877}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -109,6 +109,16 @@
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8">Holidays</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B1F18321-19E6-4C20-80D6-4F2BE6D13C05}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ParametersValues">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -309,6 +319,7 @@
               DTS:CreationName="Microsoft.Pipeline"
               DTS:DTSID="{82539948-395a-4ffc-95b0-c26b0fc85067}"
               DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:FailPackageOnFailure="True"
               DTS:LocaleID="-1"
               DTS:ObjectName="Copy lineage info from DW to Logs DB"
               DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -2897,7 +2908,7 @@ WHERE   [LineageKey] = ?</property>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{C8B74604-25FD-46DB-9331-9A9A9E418AE0}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_Holidays_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Holidays{C7B78D83-BB8D-4E64-9BD0-0FD08170585F}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -3056,6 +3067,7 @@ WHERE   [LineageKey] = ?</property>
               DTS:CreationName="Microsoft.ExecuteSQLTask"
               DTS:DTSID="{7eb6f7e4-c068-4c35-8f61-8be69ea37e49}"
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:FailPackageOnFailure="True"
               DTS:LocaleID="-1"
               DTS:ObjectName="Delete lineage information from Logs db">
               <DTS:Variables />
@@ -3102,6 +3114,7 @@ WHERE   [LineageKey] = ?</property>
               DTS:CreationName="Microsoft.Pipeline"
               DTS:DTSID="{8341f1df-98f0-4ae5-abda-e45a1812bfe3}"
               DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:FailPackageOnFailure="True"
               DTS:LocaleID="-1"
               DTS:ObjectName="Update lineage info from DW to Logs DB"
               DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -3602,6 +3615,119 @@ WHERE   [LineageKey] = ?</property>
       DTS:ObjectName="Ограничение 3"
       DTS:To="Package\Set load compilation info" />
   </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{89B4BBBF-CB0F-45DD-9EF8-2BCB5AC8B2FA}"
+      DTS:EventID="870099296"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{92817F99-FB0F-470C-8741-A298580FF2D9}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{F8F30EDC-9881-46A3-9054-930333C19C0D}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{11547E35-90F2-476A-B50B-6442DED256FC}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameter values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues] = &quot;Project::DBFilesPath = &quot; + @[$Project::DBFilesPath] + &quot;\r\nProject::DQS_STAGING_DATA_DatabaseName = &quot; + @[$Project::DQS_STAGING_DATA_DatabaseName] + &quot;\r\nProject::DQS_STAGING_DATA_ServerName = &quot; + @[$Project::DQS_STAGING_DATA_ServerName] + &quot;\r\nProject::DQSServerName = &quot; + @[$Project::DQSServerName] + &quot;\r\nProject::DWHDatabaseName = &quot; + @[$Project::DWHDatabaseName] + &quot;\r\nProject::DWHServerName = &quot; + @[$Project::DWHServerName] + &quot;\r\nProject::ExternalFilesPath = &quot; + @[$Project::ExternalFilesPath] + &quot;\r\nProject::LandingDatabaseName = &quot; + @[$Project::LandingDatabaseName] + &quot;\r\nProject::LandingServerName = &quot; + @[$Project::LandingServerName] + &quot;\r\nProject::LogsDatabaseName = &quot; + @[$Project::LogsDatabaseName] + &quot;\r\nProject::LogsServerName = &quot; + @[$Project::LogsServerName] + &quot;\r\nProject::MDSDatabaseName = &quot; + @[$Project::MDSDatabaseName] + &quot;\r\nProject::MDSServerName = &quot; + @[$Project::MDSServerName] + &quot;\r\nProject::XMLCalendarFolder = &quot; + @[$Project::XMLCalendarFolder] + &quot;\r\nPackage::CutoffTime = &quot; + (DT_WSTR, 4) YEAR(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) MONTH(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) DAY(@[$Package::CutoffTime]) + &quot;\r\nUser::AreThereAnyChanges = &quot; + (DT_WSTR, 5) @[User::AreThereAnyChanges] + &quot;\r\nUser::DimensionName = &quot; + @[User::DimensionName] + &quot;\r\nUser::EndDate = &quot; + (DT_WSTR, 4)@[User::EndDate] + &quot;\r\nUser::LineageKey = &quot; + (DT_WSTR, 10) @[User::LineageKey] + &quot;\r\nUser::MDS_VersionName = &quot; + @[User::MDS_VersionName] + &quot;\r\nUser::ModelName = &quot; + @[User::ModelName] + &quot;\r\nUser::SourceTableName1 = &quot; + @[User::SourceTableName1] + &quot;\r\nUser::StartDate = &quot; + (DT_WSTR, 4) @[User::StartDate]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{08B34B3B-A146-48E3-B4A5-0007B614BE13}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
 <!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
@@ -3629,18 +3755,18 @@ WHERE   [LineageKey] = ?</property>
         <NodeLayout
           Size="270,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table"
-          TopLeft="5.5,107.5" />
+          TopLeft="4.5,107.5" />
         <NodeLayout
           Size="204,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\Landing update hash table"
-          TopLeft="38.5,209.5" />
+          TopLeft="37.5,209.5" />
         <NodeLayout
           Size="209,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\Truncate DQS staging table"
           TopLeft="36,5.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed.PrecedenceConstraints[Constraint]"
-          TopLeft="140.5,47.5">
+          TopLeft="140,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3662,7 +3788,7 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed.PrecedenceConstraints[Constraint 3]"
-          TopLeft="140.5,149.5">
+          TopLeft="139.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -3822,7 +3948,7 @@ WHERE   [LineageKey] = ?</property>
           PanelSize="445,821"
           Size="445,864"
           Id="Package\Landing -&gt; DQS -&gt; MDS"
-          TopLeft="304,156.5" />
+          TopLeft="302,155.5" />
         <NodeLayout
           Size="167,42"
           Id="Package\MDS -&gt; DWH\Add unknown date"
@@ -4115,14 +4241,158 @@ WHERE   [LineageKey] = ?</property>
           PanelSize="452,817"
           Size="452,860"
           Id="Package\MDS -&gt; DWH"
-          TopLeft="13.5000000000002,1080.5" />
+          TopLeft="13.5000000000002,1079.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
           TopLeft="429,2000.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="526.5,96.5">
+          TopLeft="525.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="239.5,1939.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="255.833333333333,61"
+              Start="0,0"
+              End="255.833333333333,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.3021363173957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.3021363173957"
+                    Point2="0,36.3021363173957"
+                    Point3="4,36.3021363173957" />
+                  <mssgle:LineSegment
+                    End="251.833333333333,36.3021363173957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="251.833333333333,36.3021363173957"
+                    Point2="255.833333333333,36.3021363173957"
+                    Point3="255.833333333333,40.3021363173957" />
+                  <mssgle:LineSegment
+                    End="255.833333333333,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="451.666666666667,1019.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-212.166666666666,60"
+              Start="0,0"
+              End="-212.166666666666,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1289744738021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1289744738021"
+                    Point2="0,24.1289744738021"
+                    Point3="-4,24.1289744738021" />
+                  <mssgle:LineSegment
+                    End="-208.166666666666,24.1289744738021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-208.166666666666,24.1289744738021"
+                    Point2="-212.166666666666,24.1289744738021"
+                    Point3="-212.166666666666,28.1289744738021" />
+                  <mssgle:LineSegment
+                    End="-212.166666666666,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-114.083333333333,29.1289744738021,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="597.333333333333,1019.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-39.6666666666666,981"
+              Start="0,0"
+              End="-39.6666666666666,973.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,483.714808926239" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,483.714808926239"
+                    Point2="0,487.714808926239"
+                    Point3="-4,487.714808926239" />
+                  <mssgle:LineSegment
+                    End="-35.6666666666666,487.714808926239" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-35.6666666666666,487.714808926239"
+                    Point2="-39.6666666666666,487.714808926239"
+                    Point3="-39.6666666666666,491.714808926239" />
+                  <mssgle:LineSegment
+                    End="-39.6666666666666,973.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-27.8333333333333,492.714808926239,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="23,156.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="11.5,54.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="101.5,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4142,115 +4412,9 @@ WHERE   [LineageKey] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="239.5,1940.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="255.833333333333,60"
-              Start="0,0"
-              End="255.833333333333,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.707019328586" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.707019328586"
-                    Point2="0,35.707019328586"
-                    Point3="4,35.707019328586" />
-                  <mssgle:LineSegment
-                    End="251.833333333333,35.707019328586" />
-                  <mssgle:CubicBezierSegment
-                    Point1="251.833333333333,35.707019328586"
-                    Point2="255.833333333333,35.707019328586"
-                    Point3="255.833333333333,39.707019328586" />
-                  <mssgle:LineSegment
-                    End="255.833333333333,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="453.666666666667,1020.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-214.166666666667,60"
-              Start="0,0"
-              End="-214.166666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.1289744738021" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.1289744738021"
-                    Point2="0,24.1289744738021"
-                    Point3="-4,24.1289744738021" />
-                  <mssgle:LineSegment
-                    End="-210.166666666667,24.1289744738021" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-210.166666666667,24.1289744738021"
-                    Point2="-214.166666666667,24.1289744738021"
-                    Point3="-214.166666666667,28.1289744738021" />
-                  <mssgle:LineSegment
-                    End="-214.166666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-115.083333333333,29.1289744738021,16,16"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="599.333333333333,1020.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-41.6666666666666,980"
-              Start="0,0"
-              End="-41.6666666666666,972.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,483.217648060871" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,483.217648060871"
-                    Point2="0,487.217648060871"
-                    Point3="-4,487.217648060871" />
-                  <mssgle:LineSegment
-                    End="-37.6666666666666,487.217648060871" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-37.6666666666666,487.217648060871"
-                    Point2="-41.6666666666666,487.217648060871"
-                    Point3="-41.6666666666666,491.217648060871" />
-                  <mssgle:LineSegment
-                    End="-41.6666666666666,972.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-28.8333333333333,492.217648060871,16,16"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
-  </Package>
+  </DtsEventHandler>
   <DtsEventHandler
     design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]">
     <LayoutInfo>
@@ -4263,6 +4427,54 @@ WHERE   [LineageKey] = ?</property>
       </GraphLayout>
     </LayoutInfo>
   </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
+          TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
+        <EdgeLayout
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="107.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Holidays\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
@@ -4559,52 +4771,6 @@ WHERE   [LineageKey] = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="131,42"
-          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
-          TopLeft="42,54.5" />
-        <NodeLayout
-          Size="172,42"
-          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
-          TopLeft="21.5,156.5" />
-        <EdgeLayout
-          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="107.5,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <DtsEventHandler
     design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]">
     <LayoutInfo>
@@ -4647,7 +4813,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="131,42"
           Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
@@ -4675,7 +4841,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
