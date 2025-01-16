@@ -344,7 +344,6 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine($"**********Started OnErrorTest**********");
             
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing data for testing OnError event...");
             DateTime CutoffTime = LoadDateIncrementalEnd.AddDays(1);
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
@@ -354,22 +353,17 @@ namespace NorthwindETLTest
                     ParameterName = "CutoffTime",
                     ParameterValue = CutoffTime
                 });
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 30,
-                    ParameterName = "LoadDateInitialEnd",
-                    ParameterValue = LoadDateInitialEnd
-                }); 
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing data for testing OnError event...");
             string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
-            
             PrepareCustomersTestData(CutoffTime, testDataFolder);
             PrepareCustomersTestData(CutoffTime, testDataFolder);
 
             try 
             { 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Testing OnError event...");
-                ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
+                ExecuteDtsxInSSISDB("Load Dim Customers.dtsx", CutoffTime, setValueParameters);
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
             }
             catch
             {
