@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NorthwindETLTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Terralink")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NorthwindETLTest")]
-[assembly: AssemblyCopyright("Copyright © Terralink 2024")]
+[assembly: AssemblyCopyright("Copyright © 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
