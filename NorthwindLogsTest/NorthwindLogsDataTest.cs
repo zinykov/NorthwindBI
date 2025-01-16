@@ -44,12 +44,6 @@ namespace NorthwindLogsTest
             EventHandlersOnErrorDataTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             ErrorLogNotEmptyResultSet = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.NotEmptyResultSetCondition();
             // 
-            // EventHandlersOnErrorDataTestData
-            // 
-            this.EventHandlersOnErrorDataTestData.PosttestAction = null;
-            this.EventHandlersOnErrorDataTestData.PretestAction = null;
-            this.EventHandlersOnErrorDataTestData.TestAction = EventHandlersOnErrorDataTest_TestAction;
-            // 
             // EventHandlersOnErrorDataTest_TestAction
             // 
             EventHandlersOnErrorDataTest_TestAction.Conditions.Add(ErrorLogNotEmptyResultSet);
@@ -60,6 +54,12 @@ namespace NorthwindLogsTest
             ErrorLogNotEmptyResultSet.Enabled = true;
             ErrorLogNotEmptyResultSet.Name = "ErrorLogNotEmptyResultSet";
             ErrorLogNotEmptyResultSet.ResultSet = 1;
+            // 
+            // EventHandlersOnErrorDataTestData
+            // 
+            this.EventHandlersOnErrorDataTestData.PosttestAction = null;
+            this.EventHandlersOnErrorDataTestData.PretestAction = null;
+            this.EventHandlersOnErrorDataTestData.TestAction = EventHandlersOnErrorDataTest_TestAction;
         }
 
         #endregion

@@ -183,6 +183,7 @@ namespace NorthwindETLTest
                 Directory.CreateDirectory(testDataFolder);
 
                 PrepareCustomersTestData(CutoffTime, testDataFolder);
+                if (CutoffTime == new DateTime(1998, 1, 5, 1, 0, 0)) PrepareCustomersTestData(CutoffTime, testDataFolder);
                 PrepareEmployeesTestData(CutoffTime, testDataFolder);
                 PrepareProductsTestData(CutoffTime, testDataFolder);
                 PrepareCategoriesTestData(CutoffTime, testDataFolder);
@@ -250,49 +251,32 @@ namespace NorthwindETLTest
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx...");
-                var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-                setValueParameters.Add(
-                    new PackageInfo.ExecutionValueParameterSet
+                if (CutoffTime != new DateTime(1998, 1, 5, 1, 0, 0)) 
+                {
+                    try 
                     {
-                        ObjectType = 30,
-                        ParameterName = "CutoffTime",
-                        ParameterValue = CutoffTime
-                    });
-                setValueParameters.Add(
-                    new PackageInfo.ExecutionValueParameterSet
+                        NorthwindBITransformAndLoadJod(CutoffTime);
+                    }
+                    catch (Exception e)
                     {
-                        ObjectType = 30,
-                        ParameterName = "LoadDateInitialEnd",
-                        ParameterValue = LoadDateInitialEnd
-                    });
-                try
-                {
-                    ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
+                        Assert.Fail(e.Message);
+                    }
                 }
-                catch (Exception e)
+                else
                 {
-                    Assert.Fail(e.Message);
-                }
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
-                CallProcess(
-                    "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
-                    $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {Environment.MachineName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP COPY DATABASEFILES INFO**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
-                setValueParameters.Clear();
-                try
-                {
-                    ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", CutoffTime, setValueParameters);
-                }
-                catch (Exception e)
-                {
-                    Assert.Fail(e.Message);
+                    try
+                    {
+                        NorthwindBITransformAndLoadJod(CutoffTime);
+                        Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
+                    }
+                    catch
+                    {
+                        LogsDataTest.EventHandlersOnErrorDataTest();
+                    }
+                    finally
+                    {
+                        CleanupFolder($"{TestData}\\{LoadDateInitialEnd.AddDays(1):yyyy-MM-dd}");
+                    }
                 }
 
                 if (CutoffTime == new DateTime(1997, 12, 31, 1, 0, 0))
@@ -344,25 +328,19 @@ namespace NorthwindETLTest
         {
             System.Diagnostics.Trace.WriteLine($"**********Started OnErrorTest**********");
             
-            DateTime CutoffTime = LoadDateIncrementalEnd.AddDays(1);
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
                 new PackageInfo.ExecutionValueParameterSet
                 {
                     ObjectType = 30,
                     ParameterName = "CutoffTime",
-                    ParameterValue = CutoffTime
+                    ParameterValue = LoadDateInitialEnd.AddDays(1)
                 });
-
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing data for testing OnError event...");
-            string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
-            PrepareCustomersTestData(CutoffTime, testDataFolder);
-            PrepareCustomersTestData(CutoffTime, testDataFolder);
 
             try 
             { 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Testing OnError event...");
-                ExecuteDtsxInSSISDB("Load Dim Customers.dtsx", CutoffTime, setValueParameters);
+                ExecuteDtsxInSSISDB("Load Dim Customers.dtsx", LoadDateInitialEnd.AddDays(1), setValueParameters);
                 Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
             }
             catch
@@ -371,11 +349,45 @@ namespace NorthwindETLTest
             }
             finally 
             {
-                CleanupFolder(testDataFolder);
+                CleanupFolder($"{TestData}\\{LoadDateInitialEnd.AddDays(1):yyyy-MM-dd}");
             }
             System.Diagnostics.Trace.WriteLine("**********Finished OnErrorTest**********");
         }
 
+        private static void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
+        {
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx...");
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "CutoffTime",
+                    ParameterValue = CutoffTime
+                });
+            setValueParameters.Add(
+                new PackageInfo.ExecutionValueParameterSet
+                {
+                    ObjectType = 30,
+                    ParameterName = "LoadDateInitialEnd",
+                    ParameterValue = LoadDateInitialEnd
+                });
+            ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
+            CallProcess(
+                "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
+                $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {Environment.MachineName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP COPY DATABASEFILES INFO**********");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
+            setValueParameters.Clear();
+            ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", CutoffTime, setValueParameters);
+        }
+        
         private static void ExecuteDtsxInSSISDB(string PackgeName, DateTime CutoffTime, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
