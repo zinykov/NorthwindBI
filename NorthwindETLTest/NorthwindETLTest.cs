@@ -7,6 +7,8 @@ using System.Data.SqlTypes;
 using System.IO;
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using Microsoft.SqlServer.Management.Smo;
+using NorthwindLogsTest;
+using System.Linq.Expressions;
 
 namespace NorthwindETLTest
 {
@@ -21,6 +23,7 @@ namespace NorthwindETLTest
 
         private static string SQLServerFiles;
         private static NorthwindETLDataTest ETLDataTest = new NorthwindETLDataTest();
+        private static NorthwindLogsDataTest LogsDataTest = new NorthwindLogsDataTest();
         private static string SSISServerName = Environment.MachineName;
         private static string SSISDatabaseName = "SSISDB";
         private static string SSISFolderName = "NorthwindBI";
@@ -41,8 +44,8 @@ namespace NorthwindETLTest
             }
         }
 
-        [TestInitialize()]
-        public void TestInitialize()
+        [ClassInitialize()]
+        public void ClassInitialize()
         {
             System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
 
@@ -176,159 +179,15 @@ namespace NorthwindETLTest
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
                 string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
-                string datFilePath;
-                string sqlQuery;
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {testDataFolder}");
                 Directory.CreateDirectory(testDataFolder);
 
-                // Prepare Customers test data
-                {
-                    datFilePath = $"{testDataFolder}\\Customers.dat";
-                    sqlQuery =
-                        $"SELECT DISTINCT C.[CustomerID]" +
-                        $", [CompanyName]" +
-                        $", [ContactName]" +
-                        $", [ContactTitle]" +
-                        $", [City]" +
-                        $", [Country]" +
-                        $", [Phone]" +
-                        $", [Fax]" +
-                        $" FROM [Landing].[Customers] AS C" +
-                        $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
-                    {
-                        sqlExpression = "UPDATE [Landing].[Customers] " +
-                            "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
-                            "WHERE [CustomerID] = N'FRANK';";
-                        ExecuteSqlCommand(sqlExpression);
-                    }
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
-
-                // Prepare Employees test data
-                {
-                    datFilePath = $"{testDataFolder}\\Employees.dat";
-                    sqlQuery =
-                        $"SELECT DISTINCT E.[EmployeeID]" +
-                        $", [LastName]" +
-                        $", [FirstName]" +
-                        $", [Title]" +
-                        $", [TitleOfCourtesy]" +
-                        $", [City]" +
-                        $", [Country]" +
-                        $" FROM [Landing].[Employees] AS E" +
-                        $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
-                    {
-                        sqlExpression = "UPDATE [Landing].[Employees]" +
-                            " SET[City] = N'Moscow', [Country] = N'Russia'" +
-                            " WHERE[EmployeeID] = 2; ";
-                        ExecuteSqlCommand(sqlExpression);
-                    }
-                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
-                    {
-                        sqlExpression = "UPDATE [Landing].[Employees]" +
-                            " SET [City] = N'Tacoma', [Country] = N'USA'" +
-                            " WHERE[EmployeeID] = 2; ";
-                        ExecuteSqlCommand(sqlExpression);
-                    }
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
-
-                // Prepare Products test data
-                {
-                    datFilePath = $"{testDataFolder}\\Products.dat";
-                    sqlQuery =
-                        $"SELECT DISTINCT P.[ProductID]" +
-                        $", [ProductName]" +
-                        $", [SupplierID]" +
-                        $", [CategoryID]" +
-                        $", P.[UnitPrice]" +
-                        $" FROM[Landing].[Products] AS P" +
-                        $" INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID]" +
-                        $" INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
-                    {
-                        sqlExpression =
-                            "UPDATE [Landing].[Products]" +
-                            " SET [ProductName] = REVERSE( [ProductName] ), [CategoryID] = 2" +
-                            " WHERE[ProductID] = 2;";
-                        ExecuteSqlCommand(sqlExpression);
-                    }
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
-
-                // Prepare Categories test data
-                {
-                    datFilePath = $"{testDataFolder}\\Categories.dat";
-                    sqlQuery =
-                        $"SELECT [CategoryID]" +
-                        $", [CategoryName]" +
-                        $", [Description]" +
-                        $" FROM [Landing].[Categories]";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
-                    {
-                        sqlExpression =
-                            "UPDATE [Landing].[Categories]" +
-                            " SET [CategoryName] = REVERSE( [CategoryName] )" +
-                            " WHERE[CategoryID] = 2;";
-                        ExecuteSqlCommand(sqlExpression);
-                    }
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
-
-                // Prepare Orders test data
-                {
-                    datFilePath = $"{testDataFolder}\\Orders.dat";
-                    sqlQuery =
-                        $"SELECT [OrderID]" +
-                        $", [CustomerID]" +
-                        $", [EmployeeID]" +
-                        $", [OrderDate]" +
-                        $", [RequiredDate]" +
-                        $", CASE WHEN [ShippedDate] > DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day}) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
-                        $", [ShipCity]" +
-                        $", [ShipCountry]" +
-                        $" FROM [Landing].[Orders]" +
-                        $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
-
-                // Prepare Order Details test data
-                {
-                    datFilePath = $"{testDataFolder}\\Order Details.dat";
-                    sqlQuery =
-                        $"SELECT OD.[OrderID]" +
-                        $", [ProductID]" +
-                        $", [UnitPrice]" +
-                        $", [Quantity]" +
-                        $", [Discount]" +
-                        $" FROM [Landing].[Order Details] AS OD" +
-                        $" INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID]" +
-                        $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
-
-                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-                    CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                        $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
-                }
+                PrepareCustomersTestData(CutoffTime, testDataFolder);
+                PrepareEmployeesTestData(CutoffTime, testDataFolder);
+                PrepareProductsTestData(CutoffTime, testDataFolder);
+                PrepareCategoriesTestData(CutoffTime, testDataFolder);
+                PrepareOrdersTestData(CutoffTime, testDataFolder);
+                PrepareOrderDetailsTestData(CutoffTime, testDataFolder);
             }
 
             //Cleaning up NorthwindLanding
@@ -337,6 +196,9 @@ namespace NorthwindETLTest
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindETLDataTests...");
             ETLDataTest.TestInitialize();
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsDataTest...");
+            LogsDataTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
@@ -357,8 +219,8 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
         }
 
-        [TestCleanup()]
-        public void TestCleanup()
+        [ClassCleanup()]
+        public void ClassCleanup()
         {
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
@@ -380,19 +242,58 @@ namespace NorthwindETLTest
         }
 
         [TestMethod]
-        public void NorthwindTest()
+        public void FunctionalETLTest()
         {
-            System.Diagnostics.Trace.WriteLine($"**********Started test**********");
+            System.Diagnostics.Trace.WriteLine($"**********Started FunctionalETLTest**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
             ETLDataTest.UpdatePartitionSchema();
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx...");
-                ExecuteTransformAndLoadDTSX(CutoffTime);
+                var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
+                setValueParameters.Add(
+                    new PackageInfo.ExecutionValueParameterSet
+                    {
+                        ObjectType = 30,
+                        ParameterName = "CutoffTime",
+                        ParameterValue = CutoffTime
+                    });
+                setValueParameters.Add(
+                    new PackageInfo.ExecutionValueParameterSet
+                    {
+                        ObjectType = 30,
+                        ParameterName = "LoadDateInitialEnd",
+                        ParameterValue = LoadDateInitialEnd
+                    });
+                try
+                {
+                    ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail(e.Message);
+                }
+
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
+                CallProcess(
+                    "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
+                    $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {Environment.MachineName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
+
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP COPY DATABASEFILES INFO**********");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
+                setValueParameters.Clear();
+                try
+                {
+                    ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", CutoffTime, setValueParameters);
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail(e.Message);
+                }
 
                 if (CutoffTime == new DateTime(1997, 12, 31, 1, 0, 0))
                 {
@@ -433,29 +334,18 @@ namespace NorthwindETLTest
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
                 ETLDataTest.OrderShippingDateTest();
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
-                CallProcess(
-                    "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
-                    $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {Environment.MachineName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP COPY DATABASEFILES INFO**********");
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
-                ExecuteMaintenanceCopyDatabaseFilesDTSX();
             }
 
-            System.Diagnostics.Trace.WriteLine("**********Finished test**********");
+            System.Diagnostics.Trace.WriteLine("**********Finished FunctionalETLTest**********");
         }
 
-        private static void ExecuteTransformAndLoadDTSX(DateTime CutoffTime)
+        [TestMethod]
+        public void OnErrorTest()
         {
-            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
-            ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
-            EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
-            Int64 executionid = -1;
-
-            PackageInfo package = NorthwindETL.Packages["Transform and load.dtsx"];
+            System.Diagnostics.Trace.WriteLine($"**********Started OnErrorTest**********");
+            
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing data for testing OnError event...");
+            DateTime CutoffTime = LoadDateIncrementalEnd.AddDays(1);
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
             setValueParameters.Add(
                 new PackageInfo.ExecutionValueParameterSet
@@ -470,50 +360,46 @@ namespace NorthwindETLTest
                     ObjectType = 30,
                     ParameterName = "LoadDateInitialEnd",
                     ParameterValue = LoadDateInitialEnd
-                });
+                }); 
+            string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
+            
+            PrepareCustomersTestData(CutoffTime, testDataFolder);
+            PrepareCustomersTestData(CutoffTime, testDataFolder);
 
-            try
-            {
-                executionid = package.Execute(false, referenceid, setValueParameters);
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
-
-                ExecutionOperation operation = SSISDB.Executions[executionid];
-
-                while (!operation.Completed)
-                {
-                    operation.Refresh();
-                    System.Threading.Thread.Sleep(500);
-                }
+            try 
+            { 
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Testing OnError event...");
+                ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
             }
-            catch (Exception e)
+            catch
             {
-                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
+                LogsDataTest.EventHandlersOnErrorDataTest();
             }
-
-            string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
-
-            if (catalogExecutions == "Failed")
+            finally 
             {
-                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
+                CleanupFolder(testDataFolder);
             }
-            else
-            {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
-            }
+            System.Diagnostics.Trace.WriteLine("**********Finished OnErrorTest**********");
         }
 
-        private static void ExecuteMaintenanceCopyDatabaseFilesDTSX()
+        private static void ExecuteDtsxInSSISDB(string PackgeName, DateTime CutoffTime, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
             Int64 executionid = -1;
 
-            PackageInfo package = NorthwindETL.Packages["Maintenance copy DatabaseFiles.dtsx"];
-
+            PackageInfo package = NorthwindETL.Packages[PackgeName];
             try
             {
-                executionid = package.Execute(false, referenceid);
+                if (setValueParameters.Count > 0)
+                {
+                    executionid = package.Execute(false, referenceid, setValueParameters);
+                }
+                else
+                {
+                    executionid = package.Execute(false, referenceid);
+                }
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
 
                 ExecutionOperation operation = SSISDB.Executions[executionid];
@@ -526,14 +412,14 @@ namespace NorthwindETLTest
             }
             catch (Exception e)
             {
-                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
+                throw new ArgumentException($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Failed launch SSIS package {package.Name} with error: \"{e.Message}\"");
             }
 
             string catalogExecutions = SSISDB.Executions[new ExecutionOperation.Key(executionid)].Status.ToString();
 
             if (catalogExecutions == "Failed")
             {
-                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
+                throw new ArgumentException($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
             else
             {
@@ -597,6 +483,164 @@ namespace NorthwindETLTest
                 command.ExecuteNonQuery();
                 connection.Close();
             }
+        }
+
+        private static void PrepareCustomersTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string sqlExpression;
+            string datFilePath = $"{testDataFolder}\\Customers.dat";
+            string sqlQuery =
+                $"SELECT DISTINCT C.[CustomerID]" +
+                $", [CompanyName]" +
+                $", [ContactName]" +
+                $", [ContactTitle]" +
+                $", [City]" +
+                $", [Country]" +
+                $", [Phone]" +
+                $", [Fax]" +
+                $" FROM [Landing].[Customers] AS C" +
+                $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
+                $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            {
+                sqlExpression = "UPDATE [Landing].[Customers] " +
+                    "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
+                    "WHERE [CustomerID] = N'FRANK';";
+                ExecuteSqlCommand(sqlExpression);
+            }
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+            
+        }
+
+        private static void PrepareEmployeesTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string sqlExpression;
+            string datFilePath = $"{testDataFolder}\\Customers.dat";
+            string sqlQuery =
+                $"SELECT DISTINCT E.[EmployeeID]" +
+                $", [LastName]" +
+                $", [FirstName]" +
+                $", [Title]" +
+                $", [TitleOfCourtesy]" +
+                $", [City]" +
+                $", [Country]" +
+                $" FROM [Landing].[Employees] AS E" +
+                $" INNER JOIN [Landing].[Orders] AS O ON E.[EmployeeID] = O.[EmployeeID]" +
+                $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+            {
+                sqlExpression = "UPDATE [Landing].[Employees]" +
+                    " SET[City] = N'Moscow', [Country] = N'Russia'" +
+                    " WHERE[EmployeeID] = 2; ";
+                ExecuteSqlCommand(sqlExpression);
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            {
+                sqlExpression = "UPDATE [Landing].[Employees]" +
+                    " SET [City] = N'Tacoma', [Country] = N'USA'" +
+                    " WHERE[EmployeeID] = 2; ";
+                ExecuteSqlCommand(sqlExpression);
+            }
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+            
+        }
+
+        private static void PrepareProductsTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string sqlExpression;
+            string datFilePath = $"{testDataFolder}\\Products.dat";
+            string sqlQuery =
+                $"SELECT DISTINCT P.[ProductID]" +
+                $", [ProductName]" +
+                $", [SupplierID]" +
+                $", [CategoryID]" +
+                $", P.[UnitPrice]" +
+                $" FROM[Landing].[Products] AS P" +
+                $" INNER JOIN [Landing].[Order Details] AS OD ON P.[ProductID] = OD.[ProductID]" +
+                $" INNER JOIN [Landing].[Orders] AS O ON OD.[OrderID] = O.[OrderID]" +
+                $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+            {
+                sqlExpression =
+                    "UPDATE [Landing].[Products]" +
+                    " SET [ProductName] = REVERSE( [ProductName] ), [CategoryID] = 2" +
+                    " WHERE[ProductID] = 2;";
+                ExecuteSqlCommand(sqlExpression);
+            }
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+
+        }
+
+        private static void PrepareCategoriesTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string sqlExpression;
+            string datFilePath = $"{testDataFolder}\\Categories.dat";
+            string sqlQuery =
+                $"SELECT [CategoryID]" +
+                $", [CategoryName]" +
+                $", [Description]" +
+                $" FROM [Landing].[Categories]";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            {
+                sqlExpression =
+                    "UPDATE [Landing].[Categories]" +
+                    " SET [CategoryName] = REVERSE( [CategoryName] )" +
+                    " WHERE[CategoryID] = 2;";
+                ExecuteSqlCommand(sqlExpression);
+            }
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+            
+
+        }
+
+        private static void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string datFilePath = $"{testDataFolder}\\Orders.dat";
+            string sqlQuery =
+                $"SELECT [OrderID]" +
+                $", [CustomerID]" +
+                $", [EmployeeID]" +
+                $", [OrderDate]" +
+                $", [RequiredDate]" +
+                $", CASE WHEN [ShippedDate] > DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day}) THEN NULL ELSE [ShippedDate] END AS [ShippedDate]" +
+                $", [ShipCity]" +
+                $", [ShipCountry]" +
+                $" FROM [Landing].[Orders]" +
+                $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+            }
+
+        private static void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
+        {
+            string datFilePath = $"{testDataFolder}\\Order Details.dat";
+            string sqlQuery =
+                $"SELECT OD.[OrderID]" +
+                $", [ProductID]" +
+                $", [UnitPrice]" +
+                $", [Quantity]" +
+                $", [Discount]" +
+                $" FROM [Landing].[Order Details] AS OD" +
+                $" INNER JOIN [Landing].[Orders] AS O ON O.[OrderID] = OD.[OrderID]" +
+                $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
         }
     }
 }
