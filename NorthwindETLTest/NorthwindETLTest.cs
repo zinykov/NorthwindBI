@@ -323,7 +323,7 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("**********Finished FunctionalETLTest**********");
         }
 
-        private static void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
+        private void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
         {
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
@@ -357,7 +357,7 @@ namespace NorthwindETLTest
             ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", CutoffTime, setValueParameters);
         }
         
-        private static void ExecuteDtsxInSSISDB(string PackgeName, DateTime CutoffTime, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
+        private void ExecuteDtsxInSSISDB(string PackgeName, DateTime CutoffTime, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
@@ -402,7 +402,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void CleanupFolder(string FolderPath)
+        private void CleanupFolder(string FolderPath)
         {
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath}");
             try
@@ -429,7 +429,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void CallProcess(string FileName, string Arguments)
+        private void CallProcess(string FileName, string Arguments)
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = FileName;
@@ -448,7 +448,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
+        private void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
         {
             string connectionString = $"Data Source={Environment.MachineName};Initial Catalog={InitialCatalog};Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -460,7 +460,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private static void PrepareCustomersTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareCustomersTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Customers.dat";
@@ -490,7 +490,7 @@ namespace NorthwindETLTest
             
         }
 
-        private static void PrepareEmployeesTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareEmployeesTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Customers.dat";
@@ -526,7 +526,7 @@ namespace NorthwindETLTest
             
         }
 
-        private static void PrepareProductsTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareProductsTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Products.dat";
@@ -555,7 +555,7 @@ namespace NorthwindETLTest
 
         }
 
-        private static void PrepareCategoriesTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareCategoriesTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Categories.dat";
@@ -580,7 +580,7 @@ namespace NorthwindETLTest
 
         }
 
-        private static void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
         {
             string datFilePath = $"{testDataFolder}\\Orders.dat";
             string sqlQuery =
@@ -600,7 +600,7 @@ namespace NorthwindETLTest
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
             }
 
-        private static void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
+        private void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
         {
             string datFilePath = $"{testDataFolder}\\Order Details.dat";
             string sqlQuery =
