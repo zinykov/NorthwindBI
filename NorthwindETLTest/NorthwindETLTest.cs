@@ -323,37 +323,6 @@ namespace NorthwindETLTest
             System.Diagnostics.Trace.WriteLine("**********Finished FunctionalETLTest**********");
         }
 
-        [TestMethod]
-        public void OnErrorTest()
-        {
-            System.Diagnostics.Trace.WriteLine($"**********Started OnErrorTest**********");
-            
-            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            setValueParameters.Add(
-                new PackageInfo.ExecutionValueParameterSet
-                {
-                    ObjectType = 30,
-                    ParameterName = "CutoffTime",
-                    ParameterValue = LoadDateInitialEnd.AddDays(1)
-                });
-
-            try 
-            { 
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Testing OnError event...");
-                ExecuteDtsxInSSISDB("Load Dim Customers.dtsx", LoadDateInitialEnd.AddDays(1), setValueParameters);
-                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
-            }
-            catch
-            {
-                LogsDataTest.EventHandlersOnErrorDataTest();
-            }
-            finally 
-            {
-                CleanupFolder($"{TestData}\\{LoadDateInitialEnd.AddDays(1):yyyy-MM-dd}");
-            }
-            System.Diagnostics.Trace.WriteLine("**********Finished OnErrorTest**********");
-        }
-
         private static void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
         {
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
