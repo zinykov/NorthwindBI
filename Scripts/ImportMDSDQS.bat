@@ -1,4 +1,4 @@
-cd "C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Binn"
+cd "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Binn"
 dqsinstaller -importkbs "C:\Users\zinyk\OneDrive\DisasterRecovery\DQS\DQSBackup.dqsb" -collation "Cyrillic_General_CI_AS_KS_WS"
 
 cd  "C:\Program Files\Microsoft SQL Server\160\Master Data Services\Configuration"

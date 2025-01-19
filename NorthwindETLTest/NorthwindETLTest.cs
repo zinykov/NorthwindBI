@@ -30,7 +30,7 @@ namespace NorthwindETLTest
         private static string SSISProjectName = "NorthwindETL";
         private static string TestData;
 
-        private TestContext testContextInstance;
+        private static TestContext testContextInstance;
 
         public TestContext TestContext
         {
@@ -45,18 +45,18 @@ namespace NorthwindETLTest
         }
 
         [ClassInitialize()]
-        public void ClassInitialize()
+        public static void ClassInitialize(TestContext TestContext)
         {
             System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
-            LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
-            LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
-            SQLServerFiles = (string)testContextInstance.Properties["SQLServerFiles"];
-            BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
-            string DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
-            ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
-            XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
+            LoadDateInitialEnd = DateTime.Parse((string)TestContext.Properties["LoadDateInitialEnd"]);
+            LoadDateIncrementalEnd = DateTime.Parse((string)TestContext.Properties["LoadDateIncrementalEnd"]);
+            SQLServerFiles = (string)TestContext.Properties["SQLServerFiles"];
+            BuildConfiguration = (string)TestContext.Properties["BuildConfiguration"];
+            string DBFilesPath = (string)TestContext.Properties["DBFilesPath"];
+            ExternalFilesPath = (string)TestContext.Properties["ExternalFilesPath"];
+            XMLCalendarFolder = (string)TestContext.Properties["XMLCalendarFolder"];
             string IngestData = $"{ExternalFilesPath}\\IngestData";
             TestData = $"{IngestData}\\TestData";
 
@@ -71,6 +71,7 @@ namespace NorthwindETLTest
             Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
             CleanupFolder($"{ExternalFilesPath}\\Backup");
             Directory.CreateDirectory($"{ExternalFilesPath}\\Backup\\ReadOnly");
+            CleanupFolder($"{ExternalFilesPath}\\logs");
 
             //Creating logins, roles, users
             if (BuildConfiguration != "Release")
@@ -183,7 +184,7 @@ namespace NorthwindETLTest
                 Directory.CreateDirectory(testDataFolder);
 
                 PrepareCustomersTestData(CutoffTime, testDataFolder);
-                if (CutoffTime == new DateTime(1998, 1, 5, 1, 0, 0)) PrepareCustomersTestData(CutoffTime, testDataFolder);
+                if (CutoffTime == new DateTime(1998, 1, 5, 0, 0, 0)) PrepareCustomersTestData(CutoffTime, testDataFolder);
                 PrepareEmployeesTestData(CutoffTime, testDataFolder);
                 PrepareProductsTestData(CutoffTime, testDataFolder);
                 PrepareCategoriesTestData(CutoffTime, testDataFolder);
@@ -221,7 +222,7 @@ namespace NorthwindETLTest
         }
 
         [ClassCleanup()]
-        public void ClassCleanup()
+        public static void ClassCleanup()
         {
             System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
 
@@ -251,7 +252,7 @@ namespace NorthwindETLTest
 
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                if (CutoffTime != new DateTime(1998, 1, 5, 1, 0, 0)) 
+                if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0)) 
                 {
                     try 
                     {
@@ -279,38 +280,38 @@ namespace NorthwindETLTest
                     }
                 }
 
-                if (CutoffTime == new DateTime(1997, 12, 31, 1, 0, 0))
+                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
                     ETLDataTest.CutoffTimeTest();
                 }
 
-                if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
                     ETLDataTest.EmployeeSCD2TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
                     ETLDataTest.ProductSCD1TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
                     ETLDataTest.EmployeeSCD2TestStage2();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
                     ETLDataTest.CustomerSCD2TestStage1();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
                     ETLDataTest.ProductSCD1TestStage2();
                 }
-                if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
                     ETLDataTest.PartitionsManagingTest();
@@ -402,7 +403,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private void CleanupFolder(string FolderPath)
+        private static void CleanupFolder(string FolderPath)
         {
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath}");
             try
@@ -429,7 +430,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private void CallProcess(string FileName, string Arguments)
+        private static void CallProcess(string FileName, string Arguments)
         {
             System.Diagnostics.Process myProcess = new System.Diagnostics.Process();
             myProcess.StartInfo.FileName = FileName;
@@ -448,7 +449,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
+        private static void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
         {
             string connectionString = $"Data Source={Environment.MachineName};Initial Catalog={InitialCatalog};Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -460,7 +461,7 @@ namespace NorthwindETLTest
             }
         }
 
-        private void PrepareCustomersTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareCustomersTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Customers.dat";
@@ -478,7 +479,7 @@ namespace NorthwindETLTest
                 $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
             {
                 sqlExpression = "UPDATE [Landing].[Customers] " +
                     "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
@@ -490,10 +491,10 @@ namespace NorthwindETLTest
             
         }
 
-        private void PrepareEmployeesTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareEmployeesTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
-            string datFilePath = $"{testDataFolder}\\Customers.dat";
+            string datFilePath = $"{testDataFolder}\\Employees.dat";
             string sqlQuery =
                 $"SELECT DISTINCT E.[EmployeeID]" +
                 $", [LastName]" +
@@ -507,14 +508,14 @@ namespace NorthwindETLTest
                 $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-            if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
             {
                 sqlExpression = "UPDATE [Landing].[Employees]" +
                     " SET[City] = N'Moscow', [Country] = N'Russia'" +
                     " WHERE[EmployeeID] = 2; ";
                 ExecuteSqlCommand(sqlExpression);
             }
-            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
             {
                 sqlExpression = "UPDATE [Landing].[Employees]" +
                     " SET [City] = N'Tacoma', [Country] = N'USA'" +
@@ -526,7 +527,7 @@ namespace NorthwindETLTest
             
         }
 
-        private void PrepareProductsTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareProductsTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Products.dat";
@@ -542,7 +543,7 @@ namespace NorthwindETLTest
                 $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-            if (CutoffTime == new DateTime(1998, 1, 2, 1, 0, 0))
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
             {
                 sqlExpression =
                     "UPDATE [Landing].[Products]" +
@@ -555,7 +556,7 @@ namespace NorthwindETLTest
 
         }
 
-        private void PrepareCategoriesTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareCategoriesTestData(DateTime CutoffTime, string testDataFolder)
         {
             string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Categories.dat";
@@ -566,7 +567,7 @@ namespace NorthwindETLTest
                 $" FROM [Landing].[Categories]";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
-            if (CutoffTime == new DateTime(1998, 1, 3, 1, 0, 0))
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
             {
                 sqlExpression =
                     "UPDATE [Landing].[Categories]" +
@@ -580,7 +581,7 @@ namespace NorthwindETLTest
 
         }
 
-        private void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
         {
             string datFilePath = $"{testDataFolder}\\Orders.dat";
             string sqlQuery =
@@ -600,7 +601,7 @@ namespace NorthwindETLTest
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
             }
 
-        private void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
+        private static void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
         {
             string datFilePath = $"{testDataFolder}\\Order Details.dat";
             string sqlQuery =
