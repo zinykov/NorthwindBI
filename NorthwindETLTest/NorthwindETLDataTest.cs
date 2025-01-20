@@ -497,7 +497,7 @@ namespace NorthwindETLTest
             // 
             IsFileGroupReadOnly.ColumnNumber = 9;
             IsFileGroupReadOnly.Enabled = true;
-            IsFileGroupReadOnly.ExpectedValue = "1";
+            IsFileGroupReadOnly.ExpectedValue = "true";
             IsFileGroupReadOnly.Name = "IsFileGroupReadOnly";
             IsFileGroupReadOnly.NullExpected = false;
             IsFileGroupReadOnly.ResultSet = 1;
