@@ -200,7 +200,7 @@ namespace FunctionalETLTest
             DWDataTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
-            LogsDataTest = new NorthwindLogsDataTest();
+            LogsDataTest = new NorthwindLogsDataTest(TestContext);
             LogsDataTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NorthwindDWTest;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,8 +14,9 @@ namespace NorthwindLogsTest
     public class NorthwindLogsDataTest : SqlDatabaseTestClass
     {
 
-        public NorthwindLogsDataTest()
+        public NorthwindLogsDataTest(TestContext TestContext)
         {
+            NorthwindLogsDataTestClassInitialize(TestContext);
             InitializeComponent();
         }
 
@@ -27,6 +29,12 @@ namespace NorthwindLogsTest
         public void TestCleanup()
         {
             base.CleanupTest();
+        }
+
+        [ClassInitialize()]
+        public static void NorthwindLogsDataTestClassInitialize(TestContext testContext)
+        {
+            TestService = new OverwritedTestService(testContext);
         }
 
         #region Designer support code

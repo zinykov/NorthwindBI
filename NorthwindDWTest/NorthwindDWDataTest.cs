@@ -24,6 +24,12 @@ namespace NorthwindDWTest
             base.CleanupTest();
         }
 
+        [ClassInitialize()]
+        public static void NorthwindDWDataTestClassInitialize(TestContext testContext)
+        {
+            TestService = new OverwritedTestService(testContext);
+        }
+
         #region Designer support code
 
         /// <summary> 
@@ -595,11 +601,6 @@ namespace NorthwindDWTest
         // You can use the following additional attributes as you write your tests:
         //
         // Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void NorthwindDWDataTestClassInitialize(TestContext testContext)
-        {
-            TestService = new OverwritedTestService(testContext);
-        }
 
         // Use ClassCleanup to run code after all tests in a class have run
         // [ClassCleanup()]
