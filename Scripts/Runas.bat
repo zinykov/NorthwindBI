@@ -1,2 +1,2 @@
-::RunAs /user:UserBI "\"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe\" http://swift3/reports/browse/Monitoring"
+::RunAs /user:UserBI "\"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe\" http://N-MSC-478/reports/browse/Monitoring"
 RunAs /user:azPipelineAgent "C:\Program Files (x86)\Microsoft SQL Server Management Studio 20\Common7\IDE\Ssms.exe"
