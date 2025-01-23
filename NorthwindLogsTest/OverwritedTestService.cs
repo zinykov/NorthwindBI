@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.Schema.UnitTesting;
-using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;

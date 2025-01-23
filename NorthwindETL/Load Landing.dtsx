@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CheckpointFileName="C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
+  DTS:CheckpointFileName="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\logs\CP_Load_Landing.xml"
   DTS:CreationDate="3/13/2023 12:30:23 PM"
   DTS:CreationName="Microsoft.Package"
-  DTS:CreatorComputerName="SWIFT3"
-  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:CreatorComputerName="N-MSC-478"
+  DTS:CreatorName="N-MSC-478\ZinukovD"
   DTS:DTSID="{E770FC48-D433-4DAD-97AC-9395B8912632}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="16.0.5685.0"
@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="67"
-  DTS:VersionGUID="{A9E1BDB5-C62B-4E08-AD6C-E7D65763DE10}">
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{EEB8D5CB-F8EA-4F8C-B02E-0D18BA7BC9FA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -28,7 +28,7 @@
         DTS:Name="ConnectionString">@[$Project::ExternalFilesPath] + "\\IngestData\\" + ( @[$Package::Configuration] != "Release" ? "TestData\\" : "" ) + (DT_WSTR, 4) DATEPART( "Year", @[$Package::CutoffTime] )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Month", @[$Package::CutoffTime] ), 2 )  + "-" + RIGHT ( "0" + (DT_WSTR, 2) DATEPART( "Day", @[$Package::CutoffTime] ), 2 ) + "\\" + @[User::FileName] + ".dat"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
+          DTS:ConnectionString="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\TestData\1899-12-30\Customers.dat" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -211,7 +211,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
+              Folder="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\" />
             <FEFEProperty
               FileSpec="*.fmt" />
             <FEFEProperty
@@ -246,7 +246,7 @@
               BulkInsertTask:DestinationConnectionName="{1F691923-3F2A-4F37-8981-112139599AFC}"
               BulkInsertTask:DestinationTableName="[Landing].[Customers]"
               BulkInsertTask:UseFormatFile="True"
-              BulkInsertTask:FormatFile="C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+              BulkInsertTask:FormatFile="C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\Customers.fmt" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -258,6 +258,23 @@
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate landing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{c6e8aba3-df3f-4e8b-aea4-71e24ceece7c}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate landing"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+          SQLTask:SqlStatementSource="EXECUTE [Landing].[TruncateLanding]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\xmlcalendar foreach loop"
@@ -275,7 +292,7 @@
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
-              Folder="C:\Users\zinyk\source\repos\xmlcalendar\ru" />
+              Folder="C:\Users\ZinukovD\source\repos\xmlcalendar\ru" />
             <FEFEProperty
               FileSpec="calendar.xml" />
             <FEFEProperty
@@ -442,7 +459,7 @@
                       dataType="System.String"
                       description="Определение схемы XML, используемое адаптером источника XML-данных."
                       expressionType="Notify"
-                      name="XMLSchemaDefinition">C:\Users\zinyk\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\xmlcalendar.xsd</property>
+                      name="XMLSchemaDefinition">C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\IngestData\FormatFiles\xmlcalendar.xsd</property>
                     <property
                       dataType="System.Boolean"
                       description="Указывает, использовать ли встроенную схему."
@@ -1484,6 +1501,24 @@
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{340148B4-7E41-444D-A008-1F41570F7A58}"
+      DTS:From="Package\Truncate landing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\For each fmt" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{06BCE714-CF16-41C0-B65C-42942AA0850B}"
+      DTS:From="Package\Truncate landing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\xmlcalendar foreach loop" />
+  </DTS:PrecedenceConstraints>
   <DTS:EventHandlers>
     <DTS:EventHandler
       DTS:refId="Package.EventHandlers[OnError]"
@@ -1598,28 +1633,28 @@
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="170,42"
           Id="Package\For each fmt\Bulk Insert Landing"
-          TopLeft="11.5,5.5" />
+          TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="186,103"
-          Size="186,146"
+          PanelSize="181,102"
+          Size="181,146"
           Id="Package\For each fmt"
-          TopLeft="15.5,54.5" />
+          TopLeft="15.5000000000001,156.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
@@ -1627,13 +1662,125 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="166,103"
+          PanelSize="166,102"
           Size="166,146"
           Id="Package\xmlcalendar foreach loop"
-          TopLeft="257,54.5" />
+          TopLeft="257,156.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Truncate landing"
+          TopLeft="261,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="315,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-209,60"
+              Start="0,0"
+              End="-209,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3609022556391"
+                    Point2="0,24.3609022556391"
+                    Point3="-4,24.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-205,24.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-205,24.3609022556391"
+                    Point2="-209,24.3609022556391"
+                    Point3="-209,28.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-209,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="365,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-24.9999999999999,60"
+              Start="0,0"
+              End="-24.9999999999999,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3609022556391"
+                    Point2="0,24.3609022556391"
+                    Point3="-4,24.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-20.9999999999999,24.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-20.9999999999999,24.3609022556391"
+                    Point2="-24.9999999999999,24.3609022556391"
+                    Point3="-24.9999999999999,28.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-24.9999999999999,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="21,154.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="9.5,52.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="99.5,94.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
   <TaskHost
     design-time-name="Package\xmlcalendar foreach loop\Load to Landing">
     <LayoutInfo>
@@ -1850,43 +1997,5 @@
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <DtsEventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="157,42"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="21,154.5" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package.EventHandlers[OnError]\Get parameter values"
-          TopLeft="9.5,52.5" />
-        <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
-          TopLeft="99.5,94.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

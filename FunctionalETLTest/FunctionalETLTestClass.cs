@@ -1,12 +1,11 @@
 ﻿using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NorthwindDWTest;
+using NorthwindLogsTest;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using NorthwindLogsTest;
-using NorthwindDWTest;
 using System.Data.SqlClient;
-using static System.Net.WebRequestMethods;
+using System.IO;
 
 namespace FunctionalETLTest
 {
@@ -48,7 +47,7 @@ namespace FunctionalETLTest
         {
             System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
             testPassed = true;
-            
+
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
             LoadDateInitialEnd = DateTime.Parse((string)TestContext.Properties["LoadDateInitialEnd"]);
             LoadDateIncrementalEnd = DateTime.Parse((string)TestContext.Properties["LoadDateIncrementalEnd"]);
@@ -476,7 +475,7 @@ namespace FunctionalETLTest
 
         private static void ExecuteSqlCommand(string sqlExpression, string InitialCatalog = "NorthwindLanding")
         {
-            string connectionString = 
+            string connectionString =
                 $"Data Source={Environment.MachineName};" +
                 $"Initial Catalog={InitialCatalog};" +
                 $"Integrated Security=SSPI;";
