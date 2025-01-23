@@ -16,7 +16,7 @@ FROM        (
                             , CAST ( [event_data] AS XML ).value( '(/event/data[@name="row_count"]/value)[1]', 'BIGINT' ) AS [row_count]
                             , CAST ( [event_data] AS XML ).value( '(/event/data[@name="statement"]/value)[1]', 'NVARCHAR(MAX)' ) AS [statement]
                 FROM        sys.fn_xe_file_target_read_file(
-                                N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\Monitor Data Warehouse Query Activity_0_133780718769910000.xel'
+                                N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\Monitor Data Warehouse Query Activity_0_133817913590340000.xel'
                               , null
                               , null
                               , null
@@ -39,11 +39,12 @@ FROM        (
                             , CAST ( [event_data] AS XML ).value( '(/event/data[@name="row_count"]/value)[1]', 'BIGINT' ) AS [row_count]
                             , CAST ( [event_data] AS XML ).value( '(/event/data[@name="batch_text"]/value)[1]', 'NVARCHAR(MAX)' ) AS [statement]
                 FROM        sys.fn_xe_file_target_read_file(
-                                N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\Monitor Data Warehouse Query Activity_0_133780718769910000.xel'
+                                N'C:\Users\zinyk\source\repos\Northwind_BI_Solution\logs\Monitor Data Warehouse Query Activity_0_133817913590340000.xel'
                               , null
                               , null
                               , null
                             )
                 WHERE       CAST ( [event_data] AS XML ).exist( '(/event/data[@name="batch_text"]/value)[1]' ) = 1
-            ) AS T1
+           ) AS T1
+WHERE       T1.[statement] LIKE N'%[Integration].[ErrorLog];%'
 ORDER BY    [timestamp] ASC;

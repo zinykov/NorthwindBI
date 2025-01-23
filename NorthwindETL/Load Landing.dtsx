@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="64"
-  DTS:VersionGUID="{6E52083D-3FC3-4C27-83A5-C494310EE4E4}">
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{EEB8D5CB-F8EA-4F8C-B02E-0D18BA7BC9FA}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -93,6 +93,25 @@
       DTS:RaiseChangedEvent="True">
       <DTS:VariableValue
         DTS:DataType="8">Customers</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{16282021-476B-425B-9CE7-FC8FEC57E680}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="3">-1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{65DF5C34-738A-4140-8042-92229A87DAD9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ParametersValues">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -239,6 +258,23 @@
           DTS:ValueIndex="0"
           DTS:VariableName="User::FileName" />
       </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate landing"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{c6e8aba3-df3f-4e8b-aea4-71e24ceece7c}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate landing"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1F691923-3F2A-4F37-8981-112139599AFC}"
+          SQLTask:SqlStatementSource="EXECUTE [Landing].[TruncateLanding]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\xmlcalendar foreach loop"
@@ -1465,6 +1501,137 @@
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{340148B4-7E41-444D-A008-1F41570F7A58}"
+      DTS:From="Package\Truncate landing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\For each fmt" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{06BCE714-CF16-41C0-B65C-42942AA0850B}"
+      DTS:From="Package\Truncate landing"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\xmlcalendar foreach loop" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{10F0CE6B-8985-4851-B7C1-7D5A26DBA30C}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{7FAED3B7-2A7F-4DCE-A01A-D283ADAAF59E}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{5b8bfa0a-5aa6-4844-9d02-c64851a3dd2d}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorDescription</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{b9808eee-bcde-4124-8057-100fa9b7e796}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameter values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues] = &quot;Project::DBFilesPath = &quot; + @[$Project::DBFilesPath] + &quot;\r\nProject::DQS_STAGING_DATA_DatabaseName = &quot; + @[$Project::DQS_STAGING_DATA_DatabaseName] + &quot;\r\nProject::DQS_STAGING_DATA_ServerName = &quot; + @[$Project::DQS_STAGING_DATA_ServerName] + &quot;\r\nProject::DQSServerName = &quot; + @[$Project::DQSServerName] + &quot;\r\nProject::DWHDatabaseName = &quot; + @[$Project::DWHDatabaseName] + &quot;\r\nProject::DWHServerName = &quot; + @[$Project::DWHServerName] + &quot;\r\nProject::ExternalFilesPath = &quot; + @[$Project::ExternalFilesPath] + &quot;\r\nProject::LandingDatabaseName = &quot; + @[$Project::LandingDatabaseName] + &quot;\r\nProject::LandingServerName = &quot; + @[$Project::LandingServerName] + &quot;\r\nProject::LogsDatabaseName = &quot; + @[$Project::LogsDatabaseName] + &quot;\r\nProject::LogsServerName = &quot; + @[$Project::LogsServerName] + &quot;\r\nProject::MDSDatabaseName = &quot; + @[$Project::MDSDatabaseName] + &quot;\r\nProject::MDSServerName = &quot; + @[$Project::MDSServerName] + &quot;\r\nProject::XMLCalendarFolder = &quot; + @[$Project::XMLCalendarFolder] + &quot;\r\nPackage::CutoffTime = &quot; + (DT_WSTR, 4) YEAR(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) MONTH(@[$Package::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) DAY(@[$Package::CutoffTime]) + &quot;\r\nPackage::Configuration = &quot; + @[$Package::Configuration] + &quot;\r\nUser::CutoffTime = &quot; + (DT_WSTR, 4) YEAR(@[User::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) MONTH(@[User::CutoffTime]) + &quot;-&quot; + (DT_WSTR, 2) DAY(@[User::CutoffTime]) + &quot;\r\nUser::FileName = &quot; + @[User::FileName] + &quot;\r\nUser::xmlPath = &quot; + @[User::xmlPath]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{7e850f39-72dd-4582-b6ef-8a293880d89a}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -1476,18 +1643,18 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="170,42"
           Id="Package\For each fmt\Bulk Insert Landing"
-          TopLeft="11.5,5.5" />
+          TopLeft="5.5,5.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="186,103"
-          Size="186,146"
+          PanelSize="181,102"
+          Size="181,146"
           Id="Package\For each fmt"
-          TopLeft="15.5,54.5" />
+          TopLeft="15.5000000000001,156.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
@@ -1495,13 +1662,125 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="166,103"
+          PanelSize="166,102"
           Size="166,146"
           Id="Package\xmlcalendar foreach loop"
-          TopLeft="257,54.5" />
+          TopLeft="257,156.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Truncate landing"
+          TopLeft="261,54.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="315,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-209,60"
+              Start="0,0"
+              End="-209,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3609022556391"
+                    Point2="0,24.3609022556391"
+                    Point3="-4,24.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-205,24.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-205,24.3609022556391"
+                    Point2="-209,24.3609022556391"
+                    Point3="-209,28.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-209,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="365,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-24.9999999999999,60"
+              Start="0,0"
+              End="-24.9999999999999,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3609022556391"
+                    Point2="0,24.3609022556391"
+                    Point3="-4,24.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-20.9999999999999,24.3609022556391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-20.9999999999999,24.3609022556391"
+                    Point2="-24.9999999999999,24.3609022556391"
+                    Point3="-24.9999999999999,28.3609022556391" />
+                  <mssgle:LineSegment
+                    End="-24.9999999999999,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="21,154.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="9.5,52.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="99.5,94.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
   <TaskHost
     design-time-name="Package\xmlcalendar foreach loop\Load to Landing">
     <LayoutInfo>
