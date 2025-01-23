@@ -1,4 +1,4 @@
-﻿--:setvar DomainName N-MSC-478
+﻿--:setvar DomainName SWIFT3
 
 IF NOT EXISTS ( SELECT 1 FROM sys.resource_governor_resource_pools WHERE [name] = N'High Priority' )
     CREATE RESOURCE POOL [High Priority]
@@ -111,7 +111,7 @@ AS BEGIN
             , '$(DomainName)\AzPipelineAgent'
             , '$(DomainName)\SQLAGENT'
             , '$(DomainName)\RDLexec'
-            , '$(DomainName)\ZinukovD'
+            , '$(DomainName)\zinyk'
         )
 		--AND DATEPART ( HOUR, GETDATE () ) BETWEEN 0 AND 8
 	)

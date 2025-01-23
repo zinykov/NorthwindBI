@@ -1,5 +1,5 @@
 --sqlcmd -S $(SSISServerName) -d $(SSISDatabaseName) -i "$(System.DefaultWorkingDirectory)\_Build solution\drop\Scripts\CleanSSISCatalog.sql" -v SSISFolderName="$(SSISFolderName)" SSISProjectName="$(SSISProjectName)"
---:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 EXECUTE [catalog].[delete_project] @project_name=N'$(SSISProjectName)', @folder_name=N'$(SSISFolderName)';
 GO

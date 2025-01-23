@@ -1,4 +1,4 @@
---:r C:\Users\ZinukovD\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
+--:r C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\VariableGroup.sql
 
 BEGIN TRANSACTION
 	DECLARE @ReturnCode INT = 0;
