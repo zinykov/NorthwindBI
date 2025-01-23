@@ -6,11 +6,21 @@ namespace NorthwindDWTest
     [TestClass()]
     public class NorthwindDWDataTest : SqlDatabaseTestClass
     {
-
-        public NorthwindDWDataTest(TestContext TestContext)
+        public NorthwindDWDataTest()
         {
-            NorthwindDWDataTestClassInitialize(TestContext);
             InitializeComponent();
+        }
+
+        public NorthwindDWDataTest(string sqlConnectionString)
+        {
+            ClassInitialize(sqlConnectionString);
+            InitializeComponent();
+        }
+
+        [ClassInitialize()]
+        public static void ClassInitialize(string sqlConnectionString)
+        {
+            TestService = new OverwritedTestService(sqlConnectionString);
         }
 
         [TestInitialize()]
@@ -22,12 +32,6 @@ namespace NorthwindDWTest
         public void TestCleanup()
         {
             base.CleanupTest();
-        }
-
-        [ClassInitialize()]
-        public static void NorthwindDWDataTestClassInitialize(TestContext testContext)
-        {
-            TestService = new OverwritedTestService(testContext);
         }
 
         #region Designer support code
@@ -83,8 +87,6 @@ namespace NorthwindDWTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition IsFileGroupReadOnly;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition FileGroupName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition PartitionRange;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction PartitionsManagingTest_PretestAction;
-            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction PartitionsManagingTest_PosttestAction;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -138,8 +140,6 @@ namespace NorthwindDWTest
             IsFileGroupReadOnly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             FileGroupName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             PartitionRange = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
-            PartitionsManagingTest_PretestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
-            PartitionsManagingTest_PosttestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -530,14 +530,6 @@ namespace NorthwindDWTest
             PartitionRange.ResultSet = 1;
             PartitionRange.RowNumber = 5;
             // 
-            // PartitionsManagingTest_PretestAction
-            // 
-            resources.ApplyResources(PartitionsManagingTest_PretestAction, "PartitionsManagingTest_PretestAction");
-            // 
-            // PartitionsManagingTest_PosttestAction
-            // 
-            resources.ApplyResources(PartitionsManagingTest_PosttestAction, "PartitionsManagingTest_PosttestAction");
-            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -588,13 +580,10 @@ namespace NorthwindDWTest
             // 
             // PartitionsManagingTestData
             // 
-            this.PartitionsManagingTestData.PosttestAction = PartitionsManagingTest_PosttestAction;
-            this.PartitionsManagingTestData.PretestAction = PartitionsManagingTest_PretestAction;
             this.PartitionsManagingTestData.TestAction = PartitionsManagingTest_TestAction;
         }
 
         #endregion
-
 
         #region Additional test attributes
         //
@@ -814,14 +803,6 @@ namespace NorthwindDWTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
-
-
-
-
-
-
-
-
 
         private SqlDatabaseTestActions CustomerSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage1Data;

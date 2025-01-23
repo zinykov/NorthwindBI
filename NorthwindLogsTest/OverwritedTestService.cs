@@ -9,21 +9,11 @@ namespace NorthwindDWTest
 {
     public class OverwritedTestService : SqlDatabaseTestService
     {
-        private SqlConnectionStringBuilder sqlConnectionString;
+        private string sqlConnectionString;
 
-        public OverwritedTestService(TestContext TestContext)
+        public OverwritedTestService(String sqlConnectionString)
         {
-            sqlConnectionString = new SqlConnectionStringBuilder();
-            sqlConnectionString.ApplicationName = "FunctionalETLTest";
-            sqlConnectionString.DataSource = Environment.MachineName;
-            sqlConnectionString.InitialCatalog = (string)TestContext.Properties["LogsDatabaseName"];
-            sqlConnectionString.IntegratedSecurity = true;
-            sqlConnectionString.PersistSecurityInfo = false;
-            sqlConnectionString.Pooling = false;
-            sqlConnectionString.MultipleActiveResultSets = false;
-            sqlConnectionString.ConnectTimeout = 60;
-            sqlConnectionString.Encrypt = true;
-            sqlConnectionString.TrustServerCertificate = true;
+            this.sqlConnectionString = sqlConnectionString;
         }
 
         public override ConnectionContext OpenExecutionContext()
@@ -31,7 +21,7 @@ namespace NorthwindDWTest
             ConnectionContext connectionContext = new ConnectionContext();
             connectionContext.Provider = DbProviderFactories.GetFactory("System.Data.SqlClient");
             connectionContext.Provider.CreateConnection();
-            connectionContext.Connection = new SqlConnection(sqlConnectionString.ToString());
+            connectionContext.Connection = new SqlConnection(sqlConnectionString);
             connectionContext.Connection.Open();
             return connectionContext;
         }
@@ -41,7 +31,7 @@ namespace NorthwindDWTest
             ConnectionContext connectionContext = new ConnectionContext();
             connectionContext.Provider = DbProviderFactories.GetFactory("System.Data.SqlClient");
             connectionContext.Provider.CreateConnection();
-            connectionContext.Connection = new SqlConnection(sqlConnectionString.ToString());
+            connectionContext.Connection = new SqlConnection(sqlConnectionString);
             connectionContext.Connection.Open();
             return connectionContext;
         }

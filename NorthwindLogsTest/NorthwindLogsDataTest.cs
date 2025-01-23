@@ -13,11 +13,21 @@ namespace NorthwindLogsTest
     [TestClass()]
     public class NorthwindLogsDataTest : SqlDatabaseTestClass
     {
-
-        public NorthwindLogsDataTest(TestContext TestContext)
+        public NorthwindLogsDataTest()
         {
-            NorthwindLogsDataTestClassInitialize(TestContext);
             InitializeComponent();
+        }
+
+        public NorthwindLogsDataTest(string sqlConnectionString)
+        {
+            ClassInitialize(sqlConnectionString);
+            InitializeComponent();
+        }
+
+        [ClassInitialize()]
+        public static void ClassInitialize(string sqlConnectionString)
+        {
+            TestService = new OverwritedTestService(sqlConnectionString);
         }
 
         [TestInitialize()]
@@ -29,12 +39,6 @@ namespace NorthwindLogsTest
         public void TestCleanup()
         {
             base.CleanupTest();
-        }
-
-        [ClassInitialize()]
-        public static void NorthwindLogsDataTestClassInitialize(TestContext testContext)
-        {
-            TestService = new OverwritedTestService(testContext);
         }
 
         #region Designer support code
@@ -71,7 +75,6 @@ namespace NorthwindLogsTest
         }
 
         #endregion
-
 
         #region Additional test attributes
         //

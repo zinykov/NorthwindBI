@@ -6,6 +6,7 @@ using System.IO;
 using NorthwindLogsTest;
 using NorthwindDWTest;
 using System.Data.SqlClient;
+using static System.Net.WebRequestMethods;
 
 namespace FunctionalETLTest
 {
@@ -183,7 +184,6 @@ namespace FunctionalETLTest
                 Directory.CreateDirectory(testDataFolder);
 
                 PrepareCustomersTestData(CutoffTime, testDataFolder);
-                if (CutoffTime == new DateTime(1998, 1, 5, 0, 0, 0)) PrepareCustomersTestData(CutoffTime, testDataFolder);
                 PrepareEmployeesTestData(CutoffTime, testDataFolder);
                 PrepareProductsTestData(CutoffTime, testDataFolder);
                 PrepareCategoriesTestData(CutoffTime, testDataFolder);
@@ -196,11 +196,22 @@ namespace FunctionalETLTest
             ExecuteSqlCommand(sqlExpression);
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
-            DWDataTest = new NorthwindDWDataTest(TestContext);
+            SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder();
+            sqlConnectionString.ApplicationName = "FunctionalETLTest";
+            sqlConnectionString.DataSource = Environment.MachineName;
+            sqlConnectionString.InitialCatalog = (string)TestContext.Properties["DWHDatabaseName"];
+            sqlConnectionString.IntegratedSecurity = true;
+            sqlConnectionString.PersistSecurityInfo = false;
+            sqlConnectionString.Pooling = false;
+            sqlConnectionString.MultipleActiveResultSets = false;
+            sqlConnectionString.Encrypt = true;
+            sqlConnectionString.TrustServerCertificate = true;
+            DWDataTest = new NorthwindDWDataTest(sqlConnectionString.ToString());
             DWDataTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
-            LogsDataTest = new NorthwindLogsDataTest(TestContext);
+            sqlConnectionString.InitialCatalog = (string)TestContext.Properties["LogsDatabaseName"];
+            LogsDataTest = new NorthwindLogsDataTest(sqlConnectionString.ToString());
             LogsDataTest.TestInitialize();
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
@@ -239,13 +250,13 @@ namespace FunctionalETLTest
             {
                 CleanupFolder(TestData);
                 CleanupFolder($"{ExternalFilesPath}\\Backup");
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindDWTests...");
-                DWDataTest.TestCleanup();
-
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindLogsTests...");
-                LogsDataTest.TestCleanup();
             }
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindDWTests...");
+            DWDataTest.TestCleanup();
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindLogsTests...");
+            LogsDataTest.TestCleanup();
 
             System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
         }
@@ -253,8 +264,10 @@ namespace FunctionalETLTest
         [TestCleanup]
         public void TestCleanup()
         {
-            if ((int)this.testContextInstance.CurrentTestOutcome == 2)
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting testPassed variable...");
+            if (this.testContextInstance.CurrentTestOutcome == 0)
             {
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting testPassed false...");
                 testPassed = false;
             }
         }
@@ -289,10 +302,6 @@ namespace FunctionalETLTest
                     catch
                     {
                         LogsDataTest.EventHandlersOnErrorDataTest();
-                    }
-                    finally
-                    {
-                        CleanupFolder($"{TestData}\\{LoadDateInitialEnd.AddDays(1):yyyy-MM-dd}");
                     }
                 }
 
@@ -504,6 +513,33 @@ namespace FunctionalETLTest
                     "SET [City] = N'Moscow', [Country] = N'Russia', [CompanyName] = REVERSE( [CompanyName] ) " +
                     "WHERE [CustomerID] = N'FRANK';";
                 ExecuteSqlCommand(sqlExpression);
+            }
+            if (CutoffTime == new DateTime(1998, 1, 5, 0, 0, 0))
+            {
+                sqlQuery =
+                    $"SELECT DISTINCT C.[CustomerID]" +
+                    $", [CompanyName]" +
+                    $", [ContactName]" +
+                    $", [ContactTitle]" +
+                    $", [City]" +
+                    $", [Country]" +
+                    $", [Phone]" +
+                    $", [Fax]" +
+                    $" FROM [Landing].[Customers] AS C" +
+                    $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
+                    $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})" +
+                    $" UNION ALL" +
+                    $" SELECT DISTINCT C.[CustomerID]" +
+                    $", [CompanyName]" +
+                    $", [ContactName]" +
+                    $", [ContactTitle]" +
+                    $", [City]" +
+                    $", [Country]" +
+                    $", [Phone]" +
+                    $", [Fax]" +
+                    $" FROM [Landing].[Customers] AS C" +
+                    $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
+                    $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
             }
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
