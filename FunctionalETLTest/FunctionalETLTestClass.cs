@@ -65,12 +65,24 @@ namespace FunctionalETLTest
                 Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] LoadDateInitialEnd > LoadDateIncrementalEnd");
             }
 
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning TestData and Backup folders...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preraring TestData folder...");
+            Directory.CreateDirectory(TestData);
             CleanupFolder(TestData);
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preraring Backup folder...");
             Directory.CreateDirectory($"{ExternalFilesPath}\\Backup");
             CleanupFolder($"{ExternalFilesPath}\\Backup");
             Directory.CreateDirectory($"{ExternalFilesPath}\\Backup\\ReadOnly");
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preraring logs folder...");
+            Directory.CreateDirectory($"{ExternalFilesPath}\\logs");
             CleanupFolder($"{ExternalFilesPath}\\logs");
+
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preraring no change files...");
+            Directory.CreateDirectory($"{ExternalFilesPath}\\NoChange");
+            File.Create($"{ExternalFilesPath}\\NoChange\\Customer.csv");
+            File.Create($"{ExternalFilesPath}\\NoChange\\Employee.csv");
+            File.Create($"{ExternalFilesPath}\\NoChange\\Product.csv");
 
             //Creating logins, roles, users
             if (BuildConfiguration != "Release")
