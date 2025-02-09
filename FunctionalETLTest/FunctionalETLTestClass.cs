@@ -1,4 +1,4 @@
-﻿using Microsoft.SqlServer.Management.IntegrationServices;
+using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
 using NorthwindLogsTest;
@@ -29,6 +29,9 @@ namespace FunctionalETLTest
         private static string TestData;
 
         private TestContext testContextInstance;
+
+        public FunctionalETLTestClass(TestContext testContextInstance) => this.testContextInstance = testContextInstance;
+
         static bool testPassed;
 
         public TestContext TestContext
