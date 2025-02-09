@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
+using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
 
@@ -7,10 +7,7 @@ namespace NorthwindLogsTest
     [TestClass()]
     public class NorthwindLogsDataTest : SqlDatabaseTestClass
     {
-        public NorthwindLogsDataTest()
-        {
-            InitializeComponent();
-        }
+        public NorthwindLogsDataTest() => InitializeComponent();
 
         public NorthwindLogsDataTest(string sqlConnectionString)
         {
