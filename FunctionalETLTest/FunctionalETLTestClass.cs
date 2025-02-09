@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 
 namespace FunctionalETLTest
 {
@@ -45,7 +46,7 @@ namespace FunctionalETLTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext TestContext)
         {
-            System.Diagnostics.Trace.WriteLine("**********Started test initialize**********");
+            System.Diagnostics.Trace.WriteLine("**********Started class initialize**********");
             testPassed = true;
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
@@ -80,9 +81,9 @@ namespace FunctionalETLTest
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preraring no change files...");
             Directory.CreateDirectory($"{ExternalFilesPath}\\NoChange");
-            File.Create($"{ExternalFilesPath}\\NoChange\\Customer.csv");
-            File.Create($"{ExternalFilesPath}\\NoChange\\Employee.csv");
-            File.Create($"{ExternalFilesPath}\\NoChange\\Product.csv");
+            CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Customer.csv");
+            CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Employee.csv");
+            CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Product.csv");
 
             //Creating logins, roles, users
             if (BuildConfiguration != "Release")
@@ -241,44 +242,42 @@ namespace FunctionalETLTest
             //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
             //CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as", true);
 
-            System.Diagnostics.Trace.WriteLine("**********Finished test initialize**********");
+            System.Diagnostics.Trace.WriteLine("**********Finished class initialize**********");
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            System.Diagnostics.Trace.WriteLine("**********Started test cleanup**********");
+            System.Diagnostics.Trace.WriteLine("**********Started class cleanup**********");
 
             //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping logman...");
             //CallProcess($"C:\\Windows\\System32\\logman.exe", $"stop -n \"SQL Server\" -as", true);
 
-            //System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
-            //ExecuteSqlCommand(
-            //    "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = STOP;",
-            //    $"NorthwindLogs");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Stopping Event session...");
+            ExecuteSqlCommand(
+                "ALTER EVENT SESSION [Monitor Data Warehouse Query Activity] ON SERVER\r\n    STATE = STOP;",
+                $"NorthwindLogs");
 
-            if (testPassed)//(int)this.testContextInstance.CurrentTestOutcome == 2)
+            if (testPassed)
             {
                 CleanupFolder(TestData);
                 CleanupFolder($"{ExternalFilesPath}\\Backup");
             }
 
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindDWTests...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindDWTests...");
             DWDataTest.TestCleanup();
 
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning Up NorthwindLogsTests...");
+            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindLogsTests...");
             LogsDataTest.TestCleanup();
 
-            System.Diagnostics.Trace.WriteLine("**********Finished test cleanup**********");
+            System.Diagnostics.Trace.WriteLine("**********Finished class cleanup**********");
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting testPassed variable...");
             if (this.testContextInstance.CurrentTestOutcome == 0)
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting testPassed false...");
                 testPassed = false;
             }
         }
@@ -683,6 +682,15 @@ namespace FunctionalETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
+        }
+
+        private static void CreateCSVFileEncodedASCII(string FilePath)
+        {
+            using (FileStream fs = File.Create(FilePath, 1024))
+            {
+                byte[] info = new ASCIIEncoding().GetBytes("");
+                fs.Write(info, 0, info.Length);
+            }
         }
     }
 }
