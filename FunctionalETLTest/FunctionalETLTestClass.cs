@@ -334,6 +334,12 @@ namespace FunctionalETLTest
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
                     DWDataTest.ProductSCD1TestStage1();
                 }
+
+                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+                {
+                    System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+                    DWDataTest.UnknownMemberTest();
+                }
                 if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
                 {
                     System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
@@ -651,6 +657,7 @@ namespace FunctionalETLTest
 
         private static void PrepareOrdersTestData(DateTime CutoffTime, string testDataFolder)
         {
+            string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Orders.dat";
             string sqlQuery =
                 $"SELECT [OrderID]" +
@@ -665,6 +672,13 @@ namespace FunctionalETLTest
                 $" WHERE [OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                sqlExpression = "UPDATE [Landing].[Orders] " +
+                    "SET [EmployeeID] = 99 " +
+                    "WHERE [OrderID] = 10812;";
+                ExecuteSqlCommand(sqlExpression);
+            }
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
         }

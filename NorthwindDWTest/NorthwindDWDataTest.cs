@@ -84,6 +84,9 @@ namespace NorthwindDWTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition IsFileGroupReadOnly;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition FileGroupName;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition PartitionRange;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction UnknownMemberTest_TestAction;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition UnknownMemberTestCountRows;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition UnknownMemberTestEmployeeKey;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -93,6 +96,7 @@ namespace NorthwindDWTest
             this.CutoffTimeTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.UpdatePartitionSchemaData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.PartitionsManagingTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
+            this.UnknownMemberTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             CustomerSCD2TestStage1_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             CustomerSCD2Stage1CountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             CustomerSCD2Stage1CustomerName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
@@ -137,6 +141,9 @@ namespace NorthwindDWTest
             IsFileGroupReadOnly = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             FileGroupName = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             PartitionRange = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            UnknownMemberTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
+            UnknownMemberTestCountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            UnknownMemberTestEmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -577,7 +584,38 @@ namespace NorthwindDWTest
             // 
             // PartitionsManagingTestData
             // 
+            this.PartitionsManagingTestData.PosttestAction = null;
+            this.PartitionsManagingTestData.PretestAction = null;
             this.PartitionsManagingTestData.TestAction = PartitionsManagingTest_TestAction;
+            // 
+            // UnknownMemberTestData
+            // 
+            this.UnknownMemberTestData.PosttestAction = null;
+            this.UnknownMemberTestData.PretestAction = null;
+            this.UnknownMemberTestData.TestAction = UnknownMemberTest_TestAction;
+            // 
+            // UnknownMemberTest_TestAction
+            // 
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestCountRows);
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestEmployeeKey);
+            resources.ApplyResources(UnknownMemberTest_TestAction, "UnknownMemberTest_TestAction");
+            // 
+            // UnknownMemberTestCountRows
+            // 
+            UnknownMemberTestCountRows.Enabled = true;
+            UnknownMemberTestCountRows.Name = "UnknownMemberTestCountRows";
+            UnknownMemberTestCountRows.ResultSet = 1;
+            UnknownMemberTestCountRows.RowCount = 1;
+            // 
+            // UnknownMemberTestEmployeeKey
+            // 
+            UnknownMemberTestEmployeeKey.ColumnNumber = 1;
+            UnknownMemberTestEmployeeKey.Enabled = true;
+            UnknownMemberTestEmployeeKey.ExpectedValue = "-1";
+            UnknownMemberTestEmployeeKey.Name = "UnknownMemberTestEmployeeKey";
+            UnknownMemberTestEmployeeKey.NullExpected = false;
+            UnknownMemberTestEmployeeKey.ResultSet = 1;
+            UnknownMemberTestEmployeeKey.RowNumber = 1;
         }
 
         #endregion
@@ -800,6 +838,30 @@ namespace NorthwindDWTest
                 SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
             }
         }
+        [TestMethod()]
+        public void UnknownMemberTest()
+        {
+            SqlDatabaseTestActions testActions = this.UnknownMemberTestData;
+            // Execute the pre-test script
+            // 
+            System.Diagnostics.Trace.WriteLineIf((testActions.PretestAction != null), "Executing pre-test script...");
+            SqlExecutionResult[] pretestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PretestAction);
+            try
+            {
+                // Execute the test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.TestAction != null), "Executing test script...");
+                SqlExecutionResult[] testResults = TestService.Execute(this.ExecutionContext, this.PrivilegedContext, testActions.TestAction);
+            }
+            finally
+            {
+                // Execute the post-test script
+                // 
+                System.Diagnostics.Trace.WriteLineIf((testActions.PosttestAction != null), "Executing post-test script...");
+                SqlExecutionResult[] posttestResults = TestService.Execute(this.PrivilegedContext, this.PrivilegedContext, testActions.PosttestAction);
+            }
+        }
+
 
         private SqlDatabaseTestActions CustomerSCD2TestStage1Data;
         private SqlDatabaseTestActions EmployeeSCD2TestStage1Data;
@@ -810,5 +872,6 @@ namespace NorthwindDWTest
         private SqlDatabaseTestActions CutoffTimeTestData;
         private SqlDatabaseTestActions UpdatePartitionSchemaData;
         private SqlDatabaseTestActions PartitionsManagingTestData;
+        private SqlDatabaseTestActions UnknownMemberTestData;
     }
 }
