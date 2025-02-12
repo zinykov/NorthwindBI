@@ -1,5 +1,5 @@
-﻿CREATE TABLE [Maintenance].[DatabaseFiles] (
-	[DatabaseFileKey]					INT				CONSTRAINT [SQ_DatabaseFile_Key] DEFAULT ( NEXT VALUE FOR [Sequences].[DatabaseFileKey] ) NOT NULL,
+CREATE TABLE [Maintenance].[DatabaseFiles] (
+	[DatabaseFileKey]					INT				CONSTRAINT [SQ_DatabaseFile_Key] DEFAULT ( NEXT VALUE FOR [Maintenance].[DatabaseFileKey] ) NOT NULL,
 	[GroupName]							NVARCHAR(100)	NOT NULL,
 	[IsReadOnly]						BIT				NOT NULL,
 	[Name]								NVARCHAR(100)	NOT NULL,
