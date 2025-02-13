@@ -1,12 +1,8 @@
-CREATE PROCEDURE [Integration].[AddUnknownCustomer]
-      @CustomerAlterKey AS NVARCHAR(5)
-    , @Customer AS NVARCHAR(50)
-    , @ContactName AS NVARCHAR(50)
-    , @AllAttributes AS NVARCHAR(MAX)
-    , @StartDate AS DATE
+﻿CREATE PROCEDURE [Integration].[AddUnknownCustomer]
+      @StartDate AS DATE
     , @LineageKey AS BIGINT
 AS BEGIN
-    IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Customer] WHERE [CustomerKey] = -1 ) AND @CustomerAlterKey = N'N/A'
+    IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Customer] WHERE [CustomerKey] = -1 )
     INSERT INTO [Dimension].[Customer] (
           [CustomerKey]
         , [CustomerAlterKey]
@@ -24,15 +20,15 @@ AS BEGIN
         , [LineageKey]
     ) VALUES (
           -1
-        , @CustomerAlterKey
-        , @Customer
-        , @ContactName
+        , 'N/A'
+        , 'N/A'
+        , 'N/A'
         , NULL
         , NULL
         , NULL
         , NULL
         , NULL
-        , @AllAttributes
+        , N'{}'
         , @StartDate
         , NULL
         , 1
