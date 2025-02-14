@@ -87,6 +87,8 @@ namespace NorthwindDWTest
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction UnknownMemberTest_TestAction;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition UnknownMemberTestCountRows;
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition UnknownMemberTestEmployeeKey;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition UnknownMemberTestCustomerKey;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition UnknownMemberTestProductKey;
             this.CustomerSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage1Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             this.EmployeeSCD2TestStage2Data = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
@@ -144,6 +146,8 @@ namespace NorthwindDWTest
             UnknownMemberTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             UnknownMemberTestCountRows = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
             UnknownMemberTestEmployeeKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            UnknownMemberTestCustomerKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
+            UnknownMemberTestProductKey = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.ScalarValueCondition();
             // 
             // CustomerSCD2TestStage1_TestAction
             // 
@@ -534,6 +538,51 @@ namespace NorthwindDWTest
             PartitionRange.ResultSet = 1;
             PartitionRange.RowNumber = 5;
             // 
+            // UnknownMemberTest_TestAction
+            // 
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestCountRows);
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestEmployeeKey);
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestCustomerKey);
+            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestProductKey);
+            resources.ApplyResources(UnknownMemberTest_TestAction, "UnknownMemberTest_TestAction");
+            // 
+            // UnknownMemberTestCountRows
+            // 
+            UnknownMemberTestCountRows.Enabled = true;
+            UnknownMemberTestCountRows.Name = "UnknownMemberTestCountRows";
+            UnknownMemberTestCountRows.ResultSet = 1;
+            UnknownMemberTestCountRows.RowCount = 3;
+            // 
+            // UnknownMemberTestEmployeeKey
+            // 
+            UnknownMemberTestEmployeeKey.ColumnNumber = 1;
+            UnknownMemberTestEmployeeKey.Enabled = true;
+            UnknownMemberTestEmployeeKey.ExpectedValue = "-1";
+            UnknownMemberTestEmployeeKey.Name = "UnknownMemberTestEmployeeKey";
+            UnknownMemberTestEmployeeKey.NullExpected = false;
+            UnknownMemberTestEmployeeKey.ResultSet = 1;
+            UnknownMemberTestEmployeeKey.RowNumber = 1;
+            // 
+            // UnknownMemberTestCustomerKey
+            // 
+            UnknownMemberTestCustomerKey.ColumnNumber = 2;
+            UnknownMemberTestCustomerKey.Enabled = true;
+            UnknownMemberTestCustomerKey.ExpectedValue = "-1";
+            UnknownMemberTestCustomerKey.Name = "UnknownMemberTestCustomerKey";
+            UnknownMemberTestCustomerKey.NullExpected = false;
+            UnknownMemberTestCustomerKey.ResultSet = 1;
+            UnknownMemberTestCustomerKey.RowNumber = 1;
+            // 
+            // UnknownMemberTestProductKey
+            // 
+            UnknownMemberTestProductKey.ColumnNumber = 3;
+            UnknownMemberTestProductKey.Enabled = true;
+            UnknownMemberTestProductKey.ExpectedValue = "-1";
+            UnknownMemberTestProductKey.Name = "UnknownMemberTestProductKey";
+            UnknownMemberTestProductKey.NullExpected = false;
+            UnknownMemberTestProductKey.ResultSet = 1;
+            UnknownMemberTestProductKey.RowNumber = 1;
+            // 
             // CustomerSCD2TestStage1Data
             // 
             this.CustomerSCD2TestStage1Data.PosttestAction = null;
@@ -593,29 +642,6 @@ namespace NorthwindDWTest
             this.UnknownMemberTestData.PosttestAction = null;
             this.UnknownMemberTestData.PretestAction = null;
             this.UnknownMemberTestData.TestAction = UnknownMemberTest_TestAction;
-            // 
-            // UnknownMemberTest_TestAction
-            // 
-            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestCountRows);
-            UnknownMemberTest_TestAction.Conditions.Add(UnknownMemberTestEmployeeKey);
-            resources.ApplyResources(UnknownMemberTest_TestAction, "UnknownMemberTest_TestAction");
-            // 
-            // UnknownMemberTestCountRows
-            // 
-            UnknownMemberTestCountRows.Enabled = true;
-            UnknownMemberTestCountRows.Name = "UnknownMemberTestCountRows";
-            UnknownMemberTestCountRows.ResultSet = 1;
-            UnknownMemberTestCountRows.RowCount = 1;
-            // 
-            // UnknownMemberTestEmployeeKey
-            // 
-            UnknownMemberTestEmployeeKey.ColumnNumber = 1;
-            UnknownMemberTestEmployeeKey.Enabled = true;
-            UnknownMemberTestEmployeeKey.ExpectedValue = "-1";
-            UnknownMemberTestEmployeeKey.Name = "UnknownMemberTestEmployeeKey";
-            UnknownMemberTestEmployeeKey.NullExpected = false;
-            UnknownMemberTestEmployeeKey.ResultSet = 1;
-            UnknownMemberTestEmployeeKey.RowNumber = 1;
         }
 
         #endregion

@@ -675,7 +675,8 @@ namespace FunctionalETLTest
             if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
             {
                 sqlExpression = "UPDATE [Landing].[Orders] " +
-                    "SET [EmployeeID] = 99 " +
+                    "SET [EmployeeID] = 99" +
+                    ", [CustomerID] = 999" +
                     "WHERE [OrderID] = 10812;";
                 ExecuteSqlCommand(sqlExpression);
             }
@@ -685,6 +686,7 @@ namespace FunctionalETLTest
 
         private static void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
         {
+            string sqlExpression;
             string datFilePath = $"{testDataFolder}\\Order Details.dat";
             string sqlQuery =
                 $"SELECT OD.[OrderID]" +
@@ -697,6 +699,14 @@ namespace FunctionalETLTest
                 $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Coping data to {datFilePath}...");
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                sqlExpression = "UPDATE [Landing].[Order Details] " +
+                    "SET [ProductID] = 999" +
+                    "WHERE [OrderID] = 10812" +
+                    " AND [ProductID] = 31;";
+                ExecuteSqlCommand(sqlExpression);
+            }
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
                 $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{Environment.MachineName}\" -d \"NorthwindLanding\" -x -c -T");
         }
