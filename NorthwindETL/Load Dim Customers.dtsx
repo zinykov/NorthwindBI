@@ -13,8 +13,8 @@
   DTS:ObjectName="Load Dim Customers"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="388"
-  DTS:VersionGUID="{9ED566C2-1E06-4EA8-9D00-E9976CDF3763}">
+  DTS:VersionBuild="393"
+  DTS:VersionGUID="{0702D4F8-50D4-49B8-8EC3-E8C925E44CAB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3151,45 +3151,13 @@ WHERE   [LineageKey] = ?</property>
         DTS:FilterKind="0" />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\MDS -&gt; DWH\DWH add unknown member"
-          DTS:CreationName="Microsoft.ExecuteSQLTask"
-          DTS:DTSID="{88218EA9-46FF-421F-9EE0-6F9828035B53}"
-          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="DWH add unknown member"
-          DTS:ThreadHint="1">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:PropertyExpression
-            DTS:Name="SqlStatementSource">"EXECUTE [Integration].[AddUnknown"+ @[User::DimensionName] +"] @StartDate = ?, @LineageKey = ?"</DTS:PropertyExpression>
-          <DTS:ObjectData>
-            <SQLTask:SqlTaskData
-              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-              SQLTask:SqlStatementSource="EXECUTE [Integration].[AddUnknownCustomer] @StartDate = ?, @LineageKey = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="0"
-                SQLTask:DtsVariableName="User::StartLoad"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="7"
-                SQLTask:ParameterSize="-1" />
-              <SQLTask:ParameterBinding
-                SQLTask:ParameterName="1"
-                SQLTask:DtsVariableName="User::LineageKey"
-                SQLTask:ParameterDirection="Input"
-                SQLTask:DataType="3"
-                SQLTask:ParameterSize="-1" />
-            </SQLTask:SqlTaskData>
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
           DTS:refId="Package\MDS -&gt; DWH\DWH get start load date"
           DTS:CreationName="Microsoft.ExecuteSQLTask"
           DTS:DTSID="{FC5F04B4-738A-48E6-A452-F4BB096F20E6}"
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH get start load date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -3936,6 +3904,177 @@ WHERE   [LineageKey] = ?</property>
                           refId="Package\MDS -&gt; DWH\DWH load\Insert new customers.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\MDS -&gt; DWH\DWH load\Insert new customers.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member"
+                  componentClassID="Microsoft.OLEDBCommand"
+                  contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  name="Insert unknown member"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Integration].[AddUnknownCustomer]
+      @CustomerAlterKey = ?
+    , @Customer = ?
+    , @AllAttributes = ?
+    , @StartDate = ?
+    , @LineageKey = ?;</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1251</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Connections[OleDbConnection]"
+                      connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input]"
+                      errorOrTruncationOperation="Command Execution"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Command Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].Columns[CustomerAlterKey]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerAlterKey"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@CustomerAlterKey]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Outputs[Выходные данные преобразования данных].Columns[CustomerAlterKey]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].Columns[Customer]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="Customer"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@Customer]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Outputs[Выходные данные преобразования данных].Columns[Customer]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].Columns[AllAttributes]"
+                          cachedDataType="nText"
+                          cachedName="AllAttributes"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@AllAttributes]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Outputs[Выход производного столбца].Columns[AllAttributes]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].Columns[StartDate]"
+                          cachedDataType="date"
+                          cachedName="StartDate"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@StartDate]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Outputs[Выход производного столбца].Columns[StartDate]" />
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].Columns[LineageKey]"
+                          cachedDataType="i4"
+                          cachedName="LineageKey"
+                          externalMetadataColumnId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@LineageKey]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Outputs[Выход производного столбца].Columns[LineageKey]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@CustomerAlterKey]"
+                          dataType="wstr"
+                          length="5"
+                          name="@CustomerAlterKey">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@Customer]"
+                          dataType="wstr"
+                          length="50"
+                          name="@Customer">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@AllAttributes]"
+                          dataType="nText"
+                          name="@AllAttributes">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">193</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@StartDate]"
+                          dataType="dbDate"
+                          name="@StartDate">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">65</property>
+                          </properties>
+                        </externalMetadataColumn>
+                        <externalMetadataColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input].ExternalColumns[@LineageKey]"
+                          dataType="i8"
+                          name="@LineageKey">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                              name="DBParamInfoFlags">81</property>
+                          </properties>
+                        </externalMetadataColumn>
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Output]"
+                      exclusionGroup="1"
+                      name="OLE DB Command Output"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Command Error Output"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -5178,6 +5317,95 @@ WHERE	[LastChgDateTime] &gt; ?
                   </inputs>
                 </component>
                 <component
+                  refId="Package\MDS -&gt; DWH\DWH load\Split unknown member"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  name="Split unknown member"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input].Columns[CustomerAlterKey]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="CustomerAlterKey"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Outputs[Выходные данные преобразования данных].Columns[CustomerAlterKey]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Unknown member]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Unknown member"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">#{Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Outputs[Выходные данные преобразования данных].Columns[CustomerAlterKey]} == "N/A"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">CustomerAlterKey == "N/A"</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Known members]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Known members"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
                   refId="Package\MDS -&gt; DWH\DWH load\Update changing attributes and metadata"
                   componentClassID="Microsoft.OLEDBCommand"
                   contactInfo="Команда OLE DB;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;2"
@@ -5674,13 +5902,18 @@ WHERE	[LastChgDateTime] &gt; ?
                   name="HistoricalAttributes"
                   startId="Package\MDS -&gt; DWH\DWH load\Find Historical attributes.Outputs[HistoricalAttributes]" />
                 <path
+                  refId="Package\MDS -&gt; DWH\DWH load.Paths[Known members]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  name="Known members"
+                  startId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Known members]" />
+                <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Lookup Match Output]"
                   endId="Package\MDS -&gt; DWH\DWH load\Find Historical attributes.Inputs[Вход условного разбиения]"
                   name="Lookup Match Output"
                   startId="Package\MDS -&gt; DWH\DWH load\Lookup.Outputs[Lookup Match Output]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Lookup No Match Output]"
-                  endId="Package\MDS -&gt; DWH\DWH load\Insert new customers.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Inputs[Conditional Split Input]"
                   name="Lookup No Match Output"
                   startId="Package\MDS -&gt; DWH\DWH load\Lookup.Outputs[Lookup No Match Output]" />
                 <path
@@ -5688,6 +5921,11 @@ WHERE	[LastChgDateTime] &gt; ?
                   endId="Package\MDS -&gt; DWH\DWH load\No change.Inputs[Вход назначения &quot;Неструктурированный файл&quot;]"
                   name="NoChange"
                   startId="Package\MDS -&gt; DWH\DWH load\Find Historical attributes.Outputs[NoChange]" />
+                <path
+                  refId="Package\MDS -&gt; DWH\DWH load.Paths[Unknown member]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Insert unknown member.Inputs[OLE DB Command Input]"
+                  name="Unknown member"
+                  startId="Package\MDS -&gt; DWH\DWH load\Split unknown member.Outputs[Unknown member]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                   endId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Inputs[Вход производного столбца]"
@@ -5724,7 +5962,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5752,7 +5990,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Customers"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5767,7 +6005,7 @@ WHERE	[LastChgDateTime] &gt; ?
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{45375FD5-3708-4EEB-83F2-520483DC7115}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{AE536A19-07C8-4AC6-87BD-9D356D1B886A}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -5790,7 +6028,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5816,20 +6054,12 @@ WHERE	[LastChgDateTime] &gt; ?
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 1 2]"
+          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{DC58173C-26D3-47CF-93B6-D70F74E0EAD7}"
+          DTS:DTSID="{39CA61F8-96C8-47EC-AAE3-F30614E88279}"
           DTS:From="Package\MDS -&gt; DWH\DWH get start load date"
           DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1 2"
-          DTS:To="Package\MDS -&gt; DWH\DWH add unknown member" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2]"
-          DTS:CreationName=""
-          DTS:DTSID="{93BA3BAF-47DE-4F08-9F74-AFD3640778A7}"
-          DTS:From="Package\MDS -&gt; DWH\DWH add unknown member"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 2"
+          DTS:ObjectName="Constraint"
           DTS:To="Package\MDS -&gt; DWH\DWH load" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 5]"
@@ -6554,21 +6784,21 @@ WHERE   [LineageKey] = ?</property>
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="153,42"
           Id="Package\Get LineAgeKey"
-          TopLeft="471.5,54.5" />
+          TopLeft="451.5,54.5" />
         <NodeLayout
           Size="149,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Customers\Check changes"
@@ -6773,62 +7003,36 @@ WHERE   [LineageKey] = ?</property>
           PanelSize="445,821"
           Size="445,864"
           Id="Package\Landing -&gt; DQS -&gt; MDS"
-          TopLeft="325.5,156.5" />
-        <NodeLayout
-          Size="212,42"
-          Id="Package\MDS -&gt; DWH\DWH add unknown member"
-          TopLeft="5.50000000000003,209.5" />
+          TopLeft="305.5,156.5" />
         <NodeLayout
           Size="193,42"
           Id="Package\MDS -&gt; DWH\DWH get start load date"
-          TopLeft="8,107.5" />
+          TopLeft="5.50000000000003,209.5" />
         <NodeLayout
           Size="126,42"
           Id="Package\MDS -&gt; DWH\DWH load"
-          TopLeft="301.5,311.5" />
+          TopLeft="282,311.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\MDS -&gt; DWH\MDS get version name"
-          TopLeft="272,5.5" />
+          TopLeft="252.5,5.5" />
         <NodeLayout
           Size="206,42"
           Id="Package\MDS -&gt; DWH\MDS load entity Customers"
-          TopLeft="261.5,107.5" />
+          TopLeft="242,107.5" />
         <NodeLayout
           Size="172,42"
           Id="Package\MDS -&gt; DWH\MDS validate model"
-          TopLeft="278.5,209.5" />
+          TopLeft="259,209.5" />
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 1 2]"
-          TopLeft="108,149.5">
+          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint]"
+          TopLeft="102,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="223.333333333333,60"
               Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 2]"
-          TopLeft="111.5,251.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="233.333333333333,60"
-              Start="0,0"
-              End="233.333333333333,52.5">
+              End="223.333333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -6839,13 +7043,13 @@ WHERE   [LineageKey] = ?</property>
                     Point2="0,35.5485893416928"
                     Point3="4,35.5485893416928" />
                   <mssgle:LineSegment
-                    End="229.333333333333,35.5485893416928" />
+                    End="219.333333333333,35.5485893416928" />
                   <mssgle:CubicBezierSegment
-                    Point1="229.333333333333,35.5485893416928"
-                    Point2="233.333333333333,35.5485893416928"
-                    Point3="233.333333333333,39.5485893416928" />
+                    Point1="219.333333333333,35.5485893416928"
+                    Point2="223.333333333333,35.5485893416928"
+                    Point3="223.333333333333,39.5485893416928" />
                   <mssgle:LineSegment
-                    End="233.333333333333,52.5" />
+                    End="223.333333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6856,7 +7060,7 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Constraint 5]"
-          TopLeft="364.5,251.5">
+          TopLeft="345,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6890,7 +7094,7 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение]"
-          TopLeft="364.5,47.5">
+          TopLeft="345,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6912,7 +7116,7 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="364.5,149.5">
+          TopLeft="345,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6935,17 +7139,17 @@ WHERE   [LineageKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="473,409"
-          Size="473,452"
+          PanelSize="453,409"
+          Size="453,452"
           Id="Package\MDS -&gt; DWH"
           TopLeft="13.5000000000001,1080.5" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set load compilation info"
-          TopLeft="450.5,1592.5" />
+          TopLeft="430.5,1592.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="548,96.5">
+          TopLeft="528,96.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6967,13 +7171,13 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="250,1532.5">
+          TopLeft="240,1532.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="266.833333333333,60"
+              EndConnector="256.833333333333,60"
               Start="0,0"
-              End="266.833333333333,52.5">
+              End="256.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -6984,13 +7188,13 @@ WHERE   [LineageKey] = ?</property>
                     Point2="0,35.707019328586"
                     Point3="4,35.707019328586" />
                   <mssgle:LineSegment
-                    End="262.833333333333,35.707019328586" />
+                    End="252.833333333333,35.707019328586" />
                   <mssgle:CubicBezierSegment
-                    Point1="262.833333333333,35.707019328586"
-                    Point2="266.833333333333,35.707019328586"
-                    Point3="266.833333333333,39.707019328586" />
+                    Point1="252.833333333333,35.707019328586"
+                    Point2="256.833333333333,35.707019328586"
+                    Point3="256.833333333333,39.707019328586" />
                   <mssgle:LineSegment
-                    End="266.833333333333,52.5" />
+                    End="256.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -7001,13 +7205,13 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="475.166666666667,1020.5">
+          TopLeft="455.166666666667,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-225.166666666667,60"
+              EndConnector="-215.166666666667,60"
               Start="0,0"
-              End="-225.166666666667,52.5">
+              End="-215.166666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -7018,26 +7222,26 @@ WHERE   [LineageKey] = ?</property>
                     Point2="0,24.1289744738021"
                     Point3="-4,24.1289744738021" />
                   <mssgle:LineSegment
-                    End="-221.166666666667,24.1289744738021" />
+                    End="-211.166666666667,24.1289744738021" />
                   <mssgle:CubicBezierSegment
-                    Point1="-221.166666666667,24.1289744738021"
-                    Point2="-225.166666666667,24.1289744738021"
-                    Point3="-225.166666666667,28.1289744738021" />
+                    Point1="-211.166666666667,24.1289744738021"
+                    Point2="-215.166666666667,24.1289744738021"
+                    Point3="-215.166666666667,28.1289744738021" />
                   <mssgle:LineSegment
-                    End="-225.166666666667,52.5" />
+                    End="-215.166666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-120.583333333333,29.1289744738021,16,16"
+              BoundingBox="-115.583333333333,29.1289744738021,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="620.833333333333,1020.5">
+          TopLeft="600.833333333333,1020.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7075,6 +7279,46 @@ WHERE   [LineageKey] = ?</property>
     </LayoutInfo>
   </Package>
   <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="23,156.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="11.5,54.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="101.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
     design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]">
     <LayoutInfo>
       <GraphLayout
@@ -7092,13 +7336,13 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="172,42"
-          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
-          TopLeft="21.5,156.5" />
-        <NodeLayout
           Size="131,42"
           Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
           TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
         <EdgeLayout
           Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="107.5,96.5">
@@ -7353,52 +7597,60 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="275,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Update changing attributes and metadata"
-          TopLeft="216.5,666.5" />
-        <NodeLayout
-          Size="135,42"
-          Id="Package\MDS -&gt; DWH\DWH load\MDS source"
-          TopLeft="286.5,54.5" />
-        <NodeLayout
-          Size="138,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Update rows"
-          TopLeft="552,666.5" />
-        <NodeLayout
-          Size="174,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Insert updated rows"
-          TopLeft="267,768.5" />
-        <NodeLayout
-          Size="237,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype"
-          TopLeft="235.5,156.5" />
-        <NodeLayout
-          Size="193,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Find Historical attributes"
-          TopLeft="257.5,564.5" />
+          Size="188,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Split unknown member"
+          TopLeft="736,564.5" />
         <NodeLayout
           Size="262,42"
           Id="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers"
-          TopLeft="223,258.5" />
-        <NodeLayout
-          Size="129,42"
-          Id="Package\MDS -&gt; DWH\DWH load\No change"
-          TopLeft="26.5,666.5" />
-        <NodeLayout
-          Size="223,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata"
-          TopLeft="242.5,360.5" />
-        <NodeLayout
-          Size="113,42"
-          Id="Package\MDS -&gt; DWH\DWH load\Lookup"
-          TopLeft="297.5,462.5" />
+          TopLeft="699,258.5" />
         <NodeLayout
           Size="181,42"
           Id="Package\MDS -&gt; DWH\DWH load\Insert new customers"
-          TopLeft="15.5,564.5" />
+          TopLeft="739.5,666.5" />
+        <NodeLayout
+          Size="138,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Update rows"
+          TopLeft="541,666.5" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Insert updated rows"
+          TopLeft="256,768.5" />
+        <NodeLayout
+          Size="129,42"
+          Id="Package\MDS -&gt; DWH\DWH load\No change"
+          TopLeft="15.5000000000001,666.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\MDS -&gt; DWH\DWH load\MDS source"
+          TopLeft="762.5,54.4999999999998" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Find Historical attributes"
+          TopLeft="482.5,564.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Insert unknown member"
+          TopLeft="981.5,666.5" />
+        <NodeLayout
+          Size="113,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Lookup"
+          TopLeft="773.5,462.5" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Update changing attributes and metadata"
+          TopLeft="205.5,666.5" />
+        <NodeLayout
+          Size="223,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata"
+          TopLeft="718.5,360.5" />
+        <NodeLayout
+          Size="237,42"
+          Id="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype"
+          TopLeft="711.5,156.5" />
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Выходные данные преобразования данных]"
-          TopLeft="354,198.5">
+          TopLeft="830,198.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7415,14 +7667,12 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход производного столбца]"
-          TopLeft="354,402.5">
+          TopLeft="830,402.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7439,14 +7689,12 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход команды OLE DB]"
-          TopLeft="354,708.5">
+          TopLeft="343,708.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7463,14 +7711,12 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="354,96.5">
+          TopLeft="830,96.4999999999998">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7487,14 +7733,12 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
-          TopLeft="354,300.5">
+          TopLeft="830,300.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7517,14 +7761,50 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[NoChange]"
-          TopLeft="307.75,606.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Unknown member]"
+          TopLeft="860,606.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-216.75,60.0000000000001"
+              EndConnector="219,60"
               Start="0,0"
-              End="-216.75,52.5000000000001">
+              End="219,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3037974683544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3037974683544"
+                    Point2="0,24.3037974683544"
+                    Point3="4,24.3037974683544" />
+                  <mssgle:LineSegment
+                    End="215,24.3037974683544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="215,24.3037974683544"
+                    Point2="219,24.3037974683544"
+                    Point3="219,28.3037974683544" />
+                  <mssgle:LineSegment
+                    End="219,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="68.49236328125,29.3037974683544,82.0152734375,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[NoChange]"
+          TopLeft="532.75,606.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-452.75,60"
+              Start="0,0"
+              End="-452.75,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -7535,62 +7815,26 @@ WHERE   [LineageKey] = ?</property>
                     Point2="0,20.5451448040886"
                     Point3="-4,20.5451448040886" />
                   <mssgle:LineSegment
-                    End="-212.75,20.5451448040886" />
+                    End="-448.75,20.5451448040886" />
                   <mssgle:CubicBezierSegment
-                    Point1="-212.75,20.5451448040886"
-                    Point2="-216.75,20.5451448040886"
-                    Point3="-216.75,24.5451448040886" />
+                    Point1="-448.75,20.5451448040886"
+                    Point2="-452.75,20.5451448040886"
+                    Point3="-452.75,24.5451448040886" />
                   <mssgle:LineSegment
-                    End="-216.75,52.5000000000001" />
+                    End="-452.75,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-131.53134765625,25.5451448040886,46.3126953125,11.6630859375"
+              BoundingBox="-249.53134765625,25.5451448040886,46.3126953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Lookup No Match Output]"
-          TopLeft="336.5,504.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-230.5,60.0000000000001"
-              Start="0,0"
-              End="-230.5,52.5000000000001">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.5026178010472" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.5026178010472"
-                    Point2="0,24.5026178010472"
-                    Point3="-4,24.5026178010472" />
-                  <mssgle:LineSegment
-                    End="-226.5,24.5026178010472" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-226.5,24.5026178010472"
-                    Point2="-230.5,24.5026178010472"
-                    Point3="-230.5,28.5026178010472" />
-                  <mssgle:LineSegment
-                    End="-230.5,52.5000000000001" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-171.05638671875,29.5026178010472,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Lookup Match Output]"
-          TopLeft="371.5,504.5">
+          TopLeft="847.5,504.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7620,43 +7864,127 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-56.94138671875,29.5026178010471,96.3827734375,11.609375"
+              BoundingBox="-64.55638671875,29.5026178010471,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[HistoricalAttributes]"
-          TopLeft="354,606.5">
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Lookup Match Output]"
+          TopLeft="812.5,504.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="-233.5,60.0000000000001"
               Start="0,0"
-              End="0,52.5">
+              End="-233.5,52.5000000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,20.5026178010472" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.5026178010472"
+                    Point2="0,24.5026178010472"
+                    Point3="-4,24.5026178010472" />
+                  <mssgle:LineSegment
+                    End="-229.5,24.5026178010472" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-229.5,24.5026178010472"
+                    Point2="-233.5,24.5026178010472"
+                    Point3="-233.5,28.5026178010472" />
+                  <mssgle:LineSegment
+                    End="-233.5,52.5000000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-42.062578125,21.37548828125,84.12515625,9.7490234375"
+              BoundingBox="-164.94138671875,29.5026178010472,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Known members]"
+          TopLeft="800,606.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="30,60"
+              Start="0,0"
+              End="30,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3037974683544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3037974683544"
+                    Point2="0,24.3037974683544"
+                    Point3="4,24.3037974683544" />
+                  <mssgle:LineSegment
+                    End="26,24.3037974683544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="26,24.3037974683544"
+                    Point2="30,24.3037974683544"
+                    Point3="30,28.3037974683544" />
+                  <mssgle:LineSegment
+                    End="30,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-22.502578125,29.3037974683544,75.00515625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[HistoricalAttributes]"
+          TopLeft="579,606.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-236,60"
+              Start="0,0"
+              End="-236,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-232,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-232,30"
+                    Point2="-236,30"
+                    Point3="-236,34" />
+                  <mssgle:LineSegment
+                    End="-236,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-160.062578125,35,84.12515625,9.7490234375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[ChangingAttributes]"
-          TopLeft="400.25,606.5">
+          TopLeft="625.25,606.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="220.75,60"
+              EndConnector="-15.2499999999999,60"
               Start="0,0"
-              End="220.75,52.5">
+              End="-15.2499999999999,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -7665,49 +7993,28 @@ WHERE   [LineageKey] = ?</property>
                   <mssgle:CubicBezierSegment
                     Point1="0,16.5451448040886"
                     Point2="0,20.5451448040886"
-                    Point3="4,20.5451448040886" />
+                    Point3="-4,20.5451448040886" />
                   <mssgle:LineSegment
-                    End="216.75,20.5451448040886" />
+                    End="-11.2499999999999,20.5451448040886" />
                   <mssgle:CubicBezierSegment
-                    Point1="216.75,20.5451448040886"
-                    Point2="220.75,20.5451448040886"
-                    Point3="220.75,24.5451448040886" />
+                    Point1="-11.2499999999999,20.5451448040886"
+                    Point2="-15.2499999999999,20.5451448040886"
+                    Point3="-15.2499999999999,24.5451448040886" />
                   <mssgle:LineSegment
-                    End="220.75,52.5" />
+                    End="-15.2499999999999,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="67.58490234375,25.5451448040886,85.5801953125,11.6630859375"
+              BoundingBox="-50.4150976562499,25.5451448040886,85.5801953125,11.6630859375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\MDS -&gt; DWH\DWH load\MDS source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\MDS -&gt; DWH\DWH load\Insert updated rows">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers">
     <Properties>
@@ -7741,6 +8048,27 @@ WHERE   [LineageKey] = ?</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS -&gt; DWH\DWH load\Insert updated rows">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\MDS -&gt; DWH\DWH load\MDS source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -7832,43 +8160,5 @@ WHERE   [LineageKey] = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <DtsEventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="157,42"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="23,156.5" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package.EventHandlers[OnError]\Get parameter values"
-          TopLeft="11.5,54.5" />
-        <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
-          TopLeft="101.5,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

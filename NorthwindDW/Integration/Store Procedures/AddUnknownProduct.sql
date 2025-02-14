@@ -1,8 +1,10 @@
-﻿CREATE PROCEDURE [Integration].[AddUnknownProduct]
-      @StartDate AS DATE
+CREATE PROCEDURE [Integration].[AddUnknownProduct]
+      @ProductAlterKey AS INT
+    , @Product AS NVARCHAR(50)
+    , @Category AS NVARCHAR(50)
+    , @AllAttributes AS NVARCHAR(MAX)
     , @LineageKey AS BIGINT
 AS BEGIN
-    IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Product] WHERE [ProductKey] = -1 )
     INSERT INTO [Dimension].[Product] (
           [ProductKey]
         , [ProductAlterKey]
@@ -12,10 +14,10 @@ AS BEGIN
         , [LineageKey]
     ) VALUES (
           -1
-        , -1
-        , N'N/A'
-        , N'N/A'
-        , N'{}'
+        , @ProductAlterKey
+        , @Product
+        , @Category
+        , @AllAttributes
         , @LineageKey
     )
 END

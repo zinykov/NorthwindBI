@@ -1,8 +1,10 @@
-﻿CREATE PROCEDURE [Integration].[AddUnknownEmployee]
-      @StartDate AS DATE
+CREATE PROCEDURE [Integration].[AddUnknownEmployee]
+      @EmployeeAlterKey AS INT
+    , @Employee AS NVARCHAR(35)
+    , @AllAttributes AS NVARCHAR(MAX)
+    , @StartDate AS DATE
     , @LineageKey AS BIGINT
 AS BEGIN
-    IF NOT EXISTS ( SELECT 1 FROM [Dimension].[Employee] WHERE [EmployeeKey] = -1 )
     INSERT INTO [Dimension].[Employee] (
           [EmployeeKey]
         , [EmployeeAlterKey]
@@ -18,13 +20,13 @@ AS BEGIN
         , [LineageKey]
     ) VALUES (
           -1
-        , -1
-        , N'N/A'
+        , @EmployeeAlterKey
+        , @Employee
         , NULL
         , NULL
         , NULL
         , NULL
-        , N'{}'
+        , @AllAttributes
         , @StartDate
         , NULL
         , 1
