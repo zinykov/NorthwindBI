@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[LoadDuration]
+CREATE PROCEDURE [Reports].[GetLoadDuration]
 AS BEGIN
 	SELECT		  [Date]		= CONVERT ( date, [CutoffTime], 102 )
 				, [ExecutionId]

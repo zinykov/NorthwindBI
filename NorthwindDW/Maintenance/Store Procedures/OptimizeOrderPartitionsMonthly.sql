@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[OptimizeOrderPartitionsMonthly]
+CREATE PROCEDURE [Maintenance].[OptimizeOrderPartitionsMonthly]
       @CutoffTime AS DATE
 	, @LoadDateInitialEnd AS DATE
 AS BEGIN
@@ -27,7 +27,7 @@ AS BEGIN
 	DECLARE @PartitionNumber        AS INT;
     DECLARE @PartitionValue         AS DATE;
 
-    -- Проверка даты запуска
+-- Проверка даты запуска
     EXECUTE [Maintenance].[CheckReferenceDate]
           @CutoffTime = @CutoffTime
         , @IsMonthlyOptimization = 1
