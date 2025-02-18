@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[GetColumnInfo]
+CREATE PROCEDURE [Reports].[GetColumnInfo]
 WITH EXECUTE AS OWNER
 AS BEGIN
     DECLARE @objectid AS INT;
@@ -65,24 +65,24 @@ AS BEGIN
                     
         UNION ALL
         
-                SELECT        ST.[object_id]
-                            , SC.[column_id]
-                            , S.[name]
-                            , ST.[name]
-                            , SC.[name]
-                            , CAST ( SEP.[value] AS NVARCHAR(MAX) )
-                            , CONCAT( Q.[DATA_TYPE], ISNULL( 
-                                CASE
-                                    WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
-                                    WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
-                                    WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
-                                    WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
-                                END
-                            , N'' ) )
-                            , CASE Q.[IS_NULLABLE]
-                                    WHEN N'NO' THEN N'NOT NULL'
-                                    WHEN N'YES' THEN N'NULL'
-                              END
+        SELECT        ST.[object_id]
+                    , SC.[column_id]
+                    , S.[name]
+                    , ST.[name]
+                    , SC.[name]
+                    , CAST ( SEP.[value] AS NVARCHAR(MAX) )
+                    , CONCAT( Q.[DATA_TYPE], ISNULL( 
+                        CASE
+                            WHEN Q.[DATA_TYPE] IN ( N'binary', N'varbinary'                    ) THEN ( CASE Q.[CHARACTER_OCTET_LENGTH]   WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_OCTET_LENGTH]  , N')' ) END )
+                            WHEN Q.[DATA_TYPE] IN ( N'char', N'varchar', N'nchar', N'nvarchar' ) THEN ( CASE Q.[CHARACTER_MAXIMUM_LENGTH] WHEN -1 THEN N'(max)' ELSE CONCAT( N'(', Q.[CHARACTER_MAXIMUM_LENGTH], N')' ) END )
+                            WHEN Q.[DATA_TYPE] IN ( N'datetime2', N'datetimeoffset'            ) THEN CONCAT( N'(', Q.[DATETIME_PRECISION], N')' )
+                            WHEN Q.[DATA_TYPE] IN ( N'decimal', N'numeric'                     ) THEN CONCAT( N'(', Q.[NUMERIC_PRECISION] , N',', Q.[NUMERIC_SCALE], N')' )
+                        END
+                    , N'' ) )
+                    , CASE Q.[IS_NULLABLE]
+                            WHEN N'NO' THEN N'NOT NULL'
+                            WHEN N'YES' THEN N'NULL'
+                        END
     
         FROM        sys.views AS ST
         INNER JOIN  sys.schemas AS S ON ST.[schema_id] = S.[schema_id]
