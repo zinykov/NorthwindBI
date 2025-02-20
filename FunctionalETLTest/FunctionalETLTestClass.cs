@@ -22,10 +22,10 @@ namespace FunctionalETLTest
         private static string SQLServerFiles;
         private static NorthwindDWDataTest DWDataTest;
         private static NorthwindLogsDataTest LogsDataTest;
-        private static string SSISServerName = Environment.MachineName;
-        private static string SSISDatabaseName = "SSISDB";
-        private static string SSISFolderName = "NorthwindBI";
-        private static string SSISProjectName = "NorthwindETL";
+        private static readonly string SSISServerName = Environment.MachineName;
+        private static readonly string SSISDatabaseName = "SSISDB";
+        private static readonly string SSISFolderName = "NorthwindBI";
+        private static readonly string SSISProjectName = "NorthwindETL";
         private static string TestData;
 
         private TestContext testContextInstance;
@@ -211,16 +211,18 @@ namespace FunctionalETLTest
             ExecuteSqlCommand(sqlExpression);
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
-            SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder();
-            sqlConnectionString.ApplicationName = "FunctionalETLTest";
-            sqlConnectionString.DataSource = Environment.MachineName;
-            sqlConnectionString.InitialCatalog = (string)TestContext.Properties["DWHDatabaseName"];
-            sqlConnectionString.IntegratedSecurity = true;
-            sqlConnectionString.PersistSecurityInfo = false;
-            sqlConnectionString.Pooling = false;
-            sqlConnectionString.MultipleActiveResultSets = false;
-            sqlConnectionString.Encrypt = true;
-            sqlConnectionString.TrustServerCertificate = true;
+            SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder
+            {
+                ApplicationName = "FunctionalETLTest",
+                DataSource = Environment.MachineName,
+                InitialCatalog = (string)TestContext.Properties["DWHDatabaseName"],
+                IntegratedSecurity = true,
+                PersistSecurityInfo = false,
+                Pooling = false,
+                MultipleActiveResultSets = false,
+                Encrypt = true,
+                TrustServerCertificate = true
+            };
             DWDataTest = new NorthwindDWDataTest(sqlConnectionString.ToString());
             DWDataTest.TestInitialize();
 
@@ -248,7 +250,7 @@ namespace FunctionalETLTest
             System.Diagnostics.Trace.WriteLine("**********Finished class initialize**********");
         }
 
-        [ClassCleanup]
+        [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
         public static void ClassCleanup()
         {
             System.Diagnostics.Trace.WriteLine("**********Started class cleanup**********");
@@ -373,22 +375,22 @@ namespace FunctionalETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx...");
-            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            setValueParameters.Add(
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>
+            {
                 new PackageInfo.ExecutionValueParameterSet
                 {
                     ObjectType = 30,
                     ParameterName = "CutoffTime",
                     ParameterValue = CutoffTime
-                });
-            setValueParameters.Add(
+                },
                 new PackageInfo.ExecutionValueParameterSet
                 {
                     ObjectType = 30,
                     ParameterName = "LoadDateInitialEnd",
                     ParameterValue = LoadDateInitialEnd
-                });
-            ExecuteDtsxInSSISDB("Transform and load.dtsx", CutoffTime, setValueParameters);
+                }
+            };
+            ExecuteDtsxInSSISDB("Transform and load.dtsx", setValueParameters);
 
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
@@ -399,15 +401,15 @@ namespace FunctionalETLTest
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP COPY DATABASEFILES INFO**********");
             System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
             setValueParameters.Clear();
-            ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", CutoffTime, setValueParameters);
+            ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", setValueParameters);
         }
 
-        private void ExecuteDtsxInSSISDB(string PackgeName, DateTime CutoffTime, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
+        private void ExecuteDtsxInSSISDB(string PackgeName, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
             Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={Environment.MachineName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
-            Int64 executionid = -1;
+            Int64 executionid;
 
             PackageInfo package = NorthwindETL.Packages[PackgeName];
             try
@@ -420,7 +422,7 @@ namespace FunctionalETLTest
                 {
                     executionid = package.Execute(false, referenceid);
                 }
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid.ToString()}");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {package.Name} execution ID {executionid}");
 
                 ExecutionOperation operation = SSISDB.Executions[executionid];
 
@@ -470,7 +472,7 @@ namespace FunctionalETLTest
             }
             catch (Exception e)
             {
-                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath} failed with error: \"{e.ToString()}\"");
+                System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up {FolderPath} failed with error: \"{e}\"");
             }
         }
 
