@@ -88,7 +88,6 @@ namespace FunctionalETLTest
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Employee.csv");
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Product.csv");
 
-            //Creating logins, roles, users
             if (BuildConfiguration != "Release")
             {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
@@ -122,11 +121,7 @@ namespace FunctionalETLTest
                     $" LandingDatabaseName=\"NorthwindLanding\"" +
                     $" LandingServerName=\"{Environment.MachineName}\""
                 );
-            }
 
-            //Preparing SSIS environment
-            if (BuildConfiguration != "Release")
-            {
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing {BuildConfiguration} SSIS environment...");
@@ -194,7 +189,7 @@ namespace FunctionalETLTest
             //iterate dates between start(initial) and end(incremental) dates
             for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
             {
-                string testDataFolder = $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
+                var testDataFolder = BuildConfiguration == "Release" ? $"{IngestData}\\{CutoffTime:yyyy-MM-dd}" : $"{TestData}\\{CutoffTime:yyyy-MM-dd}";
                 System.Diagnostics.Trace.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {testDataFolder}");
                 Directory.CreateDirectory(testDataFolder);
 
