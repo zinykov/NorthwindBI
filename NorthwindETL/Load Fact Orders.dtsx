@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="352"
-  DTS:VersionGUID="{BE382F9B-34BE-440A-B158-5FAB2A5DA4DA}">
+  DTS:VersionBuild="354"
+  DTS:VersionGUID="{6CEC6455-21DA-46F7-B7B9-3A49A161BD0A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -330,7 +330,7 @@
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -364,8 +364,8 @@
                       <connections>
                         <connection
                           refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
-                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:invalid"
-                          connectionManagerRefId="{861E604B-3E8C-47C1-864A-A74B544FF627}:invalid"
+                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[Logs]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -512,7 +512,7 @@
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT    [LineageKey]
 		, [DataLoadStarted]
 		, [TableName]
 		, [DataLoadCompleted]
@@ -546,8 +546,8 @@ WHERE   [LineageKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -977,7 +977,7 @@ WHERE   [LineageKey] = ?</property>
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Drop Load Table"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1025,7 +1025,7 @@ WHERE   [LineageKey] = ?</property>
                               cachedName="CustomerKey"
                               errorOrTruncationOperation="Вычисление"
                               errorRowDisposition="FailComponent"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows].Columns[CustomerKey]"
                               truncationRowDisposition="FailComponent"
                               usageType="readWrite">
                               <properties>
@@ -1033,7 +1033,7 @@ WHERE   [LineageKey] = ?</property>
                                   containsID="true"
                                   dataType="System.String"
                                   description="Выражение производного столбца"
-                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[CustomerKey]},-1)</property>
+                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows].Columns[CustomerKey]},-1)</property>
                                 <property
                                   containsID="true"
                                   dataType="System.String"
@@ -1048,7 +1048,7 @@ WHERE   [LineageKey] = ?</property>
                               cachedName="EmployeeKey"
                               errorOrTruncationOperation="Вычисление"
                               errorRowDisposition="FailComponent"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows].Columns[EmployeeKey]"
                               truncationRowDisposition="FailComponent"
                               usageType="readWrite">
                               <properties>
@@ -1056,7 +1056,7 @@ WHERE   [LineageKey] = ?</property>
                                   containsID="true"
                                   dataType="System.String"
                                   description="Выражение производного столбца"
-                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[EmployeeKey]},-1)</property>
+                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows].Columns[EmployeeKey]},-1)</property>
                                 <property
                                   containsID="true"
                                   dataType="System.String"
@@ -1071,7 +1071,7 @@ WHERE   [LineageKey] = ?</property>
                               cachedName="ProductKey"
                               errorOrTruncationOperation="Вычисление"
                               errorRowDisposition="FailComponent"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows].Columns[ProductKey]"
                               truncationRowDisposition="FailComponent"
                               usageType="readWrite">
                               <properties>
@@ -1079,7 +1079,7 @@ WHERE   [LineageKey] = ?</property>
                                   containsID="true"
                                   dataType="System.String"
                                   description="Выражение производного столбца"
-                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[ProductKey]},-1)</property>
+                                  name="Expression">[REPLACENULL](#{Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows].Columns[ProductKey]},-1)</property>
                                 <property
                                   containsID="true"
                                   dataType="System.String"
@@ -1371,7 +1371,7 @@ WHERE   [LineageKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractOrders]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXECUTE [Landing].[ExtractOrders]
 	  @StartLoad = ?
 	, @EndLoad = ?;</property>
                         <property
@@ -1399,8 +1399,8 @@ WHERE   [LineageKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Extract data.Connections[OleDbConnection]"
-                          connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:invalid"
-                          connectionManagerRefId="{1F691923-3F2A-4F37-8981-112139599AFC}:invalid"
+                          connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[Landing]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -1644,7 +1644,7 @@ WHERE   [LineageKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1678,8 +1678,8 @@ WHERE   [LineageKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -1714,19 +1714,19 @@ WHERE   [LineageKey] = ?</property>
                               cachedDataType="i8"
                               cachedName="CustomerKey"
                               externalMetadataColumnId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CustomerKey]"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]" />
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows].Columns[CustomerKey]" />
                             <inputColumn
                               refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[EmployeeKey]"
                               cachedDataType="i8"
                               cachedName="EmployeeKey"
                               externalMetadataColumnId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[EmployeeKey]"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]" />
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows].Columns[EmployeeKey]" />
                             <inputColumn
                               refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ProductKey]"
                               cachedDataType="i8"
                               cachedName="ProductKey"
                               externalMetadataColumnId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ProductKey]"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]" />
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows].Columns[ProductKey]" />
                             <inputColumn
                               refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[OrderDateKey]"
                               cachedDataType="dbTimeStamp"
@@ -1858,7 +1858,6 @@ WHERE   [LineageKey] = ?</property>
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey"
                       componentClassID="Microsoft.Lookup"
                       contactInfo="Уточняющий запрос;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;6"
-                      description="Присоединяет дополнительные столбцы к потоку данных путем поиска значений в таблице. Пример: соединение со столбцом &quot;employee id&quot; таблицы employees позволяет получить значения &quot;hire date&quot; и &quot;employee name&quot;. Рекомендуется воспользоваться этим преобразованием, если таблица подстановки не помещается в памяти."
                       name="Lookup CustomerKey"
                       usesDispositions="true"
                       version="6">
@@ -1868,13 +1867,13 @@ WHERE   [LineageKey] = ?</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Customer]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Customer]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Customer]) [refTable] 
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Customer]) [refTable] 
 where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                         <property
                           dataType="System.Int32"
@@ -1906,7 +1905,7 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                         <property
                           dataType="System.String"
                           description="Указывает, следует ли ссылаться на метаданные в формате XML."
-                          name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CustomerKey" dataType="DT_I8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CustomerAlterKey" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactTitle" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Phone" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fax" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                          name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CustomerKey" dataType="DT_I8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CustomerAlterKey" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Customer" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContactTitle" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Phone" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fax" dataType="DT_WSTR" length="30" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AllAttributes" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMP2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Current" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LineageKey" dataType="DT_I8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -1924,8 +1923,8 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                       <connections>
                         <connection
                           refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
                           name="OleDbConnection" />
                       </connections>
@@ -1957,18 +1956,18 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                       </inputs>
                       <outputs>
                         <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows]"
                           errorOrTruncationOperation="Уточняющий запрос"
                           errorRowDisposition="IgnoreFailure"
                           exclusionGroup="1"
-                          name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                          name="Lookedup rows"
                           synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                           <outputColumns>
                             <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows].Columns[CustomerKey]"
                               dataType="i8"
                               errorOrTruncationOperation="Копировать столбец"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows].Columns[CustomerKey]"
                               name="CustomerKey"
                               truncationRowDisposition="FailComponent">
                               <properties>
@@ -1982,10 +1981,10 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                           <externalMetadataColumns />
                         </output>
                         <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Didn't lookup rows]"
                           description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                           exclusionGroup="1"
-                          name="Выход несовпадающих строк уточняющего запроса"
+                          name="Didn't lookup rows"
                           synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                           <externalMetadataColumns />
                         </output>
@@ -2027,13 +2026,13 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Employee]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Employee]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Employee]) [refTable]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Employee]) [refTable]
 where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                         <property
                           dataType="System.Int32"
@@ -2083,8 +2082,8 @@ where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                       <connections>
                         <connection
                           refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
                           name="OleDbConnection" />
                       </connections>
@@ -2115,18 +2114,18 @@ where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                       </inputs>
                       <outputs>
                         <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows]"
                           errorOrTruncationOperation="Уточняющий запрос"
                           errorRowDisposition="IgnoreFailure"
                           exclusionGroup="1"
-                          name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                          name="Lookedup rows"
                           synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                           <outputColumns>
                             <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows].Columns[EmployeeKey]"
                               dataType="i8"
                               errorOrTruncationOperation="Копировать столбец"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[EmployeeKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows].Columns[EmployeeKey]"
                               name="EmployeeKey"
                               truncationRowDisposition="FailComponent">
                               <properties>
@@ -2185,13 +2184,13 @@ where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Product]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Product]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Product]) [refTable]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Product]) [refTable]
 where [refTable].[ProductAlterKey] = ?</property>
                         <property
                           dataType="System.Int32"
@@ -2241,8 +2240,8 @@ where [refTable].[ProductAlterKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Диспетчер соединений, используемый для доступа к данным уточняющих запросов."
                           name="OleDbConnection" />
                       </connections>
@@ -2273,18 +2272,18 @@ where [refTable].[ProductAlterKey] = ?</property>
                       </inputs>
                       <outputs>
                         <output
-                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                          refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows]"
                           errorOrTruncationOperation="Уточняющий запрос"
                           errorRowDisposition="IgnoreFailure"
                           exclusionGroup="1"
-                          name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
+                          name="Lookedup rows"
                           synchronousInputId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
                           <outputColumns>
                             <outputColumn
-                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                              refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows].Columns[ProductKey]"
                               dataType="i8"
                               errorOrTruncationOperation="Копировать столбец"
-                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[ProductKey]"
+                              lineageId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows].Columns[ProductKey]"
                               name="ProductKey"
                               truncationRowDisposition="FailComponent">
                               <properties>
@@ -2335,17 +2334,17 @@ where [refTable].[ProductAlterKey] = ?</property>
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
                       endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Outputs[Lookedup rows]" />
                     <path
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;1]"
                       endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey.Outputs[Lookedup rows]" />
                     <path
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;2]"
                       endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Calculate measures &amp; replace NULLs.Inputs[Вход производного столбца]"
                       name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                      startId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey.Outputs[Lookedup rows]" />
                     <path
                       refId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table.Paths[Выход источника &quot;OLE DB&quot;]"
                       endId="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
@@ -2367,7 +2366,7 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Landing update hash table"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -2702,7 +2701,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -2736,8 +2735,8 @@ where [refTable].[ProductAlterKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
-                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:invalid"
-                          connectionManagerRefId="{861E604B-3E8C-47C1-864A-A74B544FF627}:invalid"
+                          connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[Logs]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -2884,7 +2883,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT    [LineageKey]
 		, [DataLoadStarted]
 		, [TableName]
 		, [DataLoadCompleted]
@@ -2918,8 +2917,8 @@ WHERE   [LineageKey] = ?</property>
                       <connections>
                         <connection
                           refId="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
-                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
-                          connectionManagerRefId="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:invalid"
+                          connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                          connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
                           description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                           name="OleDbConnection" />
                       </connections>
@@ -3274,12 +3273,12 @@ WHERE   [LineageKey] = ?</property>
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
-<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
-<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
   Version="8">
-  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -3738,6 +3737,46 @@ WHERE   [LineageKey] = ?</property>
     </LayoutInfo>
   </Package>
   <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="25,154.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="13.5,52.5" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="103.5,94.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
     design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]">
     <LayoutInfo>
       <GraphLayout
@@ -3753,7 +3792,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="131,42"
           Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
@@ -3781,7 +3820,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3801,27 +3842,27 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="177.6,41.6"
+          Size="178,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup CustomerKey"
           TopLeft="50,156.5" />
         <NodeLayout
-          Size="168.8,41.6"
+          Size="169,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup ProductKey"
           TopLeft="54.5000000000001,360.5" />
         <NodeLayout
-          Size="136,41.6"
+          Size="136,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Extract data"
           TopLeft="71,54.5" />
         <NodeLayout
-          Size="179.2,41.6"
+          Size="179,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Lookup EmployeeKey"
           TopLeft="49.5,258.5" />
         <NodeLayout
-          Size="160.8,41.6"
+          Size="161,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Load Stage Table"
           TopLeft="58.5000000000001,564.5" />
         <NodeLayout
-          Size="251.2,41.6"
+          Size="251,42"
           Id="Package\Landing -&gt; DWH\Workflow with changed\Fill Load Table\Calculate measures &amp; replace NULLs"
           TopLeft="13.5000000000001,462.5" />
         <EdgeLayout
@@ -3888,7 +3929,7 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              BoundingBox="-33.917578125,20.4453125,67.83515625,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3912,7 +3953,7 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              BoundingBox="-33.917578125,20.4453125,67.83515625,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3936,7 +3977,7 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
+              BoundingBox="-33.917578125,20.4453125,67.83515625,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -3954,7 +3995,7 @@ WHERE   [LineageKey] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q3:string">0</Value>
+          type="q3:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3962,7 +4003,7 @@ WHERE   [LineageKey] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q4:string">true</Value>
+          type="q4:boolean">true</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -4042,7 +4083,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="269,42"
           Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
@@ -4070,7 +4111,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4082,13 +4125,13 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="172,42"
-          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
-          TopLeft="21.5,156.5" />
-        <NodeLayout
           Size="131,42"
           Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
           TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
         <EdgeLayout
           Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Выход источника &quot;OLE DB&quot;]"
           TopLeft="107.5,96.5">
@@ -4116,43 +4159,5 @@ WHERE   [LineageKey] = ?</property>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <DtsEventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="157,42"
-          Id="Package.EventHandlers[OnError]\Error notification"
-          TopLeft="25,154.5" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package.EventHandlers[OnError]\Get parameter values"
-          TopLeft="13.5,52.5" />
-        <EdgeLayout
-          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
-          TopLeft="103.5,94.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

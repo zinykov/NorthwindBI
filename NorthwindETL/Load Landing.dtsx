@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="68"
-  DTS:VersionGUID="{77007D85-367A-4002-B7FE-DB24138DE0E7}">
+  DTS:VersionBuild="69"
+  DTS:VersionGUID="{4453F3E1-4374-4961-98E0-E19BC8FEABEE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -934,7 +934,7 @@
                       dataType="System.String"
                       description="Команда SQL для выполнения."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
                     <property
                       dataType="System.Int32"
                       description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -968,8 +968,8 @@
                   <connections>
                     <connection
                       refId="Package\xmlcalendar foreach loop\Load to Landing\Landing.Connections[OleDbConnection]"
-                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:invalid"
-                      connectionManagerRefId="{1F691923-3F2A-4F37-8981-112139599AFC}:invalid"
+                      connectionManagerID="{1F691923-3F2A-4F37-8981-112139599AFC}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[Landing]"
                       description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                       name="OleDbConnection" />
                   </connections>
@@ -1017,9 +1017,10 @@
                           length="255"
                           name="HolidayName" />
                         <externalMetadataColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CheckSum]"
-                          dataType="i4"
-                          name="CheckSum" />
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Landing.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[HashDiff]"
+                          dataType="bytes"
+                          length="64"
+                          name="HashDiff" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -1651,10 +1652,14 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="181,102"
+          PanelSize="181,103"
           Size="181,146"
           Id="Package\For each fmt"
           TopLeft="15.5000000000001,156.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Truncate landing"
+          TopLeft="261,54.5" />
         <NodeLayout
           Size="155,42"
           Id="Package\xmlcalendar foreach loop\Load to Landing"
@@ -1662,14 +1667,10 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="166,102"
+          PanelSize="166,103"
           Size="166,146"
           Id="Package\xmlcalendar foreach loop"
           TopLeft="257,156.5" />
-        <NodeLayout
-          Size="158,42"
-          Id="Package\Truncate landing"
-          TopLeft="261,54.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="315,96.5">
@@ -1997,5 +1998,18 @@
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\xmlcalendar foreach loop\Load to Landing\Landing">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
