@@ -397,6 +397,8 @@ namespace FunctionalETLTest
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance copy DatabaseFiles.dtsx...");
             setValueParameters.Clear();
             ExecuteDtsxInSSISDB("Maintenance copy DatabaseFiles.dtsx", setValueParameters);
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEPS FINISHED**********");
         }
 
         private void ExecuteDtsxInSSISDB(string PackgeName, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
