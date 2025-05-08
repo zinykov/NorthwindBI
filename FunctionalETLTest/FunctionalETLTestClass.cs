@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
 using NorthwindLogsTest;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
@@ -10,6 +11,28 @@ using System.Text;
 
 namespace FunctionalETLTest
 {
+    //[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    //internal class CutoffTimeAttribute : Attribute, ITestDataSource
+    //{
+    //    private readonly DateTime _startDate = new DateTime(1998, 1, 6, 0, 0, 0);
+    //    private readonly DateTime _endDate;
+
+    //    public CutoffTimeAttribute(string LoadDateIncrementalEnd) => _endDate = new DateTime(1998, 1, 8, 0, 0, 0);
+
+    //    public IEnumerable<object[]> GetData(MethodInfo methodInfo)
+    //    {
+    //        for (DateTime dateTime = _startDate; dateTime <= _endDate; dateTime = dateTime.AddDays(1))
+    //        {
+    //            yield return new object[] { dateTime.ToString() };
+    //        }
+    //    }
+
+    //    public string GetDisplayName(MethodInfo methodInfo, object[] data)
+    //    {
+    //        return $"ETL_{DateTime.Parse(data[0].ToString()):yyyy-MM-dd}";
+    //    }
+    //}
+
     [TestClass]
     public class FunctionalETLTestClass
     {
@@ -283,86 +306,158 @@ namespace FunctionalETLTest
         }
 
         [TestMethod]
-        public void FunctionalETLTest()
+        public void ETL_1997_12_31()
         {
-            Console.WriteLine($"**********Started FunctionalETLTest**********");
+            //Console.WriteLine($"**********Started FunctionalETLTest**********");
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
             DWDataTest.UpdatePartitionSchema();
 
-            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            try
             {
-                if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
-                {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                    }
-                    catch (Exception e)
-                    {
-                        Assert.Fail(e.Message);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                        Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
-                    }
-                    catch
-                    {
-                        LogsDataTest.EventHandlersOnErrorDataTest();
-                    }
-                }
-
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
-                    DWDataTest.CutoffTimeTest();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.EmployeeSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
-                    DWDataTest.ProductSCD1TestStage1();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.UnknownMemberTest();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
-                    DWDataTest.EmployeeSCD2TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
-                    DWDataTest.CustomerSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
-                    DWDataTest.ProductSCD1TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
-                    DWDataTest.PartitionsManagingTest();
-                }
-
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
-                DWDataTest.OrderShippingDateTest();
+                NorthwindBITransformAndLoadJod(new DateTime(1997, 12, 31, 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
             }
 
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
+            DWDataTest.CutoffTimeTest();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+        }
+
+        [TestMethod]
+        public void ETL_1998_01_01()
+        {
+            try
+            {
+                NorthwindBITransformAndLoadJod(new DateTime(1998, 01, 01, 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+
             Console.WriteLine("**********Finished FunctionalETLTest**********");
+        }
+
+        [TestMethod]
+        public void ETL_1998_01_02()
+        {
+
+            try
+            {
+                NorthwindBITransformAndLoadJod(new DateTime(1998, 01, 02, 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+            DWDataTest.EmployeeSCD2TestStage1();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
+            DWDataTest.ProductSCD1TestStage1();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+            DWDataTest.UnknownMemberTest();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+        }
+
+        [TestMethod]
+        public void ETL_1998_01_03()
+        {
+
+            try
+            {
+                NorthwindBITransformAndLoadJod(new DateTime(1998, 01, 03, 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
+            DWDataTest.EmployeeSCD2TestStage2();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
+            DWDataTest.CustomerSCD2TestStage1();
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
+            DWDataTest.ProductSCD1TestStage2();
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
+            DWDataTest.PartitionsManagingTest();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+        }
+
+        [TestMethod]
+        public void ETL_1998_01_04()
+        {
+            try
+            {
+                NorthwindBITransformAndLoadJod(new DateTime(1998, 01, 04, 0, 0, 0));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+
+            Console.WriteLine("**********Finished FunctionalETLTest**********");
+        }
+
+        [TestMethod]
+        public void ETL_1998_01_05()
+        {
+            try
+            {
+                NorthwindBITransformAndLoadJod(new DateTime(1998, 01, 05, 0, 0, 0));
+                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
+            }
+            catch
+            {
+                LogsDataTest.EventHandlersOnErrorDataTest();
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+        }
+
+        private static IEnumerable<object[]> CutoffTimeDD
+        {
+            get
+            {
+                for (DateTime dateTime = new DateTime(1998, 1, 6, 0, 0, 0); dateTime <= new DateTime(1998, 2, 8, 0, 0, 0); dateTime = dateTime.AddDays(1))
+                {
+                    yield return new object[] { dateTime.ToString("yyyy-MM-dd") };
+                }
+            }
+        }
+
+        [TestMethod]
+        //[CutoffTime(LoadDateIncrementalEnd: "yyyy-MM-hh")]
+        [DynamicData(nameof(CutoffTimeDD))]
+        public void FunctionalETLTest(string CutoffTime)
+        {
+            try
+            {
+                NorthwindBITransformAndLoadJod(DateTime.Parse(CutoffTime));
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
         }
 
         private void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
