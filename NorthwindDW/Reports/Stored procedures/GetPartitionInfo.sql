@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Reports].[GetPartitionInfo]
+CREATE PROCEDURE [Reports].[GetPartitionInfo]
 WITH EXECUTE AS OWNER
 AS BEGIN
 	SELECT		  DISTINCT [Schema]			= S.[name]
@@ -6,6 +6,7 @@ AS BEGIN
 				, [PartitionNumber]			= P.[partition_number]
 				, [PartitionRange]			= PRV.[value]
 				, [IndexID]					= I.[index_id]
+				, [IndexName]				= I.[name]
 				, [IndexType]				= I.[type_desc]
 				, [DataCompression]			= P.[data_compression_desc]
 				, [FileGroupName]			= COALESCE ( FG.[name], FGP.[name] )
