@@ -14,8 +14,8 @@
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="71"
-  DTS:VersionGUID="{2E5EED0B-E153-47E1-BC92-25F8E8E2B03B}">
+  DTS:VersionBuild="73"
+  DTS:VersionGUID="{FBF75E3C-F7F7-4A70-8DCB-2CFCD23D9E4C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -341,12 +341,12 @@
                           cachedDataType="wstr"
                           cachedLength="255"
                           cachedName="d"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]" />
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[d]" />
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Inputs[Derived Column Input].Columns[t]"
                           cachedDataType="ui1"
                           cachedName="t"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]" />
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[t]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
@@ -371,7 +371,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">(DT_DATE)([SUBSTRING](@[User::xmlPath],[FINDSTRING](@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + (DT_WSTR,5)#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]})</property>
+                              name="Expression">(DT_DATE)([SUBSTRING](@[User::xmlPath],[FINDSTRING](@[User::xmlPath],"\\calendar.xml",1) - 4,4) + "." + (DT_WSTR,5)#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[d]})</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -393,7 +393,7 @@
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">(DT_UI2)#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]}</property>
+                              name="Expression">(DT_UI2)#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[t]}</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -985,7 +985,7 @@
                           cachedLength="255"
                           cachedName="title"
                           externalMetadataColumnId="Package\xmlcalendar foreach loop\Load to Landing\Landing.Inputs[&quot;OLE DB&quot; destination input].ExternalColumns[HolidayName]"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[title]" />
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[title]" />
                         <inputColumn
                           refId="Package\xmlcalendar foreach loop\Load to Landing\Landing.Inputs[&quot;OLE DB&quot; destination input].Columns[Date]"
                           cachedDataType="date"
@@ -1050,67 +1050,43 @@
                 <component
                   refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id"
                   componentClassID="Microsoft.MergeJoin"
-                  contactInfo="Соединение слиянием;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;1"
+                  contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
                   name="Left join by holiday Id"
                   version="1">
                   <properties>
                     <property
                       dataType="System.Int32"
-                      description="Указывает тип выполняемого соединения."
+                      description="Specifies the type of join to perform."
                       name="JoinType"
-                      typeConverter="JoinType">1</property>
+                      typeConverter="JoinType">2</property>
                     <property
                       dataType="System.Int32"
-                      description="Указывает количество столбцов в ключе упорядочивания."
+                      description="Specifies the number of columns in the ordering key."
                       name="NumKeyColumns">1</property>
                     <property
                       dataType="System.Boolean"
-                      description="Указывает, считаются ли значения NULL эквивалентными значениями."
+                      description="Indicates whether the null values are treated as equal values."
                       name="TreatNullsAsEqual">true</property>
                     <property
                       dataType="System.Int32"
-                      description="Указывает запрошенное максимальное число буферов на вход перед блокированием."
+                      description="Indicates the requested maximum buffers per input before blocking."
                       name="MaxBuffersPerInput">5</property>
                   </properties>
                   <inputs>
                     <input
-                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием]"
+                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Left Input]"
                       hasSideEffects="true"
-                      name="Левый вход соединения слиянием">
+                      name="Merge Join Left Input">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[h]"
-                          cachedDataType="ui1"
-                          cachedName="h"
-                          cachedSortKeyPosition="1"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[h]" />
-                        <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[d]"
-                          cachedDataType="wstr"
-                          cachedLength="255"
-                          cachedName="d"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[d]" />
-                        <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[t]"
-                          cachedDataType="ui1"
-                          cachedName="t"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[t]" />
-                      </inputColumns>
-                      <externalMetadataColumns />
-                    </input>
-                    <input
-                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием]"
-                      hasSideEffects="true"
-                      name="Правый вход соединения слиянием">
-                      <inputColumns>
-                        <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием].Columns[id]"
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Left Input].Columns[id]"
                           cachedDataType="ui1"
                           cachedName="id"
                           cachedSortKeyPosition="1"
                           lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Sorting output Holidays].Columns[id]" />
                         <inputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием].Columns[title]"
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Left Input].Columns[title]"
                           cachedDataType="wstr"
                           cachedLength="255"
                           cachedName="title"
@@ -1118,51 +1094,76 @@
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
+                    <input
+                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input]"
+                      hasSideEffects="true"
+                      name="Merge Join Right Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input].Columns[h]"
+                          cachedDataType="ui1"
+                          cachedName="h"
+                          cachedSortKeyPosition="1"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[h]" />
+                        <inputColumn
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input].Columns[d]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="d"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[d]" />
+                        <inputColumn
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input].Columns[t]"
+                          cachedDataType="ui1"
+                          cachedName="t"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days].Columns[t]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием]"
-                      name="Выход соединения слиянием">
+                      refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output]"
+                      name="Merge Join Output">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]"
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[title]"
                           dataType="wstr"
                           length="255"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[d]"
-                          name="d">
-                          <properties>
-                            <property
-                              containsID="true"
-                              dataType="System.Int32"
-                              description="Входной столбец, связанный с этим выходным столбцом"
-                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[d]}</property>
-                          </properties>
-                        </outputColumn>
-                        <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]"
-                          dataType="ui1"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[t]"
-                          name="t">
-                          <properties>
-                            <property
-                              containsID="true"
-                              dataType="System.Int32"
-                              description="Входной столбец, связанный с этим выходным столбцом"
-                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием].Columns[t]}</property>
-                          </properties>
-                        </outputColumn>
-                        <outputColumn
-                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[title]"
-                          dataType="wstr"
-                          length="255"
-                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием].Columns[title]"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[title]"
                           name="title">
                           <properties>
                             <property
                               containsID="true"
                               dataType="System.Int32"
-                              description="Входной столбец, связанный с этим выходным столбцом"
-                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием].Columns[title]}</property>
+                              description="The input column associated with this output column"
+                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Left Input].Columns[title]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[d]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[d]"
+                          name="d">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="The input column associated with this output column"
+                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input].Columns[d]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[t]"
+                          dataType="ui1"
+                          lineageId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output].Columns[t]"
+                          name="t">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="The input column associated with this output column"
+                              name="InputColumnID">#{Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input].Columns[t]}</property>
                           </properties>
                         </outputColumn>
                       </outputColumns>
@@ -1466,25 +1467,25 @@
                   name="Exit Add year to holiday date change datatypes"
                   startId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Outputs[Derived Column Output]" />
                 <path
-                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Left join by holiday Id]"
-                  endId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Inputs[Derived Column Input]"
-                  name="Exit Left join by holiday Id"
-                  startId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Выход соединения слиянием]" />
-                <path
-                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Sort Days]"
-                  endId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Левый вход соединения слиянием]"
-                  name="Exit Sort Days"
-                  startId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days]" />
-                <path
-                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Sort Holidays]"
-                  endId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Правый вход соединения слиянием]"
-                  name="Exit Sort Holidays"
-                  startId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Sorting output Holidays]" />
-                <path
                   refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[holiday]"
                   endId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Inputs[Sorting input Holidays]"
                   name="holiday"
                   startId="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file.Outputs[holiday]" />
+                <path
+                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Merge Join Output]"
+                  endId="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes.Inputs[Derived Column Input]"
+                  name="Merge Join Output"
+                  startId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Outputs[Merge Join Output]" />
+                <path
+                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Sorting output Days]"
+                  endId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Right Input]"
+                  name="Sorting output Days"
+                  startId="Package\xmlcalendar foreach loop\Load to Landing\Sort Days.Outputs[Sorting output Days]" />
+                <path
+                  refId="Package\xmlcalendar foreach loop\Load to Landing.Paths[Sorting output Holidays]"
+                  endId="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id.Inputs[Merge Join Left Input]"
+                  name="Sorting output Holidays"
+                  startId="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays.Outputs[Sorting output Holidays]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -1786,158 +1787,64 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="160.8,41.6"
+          Size="156.8,41.6"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Calendar xml file"
-          TopLeft="199,52.5" />
+          TopLeft="196.5,54.3" />
         <NodeLayout
-          Size="182.4,41.6"
-          Id="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id"
-          TopLeft="188.5,256.5" />
-        <NodeLayout
-          Size="140.8,41.6"
+          Size="140,41.6"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Sort Holidays"
-          TopLeft="11.5,154.5" />
+          TopLeft="11.9,155.9" />
         <NodeLayout
-          Size="118.4,41.6"
+          Size="115.2,41.6"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Landing"
-          TopLeft="220.5,460.5" />
+          TopLeft="217.3,460.7" />
         <NodeLayout
-          Size="287.2,41.6"
+          Size="280,41.6"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Add year to holiday date change datatypes"
-          TopLeft="136,358.5" />
+          TopLeft="134.9,359.1" />
         <NodeLayout
-          Size="127.2,41.6"
+          Size="124,41.6"
           Id="Package\xmlcalendar foreach loop\Load to Landing\Sort Days"
-          TopLeft="216,154.5" />
+          TopLeft="212.9,155.9" />
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[holiday]"
-          TopLeft="254,94.5">
+          TopLeft="250.1,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-172,60"
+              EndConnector="-168.2,59.9999999999999"
               Start="0,0"
-              End="-172,52.5">
+              End="-168.2,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.3542435424354" />
+                    End="0,20.3636363636363" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.3542435424354"
-                    Point2="0,24.3542435424354"
-                    Point3="-4,24.3542435424354" />
+                    Point1="0,20.3636363636363"
+                    Point2="0,24.3636363636363"
+                    Point3="-4,24.3636363636363" />
                   <mssgle:LineSegment
-                    End="-168,24.3542435424354" />
+                    End="-164.2,24.3636363636363" />
                   <mssgle:CubicBezierSegment
-                    Point1="-168,24.3542435424354"
-                    Point2="-172,24.3542435424354"
-                    Point3="-172,28.3542435424354" />
+                    Point1="-164.2,24.3636363636363"
+                    Point2="-168.2,24.3636363636363"
+                    Point3="-168.2,28.3636363636363" />
                   <mssgle:LineSegment
-                    End="-172,52.5" />
+                    End="-168.2,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-102.3285546875,29.3542435424354,32.657109375,11.609375"
+              BoundingBox="-100.4285546875,29.3636363636363,32.657109375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Sort Holidays]"
-          TopLeft="82,196.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="168.5,60"
-              Start="0,0"
-              End="168.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.6862745098039" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.6862745098039"
-                    Point2="0,35.6862745098039"
-                    Point3="4,35.6862745098039" />
-                  <mssgle:LineSegment
-                    End="164.5,35.6862745098039" />
-                  <mssgle:CubicBezierSegment
-                    Point1="164.5,35.6862745098039"
-                    Point2="168.5,35.6862745098039"
-                    Point3="168.5,39.6862745098039" />
-                  <mssgle:LineSegment
-                    End="168.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Sort Days]"
-          TopLeft="279.5,196.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="29,60"
-              Start="0,0"
-              End="29,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.6862745098039" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.6862745098039"
-                    Point2="0,35.6862745098039"
-                    Point3="4,35.6862745098039" />
-                  <mssgle:LineSegment
-                    End="25,35.6862745098039" />
-                  <mssgle:CubicBezierSegment
-                    Point1="25,35.6862745098039"
-                    Point2="29,35.6862745098039"
-                    Point3="29,39.6862745098039" />
-                  <mssgle:LineSegment
-                    End="29,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Left join by holiday Id]"
-          TopLeft="279.5,298.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Exit Add year to holiday date change datatypes]"
-          TopLeft="279.5,400.5">
+          TopLeft="274.9,400.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -1959,38 +1866,132 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[day]"
-          TopLeft="305,94.5">
+          TopLeft="299.7,95.8999999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-25.5,60"
+              EndConnector="-24.8,59.9999999999999"
               Start="0,0"
-              End="-25.5,52.5">
+              End="-24.8,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.3542435424354" />
+                    End="0,20.3636363636363" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.3542435424354"
-                    Point2="0,24.3542435424354"
-                    Point3="-4,24.3542435424354" />
+                    Point1="0,20.3636363636363"
+                    Point2="0,24.3636363636363"
+                    Point3="-4,24.3636363636363" />
                   <mssgle:LineSegment
-                    End="-21.5,24.3542435424354" />
+                    End="-20.8,24.3636363636363" />
                   <mssgle:CubicBezierSegment
-                    Point1="-21.5,24.3542435424354"
-                    Point2="-25.5,24.3542435424354"
-                    Point3="-25.5,28.3542435424354" />
+                    Point1="-20.8,24.3636363636363"
+                    Point2="-24.8,24.3636363636363"
+                    Point3="-24.8,28.3636363636363" />
                   <mssgle:LineSegment
-                    End="-25.5,52.5" />
+                    End="-24.8,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-21.47154296875,29.3542435424354,17.4430859375,11.609375"
+              BoundingBox="-21.12154296875,29.3636363636363,17.4430859375,11.609375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="181.6,41.6"
+          Id="Package\xmlcalendar foreach loop\Load to Landing\Left join by holiday Id"
+          TopLeft="184.1,257.5" />
+        <EdgeLayout
+          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Sorting output Holidays]"
+          TopLeft="81.9,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="164.066666666667,59.9999999999999"
+              Start="0,0"
+              End="164.066666666667,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6855895196506" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6855895196506"
+                    Point2="0,35.6855895196506"
+                    Point3="4,35.6855895196506" />
+                  <mssgle:LineSegment
+                    End="160.066666666667,35.6855895196506" />
+                  <mssgle:CubicBezierSegment
+                    Point1="160.066666666667,35.6855895196506"
+                    Point2="164.066666666667,35.6855895196506"
+                    Point3="164.066666666667,39.6855895196506" />
+                  <mssgle:LineSegment
+                    End="164.066666666667,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Sorting output Days]"
+          TopLeft="274.9,197.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.9333333333333,59.9999999999999"
+              Start="0,0"
+              End="28.9333333333333,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6855895196506" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.6855895196506"
+                    Point2="0,35.6855895196506"
+                    Point3="4,35.6855895196506" />
+                  <mssgle:LineSegment
+                    End="24.9333333333333,35.6855895196506" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.9333333333333,35.6855895196506"
+                    Point2="28.9333333333333,35.6855895196506"
+                    Point3="28.9333333333333,39.6855895196506" />
+                  <mssgle:LineSegment
+                    End="28.9333333333333,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\xmlcalendar foreach loop\Load to Landing.Paths[Merge Join Output]"
+          TopLeft="274.9,299.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
