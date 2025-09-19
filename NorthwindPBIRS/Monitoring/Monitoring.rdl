@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.13.35931.197</am:Version>
+      <am:Version>17.14.36429.23</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2025-04-21T06:48:25.2521990Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2025-09-13T17:47:42.3074858Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -98,13 +98,14 @@ FROM		[Integration].[ErrorLog]</CommandText>
     <DataSet Name="LoadDuration">
       <Query>
         <DataSourceName>Logs</DataSourceName>
-        <CommandText>SELECT		  [Date]		= CONVERT ( date, [CutoffTime], 102 )
-		, [ExecutionId]
-		, [DataLoadStarted]
-		, [TableName]
-		, [Duration]	= DATEDIFF ( MILLISECOND, [DataLoadStarted], [DataLoadCompleted] )
-FROM		[Integration].[Lineage]
-ORDER BY	[LineageKey] DESC</CommandText>
+        <CommandText>    SELECT		  [Date]		= CONVERT ( date, L.[CutoffTime], 102 )
+				, [ExecutionId]
+				, [DataLoadStarted]
+				, [TableName]
+				, [Duration]	= DATEDIFF ( MILLISECOND, L.[DataLoadStarted], L.[DataLoadCompleted] )
+				, [MAvgDuration] = AVG ( DATEDIFF ( MILLISECOND, L.[DataLoadStarted], L.[DataLoadCompleted] ) ) OVER ( PARTITION BY [TableName] ORDER BY L.[CutoffTime] DESC ROWS BETWEEN CURRENT ROW AND 3 FOLLOWING )
+	FROM		[Integration].[Lineage] AS L
+    ORDER BY	L.[LineageKey] DESC</CommandText>
       </Query>
       <Fields>
         <Field Name="Date">
@@ -125,6 +126,10 @@ ORDER BY	[LineageKey] DESC</CommandText>
         </Field>
         <Field Name="Duration">
           <DataField>Duration</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MAvgDuration">
+          <DataField>MAvgDuration</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
@@ -1130,7 +1135,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                 <DockOutsideChartArea>true</DockOutsideChartArea>
               </ChartTitle>
             </ChartTitles>
-            <Palette>Pacific</Palette>
+            <Palette>PacificLight</Palette>
             <ChartBorderSkin>
               <Style>
                 <BackgroundColor>Gray</BackgroundColor>
@@ -1510,7 +1515,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                 <DockOutsideChartArea>true</DockOutsideChartArea>
               </ChartTitle>
             </ChartTitles>
-            <Palette>Pacific</Palette>
+            <Palette>PacificLight</Palette>
             <ChartBorderSkin>
               <Style>
                 <BackgroundColor>Gray</BackgroundColor>
@@ -1652,7 +1657,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Chart Name="DataBar2">
+                        <Chart Name="DataBar1">
                           <ChartCategoryHierarchy>
                             <ChartMembers>
                               <ChartMember>
@@ -1663,7 +1668,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                           <ChartSeriesHierarchy>
                             <ChartMembers>
                               <ChartMember>
-                                <Group Name="DataBar2_SeriesGroup">
+                                <Group Name="DataBar1_SeriesGroup">
                                   <GroupExpressions>
                                     <GroupExpression>=Fields!TableName.Value</GroupExpression>
                                   </GroupExpressions>
@@ -1686,13 +1691,11 @@ GROUP BY	[ValidationStatus]</CommandText>
                                       <Y>=Sum(Fields!Duration.Value)</Y>
                                     </ChartDataPointValues>
                                     <ChartDataLabel>
-                                      <Style>
-                                        <FontFamily>Calibri</FontFamily>
-                                        <FontSize>12pt</FontSize>
-                                      </Style>
-                                      <Label>=Fields!TableName.Value + "  " + Format(Fields!Duration.Value, "#,##0")</Label>
+                                      <Style />
+                                      <Label>=Fields!TableName.Value
++ " "
++ Format(Fields!Duration.Value, "#,##0")</Label>
                                       <Visible>true</Visible>
-                                      <Position>Outside</Position>
                                     </ChartDataLabel>
                                     <Style />
                                     <ChartMarker>
@@ -1891,7 +1894,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                                   </ChartMinorTickMarks>
                                   <CrossAt>NaN</CrossAt>
                                   <Minimum>0</Minimum>
-                                  <Maximum>=Max(Sum(Fields!Duration.Value, "DataBar2_SeriesGroup"), "Tablix1")</Maximum>
+                                  <Maximum>=Max(Sum(Fields!Duration.Value, "DataBar1_SeriesGroup"), "Tablix1")</Maximum>
                                   <ChartAxisScaleBreak>
                                     <Style />
                                   </ChartAxisScaleBreak>
@@ -1967,7 +1970,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                               </ChartElementPosition>
                             </ChartArea>
                           </ChartAreas>
-                          <Palette>Pacific</Palette>
+                          <Palette>PacificLight</Palette>
                           <ChartBorderSkin>
                             <Style>
                               <BackgroundColor>Gray</BackgroundColor>
@@ -1976,7 +1979,7 @@ GROUP BY	[ValidationStatus]</CommandText>
                             </Style>
                           </ChartBorderSkin>
                           <ChartNoDataMessage Name="NoDataMessage">
-                            <Caption>Данные недоступны</Caption>
+                            <Caption>No Data Available</Caption>
                             <Style>
                               <BackgroundGradientType>None</BackgroundGradientType>
                               <FontWeight>Bold</FontWeight>
