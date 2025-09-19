@@ -8,13 +8,13 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{874DE0D2-AF68-438D-916A-0095E0F59C11}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LastModifiedProductVersion="16.0.5685.2"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Dim Customers"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="396"
-  DTS:VersionGUID="{11E5620B-DD5F-415E-B56E-FF897278AC96}">
+  DTS:VersionBuild="397"
+  DTS:VersionGUID="{4FEFE838-00FA-42AB-B288-8572E6EBE63B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3157,7 +3157,7 @@ WHERE   [LineageKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="DWH get start load date"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -3214,7 +3214,7 @@ WHERE   [LineageKey] = ?</property>
                           refId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Inputs[Вход производного столбца].Columns[DQSCustomerAllAttributes]"
                           cachedDataType="nText"
                           cachedName="DQSCustomerAllAttributes"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCustomerAllAttributes]" />
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches].Columns[DQSCustomerAllAttributes]" />
                       </inputColumns>
                       <externalMetadataColumns />
                     </input>
@@ -3328,7 +3328,7 @@ WHERE   [LineageKey] = ?</property>
                               containsID="true"
                               dataType="System.String"
                               description="Выражение производного столбца"
-                              name="Expression">(DT_NTEXT)"{\"MDS\":[{\"mdm_masterCustomer\":" + ([ISNULL](#{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[MasterCustomerAllAttributes]}) ? (DT_NTEXT)"{}" : #{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[MasterCustomerAllAttributes]}) + (DT_NTEXT)"}],\"DQS\":[{\"dbo_NW_Customers\":" + ([ISNULL](#{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DQSCustomerAllAttributes]}) ? (DT_NTEXT)"{}" : #{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования "Уточняющий запрос"].Columns[DQSCustomerAllAttributes]}) + (DT_NTEXT)"}]}"</property>
+                              name="Expression">(DT_NTEXT)"{\"MDS\":[{\"mdm_masterCustomer\":" + ([ISNULL](#{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[MasterCustomerAllAttributes]}) ? (DT_NTEXT)"{}" : #{Package\MDS -&gt; DWH\DWH load\MDS source.Outputs[Выход источника "OLE DB"].Columns[MasterCustomerAllAttributes]}) + (DT_NTEXT)"}],\"DQS\":[{\"dbo_NW_Customers\":" + ([ISNULL](#{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches].Columns[DQSCustomerAllAttributes]}) ? (DT_NTEXT)"{}" : #{Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches].Columns[DQSCustomerAllAttributes]}) + (DT_NTEXT)"}]}"</property>
                             <property
                               containsID="true"
                               dataType="System.String"
@@ -4669,11 +4669,11 @@ where [refTable].[CustomerID_Output] = ?</property>
                   </connections>
                   <inputs>
                     <input
-                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
-                      name="Ввод преобразования &quot;Уточняющий запрос&quot;">
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation]"
+                      name="Entering the Lookup Query transformation">
                       <inputColumns>
                         <inputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;].Columns[CustomerAlterKey]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation].Columns[CustomerAlterKey]"
                           cachedDataType="wstr"
                           cachedLength="5"
                           cachedName="CustomerAlterKey"
@@ -4695,18 +4695,18 @@ where [refTable].[CustomerID_Output] = ?</property>
                   </inputs>
                   <outputs>
                     <output
-                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches]"
                       errorOrTruncationOperation="Уточняющий запрос"
                       errorRowDisposition="IgnoreFailure"
                       exclusionGroup="1"
-                      name="Вывод совпадений преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      name="Outputting Lookup Transformation Matches"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCustomerAllAttributes]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches].Columns[DQSCustomerAllAttributes]"
                           dataType="nText"
                           errorOrTruncationOperation="Копировать столбец"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;].Columns[DQSCustomerAllAttributes]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches].Columns[DQSCustomerAllAttributes]"
                           name="DQSCustomerAllAttributes"
                           truncationRowDisposition="FailComponent">
                           <properties>
@@ -4720,30 +4720,30 @@ where [refTable].[CustomerID_Output] = ?</property>
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Выход несовпадающих строк уточняющего запроса]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Output of non-matching rows of the refinement query]"
                       description="Вывод преобразования &quot;Уточняющий запрос&quot;, которое обрабатывает строки без совпадающих элементов в эталонном наборе данных. Используйте этот выход, если свойство NoMatchBehavior имеет значение &quot;Отправить строки без совпадающих элементов в выход несовпадающих строк&quot;."
                       exclusionGroup="1"
-                      name="Выход несовпадающих строк уточняющего запроса"
-                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      name="Output of non-matching rows of the refinement query"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation]">
                       <externalMetadataColumns />
                     </output>
                     <output
-                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;]"
+                      refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Error output for the &quot;Refined query&quot; transformation]"
                       exclusionGroup="1"
                       isErrorOut="true"
-                      name="Вывод ошибок преобразования &quot;Уточняющий запрос&quot;"
-                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]">
+                      name="Error output for the &quot;Refined query&quot; transformation"
+                      synchronousInputId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation]">
                       <outputColumns>
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Error output for the &quot;Refined query&quot; transformation].Columns[ErrorCode]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorCode]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Error output for the &quot;Refined query&quot; transformation].Columns[ErrorCode]"
                           name="ErrorCode"
                           specialFlags="1" />
                         <outputColumn
-                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          refId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Error output for the &quot;Refined query&quot; transformation].Columns[ErrorColumn]"
                           dataType="i4"
-                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод ошибок преобразования &quot;Уточняющий запрос&quot;].Columns[ErrorColumn]"
+                          lineageId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Error output for the &quot;Refined query&quot; transformation].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -5903,14 +5903,14 @@ WHERE	[LastChgDateTime] &gt; ?
                   startId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Outputs[Выход производного столбца]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Exit Change Code and Name datatype]"
-                  endId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Ввод преобразования &quot;Уточняющий запрос&quot;]"
+                  endId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Inputs[Entering the Lookup Query transformation]"
                   name="Exit Change Code and Name datatype"
                   startId="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Outputs[Выходные данные преобразования данных]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Exit Lookup DQS_STAGING NW_Customers]"
                   endId="Package\MDS -&gt; DWH\DWH load\Add LineageKey and metadata.Inputs[Вход производного столбца]"
                   name="Exit Lookup DQS_STAGING NW_Customers"
-                  startId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Вывод совпадений преобразования &quot;Уточняющий запрос&quot;]" />
+                  startId="Package\MDS -&gt; DWH\DWH load\Lookup DQS_STAGING NW_Customers.Outputs[Outputting Lookup Transformation Matches]" />
                 <path
                   refId="Package\MDS -&gt; DWH\DWH load.Paths[Exit MDS source]"
                   endId="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype.Inputs[Входные данные преобразования данных]"
@@ -5962,7 +5962,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS get version name"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -5990,7 +5990,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS load entity Customers"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -6005,7 +6005,7 @@ WHERE	[LastChgDateTime] &gt; ?
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{43A111B4-75E0-4F62-B866-D7F2DD227FF3}"
-              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{052A4AB6-02E7-4B09-B88D-358CFD6DF0A3}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="EXECUTE [stg].[udp_NW_Customers_Leaf]&#xA;   @VersionName = ?&#xA; , @LogFlag = 0&#xA; , @BatchTag = N'Customers{5824081D-BAE4-4F64-B859-2C87DFB0CEE8}'&#xA; , @UserName = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="0"
                 SQLTask:DtsVariableName="User::MDS_VersionName"
@@ -6028,7 +6028,7 @@ WHERE	[LastChgDateTime] &gt; ?
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="MDS validate model"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -7334,7 +7334,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="131,42"
           Id="Package\Get LineAgeKey.EventHandlers[OnPostExecute]\Copy lineage info from DW to Logs DB\Source DW"
@@ -7362,7 +7362,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7380,7 +7382,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="164,42"
           Id="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table\MDS staging table"
@@ -7436,7 +7438,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7458,29 +7462,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Exit Source Landing]"
-          TopLeft="435,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7502,7 +7486,33 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Landing -&gt; DQS -&gt; MDS\Customers\Workflow with changed\DQS cleansing and MDS load stage table.Paths[Exit Source Landing]"
+          TopLeft="435,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7536,7 +7546,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7638,118 +7650,6 @@ WHERE   [LineageKey] = ?</property>
           Size="237,42"
           Id="Package\MDS -&gt; DWH\DWH load\Change Code and Name datatype"
           TopLeft="711.5,156.5" />
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Change Code and Name datatype]"
-          TopLeft="830,198.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Add LineageKey and metadata]"
-          TopLeft="830,402.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Update changing attributes and metadata]"
-          TopLeft="343,708.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit MDS source]"
-          TopLeft="830,96.4999999999998">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Lookup DQS_STAGING NW_Customers]"
-          TopLeft="830,300.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-134.68986328125,20.25,269.3797265625,12"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[Unknown member]"
           TopLeft="860,606.5">
@@ -7967,6 +7867,118 @@ WHERE   [LineageKey] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Update changing attributes and metadata]"
+          TopLeft="343,708.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit MDS source]"
+          TopLeft="830,96.4999999999998">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Lookup DQS_STAGING NW_Customers]"
+          TopLeft="830,300.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-96.72009765625,20.39404296875,193.4401953125,11.7119140625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Change Code and Name datatype]"
+          TopLeft="830,198.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MDS -&gt; DWH\DWH load.Paths[Exit Add LineageKey and metadata]"
+          TopLeft="830,402.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\MDS -&gt; DWH\DWH load.Paths[ChangingAttributes]"
           TopLeft="625.25,606.5">
           <EdgeLayout.Curve>
@@ -8106,7 +8118,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="131,42"
           Id="Package\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
@@ -8134,7 +8146,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
