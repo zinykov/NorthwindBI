@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.13.35931.197</am:Version>
+      <am:Version>17.14.36518.9</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2025-04-21T06:39:15.8401818Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2025-10-07T05:59:43.6858600Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -111,12 +111,12 @@
                   <Width>4.93417cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.46055cm</Width>
+                  <Width>2.72848cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.67938cm</Height>
+                  <Height>2.03814cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -296,6 +296,23 @@
                                 <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>(Clustered/
+Nonclustered)</Value>
+                                  <Style>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox35</rd:DefaultName>
                           <Style>
@@ -458,7 +475,26 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ID_Rows.Value)</Value>
+                                  <Value>=Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="CLUSTERED"
+			Or Fields!IndexType.Value="CLUSTERED COLUMNSTORE"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)
+&amp; " / " 
+&amp; Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="NONCLUSTERED"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -632,7 +668,26 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ID_Rows.Value)</Value>
+                                  <Value>=Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="CLUSTERED"
+			Or Fields!IndexType.Value="CLUSTERED COLUMNSTORE"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)
+&amp; " / " 
+&amp; Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="NONCLUSTERED"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -815,7 +870,26 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!ID_Rows.Value)</Value>
+                                  <Value>=Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="CLUSTERED"
+			Or Fields!IndexType.Value="CLUSTERED COLUMNSTORE"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)
+&amp; " / " 
+&amp; Cstr(
+	Sum(
+		IIf(
+			Fields!IndexType.Value="NONCLUSTERED"
+			,Fields!ID_Rows.Value
+			,0
+		)
+	)
+)</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>12pt</FontSize>
@@ -2199,8 +2273,8 @@
                 <Value>=Fields!IndexID.Value</Value>
               </SortExpression>
             </SortExpressions>
-            <Height>3.89105cm</Height>
-            <Width>38.28323cm</Width>
+            <Height>5.24981cm</Height>
+            <Width>38.55116cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2209,10 +2283,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>38.9105mm</Height>
+        <Height>52.4981mm</Height>
         <Style />
       </Body>
-      <Width>382.83227mm</Width>
+      <Width>385.51164mm</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
