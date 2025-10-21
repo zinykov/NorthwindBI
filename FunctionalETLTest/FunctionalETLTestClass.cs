@@ -55,8 +55,6 @@ namespace FunctionalETLTest
         public static void ClassInitialize(TestContext testContextInstance)
         {
             Console.WriteLine("**********Started class initialize**********");
-            testPassed = true;
-
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
             BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
             DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
@@ -84,6 +82,7 @@ namespace FunctionalETLTest
             SSISServerName = (string)testContextInstance.Properties["SSISServerName"];
             TestData = $"{IngestData}\\TestData";
             XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
+            testPassed = true;
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Checking parameters...");
             if (LoadDateInitialEnd > LoadDateIncrementalEnd)
@@ -109,6 +108,25 @@ namespace FunctionalETLTest
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Customer.csv");
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Employee.csv");
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Product.csv");
+
+            if (BuildConfiguration == "Debug")
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
+                DWDataTest = new NorthwindDWDataTest(testContextInstance);
+                DWDataTest.TestInitialize();
+
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
+                LogsDataTest = new NorthwindLogsDataTest(testContextInstance);
+                LogsDataTest.TestInitialize();
+
+                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
+                //LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
+                //LandingDataTest.TestInitialize();
+
+                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATATests...");
+                //DQS_STAGING_DATATest = new DQS_STAGING_DATADataTest(testContextInstance);
+                //DQS_STAGING_DATATest.TestInitialize();
+            }
 
             if (BuildConfiguration != "Release")
             {
@@ -183,6 +201,17 @@ namespace FunctionalETLTest
                     $" LandingServerName=\"{LandingServerName}\""
                 );
 
+                if (BuildConfiguration == "Debug")
+                {
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying {SSISProjectName} project...");
+                    SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
+                    new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName].Folders[SSISFolderName].DeployProject(
+                        SSISProjectName,
+                        File.ReadAllBytes($"{ExternalFilesPath}\\{SSISProjectName}\\bin\\{BuildConfiguration}\\{SSISProjectName}.ispac")
+                        );
+                    sqlConnection.Close();
+                }
+
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Mapping {BuildConfiguration} SSIS environment with NorthwindETL project...");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
@@ -225,33 +254,6 @@ namespace FunctionalETLTest
             //Cleaning up NorthwindLanding
             sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
             ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
-
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
-            DWDataTest = new NorthwindDWDataTest(testContextInstance);
-            DWDataTest.TestInitialize();
-
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
-            LogsDataTest = new NorthwindLogsDataTest(testContextInstance);
-            LogsDataTest.TestInitialize();
-
-            //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
-            //LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
-            //LandingDataTest.TestInitialize();
-
-            //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATATests...");
-            //DQS_STAGING_DATATest = new DQS_STAGING_DATADataTest(testContextInstance);
-            //DQS_STAGING_DATATest.TestInitialize();
-
-            if (BuildConfiguration == "Debug")
-            {
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying {SSISProjectName} project...");
-                SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
-                new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName].Folders[SSISFolderName].DeployProject(
-                    SSISProjectName,
-                    File.ReadAllBytes($"{ExternalFilesPath}\\{SSISProjectName}\\bin\\{BuildConfiguration}\\{SSISProjectName}.ispac")
-                    );
-                sqlConnection.Close();
-            }
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
