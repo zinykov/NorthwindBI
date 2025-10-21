@@ -1,6 +1,5 @@
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NorthwindDWTest;
 
 namespace NorthwindLogsTest
 {
@@ -9,16 +8,18 @@ namespace NorthwindLogsTest
     {
         public NorthwindLogsDataTest() => InitializeComponent();
 
-        public NorthwindLogsDataTest(string sqlConnectionString)
+        public NorthwindLogsDataTest(TestContext testContext)
         {
-            ClassInitialize(sqlConnectionString);
+            ClassInitialize(testContext);
             InitializeComponent();
         }
 
         [ClassInitialize()]
-        public static void ClassInitialize(string sqlConnectionString)
+        public static void ClassInitialize(TestContext testContext)
         {
-            TestService = new OverwritedTestService(sqlConnectionString);
+            TestService = new OverwritedTestService(testContext);
+            if ((string)testContext.Properties["BuildConfiguration"] == "Debug")
+                TestService.DeployDatabaseProject();
         }
 
         [TestInitialize()]

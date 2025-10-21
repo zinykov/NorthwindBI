@@ -2,6 +2,8 @@ using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
 using NorthwindLogsTest;
+//using NorthwindLandingTest;
+//using DQS_STAGING_DATATest;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
@@ -16,6 +18,8 @@ namespace FunctionalETLTest
         private TestContext testContextInstance;
         private static NorthwindDWDataTest DWDataTest;
         private static NorthwindLogsDataTest LogsDataTest;
+        //private static NorthwindLandingDataTest LandingDataTest;
+        //private static DQS_STAGING_DATADataTest DQS_STAGING_DATATest;
 
         private static string BuildConfiguration;
         private static string DBFilesPath;
@@ -47,51 +51,39 @@ namespace FunctionalETLTest
 
         public FunctionalETLTestClass(TestContext testContextInstance) => this.testContextInstance = testContextInstance;
 
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [ClassInitialize]
-        public static void ClassInitialize(TestContext TestContext)
+        public static void ClassInitialize(TestContext testContextInstance)
         {
             Console.WriteLine("**********Started class initialize**********");
             testPassed = true;
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
-            BuildConfiguration = (string)TestContext.Properties["BuildConfiguration"];
-            DBFilesPath = (string)TestContext.Properties["DBFilesPath"];
-            DQS_STAGING_DATA_DatabaseName = (string)TestContext.Properties["DQS_STAGING_DATA_DatabaseName"];
-            DQS_STAGING_DATA_ServerName = (string)TestContext.Properties["DQS_STAGING_DATA_ServerName"];
-            DQSServerName = (string)TestContext.Properties["DQSServerName"];
-            DWHDatabaseName = (string)TestContext.Properties["DWHDatabaseName"];
-            DWHServerName = (string)TestContext.Properties["DWHServerName"];
-            ExternalFilesPath = (string)TestContext.Properties["ExternalFilesPath"];
+            BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
+            DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
+            DQS_STAGING_DATA_DatabaseName = (string)testContextInstance.Properties["DQS_STAGING_DATA_DatabaseName"];
+            DQS_STAGING_DATA_ServerName = (string)testContextInstance.Properties["DQS_STAGING_DATA_ServerName"];
+            DQSServerName = (string)testContextInstance.Properties["DQSServerName"];
+            DWHDatabaseName = (string)testContextInstance.Properties["DWHDatabaseName"];
+            DWHServerName = (string)testContextInstance.Properties["DWHServerName"];
+            ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
             IngestData = $"{ExternalFilesPath}\\IngestData";
-            LandingDatabaseName = (string)TestContext.Properties["LandingDatabaseName"];
-            LandingServerName = (string)TestContext.Properties["LandingServerName"];
-            LoadDateIncrementalEnd = DateTime.Parse((string)TestContext.Properties["LoadDateIncrementalEnd"]);
-            LoadDateInitialEnd = DateTime.Parse((string)TestContext.Properties["LoadDateInitialEnd"]);
-            LogsDatabaseName = (string)TestContext.Properties["LogsDatabaseName"];
-            LogsServerName = (string)TestContext.Properties["LogsServerName"];
-            MDSDatabaseName = (string)TestContext.Properties["MDSDatabaseName"];
-            MDSServerName = (string)TestContext.Properties["MDSServerName"];
-            PBIRSDatabaseName = (string)TestContext.Properties["PBIRSDatabaseName"];
-            PBIRSServerName = (string)TestContext.Properties["PBIRSServerName"];
-            SQLServerFiles = (string)TestContext.Properties["SQLServerFiles"];
-            SSISDatabaseName = (string)TestContext.Properties["SSISDatabaseName"];
-            SSISFolderName = (string)TestContext.Properties["SSISFolderName"];
-            SSISProjectName = (string)TestContext.Properties["SSISProjectName"];
-            SSISServerName = (string)TestContext.Properties["SSISServerName"];
+            LandingDatabaseName = (string)testContextInstance.Properties["LandingDatabaseName"];
+            LandingServerName = (string)testContextInstance.Properties["LandingServerName"];
+            LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
+            LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
+            LogsDatabaseName = (string)testContextInstance.Properties["LogsDatabaseName"];
+            LogsServerName = (string)testContextInstance.Properties["LogsServerName"];
+            MDSDatabaseName = (string)testContextInstance.Properties["MDSDatabaseName"];
+            MDSServerName = (string)testContextInstance.Properties["MDSServerName"];
+            PBIRSDatabaseName = (string)testContextInstance.Properties["PBIRSDatabaseName"];
+            PBIRSServerName = (string)testContextInstance.Properties["PBIRSServerName"];
+            SQLServerFiles = (string)testContextInstance.Properties["SQLServerFiles"];
+            SSISDatabaseName = (string)testContextInstance.Properties["SSISDatabaseName"];
+            SSISFolderName = (string)testContextInstance.Properties["SSISFolderName"];
+            SSISProjectName = (string)testContextInstance.Properties["SSISProjectName"];
+            SSISServerName = (string)testContextInstance.Properties["SSISServerName"];
             TestData = $"{IngestData}\\TestData";
-            XMLCalendarFolder = (string)TestContext.Properties["XMLCalendarFolder"];
+            XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Checking parameters...");
             if (LoadDateInitialEnd > LoadDateIncrementalEnd)
@@ -235,12 +227,31 @@ namespace FunctionalETLTest
             ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
-            DWDataTest = new NorthwindDWDataTest(CreateConnectionString(DWHServerName, DWHDatabaseName));
+            DWDataTest = new NorthwindDWDataTest(testContextInstance);
             DWDataTest.TestInitialize();
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
-            LogsDataTest = new NorthwindLogsDataTest(CreateConnectionString(LogsServerName, LogsDatabaseName));
+            LogsDataTest = new NorthwindLogsDataTest(testContextInstance);
             LogsDataTest.TestInitialize();
+
+            //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
+            //LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
+            //LandingDataTest.TestInitialize();
+
+            //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATATests...");
+            //DQS_STAGING_DATATest = new DQS_STAGING_DATADataTest(testContextInstance);
+            //DQS_STAGING_DATATest.TestInitialize();
+
+            if (BuildConfiguration == "Debug")
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying {SSISProjectName} project...");
+                SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
+                new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName].Folders[SSISFolderName].DeployProject(
+                    SSISProjectName,
+                    File.ReadAllBytes($"{ExternalFilesPath}\\{SSISProjectName}\\bin\\{BuildConfiguration}\\{SSISProjectName}.ispac")
+                    );
+                sqlConnection.Close();
+            }
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
@@ -419,7 +430,8 @@ namespace FunctionalETLTest
 
         private void ExecuteDtsxInSSISDB(string PackgeName, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
-            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
+            SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
+            Catalog SSISDB = new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
             Int64 executionid;
@@ -460,6 +472,7 @@ namespace FunctionalETLTest
             {
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
+            sqlConnection.Close();
         }
 
         private static void CleanupFolder(string FolderPath)

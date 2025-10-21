@@ -8,16 +8,19 @@ namespace NorthwindDWTest
     {
         public NorthwindDWDataTest() => InitializeComponent();
 
-        public NorthwindDWDataTest(string sqlConnectionString)
+        public NorthwindDWDataTest(TestContext testContext)
         {
-            ClassInitialize(sqlConnectionString);
+            ClassInitialize(testContext);
             InitializeComponent();
         }
 
         [ClassInitialize()]
-        public static void ClassInitialize(string sqlConnectionString)
+        public static void ClassInitialize(TestContext testContext)
         {
-            TestService = new OverwritedTestService(sqlConnectionString);
+            TestService = new OverwritedTestService(testContext);
+
+            if ((string)testContext.Properties["BuildConfiguration"] == "Debug")
+                TestService.DeployDatabaseProject();
         }
 
         [TestInitialize()]
