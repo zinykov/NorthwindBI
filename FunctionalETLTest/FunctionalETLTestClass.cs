@@ -223,7 +223,7 @@ namespace FunctionalETLTest
                 );
             }
 
-            //load data into landing zone
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Loading data into landing zone...");
             DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
             foreach (var file in FormatFiles.GetFiles("*.fmt"))
             {
@@ -251,7 +251,7 @@ namespace FunctionalETLTest
                 PrepareOrderDetailsTestData(CutoffTime, testDataFolder);
             }
 
-            //Cleaning up NorthwindLanding
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindLanding...");
             sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
             ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
 
