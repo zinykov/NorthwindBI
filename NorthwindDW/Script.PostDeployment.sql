@@ -1,4 +1,4 @@
-﻿/*
+/*
 Шаблон скрипта после развертывания							
 --------------------------------------------------------------------------------------
  В данном файле содержатся инструкции SQL, которые будут добавлены в скрипт построения.		
@@ -28,7 +28,7 @@ BEGIN
 					, FG1.[is_read_only]
 					, F.[name]
 					, F.[filename]
-					, N'$(TargetBackupFolder)'
+					, N'$(TargetBackupFolder)\'
 		FROM		sys.sysfilegroups AS FG
 		INNER JOIN	sys.sysfiles AS F ON FG.[groupid] = F.[groupid]
 		INNER JOIN	sys.filegroups AS FG1 ON FG.[groupname] = FG1.[name];
