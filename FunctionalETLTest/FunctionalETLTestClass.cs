@@ -1,9 +1,9 @@
+using DQS_STAGING_DATA_test;
 using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
-using NorthwindLogsTest;
 using NorthwindLandingTest;
-using DQS_STAGING_DATA_test;
+using NorthwindLogsTest;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
@@ -127,27 +127,27 @@ namespace FunctionalETLTest
                 DQS_STAGING_DATA_Test = new DQS_STAGING_DATA_DataTest(testContextInstance);
                 DQS_STAGING_DATA_Test.TestInitialize();
 
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS Monitoring project...");
-                CallProcess(
-                    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
-                    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\Monitoring\\Monitoring.rptproj\" `\r\n" +
-                    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
-                    $"$RSConfig | Publish-RsProject `\r\n" +
-                    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
-                    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
-                    );
+                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS Monitoring project...");
+                //CallProcess(
+                //    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                //    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
+                //    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\Monitoring\\Monitoring.rptproj\" `\r\n" +
+                //    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
+                //    $"$RSConfig | Publish-RsProject `\r\n" +
+                //    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
+                //    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
+                //    );
 
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS SalesReports project...");
-                CallProcess(
-                    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
-                    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\SalesReports\\SalesReports.rptproj\" `\r\n" +
-                    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
-                    $"$RSConfig | Publish-RsProject `\r\n" +
-                    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
-                    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
-                    );
+                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS SalesReports project...");
+                //CallProcess(
+                //    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                //    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
+                //    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\SalesReports\\SalesReports.rptproj\" `\r\n" +
+                //    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
+                //    $"$RSConfig | Publish-RsProject `\r\n" +
+                //    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
+                //    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
+                //    );
 
                 //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SalesV3.pbix...");
                 //CallProcess(
@@ -213,7 +213,7 @@ namespace FunctionalETLTest
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
-                    $" @environment_name = N'{BuildConfiguration}'"
+                    $" @environment_name = N'{BuildConfiguration}'\""
                 );
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {BuildConfiguration} SSIS environment...");
@@ -239,7 +239,9 @@ namespace FunctionalETLTest
                     $" SSISServerName=\"{SSISServerName}\"" +
                     $" XMLCalendarFolder=\"{XMLCalendarFolder}\"" +
                     $" LandingDatabaseName=\"{LandingDatabaseName}\"" +
-                    $" LandingServerName=\"{LandingServerName}\""
+                    $" LandingServerName=\"{LandingServerName}\"" +
+                    $" CutoffTime=\"1995-01-01 00:00:00\"" +
+                    $" LoadDateInitialEnd=\"{LoadDateInitialEnd:yyyy-MM-dd HH:mm:ss.fffffff}\""
                 );
 
                 if (BuildConfiguration == "Debug")
@@ -263,6 +265,14 @@ namespace FunctionalETLTest
                     $" SSISProjectName=\"{SSISProjectName}\""
                 );
             }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing DataSource for FunctionalETLTest...");
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                $"-S {LogsServerName}" +
+                $" -d {LogsDatabaseName}" +
+                $" -Q \"SELECT DATEADD ( DAY, VALUE, CONVERT ( DATETIME2(7), '$(LoadDateInitialEnd)', 20 ) ) AS [DataRow] FROM GENERATE_SERIES ( 0, DATEDIFF ( DAY, CONVERT (DATETIME2(7), '$(LoadDateInitialEnd)', 20), CONVERT (DATETIME2(7), '$(LoadDateIncrementalEnd)', 20) ), 1 );\"" +
+                $" -v LoadDateInitialEnd=\"{LoadDateInitialEnd:yyyy-MM-dd HH:mm:ss.fffffff}\"" +
+                $" LoadDateIncrementalEnd=\"{LoadDateIncrementalEnd:yyyy-MM-dd HH:mm:ss.fffffff}\"");
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Loading data into landing zone...");
             DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
@@ -352,85 +362,171 @@ namespace FunctionalETLTest
             }
         }
 
+        //[TestMethod]
+        //public void FunctionalETLTest()
+        //{
+        //    Console.WriteLine($"**********Started FunctionalETLTest**********");
+        //    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
+        //    DWDataTest.UpdatePartitionSchema();
+
+        //    for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+        //    {
+        //        if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
+        //        {
+        //            try
+        //            {
+        //                NorthwindBITransformAndLoadJod(CutoffTime);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Assert.Fail(e.Message);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            try
+        //            {
+        //                NorthwindBITransformAndLoadJod(CutoffTime);
+        //                Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
+        //            }
+        //            catch
+        //            {
+        //                LogsDataTest.EventHandlersOnErrorDataTest();
+        //            }
+        //        }
+
+        //        if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
+        //            DWDataTest.CutoffTimeTest();
+        //        }
+
+        //        if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+        //            DWDataTest.EmployeeSCD2TestStage1();
+        //        }
+        //        if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
+        //            DWDataTest.ProductSCD1TestStage1();
+        //        }
+
+        //        if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+        //            DWDataTest.UnknownMemberTest();
+        //        }
+        //        if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
+        //            DWDataTest.EmployeeSCD2TestStage2();
+        //        }
+        //        if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
+        //            DWDataTest.CustomerSCD2TestStage1();
+        //        }
+        //        if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
+        //            DWDataTest.ProductSCD1TestStage2();
+        //        }
+        //        if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+        //        {
+        //            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
+        //            DWDataTest.PartitionsManagingTest();
+        //        }
+
+        //        Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+        //        DWDataTest.OrderShippingDateTest();
+        //    }
+
+        //    Console.WriteLine("**********Finished FunctionalETLTest**********");
+        //}
+
         [TestMethod]
+        [DataSource("FunctionalETLTestDataSource")]
         public void FunctionalETLTest()
         {
             Console.WriteLine($"**********Started FunctionalETLTest**********");
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
             DWDataTest.UpdatePartitionSchema();
 
-            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            //for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            //{
+            DateTime CutoffTime = DateTime.Parse((string)testContextInstance.DataRow["CutoffTime"]);
+
+            if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
             {
-                if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
+                try
                 {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                    }
-                    catch (Exception e)
-                    {
-                        Assert.Fail(e.Message);
-                    }
+                    NorthwindBITransformAndLoadJod(CutoffTime);
                 }
-                else
+                catch (Exception e)
                 {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                        Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
-                    }
-                    catch
-                    {
-                        LogsDataTest.EventHandlersOnErrorDataTest();
-                    }
+                    Assert.Fail(e.Message);
                 }
-
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
-                    DWDataTest.CutoffTimeTest();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.EmployeeSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
-                    DWDataTest.ProductSCD1TestStage1();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.UnknownMemberTest();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
-                    DWDataTest.EmployeeSCD2TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
-                    DWDataTest.CustomerSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
-                    DWDataTest.ProductSCD1TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
-                    DWDataTest.PartitionsManagingTest();
-                }
-
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
-                DWDataTest.OrderShippingDateTest();
             }
+            else
+            {
+                try
+                {
+                    NorthwindBITransformAndLoadJod(CutoffTime);
+                    Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
+                }
+                catch
+                {
+                    LogsDataTest.EventHandlersOnErrorDataTest();
+                }
+            }
+
+            if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
+                DWDataTest.CutoffTimeTest();
+            }
+
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+                DWDataTest.EmployeeSCD2TestStage1();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
+                DWDataTest.ProductSCD1TestStage1();
+            }
+
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+                DWDataTest.UnknownMemberTest();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
+                DWDataTest.EmployeeSCD2TestStage2();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
+                DWDataTest.CustomerSCD2TestStage1();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
+                DWDataTest.ProductSCD1TestStage2();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
+                DWDataTest.PartitionsManagingTest();
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
+            //}
 
             Console.WriteLine("**********Finished FunctionalETLTest**********");
         }

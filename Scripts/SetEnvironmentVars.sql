@@ -193,7 +193,7 @@ GO
 EXECUTE [SSISDB].[catalog].[set_object_parameter_value]
       @object_type = 30
     , @parameter_name = N'CutoffTime'
-    , @object_name = N'Extract Northwind (упрощённая).dtsx'
+    , @object_name = N'Extract Northwind.dtsx'
     , @folder_name = N'$(SSISFolderName)'
     , @project_name = N'$(SSISProjectName)'
     , @value_type = R
