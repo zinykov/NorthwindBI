@@ -1,28 +1,34 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props')" />
   <Import Project="..\packages\Microsoft.Testing.Extensions.Telemetry.1.9.0\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\packages\Microsoft.Testing.Extensions.Telemetry.1.9.0\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
   <Import Project="..\packages\Microsoft.Testing.Platform.MSBuild.1.9.0\build\Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('..\packages\Microsoft.Testing.Platform.MSBuild.1.9.0\build\Microsoft.Testing.Platform.MSBuild.props')" />
   <Import Project="..\packages\Microsoft.Testing.Platform.1.9.0\build\netstandard2.0\Microsoft.Testing.Platform.props" Condition="Exists('..\packages\Microsoft.Testing.Platform.1.9.0\build\netstandard2.0\Microsoft.Testing.Platform.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC</SSDTPath>
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{578A36E7-B5AE-4A1B-9170-56D591E102E0}</ProjectGuid>
+    <ProjectGuid>{049D762F-9AF2-45B8-8F5B-6C3344697A75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FunctionalETLTest</RootNamespace>
-    <AssemblyName>FunctionalETLTest</AssemblyName>
+    <RootNamespace>NorthwindLandingTest</RootNamespace>
+    <AssemblyName>NorthwindLandingTest</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +48,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Azure.Core, Version=1.49.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
@@ -70,7 +82,6 @@
     <Reference Include="Microsoft.Data.SqlClient, Version=6.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.SqlClient.6.1.1\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=9.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.9.0.9\lib\net462\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
     </Reference>
@@ -112,33 +123,6 @@
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.8.14.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Diagnostics.STrace, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.Diagnostics.STrace.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.IntegrationServices.Common.ObjectModel, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.IntegrationServices.Common.ObjectModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.Management.IntegrationServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServicesEnum, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.Management.IntegrationServicesEnum.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.Smo.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLServer.SMO.2016.13.0.0.2\lib\net462\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Testing.Extensions.MSBuild, Version=1.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Testing.Platform.MSBuild.1.9.0\lib\netstandard2.0\Microsoft.Testing.Extensions.MSBuild.dll</HintPath>
@@ -188,7 +172,6 @@
     <Reference Include="System.Configuration.ConfigurationManager, Version=9.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.9.0.9\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
@@ -265,9 +248,21 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise />
+  </Choose>
   <ItemGroup>
-    <Compile Include="FunctionalETLTestClass.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="NorthwindLandingDataTest.cs">
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Include="OverwritedTestService.cs" />
+    <Compile Include="SqlDatabaseSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -275,29 +270,49 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DQS_STAGING_DATA_test\DQS_STAGING_DATA_test.csproj">
-      <Project>{27946b5d-e8b8-4ff3-8fbf-c5a7089b3fb1}</Project>
-      <Name>DQS_STAGING_DATA_test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindDWTest\NorthwindDWTest.csproj">
-      <Project>{96b676fb-7a1a-4d0a-92ac-6f4662b57f15}</Project>
-      <Name>NorthwindDWTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindLandingTest\NorthwindLandingTest.csproj">
-      <Project>{049d762f-9af2-45b8-8f5b-6c3344697a75}</Project>
-      <Name>NorthwindLandingTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NorthwindLogsTest\NorthwindLogsTest.csproj">
-      <Project>{5d779830-fc2d-4bda-afc6-0f7ace9b96fd}</Project>
-      <Name>NorthwindLogsTest</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="NorthwindLandingDataTest.resx">
+      <DependentUpon>NorthwindLandingDataTest.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup Condition="$(VisualStudioVersion) == '17.0'">
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\MSTest.Analyzers.3.11.0\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\MSTest.Analyzers.3.11.0\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -319,4 +334,11 @@
   <Import Project="..\packages\Microsoft.Testing.Platform.MSBuild.1.9.0\build\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\packages\Microsoft.Testing.Platform.MSBuild.1.9.0\build\Microsoft.Testing.Platform.MSBuild.targets')" />
   <Import Project="..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets')" />
   <Import Project="..\packages\MSTest.TestFramework.3.11.0\build\net462\MSTest.TestFramework.targets" Condition="Exists('..\packages\MSTest.TestFramework.3.11.0\build\net462\MSTest.TestFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

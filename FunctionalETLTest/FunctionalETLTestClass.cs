@@ -2,8 +2,8 @@ using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
 using NorthwindLogsTest;
-//using NorthwindLandingTest;
-//using DQS_STAGING_DATATest;
+using NorthwindLandingTest;
+using DQS_STAGING_DATA_test;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
@@ -18,8 +18,8 @@ namespace FunctionalETLTest
         private TestContext testContextInstance;
         private static NorthwindDWDataTest DWDataTest;
         private static NorthwindLogsDataTest LogsDataTest;
-        //private static NorthwindLandingDataTest LandingDataTest;
-        //private static DQS_STAGING_DATADataTest DQS_STAGING_DATATest;
+        private static NorthwindLandingDataTest LandingDataTest;
+        private static DQS_STAGING_DATA_DataTest DQS_STAGING_DATA_Test;
 
         private static string BuildConfiguration;
         private static string DBFilesPath;
@@ -119,13 +119,18 @@ namespace FunctionalETLTest
                 LogsDataTest = new NorthwindLogsDataTest(testContextInstance);
                 LogsDataTest.TestInitialize();
 
-                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
-                //LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
-                //LandingDataTest.TestInitialize();
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
+                LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
+                LandingDataTest.TestInitialize();
 
-                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATATests...");
-                //DQS_STAGING_DATATest = new DQS_STAGING_DATADataTest(testContextInstance);
-                //DQS_STAGING_DATATest.TestInitialize();
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATA_Tests...");
+                DQS_STAGING_DATA_Test = new DQS_STAGING_DATA_DataTest(testContextInstance);
+                DQS_STAGING_DATA_Test.TestInitialize();
+
+                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS Monitoring project...");
+                //ReportService.ReportingService2010SoapClient rs = new ReportService();
+                //rs.Url = "http://<servername>/ReportServer/ReportService2010.asmx"; // Ensure this matches
+                //rs.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials; // Or specify explicit credentials
             }
 
             if (BuildConfiguration != "Release")
