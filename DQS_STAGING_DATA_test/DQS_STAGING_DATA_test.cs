@@ -1,6 +1,8 @@
 using Microsoft.Data.Tools.Schema.Sql.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+[assembly: DoNotParallelize]
+
 namespace DQS_STAGING_DATA_test
 {
     [TestClass()]

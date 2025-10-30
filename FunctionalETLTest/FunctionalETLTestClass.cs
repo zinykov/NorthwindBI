@@ -10,12 +10,14 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 
+[assembly: DoNotParallelize]
+
 namespace FunctionalETLTest
 {
     [TestClass]
     public class FunctionalETLTestClass
     {
-        private TestContext testContextInstance;
+        private readonly TestContext testContextInstance;
         private static NorthwindDWDataTest DWDataTest;
         private static NorthwindLogsDataTest LogsDataTest;
         private static NorthwindLandingDataTest LandingDataTest;
@@ -240,7 +242,7 @@ namespace FunctionalETLTest
                     $" XMLCalendarFolder=\"{XMLCalendarFolder}\"" +
                     $" LandingDatabaseName=\"{LandingDatabaseName}\"" +
                     $" LandingServerName=\"{LandingServerName}\"" +
-                    $" CutoffTime=\"1995-01-01 00:00:00\"" +
+                    $" CutoffTime=\"{new DateTime(1995,1,1,0,0,0,0):yyyy-MM-dd HH:mm:ss.fffffff}\"" +
                     $" LoadDateInitialEnd=\"{LoadDateInitialEnd:yyyy-MM-dd HH:mm:ss.fffffff}\""
                 );
 
@@ -328,7 +330,7 @@ namespace FunctionalETLTest
             Console.WriteLine("**********Finished class initialize**********");
         }
 
-        [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+        [ClassCleanup]
         public static void ClassCleanup()
         {
             Console.WriteLine("**********Started class cleanup**********");
