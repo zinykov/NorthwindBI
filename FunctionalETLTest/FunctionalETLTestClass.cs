@@ -129,47 +129,6 @@ namespace FunctionalETLTest
 
             if (BuildConfiguration == "Debug")
             {
-                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS Monitoring project...");
-                //CallProcess(
-                //    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                //    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
-                //    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\Monitoring\\Monitoring.rptproj\" `\r\n" +
-                //    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
-                //    $"$RSConfig | Publish-RsProject `\r\n" +
-                //    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
-                //    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
-                //    );
-
-                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SSRS SalesReports project...");
-                //CallProcess(
-                //    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                //    $"$RSConfig = Get-RsDeploymentConfig `\r\n" +
-                //    $"\t–RsProjectFile \"{ExternalFilesPath}\\NorthwindPBIRS\\SalesReports\\SalesReports.rptproj\" `\r\n" +
-                //    $"\t–ConfigurationToUse {BuildConfiguration}\r\n" +
-                //    $"$RSConfig | Publish-RsProject `\r\n" +
-                //    $"\t-TargetServerURL \"http://{PBIRSServerName}/reports\" `\r\n" +
-                //    $"\t-ReportPortal \"http://{PBIRSServerName}/reports\""
-                //    );
-
-                //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying SalesV3.pbix...");
-                //CallProcess(
-                //    $"{Environment.GetEnvironmentVariable("SystemRoot")}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                //    $"$password = ConvertTo-SecureString \"$(PBIRSreleasePassword)\" `\r\n" +
-                //    $"\t-AsPlainText `\r\n" +
-                //    $"\t-Force\r\n" +
-                //    $"$Cred = New-Object System.Management.Automation.PSCredential (\"PBIRSrelease\", $password)\r\n" +
-                //    $"$WebSession = New-RsRestSession `\r\n" +
-                //    $"\t-ReportPortalUri \"http://{PBIRSServerName}/reports\" `\r\n" +
-                //    $"\t-RestApiVersion v2.0 `\r\n" +
-                //    $"\t-Credential $Cred\r\n" +
-                //    $"\r\n" +
-                //    $"Write-RsRestFolderContent `\r\n" +
-                //    $"\t-Path:\"{ExternalFilesPath}\\NorthwindPBIRS\\Sales\" `\r\n" +
-                //    $"\t-RsFolder:\"/Sales\" `\r\n" +
-                //    $"\t-Overwrite:$true `\r\n" +
-                //    $"\t-WebSession:$WebSession"
-                //    );
-
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
                 System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateLogins.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
@@ -586,7 +545,6 @@ namespace FunctionalETLTest
             myProcess.StartInfo.RedirectStandardError = true;
             myProcess.Start();
 
-            string ProcessName = myProcess.ToString();
             string ErrorOutput = myProcess.StandardError.ReadToEnd();
             string StandartOutput = myProcess.StandardOutput.ReadToEnd();
 
@@ -594,7 +552,7 @@ namespace FunctionalETLTest
             {
                 Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
-            System.Diagnostics.Trace.WriteLineIf(myProcess.ExitCode == 0 && BuildConfiguration == "Debug", $"{ProcessName}:\r\n{StandartOutput}");
+            System.Diagnostics.Trace.WriteLineIf(myProcess.ExitCode == 0 && BuildConfiguration == "Debug", $"{StandartOutput}");
         }
 
         private static void ExecuteSqlCommand(string sqlExpression, string DataSource, string InitialCatalog)
