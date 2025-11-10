@@ -339,9 +339,9 @@ BEGIN
 END;
 GO
 
-DECLARE @var datetime;
-IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(CutoffTime)';
-ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+DECLARE @var DATETIME2(7);
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = CONVERT ( DATETIME2(7), N'$(CutoffTime)', 20);
+ELSE SET @var = DATETIME2FROMPARTS ( 1995, 1, 1, 0, 0, 0, 0, 0 );
 
 IF NOT EXISTS (
 	SELECT 1
@@ -362,9 +362,9 @@ BEGIN
 END;
 GO
 
-DECLARE @var datetime;
-IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = N'$(LoadDateInitialEnd)';
-ELSE SET @var = DATETIMEFROMPARTS ( 1995, 1, 1, 0, 0, 0, 0 );
+DECLARE @var DATETIME2(7);
+IF ( N'$(BuildConfiguration)' <> N'Release' ) SET @var = CONVERT ( DATETIME2(7), N'$(LoadDateInitialEnd)', 20);
+ELSE SET @var = DATETIME2FROMPARTS ( 1995, 1, 1, 0, 0, 0, 0, 0 );
 
 IF NOT EXISTS (
 	SELECT 1

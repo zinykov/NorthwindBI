@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Maintenance].[InsertDatabaseFilesData]
+CREATE PROCEDURE [Maintenance].[InsertDatabaseFilesData]
 	  @CutoffTime AS DATE
 	, @FactTableName AS NVARCHAR(100)
 	, @FilePath AS VARCHAR(500)
@@ -36,7 +36,7 @@ AS BEGIN
 	IF EXISTS ( SELECT 1 FROM #file_exist WHERE [Parent_Directory_Exists] = 1 )
 		BEGIN
 			INSERT INTO [Maintenance].[DatabaseFiles] ( [GroupName], [IsReadOnly], [Name], [FileName], [CutoffTime], [TargetBackupFolder] )
-			VALUES ( @GroupName, 0, @Name, @FileName, @CutoffTime, N'$(TargetBackupFolder)' )
+			VALUES ( @GroupName, 0, @Name, @FileName, @CutoffTime, N'$(TargetBackupFolder)\' )
 		END
 	ELSE
 		BEGIN

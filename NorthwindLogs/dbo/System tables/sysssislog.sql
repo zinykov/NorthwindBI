@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[sysssislog] (
+CREATE TABLE [dbo].[sysssislog] (
 	  [Id]			INT					IDENTITY(1,1)	NOT NULL
 	, [event]		SYSNAME				NOT NULL
 	, [computer]	NVARCHAR(128)		NOT NULL
@@ -11,4 +11,6 @@
 	, [datacode]	INT					NOT NULL
 	, [databytes]	IMAGE				NULL
 	, [message]		NVARCHAR(2048)		NOT NULL
+
+    , CONSTRAINT [PK_dbo_sysssislog] PRIMARY KEY CLUSTERED ( [Id] ASC )
 )
