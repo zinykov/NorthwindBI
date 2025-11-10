@@ -1,6 +1,8 @@
+using DQS_STAGING_DATA_test;
 using Microsoft.SqlServer.Management.IntegrationServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindDWTest;
+using NorthwindLandingTest;
 using NorthwindLogsTest;
 using System;
 using System.Collections.ObjectModel;
@@ -8,14 +10,18 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 
+[assembly: DoNotParallelize]
+
 namespace FunctionalETLTest
 {
     [TestClass]
     public class FunctionalETLTestClass
     {
-        private TestContext testContextInstance;
+        private readonly TestContext testContextInstance;
         private static NorthwindDWDataTest DWDataTest;
         private static NorthwindLogsDataTest LogsDataTest;
+        private static NorthwindLandingDataTest LandingDataTest;
+        private static DQS_STAGING_DATA_DataTest DQS_STAGING_DATA_Test;
 
         private static string BuildConfiguration;
         private static string DBFilesPath;
@@ -47,51 +53,38 @@ namespace FunctionalETLTest
 
         public FunctionalETLTestClass(TestContext testContextInstance) => this.testContextInstance = testContextInstance;
 
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [ClassInitialize]
-        public static void ClassInitialize(TestContext TestContext)
+        public static void ClassInitialize(TestContext testContextInstance)
         {
             Console.WriteLine("**********Started class initialize**********");
-            testPassed = true;
-
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Setting test context...");
-            BuildConfiguration = (string)TestContext.Properties["BuildConfiguration"];
-            DBFilesPath = (string)TestContext.Properties["DBFilesPath"];
-            DQS_STAGING_DATA_DatabaseName = (string)TestContext.Properties["DQS_STAGING_DATA_DatabaseName"];
-            DQS_STAGING_DATA_ServerName = (string)TestContext.Properties["DQS_STAGING_DATA_ServerName"];
-            DQSServerName = (string)TestContext.Properties["DQSServerName"];
-            DWHDatabaseName = (string)TestContext.Properties["DWHDatabaseName"];
-            DWHServerName = (string)TestContext.Properties["DWHServerName"];
-            ExternalFilesPath = (string)TestContext.Properties["ExternalFilesPath"];
+            BuildConfiguration = (string)testContextInstance.Properties["BuildConfiguration"];
+            DBFilesPath = (string)testContextInstance.Properties["DBFilesPath"];
+            DQS_STAGING_DATA_DatabaseName = (string)testContextInstance.Properties["DQS_STAGING_DATA_DatabaseName"];
+            DQS_STAGING_DATA_ServerName = (string)testContextInstance.Properties["DQS_STAGING_DATA_ServerName"];
+            DQSServerName = (string)testContextInstance.Properties["DQSServerName"];
+            DWHDatabaseName = (string)testContextInstance.Properties["DWHDatabaseName"];
+            DWHServerName = (string)testContextInstance.Properties["DWHServerName"];
+            ExternalFilesPath = (string)testContextInstance.Properties["ExternalFilesPath"];
             IngestData = $"{ExternalFilesPath}\\IngestData";
-            LandingDatabaseName = (string)TestContext.Properties["LandingDatabaseName"];
-            LandingServerName = (string)TestContext.Properties["LandingServerName"];
-            LoadDateIncrementalEnd = DateTime.Parse((string)TestContext.Properties["LoadDateIncrementalEnd"]);
-            LoadDateInitialEnd = DateTime.Parse((string)TestContext.Properties["LoadDateInitialEnd"]);
-            LogsDatabaseName = (string)TestContext.Properties["LogsDatabaseName"];
-            LogsServerName = (string)TestContext.Properties["LogsServerName"];
-            MDSDatabaseName = (string)TestContext.Properties["MDSDatabaseName"];
-            MDSServerName = (string)TestContext.Properties["MDSServerName"];
-            PBIRSDatabaseName = (string)TestContext.Properties["PBIRSDatabaseName"];
-            PBIRSServerName = (string)TestContext.Properties["PBIRSServerName"];
-            SQLServerFiles = (string)TestContext.Properties["SQLServerFiles"];
-            SSISDatabaseName = (string)TestContext.Properties["SSISDatabaseName"];
-            SSISFolderName = (string)TestContext.Properties["SSISFolderName"];
-            SSISProjectName = (string)TestContext.Properties["SSISProjectName"];
-            SSISServerName = (string)TestContext.Properties["SSISServerName"];
+            LandingDatabaseName = (string)testContextInstance.Properties["LandingDatabaseName"];
+            LandingServerName = (string)testContextInstance.Properties["LandingServerName"];
+            LoadDateIncrementalEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateIncrementalEnd"]);
+            LoadDateInitialEnd = DateTime.Parse((string)testContextInstance.Properties["LoadDateInitialEnd"]);
+            LogsDatabaseName = (string)testContextInstance.Properties["LogsDatabaseName"];
+            LogsServerName = (string)testContextInstance.Properties["LogsServerName"];
+            MDSDatabaseName = (string)testContextInstance.Properties["MDSDatabaseName"];
+            MDSServerName = (string)testContextInstance.Properties["MDSServerName"];
+            PBIRSDatabaseName = (string)testContextInstance.Properties["PBIRSDatabaseName"];
+            PBIRSServerName = (string)testContextInstance.Properties["PBIRSServerName"];
+            SQLServerFiles = (string)testContextInstance.Properties["SQLServerFiles"];
+            SSISDatabaseName = (string)testContextInstance.Properties["SSISDatabaseName"];
+            SSISFolderName = (string)testContextInstance.Properties["SSISFolderName"];
+            SSISProjectName = (string)testContextInstance.Properties["SSISProjectName"];
+            SSISServerName = (string)testContextInstance.Properties["SSISServerName"];
             TestData = $"{IngestData}\\TestData";
-            XMLCalendarFolder = (string)TestContext.Properties["XMLCalendarFolder"];
+            XMLCalendarFolder = (string)testContextInstance.Properties["XMLCalendarFolder"];
+            testPassed = true;
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Checking parameters...");
             if (LoadDateInitialEnd > LoadDateIncrementalEnd)
@@ -118,9 +111,26 @@ namespace FunctionalETLTest
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Employee.csv");
             CreateCSVFileEncodedASCII($"{ExternalFilesPath}\\NoChange\\Product.csv");
 
-            if (BuildConfiguration != "Release")
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
+            DWDataTest = new NorthwindDWDataTest(testContextInstance);
+            DWDataTest.TestInitialize();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
+            LogsDataTest = new NorthwindLogsDataTest(testContextInstance);
+            LogsDataTest.TestInitialize();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing LandingDataTests...");
+            LandingDataTest = new NorthwindLandingDataTest(testContextInstance);
+            LandingDataTest.TestInitialize();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing DQS_STAGING_DATA_Tests...");
+            DQS_STAGING_DATA_Test = new DQS_STAGING_DATA_DataTest(testContextInstance);
+            DQS_STAGING_DATA_Test.TestInitialize();
+
+            if (BuildConfiguration == "Debug")
             {
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating SQL server logins...");
+                System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateLogins.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {DWHServerName}" +
                     $" -d master" +
@@ -129,6 +139,7 @@ namespace FunctionalETLTest
                 );
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases roles...");
+                System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateRoles.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {MDSServerName}" +
                     $" -d MDS" +
@@ -137,6 +148,7 @@ namespace FunctionalETLTest
                 );
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating databases users...");
+                System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateUsers.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {Environment.MachineName}" +
                     $" -i \"{ExternalFilesPath}\\Scripts\\CreateUsers.sql\"" +
@@ -157,15 +169,17 @@ namespace FunctionalETLTest
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing SSIS environment...");
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deleteing {BuildConfiguration} SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"EXECUTE [catalog].[delete_environment]");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
                     $" -Q \"EXECUTE [catalog].[delete_environment]" +
                     $" @folder_name = N'{SSISFolderName}'," +
-                    $" @environment_name = N'{BuildConfiguration}'"
+                    $" @environment_name = N'{BuildConfiguration}'\""
                 );
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating {BuildConfiguration} SSIS environment...");
+                System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateEnvironment.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
@@ -188,10 +202,21 @@ namespace FunctionalETLTest
                     $" SSISServerName=\"{SSISServerName}\"" +
                     $" XMLCalendarFolder=\"{XMLCalendarFolder}\"" +
                     $" LandingDatabaseName=\"{LandingDatabaseName}\"" +
-                    $" LandingServerName=\"{LandingServerName}\""
+                    $" LandingServerName=\"{LandingServerName}\"" +
+                    $" CutoffTime=\"{new DateTime(1995, 1, 1, 0, 0, 0, 0):yyyy-MM-dd HH:mm:ss.fffffff}\"" +
+                    $" LoadDateInitialEnd=\"{LoadDateInitialEnd:yyyy-MM-dd HH:mm:ss.fffffff}\""
                 );
 
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Deploying {SSISProjectName} project...");
+                SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
+                new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName].Folders[SSISFolderName].DeployProject(
+                    SSISProjectName,
+                    File.ReadAllBytes($"{ExternalFilesPath}\\{SSISProjectName}\\bin\\{BuildConfiguration}\\{SSISProjectName}.ispac")
+                    );
+                sqlConnection.Close();
+
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Mapping {BuildConfiguration} SSIS environment with NorthwindETL project...");
+                System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\SetEnvironmentVars.sql");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                     $"-S {SSISServerName}" +
                     $" -d {SSISDatabaseName}" +
@@ -202,14 +227,24 @@ namespace FunctionalETLTest
                 );
             }
 
-            //load data into landing zone
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Preparing DataSource for FunctionalETLTest...");
+            System.Diagnostics.Trace.WriteLine($"INSERT INTO [Integration].[FunctionalETLDataSource]");
+            CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                $"-S {LogsServerName}" +
+                $" -d {LogsDatabaseName}" +
+                $" -Q \"INSERT INTO [Integration].[FunctionalETLDataSource] ( [CutoffTime] ) SELECT DATEADD ( DAY, VALUE, CONVERT ( DATETIME2(7), '$(LoadDateInitialEnd)', 20 ) ) AS [CutoffTime] FROM GENERATE_SERIES ( 0, DATEDIFF ( DAY, CONVERT (DATETIME2(7), '$(LoadDateInitialEnd)', 20), CONVERT (DATETIME2(7), '$(LoadDateIncrementalEnd)', 20) ), 1 );\"" +
+                $" -v LoadDateInitialEnd=\"{LoadDateInitialEnd:yyyy-MM-dd HH:mm:ss.fffffff}\"" +
+                $" LoadDateIncrementalEnd=\"{LoadDateIncrementalEnd:yyyy-MM-dd HH:mm:ss.fffffff}\"");
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Loading data into landing zone...");
             DirectoryInfo FormatFiles = new DirectoryInfo($"{IngestData}\\FormatFiles");
             foreach (var file in FormatFiles.GetFiles("*.fmt"))
             {
                 string TableName = Path.GetFileNameWithoutExtension(file.FullName);
 
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Inserting data into [NorthwindLanding].[Landing].[{TableName}]...");
-                string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -T -h \"TABLOCK\"";
+                string Arguments = $"\"[Landing].[{TableName}]\" in \"{IngestData}\\OriginalData\\{TableName}.dat\" -f \"{file.FullName}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -T -h \"TABLOCK\" -k";
+                System.Diagnostics.Trace.WriteLine($"Inserting data into [NorthwindLanding].[Landing].[{TableName}]");
                 CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe", Arguments);
             }
 
@@ -230,19 +265,12 @@ namespace FunctionalETLTest
                 PrepareOrderDetailsTestData(CutoffTime, testDataFolder);
             }
 
-            //Cleaning up NorthwindLanding
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindLanding...");
             sqlExpression = "EXECUTE [Landing].[TruncateLanding]";
             ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
 
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindDWTests...");
-            DWDataTest = new NorthwindDWDataTest(CreateConnectionString(DWHServerName, DWHDatabaseName));
-            DWDataTest.TestInitialize();
-
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Initializing NorthwindLogsTests...");
-            LogsDataTest = new NorthwindLogsDataTest(CreateConnectionString(LogsServerName, LogsDatabaseName));
-            LogsDataTest.TestInitialize();
-
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Creating Event session...");
+            System.Diagnostics.Trace.WriteLine($"{ExternalFilesPath}\\Scripts\\CreateEventSession.sql");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
                 $"-S {DWHServerName}" +
                 $" -d master" +
@@ -258,10 +286,13 @@ namespace FunctionalETLTest
             //Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Starting logman...");
             //CallProcess($"C:\\Windows\\System32\\logman.exe", $"start -n \"SQL Server\" -as", true);
 
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
+            DWDataTest.UpdatePartitionSchema();
+
             Console.WriteLine("**********Finished class initialize**********");
         }
 
-        [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+        [ClassCleanup]
         public static void ClassCleanup()
         {
             Console.WriteLine("**********Started class cleanup**********");
@@ -276,8 +307,17 @@ namespace FunctionalETLTest
 
             if (testPassed)
             {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up folder TestData...");
                 CleanupFolder(TestData);
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up Backups...");
                 CleanupFolder($"{ExternalFilesPath}\\Backup");
+
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Truncating DataSource for FunctionalETLTest...");
+                System.Diagnostics.Trace.WriteLine($"TRUNCATE TABLE [Integration].[FunctionalETLDataSource]");
+                CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\SQLCMD.EXE",
+                    $"-S {LogsServerName}" +
+                    $" -d {LogsDatabaseName}" +
+                    $" -Q \"TRUNCATE TABLE [Integration].[FunctionalETLDataSource];\"");
             }
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindDWTests...");
@@ -285,6 +325,12 @@ namespace FunctionalETLTest
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindLogsTests...");
             LogsDataTest.TestCleanup();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up NorthwindLandingTests...");
+            LandingDataTest.TestCleanup();
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Cleaning up DQS_STAGING_DATA_Tests...");
+            DQS_STAGING_DATA_Test.TestCleanup();
 
             Console.WriteLine("**********Finished class cleanup**********");
         }
@@ -299,91 +345,88 @@ namespace FunctionalETLTest
         }
 
         [TestMethod]
+        [DataSource("FunctionalETLTestDataSource")]
         public void FunctionalETLTest()
         {
+            DateTime CutoffTime = (DateTime)testContextInstance.DataRow["CutoffTime"];
             Console.WriteLine($"**********Started FunctionalETLTest**********");
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Updating partition schema...");
-            DWDataTest.UpdatePartitionSchema();
+            Console.WriteLine($"**********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
 
-            for (DateTime CutoffTime = LoadDateInitialEnd; CutoffTime <= LoadDateIncrementalEnd; CutoffTime = CutoffTime.AddDays(1))
+            if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
             {
-                if (CutoffTime != new DateTime(1998, 1, 5, 0, 0, 0))
+                try
                 {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                    }
-                    catch (Exception e)
-                    {
-                        Assert.Fail(e.Message);
-                    }
+                    NorthwindBITransformAndLoadJod(CutoffTime);
                 }
-                else
+                catch (Exception e)
                 {
-                    try
-                    {
-                        NorthwindBITransformAndLoadJod(CutoffTime);
-                        Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
-                    }
-                    catch
-                    {
-                        LogsDataTest.EventHandlersOnErrorDataTest();
-                    }
+                    Assert.Fail(e.Message);
                 }
-
-                if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
-                    DWDataTest.CutoffTimeTest();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.EmployeeSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
-                    DWDataTest.ProductSCD1TestStage1();
-                }
-
-                if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
-                    DWDataTest.UnknownMemberTest();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
-                    DWDataTest.EmployeeSCD2TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
-                    DWDataTest.CustomerSCD2TestStage1();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
-                    DWDataTest.ProductSCD1TestStage2();
-                }
-                if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
-                    DWDataTest.PartitionsManagingTest();
-                }
-
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
-                DWDataTest.OrderShippingDateTest();
             }
+            else
+            {
+                try
+                {
+                    NorthwindBITransformAndLoadJod(CutoffTime);
+                    Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] OnError event handler was not call");
+                }
+                catch
+                {
+                    LogsDataTest.EventHandlersOnErrorDataTest();
+                }
+            }
+
+            if (CutoffTime == new DateTime(1997, 12, 31, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CutoffTimeTest...");
+                DWDataTest.CutoffTimeTest();
+            }
+
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+                DWDataTest.EmployeeSCD2TestStage1();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage1...");
+                DWDataTest.ProductSCD1TestStage1();
+            }
+
+            if (CutoffTime == new DateTime(1998, 1, 2, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage1...");
+                DWDataTest.UnknownMemberTest();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing EmployeeSCD2TestStage2...");
+                DWDataTest.EmployeeSCD2TestStage2();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing CustomerSCD2TestStage1...");
+                DWDataTest.CustomerSCD2TestStage1();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing ProductSCD1TestStage2...");
+                DWDataTest.ProductSCD1TestStage2();
+            }
+            if (CutoffTime == new DateTime(1998, 1, 3, 0, 0, 0))
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PartitionsManagingTest...");
+                DWDataTest.PartitionsManagingTest();
+            }
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing OrderShippingDateTest...");
+            DWDataTest.OrderShippingDateTest();
 
             Console.WriteLine("**********Finished FunctionalETLTest**********");
         }
 
         private void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
         {
-            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********CUTOFF TIME = {CutoffTime:yyyy-MM-dd HH:mm:ss.fffffff}**********");
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP TRANSFORM AND LOAD**********");
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Transform and load.dtsx...");
             var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet>
@@ -405,6 +448,7 @@ namespace FunctionalETLTest
 
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] **********STEP DWH MAINTENANCE**********");
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance...");
+            System.Diagnostics.Trace.WriteLine($"Executing Maintenance Plans\\NorthwindBI\\DWH Maintenance");
             CallProcess(
                 "C:\\Program Files\\Microsoft SQL Server\\160\\DTS\\Binn\\DTExec.exe",
                 $"/SQL \"\\\"Maintenance Plans\\NorthwindBI\\\"\" /SERVER {SSISServerName} /CHECKPOINTING OFF /SET \"\\\"\\Package\\DWH Maintenance.Disable\\\"\";false /REPORTING E");
@@ -419,7 +463,8 @@ namespace FunctionalETLTest
 
         private void ExecuteDtsxInSSISDB(string PackgeName, Collection<PackageInfo.ExecutionValueParameterSet> setValueParameters)
         {
-            Catalog SSISDB = new IntegrationServices(new SqlConnection($"Data Source={SSISServerName};Initial Catalog=master;Integrated Security=SSPI;")).Catalogs[SSISDatabaseName];
+            SqlConnection sqlConnection = new SqlConnection(CreateConnectionString(SSISServerName, "master"));
+            Catalog SSISDB = new IntegrationServices(sqlConnection).Catalogs[SSISDatabaseName];
             ProjectInfo NorthwindETL = SSISDB.Folders[SSISFolderName].Projects[SSISProjectName];
             EnvironmentReference referenceid = NorthwindETL.References[new EnvironmentReference.Key(BuildConfiguration, ".")];
             Int64 executionid;
@@ -460,6 +505,7 @@ namespace FunctionalETLTest
             {
                 Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing SSIS package {package.Name} status - {catalogExecutions}");
             }
+            sqlConnection.Close();
         }
 
         private static void CleanupFolder(string FolderPath)
@@ -506,6 +552,7 @@ namespace FunctionalETLTest
             {
                 Assert.Fail($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] {ErrorOutput}\r\n{StandartOutput}");
             }
+            System.Diagnostics.Trace.WriteLineIf(myProcess.ExitCode == 0 && BuildConfiguration == "Debug", $"{StandartOutput}");
         }
 
         private static void ExecuteSqlCommand(string sqlExpression, string DataSource, string InitialCatalog)
@@ -572,8 +619,9 @@ namespace FunctionalETLTest
                     $" INNER JOIN [Landing].[Orders] AS O ON C.[CustomerID] = O.[CustomerID]" +
                     $" AND O.[OrderDate] <= DATEFROMPARTS({CutoffTime.Year}, {CutoffTime.Month}, {CutoffTime.Day})";
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
 
         }
 
@@ -608,8 +656,9 @@ namespace FunctionalETLTest
                     " WHERE[EmployeeID] = 2; ";
                 ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
 
         }
 
@@ -637,8 +686,9 @@ namespace FunctionalETLTest
                     " WHERE[ProductID] = 2;";
                 ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
 
         }
 
@@ -661,8 +711,9 @@ namespace FunctionalETLTest
                     " WHERE[CategoryID] = 2;";
                 ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
 
 
         }
@@ -692,8 +743,9 @@ namespace FunctionalETLTest
                     "WHERE [OrderID] = 10812;";
                 ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
         }
 
         private static void PrepareOrderDetailsTestData(DateTime CutoffTime, string testDataFolder)
@@ -719,8 +771,9 @@ namespace FunctionalETLTest
                     " AND [ProductID] = 31;";
                 ExecuteSqlCommand(sqlExpression, LandingServerName, LandingDatabaseName);
             }
+            System.Diagnostics.Trace.WriteLine($"{sqlQuery}");
             CallProcess($"{SQLServerFiles}\\Client SDK\\ODBC\\170\\Tools\\Binn\\bcp.exe",
-                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T");
+                $"\"{sqlQuery}\" queryout \"{datFilePath}\" -S \"{LandingServerName}\" -d \"{LandingDatabaseName}\" -x -c -T -k");
         }
 
         private static void CreateCSVFileEncodedASCII(string FilePath)

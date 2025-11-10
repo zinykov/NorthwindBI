@@ -15,14 +15,14 @@ BEGIN TRANSACTION
 	DECLARE @jobId BINARY(16);
 
 	EXECUTE @ReturnCode = [dbo].sp_add_job
-		  @job_name = N'$(SSISFolderName).ExtractNorthwind(упрощённая)'
+		  @job_name = N'$(SSISFolderName).ExtractNorthwind'
 		, @enabled = 0
 		, @notify_level_eventlog = 0
 		, @notify_level_email = 0
 		, @notify_level_netsend = 0
 		, @notify_level_page = 0
 		, @delete_level = 0
-		, @description = N'Ingest data from Northwind(упрощённая) data source.'
+		, @description = N'Ingest data from Northwind data source.'
 		, @category_name = N'$(SSISFolderName)'
 		, @owner_login_name = N'$(SSISServerName)\$(AzPipelineAgent)'
 		, @job_id = @jobId OUTPUT
@@ -32,7 +32,7 @@ BEGIN TRANSACTION
 
 	EXECUTE @ReturnCode = [dbo].sp_add_jobstep
 		  @job_id = @jobId
-		, @step_name = N'Extract Northwind (упрощённая)'
+		, @step_name = N'Extract Northwind '
 		, @step_id = 1
 		, @cmdEXECUTE_success_code = 0
 		, @on_success_action = 1
@@ -43,7 +43,7 @@ BEGIN TRANSACTION
 		, @retry_interval = 0
 		, @os_run_priority = 0
 		, @subsystem=N'SSIS'
-		, @command=N'/ISSERVER "\"\SSISDB\$(SSISFolderName)\$(SSISProjectName)\Extract Northwind (упрощённая).dtsx\"" /SERVER "\"$(SSISServerName)\"" /ENVREFERENCE 6 /Par "\"$ServerOption::LOGGING_LEVEL(Int16)\"";1 /Par "\"$ServerOption::SYNCHRONIZED(Boolean)\"";True /CALLERINFO SQLAGENT /REPORTING E'
+		, @command=N'/ISSERVER "\"\SSISDB\$(SSISFolderName)\$(SSISProjectName)\Extract Northwind.dtsx\"" /SERVER "\"$(SSISServerName)\"" /ENVREFERENCE 6 /Par "\"$ServerOption::LOGGING_LEVEL(Int16)\"";1 /Par "\"$ServerOption::SYNCHRONIZED(Boolean)\"";True /CALLERINFO SQLAGENT /REPORTING E'
 		, @database_name=N'master'
 		, @flags=0
 
