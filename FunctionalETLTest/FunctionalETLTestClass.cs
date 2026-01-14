@@ -346,7 +346,7 @@ namespace FunctionalETLTest
 
         [TestMethod]
         //[DataSource("FunctionalETLTestDataSource")]
-        [DataSource("System.Data.SqlClient", "Data Source=N-MSC-478;Initial Catalog=NorthwindLogs;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=FunctionalETLTest", "[Integration].[FunctionalETLDataSource]", DataAccessMethod.Sequential)]
+        [DataSource("System.Data.SqlClient", "Data Source=SWIFT3;Initial Catalog=NorthwindLogs;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=FunctionalETLTest", "[Integration].[FunctionalETLDataSource]", DataAccessMethod.Sequential)]
         public void FunctionalETLTest()
         {
             DateTime CutoffTime = (DateTime)testContextInstance.DataRow["CutoffTime"];
