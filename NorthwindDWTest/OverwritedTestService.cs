@@ -7,12 +7,12 @@ namespace NorthwindDWTest
 {
     public class OverwritedTestService : SqlDatabaseTestService
     {
-        private static string BuildConfiguration;
-        private static string InitialCatalog;
-        private static string ExternalFilesPath;
-        private static string Provider;
+        private string BuildConfiguration;
+        private string InitialCatalog;
+        private string ExternalFilesPath;
+        private string Provider;
 
-        private static string sqlConnectionString;
+        private string sqlConnectionString;
 
         public OverwritedTestService(TestContext testContextInstance)
         {
