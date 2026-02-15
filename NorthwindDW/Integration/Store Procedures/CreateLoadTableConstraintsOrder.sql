@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[CreateLoadTableConstraintsOrder]
+CREATE PROCEDURE [Integration].[CreateLoadTableConstraintsOrder]
 AS BEGIN
 	ALTER TABLE [Integration].[Order]
         ADD CONSTRAINT [FK_Integration_Order_Customer_Key_Dimension_Customer] FOREIGN KEY ( [CustomerKey] ) REFERENCES [Dimension].[Customer] ( [CustomerKey] )
@@ -13,7 +13,7 @@ AS BEGIN
 	ALTER TABLE [Integration].[Order]
         ADD CONSTRAINT [FK_Integration_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] )
 	ALTER TABLE [Integration].[Order]
-        ADD CONSTRAINT [FK_Integration_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+        ADD CONSTRAINT [FK_Integration_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[LineageSSIS] ( [LineageKey] )
 
     CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Integration_Order] ON [Integration].[Order]
         ON [PS_Load_Order_Data] ( [OrderDateKey] );

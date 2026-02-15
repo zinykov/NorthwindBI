@@ -1,0 +1,4 @@
+CREATE SEQUENCE [Integration].[RegistryPowerBIReportsKey]
+		AS BIGINT
+		START WITH 1
+		INCREMENT BY 1

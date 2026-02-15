@@ -347,7 +347,7 @@ namespace FunctionalETLTest
         [TestMethod]
         //[DataSource("FunctionalETLTestDataSource")]
         [DataSource("System.Data.SqlClient", "Data Source=SWIFT3;Initial Catalog=NorthwindLogs;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=FunctionalETLTest", "[Integration].[FunctionalETLDataSource]", DataAccessMethod.Sequential)]
-        public void FunctionalETLTest()
+        public void Step01_FunctionalETLTest()
         {
             DateTime CutoffTime = (DateTime)testContextInstance.DataRow["CutoffTime"];
             Console.WriteLine($"**********Started FunctionalETLTest**********");
@@ -424,6 +424,28 @@ namespace FunctionalETLTest
             DWDataTest.OrderShippingDateTest();
 
             Console.WriteLine("**********Finished FunctionalETLTest**********");
+        }
+
+        [TestMethod]
+        public void Step02_PBIRSRefreshTest()
+        {
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] Executing PBIRS refresh.dtsx...");
+
+            var setValueParameters = new Collection<PackageInfo.ExecutionValueParameterSet> { };
+
+            ExecuteDtsxInSSISDB("PBIRS refresh.dtsx", setValueParameters); //
+
+            string checkSql =
+                "SELECT TOP 1 CAST ( [WasSuccessful] AS NVARCHAR (10) ) " +
+                "FROM [Integration].[LineagePBIRS] " +
+                "WHERE [ReportName] = 'Sales Analytics' " +
+                "AND [RefreshStarted] > DATEADD ( MINUTE, -10, SYSDATETIME() ) " +
+                "ORDER BY [RefreshStarted] DESC;";
+            string result = ExecuteSqlScalar(DWHServerName, DWHDatabaseName, checkSql);
+
+            Assert.AreEqual("1", result, "The Power BI refresh package completed, but the entry in LineagePBIRS did not confirm success (WasSuccessful != 1) or the entry was not found.");
+
+            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff}] PBIRS Refresh Test Passed.");
         }
 
         private void NorthwindBITransformAndLoadJod(DateTime CutoffTime)
@@ -802,6 +824,19 @@ namespace FunctionalETLTest
             };
 
             return sqlConnectionString.ToString();
+        }
+
+        private static string ExecuteSqlScalar(string DataSource, string InitialCatalog, string sqlExpression)
+        {
+            string connectionString = CreateConnectionString(DataSource, InitialCatalog);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                object result = command.ExecuteScalar();
+                connection.Close();
+                return result?.ToString();
+            }
         }
     }
 }

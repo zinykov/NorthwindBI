@@ -1,6 +1,6 @@
 USE [NorthwindDW];
 
-DECLARE @CutoffTime AS DATE = ( SELECT CAST ( MAX ( [CutoffTime] ) AS DATE ) FROM [Integration].[Lineage] );
+DECLARE @CutoffTime AS DATE = ( SELECT CAST ( MAX ( [CutoffTime] ) AS DATE ) FROM [Integration].[LineageSSIS] );
 DECLARE @IsMonthlyOptimization AS BIT = 0;
 DECLARE @IsStartOptimization AS BIT;
 DECLARE @IsSetFilegroupReadonly AS BIT;
@@ -21,7 +21,7 @@ BEGIN
 
 	USE [NorthwindDW];
 
-	DECLARE @Year AS SMALLINT = CAST ( ( SELECT MAX ( YEAR ( [CutoffTime] ) ) FROM [Integration].[Lineage] ) - 2 AS NVARCHAR(4) );
+	DECLARE @Year AS SMALLINT = CAST ( ( SELECT MAX ( YEAR ( [CutoffTime] ) ) FROM [Integration].[LineageSSIS] ) - 2 AS NVARCHAR(4) );
 	DECLARE @FilegroupName AS NVARCHAR(100);
 	DECLARE @ReadOnly AS BIT;
 	DECLARE @SQL AS NVARCHAR(1000);

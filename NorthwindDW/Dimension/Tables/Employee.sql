@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Dimension].[Employee]
+CREATE TABLE [Dimension].[Employee]
 (
     [EmployeeKey]           BIGINT           CONSTRAINT [SQ_Employee_Key] DEFAULT ( NEXT VALUE FOR [Dimension].[EmployeeKey] )     NOT NULL,
     [EmployeeAlterKey]      INT              NOT NULL,
@@ -15,7 +15,7 @@
     
     CONSTRAINT [PK_Dimension_Employees] PRIMARY KEY CLUSTERED ( [EmployeeKey] ASC ),
 
-    CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+    CONSTRAINT [FK_Dimension_Employees_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[LineageSSIS] ( [LineageKey] )
 )
     ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE ) ;
@@ -33,6 +33,11 @@ CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Employee] ON [Dimension].[Emplo
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Country_City] ON [Dimension].[Employee] ( [Country] ASC, [City] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
+    ON [Dimention_Index];
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Employee_Lineage_Key] ON [Integration].[LineageSSIS] ( [LineageKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO

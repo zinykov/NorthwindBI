@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Fact].[Order]
+CREATE TABLE [Fact].[Order]
 (
 	[OrderKey]                      INT             NOT NULL,
     [ProductKey]                    BIGINT          NOT NULL,
@@ -20,7 +20,7 @@
     CONSTRAINT [FK_Fact_Order_Order_Date_Key_Dimension_Date] FOREIGN KEY ( [OrderDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
     CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
     CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
-    CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+    CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[LineageSSIS] ( [LineageKey] )
 );
 GO
 
@@ -59,4 +59,9 @@ GO
 CREATE NONCLUSTERED INDEX [IX_Fact_Order_Product_Key] ON [Fact].[Order] ( [ProductKey] )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [PS_Order_Date_Index] ( [OrderDateKey] );
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Fact_Order_Lineage_Key] ON [Integration].[LineageSSIS] ( [LineageKey] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
+    ON [Dimention_Index];
 GO

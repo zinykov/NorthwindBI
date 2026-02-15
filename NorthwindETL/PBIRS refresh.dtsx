@@ -1,0 +1,1986 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/15/2026 1:26:55 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SWIFT3"
+  DTS:CreatorName="SWIFT3\zinyk"
+  DTS:DTSID="{A20D51CC-518E-4F12-8203-B9E4CA3CBAC9}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="PBIRS refresh"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{E6481B96-80A3-4DD6-9029-A7DEA74C66A2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E49CA4B4-14CF-4958-8511-01ACD407EF0D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LineageKey">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EAF30000-8EFE-4D51-AA53-508044548423}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ParametersValues">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7A28FCD4-686F-4DC2-915B-FFFD25E83D07}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PBIReportList">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FCFB750E-AC05-4CED-9148-32443D9DB5E1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="PSErrorMessage">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6CB88A8B-50DD-485A-8145-E76203D60F60}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RDLReportList">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E0C04E8D-D021-4BCD-A859-816AAC8D9E7F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ReportName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{48C5938B-38E7-4178-85D2-386EA154FC99}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ReportPath">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Foreach PBI Reports List"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DTSID="{73D040B9-D603-4476-869F-947EA2E0B1BA}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach PBI Reports List">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{E58EC780-0BF4-40BF-9D8A-CB83430B788D}"
+        DTS:ObjectName="{E58EC780-0BF4-40BF-9D8A-CB83430B788D}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::PBIReportList" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach PBI Reports List\Get Lineage PBIRS Key"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{11A110C7-8C9A-4DB8-83DD-556FB5117593}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Lineage PBIRS Key"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineagePBIRSKey]&#xA;      @ReportName = ?&#xA;    , @ReportPath = ?&#xA;    , @ReportType = N'PBI'&#xA;    , @executionid = ?;"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="LineageKey"
+                SQLTask:DtsVariableName="User::LineageKey" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ReportName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="128" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::ReportPath"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="255" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="System::ExecutionInstanceGUID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach PBI Reports List\Refresh PowerBI Report"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{0F095368-3033-4ACE-94FC-276026DB84C6}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Refresh PowerBI Report"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"-ExecutionPolicy Bypass -File \"" + @[$Project::ExternalFilesPath] + "\\Scripts\\RefreshPowerBIReport.ps1\" " +
+"-ServerName \"" + @[$Project::PBIRSServerName] + "\" " +
+"-ReportPath \"" + @[User::ReportPath] + "\""</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+              Arguments="-ExecutionPolicy Bypass -File &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\RefreshPowerBIReport.ps1&quot; -ServerName &quot;SWIFT3&quot; -ReportPath &quot;&quot;"
+              StandardErrorVariable="User::PSErrorMessage" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach PBI Reports List\Set load compilation info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{272b0c4c-b0a1-472d-81a4-d31ce879d013}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set load compilation info"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]"
+              DTS:CreationName="OnPostExecute"
+              DTS:DTSID="{647a419e-f7af-4a98-9b44-aff816ae60f9}"
+              DTS:EventID="0"
+              DTS:EventName="OnPostExecute"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="Свойство распространения события"
+                  DTS:DTSID="{17760b81-266a-43b7-a97b-5b3dabf56677}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+                  DTS:CreationName="Microsoft.ExecuteSQLTask"
+                  DTS:DTSID="{62826bd3-fb2d-4ffd-9004-7ac27daf056b}"
+                  DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Delete lineage information from Logs db">
+                  <DTS:Variables />
+                  <DTS:LoggingOptions
+                    DTS:FilterKind="0" />
+                  <DTS:EventHandlers>
+                    <DTS:EventHandler
+                      DTS:refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db.EventHandlers[OnPostExecute]"
+                      DTS:CreationName="OnPostExecute"
+                      DTS:DTSID="{5cedd740-3450-408d-bf1a-73b43a6336a6}"
+                      DTS:EventID="7340144"
+                      DTS:EventName="OnPostExecute"
+                      DTS:LocaleID="-1">
+                      <DTS:Variables>
+                        <DTS:Variable
+                          DTS:CreationName=""
+                          DTS:Description="Свойство распространения события"
+                          DTS:DTSID="{02ddb778-b417-4d65-871c-bab8c90963d4}"
+                          DTS:IncludeInDebugDump="6789"
+                          DTS:Namespace="System"
+                          DTS:ObjectName="Propagate">
+                          <DTS:VariableValue
+                            DTS:DataType="11">-1</DTS:VariableValue>
+                        </DTS:Variable>
+                      </DTS:Variables>
+                      <DTS:Executables />
+                    </DTS:EventHandler>
+                  </DTS:EventHandlers>
+                  <DTS:ObjectData>
+                    <SQLTask:SqlTaskData
+                      SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
+                      SQLTask:SqlStatementSource="DELETE FROM [Integration].[LineageSSIS] WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                      <SQLTask:ParameterBinding
+                        SQLTask:ParameterName="0"
+                        SQLTask:DtsVariableName="User::LineageKey"
+                        SQLTask:ParameterDirection="Input"
+                        SQLTask:DataType="3"
+                        SQLTask:ParameterSize="-1" />
+                    </SQLTask:SqlTaskData>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+                <DTS:Executable
+                  DTS:refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+                  DTS:CreationName="Microsoft.Pipeline"
+                  DTS:DTSID="{d4e9b572-90c8-499c-9a79-ade071df22c0}"
+                  DTS:ExecutableType="Microsoft.Pipeline"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Update lineage info from DW to Logs DB"
+                  DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <pipeline
+                      version="1">
+                      <components>
+                        <component
+                          refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+                          componentClassID="Microsoft.OLEDBDestination"
+                          contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                          name="Destination Logs db"
+                          usesDispositions="true"
+                          version="4">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                              name="CommandTimeout">0</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowset">[Integration].[LineageSSIS]</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowsetVariable"></property>
+                            <property
+                              dataType="System.String"
+                              description="Команда SQL для выполнения."
+                              name="SqlCommand"
+                              UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                              name="DefaultCodePage">1251</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                              name="AlwaysUseDefaultCodePage">false</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает используемый режим доступа к базе данных."
+                              name="AccessMode"
+                              typeConverter="AccessMode">3</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadKeepIdentity">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                              name="FastLoadKeepNulls">false</property>
+                            <property
+                              dataType="System.String"
+                              description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadMaxInsertCommitSize">2147483647</property>
+                          </properties>
+                          <connections>
+                            <connection
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
+                              connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                              connectionManagerRefId="Project.ConnectionManagers[Logs]"
+                              description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                              name="OleDbConnection" />
+                          </connections>
+                          <inputs>
+                            <input
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                              errorOrTruncationOperation="Вставить"
+                              errorRowDisposition="FailComponent"
+                              hasSideEffects="true"
+                              name="Вход назначения &quot;OLE DB&quot;">
+                              <inputColumns>
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  cachedDataType="i8"
+                                  cachedName="LineageKey"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="DataLoadStarted"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                                  cachedDataType="wstr"
+                                  cachedLength="128"
+                                  cachedName="TableName"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="DataLoadCompleted"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  cachedDataType="bool"
+                                  cachedName="WasSuccessful"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="CutoffTime"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]" />
+                                <inputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  cachedDataType="wstr"
+                                  cachedLength="50"
+                                  cachedName="ExecutionId"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]" />
+                              </inputColumns>
+                              <externalMetadataColumns
+                                isUsed="True">
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  dataType="i8"
+                                  name="LineageKey" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  name="TableName" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  dataType="bool"
+                                  name="WasSuccessful" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  name="ExecutionId" />
+                              </externalMetadataColumns>
+                            </input>
+                          </inputs>
+                          <outputs>
+                            <output
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                              exclusionGroup="1"
+                              isErrorOut="true"
+                              name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                              synchronousInputId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  name="ErrorCode"
+                                  specialFlags="1" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  name="ErrorColumn"
+                                  specialFlags="2" />
+                              </outputColumns>
+                              <externalMetadataColumns />
+                            </output>
+                          </outputs>
+                        </component>
+                        <component
+                          refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+                          componentClassID="Microsoft.OLEDBSource"
+                          contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                          name="Source DW"
+                          usesDispositions="true"
+                          version="7">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                              name="CommandTimeout">0</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowset"></property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowsetVariable"></property>
+                            <property
+                              dataType="System.String"
+                              description="Команда SQL для выполнения."
+                              name="SqlCommand"
+                              UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+		, [DataLoadStarted]
+		, [TableName]
+		, [DataLoadCompleted]
+		, [WasSuccessful]
+		, [CutoffTime]
+		, [ExecutionId]
+FROM	[Integration].[LineageSSIS]
+WHERE   [LineageKey] = ?</property>
+                            <property
+                              dataType="System.String"
+                              description="Переменная, содержащая команду SQL для выполнения."
+                              name="SqlCommandVariable"></property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                              name="DefaultCodePage">1251</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                              name="AlwaysUseDefaultCodePage">false</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает используемый режим доступа к базе данных."
+                              name="AccessMode"
+                              typeConverter="AccessMode">2</property>
+                            <property
+                              dataType="System.String"
+                              description="Сопоставления между параметрами в команде SQL и переменными."
+                              name="ParameterMapping">"Параметр0:Input",{C61E5501-B4F3-40FF-8EAB-7B41938AE913};</property>
+                          </properties>
+                          <connections>
+                            <connection
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
+                              connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                              connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                              description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                              name="OleDbConnection" />
+                          </connections>
+                          <outputs>
+                            <output
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]"
+                              name="Выход источника &quot;OLE DB&quot;">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  dataType="i8"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  name="LineageKey"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  name="DataLoadStarted"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  dataType="wstr"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  length="128"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  name="TableName"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  name="DataLoadCompleted"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  dataType="bool"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  name="WasSuccessful"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  name="CutoffTime"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  dataType="wstr"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  length="50"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  name="ExecutionId"
+                                  truncationRowDisposition="FailComponent" />
+                              </outputColumns>
+                              <externalMetadataColumns
+                                isUsed="True">
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  dataType="i8"
+                                  name="LineageKey" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  name="TableName" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  dataType="bool"
+                                  name="WasSuccessful" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  name="ExecutionId" />
+                              </externalMetadataColumns>
+                            </output>
+                            <output
+                              refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                              isErrorOut="true"
+                              name="Вывод ошибок источника &quot;OLE DB&quot;">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  dataType="i8"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  name="LineageKey" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  name="TableName" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  dataType="bool"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  name="WasSuccessful" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  name="ExecutionId" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  name="ErrorCode"
+                                  specialFlags="1" />
+                                <outputColumn
+                                  refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  name="ErrorColumn"
+                                  specialFlags="2" />
+                              </outputColumns>
+                              <externalMetadataColumns />
+                            </output>
+                          </outputs>
+                        </component>
+                      </components>
+                      <paths>
+                        <path
+                          refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
+                          endId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                          name="Exit Source DW"
+                          startId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                      </paths>
+                    </pipeline>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+              <DTS:PrecedenceConstraints>
+                <DTS:PrecedenceConstraint
+                  DTS:refId="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+                  DTS:CreationName=""
+                  DTS:DTSID="{d480225e-bcd0-4ec2-acd8-76b8ff785f09}"
+                  DTS:From="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+                  DTS:LogicalAnd="True"
+                  DTS:ObjectName="Ограничение"
+                  DTS:To="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB" />
+              </DTS:PrecedenceConstraints>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="UPDATE [Integration].[LineagePBIRS]&#xA;SET [WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::LineageKey"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{6DAC141C-57B9-4882-99E8-5075819F5BE6}"
+          DTS:From="Package\Foreach PBI Reports List\Get Lineage PBIRS Key"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Foreach PBI Reports List\Refresh PowerBI Report" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{2DEBB6EC-E466-42DC-8D43-674D258D3022}"
+          DTS:From="Package\Foreach PBI Reports List\Refresh PowerBI Report"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1"
+          DTS:To="Package\Foreach PBI Reports List\Set load compilation info" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{F4038864-A58C-4011-8F63-28814521CDF9}"
+          DTS:ObjectName="{F4038864-A58C-4011-8F63-28814521CDF9}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::ReportName" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{E1761D5D-88AE-4DBC-ADAA-922561423880}"
+          DTS:ObjectName="{E1761D5D-88AE-4DBC-ADAA-922561423880}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::ReportPath" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach RDL Reports List"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:DTSID="{dccb93a4-ebde-430d-be66-be6a3e171d00}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach RDL Reports List">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{3f183a74-d0e0-435e-903d-9102927ac4b0}"
+        DTS:ObjectName="{E58EC780-0BF4-40BF-9D8A-CB83430B788D}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::RDLReportList" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach RDL Reports List\Get Lineage PBIRS Key"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{90c47fa9-4061-4c79-a41c-dfeae130bc85}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Lineage PBIRS Key"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineagePBIRSKey]&#xA;      @ReportName = ?&#xA;    , @ReportPath = ?&#xA;    , @ReportType = N'PBI'&#xA;    , @executionid = ?;"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="LineageKey"
+                SQLTask:DtsVariableName="User::LineageKey" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ReportName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="128" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::ReportPath"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="255" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="System::ExecutionInstanceGUID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="50" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach RDL Reports List\Refresh RDL Report"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:DTSID="{7b610038-62cb-4730-adba-d7e70024b38e}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Refresh RDL Report"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"-ExecutionPolicy Bypass -File \"" + @[$Project::ExternalFilesPath] + "\\Scripts\\RefreshRDL.ps1\" -ServerName \"" + @[$Project::PBIRSServerName] + "\" -ReportPath \"" + @[User::ReportPath] + "\""</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+              Arguments="-ExecutionPolicy Bypass -File &quot;C:\Users\zinyk\source\repos\Northwind_BI_Solution\Scripts\RefreshRDL.ps1&quot; -ServerName &quot;SWIFT3&quot; -ReportPath &quot;&quot;"
+              StandardErrorVariable="User::PSErrorMessage" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach RDL Reports List\Set load compilation info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{352ad6f6-15b5-40cd-b55d-8ad4040d25f2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set load compilation info"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]"
+              DTS:CreationName="OnPostExecute"
+              DTS:DTSID="{e3f17f34-c9ef-467f-b61e-35d86dfec1d7}"
+              DTS:EventID="0"
+              DTS:EventName="OnPostExecute"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="Свойство распространения события"
+                  DTS:DTSID="{3b46d4aa-8ff3-4fcd-98c9-cc760788f6d2}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+                  DTS:CreationName="Microsoft.ExecuteSQLTask"
+                  DTS:DTSID="{97003331-3945-4b4c-9aca-f9950323a9d2}"
+                  DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Delete lineage information from Logs db">
+                  <DTS:Variables />
+                  <DTS:LoggingOptions
+                    DTS:FilterKind="0" />
+                  <DTS:EventHandlers>
+                    <DTS:EventHandler
+                      DTS:refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db.EventHandlers[OnPostExecute]"
+                      DTS:CreationName="OnPostExecute"
+                      DTS:DTSID="{eb8e1813-f0bc-4874-8143-d40e768944b4}"
+                      DTS:EventID="7340144"
+                      DTS:EventName="OnPostExecute"
+                      DTS:LocaleID="-1">
+                      <DTS:Variables>
+                        <DTS:Variable
+                          DTS:CreationName=""
+                          DTS:Description="Свойство распространения события"
+                          DTS:DTSID="{8ffe71e3-04ea-43b1-ae39-518c32419ee6}"
+                          DTS:IncludeInDebugDump="6789"
+                          DTS:Namespace="System"
+                          DTS:ObjectName="Propagate">
+                          <DTS:VariableValue
+                            DTS:DataType="11">-1</DTS:VariableValue>
+                        </DTS:Variable>
+                      </DTS:Variables>
+                      <DTS:Executables />
+                    </DTS:EventHandler>
+                  </DTS:EventHandlers>
+                  <DTS:ObjectData>
+                    <SQLTask:SqlTaskData
+                      SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
+                      SQLTask:SqlStatementSource="DELETE FROM [Integration].[LineageSSIS] WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                      <SQLTask:ParameterBinding
+                        SQLTask:ParameterName="0"
+                        SQLTask:DtsVariableName="User::LineageKey"
+                        SQLTask:ParameterDirection="Input"
+                        SQLTask:DataType="3"
+                        SQLTask:ParameterSize="-1" />
+                    </SQLTask:SqlTaskData>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+                <DTS:Executable
+                  DTS:refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+                  DTS:CreationName="Microsoft.Pipeline"
+                  DTS:DTSID="{282e324e-6a7f-4a8a-94d6-4ffda242fb5a}"
+                  DTS:ExecutableType="Microsoft.Pipeline"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Update lineage info from DW to Logs DB"
+                  DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <pipeline
+                      version="1">
+                      <components>
+                        <component
+                          refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+                          componentClassID="Microsoft.OLEDBDestination"
+                          contactInfo="Назначение &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;4"
+                          name="Destination Logs db"
+                          usesDispositions="true"
+                          version="4">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                              name="CommandTimeout">0</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowset">[Integration].[LineageSSIS]</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowsetVariable"></property>
+                            <property
+                              dataType="System.String"
+                              description="Команда SQL для выполнения."
+                              name="SqlCommand"
+                              UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                              name="DefaultCodePage">1251</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                              name="AlwaysUseDefaultCodePage">false</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает используемый режим доступа к базе данных."
+                              name="AccessMode"
+                              typeConverter="AccessMode">3</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, должны ли значения в столбцах идентификаторов копироваться в назначение. Если свойство имеет значение false, значения в столбцах идентификаторов будут созданы автоматически в месте назначения. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadKeepIdentity">false</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Указывает, будут ли в назначение вставляться значения NULL для столбцов, содержащих их. Значение false показывает, что если столбец имеет значение NULL, то в назначение будет вставлено его значение по умолчанию. Применяется только в случае, если включена быстрая загрузка."
+                              name="FastLoadKeepNulls">false</property>
+                            <property
+                              dataType="System.String"
+                              description="Задает параметры быстрой загрузки. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Задает, когда выдаются сообщения о фиксации транзакции в ходе вставки данных. Значение 0 задает, что по окончании вставки данных будет выдано одно сообщение о фиксации транзакции. Применяется только в том случае, если включена быстрая загрузка."
+                              name="FastLoadMaxInsertCommitSize">2147483647</property>
+                          </properties>
+                          <connections>
+                            <connection
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Connections[OleDbConnection]"
+                              connectionManagerID="{861E604B-3E8C-47C1-864A-A74B544FF627}:external"
+                              connectionManagerRefId="Project.ConnectionManagers[Logs]"
+                              description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                              name="OleDbConnection" />
+                          </connections>
+                          <inputs>
+                            <input
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                              errorOrTruncationOperation="Вставить"
+                              errorRowDisposition="FailComponent"
+                              hasSideEffects="true"
+                              name="Вход назначения &quot;OLE DB&quot;">
+                              <inputColumns>
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  cachedDataType="i8"
+                                  cachedName="LineageKey"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="DataLoadStarted"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[TableName]"
+                                  cachedDataType="wstr"
+                                  cachedLength="128"
+                                  cachedName="TableName"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="DataLoadCompleted"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  cachedDataType="bool"
+                                  cachedName="WasSuccessful"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  cachedDataType="dbTimeStamp2"
+                                  cachedName="CutoffTime"
+                                  cachedScale="7"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]" />
+                                <inputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  cachedDataType="wstr"
+                                  cachedLength="50"
+                                  cachedName="ExecutionId"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]" />
+                              </inputColumns>
+                              <externalMetadataColumns
+                                isUsed="True">
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  dataType="i8"
+                                  name="LineageKey" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  name="TableName" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  dataType="bool"
+                                  name="WasSuccessful" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  name="ExecutionId" />
+                              </externalMetadataColumns>
+                            </input>
+                          </inputs>
+                          <outputs>
+                            <output
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;]"
+                              exclusionGroup="1"
+                              isErrorOut="true"
+                              name="Вывод ошибок назначения &quot;OLE DB&quot;"
+                              synchronousInputId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  name="ErrorCode"
+                                  specialFlags="1" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Outputs[Вывод ошибок назначения &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  name="ErrorColumn"
+                                  specialFlags="2" />
+                              </outputColumns>
+                              <externalMetadataColumns />
+                            </output>
+                          </outputs>
+                        </component>
+                        <component
+                          refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+                          componentClassID="Microsoft.OLEDBSource"
+                          contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                          name="Source DW"
+                          usesDispositions="true"
+                          version="7">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                              name="CommandTimeout">0</property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowset"></property>
+                            <property
+                              dataType="System.String"
+                              description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                              name="OpenRowsetVariable"></property>
+                            <property
+                              dataType="System.String"
+                              description="Команда SQL для выполнения."
+                              name="SqlCommand"
+                              UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
+		, [DataLoadStarted]
+		, [TableName]
+		, [DataLoadCompleted]
+		, [WasSuccessful]
+		, [CutoffTime]
+		, [ExecutionId]
+FROM	[Integration].[LineageSSIS]
+WHERE   [LineageKey] = ?</property>
+                            <property
+                              dataType="System.String"
+                              description="Переменная, содержащая команду SQL для выполнения."
+                              name="SqlCommandVariable"></property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                              name="DefaultCodePage">1251</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                              name="AlwaysUseDefaultCodePage">false</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Указывает используемый режим доступа к базе данных."
+                              name="AccessMode"
+                              typeConverter="AccessMode">2</property>
+                            <property
+                              dataType="System.String"
+                              description="Сопоставления между параметрами в команде SQL и переменными."
+                              name="ParameterMapping">"Параметр0:Input",{C61E5501-B4F3-40FF-8EAB-7B41938AE913};</property>
+                          </properties>
+                          <connections>
+                            <connection
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Connections[OleDbConnection]"
+                              connectionManagerID="{F8652FBF-5699-4149-A76B-CA0F98489C1E}:external"
+                              connectionManagerRefId="Project.ConnectionManagers[DWH_OLEDB]"
+                              description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                              name="OleDbConnection" />
+                          </connections>
+                          <outputs>
+                            <output
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]"
+                              name="Выход источника &quot;OLE DB&quot;">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  dataType="i8"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  name="LineageKey"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  name="DataLoadStarted"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  dataType="wstr"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  length="128"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  name="TableName"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  name="DataLoadCompleted"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  dataType="bool"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  name="WasSuccessful"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  name="CutoffTime"
+                                  scale="7"
+                                  truncationRowDisposition="FailComponent" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  dataType="wstr"
+                                  errorOrTruncationOperation="Преобразование"
+                                  errorRowDisposition="FailComponent"
+                                  externalMetadataColumnId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  length="50"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  name="ExecutionId"
+                                  truncationRowDisposition="FailComponent" />
+                              </outputColumns>
+                              <externalMetadataColumns
+                                isUsed="True">
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[LineageKey]"
+                                  dataType="i8"
+                                  name="LineageKey" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  name="TableName" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[WasSuccessful]"
+                                  dataType="bool"
+                                  name="WasSuccessful" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <externalMetadataColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  name="ExecutionId" />
+                              </externalMetadataColumns>
+                            </output>
+                            <output
+                              refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                              isErrorOut="true"
+                              name="Вывод ошибок источника &quot;OLE DB&quot;">
+                              <outputColumns>
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  dataType="i8"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[LineageKey]"
+                                  name="LineageKey" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadStarted]"
+                                  name="DataLoadStarted"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  dataType="wstr"
+                                  length="128"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[TableName]"
+                                  name="TableName" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DataLoadCompleted]"
+                                  name="DataLoadCompleted"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  dataType="bool"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[WasSuccessful]"
+                                  name="WasSuccessful" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  dataType="dbTimeStamp2"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CutoffTime]"
+                                  name="CutoffTime"
+                                  scale="7" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  dataType="wstr"
+                                  length="50"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ExecutionId]"
+                                  name="ExecutionId" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                                  name="ErrorCode"
+                                  specialFlags="1" />
+                                <outputColumn
+                                  refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  dataType="i4"
+                                  lineageId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                                  name="ErrorColumn"
+                                  specialFlags="2" />
+                              </outputColumns>
+                              <externalMetadataColumns />
+                            </output>
+                          </outputs>
+                        </component>
+                      </components>
+                      <paths>
+                        <path
+                          refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
+                          endId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db.Inputs[Вход назначения &quot;OLE DB&quot;]"
+                          name="Exit Source DW"
+                          startId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW.Outputs[Выход источника &quot;OLE DB&quot;]" />
+                      </paths>
+                    </pipeline>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+              <DTS:PrecedenceConstraints>
+                <DTS:PrecedenceConstraint
+                  DTS:refId="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+                  DTS:CreationName=""
+                  DTS:DTSID="{b4b928c4-2a71-4a90-a773-ee2c5f528296}"
+                  DTS:From="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+                  DTS:LogicalAnd="True"
+                  DTS:ObjectName="Ограничение"
+                  DTS:To="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB" />
+              </DTS:PrecedenceConstraints>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+              SQLTask:SqlStatementSource="UPDATE [Integration].[LineagePBIRS]&#xA;SET [WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::LineageKey"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="3"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach RDL Reports List.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{8f9de725-d0e0-4645-9ef9-7bf37b85a399}"
+          DTS:From="Package\Foreach RDL Reports List\Get Lineage PBIRS Key"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Foreach RDL Reports List\Refresh RDL Report" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach RDL Reports List.PrecedenceConstraints[Ограничение 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{3635828f-8559-4c8c-937c-5a2e3741fe93}"
+          DTS:From="Package\Foreach RDL Reports List\Refresh RDL Report"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1"
+          DTS:To="Package\Foreach RDL Reports List\Set load compilation info" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{61CA5C2A-7D7D-466A-A506-9258AC446E25}"
+          DTS:ObjectName="{61CA5C2A-7D7D-466A-A506-9258AC446E25}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::ReportName" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{0CF9E43B-D73A-482D-830E-6D341C916D52}"
+          DTS:ObjectName="{0CF9E43B-D73A-482D-830E-6D341C916D52}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::ReportPath" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get PBIRS Reports Registry"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{90ACFA65-23FE-49C3-922E-B283D1B68EE6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get PBIRS Reports Registry"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetPBIRSReportsRegistry];"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="PBIReportList"
+            SQLTask:DtsVariableName="User::PBIReportList" />
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="RDLReportList"
+            SQLTask:DtsVariableName="User::RDLReportList" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{D810942E-1429-47C2-B40B-F34A58062F1E}"
+      DTS:From="Package\Get PBIRS Reports Registry"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\Foreach PBI Reports List" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{F289A837-BAE0-4AD9-9E03-52A9978F034D}"
+      DTS:From="Package\Get PBIRS Reports Registry"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\Foreach RDL Reports List" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{D96B1C02-E13F-4DAA-A237-214F73DA3E6D}"
+      DTS:EventID="1893204928"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="Свойство распространения события"
+          DTS:DTSID="{4303A8D2-7E34-42E4-8095-E8D380607011}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Error notification"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DTSID="{b40ad42a-ff80-4ea3-b1c9-583210de9e34}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Error notification"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Error notification.dtsx</PackageName>
+              <ParameterAssignment>
+                <ParameterName>ErrorCode</ParameterName>
+                <BindedVariableOrParameterName>System::ErrorCode</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ErrorDescription</ParameterName>
+                <BindedVariableOrParameterName>User::PSErrorMessage</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ExecutionInstanceGUID</ParameterName>
+                <BindedVariableOrParameterName>System::ExecutionInstanceGUID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>FailedConfigurations</ParameterName>
+                <BindedVariableOrParameterName>System::FailedConfigurations</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>LineageKey</ParameterName>
+                <BindedVariableOrParameterName>User::LineageKey</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>MachineName</ParameterName>
+                <BindedVariableOrParameterName>System::MachineName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>PackageName</ParameterName>
+                <BindedVariableOrParameterName>System::PackageName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>ParametersValues</ParameterName>
+                <BindedVariableOrParameterName>User::ParametersValues</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceID</ParameterName>
+                <BindedVariableOrParameterName>System::SourceID</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>SourceName</ParameterName>
+                <BindedVariableOrParameterName>System::SourceName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>StartTime</ParameterName>
+                <BindedVariableOrParameterName>System::StartTime</BindedVariableOrParameterName>
+              </ParameterAssignment>
+              <ParameterAssignment>
+                <ParameterName>UserName</ParameterName>
+                <BindedVariableOrParameterName>System::UserName</BindedVariableOrParameterName>
+              </ParameterAssignment>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:CreationName="Microsoft.ExpressionTask"
+          DTS:DTSID="{5d928ce0-10da-4a21-aa7a-908d66c525f7}"
+          DTS:ExecutableType="Microsoft.ExpressionTask"
+          DTS:FailPackageOnFailure="True"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get parameter values">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExpressionTask
+              Expression="@[User::ParametersValues] = &quot;Project::DBFilesPath = &quot; + @[$Project::DBFilesPath] + &quot;\r\nProject::DQS_STAGING_DATA_DatabaseName = &quot; + @[$Project::DQS_STAGING_DATA_DatabaseName] + &quot;\r\nProject::DQS_STAGING_DATA_ServerName = &quot; + @[$Project::DQS_STAGING_DATA_ServerName] + &quot;\r\nProject::DQSServerName = &quot; + @[$Project::DQSServerName] + &quot;\r\nProject::DWHDatabaseName = &quot; + @[$Project::DWHDatabaseName] + &quot;\r\nProject::DWHServerName = &quot; + @[$Project::DWHServerName] + &quot;\r\nProject::ExternalFilesPath = &quot; + @[$Project::ExternalFilesPath] + &quot;\r\nProject::LandingDatabaseName = &quot; + @[$Project::LandingDatabaseName] + &quot;\r\nProject::LandingServerName = &quot; + @[$Project::LandingServerName] + &quot;\r\nProject::LogsDatabaseName = &quot; + @[$Project::LogsDatabaseName] + &quot;\r\nProject::LogsServerName = &quot; + @[$Project::LogsServerName] + &quot;\r\nProject::MDSDatabaseName = &quot; + @[$Project::MDSDatabaseName] + &quot;\r\nProject::MDSServerName = &quot; + @[$Project::MDSServerName] + &quot;\r\nProject::XMLCalendarFolder = &quot; + @[$Project::XMLCalendarFolder] + &quot;\r\nUser::ReportName = &quot; +  @[User::ReportName] + &quot;\r\nUser::ReportPath = &quot; +  @[User::ReportPath]" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{621e3db4-580c-42e0-b290-acd684a8ef55}"
+          DTS:From="Package.EventHandlers[OnError]\Get parameter values"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package.EventHandlers[OnError]\Error notification" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Get PBIRS Reports Registry"
+          TopLeft="305.5,54.5" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Foreach PBI Reports List\Get Lineage PBIRS Key"
+          TopLeft="9.00000000000001,5.5" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Foreach PBI Reports List\Refresh PowerBI Report"
+          TopLeft="7.00000000000003,107.5" />
+        <EdgeLayout
+          Id="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение]"
+          TopLeft="103,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="103,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="206,306"
+          Size="206,350"
+          Id="Package\Foreach PBI Reports List"
+          TopLeft="39.5000000000001,156.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="376.166666666667,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-233.666666666667,60"
+              Start="0,0"
+              End="-233.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2748091603053" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2748091603053"
+                    Point2="0,24.2748091603053"
+                    Point3="-4,24.2748091603053" />
+                  <mssgle:LineSegment
+                    End="-229.666666666667,24.2748091603053" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-229.666666666667,24.2748091603053"
+                    Point2="-233.666666666667,24.2748091603053"
+                    Point3="-233.666666666667,28.2748091603053" />
+                  <mssgle:LineSegment
+                    End="-233.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Foreach RDL Reports List\Get Lineage PBIRS Key"
+          TopLeft="9.00000000000001,5.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach RDL Reports List\Refresh RDL Report"
+          TopLeft="17,107.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package\Foreach RDL Reports List.PrecedenceConstraints[Ограничение]"
+          TopLeft="103,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach RDL Reports List.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="103,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="206,306"
+          Size="206,350"
+          Id="Package\Foreach RDL Reports List"
+          TopLeft="306.5,156.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="442.833333333333,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-33.3333333333333,60"
+              Start="0,0"
+              End="-33.3333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2748091603054" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2748091603054"
+                    Point2="0,24.2748091603054"
+                    Point3="-4,24.2748091603054" />
+                  <mssgle:LineSegment
+                    End="-29.3333333333333,24.2748091603054" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-29.3333333333333,24.2748091603054"
+                    Point2="-33.3333333333333,24.2748091603054"
+                    Point3="-33.3333333333333,28.2748091603054" />
+                  <mssgle:LineSegment
+                    End="-33.3333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package.EventHandlers[OnError]\Error notification"
+          TopLeft="71.5,162" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package.EventHandlers[OnError]\Get parameter values"
+          TopLeft="60,60" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Ограничение]"
+          TopLeft="150,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
+    design-time-name="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="271,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+          TopLeft="64.5,162" />
+        <EdgeLayout
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+          TopLeft="197.25,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+          TopLeft="42,54.5" />
+        <EdgeLayout
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
+          TopLeft="107.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <DtsEventHandler
+    design-time-name="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Delete lineage information from Logs db"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="271,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB"
+          TopLeft="64.5,162" />
+        <EdgeLayout
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute].PrecedenceConstraints[Ограничение]"
+          TopLeft="197.25,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
+          TopLeft="42,54.5" />
+        <EdgeLayout
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
+          TopLeft="107.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

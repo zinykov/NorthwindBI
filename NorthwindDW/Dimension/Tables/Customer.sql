@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Dimension].[Customer]
+CREATE TABLE [Dimension].[Customer]
 (
 	[CustomerKey]           BIGINT             CONSTRAINT [SQ_Customer_Key] DEFAULT ( NEXT VALUE FOR [Dimension].[CustomerKey] )     NOT NULL, 
     [CustomerAlterKey]      NVARCHAR(5)        NOT NULL, 
@@ -17,7 +17,7 @@
 
     CONSTRAINT [PK_Dimension_Customer] PRIMARY KEY CLUSTERED ( [CustomerKey] ASC ),
 
-    CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+    CONSTRAINT [FK_Dimension_Customer_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[LineageSSIS] ( [LineageKey] )
 )
     ON [Dimention_Data]
     WITH ( DATA_COMPRESSION = PAGE ) ;
@@ -35,6 +35,11 @@ CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Customer] ON [Dimension].[Custo
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Country_City] ON [Dimension].[Customer] ( [Country] ASC, [City] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
+    ON [Dimention_Index];
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Customer_Lineage_Key] ON [Integration].[LineageSSIS] ( [LineageKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO

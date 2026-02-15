@@ -6,6 +6,6 @@ AS BEGIN
 				, [TableName]
 				, [Duration]	= DATEDIFF ( MILLISECOND, L.[DataLoadStarted], L.[DataLoadCompleted] )
 				, [MAvgDuration] = AVG ( DATEDIFF ( MILLISECOND, L.[DataLoadStarted], L.[DataLoadCompleted] ) ) OVER ( PARTITION BY [TableName] ORDER BY L.[CutoffTime] DESC ROWS BETWEEN CURRENT ROW AND 3 FOLLOWING )
-	FROM		[Integration].[Lineage] AS L
+	FROM		[Integration].[LineageSSIS] AS L
     ORDER BY	L.[LineageKey] DESC
 END

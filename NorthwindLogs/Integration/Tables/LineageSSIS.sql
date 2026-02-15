@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Integration].[Lineage]
+CREATE TABLE [Integration].[LineageSSIS]
 (
 	  [LineageKey]					BIGINT			NOT NULL,
 	  [DataLoadStarted]				DATETIME2		NOT NULL,

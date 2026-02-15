@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [Integration].[GetLineageKey]
+CREATE PROCEDURE [Integration].[GetLineageSSISKey]
     @TableName AS SYSNAME,
     @CutoffTime AS DATETIME2(7),
     @executionid AS NVARCHAR (50)
@@ -8,7 +8,7 @@ AS BEGIN
 
     DECLARE @DataLoadStartedWhen AS DATETIME2(7) = SYSDATETIME();
 
-    INSERT Integration.Lineage (
+    INSERT [Integration].[LineageSSIS] (
           [DataLoadStarted]
         , [TableName]
         , [DataLoadCompleted]

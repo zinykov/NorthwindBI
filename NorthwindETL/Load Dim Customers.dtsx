@@ -536,7 +536,7 @@
                         <property
                           dataType="System.String"
                           description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                          name="OpenRowset">[Integration].[Lineage]</property>
+                          name="OpenRowset">[Integration].[LineageSSIS]</property>
                         <property
                           dataType="System.String"
                           description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
@@ -734,7 +734,7 @@
 		, [WasSuccessful]
 		, [CutoffTime]
 		, [ExecutionId]
-FROM	[Integration].[Lineage]
+FROM	[Integration].[LineageSSIS]
 WHERE   [LineageKey] = ?</property>
                         <property
                           dataType="System.String"
@@ -956,7 +956,7 @@ WHERE   [LineageKey] = ?</property>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageKey]&#xA;      @TableName = ?&#xA;    , @CutoffTime = ?&#xA;    , @ExecutionId = ?"
+          SQLTask:SqlStatementSource="EXECUTE [Integration].[GetLineageSSISKey]&#xA;      @TableName = ?&#xA;    , @CutoffTime = ?&#xA;    , @ExecutionId = ?"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="LineageKey"
@@ -6161,7 +6161,7 @@ WHERE	[LastChgDateTime] &gt; ?
               <DTS:ObjectData>
                 <SQLTask:SqlTaskData
                   SQLTask:Connection="{861E604B-3E8C-47C1-864A-A74B544FF627}"
-                  SQLTask:SqlStatementSource="DELETE FROM [Integration].[Lineage] WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  SQLTask:SqlStatementSource="DELETE FROM [Integration].[LineageSSIS] WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
                   <SQLTask:ParameterBinding
                     SQLTask:ParameterName="0"
                     SQLTask:DtsVariableName="User::LineageKey"
@@ -6199,7 +6199,7 @@ WHERE	[LastChgDateTime] &gt; ?
                         <property
                           dataType="System.String"
                           description="Указывает имя объекта базы данных, используемого для открытия набора строк."
-                          name="OpenRowset">[Integration].[Lineage]</property>
+                          name="OpenRowset">[Integration].[LineageSSIS]</property>
                         <property
                           dataType="System.String"
                           description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
@@ -6397,7 +6397,7 @@ WHERE	[LastChgDateTime] &gt; ?
 		, [WasSuccessful]
 		, [CutoffTime]
 		, [ExecutionId]
-FROM	[Integration].[Lineage]
+FROM	[Integration].[LineageSSIS]
 WHERE   [LineageKey] = ?</property>
                         <property
                           dataType="System.String"
@@ -6629,7 +6629,7 @@ WHERE   [LineageKey] = ?</property>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-          SQLTask:SqlStatementSource="UPDATE [Integration].[Lineage]&#xA;SET [WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="UPDATE [Integration].[LineageSSIS]&#xA;SET [WasSuccessful] = 1, [DataLoadCompleted] = SYSDATETIME()&#xA;WHERE [LineageKey] = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="User::LineageKey"

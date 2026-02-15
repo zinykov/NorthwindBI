@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Dimension].[Product]
+CREATE TABLE [Dimension].[Product]
 (
 	[ProductKey]            BIGINT          CONSTRAINT [SQ_Product_Key] DEFAULT ( NEXT VALUE FOR [Dimension].[ProductKey] )     NOT NULL,
     [ProductAlterKey]       INT             NOT NULL,
@@ -9,7 +9,7 @@
 
     CONSTRAINT [PK_Dimention_Product] PRIMARY KEY CLUSTERED ( [ProductKey] ASC ),
 
-    CONSTRAINT [FK_Dimension_Product_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
+    CONSTRAINT [FK_Dimension_Product_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[LineageSSIS] ( [LineageKey] )
 )
     ON [Dimention_Data] TEXTIMAGE_ON [JSON_FG]
     WITH ( DATA_COMPRESSION = PAGE );
@@ -21,6 +21,11 @@ CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Alter_Key] ON [Dimension].[Produ
 GO
 
 CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Category_Product] ON [Dimension].[Product] ( [Category] ASC, [Product] ASC )
+    WITH ( DATA_COMPRESSION = PAGE )
+    ON [Dimention_Index];
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Dimension_Product_Lineage_Key] ON [Integration].[LineageSSIS] ( [LineageKey] ASC )
     WITH ( DATA_COMPRESSION = PAGE )
     ON [Dimention_Index];
 GO
