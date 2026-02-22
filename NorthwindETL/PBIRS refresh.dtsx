@@ -12,8 +12,8 @@
   DTS:ObjectName="PBIRS refresh"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="38"
-  DTS:VersionGUID="{E6481B96-80A3-4DD6-9029-A7DEA74C66A2}">
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{19D9C91B-08C9-488F-8C29-985C23749040}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -24,7 +24,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="LineageKey">
       <DTS:VariableValue
-        DTS:DataType="20">0</DTS:VariableValue>
+        DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -764,6 +764,7 @@ WHERE   [LineageKey] = ?</property>
     <DTS:Executable
       DTS:refId="Package\Foreach RDL Reports List"
       DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Disabled="True"
       DTS:DTSID="{dccb93a4-ebde-430d-be66-be6a3e171d00}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
@@ -1431,11 +1432,8 @@ WHERE   [LineageKey] = ?</property>
           SQLTask:SqlStatementSource="EXECUTE [Integration].[GetPBIRSReportsRegistry];"
           SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
-            SQLTask:ResultName="PBIReportList"
+            SQLTask:ResultName="0"
             SQLTask:DtsVariableName="User::PBIReportList" />
-          <SQLTask:ResultBinding
-            SQLTask:ResultName="RDLReportList"
-            SQLTask:DtsVariableName="User::RDLReportList" />
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -1584,17 +1582,17 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="208,42"
-          Id="Package\Get PBIRS Reports Registry"
-          TopLeft="305.5,54.5" />
-        <NodeLayout
-          Size="188,42"
+          Size="188,41.6"
           Id="Package\Foreach PBI Reports List\Get Lineage PBIRS Key"
           TopLeft="9.00000000000001,5.5" />
         <NodeLayout
-          Size="192,42"
+          Size="192,41.6"
           Id="Package\Foreach PBI Reports List\Refresh PowerBI Report"
           TopLeft="7.00000000000003,107.5" />
+        <NodeLayout
+          Size="195.2,41.6"
+          Id="Package\Foreach PBI Reports List\Set load compilation info"
+          TopLeft="5.50000000000003,209.5" />
         <EdgeLayout
           Id="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение]"
           TopLeft="103,47.5">
@@ -1617,10 +1615,6 @@ WHERE   [LineageKey] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="195,42"
-          Id="Package\Foreach PBI Reports List\Set load compilation info"
-          TopLeft="5.50000000000003,209.5" />
         <EdgeLayout
           Id="Package\Foreach PBI Reports List.PrecedenceConstraints[Ограничение 1]"
           TopLeft="103,149.5">
@@ -1646,54 +1640,20 @@ WHERE   [LineageKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,306"
-          Size="206,350"
+          PanelSize="206.4,307.2"
+          Size="206.4,350.4"
           Id="Package\Foreach PBI Reports List"
           TopLeft="39.5000000000001,156.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="376.166666666667,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-233.666666666667,60"
-              Start="0,0"
-              End="-233.666666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.2748091603053" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.2748091603053"
-                    Point2="0,24.2748091603053"
-                    Point3="-4,24.2748091603053" />
-                  <mssgle:LineSegment
-                    End="-229.666666666667,24.2748091603053" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-229.666666666667,24.2748091603053"
-                    Point2="-233.666666666667,24.2748091603053"
-                    Point3="-233.666666666667,28.2748091603053" />
-                  <mssgle:LineSegment
-                    End="-233.666666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
-          Size="188,42"
+          Size="188,41.6"
           Id="Package\Foreach RDL Reports List\Get Lineage PBIRS Key"
           TopLeft="9.00000000000001,5.5" />
         <NodeLayout
-          Size="172,42"
+          Size="172,41.6"
           Id="Package\Foreach RDL Reports List\Refresh RDL Report"
           TopLeft="17,107.5" />
         <NodeLayout
-          Size="195,42"
+          Size="195.2,41.6"
           Id="Package\Foreach RDL Reports List\Set load compilation info"
           TopLeft="5.50000000000003,209.5" />
         <EdgeLayout
@@ -1743,36 +1703,74 @@ WHERE   [LineageKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="206,306"
-          Size="206,350"
+          PanelSize="206.4,307.2"
+          Size="206.4,350.4"
           Id="Package\Foreach RDL Reports List"
           TopLeft="306.5,156.5" />
+        <NodeLayout
+          Size="207.2,41.6"
+          Id="Package\Get PBIRS Reports Registry"
+          TopLeft="305.5,54.5" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="442.833333333333,96.5">
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="375.9,96.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-33.3333333333333,60"
+              EndConnector="-233.2,60.4"
               Start="0,0"
-              End="-33.3333333333333,52.5">
+              End="-233.2,52.9">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.2748091603054" />
+                    End="0,20.4377011494253" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.2748091603054"
-                    Point2="0,24.2748091603054"
-                    Point3="-4,24.2748091603054" />
+                    Point1="0,20.4377011494253"
+                    Point2="0,24.4377011494253"
+                    Point3="-4,24.4377011494253" />
                   <mssgle:LineSegment
-                    End="-29.3333333333333,24.2748091603054" />
+                    End="-229.2,24.4377011494253" />
                   <mssgle:CubicBezierSegment
-                    Point1="-29.3333333333333,24.2748091603054"
-                    Point2="-33.3333333333333,24.2748091603054"
-                    Point3="-33.3333333333333,28.2748091603054" />
+                    Point1="-229.2,24.4377011494253"
+                    Point2="-233.2,24.4377011494253"
+                    Point3="-233.2,28.4377011494253" />
                   <mssgle:LineSegment
-                    End="-33.3333333333333,52.5" />
+                    End="-233.2,52.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="442.3,96.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-32.6,60.4"
+              Start="0,0"
+              End="-32.6,52.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.4377011494253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.4377011494253"
+                    Point2="0,24.4377011494253"
+                    Point3="-4,24.4377011494253" />
+                  <mssgle:LineSegment
+                    End="-28.6,24.4377011494253" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-28.6,24.4377011494253"
+                    Point2="-32.6,24.4377011494253"
+                    Point3="-32.6,28.4377011494253" />
+                  <mssgle:LineSegment
+                    End="-32.6,52.9" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1788,7 +1786,7 @@ WHERE   [LineageKey] = ?</property>
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package.EventHandlers[OnError]\Error notification"
@@ -1816,7 +1814,9 @@ WHERE   [LineageKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1868,13 +1868,13 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="172,42"
-          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
-          TopLeft="21.5,156.5" />
-        <NodeLayout
           Size="131,42"
           Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
           TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
         <EdgeLayout
           Id="Package\Foreach PBI Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
           TopLeft="107.5,96.5">
@@ -1948,13 +1948,13 @@ WHERE   [LineageKey] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="172,42"
-          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
-          TopLeft="21.5,156.5" />
-        <NodeLayout
           Size="131,42"
           Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Source DW"
           TopLeft="42,54.5" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB\Destination Logs db"
+          TopLeft="21.5,156.5" />
         <EdgeLayout
           Id="Package\Foreach RDL Reports List\Set load compilation info.EventHandlers[OnPostExecute]\Update lineage info from DW to Logs DB.Paths[Exit Source DW]"
           TopLeft="107.5,96.5">
