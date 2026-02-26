@@ -84,6 +84,11 @@ The solution supports various deployment scenarios, from a single-server setup t
 *   **Self-Healing Maintenance:** Automated maintenance plans for index optimization, statistics updates, and database integrity checks.
 *   **Operational Logging:** Granular ETL execution logging with built-in error handling and alerting mechanisms.
 
+#### **6. Robust Data Lineage & Auditing (WWI Standard)**
+*   **End-to-End Traceability:** Every single record in both **Fact and Dimension** tables is tagged with a `LineageKey` (AuditKey).
+*   **Full Processing Context:** The solution captures detailed ETL metadata (Batch IDs, Execution Times, Success Flags), allowing users to trace any data point back to its specific loading session.
+*   **Incremental Load Reliability:** Built-in logic to prevent data corruption by ignoring data from failed or incomplete ETL batches.
+
 ---
 
 ### 📖 Documentation & Links
