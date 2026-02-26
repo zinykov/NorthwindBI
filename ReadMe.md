@@ -8,6 +8,7 @@
 Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professional framework designed for scalability, manageability, and data integrity. It bridges the gap between raw data and executive insights by implementing a full-stack Enterprise BI lifecycle.
 
 *   **Architected for Growth:** Built with **Partitioning** and **Columnstore** technology to handle datasets that would crush a standard SQL Server instance.
+*   **Kimball Methodology at Core:** Strictly follows the **Data Warehouse Lifecycle Toolkit** (Bus Matrix, Conformed Dimensions, and SCD Type 1 & 2 management).
 *   **Engineered for Professionals:** Leverages **SSAS Tabular** and **Calculation Groups** (via Tabular Editor) to eliminate measure duplication and ensure a "Single Version of Truth."
 *   **Ops-Ready from Day One:** Includes built-in **Monitoring** and **Master Data Management (MDS)**, transforming a simple database into a governed analytical platform.
 *   **DevOps Centric:** Designed with environment isolation (Dev/Test/Prod) and CI/CD-ready structure for automated deployments via **Azure DevOps**.
@@ -33,14 +34,14 @@ The solution supports various deployment scenarios, from a single-server setup t
 <summary><b>View Enterprise Distributed Topology (Recommended)</b></summary>
 
 ![Enterprise Topology](Docs/Images/topology_distributed.png)
-*Architecture designed for high availability and workload separation.*
+*Architecture designed for high availability and workload separation (Dedicated ETL, MDS, and Report Servers).*
 </details>
 
 <details>
 <summary><b>View Single-Server Setup (PoC)</b></summary>
 
 ![Single Server](Docs/Images/topology_single.png)
-*Cost-effective deployment for small datasets and testing.*
+*Cost-effective deployment for small datasets, development, and automated functional testing.*
 </details>
 
 ---
@@ -50,44 +51,46 @@ The solution supports various deployment scenarios, from a single-server setup t
 
 | Layer | Technologies |
 | :--- | :--- |
-| **Database & DWH** | `SQL Server 2022`, `T-SQL`, `Columnstore`, `Partitioning` |
-| **ETL & Integration** | `SSIS (Integration Services)`, `ELT Patterns`, `Master Data Services (MDS)`, `Data Quality Services (DQS)` |
+| **Database & DWH** | `SQL Server 2022`, `T-SQL`, `Columnstore`, `Partitioning`, `File Groups` |
+| **ETL & Integration** | `SSIS (Integration Services)`, `ELT Patterns`, `MDS`, `DQS`, `SHA2 Delta Capture` |
 | **Semantic & Analytics**| `SSAS Tabular`, `DAX`, `Calculation Groups`, `Tabular Editor 2/3` |
-| **Reporting** | `Power BI Report Server`, `Paginated Reports (SSRS)`, `Excel` |
-| **DevOps & QA** | `Azure DevOps`, `CI/CD Pipelines`, `Automated Functional Testing` |
+| **Reporting** | `Power BI Report Server`, `Power BI Reports`, `SSAS`, `Paginated Reports (SSRS)`, `Excel` |
+| **DevOps & QA** | `Azure DevOps`, `Azure Pipelines`, `MSTest`, `SQL Unit Testing` |
 
 ---
 
 ### 🚀 Key Features & Architectural Highlights
 
-#### **1. High-Performance Data Engineering (Storage Layer)**
-*   **Scalable Storage Architecture:** Physical and logical **partitioning** leveraging **Clustered Columnstore Indexes**, ensuring sub-second query performance on datasets ranging from hundreds of GBs to TBs.
-*   **Automated Partition Management:** Fully implemented **Sliding Window** mechanism (automated Partition Merge/Split) to maintain consistent load performance and data retention policies.
-*   **Hybrid ETL/ELT Strategy:** Optimized processing workflow where **SSIS** acts as an orchestrator, while heavy transformations are pushed down to the **T-SQL** engine (ELT) for maximum throughput.
+#### **1. High-Performance Data Engineering**
+*   **Scalable Storage:** Physical and logical **partitioning** leveraging **Clustered Columnstore Indexes** for sub-second query performance.
+*   **Delta Capture:** Optimized **SHA2-512 hashing** mechanism to identify changed records in sources without timestamps.
+*   **Hybrid ETL/ELT:** Efficient orchestration where **SSIS** handles workflow, while heavy transformations are pushed to the **T-SQL** engine.
 
-#### **2. Enterprise Semantic Layer (Analytic Layer)**
-*   **Advanced Tabular Modeling:** Centralized semantic layer based on **SSAS Tabular**, enforcing the "Single Version of Truth" principle across all reporting tools.
-*   **Calculation Groups Mastery:** Advanced use of **Tabular Editor** to implement complex analytical scenarios (**Time Intelligence**, **ABC/XYZ Analysis**, **Dynamic Metric Selection**) while eliminating "Measure Explosion."
-*   **Pro-level Analytics:** Pre-built templates for deep-dive analysis, including **Market Basket Analysis**, Customer Retention (New & Returning), and Spend-based Clustering.
+#### **2. Advanced Quality Assurance (The "QA Gate")**
+The solution features a unique **E2E Functional Testing framework** built with **MSTest**:
+*   **Sandboxed Lifecycle Testing:** Automated deployment of DB/SSIS projects followed by iterative load cycles.
+*   **Incremental Validation:** Simulates "time-travel" by running multiple incremental loads to verify **SCD Type 2** logic and data accumulation.
+*   **Data Poisoning Resilience:** Automated testing of "dirty data" (duplicates in source) to ensure the **DQS/MDS** layer correctly filters or quarantines records.
+*   **E2E Coverage:** Recent updates extended coverage to the **Extract Layer**, ensuring robust data contracts between source and DWH.
 
-#### **3. Data Governance & Operational Excellence (Management Layer)**
-*   **Master Data & Quality (MDS/DQS):** Integrated Master Data Services and Data Quality Services for automated deduplication, cleansing, and Golden Record management.
-*   **Comprehensive Monitoring Subsystem:** A unique **SSRS/SSAS Performance Audit** solution that tracks rendering times, report usage frequency, and query engine load in real-time.
-*   **DevOps & CI/CD Ready:** Architecture designed for automated deployment via **Azure DevOps**, ensuring strict isolation between Dev/Test/Prod environments.
+#### **3. Enterprise Semantic Layer**
+*   **Centralized Truth:** Semantic layer based on **SSAS Tabular**, enforcing logic consistency across all BI tools.
+*   **Calculation Groups:** Advanced use of **Tabular Editor** to implement complex analytical scenarios while eliminating "Measure Explosion."
 
-#### **4. Automated Quality Assurance (Testing Layer)**
-*   **Functional ETL Testing:** Dedicated test database and stored procedure framework for automated **Data Quality Assurance (DQA)** at every stage of the pipeline.
-*   **Data Integrity Validation:** Automated business logic checks, including duplicate detection, **Referential Integrity** verification, and schema consistency.
-*   **Reconciliation & Regression:** Robust data reconciliation mechanisms between source systems and the Data Warehouse to guarantee 100% data accuracy.
+#### **4. Data Governance & Lineage (WWI Standard)**
+*   **End-to-End Traceability:** Every record is tagged with a `LineageKey`, allowing users to trace any data point back to its specific loading session.
+*   **Metadata Repository:** A dedicated `Metadata` schema acting as a "Navigation Map" for both business users and IT staff.
 
-#### **5. Reliability & Maintenance**
-*   **Self-Healing Maintenance:** Automated maintenance plans for index optimization, statistics updates, and database integrity checks.
-*   **Operational Logging:** Granular ETL execution logging with built-in error handling and alerting mechanisms.
+---
 
-#### **6. Robust Data Lineage & Auditing (WWI Standard)**
-*   **End-to-End Traceability:** Every single record in both **Fact and Dimension** tables is tagged with a `LineageKey` (AuditKey).
-*   **Full Processing Context:** The solution captures detailed ETL metadata (Batch IDs, Execution Times, Success Flags), allowing users to trace any data point back to its specific loading session.
-*   **Incremental Load Reliability:** Built-in logic to prevent data corruption by ignoring data from failed or incomplete ETL batches.
+### 🗺️ Project Roadmap
+
+The project is evolving from a local BI prototype to a distributed Enterprise Data Platform. Current development is focused on:
+
+*   **[In Progress] Semantic Layer Migration:** Transitioning the data model from Power BI Desktop to a dedicated **SSAS Tabular** instance to support multiple reporting clients and centralized measure management.
+*   **[In Progress] Advanced Metadata Catalog:** Implementation of a dedicated `Metadata` schema for automated **Lineage** tracking and a Business Glossary (Data Dictionary) in Azure Wiki.
+*   **[Planned] Full E2E Test Coverage:** Extending the **MSTest framework** to include the **Extract** layer, ensuring robust data contracts and automated handling of source schema changes (Schema Drift).
+*   **[Planned] Data Tiering (TCO Optimization):** Automated movement of historical data partitions between high-performance SSD and cost-effective HDD storage groups.
 
 ---
 
