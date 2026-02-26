@@ -16,6 +16,35 @@ Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professio
 
 ---
 
+### 📐 Architecture & Design
+
+#### **High-Level System Architecture**
+![Main Architecture](Docs/Images/architecture_main.png)
+*Full-stack BI lifecycle implementation from source to reporting layer.*
+
+#### **Dimensional Model (DWH)**
+![DWH Schema](Docs/Images/dwh_schema.png)
+*Star schema design optimized for analytical query performance (Kimball Methodology).*
+
+#### **Scalable Topology**
+The solution supports various deployment scenarios, from a single-server setup to a fully distributed enterprise cluster.
+
+<details>
+<summary><b>View Enterprise Distributed Topology (Recommended)</b></summary>
+
+![Enterprise Topology](Docs/Images/topology_distributed.png)
+*Architecture designed for high availability and workload separation.*
+</details>
+
+<details>
+<summary><b>View Single-Server Setup (PoC)</b></summary>
+
+![Single Server](Docs/Images/topology_single.png)
+*Cost-effective deployment for small datasets and testing.*
+</details>
+
+---
+
 ### 🛠️ Tech Stack & Tools
 
 
