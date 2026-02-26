@@ -16,6 +16,59 @@ Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professio
 
 ---
 
+### 📐 Architecture Overview
+
+```mermaid
+graph TD
+    subgraph "Source Systems"
+        SRC[Northwind OLTP / ERP]
+    end
+
+    subgraph "Data Integration (ETL/ELT)"
+        SSIS[SSIS Orchestrator]
+        DQS[Data Quality Services]
+        MDS[Master Data Services]
+    end
+
+    subgraph "Data Warehouse (SQL Server)"
+        STG[(Staging Area)]
+        DWH[(DWH: Star Schema)]
+        F_TEST[Automated Functional Tests]
+        LOG[(Operational Logs)]
+    end
+
+    subgraph "Semantic & Analytics (SSAS)"
+        TAB[SSAS Tabular Model]
+        CG[Calculation Groups]
+    end
+
+    subgraph "Reporting Layer"
+        PBI[Power BI Reports]
+        SSRS[Paginated Reports]
+        MON[SSRS/SSAS Monitoring]
+    end
+
+    %% Data Flow
+    SRC --> STG
+    STG --> SSIS
+    SSIS --> DQS
+    DQS --> MDS
+    MDS --> DWH
+    DWH -.-> F_TEST
+    DWH --> TAB
+    TAB --> CG
+    CG --> PBI
+    CG --> SSRS
+    SSRS --> MON
+    TAB --> MON
+
+    %% Styling
+    style DWH fill:#f9f,stroke:#333,stroke-width:2px
+    style TAB fill:#bbf,stroke:#333,stroke-width:2px
+    style MON fill:#dfd,stroke:#333,stroke-width:1px
+
+---
+
 ### 🛠️ Tech Stack & Tools
 
 
