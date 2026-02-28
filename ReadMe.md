@@ -1,4 +1,4 @@
-# 🏛️ Northwind BI Solution
+# 🏛️ Northwind Enterprise Data Platform (EDP)
 **A production-grade, end-to-end Enterprise Business Intelligence ecosystem.**
 
 ---
