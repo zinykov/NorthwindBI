@@ -3,6 +3,11 @@
 
 ---
 
+### ✍️ About the Author
+Architected and deployed a comprehensive Enterprise DWH/BI Platform by integrating disparate Microsoft stack components into a unified ecosystem. Focused on Full-cycle Automation (CI/CD, automated QA) and the practical application of Kimball Methodology to deliver high-integrity, scalable analytical solutions.
+
+---
+
 ### 💡 Why choose this solution?
 
 Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professional framework designed for scalability, manageability, and data integrity. It bridges the gap between raw data and executive insights by implementing a full-stack Enterprise BI lifecycle.
@@ -96,8 +101,7 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 
 ### 📖 Documentation & Links
 Detailed architectural decisions, schemas, and implementation guides are available here:
-*   📄 [**Azure Repos (Main Doc)**](Docs/Solution%20Architecture%20Document.docx)
-*   📄 [**GitHub Mirror**](Docs/Solution%20Architecture%20Document.docx)
+[**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
 
 ---
 
