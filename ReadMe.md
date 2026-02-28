@@ -100,8 +100,7 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 ---
 
 ### 📖 Documentation & Links
-Detailed architectural decisions, schemas, and implementation guides are available here:
-[**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
+Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
 
 ---
 
