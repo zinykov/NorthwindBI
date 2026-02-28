@@ -96,8 +96,8 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 
 ### 📖 Documentation & Links
 Detailed architectural decisions, schemas, and implementation guides are available here:
-*   📄 [**Azure Repos (Main Doc)**](https://dev.azure.com/zinykov/NorthwindBI/_git/Northwind_BI_Solution?path=%2FDocs%2FNorthwind%20BI%20Solution.docx&version=GBmaster&_a=contents)
-*   📄 [**GitHub Mirror**](https://github.com/zinykov/NorthwindBI/blob/master/Docs/Northwind%20BI%20Solution.docx)
+*   📄 ![**Azure Repos (Main Doc)**](Docs/Solution%20Architecture%20Document.docx)
+*   📄 ![**GitHub Mirror**](Docs/Solution%20Architecture%20Document.docx)
 
 ---
 
