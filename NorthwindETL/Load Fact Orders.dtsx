@@ -8,14 +8,14 @@
   DTS:CreatorName="SWIFT3\zinyk"
   DTS:DTSID="{BE38E3E9-83A9-4413-BC96-1DC3E87C13E1}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
   DTS:LocaleID="1049"
   DTS:ObjectName="Load Fact Orders"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
   DTS:SaveCheckpoints="True"
-  DTS:VersionBuild="354"
-  DTS:VersionGUID="{6CEC6455-21DA-46F7-B7B9-3A49A161BD0A}">
+  DTS:VersionBuild="355"
+  DTS:VersionGUID="{601847E8-D583-4FC5-A637-08C08DB82A74}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:LogProviders>
@@ -330,7 +330,7 @@
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -512,7 +512,7 @@
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT    [LineageKey]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
 		, [DataLoadStarted]
 		, [TableName]
 		, [DataLoadCompleted]
@@ -805,7 +805,7 @@ WHERE   [LineageKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Check changes"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -832,7 +832,7 @@ WHERE   [LineageKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Create Filegroup"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -887,7 +887,7 @@ WHERE   [LineageKey] = ?</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Update Partition Schema"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:LoggingOptions
             DTS:FilterKind="0" />
@@ -971,13 +971,40 @@ WHERE   [LineageKey] = ?</property>
               </DTS:ObjectData>
             </DTS:Executable>
             <DTS:Executable
+              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Deliver"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:DTSID="{e38de449-0838-4e0e-a636-a429d3a3f26b}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Deliver"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:LoggingOptions
+                DTS:FilterKind="0" />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[Deliver"+ @[User::FactTableName] +"]
+   @Partition_number = ?"</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
+                  SQLTask:SqlStatementSource="EXECUTE [Integration].[DeliverOrder]&#xA;   @Partition_number = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::PartitionNumber"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="3"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table"
               DTS:CreationName="Microsoft.ExecuteSQLTask"
               DTS:DTSID="{b5a17ea0-7b96-41fb-bf86-c8eef0271d08}"
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Drop Load Table"
-              DTS:ThreadHint="1">
+              DTS:ThreadHint="0">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -1371,7 +1398,7 @@ WHERE   [LineageKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXECUTE [Landing].[ExtractOrders]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXECUTE [Landing].[ExtractOrders]
 	  @StartLoad = ?
 	, @EndLoad = ?;</property>
                         <property
@@ -1644,7 +1671,7 @@ WHERE   [LineageKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -1867,13 +1894,13 @@ WHERE   [LineageKey] = ?</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Customer]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Customer]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Customer]) [refTable] 
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Customer]) [refTable] 
 where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                         <property
                           dataType="System.Int32"
@@ -2026,13 +2053,13 @@ where [refTable].[CustomerAlterKey] = ? AND [refTable].[Current] = 1;</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Employee]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Employee]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Employee]) [refTable]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Employee]) [refTable]
 where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                         <property
                           dataType="System.Int32"
@@ -2184,13 +2211,13 @@ where [refTable].[EmployeeAlterKey] = ? AND [refTable].[Current] = 1;</property>
                           description="Задает инструкцию SQL, которая формирует таблицу уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [Dimension].[Product]</property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Dimension].[Product]</property>
                         <property
                           dataType="System.String"
                           description="Задает инструкцию SQL, которая использует параметры для формирования таблицы уточняющих запросов."
                           expressionType="Notify"
                           name="SqlCommandParam"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [Dimension].[Product]) [refTable]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Dimension].[Product]) [refTable]
 where [refTable].[ProductAlterKey] = ?</property>
                         <property
                           dataType="System.Int32"
@@ -2366,7 +2393,7 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:ExecutableType="Microsoft.ExecuteSQLTask"
               DTS:LocaleID="-1"
               DTS:ObjectName="Landing update hash table"
-              DTS:ThreadHint="0">
+              DTS:ThreadHint="1">
               <DTS:Variables />
               <DTS:LoggingOptions
                 DTS:FilterKind="0" />
@@ -2378,40 +2405,13 @@ where [refTable].[ProductAlterKey] = ?</property>
                   SQLTask:SqlStatementSource="EXECUTE [Hash].[UpdateHashOrders];" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
               </DTS:ObjectData>
             </DTS:Executable>
-            <DTS:Executable
-              DTS:refId="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
-              DTS:CreationName="Microsoft.ExecuteSQLTask"
-              DTS:DTSID="{e38de449-0838-4e0e-a636-a429d3a3f26b}"
-              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-              DTS:LocaleID="-1"
-              DTS:ObjectName="Switch Partition"
-              DTS:ThreadHint="0">
-              <DTS:Variables />
-              <DTS:LoggingOptions
-                DTS:FilterKind="0" />
-              <DTS:PropertyExpression
-                DTS:Name="SqlStatementSource">"EXECUTE [Integration].[SwitchPartition"+ @[User::FactTableName] +"]
-   @Partition_number = ?"</DTS:PropertyExpression>
-              <DTS:ObjectData>
-                <SQLTask:SqlTaskData
-                  SQLTask:Connection="{F8652FBF-5699-4149-A76B-CA0F98489C1E}"
-                  SQLTask:SqlStatementSource="EXECUTE [Integration].[SwitchPartitionOrder]&#xA;   @Partition_number = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-                  <SQLTask:ParameterBinding
-                    SQLTask:ParameterName="0"
-                    SQLTask:DtsVariableName="User::PartitionNumber"
-                    SQLTask:ParameterDirection="Input"
-                    SQLTask:DataType="3"
-                    SQLTask:ParameterSize="-1" />
-                </SQLTask:SqlTaskData>
-              </DTS:ObjectData>
-            </DTS:Executable>
           </DTS:Executables>
           <DTS:PrecedenceConstraints>
             <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
               DTS:CreationName=""
               DTS:DTSID="{77706bed-1826-4477-82d3-1e4640e9bccf}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Deliver"
               DTS:LogicalAnd="True"
               DTS:ObjectName="Constraint 5"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Drop Load Table" />
@@ -2438,12 +2438,12 @@ where [refTable].[ProductAlterKey] = ?</property>
               DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Create Load Table Constraints"
               DTS:LogicalAnd="True"
               DTS:ObjectName="Ограничение 4"
-              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition" />
+              DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Deliver" />
             <DTS:PrecedenceConstraint
               DTS:refId="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 5]"
               DTS:CreationName=""
               DTS:DTSID="{3B3E9FD8-21AE-4880-80A4-06173B49A319}"
-              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
+              DTS:From="Package\Landing -&gt; DWH\Workflow with changed\Deliver"
               DTS:LogicalAnd="True"
               DTS:ObjectName="Ограничение 5"
               DTS:To="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table" />
@@ -2701,7 +2701,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                         <property
                           dataType="System.Int32"
                           description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -2883,7 +2883,7 @@ where [refTable].[ProductAlterKey] = ?</property>
                           dataType="System.String"
                           description="Команда SQL для выполнения."
                           name="SqlCommand"
-                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT    [LineageKey]
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT    [LineageKey]
 		, [DataLoadStarted]
 		, [TableName]
 		, [DataLoadCompleted]
@@ -3273,12 +3273,12 @@ WHERE   [LineageKey] = ?</property>
     </DTS:EventHandler>
   </DTS:EventHandlers>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
-<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
-<!--If you manually edit this section and make a mistake, you can delete it. -->
-<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
 <Objects
   Version="8">
-  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
@@ -3325,35 +3325,35 @@ WHERE   [LineageKey] = ?</property>
           Id="Package\Landing -&gt; DWH\Workflow with changed\Landing update hash table"
           TopLeft="223,413.5" />
         <NodeLayout
-          Size="152,42"
-          Id="Package\Landing -&gt; DWH\Workflow with changed\Switch Partition"
-          TopLeft="249,311.5" />
+          Size="111,42"
+          Id="Package\Landing -&gt; DWH\Workflow with changed\Deliver"
+          TopLeft="269.5,311.5" />
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Constraint 5]"
-          TopLeft="301,353.5">
+          TopLeft="307.833333333333,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-217,60"
+              EndConnector="-223.833333333333,60"
               Start="0,0"
-              End="-217,52.5">
+              End="-223.833333333333,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.375" />
+                    End="0,20.5115452930728" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.375"
-                    Point2="0,24.375"
-                    Point3="-4,24.375" />
+                    Point1="0,20.5115452930728"
+                    Point2="0,24.5115452930728"
+                    Point3="-4,24.5115452930728" />
                   <mssgle:LineSegment
-                    End="-213,24.375" />
+                    End="-219.833333333333,24.5115452930728" />
                   <mssgle:CubicBezierSegment
-                    Point1="-213,24.375"
-                    Point2="-217,24.375"
-                    Point3="-217,28.375" />
+                    Point1="-219.833333333333,24.5115452930728"
+                    Point2="-223.833333333333,24.5115452930728"
+                    Point3="-223.833333333333,28.5115452930728" />
                   <mssgle:LineSegment
-                    End="-217,52.5" />
+                    End="-223.833333333333,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3430,30 +3430,30 @@ WHERE   [LineageKey] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Landing -&gt; DWH\Workflow with changed.PrecedenceConstraints[Ограничение 5]"
-          TopLeft="349,353.5">
+          TopLeft="342.166666666667,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-24,60"
+              EndConnector="-17.1666666666667,60"
               Start="0,0"
-              End="-24,52.5">
+              End="-17.1666666666667,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.375" />
+                    End="0,20.5115452930728" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20.375"
-                    Point2="0,24.375"
-                    Point3="-4,24.375" />
+                    Point1="0,20.5115452930728"
+                    Point2="0,24.5115452930728"
+                    Point3="-4,24.5115452930728" />
                   <mssgle:LineSegment
-                    End="-20,24.375" />
+                    End="-13.1666666666667,24.5115452930728" />
                   <mssgle:CubicBezierSegment
-                    Point1="-20,24.375"
-                    Point2="-24,24.375"
-                    Point3="-24,28.375" />
+                    Point1="-13.1666666666667,24.5115452930728"
+                    Point2="-17.1666666666667,24.5115452930728"
+                    Point3="-17.1666666666667,28.5115452930728" />
                   <mssgle:LineSegment
-                    End="-24,52.5" />
+                    End="-17.1666666666667,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3465,7 +3465,7 @@ WHERE   [LineageKey] = ?</property>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="441,511"
+          PanelSize="441,510"
           Size="441,554"
           Id="Package\Landing -&gt; DWH\Workflow with changed"
           TopLeft="147.5,209.5" />
@@ -3475,9 +3475,9 @@ WHERE   [LineageKey] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="72.1666666666667,60"
+              EndConnector="72.1666666666666,60"
               Start="0,0"
-              End="72.1666666666667,52.5">
+              End="72.1666666666666,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -3488,13 +3488,13 @@ WHERE   [LineageKey] = ?</property>
                     Point2="0,35.8698599186624"
                     Point3="4,35.8698599186624" />
                   <mssgle:LineSegment
-                    End="68.1666666666667,35.8698599186624" />
+                    End="68.1666666666666,35.8698599186624" />
                   <mssgle:CubicBezierSegment
-                    Point1="68.1666666666667,35.8698599186624"
-                    Point2="72.1666666666667,35.8698599186624"
-                    Point3="72.1666666666667,39.8698599186624" />
+                    Point1="68.1666666666666,35.8698599186624"
+                    Point2="72.1666666666666,35.8698599186624"
+                    Point3="72.1666666666666,39.8698599186624" />
                   <mssgle:LineSegment
-                    End="72.1666666666667,52.5" />
+                    End="72.1666666666666,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3995,7 +3995,7 @@ WHERE   [LineageKey] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q3:int">0</Value>
+          type="q3:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4003,7 +4003,7 @@ WHERE   [LineageKey] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q4:boolean">true</Value>
+          type="q4:string">true</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
