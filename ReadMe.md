@@ -3,12 +3,12 @@
 
 ---
 
-### ✍️ About the Author
+## ✍️ About the Author
 Architected and deployed a comprehensive Enterprise DWH/BI Platform by integrating disparate Microsoft stack components into a unified ecosystem. Focused on Full-cycle Automation (CI/CD, automated QA) and the practical application of Kimball Methodology to deliver high-integrity, scalable analytical solutions.
 
 ---
 
-### 💡 Why choose this solution?
+## 💡 Why choose this solution?
 
 Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professional framework designed for scalability, manageability, and data integrity. It bridges the gap between raw data and executive insights by implementing a full-stack Enterprise BI lifecycle.
 
@@ -22,17 +22,13 @@ Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professio
 
 ---
 
-### 📐 Architecture & Design
+## 📐 Architecture & Design
 
-#### **High-Level System Architecture**
+### High-Level System Architecture
 ![Main Architecture](Docs/Images/architecture_main.png)
 *Full-stack BI lifecycle implementation from source to reporting layer.*
 
-#### **Dimensional Model (DWH)**
-![DWH Schema](Docs/Images/dwh_schema.png)
-*Star schema design optimized for analytical query performance (Kimball Methodology).*
-
-#### **Scalable Topology**
+### Scalable Topology
 The solution supports various deployment scenarios, from a single-server setup to a fully distributed enterprise cluster.
 
 <details>
@@ -49,9 +45,23 @@ The solution supports various deployment scenarios, from a single-server setup t
 *Cost-effective deployment for small datasets, development, and automated functional testing.*
 </details>
 
+### Dimensional Model (DWH)
+![DWH Schema](Docs/Images/dwh_schema.png)
+*Star schema design optimized for analytical query performance (Kimball Methodology).*
+
+### ETL Design
+The ETL architecture follows the classic **Kimball "Back Room"** pattern, organized into four distinct stages: **Extract, Clean, Conform, and Deliver**. The entire pipeline is managed by a centralized metadata-driven engine.
+
+![ETL Architecture](Docs/Images/ETL_schema.png)
+
+*   **Extract:** Multi-source ingestion using `bcp` for flat files (DAT) and C# components for external APIs (e.g., xmlcalendar.ru), landing data into the **NorthwindLanding** SQL database.
+*   **Clean & Conform:** Seamless integration with **SQL Server Data Quality Services (DQS)** for automated cleansing and **Master Data Services (MDS)** for "Golden Record" consolidation and hierarchy management.
+*   **Deliver:** Automated delivery of verified Dimensions and Facts to the **Presentation Server**, structured into Storage, Performance, and Semantic layers.
+*   **Management Services:** Orchestration via **SQL Server Agent** with full observability through the **SSIS Catalog** (logging, lineage, and execution reports).
+
 ---
 
-### 🛠️ Tech Stack & Tools
+## 🛠️ Tech Stack & Tools
 
 
 | Layer | Technologies |
@@ -64,31 +74,74 @@ The solution supports various deployment scenarios, from a single-server setup t
 
 ---
 
-### 🚀 Key Features & Architectural Highlights
+## 📂 Repository Structure & Solutions
+The project is organized into dedicated Visual Studio Solutions to support both high-speed development and automated CI/CD pipelines:
 
-#### **1. High-Performance Data Engineering**
-*   **Scalable Storage:** Physical and logical **partitioning** leveraging **Clustered Columnstore Indexes** for sub-second query performance.
-*   **Delta Capture:** Optimized **SHA2-512 hashing** mechanism to identify changed records in sources without timestamps.
-*   **Hybrid ETL/ELT:** Efficient orchestration where **SSIS** handles workflow, while heavy transformations are pushed to the **T-SQL** engine.
+### Primary Development
+*   **`NorthwindBI.sln`** — **The main development entry point.** Contains the full modular architecture:
+    *   `Data Engineering` — Databases & SSIS projects: Landing, Staging, DWH, Logs, ETL.
+    *   `Data Analysis` — Power BI reports, SSRS projects and PBIRS branding files.
+    *   `Tests` — Automated validation framework for ETL, Landing, DW and Logs.
+    *   `Scripts` — External SQL/PS/cmd scripts for Maintenance, Security and SSIS configurations.
+    *   `Docs` — Solution Architecture Document, Source to target mapping, DW hardware specs, Data Profiles, .
 
-#### **2. Advanced Quality Assurance (The "QA Gate")**
-The solution features a unique **E2E Functional Testing framework** built with **MSTest**:
-*   **Sandboxed Lifecycle Testing:** Automated deployment of DB/SSIS projects followed by iterative load cycles.
-*   **Incremental Validation:** Simulates "time-travel" by running multiple incremental loads to verify **SCD Type 2** logic and data accumulation.
-*   **Data Poisoning Resilience:** Automated testing of "dirty data" (duplicates in source) to ensure the **DQS/MDS** layer correctly filters or quarantines records.
-*   **E2E Coverage:** Recent updates extended coverage to the **Extract Layer**, ensuring robust data contracts between source and DWH.
+### CI/CD & Build Automation
+The repository includes dedicated solutions to support complex build requirements across different environments:
 
-#### **3. Enterprise Semantic Layer**
-*   **Centralized Truth:** Semantic layer based on **SSAS Tabular**, enforcing logic consistency across all BI tools.
-*   **Calculation Groups:** Advanced use of **Tabular Editor** to implement complex analytical scenarios while eliminating "Measure Explosion."
-
-#### **4. Data Governance & Lineage (WWI Standard)**
-*   **End-to-End Traceability:** Every record is tagged with a `LineageKey`, allowing users to trace any data point back to its specific loading session.
-*   **Metadata Repository:** A dedicated `Metadata` schema acting as a "Navigation Map" for both business users and IT staff.
+*   **`NorthwindAzurePipelineBuild.sln`** — Optimized for **Cloud-native builds**. This solution contains projects fully supported by Azure DevOps hosted agents, enabling seamless cloud deployment pipelines.
+*   **`NorthwindSWIFT3Build.sln`** — Designed for **Self-hosted build agents**. This configuration handles projects that require a specialized local environment or specific dependencies not available in the cloud, ensuring consistent builds for the entire platform.
 
 ---
 
-### 🗺️ Project Roadmap
+## 🚀 Key Features & Architectural Highlights
+
+### 1. End-to-End Automated Testing (Project Know-How)
+**The primary technological advantage of this project.** A unique, custom automated testing framework is integrated directly into the DWH development lifecycle.
+*   **For Business:** Guarantees 100% data accuracy in reports. Data anomalies are localized at the earliest stages, completely eliminating the risk of making critical management decisions based on incorrect information.
+*   **For IT:** Automated Unit Testing and business logic validation are executed "in one click," radically reducing time spent on regression testing, debugging, and system maintenance.
+
+### 2. High-Performance Data Engineering (Scale-with-Business)
+The architecture is designed on a "Scale-with-Business" principle: the DWH scales seamlessly alongside the company, supporting both vertical power scaling and horizontal distribution of services (SSIS, MDS, SSRS) across cluster nodes.
+*   **Autonomous Storage:** Full database physics automation — the system independently manages filegroup creation on SSD/HDD based on data recency, configures compression (PAGE/COLUMNSTORE), and manages partition slicing via a "Sliding Window" strategy.
+*   **ETL performance:** Dynamic creation and dropping of indexes and constraints in the Landing Zone (LZ) to ensure peak performance for both bulk inserts and delta selection.
+*   **Shadow Loading:**  Implementation of the Switch Partition pattern and MERGE logic to ensure millions of rows are loaded without locking out business users, while maintaining correct handling of late-arriving data.
+*   **Operational Automation:** Zero-routine maintenance via **Automated Maintenance Plans** — intelligent index maintenance, statistics updates, and full server backups (including system databases) run autonomously via SQL Agent scheduling.
+
+### 3. Multi-level Data Quality Control
+A comprehensive, multi-layered quality filter that ensures the purity and transparency of corporate information.
+*   **Master Data & Cleansing:** Deep integration with **Master Data Services (MDS)** for "Golden Record" management and **Data Quality Services (DQS)** for automated attribute cleansing and enrichment.
+*   **Deep Traceability:** **Lineage** technology and the hybrid **AllAttributes** field preserve a complete audit trail for every record, allowing the context of any transformation to be reconstructed directly within the semantic model.
+
+### 4. Modern Developer Experience (DX)
+Applying **Software Engineering** best practices to the data world for accelerated development and release stability.
+*   **Engineering Culture:** Development via Database Projects (SSDT), full Git version control, isolated debugging environments, and a pre-configured **CI/CD pipeline**.
+*   **Efficiency:** A single entry point for developers and "one-click" local test execution minimize the "human factor" during deployment and significantly reduce Time-to-Market.
+
+---
+
+## 📖 Documentation & Links
+Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+To develop and deploy the Northwind EDP, ensure the following are installed:
+*   **SQL Server 2022** (with MDS, DQS, and Integration Services)
+*   **Visual Studio 2022** + SQL Server Data Tools (SSDT)
+*   **Power BI Report Server** (January 2026 or later)
+*   **Power BI Desktop (RS version)**
+
+### Deployment Workflow
+1.  **Databases:** Open `NorthwindBI.sln` and configure the **Debug** settings for all database projects to point to your local instance.
+2.  **Master Data:** Restore **MDS** and **DQS** using the backups in `/DQS` and `/MDS` folders.
+3.  **ETL:** Open the SSIS project and update the **Project Parameters** (Connection Strings) to match your local environment.
+4.  **Verification:** Execute the automated test suite via the **Test Explorer** in Visual Studio to verify the integrity of the deployed environment..
+
+---
+
+## 🗺️ Project Roadmap
 
 The project is evolving from a local BI prototype to a distributed Enterprise Data Platform. Current development is focused on:
 
@@ -99,17 +152,12 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 
 ---
 
-### 📖 Documentation & Links
-Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
+## 🛡️ Project Badges & CI/CD Status
 
----
-
-### 🛡️ Project Badges & CI/CD Status
-
-#### **Project Management**
+### **Project Management**
 [![Board Status](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/3660f141-eb17-455f-80e6-f5580788fd8b/_apis/work/boardbadge/f3221562-8345-4080-8a57-9776d148c41b?columnOptions=1)](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/_boards/board/t/3660f141-eb17-455f-80e6-f5580788fd8b/Stories/)
 
-#### **Deployment Status**
+### **Deployment Status**
 
 | CD: Databases | CD: SSIS | CD: Reports | CD: Functional ETL test |
 | :--- | :--- | :--- | :--- |
