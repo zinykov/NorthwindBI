@@ -28,10 +28,6 @@ Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professio
 ![Main Architecture](Docs/Images/architecture_main.png)
 *Full-stack BI lifecycle implementation from source to reporting layer.*
 
-### Dimensional Model (DWH)
-![DWH Schema](Docs/Images/dwh_schema.png)
-*Star schema design optimized for analytical query performance (Kimball Methodology).*
-
 ### Scalable Topology
 The solution supports various deployment scenarios, from a single-server setup to a fully distributed enterprise cluster.
 
@@ -49,6 +45,20 @@ The solution supports various deployment scenarios, from a single-server setup t
 *Cost-effective deployment for small datasets, development, and automated functional testing.*
 </details>
 
+### Dimensional Model (DWH)
+![DWH Schema](Docs/Images/dwh_schema.png)
+*Star schema design optimized for analytical query performance (Kimball Methodology).*
+
+### ETL Design
+The ETL architecture follows the classic **Kimball "Back Room"** pattern, organized into four distinct stages: **Extract, Clean, Conform, and Deliver**. The entire pipeline is managed by a centralized metadata-driven engine.
+
+![ETL Architecture](Docs/Images/ETL_schema.png)
+
+*   **Extract:** Multi-source ingestion using `bcp` for flat files (DAT) and C# components for external APIs (e.g., xmlcalendar.ru), landing data into the **NorthwindLanding** SQL database.
+*   **Clean & Conform:** Seamless integration with **SQL Server Data Quality Services (DQS)** for automated cleansing and **Master Data Services (MDS)** for "Golden Record" consolidation and hierarchy management.
+*   **Deliver:** Automated delivery of verified Dimensions and Facts to the **Presentation Server**, structured into Storage, Performance, and Semantic layers.
+*   **Management Services:** Orchestration via **SQL Server Agent** with full observability through the **SSIS Catalog** (logging, lineage, and execution reports).
+
 ---
 
 ## 🛠️ Tech Stack & Tools
@@ -61,6 +71,25 @@ The solution supports various deployment scenarios, from a single-server setup t
 | **Semantic & Analytics**| `SSAS Tabular`, `DAX`, `Calculation Groups`, `Tabular Editor 2/3` |
 | **Reporting** | `Power BI Report Server`, `Power BI Reports`, `SSAS`, `Paginated Reports (SSRS)`, `Excel` |
 | **DevOps & QA** | `Azure DevOps`, `Azure Pipelines`, `MSTest`, `SQL Unit Testing` |
+
+---
+
+## 📂 Repository Structure & Solutions
+The project is organized into dedicated Visual Studio Solutions to support both high-speed development and automated CI/CD pipelines:
+
+### Primary Development
+*   **`NorthwindBI.sln`** — **The main development entry point.** Contains the full modular architecture:
+    *   `Data Engineering` — Databases & SSIS projects: Landing, Staging, DWH, Logs, ETL.
+    *   `Data Analysis` — Power BI reports, SSRS projects and PBIRS branding files.
+    *   `Tests` — Automated validation framework for ETL, Landing, DW and Logs.
+    *   `Scripts` — External SQL/PS/cmd scripts for Maintenance, Security and SSIS configurations.
+    *   `Docs` — Solution Architecture Document, Source to target mapping, DW hardware specs, Data Profiles, .
+
+### CI/CD & Build Automation
+The repository includes dedicated solutions to support complex build requirements across different environments:
+
+*   **`NorthwindAzurePipelineBuild.sln`** — Optimized for **Cloud-native builds**. This solution contains projects fully supported by Azure DevOps hosted agents, enabling seamless cloud deployment pipelines.
+*   **`NorthwindSWIFT3Build.sln`** — Designed for **Self-hosted build agents**. This configuration handles projects that require a specialized local environment or specific dependencies not available in the cloud, ensuring consistent builds for the entire platform.
 
 ---
 
@@ -90,6 +119,28 @@ Applying **Software Engineering** best practices to the data world for accelerat
 
 ---
 
+## 📖 Documentation & Links
+Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+To develop and deploy the Northwind EDP, ensure the following are installed:
+*   **SQL Server 2022** (with MDS, DQS, and Integration Services)
+*   **Visual Studio 2022** + SQL Server Data Tools (SSDT)
+*   **Power BI Report Server** (January 2026 or later)
+*   **Power BI Desktop (RS version)**
+
+### Deployment Workflow
+1.  **Databases:** Open `NorthwindBI.sln` and configure the **Debug** settings for all database projects to point to your local instance.
+2.  **Master Data:** Restore **MDS** and **DQS** using the backups in `/DQS` and `/MDS` folders.
+3.  **ETL:** Open the SSIS project and update the **Project Parameters** (Connection Strings) to match your local environment.
+4.  **Verification:** Execute the automated test suite via the **Test Explorer** in Visual Studio to verify the integrity of the deployed environment..
+
+---
+
 ## 🗺️ Project Roadmap
 
 The project is evolving from a local BI prototype to a distributed Enterprise Data Platform. Current development is focused on:
@@ -98,11 +149,6 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 *   **[In Progress] Advanced Metadata Catalog:** Implementation of a dedicated `Metadata` schema for automated **Lineage** tracking and a Business Glossary (Data Dictionary) in Azure Wiki.
 *   **[Planned] Full E2E Test Coverage:** Extending the **MSTest framework** to include the **Extract** layer, ensuring robust data contracts and automated handling of source schema changes (Schema Drift).
 *   **[Planned] Data Tiering (TCO Optimization):** Automated movement of historical data partitions between high-performance SSD and cost-effective HDD storage groups.
-
----
-
-## 📖 Documentation & Links
-Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
 
 ---
 
