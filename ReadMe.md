@@ -3,12 +3,12 @@
 
 ---
 
-### ✍️ About the Author
+## ✍️ About the Author
 Architected and deployed a comprehensive Enterprise DWH/BI Platform by integrating disparate Microsoft stack components into a unified ecosystem. Focused on Full-cycle Automation (CI/CD, automated QA) and the practical application of Kimball Methodology to deliver high-integrity, scalable analytical solutions.
 
 ---
 
-### 💡 Why choose this solution?
+## 💡 Why choose this solution?
 
 Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professional framework designed for scalability, manageability, and data integrity. It bridges the gap between raw data and executive insights by implementing a full-stack Enterprise BI lifecycle.
 
@@ -22,17 +22,17 @@ Unlike typical "flat-file" BI projects, **Northwind BI Solution** is a professio
 
 ---
 
-### 📐 Architecture & Design
+## 📐 Architecture & Design
 
-#### **High-Level System Architecture**
+### High-Level System Architecture
 ![Main Architecture](Docs/Images/architecture_main.png)
 *Full-stack BI lifecycle implementation from source to reporting layer.*
 
-#### **Dimensional Model (DWH)**
+### Dimensional Model (DWH)
 ![DWH Schema](Docs/Images/dwh_schema.png)
 *Star schema design optimized for analytical query performance (Kimball Methodology).*
 
-#### **Scalable Topology**
+### Scalable Topology
 The solution supports various deployment scenarios, from a single-server setup to a fully distributed enterprise cluster.
 
 <details>
@@ -51,7 +51,7 @@ The solution supports various deployment scenarios, from a single-server setup t
 
 ---
 
-### 🛠️ Tech Stack & Tools
+## 🛠️ Tech Stack & Tools
 
 
 | Layer | Technologies |
@@ -64,31 +64,33 @@ The solution supports various deployment scenarios, from a single-server setup t
 
 ---
 
-### 🚀 Key Features & Architectural Highlights
+## 🚀 Key Features & Architectural Highlights
 
-#### **1. High-Performance Data Engineering**
-*   **Scalable Storage:** Physical and logical **partitioning** leveraging **Clustered Columnstore Indexes** for sub-second query performance.
-*   **Delta Capture:** Optimized **SHA2-512 hashing** mechanism to identify changed records in sources without timestamps.
-*   **Hybrid ETL/ELT:** Efficient orchestration where **SSIS** handles workflow, while heavy transformations are pushed to the **T-SQL** engine.
+### 1. End-to-End Automated Testing (Project Know-How)
+**The primary technological advantage of this project.** A unique, custom automated testing framework is integrated directly into the DWH development lifecycle.
+*   **For Business:** Guarantees 100% data accuracy in reports. Data anomalies are localized at the earliest stages, completely eliminating the risk of making critical management decisions based on incorrect information.
+*   **For IT:** Automated Unit Testing and business logic validation are executed "in one click," radically reducing time spent on regression testing, debugging, and system maintenance.
 
-#### **2. Advanced Quality Assurance (The "QA Gate")**
-The solution features a unique **E2E Functional Testing framework** built with **MSTest**:
-*   **Sandboxed Lifecycle Testing:** Automated deployment of DB/SSIS projects followed by iterative load cycles.
-*   **Incremental Validation:** Simulates "time-travel" by running multiple incremental loads to verify **SCD Type 2** logic and data accumulation.
-*   **Data Poisoning Resilience:** Automated testing of "dirty data" (duplicates in source) to ensure the **DQS/MDS** layer correctly filters or quarantines records.
-*   **E2E Coverage:** Recent updates extended coverage to the **Extract Layer**, ensuring robust data contracts between source and DWH.
+### 2. High-Performance Data Engineering (Scale-with-Business)
+The architecture is designed on a "Scale-with-Business" principle: the DWH scales seamlessly alongside the company, supporting both vertical power scaling and horizontal distribution of services (SSIS, MDS, SSRS) across cluster nodes.
+*   **Autonomous Storage:** Full database physics automation — the system independently manages filegroup creation on SSD/HDD based on data recency, configures compression (PAGE/COLUMNSTORE), and manages partition slicing via a "Sliding Window" strategy.
+*   **ETL performance:** Dynamic creation and dropping of indexes and constraints in the Landing Zone (LZ) to ensure peak performance for both bulk inserts and delta selection.
+*   **Shadow Loading:**  Implementation of the Switch Partition pattern and MERGE logic to ensure millions of rows are loaded without locking out business users, while maintaining correct handling of late-arriving data.
+*   **Operational Automation:** Zero-routine maintenance via **Automated Maintenance Plans** — intelligent index maintenance, statistics updates, and full server backups (including system databases) run autonomously via SQL Agent scheduling.
 
-#### **3. Enterprise Semantic Layer**
-*   **Centralized Truth:** Semantic layer based on **SSAS Tabular**, enforcing logic consistency across all BI tools.
-*   **Calculation Groups:** Advanced use of **Tabular Editor** to implement complex analytical scenarios while eliminating "Measure Explosion."
+### 3. Multi-level Data Quality Control
+A comprehensive, multi-layered quality filter that ensures the purity and transparency of corporate information.
+*   **Master Data & Cleansing:** Deep integration with **Master Data Services (MDS)** for "Golden Record" management and **Data Quality Services (DQS)** for automated attribute cleansing and enrichment.
+*   **Deep Traceability:** **Lineage** technology and the hybrid **AllAttributes** field preserve a complete audit trail for every record, allowing the context of any transformation to be reconstructed directly within the semantic model.
 
-#### **4. Data Governance & Lineage (WWI Standard)**
-*   **End-to-End Traceability:** Every record is tagged with a `LineageKey`, allowing users to trace any data point back to its specific loading session.
-*   **Metadata Repository:** A dedicated `Metadata` schema acting as a "Navigation Map" for both business users and IT staff.
+### 4. Modern Developer Experience (DX)
+Applying **Software Engineering** best practices to the data world for accelerated development and release stability.
+*   **Engineering Culture:** Development via Database Projects (SSDT), full Git version control, isolated debugging environments, and a pre-configured **CI/CD pipeline**.
+*   **Efficiency:** A single entry point for developers and "one-click" local test execution minimize the "human factor" during deployment and significantly reduce Time-to-Market.
 
 ---
 
-### 🗺️ Project Roadmap
+## 🗺️ Project Roadmap
 
 The project is evolving from a local BI prototype to a distributed Enterprise Data Platform. Current development is focused on:
 
@@ -99,17 +101,17 @@ The project is evolving from a local BI prototype to a distributed Enterprise Da
 
 ---
 
-### 📖 Documentation & Links
+## 📖 Documentation & Links
 Detailed architectural decisions, schemas, and implementation guides are available here: [**Solution Architecture Document**](Docs/Solution%20Architecture%20Document.docx)
 
 ---
 
-### 🛡️ Project Badges & CI/CD Status
+## 🛡️ Project Badges & CI/CD Status
 
-#### **Project Management**
+### **Project Management**
 [![Board Status](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/3660f141-eb17-455f-80e6-f5580788fd8b/_apis/work/boardbadge/f3221562-8345-4080-8a57-9776d148c41b?columnOptions=1)](https://dev.azure.com/zinykov/e6e8a805-df55-4da4-b1f8-d290e73529c6/_boards/board/t/3660f141-eb17-455f-80e6-f5580788fd8b/Stories/)
 
-#### **Deployment Status**
+### **Deployment Status**
 
 | CD: Databases | CD: SSIS | CD: Reports | CD: Functional ETL test |
 | :--- | :--- | :--- | :--- |
