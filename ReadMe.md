@@ -76,7 +76,7 @@ The ETL architecture follows the classic **Kimball "Back Room"** pattern, organi
 | :--- | :--- |
 | **Database & DWH** | `SQL Server 2022`, `T-SQL`, `Columnstore`, `Partitioning`, `File Groups` |
 | **ETL & Integration** | `SSIS (Integration Services)`, `ELT Patterns`, `MDS`, `DQS`, `SHA2 Delta Capture` |
-| **Semantic & Analytics**| `SSAS Tabular`, `DAX`, `Calculation Groups`, `Tabular Editor 2/3` |
+| **Semantic & Analytics**| `Kimball Bus Matrix`, `SSAS Tabular`, `DAX`, `Calculation Groups`, `Tabular Editor 2/3` |
 | **Reporting** | `Power BI Report Server`, `Power BI Reports`, `SSAS`, `Paginated Reports (SSRS)`, `Excel` |
 | **DevOps & QA** | `Azure DevOps`, `Azure Pipelines`, `MSTest`, `SQL Unit Testing` |
 
@@ -104,9 +104,12 @@ The repository includes dedicated solutions to support complex build requirement
 ## 🚀 Key Features & Architectural Highlights
 
 ### 1. End-to-End Automated Testing (Project Know-How)
-**The primary technological advantage of this project.** A unique, custom automated testing framework is integrated directly into the DWH development lifecycle.
+**The primary technological advantage of this project.** A unique, custom automated testing framework is integrated directly into the DWH development lifecycle. 
+
+*   **Star Schema Integrity:** Unlike generic data tests, this framework specifically validates the **Kimball Dimensional Model**. It automatically detects "orphaned" facts, ensures referential integrity between Dimensions and Facts, and verifies that SCD Type 2 logic correctly preserves historical accuracy.
 *   **For Business:** Guarantees 100% data accuracy in reports. Data anomalies are localized at the earliest stages, completely eliminating the risk of making critical management decisions based on incorrect information.
 *   **For IT:** Automated Unit Testing and business logic validation are executed "in one click," radically reducing time spent on regression testing, debugging, and system maintenance.
+
 
 ### 2. High-Performance Data Engineering (Scale-with-Business)
 The architecture is designed on a "Scale-with-Business" principle: the DWH scales seamlessly alongside the company, supporting both vertical power scaling and horizontal distribution of services (SSIS, MDS, SSRS) across cluster nodes.
