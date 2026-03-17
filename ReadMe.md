@@ -147,7 +147,7 @@ To develop and deploy the Northwind EDP, ensure the following are installed:
 ### Deployment Workflow
 1.  **Databases:** Open `NorthwindBI.sln` and configure the **Debug** settings for all database projects to point to your local instance.
 2.  **Master Data:** Restore **MDS** and **DQS** using the backups in `/DQS` and `/MDS` folders.
-3.  **Environment:** Open the /Test/.rensettings and update **Parameters** to match your environment.
+3.  **Environment:** Open the `/Test/.runsettings` and update **TestRunParameters** to match your environment.
 4.  **Verification:** Execute the automated test suite via the **Test Explorer** in Visual Studio to verify the integrity of the deployed environment..
 
 ---
