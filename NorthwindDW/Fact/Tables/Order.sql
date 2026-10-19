@@ -1,4 +1,4 @@
-﻿CREATE TABLE [Fact].[Order]
+CREATE TABLE [Fact].[Order]
 (
 	[OrderKey]                      INT             NOT NULL,
     [ProductKey]                    BIGINT          NOT NULL,
@@ -21,7 +21,7 @@
     CONSTRAINT [FK_Fact_Order_Required_Date_Key_Dimension_Date] FOREIGN KEY ( [RequiredDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
     CONSTRAINT [FK_Fact_Order_Shipped_Date_Key_Dimension_Date] FOREIGN KEY ( [ShippedDateKey] ) REFERENCES [Dimension].[Date] ( [DateKey] ),
     CONSTRAINT [FK_Fact_Order_Lineage_Key_Integration_Lineage] FOREIGN KEY ( [LineageKey] ) REFERENCES [Integration].[Lineage] ( [LineageKey] )
-);
+) ON [PS_Order_Date_Data] ( [OrderDateKey] );
 GO
 
 CREATE CLUSTERED COLUMNSTORE INDEX [CCI_Fact_Order] ON [Fact].[Order]
