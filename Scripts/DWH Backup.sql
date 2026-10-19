@@ -47,7 +47,7 @@ BEGIN
 						EXECUTE sp_executesql @SQL
 
 						UPDATE	[Maintenance].[DatabaseFiles]
-						SET		  [IsReadOnly] = 0
+						SET		  [IsReadOnly] = 1
 								, [TargetBackupFolder] = CONCAT ( [TargetBackupFolder], N'ReadOnly\' )
 						WHERE	[GroupName] = @FilegroupName
 
